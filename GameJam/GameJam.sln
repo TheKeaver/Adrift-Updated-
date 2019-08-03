@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameJam.Desktop", "GameJam.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audrey", "Audrey\Audrey.csproj", "{C72322BB-8FC2-46A4-9FBD-A6D3012C4A16}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GameJam", "GameJam\GameJam.shproj", "{1295C273-6C15-4DF3-9875-3BD26D4FF774}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
