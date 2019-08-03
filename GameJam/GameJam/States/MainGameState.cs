@@ -3,7 +3,9 @@ using Events;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Directors;
+using GameJam.Entities;
 using GameJam.Events;
+using GameJam.Input;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,6 +38,8 @@ namespace GameJam
             private set;
         }
 
+        Player tmpPlayer; // This is temporary, it will be passed in from another game state later
+
         public MainGameState(GameManager gameManager)
             : base(gameManager)
         {
@@ -47,6 +51,8 @@ namespace GameJam
 
             _mainCamera = new Camera(Constants.Global.WINDOW_WIDTH, Constants.Global.WINDOW_HEIGHT);
             _mainCamera.RegisterEvents();
+
+            tmpPlayer = new Player("Keith", new PrimaryKeyboardInputMethod());
 
             InitSystems();
             InitDirectors();
@@ -60,7 +66,11 @@ namespace GameJam
             _systems = new BaseSystem[]
             {
                 new InputSystem(Engine), // Input system must go first so snapshots are accurate
+
+                new PlayerShieldSystem(Engine),
+
                 new MovementSystem(Engine)
+                new CollisionSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
@@ -83,6 +93,8 @@ namespace GameJam
 
         public override void LoadContent()
         {
+            Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP);
+            Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD);
         }
 
         public override void Show()
@@ -97,6 +109,12 @@ namespace GameJam
 
         void CreateEntities()
         {
+            Entity playerShipEntity = PlayerShipEntity.Create(Engine,
+                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
+                new Vector2(0, 0));
+            Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
+                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
+            playerShieldEntity.AddComponent(new PlayerComponent(tmpPlayer));
         }
 
         public override void Update(float dt)

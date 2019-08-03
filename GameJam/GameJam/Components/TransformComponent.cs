@@ -1,4 +1,5 @@
-﻿using Audrey;
+﻿using System;
+using Audrey;
 using Microsoft.Xna.Framework;
 
 namespace GameJam.Components
@@ -91,6 +92,7 @@ namespace GameJam.Components
         {
             SetPosition(position.X, position.Y);
         }
+
         public void SetPosition(float x, float y)
         {
             _position.X = x;
@@ -102,7 +104,7 @@ namespace GameJam.Components
         public void Rotate(float delta)
         {
             _lastRotation = _rotation;
-            _rotation = delta;
+            _rotation += delta;
         }
         public void SetRotation(float rotation)
         {
