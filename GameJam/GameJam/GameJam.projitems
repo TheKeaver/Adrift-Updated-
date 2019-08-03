@@ -9,12 +9,56 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Image.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\NinePatchImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Panel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\MainGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\DelegateProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\InstantProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\IntervalProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Process.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\ProcessManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\WaitProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputSnapshot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GamePadConnectedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GamePadDisconnectedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\MouseButtonEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\MouseMoveEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ResizeEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Global.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Input.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Render.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\SpriteComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TransformComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\BoundingRect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\MTRandom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\MathUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Timer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\BaseDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\ContentLockedException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\ContentReaderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\LockingContentManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\FontComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Directors\" />
   </ItemGroup>
 </Project>

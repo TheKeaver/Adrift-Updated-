@@ -1,0 +1,142 @@
+﻿using Audrey;
+using Events;
+using GameJam.Common;
+using GameJam.Directors;
+using GameJam.Events;
+using GameJam.Systems;
+
+namespace GameJam
+{
+    /// <summary>
+    /// Game state for the main game.
+    /// </summary>
+    public class MainGameState : GameState, IEventListener
+    {
+        private ProcessManager ProcessManager {
+            get;
+            set;
+        }
+
+        float _acculmulator;
+
+        BaseSystem[] _systems;
+
+        RenderSystem _renderSystem;
+
+        BaseDirector[] _directors;
+
+        Camera _mainCamera;
+
+        public Engine Engine
+        {
+            get;
+            private set;
+        }
+
+        public MainGameState(GameManager gameManager)
+            : base(gameManager)
+        {
+        }
+
+        public override void Initialize()
+        {
+            ProcessManager = new ProcessManager();
+
+            _mainCamera = new Camera(Constants.Global.WINDOW_WIDTH, Constants.Global.WINDOW_HEIGHT);
+            _mainCamera.RegisterEvents();
+
+            InitSystems();
+            InitDirectors();
+        }
+
+        void InitSystems()
+        {
+            Engine = new Engine();
+
+            // Order matters
+            _systems = new BaseSystem[]
+            {
+                new InputSystem(Engine) // Input system must go first so snapshots are accurate
+            };
+
+            _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
+        }
+        void InitDirectors()
+        {
+            // Order does not matter
+            _directors = new BaseDirector[]
+            {
+            };
+            for (int i = 0; i < _directors.Length; i++)
+            {
+                _directors[i].RegisterEvents();
+            }
+        }
+
+        public override void Hide()
+        {
+        }
+
+        public override void LoadContent()
+        {
+        }
+
+        public override void Show()
+        {
+            CreateEntities();
+
+            // Updates the camera and post-processor with the actual screen size
+            // This fixes a bug present in a build of Super Pong
+            EventManager.Instance.TriggerEvent(new ResizeEvent(GameManager.GraphicsDevice.Viewport.Width,
+                                                              GameManager.GraphicsDevice.Viewport.Height));
+        }
+
+        void CreateEntities()
+        {
+        }
+
+        public override void Update(float dt)
+        {
+            ProcessManager.Update(dt);
+
+            _acculmulator += dt;
+            while(_acculmulator >= Constants.Global.TICK_RATE)
+            {
+                _acculmulator -= Constants.Global.TICK_RATE;
+
+                for(int i = 0; i < _systems.Length; i++)
+                {
+                    _systems[i].Update(dt);
+                }
+            }
+        }
+
+        public override void Draw(float dt)
+        {
+            float betweenFrameAlpha = _acculmulator / Constants.Global.TICK_RATE;
+
+            _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
+                Constants.Render.GROUP_MASK_ALL,
+                dt,
+                betweenFrameAlpha);
+        }
+
+        public override void Dispose()
+        {
+            // Remove listeners
+            EventManager.Instance.UnregisterListener(this);
+            _mainCamera.UnregisterEvents();
+
+            for (int i = 0; i < _directors.Length; i++)
+            {
+                _directors[i].UnregisterEvents();
+            }
+        }
+
+        public bool Handle(IEvent evt)
+        {
+            return false;
+        }
+    }
+}
+
