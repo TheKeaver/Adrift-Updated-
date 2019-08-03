@@ -11,4 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)MainGame.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+  </ItemGroup>
 </Project>
