@@ -1,4 +1,6 @@
-﻿namespace GameJam.Input
+﻿using Microsoft.Xna.Framework;
+
+namespace GameJam.Input
 {
     /// <summary>
     /// Abstract interface for input devices (keyboards, controllers, etc.).
