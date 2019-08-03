@@ -18,5 +18,12 @@ namespace GameJam.Constants
                 return new Vector2(32, 10);
             }
         }
+        public static Vector2 KAMIKAZE_SHIP_BOUNDS
+        {
+            get
+            {
+                return new Vector2(25, 25);
+            }
+        }
     }
 }

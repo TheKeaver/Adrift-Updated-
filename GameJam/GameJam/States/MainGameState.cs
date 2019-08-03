@@ -66,12 +66,11 @@ namespace GameJam
             _systems = new BaseSystem[]
             {
                 new InputSystem(Engine), // Input system must go first so snapshots are accurate
-                new CollisionSystem(Engine)
-
+                new CollisionSystem(Engine),
                 new PlayerShieldSystem(Engine),
-
-                new MovementSystem(Engine)
-                new CollisionSystem(Engine)
+                new MovementSystem(Engine),
+                new CollisionSystem(Engine),
+                new KamikazeSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
@@ -115,6 +114,9 @@ namespace GameJam
                 new Vector2(0, 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
+            Entity kamikazeEntity = KamikazeEntity.Create(Engine,
+                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
+                new Vector2(150, 150));
             playerShieldEntity.AddComponent(new PlayerComponent(tmpPlayer));
         }
 
