@@ -9,9 +9,13 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\CollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionEndEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionStartEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
@@ -55,8 +59,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\ContentReaderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\LockingContentManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\FontComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Input\PrimaryKeyboardInputMethod.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Input\ControllerInputMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
