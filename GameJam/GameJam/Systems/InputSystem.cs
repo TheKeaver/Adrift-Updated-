@@ -16,21 +16,6 @@ namespace GameJam.Systems
             _entities = Engine.GetEntitiesFor(_family);
         }
 
-        public bool IsPauseButtonPressed()
-        {
-            for (int i = 0; i < _entities.Count; i++)
-            {
-                Entity entity = _entities[i];
-
-                PlayerComponent playerComp = entity.GetComponent<PlayerComponent>();
-                if (playerComp.Player.InputMethod.PauseKeyPressed)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public override void Update(float dt)
         {
             foreach (Entity entity in _entities)

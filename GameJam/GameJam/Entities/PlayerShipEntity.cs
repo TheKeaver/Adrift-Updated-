@@ -1,0 +1,22 @@
+﻿using Audrey;
+using GameJam.Components;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace GameJam.Entities
+{
+    public static class PlayerShipEntity
+    {
+        public static Entity Create(Engine engine, Texture2D texture, Vector2 position)
+        {
+            Entity entity = engine.CreateEntity();
+
+            entity.AddComponent(new TransformComponent(position));
+            entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS));
+            entity.AddComponent(new MovementComponent());
+            entity.AddComponent(new PlayerShipComponent());
+
+            return entity;
+        }
+    }
+}

@@ -10,7 +10,12 @@ namespace GameJam.Components
     {
         public Vector2 direction;
 
-        public MovementComponent()
-        { }
+        public MovementComponent() :this(Vector2.Zero)
+        {
+        }
+        public MovementComponent(Vector2 direction)
+        {
+            this.direction = direction;
+        }
     }
 }

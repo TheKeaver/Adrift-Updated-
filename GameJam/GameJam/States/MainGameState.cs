@@ -3,6 +3,7 @@ using Events;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Directors;
+using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
@@ -99,6 +100,9 @@ namespace GameJam
 
         void CreateEntities()
         {
+            PlayerShipEntity.Create(Engine,
+                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
+                new Vector2(0, 0));
         }
 
         public override void Update(float dt)

@@ -58,6 +58,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\PrimaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\ControllerInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Resources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerShipEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\ObjectBounds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShipComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -65,5 +68,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
     <Folder Include="$(MSBuildThisFileDirectory)Directors\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Entities\" />
   </ItemGroup>
 </Project>
