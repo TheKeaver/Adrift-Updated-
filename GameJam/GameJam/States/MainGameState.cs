@@ -1,9 +1,12 @@
 ﻿using Audrey;
 using Events;
 using GameJam.Common;
+using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Events;
 using GameJam.Systems;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam
 {
