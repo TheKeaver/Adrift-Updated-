@@ -70,6 +70,7 @@ namespace GameJam
                 new PlayerShieldSystem(Engine),
 
                 new MovementSystem(Engine)
+                new CollisionSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
