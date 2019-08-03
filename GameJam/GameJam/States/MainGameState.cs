@@ -83,6 +83,8 @@ namespace GameJam
 
         public override void LoadContent()
         {
+            Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP);
+            Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD);
         }
 
         public override void Show()

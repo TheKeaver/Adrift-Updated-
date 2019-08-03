@@ -57,6 +57,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\FontComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\PrimaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\ControllerInputMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Resources.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
