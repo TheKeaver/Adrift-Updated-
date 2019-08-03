@@ -1,9 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameJam.Desktop", "GameJam.Desktop\GameJam.Desktop.csproj", "{39F2BE48-D216-4B62-BE97-AF0368500692}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audrey", "Audrey\Audrey.csproj", "{C72322BB-8FC2-46A4-9FBD-A6D3012C4A16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
