@@ -5,20 +5,19 @@
     /// </summary>
     public class InputSnapshot
     {
-        internal float _axis;
+        public float Angle
+        {
+            get;
+            internal set;
+        }
 
         public InputSnapshot() : this(0)
         {
         }
 
-        public InputSnapshot(float axis)
+        public InputSnapshot(float angle)
         {
-            _axis = axis;
-        }
-
-        public float GetAxis()
-        {
-            return _axis;
+            Angle = angle;
         }
     }
 }
