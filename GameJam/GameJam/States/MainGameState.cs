@@ -59,7 +59,8 @@ namespace GameJam
             // Order matters
             _systems = new BaseSystem[]
             {
-                new InputSystem(Engine) // Input system must go first so snapshots are accurate
+                new InputSystem(Engine), // Input system must go first so snapshots are accurate
+                new MovementSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);

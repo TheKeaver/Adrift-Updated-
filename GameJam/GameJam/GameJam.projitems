@@ -9,8 +9,10 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Button.cs" />
