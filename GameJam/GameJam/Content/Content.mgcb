@@ -14,18 +14,21 @@
 #---------------------------------- Content ---------------------------------#
 
 #begin sounds/Alien_Ship_Sound
-/importer:
-/processor:
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
 /build:sounds/Alien_Ship_Sound
 
 #begin sounds/Explosion_Sound
-/importer:
-/processor:
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
 /build:sounds/Explosion_Sound
 
 #begin sounds/Laser_Shot
-/importer:
-/processor:
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
 /build:sounds/Laser_Shot
 
 #begin textures/ball.png
