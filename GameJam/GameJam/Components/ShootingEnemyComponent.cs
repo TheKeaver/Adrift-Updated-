@@ -7,5 +7,11 @@ namespace GameJam.Components
 {
     public class ShootingEnemyComponent : IComponent
     {
+        public int ammoLeft;
+
+        public ShootingEnemyComponent(int totalAmmo)
+        {
+            ammoLeft = totalAmmo;
+        }
     }
 }

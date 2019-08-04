@@ -53,13 +53,14 @@ namespace GameJam.Systems
                     if ( locationA.Intersects(locationB) && !( collisionCompA.collidingWith.Contains(_collisionEntities[j])) )
                         {
                             EventManager.Instance.QueueEvent(new CollisionStartEvent(_collisionEntities[i], _collisionEntities[j]));
-                        collisionCompA.collidingWith.Add(_collisionEntities[j]);
-                        collisionCompB.collidingWith.Add(_collisionEntities[i]);
+                            collisionCompA.collidingWith.Add(_collisionEntities[j]);
+                            collisionCompB.collidingWith.Add(_collisionEntities[i]);
                         }
                     else
                     {
-                        if ( collisionCompA.collidingWith.Contains(_collisionEntities[j]))
+                        if ( !(locationA.Intersects(locationB)) && collisionCompA.collidingWith.Contains(_collisionEntities[j]) )
                         {
+                            Console.WriteLine("Normal Collision System");
                             EventManager.Instance.QueueEvent(new CollisionEndEvent(_collisionEntities[i], _collisionEntities[j]));
                             collisionCompA.collidingWith.Remove(_collisionEntities[j]);
                             collisionCompB.collidingWith.Remove(_collisionEntities[i]);

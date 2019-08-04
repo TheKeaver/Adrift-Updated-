@@ -3,7 +3,7 @@
     /// <summary>
     /// An abstract process that executes in one tick.
     /// </summary>
-    public abstract class InstantProcess : Process
+    public abstract class InstantProcess : FirePorjectileProcess
     {
         protected override void OnInitialize()
         {

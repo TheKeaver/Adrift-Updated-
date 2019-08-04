@@ -4,7 +4,7 @@
     /// An action that takes place over multiple frames that can be
     /// chained in sequence to other processes.
     /// </summary>
-    public abstract class Process
+    public abstract class FirePorjectileProcess
     {
         public bool IsInitialized
         {
@@ -30,13 +30,13 @@
             private set;
         } = false;
 
-        public Process Next
+        public FirePorjectileProcess Next
         {
             get;
             private set;
         }
 
-        public Process SetNext(Process process)
+        public FirePorjectileProcess SetNext(FirePorjectileProcess process)
         {
             Next = process;
             return Next;

@@ -3,7 +3,7 @@
     /// <summary>
     /// A process that waits a duration of time before ending.
     /// </summary>
-    public class WaitProcess : Process
+    public class WaitProcess : FirePorjectileProcess
     {
         public float Duration { get; }
         public float Time { get; private set; }
