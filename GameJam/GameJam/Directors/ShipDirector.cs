@@ -2,6 +2,7 @@
 using Events;
 using GameJam.Components;
 using GameJam.Events;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
@@ -69,11 +70,25 @@ namespace GameJam.Directors
                     if (entityB.HasComponent<ProjectileComponent>() == false)
                         EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position));
                 }
+                else if(entityB.HasComponent<EdgeComponent>())
+                {
+                    Vector2 shipDirection = entityA.GetComponent<MovementComponent>().direction;
+                    entityA.GetComponent<MovementComponent>().direction = getReflectionVector(
+                        shipDirection,
+                        entityB.GetComponent<EdgeComponent>().Normal
+                        );
+                    Console.WriteLine("Collision with wall");
+                }
                 else
                 {
                     Console.WriteLine("Well done, multiplayer has been enabled!");
                 }
             }
+        }
+
+        Vector2 getReflectionVector(Vector2 colliding, Vector2 normal)
+        {
+            return colliding - 2 * Vector2.Dot(colliding, normal) * normal;
         }
 
         void HandleCollisionEnd(CollisionEndEvent collisionEndEvent)

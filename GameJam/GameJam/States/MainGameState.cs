@@ -135,6 +135,11 @@ namespace GameJam
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().shipShield = playerShieldEntity;
             playerShieldEntity.AddComponent(new PlayerComponent(tmpPlayer));
+
+            Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, Constants.Global.WINDOW_HEIGHT/2), new Vector2(Constants.Global.WINDOW_WIDTH, 1), new Vector2(0,-1));
+            Entity leftEdge = EdgeEntity.Create(Engine, new Vector2(-Constants.Global.WINDOW_WIDTH / 2, 0), new Vector2(1, Constants.Global.WINDOW_HEIGHT), new Vector2(1, 0));
+            Entity bottomEdge = EdgeEntity.Create(Engine, new Vector2(0, -Constants.Global.WINDOW_HEIGHT / 2), new Vector2(Constants.Global.WINDOW_WIDTH, 1), new Vector2(0, 1));
+            Entity rightEdge = EdgeEntity.Create(Engine, new Vector2(Constants.Global.WINDOW_WIDTH / 2, 0), new Vector2(1, Constants.Global.WINDOW_HEIGHT), new Vector2(-1, 0));
         }
 
         public override void Update(float dt)
