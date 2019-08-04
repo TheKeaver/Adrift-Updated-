@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using Events;
 using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Directors
@@ -6,7 +7,7 @@ namespace GameJam.Directors
     /// <summary>
     /// Base class for directors.
     /// </summary>
-    public abstract class BaseDirector
+    public abstract class BaseDirector : IEventListener
     {
         protected Engine Engine
         {
@@ -34,5 +35,6 @@ namespace GameJam.Directors
         public abstract void RegisterEvents();
 
         public abstract void UnregisterEvents();
+        public abstract bool Handle(IEvent evt);
     }
 }

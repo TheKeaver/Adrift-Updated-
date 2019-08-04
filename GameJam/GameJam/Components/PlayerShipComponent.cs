@@ -4,5 +4,6 @@ namespace GameJam.Components
 {
     public class PlayerShipComponent : IComponent
     {
+        public int lifeRemaining = 3;
     }
 }
