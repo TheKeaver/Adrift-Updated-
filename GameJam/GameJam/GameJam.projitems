@@ -9,11 +9,14 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ProjectileComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\EnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\CollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ShipDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KamikazeEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CreateExplosionEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionEndEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionStartEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
@@ -79,6 +82,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Directors\" />
   </ItemGroup>
 </Project>
