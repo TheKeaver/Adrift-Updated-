@@ -3,6 +3,7 @@
     public class GamePlay
     {
         public static readonly float PLAYER_SHIELD_RADIUS = 30.0f;
+        public static readonly  int  PLAYER_SHIP_MAX_HEALTH = 3;
 
         public static readonly float KAMIKAZE_ENEMY_SPEED = 30.0f;
         public static readonly float KAMIKAZE_ROTATION_SPEED = 0.5f;
