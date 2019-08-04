@@ -6,6 +6,7 @@ using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Input;
+using GameJam.Processes;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -57,6 +58,8 @@ namespace GameJam
 
             InitSystems();
             InitDirectors();
+
+            ProcessManager.Attach(new KamikazeSpawner(Engine, Content));
         }
 
         void InitSystems()
@@ -130,13 +133,14 @@ namespace GameJam
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().shipShield = playerShieldEntity;
+            playerShieldEntity.AddComponent(new PlayerComponent(tmpPlayer));
+
             Entity kamikazeEntity = KamikazeEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
                 new Vector2(150, 150));
-            Entity shootingEnemy = ShootingEnemyEntity.Create(Engine,
-                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
-                new Vector2(-200,-200), ProcessManager, Content);
-            playerShieldEntity.AddComponent(new PlayerComponent(tmpPlayer));
+            //Entity shootingEnemy = ShootingEnemyEntity.Create(Engine,
+            //    Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
+            //    new Vector2(-200,-200), ProcessManager, Content);
         }
 
         public override void Update(float dt)

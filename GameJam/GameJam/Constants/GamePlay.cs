@@ -10,5 +10,10 @@
 
         public static readonly float SHOOTING_ENEMY_SPEED = 0.0f;
         public static readonly float SHOOTING_ENEMY_ROTATION_SPEED = 1.5f;
+
+        public static readonly float SPAWNER_KAMIKAZE_INITIAL_PERIOD = 3;
+        public static readonly float SPAWNER_KAMIKAZE_PERIOD_MULTIPLIER = 0.9999f;
+
+        public static readonly float SPANWER_MIN_DISTANCE_AWAY_FROM_PLAYER = 200.0f;
     }
 }

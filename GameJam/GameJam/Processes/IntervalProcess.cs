@@ -7,7 +7,7 @@
     {
         float _acculmulator;
 
-        public float Interval { get; }
+        public float Interval { get; set; }
 
         public IntervalProcess(float interval)
         {
