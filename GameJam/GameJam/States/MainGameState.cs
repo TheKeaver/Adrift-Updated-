@@ -72,7 +72,9 @@ namespace GameJam
                 new MovementSystem(Engine),
                 new CollisionSystem(Engine),
                 new PlayerShieldCollisionSystem(Engine),
-                new EnemyRotationSystem(Engine)
+                new EnemyRotationSystem(Engine),
+                new AnimationSystem(Engine),
+                new ExplosionSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
@@ -84,7 +86,8 @@ namespace GameJam
             {
                 new ShipDirector(Engine, Content, ProcessManager),
                 new ShieldDirector(Engine, Content, ProcessManager),
-                new SoundDirector(Engine, Content, ProcessManager)
+                new SoundDirector(Engine, Content, ProcessManager),
+                new ExplosionDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
             {
@@ -100,6 +103,7 @@ namespace GameJam
         {
             Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP);
             Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD);
+            Content.Load<Texture2D>(Constants.Resources.TEXTURE_EXPLOSION);
             Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
             Content.Load<SoundEffect>(Constants.Resources.SOUND_LASER_FIRED);
         }
