@@ -9,17 +9,22 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ProjectileSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ShootingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ProjectileComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\RotationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\EnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\CollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShipDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ProjectileEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ShootingEnemyEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KamikazeEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileFiredEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\OutOfAmmoEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\LaserFiredEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CreateExplosionEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionEndEvent.cs" />
@@ -87,7 +92,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplosionEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ExplosionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\ExplosionSystem.cs" />
   </ItemGroup>

@@ -1,6 +1,8 @@
 ﻿using Audrey;
+using Events;
 using GameJam.Components;
 using GameJam.Entities;
+using GameJam.Events;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -24,6 +26,13 @@ namespace GameJam.Processes
         protected override void OnTick(float interval)
         {
             ProjectileEntity.Create(engine, Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), shootingEnemy.GetComponent<TransformComponent>().Position, shootingEnemy.GetComponent<MovementComponent>().direction);
+            EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
+            shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft -= 1;
+            Console.WriteLine(shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft);
+            if (shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft <= 0)
+            {
+                EventManager.Instance.QueueEvent(new OutOfAmmoEvent(shootingEnemy));
+            }
         }
     }
 }

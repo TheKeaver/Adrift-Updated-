@@ -19,13 +19,16 @@ namespace GameJam.Entities
 
             entity.AddComponent(new TransformComponent(position));
             entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.SHOOTING_SHIP_BOUNDS));
-            entity.AddComponent(new ShootingEnemyComponent());
+            entity.AddComponent(new ShootingEnemyComponent(1));
             entity.AddComponent(new RotationComponent(3.0f));
             entity.AddComponent(new MovementComponent());
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, Constants.ObjectBounds.SHOOTING_SHIP_BOUNDS.X, Constants.ObjectBounds.SHOOTING_SHIP_BOUNDS.Y)));
 
-            processManager.Attach(new FireProjectileProcess(entity, engine, conTENt));
+            FireProjectileProcess fpp = new FireProjectileProcess(entity, engine, conTENt);
+            processManager.Attach(fpp);
+            entity.AddComponent(new ProjectileSpawningProcessComponent(fpp));
+
             return entity;
         }
     }

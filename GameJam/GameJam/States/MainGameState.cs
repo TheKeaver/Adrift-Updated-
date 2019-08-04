@@ -87,6 +87,7 @@ namespace GameJam
                 new ShipDirector(Engine, Content, ProcessManager),
                 new ShieldDirector(Engine, Content, ProcessManager),
                 new SoundDirector(Engine, Content, ProcessManager),
+                new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
                 new ExplosionDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
@@ -130,7 +131,7 @@ namespace GameJam
                 new Vector2(150, 150));
             Entity shootingEnemy = ShootingEnemyEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
-                new Vector2(-100,-100), ProcessManager, Content);
+                new Vector2(-200,-200), ProcessManager, Content);
             playerShieldEntity.AddComponent(new PlayerComponent(tmpPlayer));
         }
 
