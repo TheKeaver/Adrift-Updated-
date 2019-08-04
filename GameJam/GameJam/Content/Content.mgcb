@@ -32,6 +32,12 @@
 /processorParam:Quality=Best
 /build:sounds/Laser_Shot
 
+#begin sounds/Proj_Bounce.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Proj_Bounce.wav
+
 #begin textures/ball.png
 /importer:TextureImporter
 /processor:TextureProcessor
