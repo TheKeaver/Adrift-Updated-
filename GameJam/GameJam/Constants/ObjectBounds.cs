@@ -29,7 +29,7 @@ namespace GameJam.Constants
         {
             get
             {
-                return new Vector2(30, 30);
+                return new Vector2(60, 60);
             }
         }
     }
