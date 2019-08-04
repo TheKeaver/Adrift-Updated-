@@ -13,6 +13,21 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin sounds/Alien_Ship_Sound
+/importer:
+/processor:
+/build:sounds/Alien_Ship_Sound
+
+#begin sounds/Explosion_Sound
+/importer:
+/processor:
+/build:sounds/Explosion_Sound
+
+#begin sounds/Laser_Shot
+/importer:
+/processor:
+/build:sounds/Laser_Shot
+
 #begin textures/ball.png
 /importer:TextureImporter
 /processor:TextureProcessor

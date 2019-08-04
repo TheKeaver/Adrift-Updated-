@@ -14,8 +14,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\EnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\CollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShipDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KamikazeEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\LaserFiredEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CreateExplosionEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionEndEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionStartEvent.cs" />

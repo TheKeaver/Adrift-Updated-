@@ -8,6 +8,7 @@ using GameJam.Events;
 using GameJam.Input;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam
@@ -80,7 +81,8 @@ namespace GameJam
             // Order does not matter
             _directors = new BaseDirector[]
             {
-                new ShipDirector(Engine,Content,ProcessManager)
+                new ShipDirector(Engine,Content,ProcessManager),
+                new SoundDirector(Engine,Content,ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
             {
@@ -96,6 +98,8 @@ namespace GameJam
         {
             Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP);
             Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD);
+            Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
+            Content.Load<SoundEffect>(Constants.Resources.SOUND_LASER_FIRED);
         }
 
         public override void Show()

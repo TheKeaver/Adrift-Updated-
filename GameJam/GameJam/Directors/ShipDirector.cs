@@ -62,22 +62,15 @@ namespace GameJam.Directors
                     {
                         EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
                     }
+                    Engine.DestroyEntity(entityB);
+
+                    if (!entityB.HasComponent<ProjectileComponent>() == false)
+                        EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position));
                 }
                 else
                 {
                     Console.WriteLine("Well done, multiplayer has been enabled!");
                 }
-            }
-            else
-            {
-                Engine.DestroyEntity(entityA);
-                Engine.DestroyEntity(entityB);
-
-                if( entityA.HasComponent<ProjectileComponent>() == false)
-                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
-
-                if (!entityB.HasComponent<ProjectileComponent>() == false)
-                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position));
             }
         }
 
