@@ -82,6 +82,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplosionEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ExplosionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\ExplosionSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

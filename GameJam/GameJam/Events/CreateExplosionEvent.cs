@@ -8,7 +8,7 @@ namespace GameJam.Events
 {
     public class CreateExplosionEvent : IEvent
     {
-        Vector2 explosionLocation;
+        public Vector2 explosionLocation;
         public CreateExplosionEvent(Vector2 coordinates)
         {
             explosionLocation = coordinates;

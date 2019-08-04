@@ -25,5 +25,12 @@ namespace GameJam.Constants
                 return new Vector2(25, 25);
             }
         }
+        public static Vector2 EXPLOSION_BOUNDS
+        {
+            get
+            {
+                return new Vector2(30, 30);
+            }
+        }
     }
 }

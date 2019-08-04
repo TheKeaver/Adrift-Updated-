@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Audrey;
 using Events;
 using GameJam.Common;
@@ -11,6 +11,9 @@ using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Animations;
+using MonoGame.Extended.Animations.SpriteSheets;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam
 {
@@ -74,7 +77,8 @@ namespace GameJam
                 new CollisionSystem(Engine),
                 new PlayerShieldCollisionSystem(Engine),
                 new KamikazeSystem(Engine),
-                new AnimationSystem(Engine)
+                new AnimationSystem(Engine),
+                new ExplosionSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
@@ -86,7 +90,8 @@ namespace GameJam
             {
                 new ShipDirector(Engine, Content, ProcessManager),
                 new ShieldDirector(Engine, Content, ProcessManager),
-                new SoundDirector(Engine, Content, ProcessManager)
+                new SoundDirector(Engine, Content, ProcessManager),
+                new ExplosionDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
             {
@@ -102,6 +107,7 @@ namespace GameJam
         {
             Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP);
             Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD);
+            Content.Load<Texture2D>(Constants.Resources.TEXTURE_EXPLOSION);
             Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
             Content.Load<SoundEffect>(Constants.Resources.SOUND_LASER_FIRED);
         }
