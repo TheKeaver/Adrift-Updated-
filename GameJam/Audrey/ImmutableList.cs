@@ -48,5 +48,10 @@ namespace Audrey
                 return _items[key];
             }
         }
+
+        public bool Contains(T item)
+        {
+            return _items.Contains(item);
+        }
     }
 }

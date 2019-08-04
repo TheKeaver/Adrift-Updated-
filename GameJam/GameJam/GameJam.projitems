@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BounceDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletBounceListenerDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyBulletDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\KamikazeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
@@ -104,6 +105,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletBounceDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileBouncedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

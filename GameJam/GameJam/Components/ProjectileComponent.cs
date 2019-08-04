@@ -13,5 +13,6 @@ namespace GameJam.Components
         {
             bouncesLeft = totalBounces;
         }
+        public bool hasLeftShootingEnemy = false;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Audrey;
+using Audrey;
 using Events;
 using GameJam.Common;
 using GameJam.Components;
@@ -6,6 +6,7 @@ using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Input;
+using GameJam.Processes;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -57,6 +58,9 @@ namespace GameJam
 
             InitSystems();
             InitDirectors();
+
+            ProcessManager.Attach(new KamikazeSpawner(Engine, Content));
+            ProcessManager.Attach(new ShooterEnemySpawner(Engine, Content, ProcessManager));
         }
 
         void InitSystems()
@@ -90,6 +94,7 @@ namespace GameJam
                 new ExplosionDirector(Engine, Content, ProcessManager),
                 new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
                 new KamikazeDirector(Engine, Content, ProcessManager),
+                new EnemyBulletDirector(Engine, Content, ProcessManager),
                 new BulletBounceDirector(Engine, Content, ProcessManager),
                 new BounceDirector(Engine, Content, ProcessManager),
                 new BulletBounceListenerDirector(Engine, Content, ProcessManager)
@@ -132,12 +137,6 @@ namespace GameJam
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().shipShield = playerShieldEntity;
-            Entity kamikazeEntity = KamikazeEntity.Create(Engine,
-                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
-                new Vector2(150, 150));
-            Entity shootingEnemy = ShootingEnemyEntity.Create(Engine,
-                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
-                new Vector2(-200,-200), ProcessManager, Content);
             playerShieldEntity.AddComponent(new PlayerComponent(tmpPlayer));
 
             Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, Constants.Global.WINDOW_HEIGHT/2), new Vector2(Constants.Global.WINDOW_WIDTH, 1), new Vector2(0,-1));
