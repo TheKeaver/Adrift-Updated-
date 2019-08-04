@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ProjectileEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ShootingEnemyEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KamikazeEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameOverEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileFiredEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\OutOfAmmoEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\LaserFiredEvent.cs" />

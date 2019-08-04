@@ -61,6 +61,8 @@ namespace GameJam.Directors
                     if(entityA.GetComponent<PlayerShipComponent>().lifeRemaining <= 0)
                     {
                         EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
+                        Engine.DestroyEntity(entityA);
+                        EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().shipShield));
                     }
                     Engine.DestroyEntity(entityB);
 

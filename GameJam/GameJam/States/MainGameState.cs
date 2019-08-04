@@ -126,6 +126,7 @@ namespace GameJam
                 new Vector2(0, 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
+            playerShipEntity.GetComponent<PlayerShipComponent>().shipShield = playerShieldEntity;
             Entity kamikazeEntity = KamikazeEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
                 new Vector2(150, 150));

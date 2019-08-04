@@ -16,6 +16,7 @@ namespace GameJam.Directors
         public override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<CollisionStartEvent>(this);
+            EventManager.Instance.RegisterListener<GameOverEvent>(this);
         }
 
         public override void UnregisterEvents()
@@ -28,6 +29,10 @@ namespace GameJam.Directors
             if (evt is CollisionStartEvent)
             {
                 OrderColliders(evt as CollisionStartEvent);
+            }
+            if (evt is GameOverEvent)
+            {
+                HandleGameOver(evt as GameOverEvent);
             }
             return false;
         }
@@ -55,6 +60,11 @@ namespace GameJam.Directors
                     Engine.DestroyEntity(enemy);
                 }
             }
+        }
+
+        void HandleGameOver(GameOverEvent evt)
+        {
+            Engine.DestroyEntity(evt.shipShield);
         }
     }
 }
