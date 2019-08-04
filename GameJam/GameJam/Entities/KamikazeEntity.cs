@@ -22,6 +22,7 @@ namespace GameJam.Entities
             entity.GetComponent<MovementComponent>().speed = 20.0f;
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, Constants.ObjectBounds.KAMIKAZE_SHIP_BOUNDS.X, Constants.ObjectBounds.KAMIKAZE_SHIP_BOUNDS.Y)));
+            entity.AddComponent(new KamikazeComponent());
 
             return entity;
         }
