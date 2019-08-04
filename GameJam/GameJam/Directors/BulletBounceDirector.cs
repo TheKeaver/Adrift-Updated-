@@ -60,13 +60,23 @@ namespace GameJam.Directors
 
             Vector2 projectileDirection = projectile.GetComponent<MovementComponent>().direction;
             projectileDirection.Normalize();
-            projectileDirection = getReflectionVector(projectileDirection, shieldNormal);
-            projectile.GetComponent<MovementComponent>().direction = projectileDirection;
-            projectile.GetComponent<MovementComponent>().speed +=
-                playerShield.GetComponent<PlayerShieldComponent>().ShipEntity
-                .GetComponent<MovementComponent>().direction.Length() +
-                playerShield.GetComponent<PlayerShieldComponent>().ShipEntity
-                .GetComponent<MovementComponent>().speed;
+
+            if (Vector2.Dot(shieldNormal, projectileDirection) < 0)
+            {
+                projectileDirection = getReflectionVector(projectileDirection, shieldNormal);
+            }
+
+            Vector2 directionAndMagnitude = projectileDirection * projectile.GetComponent<MovementComponent>().speed;
+            Vector2 shipDirectionAndMagnitude = playerShield.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<MovementComponent>().direction * playerShield.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<MovementComponent>().speed;
+
+            directionAndMagnitude = directionAndMagnitude + shipDirectionAndMagnitude;
+
+            if (directionAndMagnitude.Length() > projectile.GetComponent<MovementComponent>().speed)
+            {
+                projectile.GetComponent<MovementComponent>().speed = directionAndMagnitude.Length();
+            }
+            directionAndMagnitude.Normalize();
+            projectile.GetComponent<MovementComponent>().direction = directionAndMagnitude;
 
             EventManager.Instance.QueueEvent(new ProjectileBouncedEvent(projectile, projectile.GetComponent<TransformComponent>().Position));
         }
