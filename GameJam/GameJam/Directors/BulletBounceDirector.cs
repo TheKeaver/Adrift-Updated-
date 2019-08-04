@@ -62,6 +62,8 @@ namespace GameJam.Directors
             projectileDirection.Normalize();
             projectileDirection = getReflectionVector(projectileDirection, shieldNormal);
             projectile.GetComponent<MovementComponent>().direction = projectileDirection;
+
+            EventManager.Instance.QueueEvent(new ProjectileBouncedEvent(projectile, projectile.GetComponent<TransformComponent>().Position));
         }
 
         private Vector2 getReflectionVector(Vector2 colliding, Vector2 normal)
