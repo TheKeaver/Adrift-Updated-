@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using GameJam.Components;
+using MonoGame.Extended.TextureAtlases;
+using MonoGame.Extended.Sprites;
 
 namespace GameJam.Systems
 {
@@ -79,15 +81,37 @@ namespace GameJam.Systems
                 Vector2 origin = new Vector2(spriteComp.Texture.Bounds.Width,
                                              spriteComp.Texture.Bounds.Height) * HalfHalf;
 
-                _spriteBatch.Draw(spriteComp.Texture,
-                                  (transformComp.Position + offsetPosition) * FlipY,
-                                  null,
-                                  Color.White,
-                                  -transformComp.Rotation,
-                                  origin,
-                                  scale,
-                                  SpriteEffects.None,
-                                  0);
+                AnimationComponent animationComp = entity.GetComponent<AnimationComponent>();
+                if (animationComp != null && animationComp.ActiveAnimationIndex > -1)
+                {
+                    Rectangle sourceRectangle = animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Bounds;
+                    scale = new Vector2(spriteComp.Bounds.X / sourceRectangle.Width,
+                                            spriteComp.Bounds.Y / sourceRectangle.Height);
+                    origin = new Vector2(sourceRectangle.Width,
+                                             sourceRectangle.Height) * HalfHalf;
+
+                    _spriteBatch.Draw(animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Texture,
+                                      (transformComp.Position + offsetPosition) * FlipY,
+                                      sourceRectangle,
+                                      Color.White,
+                                      -transformComp.Rotation,
+                                      origin,
+                                      scale,
+                                      SpriteEffects.None,
+                                      0);
+                }
+                else
+                {
+                    _spriteBatch.Draw(spriteComp.Texture,
+                                      (transformComp.Position + offsetPosition) * FlipY,
+                                      null,
+                                      Color.White,
+                                      -transformComp.Rotation,
+                                      origin,
+                                      scale,
+                                      SpriteEffects.None,
+                                      0);
+                }
             }
 
             foreach (Entity entity in _fontEntities)

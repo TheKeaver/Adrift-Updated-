@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\CollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShipDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ProjectileEntity.cs" />
@@ -88,6 +89,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants\GamePlay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplosionEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ExplosionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\ExplosionSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
