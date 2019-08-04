@@ -64,6 +64,9 @@ namespace GameJam.Directors
                         EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
                         Engine.DestroyEntity(entityA);
                         EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().shipShield));
+                    } else
+                    {
+                        EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, false));
                     }
 
                     Engine.DestroyEntity(entityB);

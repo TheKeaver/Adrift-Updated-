@@ -63,7 +63,10 @@ namespace GameJam.Directors
 
         void HandleCreateExplosionEvent(CreateExplosionEvent evt)
         {
-            explosionFx.Play();
+            if (evt.playSound)
+            {
+                explosionFx.Play();
+            }
         }
     }
 }

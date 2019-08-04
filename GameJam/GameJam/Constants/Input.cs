@@ -9,6 +9,6 @@ namespace GameJam.Constants
     {
         public static readonly float DEADZONE = 0.1f;
 
-        public static readonly float KEYBOARD_SHIELD_ANGULAR_SPEED = (float)(Math.PI / 2);
+        public static readonly float KEYBOARD_SHIELD_ANGULAR_SPEED = (float)(Math.PI / 1.25f);
     }
 }

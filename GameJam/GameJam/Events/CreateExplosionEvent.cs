@@ -9,9 +9,11 @@ namespace GameJam.Events
     public class CreateExplosionEvent : IEvent
     {
         public Vector2 explosionLocation;
-        public CreateExplosionEvent(Vector2 coordinates)
+        public bool playSound;
+        public CreateExplosionEvent(Vector2 coordinates, bool playSound = true)
         {
             explosionLocation = coordinates;
+            this.playSound = playSound;
         }
     }
 }

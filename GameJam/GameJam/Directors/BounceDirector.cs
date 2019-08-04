@@ -54,7 +54,7 @@ namespace GameJam.Directors
                 {
                     EventManager.Instance.TriggerEvent(new ProjectileBouncedEvent(bouncer, bouncer.GetComponent<TransformComponent>().Position));
                 }
-                if (bouncer != null)
+                if (bouncer != null && bouncer.HasComponent<MovementComponent>())
                 {
                     Vector2 bounceDirection = bouncer.GetComponent<MovementComponent>().direction;
                     bouncer.GetComponent<MovementComponent>().direction = getReflectionVector(
