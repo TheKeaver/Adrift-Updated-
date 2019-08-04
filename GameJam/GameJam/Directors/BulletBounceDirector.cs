@@ -62,6 +62,11 @@ namespace GameJam.Directors
             projectileDirection.Normalize();
             projectileDirection = getReflectionVector(projectileDirection, shieldNormal);
             projectile.GetComponent<MovementComponent>().direction = projectileDirection;
+            projectile.GetComponent<MovementComponent>().speed +=
+                playerShield.GetComponent<PlayerShieldComponent>().ShipEntity
+                .GetComponent<MovementComponent>().direction.Length() +
+                playerShield.GetComponent<PlayerShieldComponent>().ShipEntity
+                .GetComponent<MovementComponent>().speed;
 
             EventManager.Instance.QueueEvent(new ProjectileBouncedEvent(projectile, projectile.GetComponent<TransformComponent>().Position));
         }

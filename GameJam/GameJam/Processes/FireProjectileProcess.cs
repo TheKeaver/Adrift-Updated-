@@ -25,6 +25,11 @@ namespace GameJam.Processes
 
         protected override void OnTick(float interval)
         {
+            if (shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft <= 0)
+            {
+                EventManager.Instance.QueueEvent(new OutOfAmmoEvent(shootingEnemy));
+                return;
+            }
             if (!engine.GetEntities().Contains(shootingEnemy))
             {
                 Kill();
@@ -34,10 +39,6 @@ namespace GameJam.Processes
             EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
             shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft -= 1;
             Console.WriteLine(shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft);
-            if (shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft <= 0)
-            {
-                EventManager.Instance.QueueEvent(new OutOfAmmoEvent(shootingEnemy));
-            }
         }
     }
 }

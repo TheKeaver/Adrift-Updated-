@@ -40,6 +40,7 @@ namespace GameJam.Directors
             outOf.shootingEnemyOOA.GetComponent<ProjectileSpawningProcessComponent>().firingProcess.Kill();
             outOf.shootingEnemyOOA.RemoveComponent<ProjectileSpawningProcessComponent>();
             outOf.shootingEnemyOOA.RemoveComponent<ShootingEnemyComponent>();
+            outOf.shootingEnemyOOA.AddComponent(new KamikazeComponent());
         }
     }
 }
