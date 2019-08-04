@@ -1,4 +1,4 @@
-﻿using Audrey;
+using Audrey;
 using Events;
 using GameJam.Common;
 using GameJam.Components;
@@ -94,7 +94,8 @@ namespace GameJam
                 new ExplosionDirector(Engine, Content, ProcessManager),
                 new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
                 new KamikazeDirector(Engine, Content, ProcessManager),
-                new BulletBounceDirector(Engine, Content, ProcessManager)
+                new BulletBounceDirector(Engine, Content, ProcessManager),
+                new EnemyBulletDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
             {

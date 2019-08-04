@@ -1,4 +1,4 @@
-﻿using Audrey;
+using Audrey;
 using Events;
 using GameJam.Components;
 using GameJam.Entities;
@@ -32,6 +32,10 @@ namespace GameJam.Processes
             if (shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft <= 0)
             {
                 EventManager.Instance.QueueEvent(new OutOfAmmoEvent(shootingEnemy));
+            }
+            if(!engine.GetEntities().Contains(shootingEnemy))
+            {
+                Kill();
             }
         }
     }

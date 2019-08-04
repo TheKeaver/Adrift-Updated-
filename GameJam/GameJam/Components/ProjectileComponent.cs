@@ -7,5 +7,6 @@ namespace GameJam.Components
 {
     public class ProjectileComponent : IComponent
     {
+        public bool hasLeftShootingEnemy = false;
     }
 }
