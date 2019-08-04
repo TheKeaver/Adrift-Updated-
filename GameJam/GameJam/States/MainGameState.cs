@@ -40,11 +40,12 @@ namespace GameJam
             private set;
         }
 
-        Player tmpPlayer; // This is temporary, it will be passed in from another game state later
+        Player Player;
 
-        public MainGameState(GameManager gameManager)
+        public MainGameState(GameManager gameManager, Player player)
             : base(gameManager)
         {
+            Player = player;
         }
 
         public override void Initialize()
@@ -53,8 +54,6 @@ namespace GameJam
 
             _mainCamera = new Camera(Constants.Global.WINDOW_WIDTH, Constants.Global.WINDOW_HEIGHT);
             _mainCamera.RegisterEvents();
-
-            tmpPlayer = new Player("Keith", new PrimaryKeyboardInputMethod());
 
             InitSystems();
             InitDirectors();
@@ -141,7 +140,7 @@ namespace GameJam
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().shipShield = playerShieldEntity;
-            playerShieldEntity.AddComponent(new PlayerComponent(tmpPlayer));
+            playerShieldEntity.AddComponent(new PlayerComponent(Player));
 
             Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, Constants.Global.WINDOW_HEIGHT/2), new Vector2(Constants.Global.WINDOW_WIDTH, 1), new Vector2(0,-1));
             Entity leftEdge = EdgeEntity.Create(Engine, new Vector2(-Constants.Global.WINDOW_WIDTH / 2, 0), new Vector2(1, Constants.Global.WINDOW_HEIGHT), new Vector2(1, 0));

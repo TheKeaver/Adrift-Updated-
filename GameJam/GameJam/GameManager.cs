@@ -1,6 +1,7 @@
 ﻿using System;
 using Events;
 using GameJam.Events;
+using GameJam.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -67,7 +68,8 @@ namespace GameJam
             // Global Content
 
             // Load first game state
-            ChangeState(new MainGameState(this));
+            //ChangeState(new MainGameState(this));
+            ChangeState(new MenuGameState(this));
         }
         
         protected override void Update(GameTime gameTime)

@@ -25,6 +25,11 @@ namespace GameJam.Processes
 
         protected override void OnTick(float interval)
         {
+            if (!engine.GetEntities().Contains(shootingEnemy))
+            {
+                Kill();
+                return;
+            }
             ProjectileEntity.Create(engine, Content.Load<Texture2D>(Constants.Resources.TEXTURE_ENEMY_BULLET), shootingEnemy.GetComponent<TransformComponent>().Position, shootingEnemy.GetComponent<MovementComponent>().direction);
             EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
             shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft -= 1;
@@ -32,10 +37,6 @@ namespace GameJam.Processes
             if (shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft <= 0)
             {
                 EventManager.Instance.QueueEvent(new OutOfAmmoEvent(shootingEnemy));
-            }
-            if(!engine.GetEntities().Contains(shootingEnemy))
-            {
-                Kill();
             }
         }
     }
