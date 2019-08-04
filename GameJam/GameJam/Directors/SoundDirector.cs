@@ -11,19 +11,22 @@ namespace GameJam.Directors
 {
     public class SoundDirector : BaseDirector
     {
-        public List<SoundEffect> sounds;
+        SoundEffect explosionFx;
+        SoundEffect laserFiredFx;
+        SoundEffect projectileBouncedFx;
 
         public SoundDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
-            sounds = new List<SoundEffect>();
-            sounds.Add(Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION));
-            sounds.Add(Content.Load<SoundEffect>(Constants.Resources.SOUND_LASER_FIRED));
+            explosionFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
+            laserFiredFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_LASER_FIRED);
+            projectileBouncedFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_BOUNCE);
         }
 
         public override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<LaserFiredEvent>(this);
-            EventManager.Instance.RegisterListener <CreateExplosionEvent>(this);
+            EventManager.Instance.RegisterListener<CreateExplosionEvent>(this);
+            EventManager.Instance.RegisterListener<ProjectileBouncedEvent>(this);
         }
 
         public override void UnregisterEvents()
@@ -41,17 +44,26 @@ namespace GameJam.Directors
             {
                 HandleCreateExplosionEvent(evt as CreateExplosionEvent);
             }
+            if(evt is ProjectileBouncedEvent)
+            {
+                HandleProjectileBouncedEvent(evt as ProjectileBouncedEvent);
+            }
             return false;
+        }
+
+        private void HandleProjectileBouncedEvent(ProjectileBouncedEvent projectileBouncedEvent)
+        {
+            projectileBouncedFx.Play();
         }
 
         void HandleLaserFireEvent(LaserFiredEvent evt)
         {
-            sounds[1].Play();
+            laserFiredFx.Play();
         }
 
         void HandleCreateExplosionEvent(CreateExplosionEvent evt)
         {
-            sounds[0].Play();
+            explosionFx.Play();
         }
     }
 }

@@ -52,11 +52,9 @@ namespace GameJam.Directors
         {
             if (playerShield.HasComponent<PlayerShieldComponent>())
             {
-                if(enemy.HasComponent<EnemyComponent>())
+                if(enemy.HasComponent<EnemyComponent>() && !enemy.HasComponent<ProjectileComponent>())
                 {
-                    if (!enemy.HasComponent<ProjectileComponent>())
-                        EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position));
-
+                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position));
                     Engine.DestroyEntity(enemy);
                 }
             }
