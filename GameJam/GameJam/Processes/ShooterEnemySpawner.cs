@@ -39,7 +39,7 @@ namespace GameJam.Processes
             } while (IsTooCloseToPlayer(spawnPosition));
 
             ShootingEnemyEntity.Create(Engine,
-                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
+                Content.Load<Texture2D>(Constants.Resources.TEXTURE_SHOOTER_ENEMY),
                 spawnPosition, ProcessManager, Content);
 
             Interval = Interval * Constants.GamePlay.SPAWNER_SHOOTING_ENEMY_PERIOD_MULTIPLIER;
