@@ -12,19 +12,19 @@ namespace GameJam.Directors
     public class SoundDirector : BaseDirector
     {
         SoundEffect explosionFx;
-        SoundEffect laserFiredFx;
+        SoundEffect projectileFiredFx;
         SoundEffect projectileBouncedFx;
 
         public SoundDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
             explosionFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
-            laserFiredFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_LASER_FIRED);
+            projectileFiredFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_FIRED);
             projectileBouncedFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_BOUNCE);
         }
 
         public override void RegisterEvents()
         {
-            EventManager.Instance.RegisterListener<LaserFiredEvent>(this);
+            EventManager.Instance.RegisterListener<ProjectileFiredEvent>(this);
             EventManager.Instance.RegisterListener<CreateExplosionEvent>(this);
             EventManager.Instance.RegisterListener<ProjectileBouncedEvent>(this);
         }
@@ -36,9 +36,9 @@ namespace GameJam.Directors
 
         public override bool Handle(IEvent evt)
         {
-            if (evt is LaserFiredEvent)
+            if (evt is ProjectileFiredEvent)
             {
-                HandleLaserFireEvent(evt as LaserFiredEvent);
+                HandleLaserFireEvent(evt as ProjectileFiredEvent);
             }
             if (evt is CreateExplosionEvent)
             {
@@ -56,9 +56,9 @@ namespace GameJam.Directors
             projectileBouncedFx.Play();
         }
 
-        void HandleLaserFireEvent(LaserFiredEvent evt)
+        void HandleLaserFireEvent(ProjectileFiredEvent evt)
         {
-            laserFiredFx.Play();
+            projectileFiredFx.Play();
         }
 
         void HandleCreateExplosionEvent(CreateExplosionEvent evt)

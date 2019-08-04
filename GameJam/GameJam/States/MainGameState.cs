@@ -119,7 +119,7 @@ namespace GameJam
             Content.Load<Texture2D>(Constants.Resources.TEXTURE_ENEMY_BULLET);
 
             Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
-            Content.Load<SoundEffect>(Constants.Resources.SOUND_LASER_FIRED);
+            Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_FIRED);
 			Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_BOUNCE);
         }
 
