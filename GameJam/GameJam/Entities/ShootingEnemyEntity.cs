@@ -19,7 +19,7 @@ namespace GameJam.Entities
 
             entity.AddComponent(new TransformComponent(position));
             entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.SHOOTING_SHIP_BOUNDS));
-            entity.AddComponent(new ShootingEnemyComponent(1));
+            entity.AddComponent(new ShootingEnemyComponent(4));
             entity.AddComponent(new RotationComponent(3.0f));
             entity.AddComponent(new MovementComponent());
             entity.AddComponent(new EnemyComponent());
