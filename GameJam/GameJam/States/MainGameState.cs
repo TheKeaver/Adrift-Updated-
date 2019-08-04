@@ -90,7 +90,9 @@ namespace GameJam
                 new ExplosionDirector(Engine, Content, ProcessManager),
                 new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
                 new KamikazeDirector(Engine, Content, ProcessManager),
-                new BulletBounceDirector(Engine, Content, ProcessManager)
+                new BulletBounceDirector(Engine, Content, ProcessManager),
+                new BounceDirector(Engine, Content, ProcessManager),
+                new BulletBounceListenerDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
             {

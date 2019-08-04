@@ -7,8 +7,8 @@ namespace GameJam.Events
 {
     public class ProjectileBouncedEvent : IEvent
     {
-        Entity projectile;
-        Vector2 coordinate;
+        public Entity projectile;
+        public Vector2 coordinate;
 
         public ProjectileBouncedEvent(Entity projectile, Vector2 coordinate)
         {
