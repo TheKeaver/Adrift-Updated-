@@ -19,6 +19,7 @@ namespace GameJam.Entities
             entity.AddComponent(new TransformComponent(position));
             entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.EXPLOSION_BOUNDS));
             entity.AddComponent(new ExplosionComponent());
+
             Dictionary<string, Rectangle> explMap = new Dictionary<string, Rectangle>();
             explMap.Add("Explosion1", new Rectangle(0, 0, 32, 32));
             explMap.Add("Explosion2", new Rectangle(32, 0, 32, 32));

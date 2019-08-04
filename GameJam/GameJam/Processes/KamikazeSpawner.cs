@@ -36,7 +36,7 @@ namespace GameJam.Processes
             } while (IsTooCloseToPlayer(spawnPosition));
 
             KamikazeEntity.Create(Engine,
-                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
+                Content.Load<Texture2D>(Constants.Resources.TEXTURE_KAMIKAZE),
                 spawnPosition);
 
             Interval = Interval * Constants.GamePlay.SPAWNER_KAMIKAZE_PERIOD_MULTIPLIER;
