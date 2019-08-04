@@ -8,9 +8,9 @@ namespace GameJam
     /// </summary>
     public class ProcessManager
     {
-        List<FirePorjectileProcess> _processList = new List<FirePorjectileProcess>();
+        List<Process> _processList = new List<Process>();
 
-        public FirePorjectileProcess[] Processes
+        public  Process[] Processes
         {
             get
             {
@@ -18,7 +18,7 @@ namespace GameJam
             }
         }
 
-        public void Attach(FirePorjectileProcess process)
+        public Process Attach(Process process)
         {
             // Instant processes are special; they can be ran in 0 ticks
             if (process is InstantProcess)
@@ -33,14 +33,16 @@ namespace GameJam
                     process.SetNext(null);
                 }
 
-                return;
+                return process;
             }
 
             _processList.Add(process);
             process.IsActive = true;
+
+            return process;
         }
 
-        void Detatch(FirePorjectileProcess process)
+        void Detatch(Process process)
         {
             _processList.Remove(process);
         }
@@ -59,7 +61,7 @@ namespace GameJam
         {
             for (int i = 0; i < _processList.Count; i++)
             {
-                FirePorjectileProcess curr = _processList[i];
+                 Process curr = _processList[i];
 
                 if (!curr.IsAlive)
                 {

@@ -1,3 +1,4 @@
+using System;
 using Audrey;
 using Events;
 using GameJam.Common;
@@ -7,10 +8,12 @@ using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Input;
 using GameJam.Processes;
+using GameJam.States;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 
 namespace GameJam
 {
@@ -60,6 +63,8 @@ namespace GameJam
 
             ProcessManager.Attach(new KamikazeSpawner(Engine, Content));
             ProcessManager.Attach(new ShooterEnemySpawner(Engine, Content, ProcessManager));
+
+            EventManager.Instance.RegisterListener<GameOverEvent>(this);
         }
 
         void InitSystems()
@@ -120,6 +125,8 @@ namespace GameJam
             Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
             Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_FIRED);
 			Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_BOUNCE);
+
+            Content.Load<BitmapFont>(Constants.Resources.FONT_GAME_OVER);
         }
 
         public override void Show()
@@ -188,7 +195,25 @@ namespace GameJam
 
         public bool Handle(IEvent evt)
         {
+            if(evt is GameOverEvent)
+            {
+                HandleGameOverEvent(evt as GameOverEvent);
+            }
+
             return false;
+        }
+
+        private void HandleGameOverEvent(GameOverEvent gameOverEvent)
+        {
+            // TODO: Game Over Process
+            Entity gameOverText = Engine.CreateEntity();
+            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * Constants.Global.WINDOW_HEIGHT / 2)));
+            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>(Constants.Resources.FONT_GAME_OVER), "Game Over"));
+
+            ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3)).SetNext(new DelegateCommand(() =>
+            {
+                GameManager.ChangeState(new MenuGameState(GameManager));
+            }));
         }
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// An abstract process that ticks in specified time intervals.
     /// </summary>
-    public abstract class IntervalProcess : FirePorjectileProcess
+    public abstract class IntervalProcess :  Process
     {
         float _acculmulator;
 

@@ -15,5 +15,7 @@
 		public static readonly string SOUND_EXPLOSION = "sounds/Explosion_Sound";
         public static readonly string SOUND_PROJECTILE_FIRED = "sounds/Laser_Shot";
         public static readonly string SOUND_PROJECTILE_BOUNCE = "sounds/Proj_Bounce";
+
+        public static readonly string FONT_GAME_OVER = "fonts/Intro";
     }
 }

@@ -14,6 +14,23 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin fonts/Intro.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:fonts/Intro.fnt
+
+#begin fonts/Intro_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:fonts/Intro_0.png
+
 #begin sounds/Alien_Ship_Sound
 /importer:WavImporter
 /processor:SoundEffectProcessor

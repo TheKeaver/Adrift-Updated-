@@ -108,6 +108,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

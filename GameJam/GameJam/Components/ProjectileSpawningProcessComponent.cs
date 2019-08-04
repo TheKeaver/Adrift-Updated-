@@ -7,9 +7,9 @@ namespace GameJam.Components
 {
     public class ProjectileSpawningProcessComponent : IComponent
     {
-        public FirePorjectileProcess firingProcess;
+        public  Process firingProcess;
 
-        public ProjectileSpawningProcessComponent(FirePorjectileProcess theProcess)
+        public ProjectileSpawningProcessComponent(Process theProcess)
         {
             firingProcess = theProcess;
         }
