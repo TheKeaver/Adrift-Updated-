@@ -18,6 +18,8 @@ namespace GameJam.Entities
             entity.AddComponent(new PlayerShipComponent());
             entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS.X, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS.Y)));
 
+            entity.GetComponent<MovementComponent>().updateRotationWithDirection = false;
+
             return entity;
         }
     }

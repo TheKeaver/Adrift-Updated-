@@ -10,6 +10,7 @@ namespace GameJam.Components
     {
         public Vector2 direction;
         public float speed;
+        public bool updateRotationWithDirection = true;
 
         public MovementComponent():this(Vector2.Zero, 0.0f)
         {

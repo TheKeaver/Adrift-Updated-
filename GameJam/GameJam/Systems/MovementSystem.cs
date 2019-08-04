@@ -30,8 +30,11 @@ namespace GameJam.Systems
             MovementComponent movementComp = movementEntity.GetComponent<MovementComponent>();
 
             transformComp.Move(movementComp.speed * movementComp.direction * dt);
-            float targetAngle = (float)Math.Atan2(movementComp.direction.Y, movementComp.direction.X);
-            transformComp.Rotate(targetAngle - transformComp.Rotation);
+            if (movementComp.updateRotationWithDirection)
+            {
+                float targetAngle = (float)Math.Atan2(movementComp.direction.Y, movementComp.direction.X);
+                transformComp.Rotate(targetAngle - transformComp.Rotation);
+            }
         }
     }
 }
