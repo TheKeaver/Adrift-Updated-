@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\FireProjectileProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
@@ -108,7 +109,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

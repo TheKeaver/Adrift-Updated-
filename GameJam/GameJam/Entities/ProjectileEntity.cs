@@ -16,9 +16,9 @@ namespace GameJam.Entities
 
             entity.AddComponent(new TransformComponent(position));
             entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.PROJECTILE_BOUNDS));
-            entity.AddComponent(new ProjectileComponent(3));
+            entity.AddComponent(new ProjectileComponent(Constants.GamePlay.SHOOTING_ENEMY_PROJECTILE_BOUNCES));
             entity.AddComponent(new BounceComponent());
-            entity.AddComponent(new MovementComponent(direction, 30.0f));
+            entity.AddComponent(new MovementComponent(direction, Constants.GamePlay.SHOOTING_ENEMY_PROJECETILE_SPEED));
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new CollisionComponent(new Common.BoundingRect(0, 0, Constants.ObjectBounds.PROJECTILE_BOUNDS.X, Constants.ObjectBounds.PROJECTILE_BOUNDS.Y)));
 
