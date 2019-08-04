@@ -55,6 +55,7 @@ namespace GameJam.Systems
                         new Vector2(collisionComp.BoundingBoxComponent.Width / 2, collisionComp.BoundingBoxComponent.Height / 2),
                         new Vector2(collisionComp.BoundingBoxComponent.Width / 2, -collisionComp.BoundingBoxComponent.Height / 2)
                     };
+                    bool colliding = false;
                     foreach (Vector2 collisionCorner in collisionEntityCorners)
                     {
                         Vector2 shieldCenterToCorner = transformComp.Position - (collisionCorner + collisionTransformComp.Position);
@@ -62,20 +63,21 @@ namespace GameJam.Systems
                         float normalCasted = Vector2.Dot(shieldCenterToCorner, shieldNormal);
                         float tangentCasted = Vector2.Dot(shieldCenterToCorner, shieldTangent);
 
-                        if(Math.Abs(normalCasted) <= shieldComp.Bounds.Y && Math.Abs(tangentCasted) <= shieldComp.Bounds.X)
+                        colliding = Math.Abs(normalCasted) <= shieldComp.Bounds.Y && Math.Abs(tangentCasted) <= shieldComp.Bounds.X;
+                    }
+                    if(colliding)
+                    {
+                        if (!collisionComp.collidingWith.Contains(playerShieldEntity))
                         {
-                            if(!collisionComp.collidingWith.Contains(playerShieldEntity))
-                            {
-                                collisionComp.collidingWith.Add(playerShieldEntity);
-                                EventManager.Instance.QueueEvent(new CollisionStartEvent(playerShieldEntity, collisionEntity));
-                            }
-                        } else
+                            collisionComp.collidingWith.Add(playerShieldEntity);
+                            EventManager.Instance.QueueEvent(new CollisionStartEvent(playerShieldEntity, collisionEntity));
+                        }
+                    } else
+                    {
+                        if (collisionComp.collidingWith.Contains(playerShieldEntity))
                         {
-                            if (collisionComp.collidingWith.Contains(playerShieldEntity))
-                            {
-                                collisionComp.collidingWith.Remove(playerShieldEntity);
-                                EventManager.Instance.QueueEvent(new CollisionEndEvent(playerShieldEntity, collisionEntity));
-                            }
+                            collisionComp.collidingWith.Remove(playerShieldEntity);
+                            EventManager.Instance.QueueEvent(new CollisionEndEvent(playerShieldEntity, collisionEntity));
                         }
                     }
                 }
