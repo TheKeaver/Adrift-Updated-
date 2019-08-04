@@ -10,7 +10,7 @@ namespace GameJam.Components
     public class CollisionComponent : IComponent
     {
         public BoundingRect BoundingBoxComponent;
-        public List<Entity> collidingWith;
+        public List<Entity> collidingWith = new List<Entity>();
 
         public CollisionComponent(BoundingRect newBoundRect)
         {

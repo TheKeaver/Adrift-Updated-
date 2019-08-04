@@ -81,7 +81,8 @@ namespace GameJam
             // Order does not matter
             _directors = new BaseDirector[]
             {
-                new ShipDirector(Engine,Content,ProcessManager)
+                new ShipDirector(Engine, Content, ProcessManager),
+                new ShieldDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
             {

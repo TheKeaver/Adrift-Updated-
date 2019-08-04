@@ -45,7 +45,7 @@ namespace GameJam.Directors
             Entity entityA = collisionStartEvent.entityA;
             Entity entityB = collisionStartEvent.entityB;
 
-            if (entityA.HasComponent<EnemyComponent>() && entityB.HasComponent<PlayerComponent>())
+            if (entityA.HasComponent<EnemyComponent>() && entityB.HasComponent<PlayerShipComponent>())
                 HandleCollisionStart(entityB, entityA);
             else
                 HandleCollisionStart(entityA, entityB);
@@ -67,17 +67,6 @@ namespace GameJam.Directors
                 {
                     Console.WriteLine("Well done, multiplayer has been enabled!");
                 }
-            }
-            else
-            {
-                Engine.DestroyEntity(entityA);
-                Engine.DestroyEntity(entityB);
-
-                if( entityA.HasComponent<ProjectileComponent>() == false)
-                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
-
-                if (!entityB.HasComponent<ProjectileComponent>() == false)
-                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position));
             }
         }
 

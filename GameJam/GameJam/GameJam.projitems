@@ -77,6 +77,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants\GamePlay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldCollisionSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
