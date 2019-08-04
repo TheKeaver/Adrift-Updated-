@@ -100,6 +100,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletBounceDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileBouncedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
