@@ -7,6 +7,7 @@
         public static readonly string TEXTURE_EXPLOSION = "textures/Explosion";
         public static readonly string TEXTURE_KAMIKAZE = "textures/Kamikaze";
         public static readonly string TEXTURE_SHOOTER_ENEMY = "textures/ShootingEnemy";
+        public static readonly string TEXTURE_ENEMY_BULLET = "textures/EnemyBullet";
 
         public static readonly string SOUND_EXPLOSION = "sounds/Explosion_Sound";
         public static readonly string SOUND_LASER_FIRED = "sounds/Laser_Shot";
