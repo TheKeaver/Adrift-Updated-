@@ -80,6 +80,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldCollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

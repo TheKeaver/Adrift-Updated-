@@ -1,4 +1,5 @@
-﻿using Audrey;
+using System.Collections.Generic;
+using Audrey;
 using Events;
 using GameJam.Common;
 using GameJam.Components;
@@ -72,7 +73,8 @@ namespace GameJam
                 new MovementSystem(Engine),
                 new CollisionSystem(Engine),
                 new PlayerShieldCollisionSystem(Engine),
-                new KamikazeSystem(Engine)
+                new KamikazeSystem(Engine),
+                new AnimationSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
