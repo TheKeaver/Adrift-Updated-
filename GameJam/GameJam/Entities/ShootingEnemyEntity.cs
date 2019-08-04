@@ -23,7 +23,7 @@ namespace GameJam.Entities
             entity.AddComponent(new RotationComponent(3.0f));
             entity.AddComponent(new MovementComponent());
             entity.AddComponent(new EnemyComponent());
-            entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, Constants.ObjectBounds.SHOOTING_SHIP_BOUNDS.X, Constants.ObjectBounds.SHOOTING_SHIP_BOUNDS.Y)));
+            entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, 17.5f, 35)));
 
             FireProjectileProcess fpp = new FireProjectileProcess(entity, engine, conTENt);
             processManager.Attach(fpp);

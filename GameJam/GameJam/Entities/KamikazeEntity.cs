@@ -24,7 +24,7 @@ namespace GameJam.Entities
             entity.AddComponent(new MovementComponent());
             entity.GetComponent<MovementComponent>().speed = 20.0f;
             entity.AddComponent(new EnemyComponent());
-            entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, Constants.ObjectBounds.KAMIKAZE_SHIP_BOUNDS.X, Constants.ObjectBounds.KAMIKAZE_SHIP_BOUNDS.Y)));
+            entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, 21.875f, 21.875f)));
             entity.AddComponent(new KamikazeComponent());
 
             Dictionary<string, Rectangle> animMap = new Dictionary<string, Rectangle>();
