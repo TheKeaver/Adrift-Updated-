@@ -9,13 +9,16 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ShootingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ProjectileComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\RotationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\EnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\CollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShipDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ProjectileEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ShootingEnemyEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KamikazeEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\LaserFiredEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CreateExplosionEvent.cs" />
@@ -23,9 +26,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionStartEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\FireProjectileProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\KamikazeSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldCollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Button.cs" />
@@ -78,7 +83,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShieldComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\GamePlay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldCollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />

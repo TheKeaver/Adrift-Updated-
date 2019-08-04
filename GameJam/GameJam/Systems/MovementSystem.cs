@@ -29,7 +29,7 @@ namespace GameJam.Systems
             TransformComponent transformComp = movementEntity.GetComponent<TransformComponent>();
             MovementComponent movementComp = movementEntity.GetComponent<MovementComponent>();
 
-            transformComp.Move(Constants.GamePlay.KAMIKAZE_ENEMY_SPEED * movementComp.direction * dt);
+            transformComp.Move(movementComp.speed * movementComp.direction * dt);
             float targetAngle = (float)Math.Atan2(movementComp.direction.Y, movementComp.direction.X);
             transformComp.Rotate(targetAngle - transformComp.Rotation);
         }
