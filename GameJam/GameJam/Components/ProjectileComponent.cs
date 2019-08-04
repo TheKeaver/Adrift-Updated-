@@ -7,6 +7,12 @@ namespace GameJam.Components
 {
     public class ProjectileComponent : IComponent
     {
+        public int bouncesLeft;
+        
+        public ProjectileComponent(int totalBounces)
+        {
+            bouncesLeft = totalBounces;
+        }
         public bool hasLeftShootingEnemy = false;
     }
 }
