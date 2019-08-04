@@ -70,6 +70,7 @@ namespace GameJam
                 new PlayerShieldSystem(Engine),
                 new MovementSystem(Engine),
                 new CollisionSystem(Engine),
+                new PlayerShieldCollisionSystem(Engine),
                 new KamikazeSystem(Engine)
             };
 
