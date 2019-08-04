@@ -63,7 +63,7 @@ namespace GameJam.Systems
                         float normalCasted = Vector2.Dot(shieldCenterToCorner, shieldNormal);
                         float tangentCasted = Vector2.Dot(shieldCenterToCorner, shieldTangent);
 
-                        colliding = Math.Abs(normalCasted) <= shieldComp.Bounds.Y && Math.Abs(tangentCasted) <= shieldComp.Bounds.X;
+                        colliding = colliding || Math.Abs(normalCasted) <= shieldComp.Bounds.Y && Math.Abs(tangentCasted) <= shieldComp.Bounds.X;
                     }
                     if(colliding)
                     {
