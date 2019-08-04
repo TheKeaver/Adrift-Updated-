@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,6 +16,7 @@ namespace GameJam.Entities
             entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS));
             entity.AddComponent(new MovementComponent());
             entity.AddComponent(new PlayerShipComponent());
+            entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS.X, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS.Y)));
 
             return entity;
         }
