@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{1295C273-6C15-4DF3-9875-3BD26D4FF774}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>GameJam</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\BounceComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\EdgeComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ProjectileSpawningProcessComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ShootingEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ProjectileComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\RotationComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\EnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\CollisionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\BounceDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletBounceListenerDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyBulletDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\KamikazeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ShipDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\EdgeEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ProjectileEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ShootingEnemyEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\KamikazeEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameOverEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileFiredEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\OutOfAmmoEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\LaserFiredEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CreateExplosionEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionEndEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionStartEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\FireProjectileProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldCollisionSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Image.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\NinePatchImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Panel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\MainGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\DelegateProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\InstantProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\IntervalProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Process.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\ProcessManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\WaitProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputSnapshot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GamePadConnectedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GamePadDisconnectedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\MouseButtonEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\MouseMoveEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ResizeEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Global.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Input.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Render.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\SpriteComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TransformComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\BoundingRect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\MTRandom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\MathUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Timer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\BaseDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\ContentLockedException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\ContentReaderExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\LockingContentManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\FontComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\PrimaryKeyboardInputMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\ControllerInputMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Resources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerShipEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\ObjectBounds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerShieldEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShipComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShieldComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\GamePlay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplosionEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ExplosionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\ExplosionSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletBounceDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileBouncedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+  </ItemGroup>
+</Project>
