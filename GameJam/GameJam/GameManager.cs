@@ -41,6 +41,8 @@ namespace GameJam
         
         protected override void Initialize()
         {
+            CVars.Initialize();
+
             Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
 
