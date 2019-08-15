@@ -9,11 +9,13 @@ namespace GameJam.Events
     {
         public Entity projectile;
         public Vector2 coordinate;
+        public Entity collidedWith;
 
-        public ProjectileBouncedEvent(Entity projectile, Vector2 coordinate)
+        public ProjectileBouncedEvent(Entity projectile, Vector2 coordinate, Entity collidedWith)
         {
             this.projectile = projectile;
             this.coordinate = coordinate;
+            this.collidedWith = collidedWith;
         }
     }
 }

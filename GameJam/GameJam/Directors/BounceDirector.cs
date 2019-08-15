@@ -40,28 +40,70 @@ namespace GameJam.Directors
             Entity entityA = collisionStartEvent.entityA;
             Entity entityB = collisionStartEvent.entityB;
 
-            if (!(entityA.HasComponent<EdgeComponent>()) && entityB.HasComponent<EdgeComponent>())
+            if (!entityA.HasComponent<EdgeComponent>() && entityB.HasComponent<EdgeComponent>())
                 HandleBounceCollision(entityB, entityA);
-            else if ((entityA.HasComponent<EdgeComponent>()) && !entityB.HasComponent<EdgeComponent>())
+            else if (entityA.HasComponent<EdgeComponent>() && !entityB.HasComponent<EdgeComponent>())
+                HandleBounceCollision(entityA, entityB);
+            else if (!entityA.HasComponent<PlayerShieldComponent>() && entityB.HasComponent<PlayerShieldComponent>())
+                HandleBounceCollision(entityB, entityA);
+            else if (entityA.HasComponent<PlayerShieldComponent>() && !entityB.HasComponent<PlayerShieldComponent>())
                 HandleBounceCollision(entityA, entityB);
         }
 
-        void HandleBounceCollision(Entity edge, Entity bouncer)
+        void HandleBounceCollision(Entity reflector, Entity bouncer)
         {
-            if(edge.HasComponent<EdgeComponent>())
+            if(reflector.HasComponent<EdgeComponent>())
             {
                 if(bouncer.HasComponent<ProjectileComponent>() && bouncer.HasComponent<MovementComponent>())
                 {
-                    EventManager.Instance.TriggerEvent(new ProjectileBouncedEvent(bouncer, bouncer.GetComponent<TransformComponent>().Position));
+                    EventManager.Instance.QueueEvent(new ProjectileBouncedEvent(bouncer, bouncer.GetComponent<TransformComponent>().Position, reflector));
+                    bouncer.GetComponent<ProjectileComponent>().bouncesLeft -= 1;
+
+                    if (bouncer.GetComponent<ProjectileComponent>().bouncesLeft <= 0)
+                        Engine.DestroyEntity(bouncer);
                 }
                 if (bouncer != null && bouncer.HasComponent<MovementComponent>())
                 {
                     Vector2 bounceDirection = bouncer.GetComponent<MovementComponent>().direction;
                     bouncer.GetComponent<MovementComponent>().direction = getReflectionVector(
                         bounceDirection,
-                        edge.GetComponent<EdgeComponent>().Normal
+                        reflector.GetComponent<EdgeComponent>().Normal
                         );
                     Console.WriteLine("Collision with wall");
+                }
+            }
+            if(reflector.HasComponent<PlayerShieldComponent>())
+            {
+                if (bouncer.HasComponent<ProjectileComponent>() && bouncer.HasComponent<MovementComponent>())
+                {
+                    EventManager.Instance.QueueEvent(new ProjectileBouncedEvent(bouncer, bouncer.GetComponent<TransformComponent>().Position, reflector));
+                    Entity playerShip = reflector.GetComponent<PlayerShieldComponent>().ShipEntity;
+
+                    TransformComponent shipTransformComp = playerShip.GetComponent<TransformComponent>();
+                    TransformComponent shieldTransformComp = reflector.GetComponent<TransformComponent>();
+
+                    Vector2 shieldNormal = shieldTransformComp.Position - shipTransformComp.Position;
+                    shieldNormal.Normalize();
+
+                    Vector2 bouncerDirection = bouncer.GetComponent<MovementComponent>().direction;
+                    bouncerDirection.Normalize();
+
+                    if (Vector2.Dot(shieldNormal, bouncerDirection) < 0)
+                    {
+                        bouncerDirection = getReflectionVector(bouncerDirection, shieldNormal);
+                    }
+
+                    Vector2 directionAndMagnitude = bouncerDirection * bouncer.GetComponent<MovementComponent>().speed;
+                    Vector2 shipDirectionAndMagnitude = reflector.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<MovementComponent>().direction * reflector.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<MovementComponent>().speed;
+
+                    directionAndMagnitude = directionAndMagnitude + shipDirectionAndMagnitude;
+
+                    if (directionAndMagnitude.Length() > bouncer.GetComponent<MovementComponent>().speed)
+                    {
+                        bouncer.GetComponent<MovementComponent>().speed = directionAndMagnitude.Length();
+                    }
+                    directionAndMagnitude.Normalize();
+                    bouncer.GetComponent<MovementComponent>().direction = directionAndMagnitude;
                 }
             }
         }
