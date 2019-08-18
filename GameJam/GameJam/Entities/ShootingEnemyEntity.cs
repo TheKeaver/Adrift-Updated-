@@ -13,7 +13,7 @@ namespace GameJam.Entities
 {
     public static class ShootingEnemyEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position, ProcessManager processManager, ContentManager conTENt)
+        public static Entity Create(Engine engine, Texture2D texture, Vector2 position, ProcessManager processManager, ContentManager content)
         {
             Entity entity = engine.CreateEntity();
 
@@ -25,7 +25,7 @@ namespace GameJam.Entities
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, 17.5f, 35)));
 
-            FireProjectileProcess fpp = new FireProjectileProcess(entity, engine, conTENt);
+            FireProjectileProcess fpp = new FireProjectileProcess(entity, engine, content);
             processManager.Attach(fpp);
             entity.AddComponent(new ProjectileSpawningProcessComponent(fpp));
 

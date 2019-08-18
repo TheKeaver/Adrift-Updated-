@@ -56,6 +56,7 @@ namespace GameJam.Directors
                 {
                     EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position));
                     Engine.DestroyEntity(enemy);
+                    //EventManager.Instance.UnregisterListener()
                 }
             }
         }

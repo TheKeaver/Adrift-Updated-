@@ -15,10 +15,10 @@ namespace GameJam.Components
         public MovementComponent():this(Vector2.Zero, 0.0f)
         {
         }
-        public MovementComponent(Vector2 direction, float shpeed)
+        public MovementComponent(Vector2 direction, float speed)
         {
             this.direction = direction;
-            speed = shpeed;
+            this.speed = speed;
         }
     }
 }
