@@ -19,8 +19,8 @@ namespace GameJam.Entities
 
             entity.AddComponent(new TransformComponent(position));
             entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.SHOOTING_SHIP_BOUNDS));
-            entity.AddComponent(new ShootingEnemyComponent(Constants.GamePlay.SHOOTING_ENEMY_PROJECTILE_AMMO));
-            entity.AddComponent(new RotationComponent(Constants.GamePlay.SHOOTING_ENEMY_ROTATION_SPEED));
+            entity.AddComponent(new ShootingEnemyComponent(CVars.Get<int>("shooting_enemy_projectile_ammo")));
+            entity.AddComponent(new RotationComponent(CVars.Get<float>("shooting_enemy_rotational_speed")));
             entity.AddComponent(new MovementComponent());
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, 17.5f, 35)));

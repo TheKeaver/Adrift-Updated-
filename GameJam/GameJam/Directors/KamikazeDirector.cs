@@ -65,7 +65,7 @@ namespace GameJam.Directors
             }
             velocity *= movementComp.speed;
 
-            velocity += shipToKamikaze * Constants.GamePlay.KAMIKAZE_PUSHBACK_FORCE;
+            velocity += shipToKamikaze * CVars.Get<float>("kamikaze_enemy_pushback_force");
 
             movementComp.direction = velocity;
             movementComp.speed = velocity.Length();

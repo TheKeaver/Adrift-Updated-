@@ -45,7 +45,7 @@ namespace GameJam
         }
     }
 
-    static class CVars
+    static partial class CVars
     {
         static Dictionary<string, ICVar> _cvars = new Dictionary<string, ICVar>();
 
@@ -135,11 +135,6 @@ namespace GameJam
             {
                 Save();
             }
-        }
-
-        private static void CreateDefaultCVars()
-        {
-            Create("test", "Hi!");
         }
 
         private static string GetSavePath()

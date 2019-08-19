@@ -23,7 +23,7 @@ namespace GameJam.Processes
         readonly ImmutableList<Entity> _enemyEntities;
 
         public ShooterEnemySpawner(Engine engine, ContentManager content, ProcessManager processManager)
-            : base(Constants.GamePlay.SPAWNER_SHOOTING_ENEMY_INITIAL_PERIOD)
+            : base(CVars.Get<float>("spawner_shooting_enemy_initial_period"))
         {
             Engine = engine;
             Content = content;
@@ -35,21 +35,21 @@ namespace GameJam.Processes
 
         protected override void OnTick(float interval)
         {
-            if (_enemyEntities.Count < Constants.GamePlay.SPAWNER_MAX_ENEMY_COUNT)
+            if (_enemyEntities.Count < CVars.Get<int>("spawner_max_enemy_count"))
             {
                 Vector2 spawnPosition = new Vector2(0, 0);
                 do
                 {
-                    spawnPosition.X = random.NextSingle(-Constants.Global.WINDOW_WIDTH / 2 * 0.9f, Constants.Global.WINDOW_WIDTH / 2 * 0.9f);
-                    spawnPosition.Y = random.NextSingle(-Constants.Global.WINDOW_HEIGHT / 2 * 0.9f, Constants.Global.WINDOW_HEIGHT / 2 * 0.9f);
+                    spawnPosition.X = random.NextSingle(-CVars.Get<int>("window_width") / 2 * 0.9f, CVars.Get<int>("window_width") / 2 * 0.9f);
+                    spawnPosition.Y = random.NextSingle(-CVars.Get<int>("window_height") / 2 * 0.9f, CVars.Get<int>("window_height") / 2 * 0.9f);
                 } while (IsTooCloseToPlayer(spawnPosition));
 
                 ShootingEnemyEntity.Create(Engine,
-                    Content.Load<Texture2D>(Constants.Resources.TEXTURE_SHOOTER_ENEMY),
+                    Content.Load<Texture2D>(CVars.Get<string>("texture_shooter_enemy")),
                     spawnPosition, ProcessManager, Content);
             }
 
-            Interval = MathHelper.Max(Interval, Constants.GamePlay.SPAWNER_KAMIKAZE_PERIOD_MIN);
+            Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_shooting_enemy_period_multiplier"), CVars.Get<float>("spawner_shooting_enemy_period_min"));
         }
 
         bool IsTooCloseToPlayer(Vector2 position)
@@ -66,7 +66,7 @@ namespace GameJam.Processes
                 }
             }
 
-            return minDistanceToPlayer <= Constants.GamePlay.SPANWER_MIN_DISTANCE_AWAY_FROM_PLAYER;
+            return minDistanceToPlayer <= CVars.Get<float>("spawner_min_distance_away_from_player");
         }
     }
 }

@@ -36,7 +36,7 @@ namespace GameJam.Directors
 
         void HandleOutOfAmmo(OutOfAmmoEvent outOf)
         {
-            outOf.shootingEnemyOOA.GetComponent<MovementComponent>().speed = Constants.GamePlay.KAMIKAZE_ENEMY_SPEED;
+            outOf.shootingEnemyOOA.GetComponent<MovementComponent>().speed = CVars.Get<float>("kamikaze_enemy_speed");
             outOf.shootingEnemyOOA.GetComponent<ProjectileSpawningProcessComponent>().firingProcess.Kill();
             outOf.shootingEnemyOOA.RemoveComponent<ProjectileSpawningProcessComponent>();
             outOf.shootingEnemyOOA.RemoveComponent<ShootingEnemyComponent>();

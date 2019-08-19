@@ -29,11 +29,13 @@ namespace GameJam
         
         public GameManager()
         {
+            CVars.Initialize();
+
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            Graphics.PreferredBackBufferWidth = Constants.Global.WINDOW_WIDTH;
-            Graphics.PreferredBackBufferHeight = Constants.Global.WINDOW_HEIGHT;
+            Graphics.PreferredBackBufferWidth = CVars.Get<int>("window_width");
+            Graphics.PreferredBackBufferHeight = CVars.Get<int>("window_height");
 
             Window.AllowUserResizing = false;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
@@ -41,8 +43,6 @@ namespace GameJam
         
         protected override void Initialize()
         {
-            CVars.Initialize();
-
             Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
 

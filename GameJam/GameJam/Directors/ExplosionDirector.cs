@@ -38,7 +38,7 @@ namespace GameJam.Directors
         private void CreateExplosionEvent(Vector2 explosionLocation)
         {
             ExplosionEntity.Create(Engine,
-                Content.Load<Texture2D>(Constants.Resources.TEXTURE_EXPLOSION),
+                Content.Load<Texture2D>(CVars.Get<string>("texture_explosion")),
                 explosionLocation);
         }
     }
