@@ -89,7 +89,16 @@ namespace GameJam
 
         public static ref T Get<T>(string name)
         {
-            return ref (_cvars[name] as CVar<T>).Value;
+            if(!_cvars.ContainsKey(name))
+            {
+                throw new Exception(string.Format("CVar `{0}` does not exist.", name));
+            }
+            CVar<T> cvar = _cvars[name] as CVar<T>;
+            if(cvar == null)
+            {
+                throw new Exception(string.Format("Cannot cast `{0}` into the type requested. Does it match the type in the CVar defaults?", name));
+            }
+            return ref cvar.Value;
         }
 
         private static void Create<T>(string name, T value)
