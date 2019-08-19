@@ -129,7 +129,7 @@ namespace GameJam
             }
         }
 
-        private static void SynchronizeFromFile()
+        public static void SynchronizeFromFile()
         {
             if(!Load())
             {

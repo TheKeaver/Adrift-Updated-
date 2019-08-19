@@ -21,6 +21,10 @@ namespace GameJam
 
         GameState _currentState;
 
+#if DEBUG
+        bool _cvarSyncButtonReleased = false;
+#endif
+
         public GraphicsDeviceManager Graphics
         {
             get;
@@ -76,6 +80,17 @@ namespace GameJam
         
         protected override void Update(GameTime gameTime)
         {
+#if DEBUG
+            if(Keyboard.GetState().IsKeyDown(Keys.F2) && _cvarSyncButtonReleased)
+            {
+                CVars.SynchronizeFromFile();
+                _cvarSyncButtonReleased = false;
+            } else
+            {
+                _cvarSyncButtonReleased = true;
+            }
+#endif
+
             EventManager.Instance.Dispatch();
 
             if(_currentState != null)
