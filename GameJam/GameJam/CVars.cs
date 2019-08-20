@@ -2,14 +2,25 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace GameJam
 {
+    static class CVarFlags
+    {
+        public static int PRESERVE = 0x1;
+        public static int DEV_PRESERVE = 0x2;
+        public static int LIVE_RELOAD = 0x4;
+    }
+
     interface ICVar
     {
         string Serialize();
         bool Deserialize(string val);
+
+        int Flags
+        {
+            get;
+        }
     }
 
     class CVar<T> : ICVar
@@ -21,10 +32,17 @@ namespace GameJam
         }
         public T Value;
 
-        public CVar(string name, T val)
+        public int Flags
+        {
+            get;
+            private set;
+        } = 0;
+
+        public CVar(string name, T val, int flags = 0)
         {
             Name = name;
             Value = val;
+            Flags = flags;
         }
 
         public bool Deserialize(string value)
@@ -55,12 +73,20 @@ namespace GameJam
 
             foreach (string key in _cvars.Keys)
             {
+                if ((_cvars[key].Flags & CVarFlags.PRESERVE) == 0
+#if DEBUG
+                    && (_cvars[key].Flags & CVarFlags.DEV_PRESERVE) == 0
+#endif
+                    )
+                {
+                    continue;
+                }
                 ini += _cvars[key].Serialize() + Environment.NewLine;
             }
 
             return ini;
         }
-        private static bool DeserializeAll(string iniSet)
+        private static bool DeserializeAll(string iniSet, bool live)
         {
             string[] lines = iniSet.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             List<string> updatedCVars = new List<string>();
@@ -78,7 +104,22 @@ namespace GameJam
                     Console.WriteLine("'{0}' is not a valid CVar name. Does it exist?", name);
                     continue;
                 }
-                if(_cvars[name].Deserialize(value))
+
+                if((_cvars[name].Flags & CVarFlags.PRESERVE) != 0
+#if DEBUG
+                    || (_cvars[name].Flags & CVarFlags.DEV_PRESERVE) != 0
+#endif
+                    )
+                {
+                    if(live && (_cvars[name].Flags & CVarFlags.LIVE_RELOAD) == 0)
+                    {
+                        Console.WriteLine("WARNING: CVar `{0}` has not been as a live reloadable cvar. It may requite a game state change or game restart.");
+                    }
+                    if (_cvars[name].Deserialize(value))
+                    {
+                        updatedCVars.Add(name);
+                    }
+                } else
                 {
                     updatedCVars.Add(name);
                 }
@@ -101,18 +142,18 @@ namespace GameJam
             return ref cvar.Value;
         }
 
-        private static void Create<T>(string name, T value)
+        private static void Create<T>(string name, T value, int flags = 0)
         {
-            _cvars.Add(name, new CVar<T>(name, value));
+            _cvars.Add(name, new CVar<T>(name, value, flags));
         }
         
         public static void Initialize()
         {
             CreateDefaultCVars();
-            SynchronizeFromFile();
+            SynchronizeFromFile(false);
         }
 
-        private static bool Load()
+        private static bool Load(bool live)
         {
             string path = GetSavePath();
             if(File.Exists(path))
@@ -120,7 +161,7 @@ namespace GameJam
                 using (Stream stream = File.Open(path, FileMode.Open))
                 {
                     StreamReader reader = new StreamReader(stream);
-                    return DeserializeAll(reader.ReadToEnd());
+                    return DeserializeAll(reader.ReadToEnd(), live);
                 }
             }
 
@@ -140,7 +181,11 @@ namespace GameJam
 
         public static void SynchronizeFromFile()
         {
-            if(!Load())
+            SynchronizeFromFile(true);
+        }
+        private static void SynchronizeFromFile(bool live)
+        {
+            if(!Load(live))
             {
                 Save();
             }
