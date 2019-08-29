@@ -9,11 +9,11 @@ namespace GameJam.Events
 {
     public class GameOverEvent : IEvent
     {
-        public Entity shipShield;
+        public Entity ShipShield;
 
         public GameOverEvent(Entity shield)
         {
-            shipShield = shield;
+            ShipShield = shield;
         }
     }
 }

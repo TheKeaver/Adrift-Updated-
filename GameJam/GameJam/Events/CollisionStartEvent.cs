@@ -8,13 +8,13 @@ namespace GameJam.Events
 {
     public class CollisionStartEvent : IEvent
     {
-        public Entity entityA;
-        public Entity entityB;
+        public Entity EntityA;
+        public Entity EntityB;
 
-        public CollisionStartEvent(Entity nttA, Entity nttB)
+        public CollisionStartEvent(Entity entityA, Entity entityB)
         {
-            entityA = nttA;
-            entityB = nttB;
+            EntityA = entityA;
+            EntityB = entityB;
         }
     }
 }

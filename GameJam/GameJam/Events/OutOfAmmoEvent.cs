@@ -8,10 +8,10 @@ namespace GameJam.Events
 {
     public class OutOfAmmoEvent : IEvent
     {
-        public Entity shootingEnemyOOA;
+        public Entity ShootingEnemyOOA;
         public OutOfAmmoEvent(Entity self)
         {
-            shootingEnemyOOA = self;
+            ShootingEnemyOOA = self;
         }
     }
 }

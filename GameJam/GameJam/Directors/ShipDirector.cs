@@ -43,8 +43,8 @@ namespace GameJam.Directors
 
         void OrderColliders(CollisionStartEvent collisionStartEvent)
         {
-            Entity entityA = collisionStartEvent.entityA;
-            Entity entityB = collisionStartEvent.entityB;
+            Entity entityA = collisionStartEvent.EntityA;
+            Entity entityB = collisionStartEvent.EntityB;
 
             if (entityA.HasComponent<EnemyComponent>() && entityB.HasComponent<PlayerShipComponent>())
                 HandleCollisionStart(entityB, entityA);
@@ -58,12 +58,12 @@ namespace GameJam.Directors
             {
                 if(entityB.HasComponent<EnemyComponent>())
                 {
-                    entityA.GetComponent<PlayerShipComponent>().lifeRemaining -= 1;
-                    if(entityA.GetComponent<PlayerShipComponent>().lifeRemaining <= 0)
+                    entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
+                    if(entityA.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
                     {
                         EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
                         Engine.DestroyEntity(entityA);
-                        EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().shipShield));
+                        EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield));
                     } else
                     {
                         EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, false));

@@ -4,11 +4,11 @@ namespace GameJam.Components
 {
     public class RotationComponent : IComponent
     {
-        public float rotationSpeed;
+        public float RotationSpeed;
 
         public RotationComponent(float rotationSpeed)
         {
-            this.rotationSpeed = rotationSpeed;
+            RotationSpeed = rotationSpeed;
         }
     }
 }

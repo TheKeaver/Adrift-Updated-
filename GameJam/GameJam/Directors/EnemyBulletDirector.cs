@@ -29,33 +29,33 @@ namespace GameJam.Directors
 
         private void HandleCollisionEndEvent(CollisionEndEvent collisionEndEvent)
         {
-            if (collisionEndEvent.entityA.HasComponent<EnemyComponent>()
-                && !collisionEndEvent.entityA.HasComponent<ProjectileComponent>()
-                && collisionEndEvent.entityB.HasComponent<ProjectileComponent>())
+            if (collisionEndEvent.EntityA.HasComponent<EnemyComponent>()
+                && !collisionEndEvent.EntityA.HasComponent<ProjectileComponent>()
+                && collisionEndEvent.EntityB.HasComponent<ProjectileComponent>())
             {
-                collisionEndEvent.entityB.GetComponent<ProjectileComponent>().hasLeftShootingEnemy = true;
+                collisionEndEvent.EntityB.GetComponent<ProjectileComponent>().hasLeftShootingEnemy = true;
             }
-            if (collisionEndEvent.entityB.HasComponent<EnemyComponent>()
-                && !collisionEndEvent.entityB.HasComponent<ProjectileComponent>()
-                && collisionEndEvent.entityA.HasComponent<ProjectileComponent>())
+            if (collisionEndEvent.EntityB.HasComponent<EnemyComponent>()
+                && !collisionEndEvent.EntityB.HasComponent<ProjectileComponent>()
+                && collisionEndEvent.EntityA.HasComponent<ProjectileComponent>())
             {
-                collisionEndEvent.entityA.GetComponent<ProjectileComponent>().hasLeftShootingEnemy = true;
+                collisionEndEvent.EntityA.GetComponent<ProjectileComponent>().hasLeftShootingEnemy = true;
             }
         }
 
         private void HandleCollisionStartEvent(CollisionStartEvent collisionStartEvent)
         {
-            if(collisionStartEvent.entityA.HasComponent<EnemyComponent>()
-                && !collisionStartEvent.entityA.HasComponent<ProjectileComponent>()
-                && collisionStartEvent.entityB.HasComponent<ProjectileComponent>())
+            if(collisionStartEvent.EntityA.HasComponent<EnemyComponent>()
+                && !collisionStartEvent.EntityA.HasComponent<ProjectileComponent>()
+                && collisionStartEvent.EntityB.HasComponent<ProjectileComponent>())
             {
-                EnemyProjectileCollision(collisionStartEvent.entityA, collisionStartEvent.entityB);
+                EnemyProjectileCollision(collisionStartEvent.EntityA, collisionStartEvent.EntityB);
             }
-            if (collisionStartEvent.entityB.HasComponent<EnemyComponent>()
-                && !collisionStartEvent.entityB.HasComponent<ProjectileComponent>()
-                && collisionStartEvent.entityA.HasComponent<ProjectileComponent>())
+            if (collisionStartEvent.EntityB.HasComponent<EnemyComponent>()
+                && !collisionStartEvent.EntityB.HasComponent<ProjectileComponent>()
+                && collisionStartEvent.EntityA.HasComponent<ProjectileComponent>())
             {
-                EnemyProjectileCollision(collisionStartEvent.entityB, collisionStartEvent.entityA);
+                EnemyProjectileCollision(collisionStartEvent.EntityB, collisionStartEvent.EntityA);
             }
         }
 
@@ -77,6 +77,10 @@ namespace GameJam.Directors
                 EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position));
                 Engine.DestroyEntity(enemy);
                 Engine.DestroyEntity(projectile);
+                if(enemy.HasComponent<ProjectileSpawningProcessComponent>())
+                {
+
+                }
             }
         }
     }

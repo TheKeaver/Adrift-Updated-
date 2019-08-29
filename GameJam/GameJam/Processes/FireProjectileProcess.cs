@@ -13,32 +13,32 @@ namespace GameJam.Processes
 {
     public class FireProjectileProcess : IntervalProcess
     {
-        public Entity shootingEnemy;
-        public Engine engine;
+        public Entity ShootingEnemy;
+        public Engine Engine;
         ContentManager Content;
-        public FireProjectileProcess(Entity shooter, Engine ngin, ContentManager conTENt) : base(3)
+        public FireProjectileProcess(Entity shootingEnemy, Engine engine, ContentManager content) : base(3)
         {
-            shootingEnemy = shooter;
-            engine = ngin;
-            Content = conTENt;
+            this.ShootingEnemy = shootingEnemy;
+            this.Engine = engine;
+            Content = content;
         }
 
         protected override void OnTick(float interval)
         {
-            if (shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft <= 0)
+            if (ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft <= 0)
             {
-                EventManager.Instance.QueueEvent(new OutOfAmmoEvent(shootingEnemy));
+                EventManager.Instance.QueueEvent(new OutOfAmmoEvent(ShootingEnemy));
                 return;
             }
-            if (!engine.GetEntities().Contains(shootingEnemy))
+            if (!Engine.GetEntities().Contains(ShootingEnemy))
             {
                 Kill();
                 return;
             }
-            ProjectileEntity.Create(engine, Content.Load<Texture2D>(Constants.Resources.TEXTURE_ENEMY_BULLET), shootingEnemy.GetComponent<TransformComponent>().Position, shootingEnemy.GetComponent<MovementComponent>().direction);
+            ProjectileEntity.Create(Engine, Content.Load<Texture2D>(Constants.Resources.TEXTURE_ENEMY_BULLET), ShootingEnemy.GetComponent<TransformComponent>().Position, new Microsoft.Xna.Framework.Vector2((float)Math.Cos(ShootingEnemy.GetComponent<TransformComponent>().Rotation),(float)Math.Sin(ShootingEnemy.GetComponent<TransformComponent>().Rotation)));
             EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
-            shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft -= 1;
-            Console.WriteLine(shootingEnemy.GetComponent<ShootingEnemyComponent>().ammoLeft);
+            ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft -= 1;
+            Console.WriteLine(ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft);
         }
     }
 }

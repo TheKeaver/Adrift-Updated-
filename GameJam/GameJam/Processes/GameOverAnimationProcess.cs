@@ -7,8 +7,8 @@ namespace GameJam.Processes
 {
     public class GameOverAnimationProcess : Process
     {
-        Entity entity;
-        Timer timer;
+        private Entity entity;
+        private Timer timer;
         readonly float time = 4;
 
         public GameOverAnimationProcess(Entity entity)

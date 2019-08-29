@@ -36,14 +36,14 @@ namespace GameJam.Directors
 
         private void HandleCollisionStartEvent(CollisionStartEvent collisionStartEvent)
         {
-            if(collisionStartEvent.entityA.HasComponent<PlayerShieldComponent>()
-                && collisionStartEvent.entityB.HasComponent<KamikazeComponent>())
+            if(collisionStartEvent.EntityA.HasComponent<PlayerShieldComponent>()
+                && collisionStartEvent.EntityB.HasComponent<KamikazeComponent>())
             {
-                HandleKamikazeOnPlayer(collisionStartEvent.entityA, collisionStartEvent.entityB);
-            } else if (collisionStartEvent.entityB.HasComponent<PlayerShieldComponent>()
-                && collisionStartEvent.entityA.HasComponent<KamikazeComponent>())
+                HandleKamikazeOnPlayer(collisionStartEvent.EntityA, collisionStartEvent.EntityB);
+            } else if (collisionStartEvent.EntityB.HasComponent<PlayerShieldComponent>()
+                && collisionStartEvent.EntityA.HasComponent<KamikazeComponent>())
             {
-                HandleKamikazeOnPlayer(collisionStartEvent.entityB, collisionStartEvent.entityA);
+                HandleKamikazeOnPlayer(collisionStartEvent.EntityB, collisionStartEvent.EntityA);
             }
         }
 
@@ -58,17 +58,11 @@ namespace GameJam.Directors
             shipToKamikaze.Normalize();
             shipToKamikaze *= -1;
 
-            Vector2 velocity = movementComp.direction;
-            if (velocity.Length() > 0.5f)
-            {
-                velocity.Normalize();
-            }
-            velocity *= movementComp.speed;
+            Vector2 combined = movementComp.MovementVector;
 
-            velocity += shipToKamikaze * Constants.GamePlay.KAMIKAZE_PUSHBACK_FORCE;
+            combined += shipToKamikaze * Constants.GamePlay.KAMIKAZE_PUSHBACK_FORCE;
 
-            movementComp.direction = velocity;
-            movementComp.speed = velocity.Length();
+            movementComp.MovementVector = combined;
         }
     }
 }

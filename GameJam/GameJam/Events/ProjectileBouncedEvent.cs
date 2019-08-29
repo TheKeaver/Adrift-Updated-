@@ -7,15 +7,15 @@ namespace GameJam.Events
 {
     public class ProjectileBouncedEvent : IEvent
     {
-        public Entity projectile;
-        public Vector2 coordinate;
-        public Entity collidedWith;
+        public Entity Projectile;
+        public Vector2 Coordinate;
+        public Entity CollidedWith;
 
         public ProjectileBouncedEvent(Entity projectile, Vector2 coordinate, Entity collidedWith)
         {
-            this.projectile = projectile;
-            this.coordinate = coordinate;
-            this.collidedWith = collidedWith;
+            this.Projectile = projectile;
+            this.Coordinate = coordinate;
+            this.CollidedWith = collidedWith;
         }
     }
 }

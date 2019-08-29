@@ -8,8 +8,8 @@ namespace GameJam.Systems
 {
     public class MovementSystem : BaseSystem
     {
-        Family _movementFamily = Family.All(typeof(MovementComponent), typeof(TransformComponent)).Get();
-        ImmutableList<Entity> _movementEntities;
+        readonly Family _movementFamily = Family.All(typeof(MovementComponent), typeof(TransformComponent)).Get();
+        readonly ImmutableList<Entity> _movementEntities;
 
         public MovementSystem(Engine engine) : base(engine)
         {
@@ -29,10 +29,10 @@ namespace GameJam.Systems
             TransformComponent transformComp = movementEntity.GetComponent<TransformComponent>();
             MovementComponent movementComp = movementEntity.GetComponent<MovementComponent>();
 
-            transformComp.Move(movementComp.speed * movementComp.direction * dt);
-            if (movementComp.updateRotationWithDirection)
+            transformComp.Move(movementComp.MovementVector * dt);
+            if (movementComp.UpdateRotationWithDirection && movementComp.MovementVector.Length() != 0)
             {
-                float targetAngle = (float)Math.Atan2(movementComp.direction.Y, movementComp.direction.X);
+                float targetAngle = (float)Math.Atan2(movementComp.MovementVector.Y, movementComp.MovementVector.X);
                 transformComp.Rotate(targetAngle - transformComp.Rotation);
             }
         }

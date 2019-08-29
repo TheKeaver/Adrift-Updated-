@@ -7,11 +7,11 @@ namespace GameJam.Components
 {
     public class ProjectileSpawningProcessComponent : IComponent
     {
-        public  Process firingProcess;
+        public  Process FiringProcess;
 
         public ProjectileSpawningProcessComponent(Process firingProcess)
         {
-            this.firingProcess = firingProcess;
+            this.FiringProcess = firingProcess;
         }
     }
 }

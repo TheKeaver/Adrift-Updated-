@@ -8,17 +8,15 @@ namespace GameJam.Components
 {
     public class MovementComponent : IComponent
     {
-        public Vector2 direction;
-        public float speed;
-        public bool updateRotationWithDirection = true;
+        public Vector2 MovementVector;
+        public bool UpdateRotationWithDirection = true;
 
         public MovementComponent():this(Vector2.Zero, 0.0f)
         {
         }
         public MovementComponent(Vector2 direction, float speed)
         {
-            this.direction = direction;
-            this.speed = speed;
+            MovementVector = direction * speed;
         }
     }
 }

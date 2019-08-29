@@ -8,12 +8,12 @@ namespace GameJam.Events
 {
     public class CreateExplosionEvent : IEvent
     {
-        public Vector2 explosionLocation;
-        public bool playSound;
+        public Vector2 ExplosionLocation;
+        public bool PlaySound;
         public CreateExplosionEvent(Vector2 coordinates, bool playSound = true)
         {
-            explosionLocation = coordinates;
-            this.playSound = playSound;
+            ExplosionLocation = coordinates;
+            PlaySound = playSound;
         }
     }
 }

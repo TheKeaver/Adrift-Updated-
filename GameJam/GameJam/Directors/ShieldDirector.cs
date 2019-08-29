@@ -39,8 +39,8 @@ namespace GameJam.Directors
 
         void OrderColliders(CollisionStartEvent collisionStartEvent)
         {
-            Entity entityA = collisionStartEvent.entityA;
-            Entity entityB = collisionStartEvent.entityB;
+            Entity entityA = collisionStartEvent.EntityA;
+            Entity entityB = collisionStartEvent.EntityB;
 
             if (entityA.HasComponent<EnemyComponent>() && entityB.HasComponent<PlayerShieldComponent>())
                 HandleCollisionStart(entityB, entityA);
@@ -63,7 +63,7 @@ namespace GameJam.Directors
 
         void HandleGameOver(GameOverEvent evt)
         {
-            Engine.DestroyEntity(evt.shipShield);
+            Engine.DestroyEntity(evt.ShipShield);
         }
     }
 }

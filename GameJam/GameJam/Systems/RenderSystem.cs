@@ -19,19 +19,12 @@ namespace GameJam.Systems
         public static readonly Vector2 FlipY = new Vector2(1, -1);
         public static readonly Vector2 HalfHalf = new Vector2(0.5f, 0.5f);
 
-        Family _spriteFamily = Family.All(typeof(SpriteComponent), typeof(TransformComponent)).Get();
-        Family _fontFamily = Family.All(typeof(FontComponent), typeof(TransformComponent)).Get();
-        ImmutableList<Entity> _spriteEntities;
-        ImmutableList<Entity> _fontEntities;
+        readonly Family _spriteFamily = Family.All(typeof(SpriteComponent), typeof(TransformComponent)).Get();
+        readonly Family _fontFamily = Family.All(typeof(FontComponent), typeof(TransformComponent)).Get();
+        readonly ImmutableList<Entity> _spriteEntities;
+        readonly ImmutableList<Entity> _fontEntities;
 
-        SpriteBatch _spriteBatch;
-        public SpriteBatch SpriteBatch
-        {
-            get
-            {
-                return _spriteBatch;
-            }
-        }
+        public SpriteBatch SpriteBatch { get; }
 
         public RenderSystem(GraphicsDevice graphics, Engine engine)
         {
@@ -39,7 +32,7 @@ namespace GameJam.Systems
             _spriteEntities = Engine.GetEntitiesFor(_spriteFamily);
             _fontEntities = Engine.GetEntitiesFor(_fontFamily);
 
-            _spriteBatch = new SpriteBatch(graphics);
+            SpriteBatch = new SpriteBatch(graphics);
         }
 
         public void DrawEntities(float dt, float betweenFrameAlpha)
@@ -54,7 +47,7 @@ namespace GameJam.Systems
 
         public void DrawEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
-            _spriteBatch.Begin(SpriteSortMode.Deferred,
+            SpriteBatch.Begin(SpriteSortMode.Deferred,
                                null,
                                SamplerState.PointClamp,
                                null,
@@ -90,7 +83,7 @@ namespace GameJam.Systems
                     origin = new Vector2(sourceRectangle.Width,
                                              sourceRectangle.Height) * HalfHalf;
 
-                    _spriteBatch.Draw(animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Texture,
+                    SpriteBatch.Draw(animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Texture,
                                       (transformComp.Position + offsetPosition) * FlipY,
                                       sourceRectangle,
                                       Color.White,
@@ -102,7 +95,7 @@ namespace GameJam.Systems
                 }
                 else
                 {
-                    _spriteBatch.Draw(spriteComp.Texture,
+                    SpriteBatch.Draw(spriteComp.Texture,
                                       (transformComp.Position + offsetPosition) * FlipY,
                                       null,
                                       Color.White,
@@ -128,7 +121,7 @@ namespace GameJam.Systems
                 Vector2 scale = Vector2.One;
                 Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
 
-                _spriteBatch.DrawString(fontComp.Font,
+                SpriteBatch.DrawString(fontComp.Font,
                                         fontComp.Content,
                                         transformComp.Position * FlipY,
                                         fontComp.Color,
@@ -139,7 +132,7 @@ namespace GameJam.Systems
                                         0);
             }
 
-            _spriteBatch.End();
+            SpriteBatch.End();
         }
     }
 }

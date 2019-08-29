@@ -36,11 +36,11 @@ namespace GameJam.Directors
 
         void HandleOutOfAmmo(OutOfAmmoEvent outOf)
         {
-            outOf.shootingEnemyOOA.GetComponent<MovementComponent>().speed = Constants.GamePlay.KAMIKAZE_ENEMY_SPEED;
-            outOf.shootingEnemyOOA.GetComponent<ProjectileSpawningProcessComponent>().firingProcess.Kill();
-            outOf.shootingEnemyOOA.RemoveComponent<ProjectileSpawningProcessComponent>();
-            outOf.shootingEnemyOOA.RemoveComponent<ShootingEnemyComponent>();
-            outOf.shootingEnemyOOA.AddComponent(new KamikazeComponent());
+            outOf.ShootingEnemyOOA.GetComponent<MovementComponent>().MovementVector = Constants.GamePlay.KAMIKAZE_ENEMY_SPEED * (new Microsoft.Xna.Framework.Vector2((float)Math.Cos(outOf.ShootingEnemyOOA.GetComponent<TransformComponent>().Rotation), (float)Math.Sin(outOf.ShootingEnemyOOA.GetComponent<TransformComponent>().Rotation)));
+            outOf.ShootingEnemyOOA.GetComponent<ProjectileSpawningProcessComponent>().FiringProcess.Kill();
+            outOf.ShootingEnemyOOA.RemoveComponent<ProjectileSpawningProcessComponent>();
+            outOf.ShootingEnemyOOA.RemoveComponent<ShootingEnemyComponent>();
+            outOf.ShootingEnemyOOA.AddComponent(new KamikazeComponent());
         }
     }
 }

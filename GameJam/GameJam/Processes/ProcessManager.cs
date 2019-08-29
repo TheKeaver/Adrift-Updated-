@@ -8,7 +8,7 @@ namespace GameJam
     /// </summary>
     public class ProcessManager
     {
-        List<Process> _processList = new List<Process>();
+        private List<Process> _processList = new List<Process>();
 
         public  Process[] Processes
         {

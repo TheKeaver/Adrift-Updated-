@@ -9,11 +9,11 @@ namespace GameJam.Systems
 {
     public class EnemyRotationSystem : BaseSystem
     {
-        Family _rotationFamily = Family.All(typeof(RotationComponent), typeof(EnemyComponent), typeof(MovementComponent), typeof(TransformComponent), typeof(CollisionComponent)).Get();
-        ImmutableList<Entity> _rotationEntities;
+        readonly Family _rotationFamily = Family.All(typeof(RotationComponent), typeof(EnemyComponent), typeof(MovementComponent), typeof(TransformComponent), typeof(CollisionComponent)).Get();
+        readonly ImmutableList<Entity> _rotationEntities;
 
-        Family _playerFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
-        ImmutableList<Entity> _playerEntities;
+        readonly Family _playerFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
+        readonly ImmutableList<Entity> _playerEntities;
 
         public EnemyRotationSystem(Engine engine) : base(engine)
         {
@@ -43,43 +43,44 @@ namespace GameJam.Systems
 
                 if (closestPlayer != null)
                 {
-                    Vector2 current = rotationEntity.GetComponent<MovementComponent>().direction;
+                    float current = rotationEntity.GetComponent<TransformComponent>().Rotation;
+
                     Vector2 target = closestPlayer.GetComponent<TransformComponent>().Position - rotationTransform.Position;
 
-                    float currentAngle = (float)Math.Atan2(current.Y, current.X);
                     float targetAngle = (float)Math.Atan2(target.Y, target.X);
 
-                    currentAngle = MathHelper.WrapAngle(currentAngle);
+                    current = MathHelper.WrapAngle(current);
                     targetAngle = MathHelper.WrapAngle(targetAngle);
 
-                    float diff = targetAngle - currentAngle;
-                    float newAngle = currentAngle;
+                    float diff = targetAngle - current;
+                    float newAngle = current;
 
                     if (diff > 0)
                     {
                         if (Math.Abs(diff) < Math.PI)
                         {
-                            newAngle += rotationEntity.GetComponent<RotationComponent>().rotationSpeed * dt;
+                            newAngle += rotationEntity.GetComponent<RotationComponent>().RotationSpeed * dt;
                         }
                         else
                         {
-                            newAngle -= rotationEntity.GetComponent<RotationComponent>().rotationSpeed * dt;
+                            newAngle -= rotationEntity.GetComponent<RotationComponent>().RotationSpeed * dt;
                         }
                     }
                     else
                     {
                         if(Math.Abs(diff) < Math.PI)
                         {
-                            newAngle -= rotationEntity.GetComponent<RotationComponent>().rotationSpeed * dt;
+                            newAngle -= rotationEntity.GetComponent<RotationComponent>().RotationSpeed * dt;
                         }
                         else
                         {
-                            newAngle += rotationEntity.GetComponent<RotationComponent>().rotationSpeed * dt;
+                            newAngle += rotationEntity.GetComponent<RotationComponent>().RotationSpeed * dt;
                         }
                     }
 
                     Vector2 newDirection = new Vector2( (float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
-                    rotationEntity.GetComponent<MovementComponent>().direction = newDirection;
+                    rotationEntity.GetComponent<MovementComponent>().MovementVector = newDirection * rotationEntity.GetComponent<MovementComponent>().MovementVector.Length();
+                    rotationEntity.GetComponent<TransformComponent>().Rotate(newAngle - current);
                 }
             }
         }

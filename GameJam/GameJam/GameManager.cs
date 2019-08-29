@@ -32,6 +32,8 @@ namespace GameJam
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+            this.Window.Title = "Adrift";
+
             Graphics.PreferredBackBufferWidth = Constants.Global.WINDOW_WIDTH;
             Graphics.PreferredBackBufferHeight = Constants.Global.WINDOW_HEIGHT;
 

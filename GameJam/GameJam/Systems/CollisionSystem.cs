@@ -11,8 +11,8 @@ namespace GameJam.Systems
 {
     public class CollisionSystem : BaseSystem
     {
-        Family _collisionFamily = Family.All(typeof(CollisionComponent), typeof(TransformComponent)).Get();
-        ImmutableList<Entity> _collisionEntities;
+        readonly Family _collisionFamily = Family.All(typeof(CollisionComponent), typeof(TransformComponent)).Get();
+        readonly ImmutableList<Entity> _collisionEntities;
 
         public CollisionSystem(Engine engine) : base(engine)
         {
@@ -50,20 +50,20 @@ namespace GameJam.Systems
                         collisionCompB.BoundingBoxComponent.Height
                         );
 
-                    if ( locationA.Intersects(locationB) && !( collisionCompA.collidingWith.Contains(_collisionEntities[j])) )
+                    if ( locationA.Intersects(locationB) && !( collisionCompA.CollidingWith.Contains(_collisionEntities[j])) )
                         {
                             EventManager.Instance.QueueEvent(new CollisionStartEvent(_collisionEntities[i], _collisionEntities[j]));
-                            collisionCompA.collidingWith.Add(_collisionEntities[j]);
-                            collisionCompB.collidingWith.Add(_collisionEntities[i]);
+                            collisionCompA.CollidingWith.Add(_collisionEntities[j]);
+                            collisionCompB.CollidingWith.Add(_collisionEntities[i]);
                         }
                     else
                     {
-                        if ( !(locationA.Intersects(locationB)) && collisionCompA.collidingWith.Contains(_collisionEntities[j]) )
+                        if ( !(locationA.Intersects(locationB)) && collisionCompA.CollidingWith.Contains(_collisionEntities[j]) )
                         {
                             Console.WriteLine("Normal Collision System");
                             EventManager.Instance.QueueEvent(new CollisionEndEvent(_collisionEntities[i], _collisionEntities[j]));
-                            collisionCompA.collidingWith.Remove(_collisionEntities[j]);
-                            collisionCompB.collidingWith.Remove(_collisionEntities[i]);
+                            collisionCompA.CollidingWith.Remove(_collisionEntities[j]);
+                            collisionCompB.CollidingWith.Remove(_collisionEntities[i]);
                         }
                     }
                 }

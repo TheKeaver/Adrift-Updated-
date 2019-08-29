@@ -30,7 +30,7 @@ namespace GameJam.Directors
             if(evt is CreateExplosionEvent)
             {
                 CreateExplosionEvent createExplosionEvent = evt as CreateExplosionEvent;
-                CreateExplosionEvent(createExplosionEvent.explosionLocation);
+                CreateExplosionEvent(createExplosionEvent.ExplosionLocation);
             }
             return false;
         }

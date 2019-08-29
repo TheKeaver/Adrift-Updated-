@@ -144,7 +144,7 @@ namespace GameJam
                 new Vector2(0, 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
                 Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
-            playerShipEntity.GetComponent<PlayerShipComponent>().shipShield = playerShieldEntity;
+            playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
             playerShieldEntity.AddComponent(new PlayerComponent(Player));
 
             Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, Constants.Global.WINDOW_HEIGHT/2), new Vector2(Constants.Global.WINDOW_WIDTH, 1), new Vector2(0,-1));

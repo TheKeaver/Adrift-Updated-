@@ -67,16 +67,16 @@ namespace GameJam.Systems
                     }
                     if(colliding)
                     {
-                        if (!collisionComp.collidingWith.Contains(playerShieldEntity))
+                        if (!collisionComp.CollidingWith.Contains(playerShieldEntity))
                         {
-                            collisionComp.collidingWith.Add(playerShieldEntity);
+                            collisionComp.CollidingWith.Add(playerShieldEntity);
                             EventManager.Instance.QueueEvent(new CollisionStartEvent(playerShieldEntity, collisionEntity));
                         }
                     } else
                     {
-                        if (collisionComp.collidingWith.Contains(playerShieldEntity))
+                        if (collisionComp.CollidingWith.Contains(playerShieldEntity))
                         {
-                            collisionComp.collidingWith.Remove(playerShieldEntity);
+                            collisionComp.CollidingWith.Remove(playerShieldEntity);
                             EventManager.Instance.QueueEvent(new CollisionEndEvent(playerShieldEntity, collisionEntity));
                         }
                     }

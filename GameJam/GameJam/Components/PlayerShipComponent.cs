@@ -4,12 +4,12 @@ namespace GameJam.Components
 {
     public class PlayerShipComponent : IComponent
     {
-        public int lifeRemaining;
-        public Entity shipShield;
+        public int LifeRemaining;
+        public Entity ShipShield;
 
         public PlayerShipComponent(int maxLife)
         {
-            lifeRemaining = maxLife;
+            LifeRemaining = maxLife;
         }
     }
 }
