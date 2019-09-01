@@ -9,6 +9,8 @@ namespace GameJam.Directors
 {
     public class ShieldDirector : BaseDirector
     {
+        readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Exclude(typeof(ProjectileComponent)).Get();
+        readonly Family playerShieldFamily = Family.All(typeof(PlayerShieldComponent), typeof(TransformComponent)).Get();
         public ShieldDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
         {
         }
@@ -42,23 +44,16 @@ namespace GameJam.Directors
             Entity entityA = collisionStartEvent.EntityA;
             Entity entityB = collisionStartEvent.EntityB;
 
-            if (entityA.HasComponent<EnemyComponent>() && entityB.HasComponent<PlayerShieldComponent>())
+            if ( enemyFamily.Matches(entityA) && playerShieldFamily.Matches(entityB) )
                 HandleCollisionStart(entityB, entityA);
-            else
+            else if (playerShieldFamily.Matches(entityA) && enemyFamily.Matches(entityB) )
                 HandleCollisionStart(entityA, entityB);
         }
 
         void HandleCollisionStart(Entity playerShield, Entity enemy)
         {
-            if (playerShield.HasComponent<PlayerShieldComponent>())
-            {
-                if(enemy.HasComponent<EnemyComponent>() && !enemy.HasComponent<ProjectileComponent>())
-                {
-                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position));
-                    Engine.DestroyEntity(enemy);
-                    //EventManager.Instance.UnregisterListener()
-                }
-            }
+            EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position));
+            Engine.DestroyEntity(enemy);
         }
 
         void HandleGameOver(GameOverEvent evt)

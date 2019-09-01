@@ -7,9 +7,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Directors
 {
-    public class EnemyBulletDirector : BaseDirector
+    public class BulletCollisionOnEnemyDirector : BaseDirector
     {
-        public EnemyBulletDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
+        readonly Family projectileFamily = Family.All(typeof(ProjectileComponent), typeof(MovementComponent)).Get();
+        readonly Family enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
+        public BulletCollisionOnEnemyDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
         }
 
@@ -45,15 +47,13 @@ namespace GameJam.Directors
 
         private void HandleCollisionStartEvent(CollisionStartEvent collisionStartEvent)
         {
-            if(collisionStartEvent.EntityA.HasComponent<EnemyComponent>()
-                && !collisionStartEvent.EntityA.HasComponent<ProjectileComponent>()
-                && collisionStartEvent.EntityB.HasComponent<ProjectileComponent>())
+            if( enemyFamily.Matches(collisionStartEvent.EntityA)
+                && projectileFamily.Matches(collisionStartEvent.EntityB) )
             {
                 EnemyProjectileCollision(collisionStartEvent.EntityA, collisionStartEvent.EntityB);
             }
-            if (collisionStartEvent.EntityB.HasComponent<EnemyComponent>()
-                && !collisionStartEvent.EntityB.HasComponent<ProjectileComponent>()
-                && collisionStartEvent.EntityA.HasComponent<ProjectileComponent>())
+            if (enemyFamily.Matches(collisionStartEvent.EntityB)
+                && projectileFamily.Matches(collisionStartEvent.EntityA) )
             {
                 EnemyProjectileCollision(collisionStartEvent.EntityB, collisionStartEvent.EntityA);
             }
@@ -77,10 +77,6 @@ namespace GameJam.Directors
                 EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position));
                 Engine.DestroyEntity(enemy);
                 Engine.DestroyEntity(projectile);
-                if(enemy.HasComponent<ProjectileSpawningProcessComponent>())
-                {
-
-                }
             }
         }
     }

@@ -20,9 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BounceDirector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyBulletDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletCollisionOnEnemyDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\KamikazeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyCollisionOnPlayerDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShipDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\EdgeEntity.cs" />

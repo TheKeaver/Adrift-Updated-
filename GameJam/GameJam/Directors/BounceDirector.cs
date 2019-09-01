@@ -12,6 +12,9 @@ namespace GameJam.Directors
 {
     public class BounceDirector : BaseDirector
     {
+        readonly Family edgeFamily = Family.All(typeof(EdgeComponent)).Get();
+        readonly Family playerShieldFamily = Family.All(typeof(PlayerShieldComponent)).Get();
+        readonly Family projectileFamily = Family.All(typeof(ProjectileComponent), typeof(MovementComponent)).Get();
         public BounceDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
         }
@@ -40,13 +43,13 @@ namespace GameJam.Directors
             Entity entityA = collisionStartEvent.EntityA;
             Entity entityB = collisionStartEvent.EntityB;
 
-            if (!entityA.HasComponent<EdgeComponent>() && entityB.HasComponent<EdgeComponent>())
+            if ( !edgeFamily.Matches(entityA) && edgeFamily.Matches(entityB) )
                 HandleBounceCollision(entityB, entityA);
-            else if (entityA.HasComponent<EdgeComponent>() && !entityB.HasComponent<EdgeComponent>())
+            else if ( edgeFamily.Matches(entityA) && !edgeFamily.Matches(entityB) )
                 HandleBounceCollision(entityA, entityB);
-            else if (!entityA.HasComponent<PlayerShieldComponent>() && entityB.HasComponent<PlayerShieldComponent>())
+            else if ( projectileFamily.Matches(entityA) && playerShieldFamily.Matches(entityB))
                 HandleBounceCollision(entityB, entityA);
-            else if (entityA.HasComponent<PlayerShieldComponent>() && !entityB.HasComponent<PlayerShieldComponent>())
+            else if (playerShieldFamily.Matches(entityA) && projectileFamily.Matches(entityB))
                 HandleBounceCollision(entityA, entityB);
         }
 
@@ -83,44 +86,33 @@ namespace GameJam.Directors
             }
             if(reflector.HasComponent<PlayerShieldComponent>())
             {
-                if (bouncer.HasComponent<ProjectileComponent>() && bouncer.HasComponent<MovementComponent>())
+                EventManager.Instance.QueueEvent(new ProjectileBouncedEvent(bouncer, bouncer.GetComponent<TransformComponent>().Position, reflector));
+                Entity playerShip = reflector.GetComponent<PlayerShieldComponent>().ShipEntity;
+
+                TransformComponent shipTransformComp = playerShip.GetComponent<TransformComponent>();
+                TransformComponent shieldTransformComp = reflector.GetComponent<TransformComponent>();
+
+                Vector2 shieldNormal = shieldTransformComp.Position - shipTransformComp.Position;
+                shieldNormal.Normalize();
+
+                Vector2 bouncerDirection = bouncer.GetComponent<MovementComponent>().MovementVector;
+                if (bouncerDirection.Length() == 0)
                 {
-                    EventManager.Instance.QueueEvent(new ProjectileBouncedEvent(bouncer, bouncer.GetComponent<TransformComponent>().Position, reflector));
-                    Entity playerShip = reflector.GetComponent<PlayerShieldComponent>().ShipEntity;
-
-                    TransformComponent shipTransformComp = playerShip.GetComponent<TransformComponent>();
-                    TransformComponent shieldTransformComp = reflector.GetComponent<TransformComponent>();
-
-                    Vector2 shieldNormal = shieldTransformComp.Position - shipTransformComp.Position;
-                    shieldNormal.Normalize();
-
-                    Vector2 bouncerDirection = bouncer.GetComponent<MovementComponent>().MovementVector;
-                    if (bouncerDirection.Length() == 0)
-                    {
-                        // Length is zero
-                        bouncerDirection = new Vector2(0, 0);
-                    }
-                    else
-                    {
-                        bouncerDirection.Normalize();
-                    }
-
-                    if (Vector2.Dot(shieldNormal, bouncerDirection) < 0)
-                    {
-                        bouncerDirection = getReflectionVector(bouncerDirection, shieldNormal);
-                    }
-
-                    Vector2 directionAndMagnitude = bouncer.GetComponent<MovementComponent>().MovementVector;
-                    Vector2 shipDirectionAndMagnitude = reflector.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<MovementComponent>().MovementVector;
-
-                    directionAndMagnitude = directionAndMagnitude + shipDirectionAndMagnitude;
-
-                    if (directionAndMagnitude.Length() > bouncer.GetComponent<MovementComponent>().MovementVector.Length())
-                    {
-                        bouncer.GetComponent<MovementComponent>().MovementVector = directionAndMagnitude;
-                    }
-                    bouncer.GetComponent<MovementComponent>().MovementVector = directionAndMagnitude;
+                    // Length is zero
+                    bouncerDirection = new Vector2(0, 0);
                 }
+                else
+                {
+                    bouncerDirection.Normalize();
+                }
+
+                if (Vector2.Dot(shieldNormal, bouncerDirection) < 0)
+                {
+                    bouncerDirection = getReflectionVector(bouncerDirection, shieldNormal);
+                }
+
+                bouncer.GetComponent<MovementComponent>().MovementVector = -getReflectionVector(
+                    bouncerDirection, shieldNormal) * (bouncer.GetComponent<MovementComponent>().MovementVector.Length() + playerShip.GetComponent<MovementComponent>().MovementVector.Length());
             }
         }
 

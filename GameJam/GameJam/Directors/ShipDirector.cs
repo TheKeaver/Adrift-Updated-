@@ -12,6 +12,8 @@ namespace GameJam.Directors
 {
     public class ShipDirector : BaseDirector
     {
+        readonly Family playerShipFamily = Family.All(typeof(PlayerShipComponent), typeof(TransformComponent)).Get();
+        readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Get();
 
         public ShipDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
         {
@@ -46,37 +48,27 @@ namespace GameJam.Directors
             Entity entityA = collisionStartEvent.EntityA;
             Entity entityB = collisionStartEvent.EntityB;
 
-            if (entityA.HasComponent<EnemyComponent>() && entityB.HasComponent<PlayerShipComponent>())
+            if ( enemyFamily.Matches(entityA) && playerShipFamily.Matches(entityB) )
                 HandleCollisionStart(entityB, entityA);
-            else
+            else if ( playerShipFamily.Matches(entityA) && enemyFamily.Matches(entityB) )
                 HandleCollisionStart(entityA, entityB);
         }
 
         void HandleCollisionStart(Entity entityA, Entity entityB)
         {
-            if (entityA.HasComponent<PlayerShipComponent>())
+            entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
+            if(entityA.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
             {
-                if(entityB.HasComponent<EnemyComponent>())
-                {
-                    entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
-                    if(entityA.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
-                    {
-                        EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
-                        Engine.DestroyEntity(entityA);
-                        EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield));
-                    } else
-                    {
-                        EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, false));
-                    }
-
-                    Engine.DestroyEntity(entityB);
-                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position));
-                }
-                else
-                {
-                    Console.WriteLine("Well done, multiplayer has been enabled!");
-                }
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
+                Engine.DestroyEntity(entityA);
+                EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield));
+            } else
+            {
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, false));
             }
+
+            Engine.DestroyEntity(entityB);
+            EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position));
         }
 
         void HandleCollisionEnd(CollisionEndEvent collisionEndEvent)
