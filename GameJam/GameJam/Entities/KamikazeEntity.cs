@@ -20,8 +20,8 @@ namespace GameJam.Entities
 
             entity.AddComponent(new TransformComponent(position));
             entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.KAMIKAZE_SHIP_BOUNDS));
-            entity.AddComponent(new RotationComponent(Constants.GamePlay.KAMIKAZE_ROTATION_SPEED));
-            entity.AddComponent(new MovementComponent(new Vector2(0,1), Constants.GamePlay.KAMIKAZE_ENEMY_SPEED));
+            entity.AddComponent(new RotationComponent(CVars.Get<float>("kamikaze_enemy_rotational_speed")));
+            entity.AddComponent(new MovementComponent(new Vector2(0,1), CVars.Get<float>("kamikaze_enemy_speed")));
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, 21.875f, 21.875f)));
             entity.AddComponent(new KamikazeComponent());

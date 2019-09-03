@@ -15,7 +15,7 @@ namespace GameJam.Entities
             entity.AddComponent(new TransformComponent(position));
             entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS));
             entity.AddComponent(new MovementComponent());
-            entity.AddComponent(new PlayerShipComponent(Constants.GamePlay.PLAYER_SHIP_MAX_HEALTH));
+            entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health")));
             entity.AddComponent(new BounceComponent());
             entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS.X, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS.Y)));
 

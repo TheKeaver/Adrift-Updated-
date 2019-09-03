@@ -21,12 +21,22 @@ namespace GameJam.Input
             {
                 GamePadState currentState = GamePad.GetState(PlayerIndex);
 
-                Vector2 rightStick = currentState.ThumbSticks.Right;
+                Vector2 stick;
+                switch(CVars.Get<int>("controller_thumbstick"))
+                {
+                    case 0:
+                        stick = currentState.ThumbSticks.Left;
+                        break;
+                    case 1:
+                    default:
+                        stick = currentState.ThumbSticks.Right;
+                        break;
+                }
 
-                if(rightStick.LengthSquared() >= Math.Pow(Constants.Input.DEADZONE, 2))
+                if(stick.LengthSquared() >= Math.Pow(CVars.Get<float>("controller_deadzone"), 2))
                 {
                     // Stick is actually being pressed in a direction
-                    _snapshot.Angle = (float)Math.Atan2(rightStick.Y, rightStick.X);
+                    _snapshot.Angle = (float)Math.Atan2(stick.Y, stick.X);
                 }
             }
         }

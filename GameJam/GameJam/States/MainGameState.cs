@@ -55,7 +55,7 @@ namespace GameJam
         {
             ProcessManager = new ProcessManager();
 
-            _mainCamera = new Camera(Constants.Global.WINDOW_WIDTH, Constants.Global.WINDOW_HEIGHT);
+            _mainCamera = new Camera(CVars.Get<int>("window_width"), CVars.Get<int>("window_height"));
             _mainCamera.RegisterEvents();
 
             InitSystems();
@@ -113,18 +113,18 @@ namespace GameJam
 
         public override void LoadContent()
         {
-            Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP);
-            Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD);
-            Content.Load<Texture2D>(Constants.Resources.TEXTURE_EXPLOSION);
-            Content.Load<Texture2D>(Constants.Resources.TEXTURE_KAMIKAZE);
-            Content.Load<Texture2D>(Constants.Resources.TEXTURE_SHOOTER_ENEMY);
-            Content.Load<Texture2D>(Constants.Resources.TEXTURE_ENEMY_BULLET);
+            Content.Load<Texture2D>(CVars.Get<string>("texture_player_ship"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_player_shield"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_explosion"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_kamikaze"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_shooter_enemy"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_enemy_bullet"));
 
-            Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
-            Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_FIRED);
-			Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_BOUNCE);
+            Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
+            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
+			Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
 
-            Content.Load<BitmapFont>(Constants.Resources.FONT_GAME_OVER);
+            Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
         }
 
         public override void Show()
@@ -140,17 +140,17 @@ namespace GameJam
         void CreateEntities()
         {
             Entity playerShipEntity = PlayerShipEntity.Create(Engine,
-                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIP),
+                Content.Load<Texture2D>(CVars.Get<string>("texture_player_ship")),
                 new Vector2(0, 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
-                Content.Load<Texture2D>(Constants.Resources.TEXTURE_PLAYER_SHIELD), playerShipEntity);
+                Content.Load<Texture2D>(CVars.Get<string>("texture_player_shield")), playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
             playerShieldEntity.AddComponent(new PlayerComponent(Player));
 
-            Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, Constants.Global.WINDOW_HEIGHT/2), new Vector2(Constants.Global.WINDOW_WIDTH, 1), new Vector2(0,-1));
-            Entity leftEdge = EdgeEntity.Create(Engine, new Vector2(-Constants.Global.WINDOW_WIDTH / 2, 0), new Vector2(1, Constants.Global.WINDOW_HEIGHT), new Vector2(1, 0));
-            Entity bottomEdge = EdgeEntity.Create(Engine, new Vector2(0, -Constants.Global.WINDOW_HEIGHT / 2), new Vector2(Constants.Global.WINDOW_WIDTH, 1), new Vector2(0, 1));
-            Entity rightEdge = EdgeEntity.Create(Engine, new Vector2(Constants.Global.WINDOW_WIDTH / 2, 0), new Vector2(1, Constants.Global.WINDOW_HEIGHT), new Vector2(-1, 0));
+            Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 1), new Vector2(0,-1));
+            Entity leftEdge = EdgeEntity.Create(Engine, new Vector2(-CVars.Get<int>("window_width") / 2, 0), new Vector2(1, CVars.Get<int>("window_height")), new Vector2(1, 0));
+            Entity bottomEdge = EdgeEntity.Create(Engine, new Vector2(0, -CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 1), new Vector2(0, 1));
+            Entity rightEdge = EdgeEntity.Create(Engine, new Vector2(CVars.Get<int>("window_width") / 2, 0), new Vector2(1, CVars.Get<int>("window_height")), new Vector2(-1, 0));
         }
 
         public override void Update(float dt)
@@ -158,9 +158,9 @@ namespace GameJam
             ProcessManager.Update(dt);
 
             _acculmulator += dt;
-            while(_acculmulator >= Constants.Global.TICK_RATE)
+            while(_acculmulator >= 1 / CVars.Get<float>("tick_frequency"))
             {
-                _acculmulator -= Constants.Global.TICK_RATE;
+                _acculmulator -= 1 / CVars.Get<float>("tick_frequency");
 
                 for(int i = 0; i < _systems.Length; i++)
                 {
@@ -171,7 +171,7 @@ namespace GameJam
 
         public override void Draw(float dt)
         {
-            float betweenFrameAlpha = _acculmulator / Constants.Global.TICK_RATE;
+            float betweenFrameAlpha = _acculmulator / (1 / CVars.Get<float>("tick_frequency"));
 
             _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
                 Constants.Render.GROUP_MASK_ALL,
@@ -205,8 +205,8 @@ namespace GameJam
         {
             // TODO: Game Over Process
             Entity gameOverText = Engine.CreateEntity();
-            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * Constants.Global.WINDOW_HEIGHT / 2)));
-            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>(Constants.Resources.FONT_GAME_OVER), "Game Over"));
+            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<int>("window_height") / 2)));
+            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>(CVars.Get<string>("font_game_over")), "Game Over"));
 
             ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3)).SetNext(new DelegateCommand(() =>
             {
@@ -215,4 +215,3 @@ namespace GameJam
         }
     }
 }
-

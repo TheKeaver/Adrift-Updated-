@@ -35,7 +35,8 @@ namespace GameJam.Processes
                 Kill();
                 return;
             }
-            ProjectileEntity.Create(Engine, Content.Load<Texture2D>(Constants.Resources.TEXTURE_ENEMY_BULLET), ShootingEnemy.GetComponent<TransformComponent>().Position, new Microsoft.Xna.Framework.Vector2((float)Math.Cos(ShootingEnemy.GetComponent<TransformComponent>().Rotation),(float)Math.Sin(ShootingEnemy.GetComponent<TransformComponent>().Rotation)));
+
+            ProjectileEntity.Create(Engine, Content.Load<Texture2D>(CVars.Get<string>("texture_enemy_bullet")), ShootingEnemy.GetComponent<TransformComponent>().Position, new Microsoft.Xna.Framework.Vector2((float)Math.Cos(ShootingEnemy.GetComponent<TransformComponent>().Rotation),(float)Math.Sin(ShootingEnemy.GetComponent<TransformComponent>().Rotation)));
             EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
             ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft -= 1;
             Console.WriteLine(ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft);

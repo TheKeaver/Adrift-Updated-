@@ -18,6 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\EnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\CollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CVars.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CVarsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BounceDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletCollisionOnEnemyDirector.cs" />
@@ -70,8 +72,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\MouseButtonEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\MouseMoveEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ResizeEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\Global.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Render.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\SpriteComponent.cs" />
@@ -88,13 +88,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\FontComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\PrimaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\ControllerInputMethod.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\Resources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerShipEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\ObjectBounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerShieldEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShipComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShieldComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\GamePlay.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />

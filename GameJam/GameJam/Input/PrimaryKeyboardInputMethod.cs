@@ -8,15 +8,15 @@ namespace GameJam.Input
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if(keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
+            if(keyboardState.IsKeyDown((Keys)CVars.Get<int>("keyboard_primary_clockwise")))
             {
                 // Clockwise
-                _snapshot.Angle -= Constants.Input.KEYBOARD_SHIELD_ANGULAR_SPEED * dt;
+                _snapshot.Angle -= CVars.Get<float>("keyboard_shield_angular_speed") * dt;
             }
-            if(keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+            if(keyboardState.IsKeyDown((Keys)CVars.Get<int>("keyboard_primary_counter_clockwise")))
             {
                 // Counter-clockwise
-                _snapshot.Angle += Constants.Input.KEYBOARD_SHIELD_ANGULAR_SPEED * dt;
+                _snapshot.Angle += CVars.Get<float>("keyboard_shield_angular_speed") * dt;
             }
         }
     }

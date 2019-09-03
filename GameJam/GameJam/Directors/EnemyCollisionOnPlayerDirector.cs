@@ -71,7 +71,7 @@ namespace GameJam.Directors
 
             Vector2 combined = movementComp.MovementVector;
 
-            combined += playerShipToEnemyShip * Constants.GamePlay.KAMIKAZE_PUSHBACK_FORCE;
+            combined += playerShipToEnemyShip * CVars.Get<float>("enemy_pushback_force");
 
             movementComp.MovementVector = combined;
         }

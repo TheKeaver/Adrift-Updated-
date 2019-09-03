@@ -21,6 +21,10 @@ namespace GameJam
 
         GameState _currentState;
 
+#if DEBUG
+        bool _cvarSyncButtonReleased = false;
+#endif
+
         public GraphicsDeviceManager Graphics
         {
             get;
@@ -29,13 +33,15 @@ namespace GameJam
         
         public GameManager()
         {
-            Graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            CVars.Initialize();
 
             this.Window.Title = "Adrift";
 
-            Graphics.PreferredBackBufferWidth = Constants.Global.WINDOW_WIDTH;
-            Graphics.PreferredBackBufferHeight = Constants.Global.WINDOW_HEIGHT;
+            Graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+
+            Graphics.PreferredBackBufferWidth = CVars.Get<int>("window_width");
+            Graphics.PreferredBackBufferHeight = CVars.Get<int>("window_height");
 
             Window.AllowUserResizing = false;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
@@ -76,6 +82,17 @@ namespace GameJam
         
         protected override void Update(GameTime gameTime)
         {
+#if DEBUG
+            if (Keyboard.GetState().IsKeyDown(Keys.F2) && _cvarSyncButtonReleased)
+            {
+                CVars.SynchronizeFromFile();
+                _cvarSyncButtonReleased = false;
+            } else
+            {
+                _cvarSyncButtonReleased = true;
+            }
+#endif
+
             EventManager.Instance.Dispatch();
 
             if(_currentState != null)
