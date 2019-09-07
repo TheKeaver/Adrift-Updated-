@@ -41,7 +41,7 @@ namespace GameJam
             Graphics.PreferredBackBufferWidth = CVars.Get<int>("window_width");
             Graphics.PreferredBackBufferHeight = CVars.Get<int>("window_height");
 
-            Window.AllowUserResizing = false;
+            Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
         

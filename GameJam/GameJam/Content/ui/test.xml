@@ -1,5 +1,15 @@
-<Root>
-    <Panel>
-        
-    </Panel>
-</Root>
+<UI>
+    <Widgets>
+        <Label
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="100"
+            height="100"
+            content="Hello XML!"
+            hidden="true"
+            font="font_game_over"
+            />
+    </Widgets>
+</UI>

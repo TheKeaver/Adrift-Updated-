@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events", "Events\Events.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameJam.Desktop", "GameJam.Desktop\GameJam.Desktop.csproj", "{39F2BE48-D216-4B62-BE97-AF0368500692}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Content.Pipeline", "UI.Content.Pipeline\UI.Content.Pipeline.csproj", "{1319747C-2EAC-4D6F-9C34-A975BBD218E2}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		GameJam\GameJam.projitems*{1295c273-6c15-4df3-9875-3bd26d4ff774}*SharedItemsImports = 13
@@ -32,6 +34,10 @@ Global
 		{39F2BE48-D216-4B62-BE97-AF0368500692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39F2BE48-D216-4B62-BE97-AF0368500692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39F2BE48-D216-4B62-BE97-AF0368500692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1319747C-2EAC-4D6F-9C34-A975BBD218E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1319747C-2EAC-4D6F-9C34-A975BBD218E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1319747C-2EAC-4D6F-9C34-A975BBD218E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1319747C-2EAC-4D6F-9C34-A975BBD218E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,7 @@
-﻿using System;
-using GameJam.UI;
-using GameJam.UI.Widgets;
+﻿using System.Collections.Generic;
+using GameJam.UINew;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
+using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
@@ -10,11 +9,7 @@ namespace GameJam.States
     {
         SpriteBatch _spriteBatch;
 
-        BitmapFont _font;
-
         Root _root;
-
-        Label _label;
 
         public UIPlaygroundGameState(GameManager gameManager) : base(gameManager)
         {
@@ -29,33 +24,18 @@ namespace GameJam.States
 
         public override void LoadContent()
         {
-            _font = Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
         }
 
 
         public override void Show()
         {
             _root.RegisterListeners();
-
-            BuildUI();
         }
 
         public override void Hide()
         {
             _root.UnregisterListeners();
-        }
-
-        void BuildUI()
-        {
-            _label = new Label(_font,
-                Origin.Center,
-                0, 0,
-                0, 0,
-                1,
-                0,
-                AspectRatioType.HeightMaster);
-            _label.Content = "Hello World!";
-            _root.Add(_label);
         }
 
         public override void Update(float dt)

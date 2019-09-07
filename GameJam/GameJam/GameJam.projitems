@@ -108,11 +108,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CVarsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UINew\Root.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UINew\Widget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UINew\Widgets\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UINew\WidgetFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UINew\IParentWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UINew\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UINew\Widgets\" />
   </ItemGroup>
 </Project>
