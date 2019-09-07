@@ -12,7 +12,8 @@ namespace UI.Content.Pipeline
     public class UIWidgetsFile
     {
         [XmlArray("Widgets")]
-        [XmlArrayItem("Label", typeof(LabelWidgetPrototype))]
+        [XmlArrayItem("Label", typeof(LabelWidgetPrototype)),
+            XmlArrayItem("Image", typeof(ImageWidgetPrototype))]
         public List<WidgetPrototype> Widgets
         {
             get;
@@ -103,6 +104,26 @@ namespace UI.Content.Pipeline
         {
             Content = input.ReadString();
             Font = input.ReadString();
+
+            base.ReadFromInput(input);
+        }
+    }
+
+    [Serializable]
+    public class ImageWidgetPrototype : WidgetPrototype
+    {
+        [XmlAttribute("image")]
+        public string Image;
+
+        public override void WriteToOutput(ContentWriter output)
+        {
+            output.Write(Image);
+
+            base.WriteToOutput(output);
+        }
+        public override void ReadFromInput(ContentReader input)
+        {
+            Image = input.ReadString();
 
             base.ReadFromInput(input);
         }

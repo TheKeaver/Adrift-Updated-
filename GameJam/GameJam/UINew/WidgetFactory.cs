@@ -2,6 +2,7 @@
 using GameJam.UINew;
 using GameJam.UINew.Widgets;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using UI.Content.Pipeline;
 
@@ -48,12 +49,19 @@ namespace GameJam.UINew
                     break;
             }
 
+            /** WIDGET SPECIALIZATIONS **/
             if (prototype is LabelWidgetPrototype)
             {
                 BitmapFont font = content.Load<BitmapFont>(CVars.Get<string>(((LabelWidgetPrototype)prototype).Font));
                 string labelContent = ((LabelWidgetPrototype)prototype).Content;
 
                 widget = new Label(font, labelContent, halign, horizontal, valign, vertical, width, height);
+            }
+            if(prototype is ImageWidgetPrototype)
+            {
+                Texture2D texture = content.Load<Texture2D>(CVars.Get<string>(((ImageWidgetPrototype)prototype).Image));
+
+                widget = new Image(texture, halign, horizontal, valign, vertical, width, height);
             }
 
             if(prototype is IParentWidget)
