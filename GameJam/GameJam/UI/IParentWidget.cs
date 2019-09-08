@@ -1,4 +1,4 @@
-﻿namespace GameJam.UINew
+﻿namespace GameJam.UI
 {
     public interface IParentWidget
     {

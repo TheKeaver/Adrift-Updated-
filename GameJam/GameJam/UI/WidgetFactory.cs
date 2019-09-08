@@ -1,14 +1,13 @@
 ﻿using System;
 using Events;
-using GameJam.Events;
-using GameJam.UINew.Widgets;
+using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.TextureAtlases;
 using UI.Content.Pipeline;
 
-namespace GameJam.UINew
+namespace GameJam.UI
 {
     public static class WidgetFactory
     {

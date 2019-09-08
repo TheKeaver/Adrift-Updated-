@@ -4,9 +4,40 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.UI
 {
-    /// <summary>
-    /// Base class for all widgets.
-    /// </summary>
+    public enum HorizontalAlignment
+    {
+        Left,
+        Center,
+        Right
+    }
+    public enum VerticalAlignment
+    {
+        Top,
+        Center,
+        Bottom
+    }
+
+    public interface AbstractValue
+    {
+        float Value
+        {
+            get;
+        }
+    }
+    public class FixedValue : AbstractValue
+    {
+        public float Value
+        {
+            get;
+            private set;
+        }
+
+        public FixedValue(float value)
+        {
+            Value = value;
+        }
+    }
+
     public abstract class Widget : IEventListener
     {
         Widget _parent = null;
@@ -23,220 +54,170 @@ namespace GameJam.UI
             }
         }
 
-        public Origin Origin
-        {
-            get;
-            protected set;
-        }
-
         public bool Hidden = false;
 
-        public Vector2 TopLeft
+        private HorizontalAlignment _hAlign = HorizontalAlignment.Center;
+        public HorizontalAlignment HorizontalAlignment
         {
-            get;
-            private set;
-        } = Vector2.Zero;
-        public Vector2 BottomRight
+            get
+            {
+                return _hAlign;
+            }
+            set
+            {
+                _hAlign = value;
+                ComputeProperties();
+            }
+        }
+        private AbstractValue _horizontal;
+        public float Horizontal
         {
-            get;
-            private set;
-        } = Vector2.Zero;
+            get
+            {
+                return _horizontal.Value;
+            }
+        }
+        public AbstractValue HorizontalValue
+        {
+            set
+            {
+                _horizontal = value;
+                ComputeProperties();
+            }
+        }
+        private VerticalAlignment _vAlign = VerticalAlignment.Center;
+        public VerticalAlignment VerticalAlignment
+        {
+            get
+            {
+                return _vAlign;
+            }
+            set
+            {
+                _vAlign = value;
+                ComputeProperties();
+            }
+        }
+        private AbstractValue _vertical;
+        public float Vertical
+        {
+            get
+            {
+                return _vertical.Value;
+            }
+        }
+        public AbstractValue VerticalValue
+        {
+            set
+            {
+                _vertical = value;
+                ComputeProperties();
+            }
+        }
 
+        private AbstractValue _width;
         public float Width
         {
             get
             {
-                return BottomRight.X - TopLeft.X;
+                return _width.Value;
             }
         }
+        public AbstractValue WidthValue
+        {
+            set
+            {
+                _width = value;
+                ComputeProperties();
+            }
+        }
+        private AbstractValue _height;
         public float Height
         {
             get
             {
-                return BottomRight.Y - TopLeft.Y;
+                return _height.Value;
+            }
+        }
+        public AbstractValue HeightValue
+        {
+            set
+            {
+                _height = value;
+                ComputeProperties();
             }
         }
 
-        public float AspectRatio
+        public Vector2 TopLeft
         {
             get;
-            protected set;
+            internal set;
         }
-        public AspectRatioType AspectRatioType
+        public Vector2 BottomRight
         {
             get;
-            private set;
+            internal set;
         }
 
-        public float PercentX
-        {
-            get;
-            set;
-        }
-        public float PercentY
-        {
-            get;
-            set;
-        }
-        public float POffsetX
-        {
-            get;
-            set;
-        }
-        public float POffsetY
-        {
-            get;
-            set;
-        }
+        public Widget(
+            HorizontalAlignment hAlign,
+            AbstractValue horizontal,
 
-        public float PercentWidth
-        {
-            get;
-            set;
-        }
-        public float POffsetWidth
-        {
-            get;
-            set;
-        }
-        public float PercentHeight
-        {
-            get;
-            set;
-        }
-        public float POffsetHeight
-        {
-            get;
-            set;
-        }
+            VerticalAlignment vAlign,
+            AbstractValue vertical,
 
-        public Widget(Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentWidth,
-                      float pOffsetWidth,
-                      float percentHeight,
-                      float pOffsetHeight)
+            AbstractValue width,
+            AbstractValue height)
         {
-            Origin = origin;
-            PercentX = percentX;
-            PercentY = percentY;
-            POffsetX = pOffsetX;
-            POffsetY = pOffsetY;
-            PercentWidth = percentWidth;
-            POffsetWidth = pOffsetWidth;
-            PercentHeight = percentHeight;
-            POffsetHeight = pOffsetHeight;
-
-            AspectRatioType = AspectRatioType.None;
-        }
-
-        public Widget(Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentAspect,
-                      float pOffsetAspect,
-                      float aspectRatio,
-                      AspectRatioType aspectRatioType)
-        {
-            Origin = origin;
-            PercentX = percentX;
-            PercentY = percentY;
-            POffsetX = pOffsetX;
-            POffsetY = pOffsetY;
-
-            PercentWidth = percentAspect;
-            POffsetWidth = pOffsetAspect;
-            PercentHeight = percentAspect;
-            POffsetHeight = pOffsetAspect;
-
-            AspectRatio = aspectRatio;
-
-            AspectRatioType = aspectRatioType;
+            _hAlign = hAlign;
+            _horizontal = horizontal;
+            _vAlign = vAlign;
+            _vertical = vertical;
+            _width = width;
+            _height = height;
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);
 
         public void ComputeProperties()
         {
-            if (Parent == null)
+            if(Parent == null)
             {
                 // Root; only sets based on offset width and height
                 TopLeft = Vector2.Zero;
-                BottomRight = new Vector2(POffsetWidth, POffsetHeight);
-            }
-            else
+                BottomRight = new Vector2(Width, Height);
+            } else
             {
                 float x = Parent.TopLeft.X;
-                x += PercentX * Parent.Width;
-                x += POffsetX;
-
-                float y = Parent.TopLeft.Y;
-                y += PercentY * Parent.Height;
-                y += POffsetY;
-
-                float w, h;
-                switch (AspectRatioType)
+                switch(HorizontalAlignment)
                 {
-                    case AspectRatioType.WidthMaster:
-                        w = Parent.Width;
-                        w *= PercentWidth;
-                        w += POffsetWidth;
-
-                        h = w / AspectRatio;
+                    case HorizontalAlignment.Left:
+                        x += _horizontal.Value;
                         break;
-                    case AspectRatioType.HeightMaster:
-                        h = Parent.Height;
-                        h *= PercentHeight;
-                        h += POffsetHeight;
-
-                        w = h * AspectRatio;
+                    case HorizontalAlignment.Right:
+                        x += Parent.Width - _horizontal.Value - Width;
                         break;
-                    case AspectRatioType.None:
-                    default:
-                        w = Parent.Width;
-                        w *= PercentWidth;
-                        w += POffsetWidth;
-                        h = Parent.Height;
-                        h *= PercentHeight;
-                        h += POffsetHeight;
-
-                        AspectRatio = w / h;
+                    case HorizontalAlignment.Center:
+                        x += Parent.Width / 2 - Width / 2 + _horizontal.Value;
                         break;
                 }
 
-                switch (Origin)
+                float y = Parent.TopLeft.Y;
+                switch (VerticalAlignment)
                 {
-                    case Origin.BottomRight:
-                    case Origin.BottomLeft:
-                        y = Parent.BottomRight.Y - (y - Parent.TopLeft.Y);
-                        y -= h;
-
-                        if (Origin == Origin.BottomRight)
-                        {
-                            goto case Origin.TopRight;
-                        }
+                    case VerticalAlignment.Top:
+                        y += _vertical.Value;
                         break;
-                    case Origin.TopRight:
-                        x = Parent.BottomRight.X - (x - Parent.TopLeft.X);
-                        x -= w;
+                    case VerticalAlignment.Bottom:
+                        y += Parent.Height - _vertical.Value - Height;
                         break;
-                    case Origin.Center:
-                        x = x + Parent.Width * 0.5f;
-                        x -= (w * 0.5f);
-
-                        y = y + Parent.Height * 0.5f;
-                        y -= (h * 0.5f);
+                    case VerticalAlignment.Center:
+                        y += Parent.Height / 2 - Height / 2 + _vertical.Value;
                         break;
                 }
 
                 TopLeft = new Vector2(x, y);
-                BottomRight = new Vector2(x + w,
-                                          y + h);
+                BottomRight = new Vector2(x + Width, y + Height);
             }
 
             OnComputeProperties();
@@ -247,21 +228,5 @@ namespace GameJam.UI
         }
 
         public abstract bool Handle(IEvent evt);
-    }
-
-    public enum Origin
-    {
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight,
-        Center
-    }
-
-    public enum AspectRatioType
-    {
-        None,
-        WidthMaster,
-        HeightMaster
     }
 }
