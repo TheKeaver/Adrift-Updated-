@@ -41,7 +41,7 @@ namespace GameJam.UINew.Widgets
             if(!Hidden)
             {
                 Vector2 scale = (BottomRight - TopLeft) / _bounds;
-                spriteBatch.Draw(_texture,
+                spriteBatch.Draw(Texture,
                     TopLeft,
                     null,
                     Color.White,
