@@ -170,8 +170,8 @@ namespace GameJam.UI
             s = s.Trim();
             if(s[s.Length - 1] == '%')
             {
-                // TODO: Percentage abstract value
-                return null;
+                // GetBaseValueFn will be filled in by the Widget on initialization
+                return new RelativeValue(float.Parse(s.Substring(0, s.Length - 1)) / 100, null);
             }
             return new FixedValue(float.Parse(s));
         }

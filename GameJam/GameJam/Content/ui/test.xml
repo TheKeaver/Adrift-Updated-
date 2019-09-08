@@ -1,5 +1,15 @@
 <UI>
     <Widgets>
+        <NinePatchImage
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="50%"
+            height="50%"
+            image="texture_ui_button_pressed"
+            thickness="4,4,4,4"
+            />
         <Label
             halign="center"
             valign="center"

@@ -38,6 +38,30 @@ namespace GameJam.UI
             Value = value;
         }
     }
+    public class RelativeValue : AbstractValue
+    {
+        public float Percentage
+        {
+            get;
+            set;
+        }
+
+        public float Value
+        {
+            get
+            {
+                return Percentage * GetBaseValueFn();
+            }
+        }
+
+        public Func<float> GetBaseValueFn = null;
+
+        public RelativeValue(float percentage, Func<float> getBaseValueFn)
+        {
+            Percentage = percentage;
+            GetBaseValueFn = getBaseValueFn;
+        }
+    }
 
     public abstract class Widget : IEventListener
     {
@@ -88,6 +112,13 @@ namespace GameJam.UI
             set
             {
                 _horizontal = value;
+                if(_horizontal is RelativeValue)
+                {
+                    ((RelativeValue)_horizontal).GetBaseValueFn = () =>
+                    {
+                        return Parent.Horizontal;
+                    };
+                }
                 ComputeProperties();
             }
         }
@@ -117,6 +148,13 @@ namespace GameJam.UI
             set
             {
                 _vertical = value;
+                if (_vertical is RelativeValue)
+                {
+                    ((RelativeValue)_vertical).GetBaseValueFn = () =>
+                    {
+                        return Parent.Vertical;
+                    };
+                }
                 ComputeProperties();
             }
         }
@@ -134,6 +172,13 @@ namespace GameJam.UI
             set
             {
                 _width = value;
+                if (_horizontal is RelativeValue)
+                {
+                    ((RelativeValue)_width).GetBaseValueFn = () =>
+                    {
+                        return Parent.Width;
+                    };
+                }
                 ComputeProperties();
             }
         }
@@ -150,6 +195,13 @@ namespace GameJam.UI
             set
             {
                 _height = value;
+                if (_height is RelativeValue)
+                {
+                    ((RelativeValue)_height).GetBaseValueFn = () =>
+                    {
+                        return Parent.Height;
+                    };
+                }
                 ComputeProperties();
             }
         }
@@ -181,6 +233,35 @@ namespace GameJam.UI
             _vertical = vertical;
             _width = width;
             _height = height;
+
+            if (_horizontal is RelativeValue)
+            {
+                ((RelativeValue)_horizontal).GetBaseValueFn = () =>
+                {
+                    return Parent.Horizontal;
+                };
+            }
+            if (_vertical is RelativeValue)
+            {
+                ((RelativeValue)_vertical).GetBaseValueFn = () =>
+                {
+                    return Parent.Vertical;
+                };
+            }
+            if (_width is RelativeValue)
+            {
+                ((RelativeValue)_width).GetBaseValueFn = () =>
+                {
+                    return Parent.Width;
+                };
+            }
+            if (_height is RelativeValue)
+            {
+                ((RelativeValue)_height).GetBaseValueFn = () =>
+                {
+                    return Parent.Height;
+                };
+            }
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);
