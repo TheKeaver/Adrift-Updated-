@@ -1,4 +1,5 @@
-﻿using Events;
+﻿using System;
+using Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -40,16 +41,21 @@ namespace GameJam.UI
 
     public abstract class Widget : IEventListener
     {
-        Widget _parent = null;
+        WeakReference<Widget> _parent = new WeakReference<Widget>(null);
         public Widget Parent
         {
             get
             {
-                return _parent;
+                Widget parent;
+                if (_parent.TryGetTarget(out parent))
+                {
+                    return parent;
+                }
+                return null;
             }
             internal set
             {
-                _parent = value;
+                _parent = new WeakReference<Widget>(value);
                 ComputeProperties();
             }
         }
