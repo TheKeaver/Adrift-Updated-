@@ -59,6 +59,7 @@
                 width="25"
                 height="25"
                 image="texture_ui_button_pressed"
+                thickness="4,4,4,4"
                 />
         </Button>
     </Widgets>
