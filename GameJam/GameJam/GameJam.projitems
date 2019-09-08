@@ -114,6 +114,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UINew\WidgetFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UINew\IParentWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UINew\Widgets\Image.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UINew\Widgets\Panel.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

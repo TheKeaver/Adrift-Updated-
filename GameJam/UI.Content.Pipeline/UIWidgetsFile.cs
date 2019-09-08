@@ -13,7 +13,8 @@ namespace UI.Content.Pipeline
     {
         [XmlArray("Widgets")]
         [XmlArrayItem("Label", typeof(LabelWidgetPrototype)),
-            XmlArrayItem("Image", typeof(ImageWidgetPrototype))]
+            XmlArrayItem("Image", typeof(ImageWidgetPrototype)),
+            XmlArrayItem("Panel", typeof(PanelWidgetPrototype))]
         public List<WidgetPrototype> Widgets
         {
             get;
@@ -42,8 +43,9 @@ namespace UI.Content.Pipeline
         [XmlAttribute("hidden")]
         public bool Hidden = false;
 
-        [XmlArray("Widgets")]
-        [XmlArrayItem("Label")]
+        [XmlElement("Label", typeof(LabelWidgetPrototype))]
+        [XmlElement("Image", typeof(ImageWidgetPrototype))]
+        [XmlElement("Panel", typeof(PanelWidgetPrototype))]
         public List<WidgetPrototype> Children;
 
         /* Update self first, then base */
@@ -125,6 +127,19 @@ namespace UI.Content.Pipeline
         {
             Image = input.ReadString();
 
+            base.ReadFromInput(input);
+        }
+    }
+
+    [Serializable]
+    public class PanelWidgetPrototype : WidgetPrototype
+    {
+        public override void WriteToOutput(ContentWriter output)
+        {
+            base.WriteToOutput(output);
+        }
+        public override void ReadFromInput(ContentReader input)
+        {
             base.ReadFromInput(input);
         }
     }

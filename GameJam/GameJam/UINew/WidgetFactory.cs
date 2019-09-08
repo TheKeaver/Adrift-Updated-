@@ -63,12 +63,16 @@ namespace GameJam.UINew
 
                 widget = new Image(texture, halign, horizontal, valign, vertical, width, height);
             }
+            if(prototype is PanelWidgetPrototype)
+            {
+                widget = new Panel(halign, horizontal, valign, vertical, width, height);
+            }
 
-            if(prototype is IParentWidget)
+            if(widget is IParentWidget)
             {
                 foreach (WidgetPrototype childPrototype in prototype.Children)
                 {
-                    ((IParentWidget)childPrototype).Add(CreateFromPrototype(content, childPrototype));
+                    ((IParentWidget)widget).Add(CreateFromPrototype(content, childPrototype));
                 }
             }
 

@@ -10,6 +10,24 @@
             content="Hello XML!"
             font="font_game_over"
             />
+        <Panel
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="500"
+            height="500">
+            <Label
+                halign="left"
+                valign="bottom"
+                horizontal="0"
+                vertical="0"
+                width="100"
+                height="100"
+                content="Left!"
+                font="font_game_over"
+                />
+        </Panel>
         <Image
             halign="center"
             valign="center"

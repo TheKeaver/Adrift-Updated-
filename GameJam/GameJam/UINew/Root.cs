@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Events;
 using GameJam.Events;
 using Microsoft.Xna.Framework.Content;
