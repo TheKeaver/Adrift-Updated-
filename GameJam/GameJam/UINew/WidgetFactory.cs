@@ -4,6 +4,7 @@ using GameJam.UINew.Widgets;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
+using MonoGame.Extended.TextureAtlases;
 using UI.Content.Pipeline;
 
 namespace GameJam.UINew
@@ -63,7 +64,24 @@ namespace GameJam.UINew
 
                 widget = new Image(texture, halign, horizontal, valign, vertical, width, height);
             }
-            if(prototype is PanelWidgetPrototype)
+            if (prototype is NinePatchImageWidgetPrototype)
+            {
+                Texture2D texture = content.Load<Texture2D>(CVars.Get<string>(((NinePatchImageWidgetPrototype)prototype).Image));
+
+                string[] rawThickness = ((NinePatchImageWidgetPrototype)prototype).Thickness.Trim().Split(',');
+                if(rawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                widget = new NinePatchImage(new NinePatchRegion2D(new TextureRegion2D(texture),
+                        int.Parse(rawThickness[0]),
+                        int.Parse(rawThickness[1]),
+                        int.Parse(rawThickness[2]),
+                        int.Parse(rawThickness[3])),
+                    halign, horizontal, valign, vertical, width, height);
+            }
+            if (prototype is PanelWidgetPrototype)
             {
                 widget = new Panel(halign, horizontal, valign, vertical, width, height);
             }

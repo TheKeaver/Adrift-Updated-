@@ -14,6 +14,7 @@ namespace UI.Content.Pipeline
         [XmlArray("Widgets")]
         [XmlArrayItem("Label", typeof(LabelWidgetPrototype)),
             XmlArrayItem("Image", typeof(ImageWidgetPrototype)),
+            XmlArrayItem("NinePatchImage", typeof(NinePatchImageWidgetPrototype)),
             XmlArrayItem("Panel", typeof(PanelWidgetPrototype))]
         public List<WidgetPrototype> Widgets
         {
@@ -45,6 +46,7 @@ namespace UI.Content.Pipeline
 
         [XmlElement("Label", typeof(LabelWidgetPrototype))]
         [XmlElement("Image", typeof(ImageWidgetPrototype))]
+        [XmlElement("NinePatchImage", typeof(NinePatchImageWidgetPrototype))]
         [XmlElement("Panel", typeof(PanelWidgetPrototype))]
         public List<WidgetPrototype> Children;
 
@@ -126,6 +128,31 @@ namespace UI.Content.Pipeline
         public override void ReadFromInput(ContentReader input)
         {
             Image = input.ReadString();
+
+            base.ReadFromInput(input);
+        }
+    }
+
+    [Serializable]
+    public class NinePatchImageWidgetPrototype : WidgetPrototype
+    {
+        [XmlAttribute("image")]
+        public string Image;
+
+        [XmlAttribute("thickness")]
+        public string Thickness;
+
+        public override void WriteToOutput(ContentWriter output)
+        {
+            output.Write(Image);
+            output.Write(Thickness);
+
+            base.WriteToOutput(output);
+        }
+        public override void ReadFromInput(ContentReader input)
+        {
+            Image = input.ReadString();
+            Thickness = input.ReadString();
 
             base.ReadFromInput(input);
         }

@@ -27,6 +27,10 @@
                 content="Left!"
                 font="font_game_over"
                 />
+            <NinePatchImage
+                image="texture_explosion"
+                thickness="4,4,4,4"
+                />
         </Panel>
         <Image
             halign="center"
