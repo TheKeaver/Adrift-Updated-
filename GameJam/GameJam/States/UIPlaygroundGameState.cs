@@ -14,6 +14,12 @@ namespace GameJam.States
 
         Root _root;
 
+        private ProcessManager ProcessManager
+        {
+            get;
+            set;
+        }
+
         public UIPlaygroundGameState(GameManager gameManager) : base(gameManager)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
@@ -30,10 +36,14 @@ namespace GameJam.States
 
         public override void Initialize()
         {
+            ProcessManager = new ProcessManager();
+
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
 
             RegisterEvents();
+
+            ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
         }
 
         public override void LoadContent()
@@ -54,7 +64,7 @@ namespace GameJam.States
 
         public override void Update(float dt)
         {
-
+            ProcessManager.Update(dt);
         }
 
         public override void Draw(float dt)
@@ -77,6 +87,31 @@ namespace GameJam.States
             }
 
             return false;
+        }
+
+        private class IDBlinkingProcess : IntervalProcess
+        {
+            public string ID
+            {
+                get;
+                set;
+            }
+
+            public Root Root {
+                get;
+                private set;
+            }
+
+            public IDBlinkingProcess(Root root, string id, float interval) : base(interval)
+            {
+                Root = root;
+                ID = id;
+            }
+
+            protected override void OnTick(float interval)
+            {
+                Root.FindWidgetByID(ID).Hidden = !Root.FindWidgetByID(ID).Hidden;
+            }
         }
     }
 }

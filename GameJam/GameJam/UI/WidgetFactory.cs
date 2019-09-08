@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Events;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Content;
@@ -11,7 +12,7 @@ namespace GameJam.UI
 {
     public static class WidgetFactory
     {
-        public static Widget CreateFromPrototype(ContentManager content, WidgetPrototype prototype)
+        public static Widget CreateFromPrototype(ContentManager content, WidgetPrototype prototype, ref Dictionary<string, WeakReference<Widget>> widgetIdDict)
         {
             Widget widget = null;
 
@@ -146,11 +147,20 @@ namespace GameJam.UI
             {
                 foreach (WidgetPrototype childPrototype in prototype.Children)
                 {
-                    ((IParentWidget)widget).Add(CreateFromPrototype(content, childPrototype));
+                    ((IParentWidget)widget).Add(CreateFromPrototype(content, childPrototype, ref widgetIdDict));
                 }
             }
 
             widget.Hidden = prototype.Hidden;
+
+            if(prototype.ID.Trim().Length > 0)
+            {
+                if(widgetIdDict.ContainsKey(prototype.ID))
+                {
+                    throw new Exception(string.Format("Duplicate Widget ID: '{0}'", prototype.ID));
+                }
+                widgetIdDict.Add(prototype.ID, new WeakReference<Widget>(widget));
+            }
 
             return widget;
         }

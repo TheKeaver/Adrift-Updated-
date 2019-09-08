@@ -45,6 +45,9 @@ namespace UI.Content.Pipeline
         [XmlAttribute("hidden")]
         public bool Hidden = false;
 
+        [XmlAttribute("id")]
+        public string ID = "";
+
         [XmlElement("Label", typeof(LabelWidgetPrototype))]
         [XmlElement("Image", typeof(ImageWidgetPrototype))]
         [XmlElement("NinePatchImage", typeof(NinePatchImageWidgetPrototype))]
@@ -62,6 +65,7 @@ namespace UI.Content.Pipeline
             output.Write(Width);
             output.Write(Height);
             output.Write(Hidden);
+            output.Write(ID);
 
             output.Write(Children.Count);
             foreach (WidgetPrototype widget in Children)
@@ -79,6 +83,7 @@ namespace UI.Content.Pipeline
             Width = input.ReadString();
             Height = input.ReadString();
             Hidden = input.ReadBoolean();
+            ID = input.ReadString();
 
             int count = input.ReadInt32();
             Children = new List<WidgetPrototype>();
