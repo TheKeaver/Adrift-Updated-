@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Events;
+using GameJam.Events.UI;
 using GameJam.UINew;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
-    public class UIPlaygroundGameState : GameState
+    public class UIPlaygroundGameState : GameState, IEventListener
     {
         SpriteBatch _spriteBatch;
 
@@ -16,10 +19,21 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
+        void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<TestButtonPressedEvent>(this);
+        }
+        void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
+        }
+
         public override void Initialize()
         {
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
+
+            RegisterEvents();
         }
 
         public override void LoadContent()
@@ -52,7 +66,17 @@ namespace GameJam.States
 
         public override void Dispose()
         {
-            
+            UnregisterEvents();
+        }
+
+        public bool Handle(IEvent evt)
+        {
+            if(evt is TestButtonPressedEvent)
+            {
+                Console.WriteLine("Test Button Pressed");
+            }
+
+            return false;
         }
     }
 }

@@ -15,7 +15,8 @@ namespace UI.Content.Pipeline
         [XmlArrayItem("Label", typeof(LabelWidgetPrototype)),
             XmlArrayItem("Image", typeof(ImageWidgetPrototype)),
             XmlArrayItem("NinePatchImage", typeof(NinePatchImageWidgetPrototype)),
-            XmlArrayItem("Panel", typeof(PanelWidgetPrototype))]
+            XmlArrayItem("Panel", typeof(PanelWidgetPrototype)),
+            XmlArrayItem("Button", typeof(ButtonWidgetPrototype))]
         public List<WidgetPrototype> Widgets
         {
             get;
@@ -48,6 +49,7 @@ namespace UI.Content.Pipeline
         [XmlElement("Image", typeof(ImageWidgetPrototype))]
         [XmlElement("NinePatchImage", typeof(NinePatchImageWidgetPrototype))]
         [XmlElement("Panel", typeof(PanelWidgetPrototype))]
+        [XmlElement("Button", typeof(ButtonWidgetPrototype))]
         public List<WidgetPrototype> Children;
 
         /* Update self first, then base */
@@ -167,6 +169,56 @@ namespace UI.Content.Pipeline
         }
         public override void ReadFromInput(ContentReader input)
         {
+            base.ReadFromInput(input);
+        }
+    }
+
+
+    [Serializable]
+    public class ButtonWidgetPrototype : WidgetPrototype
+    {
+        [XmlAttribute("released-image")]
+        public string ReleasedImage;
+        [XmlAttribute("released-thickness")]
+        public string ReleasedThickness;
+
+        [XmlAttribute("hover-image")]
+        public string HoverImage;
+        [XmlAttribute("hover-thickness")]
+        public string HoverThickness;
+
+        [XmlAttribute("pressed-image")]
+        public string PressedImage;
+        [XmlAttribute("pressed-thickness")]
+        public string PressedThickness;
+
+        [XmlAttribute("onclick")]
+        public string OnClick;
+
+        public override void WriteToOutput(ContentWriter output)
+        {
+            output.Write(ReleasedImage);
+            output.Write(ReleasedThickness);
+            output.Write(HoverImage);
+            output.Write(HoverThickness);
+            output.Write(PressedImage);
+            output.Write(PressedThickness);
+
+            output.Write(OnClick);
+
+            base.WriteToOutput(output);
+        }
+        public override void ReadFromInput(ContentReader input)
+        {
+            ReleasedImage = input.ReadString();
+            ReleasedThickness = input.ReadString();
+            HoverImage = input.ReadString();
+            HoverThickness = input.ReadString();
+            PressedImage = input.ReadString();
+            PressedThickness = input.ReadString();
+
+            OnClick = input.ReadString();
+
             base.ReadFromInput(input);
         }
     }

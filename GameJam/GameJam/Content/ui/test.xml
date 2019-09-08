@@ -27,10 +27,6 @@
                 content="Left!"
                 font="font_game_over"
                 />
-            <NinePatchImage
-                image="texture_explosion"
-                thickness="4,4,4,4"
-                />
         </Panel>
         <Image
             halign="center"
@@ -41,5 +37,29 @@
             height="100"
             image="texture_explosion"
             />
+        <Button
+            halign="left"
+            valign="bottom"
+            horizontal="10"
+            vertical="10"
+            width="200"
+            height="50"
+            released-image="texture_ui_button_released"
+            released-thickness="4,4,4,4"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="4,4,4,4"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="4,4,4,4"
+            onclick="queue:UI.TestButtonPressedEvent">
+            <NinePatchImage
+                halign="center"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="25"
+                height="25"
+                image="texture_ui_button_pressed"
+                />
+        </Button>
     </Widgets>
 </UI>

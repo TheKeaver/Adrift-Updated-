@@ -1,5 +1,6 @@
 ﻿using System;
-using GameJam.UINew;
+using Events;
+using GameJam.Events;
 using GameJam.UINew.Widgets;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -85,8 +86,64 @@ namespace GameJam.UINew
             {
                 widget = new Panel(halign, horizontal, valign, vertical, width, height);
             }
+            if (prototype is ButtonWidgetPrototype)
+            {
+                Texture2D releasedTexture = content.Load<Texture2D>(CVars.Get<string>(((ButtonWidgetPrototype)prototype).ReleasedImage));
+                string[] releasedRawThickness = ((ButtonWidgetPrototype)prototype).ReleasedThickness.Trim().Split(',');
+                if (releasedRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
 
-            if(widget is IParentWidget)
+                Texture2D hoverTexture = content.Load<Texture2D>(CVars.Get<string>(((ButtonWidgetPrototype)prototype).HoverImage));
+                string[] hoverRawThickness = ((ButtonWidgetPrototype)prototype).HoverThickness.Trim().Split(',');
+                if (hoverRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                Texture2D pressedTexture = content.Load<Texture2D>(CVars.Get<string>(((ButtonWidgetPrototype)prototype).PressedImage));
+                string[] pressedRawThickness = ((ButtonWidgetPrototype)prototype).PressedThickness.Trim().Split(',');
+                if (pressedRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                widget = new Button(new NinePatchRegion2D(new TextureRegion2D(releasedTexture),
+                        int.Parse(releasedRawThickness[0]),
+                        int.Parse(releasedRawThickness[1]),
+                        int.Parse(releasedRawThickness[2]),
+                        int.Parse(releasedRawThickness[3])),
+                    new NinePatchRegion2D(new TextureRegion2D(hoverTexture),
+                        int.Parse(hoverRawThickness[0]),
+                        int.Parse(hoverRawThickness[1]),
+                        int.Parse(hoverRawThickness[2]),
+                        int.Parse(hoverRawThickness[3])),
+                    new NinePatchRegion2D(new TextureRegion2D(pressedTexture),
+                        int.Parse(pressedRawThickness[0]),
+                        int.Parse(pressedRawThickness[1]),
+                        int.Parse(pressedRawThickness[2]),
+                        int.Parse(pressedRawThickness[3])),
+                    halign, horizontal, valign, vertical, width, height);
+                if(((ButtonWidgetPrototype)prototype).OnClick.Length > 0) {
+                    string[] onclickParts = ((ButtonWidgetPrototype)prototype).OnClick.Trim().Split(':');
+                    switch(onclickParts[0].ToLower())
+                    {
+                        case "queue":
+                            ((Button)widget).Action = () =>
+                            {
+                                string assemblyQualifiedName = string.Format("GameJam.Events.{0}, GameJam", onclickParts[1]);
+                                IEvent evt = (IEvent)Activator.CreateInstance(Type.GetType(assemblyQualifiedName));
+                                EventManager.Instance.QueueEvent(evt);
+                            };
+                            break;
+                        default:
+                            throw new Exception(string.Format("Unkown action type: `{0}`", onclickParts[0]));
+                    }
+                }
+            }
+
+            if (widget is IParentWidget)
             {
                 foreach (WidgetPrototype childPrototype in prototype.Children)
                 {
