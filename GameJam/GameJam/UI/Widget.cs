@@ -120,7 +120,7 @@ namespace GameJam.UI
                         {
                             return 0;
                         }
-                        return Parent.Horizontal;
+                        return Parent.Width;
                     };
                 }
                 ComputeProperties();
@@ -160,7 +160,7 @@ namespace GameJam.UI
                         {
                             return 0;
                         }
-                        return Parent.Vertical;
+                        return Parent.Height;
                     };
                 }
                 ComputeProperties();
@@ -310,7 +310,7 @@ namespace GameJam.UI
                     {
                         return 0;
                     }
-                    return Parent.Horizontal;
+                    return Parent.Width;
                 };
             }
             if (_vertical is RelativeValue)
@@ -321,7 +321,7 @@ namespace GameJam.UI
                     {
                         return 0;
                     }
-                    return Parent.Vertical;
+                    return Parent.Height;
                 };
             }
             if (_width is RelativeValue)
@@ -363,13 +363,13 @@ namespace GameJam.UI
                 switch(HorizontalAlignment)
                 {
                     case HorizontalAlignment.Left:
-                        x += _horizontal.Value;
+                        x += Horizontal;
                         break;
                     case HorizontalAlignment.Right:
-                        x += Parent.Width - _horizontal.Value - Width;
+                        x += Parent.Width - Horizontal - Width;
                         break;
                     case HorizontalAlignment.Center:
-                        x += Parent.Width / 2 - Width / 2 + _horizontal.Value;
+                        x += Parent.Width / 2 - Width / 2 + Horizontal;
                         break;
                 }
 
@@ -377,13 +377,13 @@ namespace GameJam.UI
                 switch (VerticalAlignment)
                 {
                     case VerticalAlignment.Top:
-                        y += _vertical.Value;
+                        y += Vertical;
                         break;
                     case VerticalAlignment.Bottom:
-                        y += Parent.Height - _vertical.Value - Height;
+                        y += Parent.Height - Vertical - Height;
                         break;
                     case VerticalAlignment.Center:
-                        y += Parent.Height / 2 - Height / 2 + _vertical.Value;
+                        y += Parent.Height / 2 - Height / 2 + Vertical;
                         break;
                 }
 

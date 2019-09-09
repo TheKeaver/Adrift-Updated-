@@ -7,9 +7,13 @@
             vertical="0"
             width="50%"
             height="50%"
+
             image="texture_ui_button_pressed"
             thickness="4,4,4,4"
+
             aspect-ratio="1.0"
+
+            id="foo"
             />
         <Label
             halign="center"
@@ -18,6 +22,7 @@
             vertical="0"
             width="50%"
             height="50%"
+
             content="Hello XML!"
             font="font_game_over"
             />
