@@ -47,13 +47,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldCollisionSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Button.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Image.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Label.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\NinePatchImage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Panel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />
@@ -106,11 +99,25 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\WidgetFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\IParentWidget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Image.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Panel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\NinePatchImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\TestButtonPressedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UI\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Events\UI\" />
   </ItemGroup>
 </Project>

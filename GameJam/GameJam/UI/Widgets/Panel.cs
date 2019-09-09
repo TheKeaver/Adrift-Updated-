@@ -4,38 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.UI.Widgets
 {
-    /// <summary>
-    /// A UI widget that is a parent for other widgets.
-    /// </summary>
-    public class Panel : Widget
+    public class Panel : Widget, IParentWidget
     {
         List<Widget> _widgets = new List<Widget>();
 
-        public Panel(Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentWidth,
-                      float pOffsetWidth,
-                      float percentHeight,
-                      float pOffsetHeight)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                 percentWidth, pOffsetWidth, percentHeight, pOffsetHeight)
-        {
-        }
-
-        public Panel(Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentAspect,
-                      float pOffsetAspect,
-                      float aspectRatio,
-                      AspectRatioType aspectRatioType)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                   percentAspect, pOffsetAspect, aspectRatio, aspectRatioType)
+        public Panel(HorizontalAlignment hAlign, AbstractValue horizontal, VerticalAlignment vAlign, AbstractValue vertical, AbstractValue width, AbstractValue height) : base(hAlign, horizontal, vAlign, vertical, width, height)
         {
         }
 
@@ -63,14 +36,6 @@ namespace GameJam.UI.Widgets
 
         public override bool Handle(IEvent evt)
         {
-            for (int i = 0; i < _widgets.Count; i++)
-            {
-                if (_widgets[i].Handle(evt))
-                {
-                    return true;
-                }
-            }
-
             return false;
         }
 

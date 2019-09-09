@@ -6,14 +6,11 @@ using MonoGame.Extended.BitmapFonts;
 
 namespace GameJam.UI.Widgets
 {
-    /// <summary>
-    /// A UI widget for a text label.
-    /// </summary>
     public class Label : Widget
     {
-        readonly BitmapFont _font;
-        Vector2 _bounds;
-        string _content;
+        private readonly BitmapFont _font;
+        private Vector2 _bounds;
+        private string _content;
         public string Content
         {
             get
@@ -25,7 +22,9 @@ namespace GameJam.UI.Widgets
                 _content = value;
 
                 Size2 dimensions = _font.MeasureString(_content);
-                AspectRatio = dimensions.Width / dimensions.Height;
+
+                AspectRatio = (float)dimensions.Width / dimensions.Height;
+                MaintainAspectRatio = true;
 
                 _bounds = dimensions;
 
@@ -34,34 +33,32 @@ namespace GameJam.UI.Widgets
         }
 
         public Label(BitmapFont font,
-                      Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentAspect,
-                      float pOffsetAspect,
-                      AspectRatioType aspectRatioType)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                   percentAspect, pOffsetAspect, 0, aspectRatioType)
+            string content,
+            HorizontalAlignment hAlign,
+            AbstractValue horizontal,
+            VerticalAlignment vAlign,
+            AbstractValue vertical,
+            AbstractValue width,
+            AbstractValue height) : base(hAlign, horizontal, vAlign, vertical, width, height)
         {
             _font = font;
+            Content = content;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!Hidden)
+            if(!Hidden)
             {
-                Vector2 scale = new Vector2(Width, Height) / _bounds;
+                Vector2 scale = new Vector2(BottomRight.X - TopLeft.X, BottomRight.Y - TopLeft.Y) / _bounds;
                 spriteBatch.DrawString(_font,
-                                       _content,
-                                       TopLeft,
-                                       Color.White,
-                                       0,
-                                       Vector2.Zero,
-                                       scale,
-                                       SpriteEffects.None,
-                                       0);
+                    _content,
+                    TopLeft,
+                    Color.White,
+                    0,
+                    Vector2.Zero,
+                    scale,
+                    SpriteEffects.None,
+                    0);
             }
         }
 

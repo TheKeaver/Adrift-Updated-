@@ -1,23 +1,65 @@
 ﻿using System;
 using Events;
+using GameJam.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
-using GameJam.Events;
 
 namespace GameJam.UI.Widgets
 {
-    /// <summary>
-    /// UI widget for a button.
-    /// </summary>
-    public class Button : Widget
+    public enum ButtonState
+    {
+        Released,
+        Hover,
+        Pressed
+    }
+
+    public class Button : Widget, IParentWidget
     {
         public Action Action;
 
-        readonly NinePatchRegion2D _releasedTexture;
-        readonly NinePatchRegion2D _hoverTexture;
-        readonly NinePatchRegion2D _pressedTexture;
-        readonly Vector2 _bounds;
+        private NinePatchRegion2D _releasedNinePatch;
+        private NinePatchRegion2D _hoverNinePatch;
+        private NinePatchRegion2D _pressedNinePatch;
+        public NinePatchRegion2D ReleasedNinePatch
+        {
+            get
+            {
+                return _releasedNinePatch;
+            }
+            set
+            {
+                _releasedNinePatch = value;
+
+                ComputeProperties();
+            }
+        }
+        public NinePatchRegion2D HoverNinePatch
+        {
+            get
+            {
+                return _hoverNinePatch;
+            }
+            set
+            {
+                _hoverNinePatch = value;
+
+                ComputeProperties();
+            }
+        }
+        public NinePatchRegion2D PressedNinePatch 
+        {
+            get
+            {
+                return _pressedNinePatch;
+            }
+            set
+            {
+                _pressedNinePatch = value;
+
+                ComputeProperties();
+            }
+        }
 
         public Panel SubPanel
         {
@@ -31,94 +73,50 @@ namespace GameJam.UI.Widgets
             private set;
         } = ButtonState.Released;
 
-        public Button(NinePatchRegion2D releasedTexture,
-                      NinePatchRegion2D hoverTexture,
-                      NinePatchRegion2D pressedTexture,
-                      Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentAspect,
-                      float pOffsetAspect,
-                      float aspectRatio,
-                      AspectRatioType aspectRatioType)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                   percentAspect, pOffsetAspect, aspectRatio, aspectRatioType)
+        public Button(NinePatchRegion2D releasedNinePatch,
+            NinePatchRegion2D hoverNinePatch,
+            NinePatchRegion2D pressedNinePatch,
+
+            HorizontalAlignment hAlign,
+            AbstractValue horizontal,
+
+            VerticalAlignment vAlign,
+            AbstractValue vertical,
+
+            AbstractValue width,
+            AbstractValue height) : base(hAlign, horizontal, vAlign, vertical, width, height)
         {
-            _releasedTexture = releasedTexture;
-            _hoverTexture = hoverTexture;
-            _pressedTexture = pressedTexture;
-            _bounds = new Vector2(releasedTexture.Width, releasedTexture.Height);
+            _releasedNinePatch = releasedNinePatch;
+            _hoverNinePatch = hoverNinePatch;
+            _pressedNinePatch = pressedNinePatch;
 
-            SubPanel = new Panel(Origin.TopLeft,
-                                0,
-                                0,
-                                0,
-                                0,
-                                1,
-                                0,
-                                1,
-                                 (float)0)
-            {
-                Parent = this
-            };
-        }
-
-        public Button(NinePatchRegion2D releasedTexture,
-                      NinePatchRegion2D hoverTexture,
-                      NinePatchRegion2D pressedTexture,
-                      Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentWidth,
-                      float pOffsetWidth,
-                      float percentHeight,
-                      float pOffsetHeight)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                 percentWidth, pOffsetWidth, percentHeight, pOffsetHeight)
-        {
-            _releasedTexture = releasedTexture;
-            _hoverTexture = hoverTexture;
-            _pressedTexture = pressedTexture;
-            _bounds = new Vector2(releasedTexture.Width, releasedTexture.Height);
-
-            SubPanel = new Panel(Origin.TopLeft,
-                                0,
-                                0,
-                                0,
-                                0,
-                                1,
-                                0,
-                                1,
-                                 (float)0)
-            {
-                Parent = this
-            };
+            SubPanel = new Panel(HorizontalAlignment.Center, new FixedValue(0),
+                VerticalAlignment.Center, new FixedValue(0),
+                new FixedValue(100), // TODO: Width and Height need to be percentage-based
+                new FixedValue(100));
+            SubPanel.Parent = this;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!Hidden)
+            if(!Hidden)
             {
-                NinePatchRegion2D ninePatch = _releasedTexture;
-                if (ButtonState == ButtonState.Hover)
+                NinePatchRegion2D ninePatch = _releasedNinePatch;
+                if(ButtonState == ButtonState.Hover)
                 {
-                    ninePatch = _hoverTexture;
+                    ninePatch = _hoverNinePatch;
                 }
-                if (ButtonState == ButtonState.Pressed)
+                if(ButtonState == ButtonState.Pressed)
                 {
-                    ninePatch = _pressedTexture;
+                    ninePatch = _pressedNinePatch;
                 }
 
                 spriteBatch.Draw(ninePatch,
-                                 new Rectangle((int)TopLeft.X,
-                                               (int)TopLeft.Y,
-                                               (int)Width,
-                                               (int)Height),
-                                 Color.White);
+                    new Rectangle((int)TopLeft.X,
+                        (int)TopLeft.Y,
+                        (int)Width,
+                        (int)Height),
+                    Color.White);
                 SubPanel.Draw(spriteBatch);
             }
         }
@@ -126,7 +124,7 @@ namespace GameJam.UI.Widgets
         public override bool Handle(IEvent evt)
         {
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
-            if (mouseMoveEvent != null)
+            if(mouseMoveEvent != null)
             {
                 if (mouseMoveEvent.CurrentPosition.X > TopLeft.X
                     && mouseMoveEvent.CurrentPosition.X < BottomRight.X
@@ -176,12 +174,17 @@ namespace GameJam.UI.Widgets
         {
             SubPanel.ComputeProperties();
         }
-    }
 
-    public enum ButtonState
-    {
-        Released,
-        Hover,
-        Pressed
+        public void Add(Widget widget)
+        {
+            SubPanel.Add(widget);
+            ComputeProperties();
+        }
+
+        public void Remove(Widget widget)
+        {
+            SubPanel.Remove(widget);
+            ComputeProperties();
+        }
     }
 }

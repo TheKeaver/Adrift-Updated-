@@ -43,7 +43,7 @@ namespace GameJam
             Graphics.PreferredBackBufferWidth = CVars.Get<int>("window_width");
             Graphics.PreferredBackBufferHeight = CVars.Get<int>("window_height");
 
-            Window.AllowUserResizing = false;
+            Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
         }
         
@@ -77,7 +77,8 @@ namespace GameJam
 
             // Load first game state
             //ChangeState(new MainGameState(this));
-            ChangeState(new MenuGameState(this));
+            //ChangeState(new MenuGameState(this));
+            ChangeState(new UIPlaygroundGameState(this));
         }
         
         protected override void Update(GameTime gameTime)

@@ -133,6 +133,10 @@
       <Project>{e549b0dc-2e18-4704-8bc7-641f26625b31}</Project>
       <Name>Events</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UI.Content.Pipeline\UI.Content.Pipeline.csproj">
+      <Project>{1319747C-2EAC-4D6F-9C34-A975BBD218E2}</Project>
+      <Name>UI.Content.Pipeline</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

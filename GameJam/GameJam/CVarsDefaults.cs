@@ -62,6 +62,10 @@
             Create<string>("texture_title_with_instructions", "textures/TitleInstructions", CVarFlags.PRESERVE);
             Create<string>("texture_title_without_instructions", "textures/TitleNoInstructions", CVarFlags.PRESERVE);
 
+            Create<string>("texture_ui_button_released", "textures/ui/button_up_background", CVarFlags.PRESERVE);
+            Create<string>("texture_ui_button_hover", "textures/ui/button_over_background", CVarFlags.PRESERVE);
+            Create<string>("texture_ui_button_pressed", "textures/ui/button_down_background", CVarFlags.PRESERVE);
+
             Create<string>("sound_explosion", "sounds/Explosion_Sound", CVarFlags.PRESERVE);
             Create<string>("sound_projectile_fired", "sounds/Laser_Shot", CVarFlags.PRESERVE);
             Create<string>("sound_projectile_bounce", "sounds/Proj_Bounce", CVarFlags.PRESERVE);

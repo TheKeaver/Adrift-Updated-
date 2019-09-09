@@ -11,6 +11,7 @@
 #-------------------------------- References --------------------------------#
 
 /reference:../../packages/MonoGame.Extended.Content.Pipeline.1.1.0/tools/MonoGame.Extended.Content.Pipeline.dll
+/reference:../../UI.Content.Pipeline/bin/Debug/UI.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -115,18 +116,6 @@
 /processorParam:TextureFormat=Color
 /build:textures/PlayerShip.png
 
-#begin textures/PlayerShip.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/PlayerShip.png
-
 #begin textures/shield.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -174,4 +163,45 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textures/TitleNoInstructions.png
+
+#begin textures/ui/button_down_background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/button_down_background.png
+
+#begin textures/ui/button_over_background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/button_over_background.png
+
+#begin textures/ui/button_up_background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/ui/button_up_background.png
+
+#begin ui/test.xml
+/importer:UIWidgetsImporter
+/processor:UIWidgetsProcessor
+/build:ui/test.xml
 
