@@ -22,7 +22,9 @@ namespace GameJam.UI.Widgets
                 _content = value;
 
                 Size2 dimensions = _font.MeasureString(_content);
-                // TODO: Respect aspect ratio
+
+                AspectRatio = (float)dimensions.Width / dimensions.Height;
+                MaintainAspectRatio = true;
 
                 _bounds = dimensions;
 
@@ -47,7 +49,7 @@ namespace GameJam.UI.Widgets
         {
             if(!Hidden)
             {
-                Vector2 scale = new Vector2(Width, Height) / _bounds;
+                Vector2 scale = new Vector2(BottomRight.X - TopLeft.X, BottomRight.Y - TopLeft.Y) / _bounds;
                 spriteBatch.DrawString(_font,
                     _content,
                     TopLeft,

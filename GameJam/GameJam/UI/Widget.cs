@@ -247,7 +247,7 @@ namespace GameJam.UI
 
                     if (freeAspectRatio < AspectRatio) // Width is dominant
                     {
-                        height = _width.Value * AspectRatio;
+                        height = _width.Value / AspectRatio;
                     }
                 }
 
