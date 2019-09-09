@@ -153,7 +153,23 @@ namespace GameJam.UI
 
             widget.Hidden = prototype.Hidden;
 
-            if(prototype.ID.Trim().Length > 0)
+            if (prototype.AspectRatio.Length > 0)
+            {
+                string[] aspectRatioParts = prototype.AspectRatio.Split(new[] { ':', '/' });
+                float aspectRatio = 0;
+                if (aspectRatioParts.Length == 1)
+                {
+                    aspectRatio = float.Parse(aspectRatioParts[0]);
+                }
+                if (aspectRatioParts.Length == 2)
+                {
+                    aspectRatio = float.Parse(aspectRatioParts[0]) / float.Parse(aspectRatioParts[1]);
+                }
+                widget.AspectRatio = aspectRatio;
+                widget.MaintainAspectRatio = true;
+            }
+
+            if (prototype.ID.Trim().Length > 0)
             {
                 if(widgetIdDict.ContainsKey(prototype.ID))
                 {

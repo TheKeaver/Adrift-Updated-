@@ -45,6 +45,9 @@ namespace UI.Content.Pipeline
         [XmlAttribute("hidden")]
         public bool Hidden = false;
 
+        [XmlAttribute("aspect-ratio")]
+        public string AspectRatio = "";
+
         [XmlAttribute("id")]
         public string ID = "";
 
@@ -65,6 +68,7 @@ namespace UI.Content.Pipeline
             output.Write(Width);
             output.Write(Height);
             output.Write(Hidden);
+            output.Write(AspectRatio);
             output.Write(ID);
 
             output.Write(Children.Count);
@@ -83,6 +87,7 @@ namespace UI.Content.Pipeline
             Width = input.ReadString();
             Height = input.ReadString();
             Hidden = input.ReadBoolean();
+            AspectRatio = input.ReadString();
             ID = input.ReadString();
 
             int count = input.ReadInt32();

@@ -116,6 +116,10 @@ namespace GameJam.UI
                 {
                     ((RelativeValue)_horizontal).GetBaseValueFn = () =>
                     {
+                        if(Parent == null)
+                        {
+                            return 0;
+                        }
                         return Parent.Horizontal;
                     };
                 }
@@ -152,10 +156,44 @@ namespace GameJam.UI
                 {
                     ((RelativeValue)_vertical).GetBaseValueFn = () =>
                     {
+                        if (Parent == null)
+                        {
+                            return 0;
+                        }
                         return Parent.Vertical;
                     };
                 }
                 ComputeProperties();
+            }
+        }
+
+        private bool _maintainAspectRatio = false;
+        public virtual bool MaintainAspectRatio
+        {
+            get
+            {
+                return _maintainAspectRatio;
+            }
+            set
+            {
+                _maintainAspectRatio = value;
+                ComputeProperties();
+            }
+        }
+        private float _aspectRatio;
+        public virtual float AspectRatio
+        {
+            get
+            {
+                return _aspectRatio;
+            }
+            set
+            {
+                _aspectRatio = value;
+                if (MaintainAspectRatio)
+                {
+                    ComputeProperties();
+                }
             }
         }
 
@@ -164,7 +202,18 @@ namespace GameJam.UI
         {
             get
             {
-                return _width.Value;
+                float width = _width.Value;
+                if (MaintainAspectRatio)
+                {
+                    float freeAspectRatio = _width.Value / _height.Value;
+
+                    if (freeAspectRatio > AspectRatio) // Height is dominant
+                    {
+                        width = _height.Value * AspectRatio;
+                    }
+                }
+
+                return width;
             }
         }
         public AbstractValue WidthValue
@@ -176,6 +225,10 @@ namespace GameJam.UI
                 {
                     ((RelativeValue)_width).GetBaseValueFn = () =>
                     {
+                        if (Parent == null)
+                        {
+                            return 0;
+                        }
                         return Parent.Width;
                     };
                 }
@@ -187,7 +240,18 @@ namespace GameJam.UI
         {
             get
             {
-                return _height.Value;
+                float height = _height.Value;
+                if (MaintainAspectRatio)
+                {
+                    float freeAspectRatio = _width.Value / _height.Value;
+
+                    if (freeAspectRatio < AspectRatio) // Width is dominant
+                    {
+                        height = _width.Value * AspectRatio;
+                    }
+                }
+
+                return height;
             }
         }
         public AbstractValue HeightValue
@@ -199,6 +263,10 @@ namespace GameJam.UI
                 {
                     ((RelativeValue)_height).GetBaseValueFn = () =>
                     {
+                        if (Parent == null)
+                        {
+                            return 0;
+                        }
                         return Parent.Height;
                     };
                 }
@@ -238,6 +306,10 @@ namespace GameJam.UI
             {
                 ((RelativeValue)_horizontal).GetBaseValueFn = () =>
                 {
+                    if (Parent == null)
+                    {
+                        return 0;
+                    }
                     return Parent.Horizontal;
                 };
             }
@@ -245,6 +317,10 @@ namespace GameJam.UI
             {
                 ((RelativeValue)_vertical).GetBaseValueFn = () =>
                 {
+                    if (Parent == null)
+                    {
+                        return 0;
+                    }
                     return Parent.Vertical;
                 };
             }
@@ -252,6 +328,10 @@ namespace GameJam.UI
             {
                 ((RelativeValue)_width).GetBaseValueFn = () =>
                 {
+                    if (Parent == null)
+                    {
+                        return 0;
+                    }
                     return Parent.Width;
                 };
             }
@@ -259,6 +339,10 @@ namespace GameJam.UI
             {
                 ((RelativeValue)_height).GetBaseValueFn = () =>
                 {
+                    if (Parent == null)
+                    {
+                        return 0;
+                    }
                     return Parent.Height;
                 };
             }

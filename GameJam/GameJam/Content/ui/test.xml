@@ -9,6 +9,7 @@
             height="50%"
             image="texture_ui_button_pressed"
             thickness="4,4,4,4"
+            aspect-ratio="1.0"
             />
         <Label
             halign="center"
