@@ -13,6 +13,7 @@ namespace GameJam.States
 
         private Texture2D[] _menuTextures;
         private int _menuTextureIdx = 0;
+        private int numberOfPlayers = 2;
         private Timer _menuChangeTimer;
 
         public MenuGameState(GameManager gameManager) : base(gameManager)
@@ -59,9 +60,19 @@ namespace GameJam.States
                 _menuTextureIdx = (++_menuTextureIdx) % 2;
             }
 
+            Player[] players = new Player[numberOfPlayers];
+            for ( int i=0; i<numberOfPlayers; i++)
+            {
+                if (i == 0)
+                    players[i] = new Player("playerOne", new PrimaryKeyboardInputMethod());
+                else
+                    players[i] = new Player("playerTwo", new SecondaryKeyboardInputMethod());
+
+            }
+
             if(Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                GameManager.ChangeState(new MainGameState(GameManager, new Player("player", new PrimaryKeyboardInputMethod())));
+                GameManager.ChangeState( new MainGameState(GameManager, players) );
             }
         }
 

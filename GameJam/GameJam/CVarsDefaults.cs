@@ -19,8 +19,12 @@
             Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("keyboard_shield_angular_speed", 2.513f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
             Create<int>("keyboard_primary_counter_clockwise", 65, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("keyboard_primary_clockwise", 68, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+
+            Create<int>("keyboard_secondary_counter_clockwise", 37, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("keyboard_secondary_clockwise", 39, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** GAMEPLAY **/
             Create<float>("player_shield_radius", 30.0f, CVarFlags.DEV_PRESERVE);

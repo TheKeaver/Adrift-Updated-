@@ -15,6 +15,7 @@ namespace GameJam.Directors
         readonly Family edgeFamily = Family.All(typeof(EdgeComponent)).Get();
         readonly Family playerShieldFamily = Family.All(typeof(PlayerShieldComponent)).Get();
         readonly Family projectileFamily = Family.All(typeof(ProjectileComponent), typeof(MovementComponent)).Get();
+        readonly Family playerShipFamily = Family.All(typeof(PlayerShipComponent), typeof(MovementComponent)).Get();
         public BounceDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
         }
@@ -43,13 +44,15 @@ namespace GameJam.Directors
             Entity entityA = collisionStartEvent.EntityA;
             Entity entityB = collisionStartEvent.EntityB;
 
-            if ( !edgeFamily.Matches(entityA) && edgeFamily.Matches(entityB) )
+            if (!edgeFamily.Matches(entityA) && edgeFamily.Matches(entityB))
                 HandleBounceCollision(entityB, entityA);
-            else if ( edgeFamily.Matches(entityA) && !edgeFamily.Matches(entityB) )
+            else if (edgeFamily.Matches(entityA) && !edgeFamily.Matches(entityB))
                 HandleBounceCollision(entityA, entityB);
-            else if ( projectileFamily.Matches(entityA) && playerShieldFamily.Matches(entityB))
+            else if (projectileFamily.Matches(entityA) && playerShieldFamily.Matches(entityB))
                 HandleBounceCollision(entityB, entityA);
             else if (playerShieldFamily.Matches(entityA) && projectileFamily.Matches(entityB))
+                HandleBounceCollision(entityA, entityB);
+            else if (playerShipFamily.Matches(entityA) && playerShipFamily.Matches(entityB))
                 HandleBounceCollision(entityA, entityB);
         }
 
@@ -79,9 +82,8 @@ namespace GameJam.Directors
                     }
 
                     bouncer.GetComponent<MovementComponent>().MovementVector = getReflectionVector(
-                        bounceDirection,
-                        reflector.GetComponent<EdgeComponent>().Normal
-                        ) * bouncer.GetComponent<MovementComponent>().MovementVector.Length();
+                        bounceDirection, reflector.GetComponent<EdgeComponent>().Normal) 
+                        * bouncer.GetComponent<MovementComponent>().MovementVector.Length();
                 }
             }
             if(reflector.HasComponent<PlayerShieldComponent>())
@@ -110,6 +112,24 @@ namespace GameJam.Directors
                 {
                     bouncerDirection = getReflectionVector(bouncerDirection, shieldNormal);
                     bouncer.GetComponent<MovementComponent>().MovementVector = bouncerDirection * (bouncer.GetComponent<MovementComponent>().MovementVector.Length() + playerShip.GetComponent<MovementComponent>().MovementVector.Length());
+                }
+            }
+            if (reflector.HasComponent<PlayerShipComponent>() && bouncer.HasComponent<PlayerShipComponent>() )
+            {
+                Vector2 ref2bounce = bouncer.GetComponent<TransformComponent>().Position - reflector.GetComponent<TransformComponent>().Position;
+                Vector2 bounce2ref = reflector.GetComponent<TransformComponent>().Position - bouncer.GetComponent<TransformComponent>().Position;
+
+                ref2bounce.Normalize();
+                bounce2ref.Normalize();
+
+                if (Vector2.Dot(ref2bounce, bounce2ref) < 0)
+                {
+                    ref2bounce = getReflectionVector(ref2bounce, bounce2ref);
+                    reflector.GetComponent<MovementComponent>().MovementVector = ref2bounce * 
+                        (bouncer.GetComponent<MovementComponent>().MovementVector.Length() + reflector.GetComponent<MovementComponent>().MovementVector.Length())/2;
+                    bounce2ref = getReflectionVector(bounce2ref, ref2bounce);
+                    bouncer.GetComponent<MovementComponent>().MovementVector = bounce2ref *
+                        (bouncer.GetComponent<MovementComponent>().MovementVector.Length() + reflector.GetComponent<MovementComponent>().MovementVector.Length())/2;
                 }
             }
         }

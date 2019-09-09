@@ -43,12 +43,12 @@ namespace GameJam
             private set;
         }
 
-        Player Player;
+        Player[] PlayerArray;
 
-        public MainGameState(GameManager gameManager, Player player)
+        public MainGameState(GameManager gameManager, Player[] players)
             : base(gameManager)
         {
-            Player = player;
+            PlayerArray = players;
         }
 
         public override void Initialize()
@@ -141,11 +141,22 @@ namespace GameJam
         {
             Entity playerShipEntity = PlayerShipEntity.Create(Engine,
                 Content.Load<Texture2D>(CVars.Get<string>("texture_player_ship")),
-                new Vector2(0, 0));
+                new Vector2(-25 + (25 * (PlayerArray.Length % 2)), 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
                 Content.Load<Texture2D>(CVars.Get<string>("texture_player_shield")), playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
-            playerShieldEntity.AddComponent(new PlayerComponent(Player));
+            playerShieldEntity.AddComponent(new PlayerComponent(PlayerArray[0]));
+
+            if(PlayerArray.Length == 2)
+            {
+                Entity playerTwoShipEntity = PlayerShipEntity.Create(Engine,
+                Content.Load<Texture2D>(CVars.Get<string>("texture_player_ship")),
+                new Vector2(25, 0));
+                Entity playerTwoShieldEntity = PlayerShieldEntity.Create(Engine,
+                    Content.Load<Texture2D>(CVars.Get<string>("texture_player_shield")), playerTwoShipEntity);
+                playerTwoShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerTwoShieldEntity;
+                playerTwoShieldEntity.AddComponent(new PlayerComponent(PlayerArray[1]));
+            }
 
             Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 1), new Vector2(0,-1));
             Entity leftEdge = EdgeEntity.Create(Engine, new Vector2(-CVars.Get<int>("window_width") / 2, 0), new Vector2(1, CVars.Get<int>("window_height")), new Vector2(1, 0));

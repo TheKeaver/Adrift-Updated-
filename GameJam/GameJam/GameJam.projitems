@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionStartEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\FireProjectileProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
