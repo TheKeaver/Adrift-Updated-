@@ -200,6 +200,11 @@
 /processorParam:TextureFormat=Color
 /build:textures/ui/button_up_background.png
 
+#begin ui/MainMenu.xml
+/importer:UIWidgetsImporter
+/processor:UIWidgetsProcessor
+/build:ui/MainMenu.xml
+
 #begin ui/test.xml
 /importer:UIWidgetsImporter
 /processor:UIWidgetsProcessor

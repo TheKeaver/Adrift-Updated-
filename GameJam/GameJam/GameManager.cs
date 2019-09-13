@@ -78,7 +78,8 @@ namespace GameJam
             // Load first game state
             //ChangeState(new MainGameState(this));
             //ChangeState(new MenuGameState(this));
-            ChangeState(new UIPlaygroundGameState(this));
+            //ChangeState(new UIPlaygroundGameState(this));
+            ChangeState(new UIMenuGameState(this));
         }
         
         protected override void Update(GameTime gameTime)
