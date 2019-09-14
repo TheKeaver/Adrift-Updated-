@@ -1,4 +1,4 @@
-﻿using Audrey;
+using Audrey;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -47,6 +47,12 @@ namespace GameJam.Systems
 
         public void DrawEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
+            DrawSpriteBatchEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
+            DrawVectorEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
+        }
+
+        private void DrawSpriteBatchEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+        {
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                                null,
                                SamplerState.PointClamp,
@@ -71,6 +77,7 @@ namespace GameJam.Systems
 
                 Vector2 scale = new Vector2(spriteComp.Bounds.X / spriteComp.Texture.Width,
                                             spriteComp.Bounds.Y / spriteComp.Texture.Height);
+				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
                 Vector2 origin = new Vector2(spriteComp.Texture.Bounds.Width,
                                              spriteComp.Texture.Bounds.Height) * HalfHalf;
 
@@ -89,7 +96,7 @@ namespace GameJam.Systems
                                       Color.White,
                                       -transformComp.Rotation,
                                       origin,
-                                      scale,
+                                      scale * transformScale,
                                       SpriteEffects.None,
                                       0);
                 }
@@ -119,7 +126,8 @@ namespace GameJam.Systems
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
                 Vector2 scale = Vector2.One;
-                Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
+				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
+				Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
 
                 SpriteBatch.DrawString(fontComp.Font,
                                         fontComp.Content,
@@ -127,7 +135,7 @@ namespace GameJam.Systems
                                         fontComp.Color,
                                         -transformComp.Rotation,
                                         origin,
-                                        scale,
+                                        scale * transformScale,
                                         SpriteEffects.None,
                                         0);
             }
