@@ -110,6 +110,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\NinePatchImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\TestButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\VectorSpriteComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -119,5 +120,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)UI\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\UI\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Graphics\" />
   </ItemGroup>
 </Project>
