@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using Events;
 using GameJam.Events.UI;
+using GameJam.Input;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using UI.Content.Pipeline;
 
 namespace GameJam.States
@@ -12,6 +14,8 @@ namespace GameJam.States
     {
         SpriteBatch _spriteBatch;
         Root _root;
+
+        int numberOfPlayers = 1;
 
         private ProcessManager ProcessManager
         {
@@ -83,6 +87,17 @@ namespace GameJam.States
             if(evt is PlayGameButtonPressedEvent)
             {
                 Console.WriteLine("Play Game Pressed");
+                Player[] players = new Player[numberOfPlayers];
+                for (int i = 0; i < numberOfPlayers; i++)
+                {
+                    if (i == 0)
+                        players[i] = new Player("playerOne", new PrimaryKeyboardInputMethod());
+                    else
+                        players[i] = new Player("playerTwo", new SecondaryKeyboardInputMethod());
+
+                }
+
+                GameManager.ChangeState(new MainGameState(GameManager, players));
             }
             if(evt is OptionsButtonPressedEvent)
             {
