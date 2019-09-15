@@ -201,8 +201,8 @@ namespace GameJam.Systems
 
 				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
 
-				float cos = (float)Math.Cos(transformComp.Rotation);
-                float sin = (float)Math.Sin(transformComp.Rotation);
+				float cos = (float)Math.Cos(transformComp.Rotation * -1);
+                float sin = (float)Math.Sin(transformComp.Rotation * -1);
 
                 foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
                 {
