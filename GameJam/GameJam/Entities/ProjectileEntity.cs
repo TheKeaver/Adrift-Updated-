@@ -26,7 +26,7 @@ namespace GameJam.Entities
                     new Vector2(-3, 1), new Vector2(-3, -1),
                     Color.Red)
             }));
-            entity.GetComponent<TransformComponent>().ChangeScale(2, false);
+            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("projectile_size"), false);
 
             return entity;
         }

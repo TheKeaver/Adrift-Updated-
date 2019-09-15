@@ -18,7 +18,6 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent(position));
-            entity.GetComponent<TransformComponent>().ChangeScale(5, true);
 
             entity.AddComponent(new MovementComponent());
             entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health")));
@@ -55,6 +54,7 @@ namespace GameJam.Entities
                     new Vector2(-3.3f, 2.5f), new Vector2(-3.5f, 2.5f),
                     Color.White)
             }));
+            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
 
             return entity;
         }
