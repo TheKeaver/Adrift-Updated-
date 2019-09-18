@@ -64,6 +64,7 @@ namespace GameJam
 
             _gamePadListener = new GamePadListener();
             _inputListenerManager.Listeners.Add(_gamePadListener);
+            _gamePadListener.ButtonDown += GamePad_ControllerButtonDown;
 
             GamePadListener.CheckControllerConnections = true;
             GamePadListener.ControllerConnectionChanged += GamePad_ControllerConnectionChanged;
@@ -75,16 +76,11 @@ namespace GameJam
         {
             // Global Content
 
-            // Load first game state
-            //ChangeState(new MainGameState(this));
-            //ChangeState(new MenuGameState(this));
-            //ChangeState(new UIPlaygroundGameState(this));
             ChangeState(new UIMenuGameState(this));
         }
         
         protected override void Update(GameTime gameTime)
         {
-#if DEBUG
             if (Keyboard.GetState().IsKeyDown(Keys.F2) && _cvarSyncButtonReleased)
             {
                 CVars.SynchronizeFromFile();
@@ -93,7 +89,6 @@ namespace GameJam
             {
                 _cvarSyncButtonReleased = true;
             }
-#endif
 
             EventManager.Instance.Dispatch();
 
@@ -161,8 +156,8 @@ namespace GameJam
 
         void GamePad_ControllerConnectionChanged(object sender, GamePadEventArgs e)
         {
-            // More than 4 controllers not supported
-            if ((int)e.PlayerIndex < 4)
+            // More than 2 controllers not supported
+            if ((int)e.PlayerIndex < 2)
             {
                 if (!e.PreviousState.IsConnected
                    && e.CurrentState.IsConnected)
@@ -177,6 +172,11 @@ namespace GameJam
                     EventManager.Instance.QueueEvent(new GamePadDisconnectedEvent(e.PlayerIndex));
                 }
             }
+        }
+
+        void GamePad_ControllerButtonDown(object sender, GamePadEventArgs e)
+        {
+            EventManager.Instance.QueueEvent(new GamePadButtonDownEvent(e.PlayerIndex, e.Button));
         }
     }
 }

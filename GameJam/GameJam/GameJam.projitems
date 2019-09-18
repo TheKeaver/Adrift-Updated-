@@ -31,13 +31,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ProjectileEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ShootingEnemyEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\KamikazeEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\GameOverEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileFiredEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\OutOfAmmoEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\LaserFiredEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\CreateExplosionEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionEndEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\CollisionStartEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\GameOverEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\ProjectileFiredEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\OutOfAmmoEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserFiredEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\CreateExplosionEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\CollisionEndEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\CollisionStartEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\GamePadButtonDownEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\QuitGameButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\OptionsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\PlayGameButtonPressedEvent.cs" />
@@ -46,6 +47,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\FireProjectileProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIMenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
@@ -65,10 +67,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputSnapshot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\Player.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\GamePadConnectedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\GamePadDisconnectedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\MouseButtonEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\MouseMoveEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\GamePadConnectedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\GamePadDisconnectedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\MouseButtonEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\MouseMoveEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ResizeEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\Render.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerComponent.cs" />
@@ -99,7 +101,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\ExplosionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\ExplosionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileBouncedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
@@ -120,6 +122,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Events\GameLogic\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Events\EnemyActions\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
   </ItemGroup>
