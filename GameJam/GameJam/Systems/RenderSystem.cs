@@ -48,7 +48,7 @@ namespace GameJam.Systems
         public void DrawEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
             SpriteBatch.Begin(SpriteSortMode.Deferred,
-                               null,
+                               BlendState.AlphaBlend,
                                SamplerState.PointClamp,
                                null,
                                null,

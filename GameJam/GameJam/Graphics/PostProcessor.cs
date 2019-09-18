@@ -63,6 +63,7 @@ namespace GameJam.Graphics
             Drawing = true;
 
             GraphicsDevice.SetRenderTarget(_renderTarget);
+            GraphicsDevice.Clear(Color.Transparent);
         }
 
         public void Update(float dt)

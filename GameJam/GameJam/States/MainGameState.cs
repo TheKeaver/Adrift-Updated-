@@ -136,9 +136,14 @@ namespace GameJam.States
             Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
 
             Content.Load<Effect>(CVars.Get<string>("effect_blur"));
-            Blur blur = new Blur(AdriftPostProcessor, GameManager.Content);
+
+            /*Blur blur = new Blur(AdriftPostProcessor, GameManager.Content);
             blur.Radius = 3;
-            AdriftPostProcessor.Effects.Add(blur);
+            AdriftPostProcessor.Effects.Add(blur);*/
+
+            Bloom bloom = new Bloom(AdriftPostProcessor, GameManager.Content);
+            bloom.Radius = 1.5f;
+            AdriftPostProcessor.Effects.Add(bloom);
         }
 
         public override void Show()
@@ -204,10 +209,6 @@ namespace GameJam.States
                                         dt,
                                         betweenFrameAlpha);
             AdriftPostProcessor.End();
-            _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
-                                        Constants.Render.GROUP_MASK_ALL,
-                                        dt,
-                                        betweenFrameAlpha);
         }
 
         public override void Dispose()
