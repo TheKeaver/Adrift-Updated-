@@ -15,6 +15,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin effects/BlurEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/BlurEffect.fx;effects/Blur.fx
+
 #begin fonts/Intro.fnt
 /importer:BitmapFontImporter
 /processor:BitmapFontProcessor

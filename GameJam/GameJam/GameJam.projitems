@@ -9,6 +9,7 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Blur.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\BounceComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\EdgeComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ProjectileSpawningProcessComponent.cs" />
@@ -44,7 +45,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\PlayGameButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Bloom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\FireProjectileProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
