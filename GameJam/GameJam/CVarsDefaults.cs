@@ -35,6 +35,7 @@
             Create<float>("kamikaze_enemy_rotational_speed", 0.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("enemy_pushback_force", 60.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            Create<float>("shooting_enemy_size", 4, CVarFlags.DEV_PRESERVE);
             Create<float>("shooting_enemy_speed", 0, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("shooting_enemy_rotational_speed", 1.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("shooting_enemy_projectile_speed", 60.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
