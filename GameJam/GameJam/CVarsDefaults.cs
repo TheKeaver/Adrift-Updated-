@@ -28,6 +28,7 @@
 
             /** GAMEPLAY **/
             Create<float>("player_shield_radius", 30.0f, CVarFlags.DEV_PRESERVE);
+            Create<float>("player_shield_size", 3, CVarFlags.DEV_PRESERVE);
             Create<float>("player_ship_size", 5, CVarFlags.DEV_PRESERVE);
             Create<int>("player_ship_max_health", 3, CVarFlags.DEV_PRESERVE);
 
