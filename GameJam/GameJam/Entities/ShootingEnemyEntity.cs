@@ -29,7 +29,7 @@ namespace GameJam.Entities
                     new Vector2(4, 0),
                     new Vector2(1, -1),
                     new Vector2(2, -4)
-                    }, 0.2f, Color.Cyan, PolyRenderShape.PolyCapStyle.Filled, true)
+                    }, 0.3f, Color.Cyan, PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("shooting_enemy_size"), true);
 
