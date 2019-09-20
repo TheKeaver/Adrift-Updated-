@@ -27,32 +27,16 @@ namespace GameJam.Entities
             entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = false;
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
-                // Top Right
-                new QuadRenderShape(new Vector2(3, 0), new Vector2(3.5f, 0),
-                    new Vector2(0, 3.5f), new Vector2(0, 3),
-                    Color.White),
-                // Bottom Right
-                new QuadRenderShape(new Vector2(3, 0), new Vector2(0, -3),
-                    new Vector2(0, -3.5f), new Vector2(3.5f, 0),
-                    Color.White),
-                // Top Left
-                new QuadRenderShape(new Vector2(0, 3), new Vector2(0, 3.5f),
-                    new Vector2(-3.5f, 0), new Vector2(-3, 0),
-                    Color.White),
-                // Bottom Left
-                new QuadRenderShape(new Vector2(0, -3.5f), new Vector2(0, -3),
-                    new Vector2(-3, 0), new Vector2(-3.5f, 0),
-                    Color.White),
-                // Tails
-                new QuadRenderShape(new Vector2(0, 3), new Vector2(0, 3.5f),
-                    new Vector2(-3.3f, -2f), new Vector2(-3.3f, -2.5f),
-                    Color.White),
-                new QuadRenderShape(new Vector2(0, -3.5f), new Vector2(0, -3),
-                    new Vector2(-3.3f, 2.5f), new Vector2(-3.5f, 2),
-                    Color.White),
-                new QuadRenderShape(new Vector2(-3.5f, -2.5f), new Vector2(-3.3f, -2.5f),
-                    new Vector2(-3.3f, 2.5f), new Vector2(-3.5f, 2.5f),
-                    Color.White)
+                new PolyRenderShape(new Vector2[]{ new Vector2(3, 0),
+                    new Vector2(0, 3),
+                    new Vector2(-3, 0),
+                    new Vector2(0, -3)
+                    }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled, true),
+                new PolyRenderShape(new Vector2[]{ new Vector2(0, 3),
+                    new Vector2(-3, -2),
+                    new Vector2(-3, 2),
+                    new Vector2(0, -3)
+                    }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
 

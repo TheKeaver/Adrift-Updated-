@@ -120,6 +120,5 @@
     <Folder Include="$(MSBuildThisFileDirectory)UI\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\UI\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Graphics\" />
   </ItemGroup>
 </Project>
