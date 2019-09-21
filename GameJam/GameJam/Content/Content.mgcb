@@ -15,6 +15,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin effects/BlurEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/BlurEffect.fx;effects/Blur.fx
+
 #begin fonts/Intro.fnt
 /importer:BitmapFontImporter
 /processor:BitmapFontProcessor
@@ -199,6 +205,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textures/ui/button_up_background.png
+
+#begin ui/MainMenu.xml
+/importer:UIWidgetsImporter
+/processor:UIWidgetsProcessor
+/build:ui/MainMenu.xml
 
 #begin ui/test.xml
 /importer:UIWidgetsImporter

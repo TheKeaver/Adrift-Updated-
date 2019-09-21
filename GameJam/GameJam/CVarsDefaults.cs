@@ -77,6 +77,8 @@
             Create<string>("sound_projectile_bounce", "sounds/Proj_Bounce", CVarFlags.PRESERVE);
 
             Create<string>("font_game_over", "fonts/Intro", CVarFlags.PRESERVE);
+
+            Create<string>("effect_blur", "effects/Blur", CVarFlags.PRESERVE);
         }
     }
 }

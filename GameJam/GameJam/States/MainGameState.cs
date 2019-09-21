@@ -1,4 +1,3 @@
-using System;
 using Audrey;
 using Events;
 using GameJam.Common;
@@ -6,16 +5,16 @@ using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
-using GameJam.Input;
+using GameJam.Graphics;
 using GameJam.Processes;
-using GameJam.States;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 
-namespace GameJam
+namespace GameJam.States
 {
     /// <summary>
     /// Game state for the main game.
@@ -25,6 +24,12 @@ namespace GameJam
         private ProcessManager ProcessManager {
             get;
             set;
+        }
+
+        public PostProcessor AdriftPostProcessor
+        {
+            get;
+            private set;
         }
 
         float _acculmulator;
@@ -57,6 +62,10 @@ namespace GameJam
 
             _mainCamera = new Camera(CVars.Get<int>("window_width"), CVars.Get<int>("window_height"));
             _mainCamera.RegisterEvents();
+
+            AdriftPostProcessor = new PostProcessor(GameManager.GraphicsDevice,
+                                                    CVars.Get<int>("window_width"),
+                                                    CVars.Get<int>("window_height"));
 
             InitSystems();
             InitDirectors();
@@ -125,6 +134,16 @@ namespace GameJam
 			Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
 
             Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
+
+            Content.Load<Effect>(CVars.Get<string>("effect_blur"));
+
+            /*Blur blur = new Blur(AdriftPostProcessor, GameManager.Content);
+            blur.Radius = 3;
+            AdriftPostProcessor.Effects.Add(blur);*/
+
+            Bloom bloom = new Bloom(AdriftPostProcessor, GameManager.Content);
+            bloom.Radius = 1.5f;
+            AdriftPostProcessor.Effects.Add(bloom);
         }
 
         public override void Show()
@@ -184,10 +203,12 @@ namespace GameJam
         {
             float betweenFrameAlpha = _acculmulator / (1 / CVars.Get<float>("tick_frequency"));
 
+            AdriftPostProcessor.Begin();
             _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
-                Constants.Render.GROUP_MASK_ALL,
-                dt,
-                betweenFrameAlpha);
+                                        Constants.Render.GROUP_MASK_ALL,
+                                        dt,
+                                        betweenFrameAlpha);
+            AdriftPostProcessor.End();
         }
 
         public override void Dispose()
