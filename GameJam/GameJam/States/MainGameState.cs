@@ -66,6 +66,7 @@ namespace GameJam.States
             AdriftPostProcessor = new PostProcessor(GameManager.GraphicsDevice,
                                                     CVars.Get<int>("window_width"),
                                                     CVars.Get<int>("window_height"));
+            AdriftPostProcessor.RegisterEvents();
 
             InitSystems();
             InitDirectors();
@@ -216,6 +217,7 @@ namespace GameJam.States
             // Remove listeners
             EventManager.Instance.UnregisterListener(this);
             _mainCamera.UnregisterEvents();
+            AdriftPostProcessor.UnregisterEvents();
 
             for (int i = 0; i < _directors.Length; i++)
             {

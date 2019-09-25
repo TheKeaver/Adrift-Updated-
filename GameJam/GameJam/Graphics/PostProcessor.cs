@@ -54,6 +54,15 @@ namespace GameJam.Graphics
                                 (int)bufferHeight);
         }
 
+        public void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<ResizeEvent>(this);
+        }
+        public void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
+        }
+
         public void Begin()
         {
             if (Drawing)
