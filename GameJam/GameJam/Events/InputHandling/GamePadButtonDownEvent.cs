@@ -9,13 +9,13 @@ namespace GameJam.Events
 {
     class GamePadButtonDownEvent : IEvent
     {
-        public int _playerIndex;
-        public int _pressedButton;
+        public PlayerIndex _playerIndex;
+        public Buttons _pressedButton;
 
         public GamePadButtonDownEvent(PlayerIndex playerIndex, Buttons pressedButton)
         {
-            _playerIndex = (int)playerIndex;
-            _pressedButton = (int)pressedButton;
+            _pressedButton = pressedButton;
+            _playerIndex = playerIndex;
         }
     }
 }

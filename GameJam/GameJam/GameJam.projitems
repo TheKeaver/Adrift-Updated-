@@ -110,6 +110,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Label.cs" />
@@ -128,7 +129,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\GameLogic\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\EnemyActions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)UI\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
   </ItemGroup>
 </Project>

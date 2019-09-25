@@ -2,6 +2,7 @@
 using Events;
 using GameJam.Events;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 
@@ -14,7 +15,7 @@ namespace GameJam.UI.Widgets
         Pressed
     }
 
-    public class Button : Widget, IParentWidget
+    public class Button : Widget, IParentWidget, ISelectableWidget
     {
         public Action Action;
 
@@ -72,6 +73,12 @@ namespace GameJam.UI.Widgets
             get;
             private set;
         } = ButtonState.Released;
+
+        public ISelectableWidget above { get ; set; }
+        public ISelectableWidget left { get; set; }
+        public ISelectableWidget right { get; set; }
+        public ISelectableWidget below { get; set; }
+        public bool isSelected { get; set; }
 
         public Button(NinePatchRegion2D releasedNinePatch,
             NinePatchRegion2D hoverNinePatch,
@@ -164,6 +171,15 @@ namespace GameJam.UI.Widgets
 
                         ButtonState = ButtonState.Released;
                     }
+                }
+            }
+
+            GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
+            if(gamePadButtonDownEvent != null)
+            {
+                if(gamePadButtonDownEvent._pressedButton == Buttons.A)
+                {
+                    ////
                 }
             }
 

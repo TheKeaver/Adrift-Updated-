@@ -10,6 +10,7 @@
             image="texture_title_without_instructions"
             />
       <Button
+            id="PlayGame"
             halign="left"
             valign="bottom"
             horizontal="10"
@@ -35,6 +36,7 @@
                 />
           </Button>
       <Button
+            id="Options"
             halign="center"
             valign="bottom"
             horizontal="0"
@@ -60,6 +62,7 @@
                 />
         </Button>
       <Button
+          id="Quit"
           halign="right"
           valign="bottom"
           horizontal="10"
