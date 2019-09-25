@@ -138,10 +138,6 @@ namespace GameJam.States
 
             Content.Load<Effect>(CVars.Get<string>("effect_blur"));
 
-            /*Blur blur = new Blur(AdriftPostProcessor, GameManager.Content);
-            blur.Radius = 3;
-            AdriftPostProcessor.Effects.Add(blur);*/
-
             Bloom bloom = new Bloom(AdriftPostProcessor, GameManager.Content);
             bloom.Radius = 1.5f;
             AdriftPostProcessor.Effects.Add(bloom);
