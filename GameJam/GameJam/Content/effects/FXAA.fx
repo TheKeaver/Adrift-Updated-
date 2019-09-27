@@ -47,8 +47,6 @@ float4 Console360ConstDir = float4(1.0, -1.0, 0.25, -0.25);
 
 float4 PixelShaderFunction_FXAA(in float2 texCoords : TEXCOORD0) : COLOR0
 {
-	float4 theSample = tex2D(TheSampler, texCoords);
-	
 	float4 value = FxaaPixelShader(
 		texCoords,
 		0,	// Not used in PC or Xbox 360
@@ -73,14 +71,13 @@ float4 PixelShaderFunction_FXAA(in float2 texCoords : TEXCOORD0) : COLOR0
 
 float4 PixelShaderFunction_Standard(in float2 texCoords : TEXCOORD0) : COLOR0
 {
-	return tex2D(TheSampler, texCoords);
+	return tex2D(SpriteTextureSampler, texCoords);
 }
 
 technique Standard
 {
     pass Pass1
     {
-        VertexShader = compile vs_3_0 VertexShaderFunction();
         PixelShader = compile ps_3_0 PixelShaderFunction_Standard();
     }
 }
@@ -89,7 +86,6 @@ technique FXAA
 {
     pass Pass1
     {
-        VertexShader = compile vs_3_0 VertexShaderFunction();
         PixelShader = compile ps_3_0 PixelShaderFunction_FXAA();
     }
 }
