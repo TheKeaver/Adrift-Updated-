@@ -14,6 +14,9 @@
             Create<int>("screen_width", 1280);
             Create<int>("screen_height", 800);
 
+            /** GRAPHICS **/
+            Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+
             /** INPUT **/
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -79,6 +82,7 @@
             Create<string>("font_game_over", "fonts/Intro", CVarFlags.PRESERVE);
 
             Create<string>("effect_blur", "effects/Blur", CVarFlags.PRESERVE);
+            Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE);
         }
     }
 }

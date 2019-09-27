@@ -31,6 +31,7 @@ namespace GameJam.States
             get;
             private set;
         }
+        private PostProcessorEffect _fxaaPPE;
 
         float _acculmulator;
 
@@ -141,6 +142,9 @@ namespace GameJam.States
             Bloom bloom = new Bloom(AdriftPostProcessor, GameManager.Content);
             bloom.Radius = 1.5f;
             AdriftPostProcessor.Effects.Add(bloom);
+
+            _fxaaPPE = new FXAA(AdriftPostProcessor, Content);
+            AdriftPostProcessor.Effects.Add(_fxaaPPE);
         }
 
         public override void Show()
@@ -199,6 +203,8 @@ namespace GameJam.States
         public override void Draw(float dt)
         {
             float betweenFrameAlpha = _acculmulator / (1 / CVars.Get<float>("tick_frequency"));
+
+            _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
 
             AdriftPostProcessor.Begin();
             _renderSystem.DrawEntities(_mainCamera.TransformMatrix,

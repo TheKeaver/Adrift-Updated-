@@ -18,11 +18,8 @@
 #begin effects/Blur.xnb
 /copy:effects/Blur.xnb
 
-#begin effects/FXAA.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:effects/FXAA.fx
+#begin effects/FXAA.xnb
+/copy:effects/FXAA.xnb
 
 #begin fonts/Intro.fnt
 /importer:BitmapFontImporter
