@@ -19,7 +19,6 @@ namespace GameJam.Entities
             entity.AddComponent(new RotationComponent(CVars.Get<float>("shooting_enemy_rotational_speed")));
             entity.AddComponent(new MovementComponent(new Vector2(0, 1), CVars.Get<float>("shooting_enemy_speed")));
             entity.AddComponent(new EnemyComponent());
-            entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, 17.5f, 35)));
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(-2, -5),
@@ -32,6 +31,14 @@ namespace GameJam.Entities
                     }, 0.3f, Color.Cyan, PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("shooting_enemy_size"), true);
+
+            entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
+                new Vector2(-2, 5),
+                new Vector2(2, 4),
+                new Vector2(4, 0),
+                new Vector2(2, -4),
+                new Vector2(-2, -5)
+            })));
 
             FireProjectileProcess fpp = new FireProjectileProcess(entity, engine, content);
             processManager.Attach(fpp);

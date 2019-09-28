@@ -22,7 +22,6 @@ namespace GameJam.Entities
             entity.AddComponent(new MovementComponent());
             entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health")));
             entity.AddComponent(new BounceComponent());
-            entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS.X, Constants.ObjectBounds.PLAYER_SHIP_BOUNDS.Y)));
 
             entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = false;
 
@@ -39,6 +38,14 @@ namespace GameJam.Entities
                     }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
+
+
+            entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
+                new Vector2(3, 0),
+                new Vector2(0, 3),
+                new Vector2(-3, 2),
+                new Vector2(-3, -2)
+            })));
 
             return entity;
         }

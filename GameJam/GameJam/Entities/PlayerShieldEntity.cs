@@ -12,6 +12,7 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent());
+            // TODO: Re-implement shield
             entity.AddComponent(new PlayerShieldComponent(shipEntity));
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {

@@ -1,10 +1,6 @@
 ﻿using Audrey;
-using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Entities
 {
@@ -15,11 +11,14 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent(position));
-            entity.AddComponent(new CollisionComponent(new BoundingRect(
-                0, 0,
-                bounds.X,
-                bounds.Y
-                )));
+            float hw = bounds.X / 2;
+            float hh = bounds.Y / 2;
+            entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
+                new Vector2(hw, hh),
+                new Vector2(-hw, hh),
+                new Vector2(-hw, -hh),
+                new Vector2(hw, -hh)
+                })));
             entity.AddComponent(new EdgeComponent(normal));
 
             return entity;

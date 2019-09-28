@@ -16,8 +16,6 @@ namespace GameJam.Entities
             entity.AddComponent(new RotationComponent(CVars.Get<float>("kamikaze_enemy_rotational_speed")));
             entity.AddComponent(new MovementComponent(new Vector2(0,1), CVars.Get<float>("kamikaze_enemy_speed")));
             entity.AddComponent(new EnemyComponent());
-            entity.AddComponent(new CollisionComponent(new BoundingRect(0, 0, 21.875f, 21.875f)));
-            entity.AddComponent(new KamikazeComponent());
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(3, 0),
@@ -29,6 +27,12 @@ namespace GameJam.Entities
                     }, 0.4f, Color.Violet, PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("kamikaze_size"), true);
+
+            entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
+                new Vector2(5, 0),
+                new Vector2(-4, 3),
+                new Vector2(-4, -3)
+            })));
 
             return entity;
         }

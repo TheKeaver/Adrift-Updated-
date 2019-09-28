@@ -19,7 +19,6 @@ namespace GameJam.Entities
             entity.AddComponent(new BounceComponent());
             entity.AddComponent(new MovementComponent(direction, CVars.Get<float>("shooting_enemy_projectile_speed")));
             entity.AddComponent(new EnemyComponent());
-            entity.AddComponent(new CollisionComponent(new Common.BoundingRect(0, 0, Constants.ObjectBounds.PROJECTILE_BOUNDS.X, Constants.ObjectBounds.PROJECTILE_BOUNDS.Y)));
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new QuadRenderShape(new Vector2(3, -1), new Vector2(3, 1),
@@ -27,6 +26,13 @@ namespace GameJam.Entities
                     Color.Red)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("projectile_size"), false);
+
+            entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
+                new Vector2(3, -1),
+                new Vector2(3, 1),
+                new Vector2(-3, 1),
+                new Vector2(-3, -1)
+            })));
 
             return entity;
         }
