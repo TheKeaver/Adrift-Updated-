@@ -17,7 +17,7 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent(position));
-            entity.AddComponent(new SpriteComponent(texture, Constants.ObjectBounds.EXPLOSION_BOUNDS));
+            entity.AddComponent(new SpriteComponent(texture, new Vector2(60, 60)));
             entity.AddComponent(new ExplosionComponent());
 
             Dictionary<string, Rectangle> explMap = new Dictionary<string, Rectangle>();
