@@ -1,4 +1,4 @@
-﻿using Audrey;
+using Audrey;
 using Events;
 using GameJam.Common;
 using GameJam.Components;
@@ -54,9 +54,15 @@ namespace GameJam.Systems
 
         private void ProcessCollisions()
         {
-            // TODO: Collision can be checked twice per pair (should be once per pair)
+            Dictionary<Entity, List<Entity>> processedPairs = new Dictionary<Entity, List<Entity>>();
+
             foreach (Entity entityA in _collisionEntities)
             {
+                if(!processedPairs.ContainsKey(entityA))
+                {
+                    processedPairs.Add(entityA, new List<Entity>());
+                }
+
                 TransformComponent transformCompA = entityA.GetComponent<TransformComponent>();
                 CollisionComponent collisionCompA = entityA.GetComponent<CollisionComponent>();
 
@@ -65,18 +71,28 @@ namespace GameJam.Systems
 
                 foreach (Entity entityB in _collisionEntities)
                 {
+                    if (entityA == entityB)
+                    {
+                        continue;
+                    }
+                    if (processedPairs[entityA].Contains(entityB))
+                    {
+                        continue;
+                    }
+                    if (!processedPairs.ContainsKey(entityB))
+                    {
+                        processedPairs.Add(entityB, new List<Entity>());
+                    }
+                    // Add it to entityB's list because A-B won't occur again.
+                    // B-A might.
+                    processedPairs[entityB].Add(entityA);
+
                     TransformComponent transformCompB = entityB.GetComponent<TransformComponent>();
                     CollisionComponent collisionCompB = entityB.GetComponent<CollisionComponent>();
 
                     float cosB = (float)Math.Cos(transformCompB.Rotation),
                         sinB = (float)Math.Sin(transformCompB.Rotation);
 
-                    if (entityA == entityB)
-                    {
-                        continue;
-                    }
-
-                    // TODO: Consider larger collision box that is cheaper
 
                     bool resolved = false; // If true, _any_ of the shapes have intersected
                     bool intersecting = false;
