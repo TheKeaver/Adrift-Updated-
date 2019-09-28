@@ -90,7 +90,6 @@ namespace GameJam.States
                 new PlayerShieldSystem(Engine),
                 new MovementSystem(Engine),
                 new CollisionSystem(Engine),
-                new PlayerShieldCollisionSystem(Engine),
                 new EnemyRotationSystem(Engine),
                 new AnimationSystem(Engine),
                 new ExplosionSystem(Engine)
