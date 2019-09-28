@@ -12,7 +12,6 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent());
-            // TODO: Re-implement shield
             entity.AddComponent(new PlayerShieldComponent(shipEntity));
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
@@ -23,6 +22,13 @@ namespace GameJam.Entities
                     Color.SpringGreen)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_shield_size"), true);
+
+            entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
+                new Vector2(6, -1),
+                new Vector2(6, 1),
+                new Vector2(-6, 1),
+                new Vector2(-6, -1)
+            })));
 
             return entity;
         }
