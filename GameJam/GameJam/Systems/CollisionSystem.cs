@@ -6,7 +6,6 @@ using GameJam.Events;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Systems
 {
@@ -202,8 +201,53 @@ namespace GameJam.Systems
         private bool CheckPolygonCircleIntersection(Vector2 posA, float cosA, float sinA, float scaleA, PolygonCollisionShape polygonA,
             Vector2 posB, CircleCollisionShape circleB)
         {
-            // TODO: Circle-polygon collision test
-            throw new NotImplementedException();
+            Vector2[] worldPolyA = new Vector2[polygonA.Vertices.Length];
+            for (int i = 0; i < polygonA.Vertices.Length; i++)
+            {
+                worldPolyA[i] = new Vector2(cosA * polygonA.Vertices[i].X - sinA * polygonA.Vertices[i].Y,
+                    sinA * polygonA.Vertices[i].X + cosA * polygonA.Vertices[i].Y) * scaleA + posA;
+            }
+
+            BoundingCircle worldCircleB = new BoundingCircle(posB, circleB.Radius);
+
+            for(int i = 0; i < worldPolyA.Length; i++)
+            {
+                int j = (i + 1) % worldPolyA.Length;
+
+                Vector2 v1 = worldPolyA[j];
+                Vector2 v2 = worldPolyA[i];
+
+                // Check vertices; guarenteed to intersect if vertices
+                // are contained and less expensive than a segment intersection
+                // test.
+                if(worldCircleB.Contains(v1) || worldCircleB.Contains(v2))
+                {
+                    return true;
+                }
+
+                // Cast circle position onto segment
+                Vector2 segment = v2 - v1;
+                float circleOnSegment = Vector2.Dot(segment, worldCircleB.Position);
+                // Make sure segment is along the segment
+                if(circleOnSegment < 0)
+                {
+                    continue;
+                }
+                if(circleOnSegment * circleOnSegment > segment.LengthSquared())
+                {
+                    continue;
+                }
+                // Find point along segment
+                segment.Normalize();
+                Vector2 intersectionPoint = segment * circleOnSegment + v1;
+                // Check for intersection of intersection point
+                if(worldCircleB.Contains(intersectionPoint))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         private bool CheckPolygonPolygonIntersection(Vector2 posA, float cosA, float sinA, float scaleA, PolygonCollisionShape polygonA,
             Vector2 posB, float cosB, float sinB, float scaleB, PolygonCollisionShape polygonB)
@@ -229,7 +273,7 @@ namespace GameJam.Systems
                 Vector2 axis = new Vector2(-edge.Y, edge.X);
                 axis.Normalize();
 
-                if(!PolygonPolygonSAT(worldPolyA, worldPolyB, axis))
+                if(!PassSAT(worldPolyA, worldPolyB, axis))
                 {
                     // SAT: If any check does _not_ pass, they are _not_ intersecting
                     return false;
@@ -243,7 +287,7 @@ namespace GameJam.Systems
                 Vector2 axis = new Vector2(-edge.Y, edge.X);
                 axis.Normalize();
 
-                if (!PolygonPolygonSAT(worldPolyA, worldPolyB, axis))
+                if (!PassSAT(worldPolyA, worldPolyB, axis))
                 {
                     // SAT: If any check does _not_ pass, they are _not_ intersecting
                     return false;
@@ -252,8 +296,7 @@ namespace GameJam.Systems
 
             return true;
         }
-
-        private bool PolygonPolygonSAT(Vector2[] polyA, Vector2[] polyB, Vector2 axis)
+        private bool PassSAT(Vector2[] polyA, Vector2[] polyB, Vector2 axis)
         {
             float minA = float.PositiveInfinity, maxA = float.NegativeInfinity;
             for(int i = 0; i < polyA.Length; i++)
