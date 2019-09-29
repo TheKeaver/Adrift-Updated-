@@ -59,16 +59,35 @@ namespace GameJam.Directors
             entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
             if(entityA.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
             {
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position));
+                Color color = Color.White;
+                if (entityA.HasComponent<ColoredExplosionComponent>())
+                {
+                    color = entityA.GetComponent<ColoredExplosionComponent>().Color;
+                }
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color));
+
                 Engine.DestroyEntity(entityA);
                 EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield));
             } else
             {
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, false));
+                Color color = Color.White;
+                if (entityA.HasComponent<ColoredExplosionComponent>())
+                {
+                    color = entityA.GetComponent<ColoredExplosionComponent>().Color;
+                }
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color, false));
+            }
+
+            {
+                Color color = Color.White;
+                if (entityB.HasComponent<ColoredExplosionComponent>())
+                {
+                    color = entityB.GetComponent<ColoredExplosionComponent>().Color;
+                }
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position, color, false));
             }
 
             Engine.DestroyEntity(entityB);
-            EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position));
         }
 
         void HandleCollisionEnd(CollisionEndEvent collisionEndEvent)

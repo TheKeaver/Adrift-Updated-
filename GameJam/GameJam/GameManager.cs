@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Events;
 using GameJam.Events;
 using GameJam.States;
@@ -38,6 +38,8 @@ namespace GameJam
             this.Window.Title = "Adrift";
 
             Graphics = new GraphicsDeviceManager(this);
+            Graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            Graphics.PreferMultiSampling = true;
             Content.RootDirectory = "Content";
 
             Graphics.PreferredBackBufferWidth = CVars.Get<int>("window_width");

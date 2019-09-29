@@ -2,6 +2,7 @@
 using Events;
 using GameJam.Components;
 using GameJam.Events;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
 
@@ -52,7 +53,12 @@ namespace GameJam.Directors
 
         void HandleCollisionStart(Entity playerShield, Entity enemy)
         {
-            EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position));
+            Color color = Color.White;
+            if(enemy.HasComponent<ColoredExplosionComponent>())
+            {
+                color = enemy.GetComponent<ColoredExplosionComponent>().Color;
+            }
+            EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position, color));
             Engine.DestroyEntity(enemy);
         }
 

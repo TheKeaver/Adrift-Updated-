@@ -6,6 +6,7 @@ using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Graphics;
+using GameJam.Particles;
 using GameJam.Processes;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
@@ -27,6 +28,13 @@ namespace GameJam.States
         }
 
         public PostProcessor AdriftPostProcessor
+        {
+            get;
+            private set;
+        }
+        private PostProcessorEffect _fxaaPPE;
+
+        public ParticleManager<VelocityParticleInfo> VelocityParticleManager
         {
             get;
             private set;
@@ -66,6 +74,9 @@ namespace GameJam.States
             AdriftPostProcessor = new PostProcessor(GameManager.GraphicsDevice,
                                                     CVars.Get<int>("window_width"),
                                                     CVars.Get<int>("window_height"));
+            AdriftPostProcessor.RegisterEvents();
+
+            VelocityParticleManager = new ParticleManager<VelocityParticleInfo>(1024 * 20, VelocityParticleInfo.UpdateParticle);
 
             InitSystems();
             InitDirectors();
@@ -88,10 +99,8 @@ namespace GameJam.States
                 new PlayerShieldSystem(Engine),
                 new MovementSystem(Engine),
                 new CollisionSystem(Engine),
-                new PlayerShieldCollisionSystem(Engine),
                 new EnemyRotationSystem(Engine),
-                new AnimationSystem(Engine),
-                new ExplosionSystem(Engine)
+                new AnimationSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
@@ -104,7 +113,7 @@ namespace GameJam.States
                 new ShipDirector(Engine, Content, ProcessManager),
                 new ShieldDirector(Engine, Content, ProcessManager),
                 new SoundDirector(Engine, Content, ProcessManager),
-                new ExplosionDirector(Engine, Content, ProcessManager),
+                new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager),
                 new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
                 new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager),
                 new BulletCollisionOnEnemyDirector(Engine, Content, ProcessManager),
@@ -129,6 +138,8 @@ namespace GameJam.States
             Content.Load<Texture2D>(CVars.Get<string>("texture_shooter_enemy"));
             Content.Load<Texture2D>(CVars.Get<string>("texture_enemy_bullet"));
 
+            Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
+
             Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
             Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
 			Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
@@ -137,13 +148,12 @@ namespace GameJam.States
 
             Content.Load<Effect>(CVars.Get<string>("effect_blur"));
 
-            /*Blur blur = new Blur(AdriftPostProcessor, GameManager.Content);
-            blur.Radius = 3;
-            AdriftPostProcessor.Effects.Add(blur);*/
-
             Bloom bloom = new Bloom(AdriftPostProcessor, GameManager.Content);
             bloom.Radius = 1.5f;
             AdriftPostProcessor.Effects.Add(bloom);
+
+            _fxaaPPE = new FXAA(AdriftPostProcessor, Content);
+            AdriftPostProcessor.Effects.Add(_fxaaPPE);
         }
 
         public override void Show()
@@ -197,17 +207,30 @@ namespace GameJam.States
                     _systems[i].Update(dt);
                 }
             }
+
+            VelocityParticleManager.Update(dt);
         }
 
         public override void Draw(float dt)
         {
             float betweenFrameAlpha = _acculmulator / (1 / CVars.Get<float>("tick_frequency"));
 
+            _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
+
             AdriftPostProcessor.Begin();
             _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
                                         Constants.Render.GROUP_MASK_ALL,
                                         dt,
                                         betweenFrameAlpha);
+            _renderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
+                null,
+                null,
+                null,
+                null,
+                null,
+                _mainCamera.TransformMatrix);
+            VelocityParticleManager.Draw(_renderSystem.SpriteBatch);
+            _renderSystem.SpriteBatch.End();
             AdriftPostProcessor.End();
         }
 
@@ -216,6 +239,7 @@ namespace GameJam.States
             // Remove listeners
             EventManager.Instance.UnregisterListener(this);
             _mainCamera.UnregisterEvents();
+            AdriftPostProcessor.UnregisterEvents();
 
             for (int i = 0; i < _directors.Length; i++)
             {

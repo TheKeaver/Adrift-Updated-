@@ -54,6 +54,15 @@ namespace GameJam.Graphics
                                 (int)bufferHeight);
         }
 
+        public void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<ResizeEvent>(this);
+        }
+        public void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
+        }
+
         public void Begin()
         {
             if (Drawing)
@@ -70,7 +79,10 @@ namespace GameJam.Graphics
         {
             for (int i = 0; i < Effects.Count; i++)
             {
-                Effects[i].Update(dt);
+                if (Effects[i].Enabled)
+                {
+                    Effects[i].Update(dt);
+                }
             }
         }
 
@@ -93,7 +105,10 @@ namespace GameJam.Graphics
             // Post-process
             for (int i = 0; i < Effects.Count; i++)
             {
-                Effects[i].Process(finalTarget, out finalTarget);
+                if (Effects[i].Enabled)
+                {
+                    Effects[i].Process(finalTarget, out finalTarget);
+                }
             }
 
             // Render as a fullscreen quad

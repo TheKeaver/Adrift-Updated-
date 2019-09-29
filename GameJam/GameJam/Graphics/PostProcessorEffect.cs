@@ -8,6 +8,12 @@ namespace GameJam.Graphics
     {
         internal readonly PostProcessor PostProcessor;
 
+        public bool Enabled
+        {
+            get;
+            set;
+        } = true;
+
         public PostProcessorEffect(PostProcessor postProcessor)
         {
             PostProcessor = postProcessor;

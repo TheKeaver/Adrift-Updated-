@@ -56,7 +56,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldCollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\PrimaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\ControllerInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerShipEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\ObjectBounds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerShieldEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShipComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShieldComponent.cs" />
@@ -101,9 +99,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplosionEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Components\ExplosionComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\ExplosionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
@@ -121,6 +116,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\NinePatchImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\TestButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\VectorSpriteComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\MSAA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\FXAA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\BoundingCircle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Particles\ParticleManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Particles\VelocityParticleInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ColoredExplosionComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -130,5 +132,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Events\GameLogic\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\EnemyActions\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Particles\" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using Events;
 using GameJam.Components;
 using GameJam.Events;

@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using GameJam.Components;
-using MonoGame.Extended.TextureAtlases;
-using MonoGame.Extended.Sprites;
+using System.Collections.Generic;
+using System;
 
 namespace GameJam.Systems
 {
@@ -21,18 +21,36 @@ namespace GameJam.Systems
 
         readonly Family _spriteFamily = Family.All(typeof(SpriteComponent), typeof(TransformComponent)).Get();
         readonly Family _fontFamily = Family.All(typeof(FontComponent), typeof(TransformComponent)).Get();
+        readonly Family _vectorSpriteFamily = Family.All(typeof(VectorSpriteComponent), typeof(TransformComponent)).Get();
         readonly ImmutableList<Entity> _spriteEntities;
         readonly ImmutableList<Entity> _fontEntities;
+        readonly ImmutableList<Entity> _vectorSpriteEntities;
 
         public SpriteBatch SpriteBatch { get; }
+        public GraphicsDevice GraphicsDevice
+        {
+            get;
+            private set;
+        }
+
+        private BasicEffect _vectorSpriteEffect;
+        private Viewport _lastViewport;
 
         public RenderSystem(GraphicsDevice graphics, Engine engine)
         {
             Engine = engine;
             _spriteEntities = Engine.GetEntitiesFor(_spriteFamily);
             _fontEntities = Engine.GetEntitiesFor(_fontFamily);
+            _vectorSpriteEntities = Engine.GetEntitiesFor(_vectorSpriteFamily);
 
             SpriteBatch = new SpriteBatch(graphics);
+            GraphicsDevice = graphics;
+
+            _vectorSpriteEffect = new BasicEffect(GraphicsDevice);
+            _vectorSpriteEffect.AmbientLightColor = new Vector3(1, 1, 1);
+            _vectorSpriteEffect.World = Matrix.Identity;
+            _vectorSpriteEffect.TextureEnabled = false;
+            _vectorSpriteEffect.VertexColorEnabled = true;
         }
 
         public void DrawEntities(float dt, float betweenFrameAlpha)
@@ -46,6 +64,12 @@ namespace GameJam.Systems
         }
 
         public void DrawEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+        {
+            DrawSpriteBatchEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
+            DrawVectorEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
+        }
+
+        private void DrawSpriteBatchEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                                BlendState.AlphaBlend,
@@ -71,6 +95,7 @@ namespace GameJam.Systems
 
                 Vector2 scale = new Vector2(spriteComp.Bounds.X / spriteComp.Texture.Width,
                                             spriteComp.Bounds.Y / spriteComp.Texture.Height);
+				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
                 Vector2 origin = new Vector2(spriteComp.Texture.Bounds.Width,
                                              spriteComp.Texture.Bounds.Height) * HalfHalf;
 
@@ -89,7 +114,7 @@ namespace GameJam.Systems
                                       Color.White,
                                       -transformComp.Rotation,
                                       origin,
-                                      scale,
+                                      scale * transformScale,
                                       SpriteEffects.None,
                                       0);
                 }
@@ -119,7 +144,8 @@ namespace GameJam.Systems
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
                 Vector2 scale = Vector2.One;
-                Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
+				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
+				Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
 
                 SpriteBatch.DrawString(fontComp.Font,
                                         fontComp.Content,
@@ -127,12 +153,82 @@ namespace GameJam.Systems
                                         fontComp.Color,
                                         -transformComp.Rotation,
                                         origin,
-                                        scale,
+                                        scale * transformScale,
                                         SpriteEffects.None,
                                         0);
             }
 
             SpriteBatch.End();
+        }
+
+        private void SetupVectorDrawing()
+        {
+            Viewport viewport = GraphicsDevice.Viewport;
+            if(viewport.Width != _lastViewport.Width || viewport.Height != _lastViewport.Height)
+            {
+                /** Based on MonoGame SpriteBatch implementation!! **/
+
+                // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
+                // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
+                // --> We get the correct matrix with near plane 0 and far plane -1.
+                Matrix projection;
+                Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height,
+                    0, 0, -1, out projection);
+                _vectorSpriteEffect.Projection = projection;
+
+                _lastViewport = viewport;
+            }
+        }
+        private void DrawVectorEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+        {
+            List<VertexPositionColor> _verts = new List<VertexPositionColor>();
+
+            foreach (Entity entity in _vectorSpriteEntities)
+            {
+                VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
+                if(vectorSpriteComp.Hidden
+                    || (vectorSpriteComp.RenderGroup & groupMask) == 0)
+                {
+                    continue;
+                }
+
+                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+
+                Vector2 offsetPosition = (transformComp.Position - transformComp.LastPosition) * (1 - betweenFrameAlpha);
+                offsetPosition *= -1;
+
+				Vector2 position = (transformComp.Position + offsetPosition) * FlipY;
+
+				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
+
+				float cos = (float)Math.Cos(transformComp.Rotation * -1);
+                float sin = (float)Math.Sin(transformComp.Rotation * -1);
+
+                foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
+                {
+                    VertexPositionColor[] verts = renderShape.ComputeVertices();
+                    for(int i = verts.Length - 1; i >= 0; i--)
+                    {
+                        VertexPositionColor vert = verts[i];
+                        _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * cos + vert.Position.Y * -1.0f * -sin) * transformScale + position.X,
+                            (vert.Position.X * sin + vert.Position.Y * -1.0f * cos) * transformScale + position.Y, 0), vert.Color));
+                    }
+                }
+            }
+
+            if (_verts.Count > 0)
+            {
+                SetupVectorDrawing();
+                _vectorSpriteEffect.View = transformMatrix;
+
+                foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+
+                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,
+                        _verts.ToArray(), 0, _verts.Count / 3);
+                }
+            }
         }
     }
 }
