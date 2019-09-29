@@ -97,9 +97,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Entities\ExplosionEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Components\ExplosionComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\ExplosionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ProjectileBouncedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
@@ -122,6 +119,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\BoundingCircle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Particles\ParticleManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Particles\VelocityParticleInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ColoredExplosionComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

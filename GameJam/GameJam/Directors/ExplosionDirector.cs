@@ -42,12 +42,12 @@ namespace GameJam.Directors
             if(evt is CreateExplosionEvent)
             {
                 CreateExplosionEvent createExplosionEvent = evt as CreateExplosionEvent;
-                CreateExplosionEvent(createExplosionEvent.ExplosionLocation);
+                CreateExplosionEvent(createExplosionEvent.ExplosionLocation, createExplosionEvent.Color);
             }
             return false;
         }
 
-        private void CreateExplosionEvent(Vector2 explosionLocation)
+        private void CreateExplosionEvent(Vector2 explosionLocation, Color color)
         {
             for (int i = 0; i < CVars.Get<int>("particle_explosion_count"); i++)
             {
@@ -62,7 +62,7 @@ namespace GameJam.Directors
 
                 _particleManager.CreateParticle(_particleTexture,
                                                         explosionLocation * new Vector2(1, -1), // For various reasons, ParticleManager is flipped
-                                                        Color.White,
+                                                        color,
                                                         CVars.Get<float>("particle_explosion_duration"),
                                                         new Vector2(1, 0.5f),
                                                         info);

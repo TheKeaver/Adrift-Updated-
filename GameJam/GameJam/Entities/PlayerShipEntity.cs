@@ -38,6 +38,7 @@ namespace GameJam.Entities
                     }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
+            entity.AddComponent(new ColoredExplosionComponent(Color.White));
 
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {

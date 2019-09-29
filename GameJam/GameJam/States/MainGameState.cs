@@ -100,8 +100,7 @@ namespace GameJam.States
                 new MovementSystem(Engine),
                 new CollisionSystem(Engine),
                 new EnemyRotationSystem(Engine),
-                new AnimationSystem(Engine),
-                new ExplosionSystem(Engine)
+                new AnimationSystem(Engine)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);

@@ -28,6 +28,7 @@ namespace GameJam.Entities
                     }, 0.4f, Color.Violet, PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("kamikaze_size"), true);
+            entity.AddComponent(new ColoredExplosionComponent(Color.Violet));
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(5, 0),
