@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Events;
-using GameJam.Events.UI;
+using GameJam.Events;
 using GameJam.Input;
 using GameJam.UI;
-using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using UI.Content.Pipeline;
@@ -34,6 +33,7 @@ namespace GameJam.States
             EventManager.Instance.RegisterListener<PlayGameButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<OptionsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<QuitGameButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
         }
 
         void UnregisterEvents()
@@ -54,13 +54,6 @@ namespace GameJam.States
         public override void LoadContent()
         {
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainMenu"));
-            ((Button)_root.FindWidgetByID("PlayGame")).right = (Button)_root.FindWidgetByID("Options");
-            ((Button)_root.FindWidgetByID("Options")).right = (Button)_root.FindWidgetByID("QuitGame");
-            ((Button)_root.FindWidgetByID("QuitGame")).right = (Button)_root.FindWidgetByID("PlayGame");
-
-            ((Button)_root.FindWidgetByID("PlayGame")).left = (Button)_root.FindWidgetByID("QuitGame");
-            ((Button)_root.FindWidgetByID("Options")).left = (Button)_root.FindWidgetByID("PlayGame");
-            ((Button)_root.FindWidgetByID("QuitGame")).left = (Button)_root.FindWidgetByID("Options");
         }
 
         public override void Show()

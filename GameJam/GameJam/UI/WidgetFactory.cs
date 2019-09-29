@@ -141,6 +141,11 @@ namespace GameJam.UI
                             throw new Exception(string.Format("Unkown action type: `{0}`", onclickParts[0]));
                     }
                 }
+                ((Button)widget).rightID = ((ButtonWidgetPrototype)prototype).RightID;
+                ((Button)widget).leftID = ((ButtonWidgetPrototype)prototype).LeftID;
+                ((Button)widget).aboveID = ((ButtonWidgetPrototype)prototype).AboveID;
+                ((Button)widget).belowID = ((ButtonWidgetPrototype)prototype).BelowID;
+                ((Button)widget).isSelected = ((ButtonWidgetPrototype)prototype).IsSelected;
             }
 
             if (widget is IParentWidget)

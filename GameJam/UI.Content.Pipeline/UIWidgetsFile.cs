@@ -205,6 +205,18 @@ namespace UI.Content.Pipeline
         [XmlAttribute("onclick")]
         public string OnClick;
 
+        [XmlAttribute("aboveID")]
+        public string AboveID = "";
+        [XmlAttribute("leftID")]
+        public string LeftID = "";
+        [XmlAttribute("rightID")]
+        public string RightID = "";
+        [XmlAttribute("belowID")]
+        public string BelowID = "";
+
+        [XmlAttribute("defaultSelected")]
+        public bool IsSelected = false;
+
         public override void WriteToOutput(ContentWriter output)
         {
             output.Write(ReleasedImage);
@@ -213,6 +225,12 @@ namespace UI.Content.Pipeline
             output.Write(HoverThickness);
             output.Write(PressedImage);
             output.Write(PressedThickness);
+            output.Write(AboveID);
+            output.Write(LeftID);
+            output.Write(RightID);
+            output.Write(BelowID);
+
+            output.Write(IsSelected);
 
             output.Write(OnClick);
 
@@ -226,6 +244,13 @@ namespace UI.Content.Pipeline
             HoverThickness = input.ReadString();
             PressedImage = input.ReadString();
             PressedThickness = input.ReadString();
+
+            AboveID = input.ReadString();
+            LeftID = input.ReadString();
+            RightID = input.ReadString();
+            BelowID = input.ReadString();
+
+            IsSelected = input.ReadBoolean();
 
             OnClick = input.ReadString();
 

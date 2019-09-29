@@ -2,22 +2,22 @@
 {
     public interface ISelectableWidget
     {
-        ISelectableWidget above
+        string aboveID
         {
             get;
             set;
         }
-        ISelectableWidget left
+        string leftID
         {
             get;
             set;
         }
-        ISelectableWidget right
+        string rightID
         {
             get;
             set;
         }
-        ISelectableWidget below
+        string belowID
         {
             get;
             set;

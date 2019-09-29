@@ -74,11 +74,11 @@ namespace GameJam.UI.Widgets
             private set;
         } = ButtonState.Released;
 
-        public ISelectableWidget above { get ; set; }
-        public ISelectableWidget left { get; set; }
-        public ISelectableWidget right { get; set; }
-        public ISelectableWidget below { get; set; }
-        public bool isSelected { get; set; }
+        public string aboveID { get; set; } = "";
+        public string leftID { get; set; } = "";
+        public string rightID { get; set; } = "";
+        public string belowID { get; set; } = "";
+        public bool isSelected { get; set; } = false;
 
         public Button(NinePatchRegion2D releasedNinePatch,
             NinePatchRegion2D hoverNinePatch,
@@ -109,7 +109,11 @@ namespace GameJam.UI.Widgets
             if(!Hidden)
             {
                 NinePatchRegion2D ninePatch = _releasedNinePatch;
-                if(ButtonState == ButtonState.Hover)
+                if(ButtonState == ButtonState.Hover && Root.mouseMode == true)
+                {
+                    ninePatch = _hoverNinePatch;
+                }
+                if (this.isSelected == true && Root.mouseMode == false)
                 {
                     ninePatch = _hoverNinePatch;
                 }
@@ -123,7 +127,7 @@ namespace GameJam.UI.Widgets
                         (int)TopLeft.Y,
                         (int)Width,
                         (int)Height),
-                    Color.White);
+                        Color.White);
                 SubPanel.Draw(spriteBatch);
             }
         }
@@ -133,6 +137,7 @@ namespace GameJam.UI.Widgets
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
             if(mouseMoveEvent != null)
             {
+                //this.isSelected = false;
                 if (mouseMoveEvent.CurrentPosition.X > TopLeft.X
                     && mouseMoveEvent.CurrentPosition.X < BottomRight.X
                     && mouseMoveEvent.CurrentPosition.Y > TopLeft.Y
@@ -175,11 +180,51 @@ namespace GameJam.UI.Widgets
             }
 
             GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
-            if(gamePadButtonDownEvent != null)
+            if(gamePadButtonDownEvent != null && this.isSelected)
             {
                 if(gamePadButtonDownEvent._pressedButton == Buttons.A)
                 {
-                    ////
+                    Action.Invoke();
+                }
+                if(gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
+                   gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft )
+                {
+                    if(leftID.Length > 0)
+                    {
+                        this.isSelected = false;
+                        ((ISelectableWidget)Root.FindWidgetByID(leftID)).isSelected = true;
+                        return true;
+                    }
+                }
+                if (gamePadButtonDownEvent._pressedButton == Buttons.DPadRight ||
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickRight )
+                {
+                    if (rightID.Length > 0)
+                    {
+                        this.isSelected = false;
+                        ((ISelectableWidget)Root.FindWidgetByID(rightID)).isSelected = true;
+                        return true;
+                    }
+                }
+                if (gamePadButtonDownEvent._pressedButton == Buttons.DPadUp ||
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickUp )
+                {
+                    if (aboveID.Length > 0)
+                    {
+                        this.isSelected = false;
+                        ((ISelectableWidget)Root.FindWidgetByID(aboveID)).isSelected = true;
+                        return true;
+                    }
+                }
+                if (gamePadButtonDownEvent._pressedButton == Buttons.DPadDown ||
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickDown )
+                {
+                    if (belowID.Length > 0)
+                    {
+                        this.isSelected = false;
+                        ((ISelectableWidget)Root.FindWidgetByID(belowID)).isSelected = true;
+                        return true;
+                    }
                 }
             }
 

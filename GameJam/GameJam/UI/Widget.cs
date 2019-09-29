@@ -65,6 +65,17 @@ namespace GameJam.UI
 
     public abstract class Widget : IEventListener
     {
+        public Root Root
+        {
+            get
+            {
+                if (this.Parent == null)
+                    return (Root)this;
+                else
+                    return Parent.Root;
+            }
+        }
+
         WeakReference<Widget> _parent = new WeakReference<Widget>(null);
         public Widget Parent
         {
