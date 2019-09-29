@@ -60,6 +60,13 @@
             Create<float>("spawner_min_distance_away_from_player", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("spawner_max_enemy_count", 50, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            /** PARTICLES **/
+            Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_strength", 1000, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_variety_min", 0.1f, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_variety_max", 1f, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_duration", 150, CVarFlags.DEV_PRESERVE);
+
             /** RESOURCES **/
             Create<string>("texture_player_ship", "textures/PlayerShip", CVarFlags.PRESERVE);
             Create<string>("texture_player_shield", "textures/shield", CVarFlags.PRESERVE);
@@ -70,6 +77,8 @@
 
             Create<string>("texture_title_with_instructions", "textures/TitleInstructions", CVarFlags.PRESERVE);
             Create<string>("texture_title_without_instructions", "textures/TitleNoInstructions", CVarFlags.PRESERVE);
+
+            Create<string>("texture_particle_velocity", "textures/particles/VelocityParticle", CVarFlags.PRESERVE);
 
             Create<string>("texture_ui_button_released", "textures/ui/button_up_background", CVarFlags.PRESERVE);
             Create<string>("texture_ui_button_hover", "textures/ui/button_over_background", CVarFlags.PRESERVE);

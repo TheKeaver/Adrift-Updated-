@@ -120,6 +120,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\MSAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\FXAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\BoundingCircle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Particles\ParticleManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Particles\VelocityParticleInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -128,5 +130,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Particles\" />
   </ItemGroup>
 </Project>
