@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameJam.Input
@@ -21,22 +20,15 @@ namespace GameJam.Input
             {
                 GamePadState currentState = GamePad.GetState(PlayerIndex);
 
-                Vector2 stick;
-                switch(CVars.Get<int>("controller_thumbstick"))
+                if(currentState.IsButtonDown((Buttons)CVars.Get<int>("controller_right_bumper")))
                 {
-                    case 0:
-                        stick = currentState.ThumbSticks.Left;
-                        break;
-                    case 1:
-                    default:
-                        stick = currentState.ThumbSticks.Right;
-                        break;
+                    // Clockwise
+                    _snapshot.Angle -= CVars.Get<float>("keyboard_shield_angular_speed") * dt;
                 }
-
-                if(stick.LengthSquared() >= Math.Pow(CVars.Get<float>("controller_deadzone"), 2))
+                if (currentState.IsButtonDown((Buttons)CVars.Get<int>("controller_left_bumper")))
                 {
-                    // Stick is actually being pressed in a direction
-                    _snapshot.Angle = (float)Math.Atan2(stick.Y, stick.X);
+                    // Clockwise
+                    _snapshot.Angle += CVars.Get<float>("keyboard_shield_angular_speed") * dt;
                 }
             }
         }

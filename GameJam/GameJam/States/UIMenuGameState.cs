@@ -4,8 +4,8 @@ using Events;
 using GameJam.Events;
 using GameJam.Input;
 using GameJam.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using UI.Content.Pipeline;
 
 namespace GameJam.States
@@ -15,7 +15,7 @@ namespace GameJam.States
         SpriteBatch _spriteBatch;
         Root _root;
 
-        int numberOfPlayers = 2;
+        int numberOfPlayers = 1;
 
         private ProcessManager ProcessManager
         {
@@ -92,7 +92,8 @@ namespace GameJam.States
                 for (int i = 0; i < numberOfPlayers; i++)
                 {
                     if (i == 0)
-                        players[i] = new Player("playerOne", new PrimaryKeyboardInputMethod());
+                        players[i] = new Player("playerOne", new ControllerInputMethod(PlayerIndex.One));
+                        //players[i] = new Player("playerOne", new PrimaryKeyboardInputMethod());
                     else
                         players[i] = new Player("playerTwo", new SecondaryKeyboardInputMethod());
 

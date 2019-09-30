@@ -20,6 +20,8 @@
             /** INPUT **/
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_right_bumper", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_left_bumper", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("keyboard_shield_angular_speed", 2.513f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
