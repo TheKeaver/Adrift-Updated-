@@ -105,6 +105,7 @@ namespace GameJam.Systems
             {
                 LengthSquared = double.PositiveInfinity
             };
+            // Only raycasts against polygons (not circles)
             foreach (Entity raycastEntity in _raycastEntities)
             {
                 TransformComponent raycastTransformComp = raycastEntity.GetComponent<TransformComponent>();
