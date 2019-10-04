@@ -100,6 +100,7 @@ namespace GameJam.States
                 new MovementSystem(Engine),
                 new CollisionSystem(Engine),
                 new EnemyRotationSystem(Engine),
+                new LaserEnemySystem(Engine),
                 new AnimationSystem(Engine)
             };
 
