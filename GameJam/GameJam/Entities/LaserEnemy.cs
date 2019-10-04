@@ -11,10 +11,10 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent(position));
-            entity.AddComponent(new RotationComponent(CVars.Get<float>("shooting_enemy_rotational_speed")/20));
+            entity.AddComponent(new RotationComponent(CVars.Get<float>("shooting_enemy_rotational_speed")/4));
             entity.AddComponent(new MovementComponent(new Vector2(0, 1), 0));
             entity.AddComponent(new LaserEnemyComponent());
-            //entity.AddComponent(new EnemyComponent());
+            entity.AddComponent(new EnemyComponent());
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(4, 0),

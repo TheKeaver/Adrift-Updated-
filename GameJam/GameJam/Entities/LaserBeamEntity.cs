@@ -13,6 +13,7 @@ namespace GameJam.Entities
 
             entity.AddComponent(new TransformComponent(position));
             entity.AddComponent(new EnemyComponent());
+            entity.AddComponent(new LaserBeamComponent());
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new QuadRenderShape(new Vector2(10, -10),

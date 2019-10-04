@@ -128,6 +128,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\LaserBeamEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\LaserEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\LaserEnemySystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\LaserBeamComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using Audrey;
 using GameJam.Components;
+using GameJam.Entities;
 using Microsoft.Xna.Framework;
 
 namespace GameJam.Systems
@@ -43,33 +44,55 @@ namespace GameJam.Systems
                     // Simple raycast to find edge/shield this laser touches
                     RaycastHit laserHit = Raycast(laserEnemyTip, laserEnemyDirection);
 
-                    // TODO: Shield reflection
+                    LaserBeamComponent laserBeamComp = laserBeamEntity.GetComponent<LaserBeamComponent>();
+                    if(laserHit.Other.HasComponent<PlayerShieldComponent>())
+                    {
+                        if(laserBeamComp.ReflectionBeamEntity == null)
+                        {
+                            laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero);
+                        }
 
-                    Vector2 laserBeamStart = laserEnemyTip;
-                    Vector2 laserBeamEnd = laserHit.Position;
+                        Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
+                        Vector2 laserDirection = laserHit.Position - laserEnemyTip;
+                        Vector2 beamOutDirection = GetReflectionVector(laserDirection, laserHit.Normal);
+                        SetLaserBeamProperties(reflectionBeamEntity, laserHit.Position, laserHit.Position + new Vector2(0, 500), (float)Math.Atan2(beamOutDirection.Y, beamOutDirection.X));
+                    } else
+                    {
+                        if (laserBeamComp.ReflectionBeamEntity != null)
+                        {
+                            Engine.DestroyEntity(laserBeamComp.ReflectionBeamEntity);
+                            laserBeamComp.ReflectionBeamEntity = null;
+                        }
+                    }
 
-                    double laserBeamLength = (laserBeamEnd - laserBeamStart).Length();
-                    float laserBeamThickness = 5;
-
-                    // TODO: CollisionComponent
-                    Vector2 lb1 = new Vector2((float)laserBeamLength, -laserBeamThickness / 2);
-                    Vector2 lb2 = new Vector2((float)laserBeamLength, laserBeamThickness / 2);
-                    Vector2 lb3 = new Vector2(0, laserBeamThickness / 2);
-                    Vector2 lb4 = new Vector2(0, -laserBeamThickness / 2);
-                    laserBeamEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0] = new QuadRenderShape(
-                        lb1, lb2, lb3, lb4,
-                        Color.Red);
-
-                    TransformComponent laserBeamTransformComp = laserBeamEntity.GetComponent<TransformComponent>();
-                    laserBeamTransformComp.Move(laserBeamStart - laserBeamTransformComp.Position);
-                    laserBeamTransformComp.Rotate(transformComp.Rotation - laserBeamTransformComp.Rotation);
+                    SetLaserBeamProperties(laserBeamEntity, laserEnemyTip, laserHit.Position, transformComp.Rotation);
                 }
             }
+        }
+
+        private void SetLaserBeamProperties(Entity laserBeamEntity, Vector2 laserBeamStart, Vector2 laserBeamEnd, float rotation)
+        {
+            double laserBeamLength = (laserBeamEnd - laserBeamStart).Length();
+            float laserBeamThickness = 4;
+
+            // TODO: CollisionComponent
+            Vector2 lb1 = new Vector2((float)laserBeamLength, -laserBeamThickness / 2);
+            Vector2 lb2 = new Vector2((float)laserBeamLength, laserBeamThickness / 2);
+            Vector2 lb3 = new Vector2(0, laserBeamThickness / 2);
+            Vector2 lb4 = new Vector2(0, -laserBeamThickness / 2);
+            laserBeamEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0] = new QuadRenderShape(
+                lb1, lb2, lb3, lb4,
+                Color.Red);
+
+            TransformComponent laserBeamTransformComp = laserBeamEntity.GetComponent<TransformComponent>();
+            laserBeamTransformComp.Move(laserBeamStart - laserBeamTransformComp.Position);
+            laserBeamTransformComp.Rotate(rotation - laserBeamTransformComp.Rotation);
         }
 
         struct RaycastHit
         {
             public Vector2 Position;
+            public Vector2 Normal;
             public double LengthSquared;
             public Entity Other;
         }
@@ -125,6 +148,12 @@ namespace GameJam.Systems
                                 if ((newHit - origin).LengthSquared() < hit.LengthSquared)
                                 {
                                     hit.Position = newHit;
+                                    hit.Normal = new Vector2(-v2.Y, v2.X);
+                                    if(Vector2.Dot(direction, hit.Normal) > 0)
+                                    {
+                                        hit.Normal *= -1;
+                                    }
+                                    hit.Normal.Normalize();
                                     hit.LengthSquared = newHit.LengthSquared();
                                     hit.Other = raycastEntity;
                                 }
@@ -135,6 +164,11 @@ namespace GameJam.Systems
             }
 
             return hit;
+        }
+
+        Vector2 GetReflectionVector(Vector2 colliding, Vector2 normal)
+        {
+            return colliding - 2 * Vector2.Dot(colliding, normal) * normal;
         }
     }
 }
