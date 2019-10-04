@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using Events;
 using GameJam.Events;
+using GameJam.Events.InputHandling;
+using GameJam.Input;
 using GameJam.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using UI.Content.Pipeline;
 
 namespace GameJam.States
@@ -12,6 +16,10 @@ namespace GameJam.States
     {
         SpriteBatch _spriteBatch;
         Root _root;
+
+        int numberOfPlayers = 0;
+        public Player playerOneSeat;
+        public Player playerTwoSeat;
 
         private ProcessManager ProcessManager
         {
@@ -26,11 +34,8 @@ namespace GameJam.States
 
         void RegisterEvents()
         {
-            // Player Joins Lobby Player 1 Event
-            // Player Joins Lobby Player 2 Event
-            // Back To Main Menu Event
-            // Player 2 Leaves Lobby Event
-            // Start Game Event
+            EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
+            EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
         }
 
         void UnregisterEvents()
@@ -82,6 +87,119 @@ namespace GameJam.States
 
         public bool Handle(IEvent evt)
         {
+            GamePadButtonDownEvent buttonPressed = evt as GamePadButtonDownEvent;
+            if ( buttonPressed != null )
+            {
+                // A button is pressed
+                if (buttonPressed._pressedButton == Buttons.A)
+                {
+                    // Any player presses A while no seats are occupied
+                    if ( playerOneSeat == null && playerTwoSeat == null )
+                    {
+                        playerOneSeat = new Player("playerOne", new ControllerInputMethod(buttonPressed._playerIndex));
+                        numberOfPlayers += 1;
+                    }
+                    // One is occupied, Two is Open
+                    if ( playerOneSeat != null && playerTwoSeat == null )
+                    {
+                        playerTwoSeat = new Player("playerTwo", new ControllerInputMethod(buttonPressed._playerIndex));
+                        numberOfPlayers += 1;
+                    }
+                }
+
+                // B button is pressed
+                if ( buttonPressed._pressedButton == Buttons.B )
+                {
+                    // when both players empty - return to menu screen
+                    if ( playerOneSeat == null && playerTwoSeat == null )
+                    {
+                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                    }
+                    // when player 1 presses B
+                    if (playerOneSeat != null || playerTwoSeat != null)
+                    {
+                        playerOneSeat = null;
+                        playerTwoSeat = null;
+                        numberOfPlayers = 0;
+                    }
+                }
+
+                // If start button is pressed
+                if (buttonPressed._pressedButton == Buttons.Start)
+                {
+                    if ( playerOneSeat != null )
+                    {
+                        Player[] players = new Player[numberOfPlayers];
+                        for (int i = 0; i < numberOfPlayers; i++)
+                        {
+                            if (i == 0)
+                                players[i] = playerOneSeat;
+                            else
+                                players[i] = playerTwoSeat;
+
+                        }
+                        // This line needs to instead change to Lobby Screen
+                        GameManager.ChangeState(new MainGameState(GameManager, players));
+                    }
+                }
+            }
+
+            // Keyboard Lobby Support
+            KeyboardKeyDownEvent keyPressed = evt as KeyboardKeyDownEvent;
+            if ( keyPressed != null )
+            {
+                if ( keyPressed._keyPressed == Keys.A || keyPressed._keyPressed == Keys.D )
+                {
+                    // Any player presses A while no seats are occupied
+                    if ( playerOneSeat == null )
+                    {
+                        playerOneSeat = new Player("playerOne", new PrimaryKeyboardInputMethod());
+                        numberOfPlayers += 1;
+                    }
+                }
+
+                if (keyPressed._keyPressed == Keys.Left || keyPressed._keyPressed == Keys.Right)
+                {
+                    if ( playerTwoSeat == null )
+                    {
+                        playerTwoSeat = new Player("playerTwo", new SecondaryKeyboardInputMethod());
+                        numberOfPlayers += 1;
+                    }
+                }
+
+                if (keyPressed._keyPressed == Keys.Enter)
+                {
+                    if ( playerOneSeat != null )
+                    {
+                        Player[] players = new Player[numberOfPlayers];
+                        for (int i = 0; i < numberOfPlayers; i++)
+                        {
+                            if (i == 0)
+                                players[i] = playerOneSeat;
+                            else
+                                players[i] = playerTwoSeat;
+
+                        }
+                        GameManager.ChangeState(new MainGameState(GameManager, players));
+                    }
+                }
+
+                if (keyPressed._keyPressed == Keys.Escape)
+                {
+                    // when both players empty - return to menu screen
+                    if ( playerOneSeat == null && playerTwoSeat == null )
+                    {
+                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                    }
+                    if ( playerOneSeat != null || playerTwoSeat != null )
+                    {
+                        playerOneSeat = null;
+                        playerTwoSeat = null;
+                        numberOfPlayers = 0;
+                    }
+                }
+            }
+
             return false;
         }
     }

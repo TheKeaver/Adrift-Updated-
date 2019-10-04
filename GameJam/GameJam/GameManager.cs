@@ -1,6 +1,7 @@
 using System;
 using Events;
 using GameJam.Events;
+using GameJam.Events.InputHandling;
 using GameJam.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,12 +19,10 @@ namespace GameJam
         InputListenerComponent _inputListenerManager;
         MouseListener _mouseListener;
         GamePadListener _gamePadListener;
+        KeyboardListener _keyboardListener;
 
         GameState _currentState;
-
-#if DEBUG
         bool _cvarSyncButtonReleased = false;
-#endif
 
         public GraphicsDeviceManager Graphics
         {
@@ -66,10 +65,16 @@ namespace GameJam
 
             _gamePadListener = new GamePadListener();
             _inputListenerManager.Listeners.Add(_gamePadListener);
-            _gamePadListener.ButtonDown += GamePad_ControllerButtonDown;
+            _gamePadListener.ButtonDown += GamePad_ButtonDown;
+            //_gamePadListener.ButtonUp += GamePad_ButtonUp;
+
+            _keyboardListener = new KeyboardListener();
+            _inputListenerManager.Listeners.Add(_keyboardListener);
+            _keyboardListener.KeyPressed += Keyboard_KeyDown;
+            //_keyboardListener.KeyReleased += Keyboard_KeyUp;
 
             GamePadListener.CheckControllerConnections = true;
-            GamePadListener.ControllerConnectionChanged += GamePad_ControllerConnectionChanged;
+            GamePadListener.ControllerConnectionChanged += GamePad_ConnectionChanged;
 
             base.Initialize();
         }
@@ -156,7 +161,7 @@ namespace GameJam
             }
         }
 
-        void GamePad_ControllerConnectionChanged(object sender, GamePadEventArgs e)
+        void GamePad_ConnectionChanged(object sender, GamePadEventArgs e)
         {
             // More than 2 controllers not supported
             if ((int)e.PlayerIndex < 2)
@@ -176,9 +181,18 @@ namespace GameJam
             }
         }
 
-        void GamePad_ControllerButtonDown(object sender, GamePadEventArgs e)
+        void GamePad_ButtonDown(object sender, GamePadEventArgs e)
         {
             EventManager.Instance.QueueEvent(new GamePadButtonDownEvent(e.PlayerIndex, e.Button));
         }
+
+        // GamePad_ControllerButtonUp
+
+        void Keyboard_KeyDown(object sender, KeyboardEventArgs e)
+        {
+            EventManager.Instance.QueueEvent(new KeyboardKeyDownEvent(e.Key));
+        }
+
+        // Keyboard_KeyUp
     }
 }

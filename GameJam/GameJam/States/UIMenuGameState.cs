@@ -88,18 +88,7 @@ namespace GameJam.States
             if(evt is PlayGameButtonPressedEvent)
             {
                 Console.WriteLine("Play Game Pressed");
-                Player[] players = new Player[numberOfPlayers];
-                for (int i = 0; i < numberOfPlayers; i++)
-                {
-                    if (i == 0)
-                        players[i] = new Player("playerOne", new ControllerInputMethod(PlayerIndex.One));
-                        //players[i] = new Player("playerOne", new PrimaryKeyboardInputMethod());
-                    else
-                        players[i] = new Player("playerTwo", new SecondaryKeyboardInputMethod());
-
-                }
-                // This line needs to instead change to Lobby Screen
-                GameManager.ChangeState(new MainGameState(GameManager, players));
+                GameManager.ChangeState(new UILobbyGameState(GameManager));
             }
             if(evt is OptionsButtonPressedEvent)
             {

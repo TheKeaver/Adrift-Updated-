@@ -85,6 +85,17 @@
             Create<string>("texture_ui_button_released", "textures/ui/button_up_background", CVarFlags.PRESERVE);
             Create<string>("texture_ui_button_hover", "textures/ui/button_over_background", CVarFlags.PRESERVE);
             Create<string>("texture_ui_button_pressed", "textures/ui/button_down_background", CVarFlags.PRESERVE);
+            Create<string>("texture_ui_lobby_panel_background", "textures/ui/LobbyPanelBackground", CVarFlags.PRESERVE);
+
+            Create<string>("texture_input_keyboard_a_key", "textures/input/Keyboard_Black_A", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_d_key", "textures/input/Keyboard_Black_D", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_left_arrow_key", "textures/input/Keyboard_Black_Arrow_Left", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_right_arrow_key", "textures/input/Keyboard_Black_Arrow_Right", CVarFlags.PRESERVE);
+
+            Create<string>("texture_input_controller_a_button", "textures/input/XBoxOne_A", CVarFlags.PRESERVE);
+            Create<string>("texture_input_controller_b_button", "textures/input/XBoxOne_B", CVarFlags.PRESERVE);
+            Create<string>("texture_input_controller_left_bumper", "textures/input/XBoxOne_LB", CVarFlags.PRESERVE);
+            Create<string>("texture_input_controller_right_bumper", "textures/input/XBoxOne_RB", CVarFlags.PRESERVE);
 
             Create<string>("sound_explosion", "sounds/Explosion_Sound", CVarFlags.PRESERVE);
             Create<string>("sound_projectile_fired", "sounds/Laser_Shot", CVarFlags.PRESERVE);

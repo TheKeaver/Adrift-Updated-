@@ -22,7 +22,7 @@ namespace GameJam.Input
 
                 if(currentState.IsButtonDown((Buttons)CVars.Get<int>("controller_right_bumper")))
                 {
-                    // Clockwise
+                    // Counter-Clockwise
                     _snapshot.Angle -= CVars.Get<float>("keyboard_shield_angular_speed") * dt;
                 }
                 if (currentState.IsButtonDown((Buttons)CVars.Get<int>("controller_left_bumper")))
