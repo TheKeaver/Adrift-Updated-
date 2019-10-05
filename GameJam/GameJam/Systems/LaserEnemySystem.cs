@@ -9,15 +9,18 @@ namespace GameJam.Systems
     public class LaserEnemySystem : BaseSystem
     {
         private readonly Family _laserEnemyFamily = Family.All(typeof(LaserEnemyComponent), typeof(TransformComponent)).Get();
-        private readonly Family _raycastFamily = Family.All(typeof(TransformComponent)).One(typeof(EdgeComponent), typeof(PlayerShieldComponent)).Get();
+        private readonly Family _raycastFamily = Family.All(typeof(TransformComponent), typeof(EdgeComponent)).Get();
+        private readonly Family _raycastWithShieldFamily = Family.All(typeof(TransformComponent)).One(typeof(EdgeComponent), typeof(PlayerShieldComponent)).Get();
 
         private ImmutableList<Entity> _laserEnemyEntities;
         private ImmutableList<Entity> _raycastEntities;
+        private ImmutableList<Entity> _raycastWithShieldEntities;
 
         public LaserEnemySystem(Engine engine) : base(engine)
         {
             _laserEnemyEntities = Engine.GetEntitiesFor(_laserEnemyFamily);
             _raycastEntities = Engine.GetEntitiesFor(_raycastFamily);
+            _raycastWithShieldEntities = Engine.GetEntitiesFor(_raycastWithShieldFamily);
         }
 
         public override void Update(float dt)
@@ -29,6 +32,12 @@ namespace GameJam.Systems
 
                 if(laserBeamEntity != null)
                 {
+                    LaserBeamComponent laserBeamComp = laserBeamEntity.GetComponent<LaserBeamComponent>();
+                    if(laserBeamComp == null)
+                    {
+                        throw new Exception("Laser beam does not have a `LaserBeamComponent`.");
+                    }
+
                     TransformComponent transformComp = laserEnemyEntity.GetComponent<TransformComponent>();
                     float cos = (float)Math.Cos(transformComp.Rotation),
                         sin = (float)Math.Sin(transformComp.Rotation);
@@ -42,12 +51,11 @@ namespace GameJam.Systems
                     laserEnemyDirection.Normalize();
 
                     // Simple raycast to find edge/shield this laser touches
-                    RaycastHit laserHit = Raycast(laserEnemyTip, laserEnemyDirection);
+                    RaycastHit laserHit = Raycast(laserBeamComp.InteractWithShield ? _raycastWithShieldEntities : _raycastEntities, laserEnemyTip, laserEnemyDirection);
 
-                    LaserBeamComponent laserBeamComp = laserBeamEntity.GetComponent<LaserBeamComponent>();
-                    if(laserHit.Other.HasComponent<PlayerShieldComponent>())
+                    if (laserHit.Other.HasComponent<PlayerShieldComponent>() && laserBeamComp.ComputeReflection)
                     {
-                        if(laserBeamComp.ReflectionBeamEntity == null)
+                        if (laserBeamComp.ReflectionBeamEntity == null)
                         {
                             laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero);
                         }
@@ -55,8 +63,16 @@ namespace GameJam.Systems
                         Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
                         Vector2 laserDirection = laserHit.Position - laserEnemyTip;
                         Vector2 beamOutDirection = GetReflectionVector(laserDirection, laserHit.Normal);
-                        SetLaserBeamProperties(reflectionBeamEntity, laserHit.Position, laserHit.Position + new Vector2(0, 500), (float)Math.Atan2(beamOutDirection.Y, beamOutDirection.X));
-                    } else
+                        // Simple raycast to find edge this laser touches
+                        // TODO: Recursive reflections
+                        RaycastHit reflectionHit = Raycast(_raycastEntities, laserHit.Position, beamOutDirection);
+                        SetLaserBeamProperties(reflectionBeamEntity,
+                            laserHit.Position,
+                            reflectionHit.Position,
+                            (float)Math.Atan2(beamOutDirection.Y, beamOutDirection.X),
+                            reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness);
+                    }
+                    else
                     {
                         if (laserBeamComp.ReflectionBeamEntity != null)
                         {
@@ -65,21 +81,20 @@ namespace GameJam.Systems
                         }
                     }
 
-                    SetLaserBeamProperties(laserBeamEntity, laserEnemyTip, laserHit.Position, transformComp.Rotation);
+                    SetLaserBeamProperties(laserBeamEntity, laserEnemyTip, laserHit.Position, transformComp.Rotation, laserBeamComp.Thickness);
                 }
             }
         }
 
-        private void SetLaserBeamProperties(Entity laserBeamEntity, Vector2 laserBeamStart, Vector2 laserBeamEnd, float rotation)
+        private void SetLaserBeamProperties(Entity laserBeamEntity, Vector2 laserBeamStart, Vector2 laserBeamEnd, float rotation, float thickness)
         {
             double laserBeamLength = (laserBeamEnd - laserBeamStart).Length();
-            float laserBeamThickness = 4;
 
             // TODO: CollisionComponent
-            Vector2 lb1 = new Vector2((float)laserBeamLength, -laserBeamThickness / 2);
-            Vector2 lb2 = new Vector2((float)laserBeamLength, laserBeamThickness / 2);
-            Vector2 lb3 = new Vector2(0, laserBeamThickness / 2);
-            Vector2 lb4 = new Vector2(0, -laserBeamThickness / 2);
+            Vector2 lb1 = new Vector2((float)laserBeamLength, -thickness / 2);
+            Vector2 lb2 = new Vector2((float)laserBeamLength, thickness / 2);
+            Vector2 lb3 = new Vector2(0, thickness / 2);
+            Vector2 lb4 = new Vector2(0, -thickness / 2);
             laserBeamEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0] = new QuadRenderShape(
                 lb1, lb2, lb3, lb4,
                 Color.Red);
@@ -97,7 +112,7 @@ namespace GameJam.Systems
             public Entity Other;
         }
 
-        private RaycastHit Raycast(Vector2 origin, Vector2 direction)
+        private RaycastHit Raycast(ImmutableList<Entity> raycastEntities, Vector2 origin, Vector2 direction)
         {
             Vector2 v1 = new Vector2(-direction.Y, direction.X);
 
@@ -106,7 +121,7 @@ namespace GameJam.Systems
                 LengthSquared = double.PositiveInfinity
             };
             // Only raycasts against polygons (not circles)
-            foreach (Entity raycastEntity in _raycastEntities)
+            foreach (Entity raycastEntity in raycastEntities)
             {
                 TransformComponent raycastTransformComp = raycastEntity.GetComponent<TransformComponent>();
                 CollisionComponent raycastCollisionComp = raycastEntity.GetComponent<CollisionComponent>();
