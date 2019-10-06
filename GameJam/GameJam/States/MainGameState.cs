@@ -266,7 +266,7 @@ namespace GameJam.States
 
             ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3)).SetNext(new DelegateCommand(() =>
             {
-                GameManager.ChangeState(new MenuGameState(GameManager));
+                GameManager.ChangeState(new UIMenuGameState(GameManager));
             }));
         }
     }
