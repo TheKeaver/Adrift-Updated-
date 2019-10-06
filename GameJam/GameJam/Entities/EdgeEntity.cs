@@ -21,6 +21,10 @@ namespace GameJam.Entities
                 })));
             entity.AddComponent(new EdgeComponent(normal));
 
+            RenderShape[] temp = new RenderShape[1];
+            temp[0] = new QuadRenderShape(new Vector2(hw, hh), new Vector2(-hw, hh), new Vector2(-hw, -hh), new Vector2(hw, -hh), Color.Green);
+            entity.AddComponent(new VectorSpriteComponent(temp));
+
             return entity;
         }
     }

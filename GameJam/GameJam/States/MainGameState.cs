@@ -187,10 +187,10 @@ namespace GameJam.States
                 playerTwoShieldEntity.AddComponent(new PlayerComponent(PlayerArray[1]));
             }
 
-            Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 1), new Vector2(0,-1));
-            Entity leftEdge = EdgeEntity.Create(Engine, new Vector2(-CVars.Get<int>("window_width") / 2, 0), new Vector2(1, CVars.Get<int>("window_height")), new Vector2(1, 0));
-            Entity bottomEdge = EdgeEntity.Create(Engine, new Vector2(0, -CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 1), new Vector2(0, 1));
-            Entity rightEdge = EdgeEntity.Create(Engine, new Vector2(CVars.Get<int>("window_width") / 2, 0), new Vector2(1, CVars.Get<int>("window_height")), new Vector2(-1, 0));
+            Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 5), new Vector2(0,-1));
+            Entity leftEdge = EdgeEntity.Create(Engine, new Vector2(-CVars.Get<int>("window_width") / 2, 0), new Vector2(5, CVars.Get<int>("window_height")), new Vector2(1, 0));
+            Entity bottomEdge = EdgeEntity.Create(Engine, new Vector2(0, -CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 5), new Vector2(0, 1));
+            Entity rightEdge = EdgeEntity.Create(Engine, new Vector2(CVars.Get<int>("window_width") / 2, 0), new Vector2(5, CVars.Get<int>("window_height")), new Vector2(-1, 0));
         }
 
         public override void Update(float dt)
