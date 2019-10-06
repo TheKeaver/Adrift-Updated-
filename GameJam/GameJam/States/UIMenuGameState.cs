@@ -15,8 +15,6 @@ namespace GameJam.States
         SpriteBatch _spriteBatch;
         Root _root;
 
-        int numberOfPlayers = 1;
-
         private ProcessManager ProcessManager
         {
             get;

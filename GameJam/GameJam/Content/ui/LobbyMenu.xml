@@ -6,7 +6,8 @@
             horizontal="-25%"
             vertical="0"
             width="40%"
-            height="75%">
+            height="75%"
+            id="player_one_lobby_seat">
             <NinePatchImage
                 halight="center"
                 valign="center"
@@ -18,43 +19,59 @@
                 image="texture_ui_lobby_panel_background"
                 thickness="4,4,4,4"
                 aspect-ratio="1.0"
-                id="player_one_lobby_seat">
+                id="player_one_lobby_seat_border">
             </NinePatchImage>
             <Image
-                halign="left"
-                valign="top"
+                halign="center"
+                valign="center"
                 horizontal="0"
                 vertical="0"
-                width="50%"
-                height="50%"
-                image="texture_input_controller_a_button">
-            </Image>
-            <Image
-                halign="right"
-                valign="top"
-                horizontal="0"
-                vertical="0"
-                width="50%"
-                height="50%"
-                image="texture_input_controller_left_bumper">
+                width="25%"
+                height="25%"
+                image="texture_input_controller_a_button"
+                id="player_one_a_button">
             </Image>
             <Image
                 halign="left"
-                valign="bottom"
+                valign="center"
                 horizontal="0"
                 vertical="0"
-                width="50%"
-                height="50%"
-                image="texture_input_keyboard_a_key">
+                width="25%"
+                height="25%"
+                image="texture_input_controller_left_bumper"
+                id="player_one_left_bumper"
+                hidden="true">
             </Image>
             <Image
                 halign="right"
-                valign="bottom"
+                valign="center"
                 horizontal="0"
                 vertical="0"
-                width="50%"
-                height="50%"
-                image="texture_input_keyboard_d_key">
+                width="25%"
+                height="25%"
+                image="texture_input_controller_right_bumper"
+                id="player_one_right_bumper"
+                hidden="true">
+            </Image>
+            <Image
+                halign="left"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="25%"
+                height="25%"
+                image="texture_input_keyboard_a_key"
+                id="player_one_a_key">
+            </Image>
+            <Image
+                halign="right"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="25%"
+                height="25%"
+                image="texture_input_keyboard_d_key"
+                id="player_one_d_key">
             </Image>
         </Panel>
         <Panel
@@ -63,7 +80,8 @@
             horizontal="25%"
             vertical="0"
             width="40%"
-            height="75%">
+            height="75%"
+            id="player_two_lobby_seat">
             <NinePatchImage
                 halight="center"
                 valign="center"
@@ -75,43 +93,59 @@
                 image="texture_ui_lobby_panel_background"
                 thickness="4,4,4,4"
                 aspect-ratio="1.0"
-                id="player_two_lobby_seat">
+                id="player_two_lobby_seat_border">
             </NinePatchImage>
             <Image
-                halign="left"
-                valign="top"
+                halign="center"
+                valign="center"
                 horizontal="0"
                 vertical="0"
-                width="50%"
-                height="50%"
-                image="texture_input_controller_a_button">
+                width="25%"
+                height="25%"
+                image="texture_input_controller_a_button"
+                id="player_two_a_button">
+            </Image>
+            <Image
+                  halign="left"
+                  valign="center"
+                  horizontal="0"
+                  vertical="0"
+                  width="25%"
+                  height="25%"
+                  image="texture_input_controller_left_bumper"
+                  id="player_two_left_bumper"
+                  hidden="true">
             </Image>
             <Image
                 halign="right"
-                valign="top"
+                valign="center"
                 horizontal="0"
                 vertical="0"
-                width="50%"
-                height="50%"
-                image="texture_input_controller_right_bumper">
+                width="25%"
+                height="25%"
+                image="texture_input_controller_right_bumper"
+                id="player_two_right_bumper"
+                hidden="true">
             </Image>
             <Image
                 halign="left"
-                valign="bottom"
+                valign="center"
                 horizontal="0"
                 vertical="0"
-                width="50%"
-                height="50%"
-                image="texture_input_keyboard_left_arrow_key">
+                width="25%"
+                height="25%"
+                image="texture_input_keyboard_left_arrow_key"
+                id="player_two_left_arrow_key">
             </Image>
             <Image
                 halign="right"
-                valign="bottom"
+                valign="center"
                 horizontal="0"
                 vertical="0"
-                width="50%"
-                height="50%"
-                image="texture_input_keyboard_right_arrow_key">
+                width="25%"
+                height="25%"
+                image="texture_input_keyboard_right_arrow_key"
+                id="player_two_right_arrow_key">
             </Image>
         </Panel>
     </Widgets>

@@ -91,19 +91,41 @@ namespace GameJam.States
             if ( buttonPressed != null )
             {
                 // A button is pressed
-                if (buttonPressed._pressedButton == Buttons.A)
+                if ( buttonPressed._pressedButton == Buttons.A )
                 {
                     // Any player presses A while no seats are occupied
-                    if ( playerOneSeat == null && playerTwoSeat == null )
+                    if ( playerOneSeat == null )
                     {
-                        playerOneSeat = new Player("playerOne", new ControllerInputMethod(buttonPressed._playerIndex));
-                        numberOfPlayers += 1;
+                        if ( playerTwoSeat == null )
+                        {
+                            playerOneSeat = new Player("playerOne", new ControllerInputMethod(buttonPressed._playerIndex));
+                            // Player one controller visibility helper
+                            PlayerOne_VisibilityHelper(true);
+                            numberOfPlayers += 1;
+                        }
+                        if ( playerTwoSeat != null )
+                        {
+                            ControllerInputMethod playerTwoControllerIM = playerTwoSeat.InputMethod as ControllerInputMethod;
+                            if ( playerTwoControllerIM == null || playerTwoControllerIM.PlayerIndex != buttonPressed._playerIndex )
+                            {
+                                playerOneSeat = new Player("playerOne", new ControllerInputMethod(buttonPressed._playerIndex));
+                                // Player one controller visibility helper
+                                PlayerOne_VisibilityHelper(true);
+                                numberOfPlayers += 1;
+                            }
+                        }
                     }
                     // One is occupied, Two is Open
                     if ( playerOneSeat != null && playerTwoSeat == null )
                     {
-                        playerTwoSeat = new Player("playerTwo", new ControllerInputMethod(buttonPressed._playerIndex));
-                        numberOfPlayers += 1;
+                        ControllerInputMethod playerOneControllerIM = playerOneSeat.InputMethod as ControllerInputMethod;
+                        if ( playerOneControllerIM == null || playerOneControllerIM.PlayerIndex != buttonPressed._playerIndex )
+                        {
+                            playerTwoSeat = new Player("playerTwo", new ControllerInputMethod(buttonPressed._playerIndex));
+                            // Player two controller visibility helper
+                            PlayerTwo_VisibilityHelper(true);
+                            numberOfPlayers += 1;
+                        }
                     }
                 }
 
@@ -114,18 +136,20 @@ namespace GameJam.States
                     if ( playerOneSeat == null && playerTwoSeat == null )
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
+                        // Both players revert to default visibility (same as below)
                     }
                     // when player 1 presses B
-                    if (playerOneSeat != null || playerTwoSeat != null)
+                    if ( playerOneSeat != null || playerTwoSeat != null )
                     {
                         playerOneSeat = null;
                         playerTwoSeat = null;
+                        Default_VisibilityHelper();
                         numberOfPlayers = 0;
                     }
                 }
 
                 // If start button is pressed
-                if (buttonPressed._pressedButton == Buttons.Start)
+                if ( buttonPressed._pressedButton == Buttons.Start )
                 {
                     if ( playerOneSeat != null )
                     {
@@ -138,7 +162,6 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        // This line needs to instead change to Lobby Screen
                         GameManager.ChangeState(new MainGameState(GameManager, players));
                     }
                 }
@@ -154,20 +177,24 @@ namespace GameJam.States
                     if ( playerOneSeat == null )
                     {
                         playerOneSeat = new Player("playerOne", new PrimaryKeyboardInputMethod());
+                        // Player one keyboard visibility helper
+                        PlayerOne_VisibilityHelper(false);
                         numberOfPlayers += 1;
                     }
                 }
 
-                if (keyPressed._keyPressed == Keys.Left || keyPressed._keyPressed == Keys.Right)
+                if ( keyPressed._keyPressed == Keys.Left || keyPressed._keyPressed == Keys.Right )
                 {
                     if ( playerTwoSeat == null )
                     {
                         playerTwoSeat = new Player("playerTwo", new SecondaryKeyboardInputMethod());
+                        // Player two keyboard visibility helper
+                        PlayerTwo_VisibilityHelper(false);
                         numberOfPlayers += 1;
                     }
                 }
 
-                if (keyPressed._keyPressed == Keys.Enter)
+                if ( keyPressed._keyPressed == Keys.Enter )
                 {
                     if ( playerOneSeat != null )
                     {
@@ -184,23 +211,58 @@ namespace GameJam.States
                     }
                 }
 
-                if (keyPressed._keyPressed == Keys.Escape)
+                if ( keyPressed._keyPressed == Keys.Escape )
                 {
                     // when both players empty - return to menu screen
                     if ( playerOneSeat == null && playerTwoSeat == null )
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
+                        // // Both players revert to default visibility (same as above)
                     }
                     if ( playerOneSeat != null || playerTwoSeat != null )
                     {
                         playerOneSeat = null;
                         playerTwoSeat = null;
+                        Default_VisibilityHelper();
                         numberOfPlayers = 0;
                     }
                 }
             }
 
             return false;
+        }
+
+        private void PlayerOne_VisibilityHelper(bool isController)
+        {
+            _root.FindWidgetByID("player_one_a_button").Hidden = true;
+            _root.FindWidgetByID("player_one_left_bumper").Hidden = !isController;
+            _root.FindWidgetByID("player_one_right_bumper").Hidden = !isController;
+            _root.FindWidgetByID("player_one_a_key").Hidden = isController;
+            _root.FindWidgetByID("player_one_d_key").Hidden = isController;
+        }
+
+        private void PlayerTwo_VisibilityHelper(bool isController)
+        {
+            _root.FindWidgetByID("player_two_a_button").Hidden = true;
+            _root.FindWidgetByID("player_two_left_bumper").Hidden = !isController;
+            _root.FindWidgetByID("player_two_right_bumper").Hidden = !isController;
+            _root.FindWidgetByID("player_two_left_arrow_key").Hidden = isController;
+            _root.FindWidgetByID("player_two_right_arrow_key").Hidden = isController;
+        }
+
+        private void Default_VisibilityHelper()
+        {
+            _root.FindWidgetByID("player_one_a_button").Hidden = false;
+            _root.FindWidgetByID("player_one_left_bumper").Hidden = true;
+            _root.FindWidgetByID("player_one_right_bumper").Hidden = true;
+            _root.FindWidgetByID("player_one_a_key").Hidden = false;
+            _root.FindWidgetByID("player_one_d_key").Hidden = false;
+
+            _root.FindWidgetByID("player_two_a_button").Hidden = false;
+            _root.FindWidgetByID("player_two_left_bumper").Hidden = true;
+            _root.FindWidgetByID("player_two_right_bumper").Hidden = true;
+            _root.FindWidgetByID("player_two_left_arrow_key").Hidden = false;
+            _root.FindWidgetByID("player_two_right_arrow_key").Hidden = false;
         }
     }
 }
