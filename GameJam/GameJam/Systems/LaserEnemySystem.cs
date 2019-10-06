@@ -61,6 +61,7 @@ namespace GameJam.Systems
                         }
 
                         Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
+                        reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness = laserBeamComp.Thickness;
                         Vector2 laserDirection = laserHit.Position - laserEnemyTip;
                         Vector2 beamOutDirection = GetReflectionVector(laserDirection, laserHit.Normal);
                         // Simple raycast to find edge this laser touches

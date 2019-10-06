@@ -133,6 +133,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\KamikazeSpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\GameOverAnimationProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserWarmUpProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserShootProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyFreezeRotation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyUnfreezeRotation.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
