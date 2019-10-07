@@ -55,23 +55,27 @@ namespace GameJam.Systems
 
                     if (laserHit.Other.HasComponent<PlayerShieldComponent>() && laserBeamComp.ComputeReflection)
                     {
-                        if (laserBeamComp.ReflectionBeamEntity == null)
+                        Vector2 shieldNormal = laserHit.Position - laserHit.Other.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<TransformComponent>().Position;
+                        if (Vector2.Dot(shieldNormal, laserHit.Normal) > 0)
                         {
-                            laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero, laserBeamEntity.HasComponent<CollisionComponent>());
-                        }
+                            if (laserBeamComp.ReflectionBeamEntity == null)
+                            {
+                                laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero, laserBeamEntity.HasComponent<CollisionComponent>());
+                            }
 
-                        Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
-                        reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness = laserBeamComp.Thickness;
-                        Vector2 laserDirection = laserHit.Position - laserEnemyTip;
-                        Vector2 beamOutDirection = GetReflectionVector(laserDirection, laserHit.Normal);
-                        // Simple raycast to find edge this laser touches
-                        // TODO: Recursive reflections
-                        RaycastHit reflectionHit = Raycast(_raycastEntities, laserHit.Position, beamOutDirection);
-                        SetLaserBeamProperties(reflectionBeamEntity,
-                            laserHit.Position,
-                            reflectionHit.Position,
-                            (float)Math.Atan2(beamOutDirection.Y, beamOutDirection.X),
-                            reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness);
+                            Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
+                            reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness = laserBeamComp.Thickness;
+                            Vector2 laserDirection = laserHit.Position - laserEnemyTip;
+                            Vector2 beamOutDirection = GetReflectionVector(laserDirection, laserHit.Normal);
+                            // Simple raycast to find edge this laser touches
+                            // TODO: Recursive reflections
+                            RaycastHit reflectionHit = Raycast(_raycastEntities, laserHit.Position, beamOutDirection);
+                            SetLaserBeamProperties(reflectionBeamEntity,
+                                laserHit.Position,
+                                reflectionHit.Position,
+                                (float)Math.Atan2(beamOutDirection.Y, beamOutDirection.X),
+                                reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness);
+                        }
                     }
                     else
                     {
@@ -170,7 +174,8 @@ namespace GameJam.Systems
                             {
                                 // Hit
                                 Vector2 newHit = (b - a) * (float)t2 + a;
-                                if ((newHit - origin).LengthSquared() < hit.LengthSquared)
+                                float newLengthSquared = (newHit - origin).LengthSquared();
+                                if (newLengthSquared < hit.LengthSquared)
                                 {
                                     hit.Position = newHit;
                                     hit.Normal = new Vector2(-v2.Y, v2.X);
@@ -179,7 +184,7 @@ namespace GameJam.Systems
                                         hit.Normal *= -1;
                                     }
                                     hit.Normal.Normalize();
-                                    hit.LengthSquared = newHit.LengthSquared();
+                                    hit.LengthSquared = newLengthSquared;
                                     hit.Other = raycastEntity;
                                 }
                             }
