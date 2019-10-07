@@ -93,6 +93,8 @@ namespace GameJam.Systems
 
         private void SetLaserBeamProperties(Entity laserBeamEntity, Vector2 laserBeamStart, Vector2 laserBeamEnd, float rotation, float thickness)
         {
+            LaserBeamComponent laserBeamComp = laserBeamEntity.GetComponent<LaserBeamComponent>();
+
             double laserBeamLength = (laserBeamEnd - laserBeamStart).Length();
 
             Vector2 lb1 = new Vector2((float)laserBeamLength, -thickness / 2);
@@ -101,7 +103,7 @@ namespace GameJam.Systems
             Vector2 lb4 = new Vector2(0, -thickness / 2);
             laserBeamEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0] = new QuadRenderShape(
                 lb1, lb2, lb3, lb4,
-                Color.Red);
+                laserBeamComp.Color);
 
             CollisionComponent collisionComp = laserBeamEntity.GetComponent<CollisionComponent>();
             if(collisionComp != null)
