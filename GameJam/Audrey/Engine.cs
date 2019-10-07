@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Audrey.Events;
+using Events;
 
 namespace Audrey
 {
@@ -32,6 +34,8 @@ namespace Audrey
 
             // Don't need to update bags, entitiy does not have any components
 
+            EventManager.Instance.QueueEvent(new EntityCreatedEvent(entity));
+
             return entity;
         }
 
@@ -43,6 +47,11 @@ namespace Audrey
         {
             _entities.Remove(entity);
             UpdateFamilyBags(entity);
+            foreach(IComponent component in entity._components)
+            {
+                EventManager.Instance.QueueEvent(new ComponentRemovedEvent(entity, component));
+            }
+            EventManager.Instance.QueueEvent(new EntityCreatedEvent(entity));
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Audrey.Events;
 using Audrey.Exceptions;
+using Events;
 
 namespace Audrey
 {
@@ -10,7 +12,7 @@ namespace Audrey
     public class Entity
     {
         readonly Engine _engine;
-        List<IComponent> _components = new List<IComponent>();
+        internal List<IComponent> _components = new List<IComponent>();
 
         internal Entity(Engine engine)
         {
@@ -87,6 +89,8 @@ namespace Audrey
             _components.Add(component);
             // Update caches
             _engine.UpdateFamilyBags(this);
+
+            EventManager.Instance.QueueEvent(new ComponentAddedEvent(this, component));
         }
 
         /// <summary>
@@ -119,6 +123,8 @@ namespace Audrey
             _components.Remove(componentToRemove);
             // Update caches
             _engine.UpdateFamilyBags(this);
+
+            EventManager.Instance.QueueEvent(new ComponentAddedEvent(this, componentToRemove));
         }
     }
 }
