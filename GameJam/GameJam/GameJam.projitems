@@ -50,8 +50,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\FireProjectileProcess.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIMenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
@@ -102,8 +100,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
