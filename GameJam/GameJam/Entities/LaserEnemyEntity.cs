@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameJam.Entities
 {
-    public static class LaserEnemy
+    public static class LaserEnemyEntity
     {
         public static Entity Create(Engine engine, ProcessManager processManager, Vector2 position)
         {

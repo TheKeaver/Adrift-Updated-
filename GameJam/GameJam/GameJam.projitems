@@ -124,7 +124,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Particles\ParticleManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Particles\VelocityParticleInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ColoredExplosionComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Entities\LaserEnemy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\LaserEnemyEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\LaserBeamEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\LaserEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\LaserEnemySystem.cs" />
@@ -138,6 +138,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyFreezeRotation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyUnfreezeRotation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\LaserBeamReflectionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemySpawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

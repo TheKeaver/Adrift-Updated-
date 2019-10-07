@@ -85,6 +85,7 @@ namespace GameJam.States
 
             ProcessManager.Attach(new KamikazeSpawner(Engine, Content));
             ProcessManager.Attach(new ShooterEnemySpawner(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new LaserEnemySpawner(Engine, Content, ProcessManager));
 
             EventManager.Instance.RegisterListener<GameOverEvent>(this);
         }
