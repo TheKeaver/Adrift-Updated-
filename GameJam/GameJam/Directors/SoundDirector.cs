@@ -53,19 +53,19 @@ namespace GameJam.Directors
 
         private void HandleProjectileBouncedEvent(ProjectileBouncedEvent projectileBouncedEvent)
         {
-            //projectileBouncedFx.Play();
+            projectileBouncedFx.Play();
         }
 
         void HandleLaserFireEvent(ProjectileFiredEvent evt)
         {
-            //projectileFiredFx.Play();
+            projectileFiredFx.Play();
         }
 
         void HandleCreateExplosionEvent(CreateExplosionEvent evt)
         {
             if (evt.PlaySound)
             {
-                //explosionFx.Play();
+                explosionFx.Play();
             }
         }
     }
