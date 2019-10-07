@@ -61,6 +61,7 @@ namespace GameJam.Systems
                             if (laserBeamComp.ReflectionBeamEntity == null)
                             {
                                 laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero, laserBeamEntity.HasComponent<CollisionComponent>());
+                                laserBeamComp.ReflectionBeamEntity.AddComponent(new LaserBeamReflectionComponent());
                             }
 
                             Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
@@ -68,7 +69,6 @@ namespace GameJam.Systems
                             Vector2 laserDirection = laserHit.Position - laserEnemyTip;
                             Vector2 beamOutDirection = GetReflectionVector(laserDirection, laserHit.Normal);
                             // Simple raycast to find edge this laser touches
-                            // TODO: Recursive reflections
                             RaycastHit reflectionHit = Raycast(_raycastEntities, laserHit.Position, beamOutDirection);
                             SetLaserBeamProperties(reflectionBeamEntity,
                                 laserHit.Position,

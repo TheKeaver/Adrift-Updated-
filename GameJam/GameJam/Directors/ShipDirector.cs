@@ -13,7 +13,7 @@ namespace GameJam.Directors
     public class ShipDirector : BaseDirector
     {
         readonly Family playerShipFamily = Family.All(typeof(PlayerShipComponent), typeof(TransformComponent)).Get();
-        readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Get();
+        readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Exclude(typeof(LaserBeamReflectionComponent)).Get();
 
         public ShipDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
         {
@@ -22,7 +22,6 @@ namespace GameJam.Directors
         public override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<CollisionStartEvent>(this);
-            EventManager.Instance.RegisterListener<CollisionEndEvent>(this);
         }
 
         public override void UnregisterEvents()
@@ -35,10 +34,6 @@ namespace GameJam.Directors
             if (evt is CollisionStartEvent)
             {
                 OrderColliders(evt as CollisionStartEvent);
-            }
-            if (evt is CollisionEndEvent)
-            {
-                HandleCollisionEnd(evt as CollisionEndEvent);
             }
             return false;
         }
@@ -78,21 +73,20 @@ namespace GameJam.Directors
                 EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color, false));
             }
 
+            
+
+            if (!entityB.HasComponent<LaserBeamComponent>())
             {
-                Color color = Color.White;
-                if (entityB.HasComponent<ColoredExplosionComponent>())
                 {
-                    color = entityB.GetComponent<ColoredExplosionComponent>().Color;
+                    Color color = Color.White;
+                    if (entityB.HasComponent<ColoredExplosionComponent>())
+                    {
+                        color = entityB.GetComponent<ColoredExplosionComponent>().Color;
+                    }
+                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position, color, false));
                 }
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position, color, false));
+                Engine.DestroyEntity(entityB);
             }
-
-            Engine.DestroyEntity(entityB);
-        }
-
-        void HandleCollisionEnd(CollisionEndEvent collisionEndEvent)
-        {
-            Console.WriteLine("Well, at least CollisionEndEvent worked.....");
         }
     }
 }
