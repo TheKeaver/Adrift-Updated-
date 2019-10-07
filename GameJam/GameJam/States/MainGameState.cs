@@ -8,6 +8,7 @@ using GameJam.Events;
 using GameJam.Graphics;
 using GameJam.Particles;
 using GameJam.Processes;
+using GameJam.Processes.Enemies;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -22,7 +23,8 @@ namespace GameJam.States
     /// </summary>
     public class MainGameState : GameState, IEventListener
     {
-        private ProcessManager ProcessManager {
+        private ProcessManager ProcessManager
+        {
             get;
             set;
         }
@@ -117,7 +119,7 @@ namespace GameJam.States
                 new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager),
                 new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
                 new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager),
-                new BulletCollisionOnEnemyDirector(Engine, Content, ProcessManager),
+                new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager),
                 new BounceDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
@@ -143,7 +145,7 @@ namespace GameJam.States
 
             Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
             Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
-			Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
+            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
 
             Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
 
@@ -177,7 +179,7 @@ namespace GameJam.States
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
             playerShieldEntity.AddComponent(new PlayerComponent(PlayerArray[0]));
 
-            if(PlayerArray.Length == 2)
+            if (PlayerArray.Length == 2)
             {
                 Entity playerTwoShipEntity = PlayerShipEntity.Create(Engine,
                 Content.Load<Texture2D>(CVars.Get<string>("texture_player_ship")),
@@ -199,11 +201,11 @@ namespace GameJam.States
             ProcessManager.Update(dt);
 
             _acculmulator += dt;
-            while(_acculmulator >= 1 / CVars.Get<float>("tick_frequency"))
+            while (_acculmulator >= 1 / CVars.Get<float>("tick_frequency"))
             {
                 _acculmulator -= 1 / CVars.Get<float>("tick_frequency");
 
-                for(int i = 0; i < _systems.Length; i++)
+                for (int i = 0; i < _systems.Length; i++)
                 {
                     _systems[i].Update(dt);
                 }
@@ -250,7 +252,7 @@ namespace GameJam.States
 
         public bool Handle(IEvent evt)
         {
-            if(evt is GameOverEvent)
+            if (evt is GameOverEvent)
             {
                 HandleGameOverEvent(evt as GameOverEvent);
             }

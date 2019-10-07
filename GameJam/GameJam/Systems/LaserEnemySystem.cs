@@ -57,7 +57,7 @@ namespace GameJam.Systems
                     {
                         if (laserBeamComp.ReflectionBeamEntity == null)
                         {
-                            laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero);
+                            laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero, laserBeamEntity.HasComponent<CollisionComponent>());
                         }
 
                         Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
@@ -91,7 +91,6 @@ namespace GameJam.Systems
         {
             double laserBeamLength = (laserBeamEnd - laserBeamStart).Length();
 
-            // TODO: CollisionComponent
             Vector2 lb1 = new Vector2((float)laserBeamLength, -thickness / 2);
             Vector2 lb2 = new Vector2((float)laserBeamLength, thickness / 2);
             Vector2 lb3 = new Vector2(0, thickness / 2);
@@ -99,6 +98,15 @@ namespace GameJam.Systems
             laserBeamEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0] = new QuadRenderShape(
                 lb1, lb2, lb3, lb4,
                 Color.Red);
+
+            CollisionComponent collisionComp = laserBeamEntity.GetComponent<CollisionComponent>();
+            if(collisionComp != null)
+            {
+                ((PolygonCollisionShape)collisionComp.CollisionShapes[0]).Vertices = new Vector2[]
+                {
+                    lb1, lb2, lb3, lb4
+                };
+            }
 
             TransformComponent laserBeamTransformComp = laserBeamEntity.GetComponent<TransformComponent>();
             laserBeamTransformComp.Move(laserBeamStart - laserBeamTransformComp.Position);

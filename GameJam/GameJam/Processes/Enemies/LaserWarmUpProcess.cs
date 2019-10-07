@@ -35,7 +35,7 @@ namespace GameJam.Processes.Enemies
             TransformComponent transformComp = LaserEnemyEntity.GetComponent<TransformComponent>();
             if (laserEnemyComp.LaserBeamEntity == null)
             {
-                laserEnemyComp.LaserBeamEntity = LaserBeamEntity.Create(Engine, transformComp.Position);
+                laserEnemyComp.LaserBeamEntity = LaserBeamEntity.Create(Engine, transformComp.Position, false);
             }
 
             LaserBeamComponent laserBeamComp = laserEnemyComp.LaserBeamEntity.GetComponent<LaserBeamComponent>();

@@ -24,7 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CVarsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BounceDirector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletCollisionOnEnemyDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\HazardCollisionOnEnemyDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyCollisionOnPlayerDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />

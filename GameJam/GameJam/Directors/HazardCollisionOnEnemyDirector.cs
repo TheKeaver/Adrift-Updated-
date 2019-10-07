@@ -8,11 +8,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Directors
 {
-    public class BulletCollisionOnEnemyDirector : BaseDirector
+    public class HazardCollisionOnEnemyDirector : BaseDirector
     {
-        readonly Family projectileFamily = Family.All(typeof(ProjectileComponent), typeof(MovementComponent)).Get();
-        readonly Family enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
-        public BulletCollisionOnEnemyDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
+        readonly Family projectileFamily = Family.One(typeof(ProjectileComponent), typeof(LaserBeamComponent)).Get();
+        readonly Family enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent), typeof(LaserBeamComponent)).Get();
+        public HazardCollisionOnEnemyDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
         }
 
@@ -51,12 +51,12 @@ namespace GameJam.Directors
             if( enemyFamily.Matches(collisionStartEvent.EntityA)
                 && projectileFamily.Matches(collisionStartEvent.EntityB) )
             {
-                EnemyProjectileCollision(collisionStartEvent.EntityA, collisionStartEvent.EntityB);
+                EnemyHazardCollision(collisionStartEvent.EntityA, collisionStartEvent.EntityB);
             }
             if (enemyFamily.Matches(collisionStartEvent.EntityB)
                 && projectileFamily.Matches(collisionStartEvent.EntityA) )
             {
-                EnemyProjectileCollision(collisionStartEvent.EntityB, collisionStartEvent.EntityA);
+                EnemyHazardCollision(collisionStartEvent.EntityB, collisionStartEvent.EntityA);
             }
         }
 
@@ -71,19 +71,31 @@ namespace GameJam.Directors
             EventManager.Instance.UnregisterListener(this);
         }
 
-        private void EnemyProjectileCollision(Entity enemy, Entity projectile)
+        private void EnemyHazardCollision(Entity enemy, Entity hazard)
         {
-            if (projectile.GetComponent<ProjectileComponent>().hasLeftShootingEnemy)
+            if(enemy.HasComponent<LaserEnemyComponent>())
             {
-                Color color = Color.White;
-                if (enemy.HasComponent<ColoredExplosionComponent>())
+                LaserEnemyComponent laserEnemyComp = enemy.GetComponent<LaserEnemyComponent>();
+                if(laserEnemyComp.LaserBeamEntity == hazard)
                 {
-                    color = enemy.GetComponent<ColoredExplosionComponent>().Color;
+                    return;
                 }
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position, color));
+            }
+            if (hazard.HasComponent<ProjectileComponent>() && !hazard.GetComponent<ProjectileComponent>().hasLeftShootingEnemy)
+            {
+                return;
+            }
+            Color color = Color.White;
+            if (enemy.HasComponent<ColoredExplosionComponent>())
+            {
+                color = enemy.GetComponent<ColoredExplosionComponent>().Color;
+            }
+            EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position, color));
 
-                Engine.DestroyEntity(enemy);
-                Engine.DestroyEntity(projectile);
+            Engine.DestroyEntity(enemy);
+            if (hazard.HasComponent<ProjectileComponent>())
+            {
+                Engine.DestroyEntity(hazard);
             }
         }
     }

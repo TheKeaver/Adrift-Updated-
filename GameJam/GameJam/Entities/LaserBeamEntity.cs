@@ -7,7 +7,7 @@ namespace GameJam.Entities
 {
     public class LaserBeamEntity
     {
-        public static Entity Create(Engine engine, Vector2 position)
+        public static Entity Create(Engine engine, Vector2 position, bool includeCollision)
         {
             Entity entity = engine.CreateEntity();
 
@@ -22,13 +22,15 @@ namespace GameJam.Entities
                     new Vector2(-10, -10), Color.Red)
             }));
 
-            //entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
-            //    new Vector2(4, 0),
-            //    new Vector2(-3, 3),
-            //    new Vector2(-5, 1),
-            //    new Vector2(-5, -1),
-            //    new Vector2(-3, -3)
-            //})));
+            if (includeCollision)
+            {
+                entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
+                    new Vector2(10, -10),
+                    new Vector2(10, 10),
+                    new Vector2(-10, 10),
+                    new Vector2(-10, -10)
+                })));
+            }
 
             return entity;
         }

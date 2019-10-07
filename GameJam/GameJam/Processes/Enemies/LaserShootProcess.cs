@@ -37,7 +37,7 @@ namespace GameJam.Processes.Enemies
             TransformComponent transformComp = LaserEnemyEntity.GetComponent<TransformComponent>();
             if (laserEnemyComp.LaserBeamEntity == null)
             {
-                laserEnemyComp.LaserBeamEntity = LaserBeamEntity.Create(Engine, transformComp.Position);
+                laserEnemyComp.LaserBeamEntity = LaserBeamEntity.Create(Engine, transformComp.Position, true);
             }
 
             LaserBeamComponent laserBeamComp = laserEnemyComp.LaserBeamEntity.GetComponent<LaserBeamComponent>();
@@ -46,7 +46,15 @@ namespace GameJam.Processes.Enemies
             laserBeamComp.ComputeReflection = true;
 
             // Add CollisionComponent if the laser beam doesn't have one
-            // TODO: CollisionComponent
+            if(!laserEnemyComp.LaserBeamEntity.HasComponent<CollisionComponent>())
+            {
+                laserEnemyComp.LaserBeamEntity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
+                    new Vector2(10, -10),
+                    new Vector2(10, 10),
+                    new Vector2(-10, 10),
+                    new Vector2(-10, -10)
+                })));
+            }
         }
 
         protected override void OnKill()
