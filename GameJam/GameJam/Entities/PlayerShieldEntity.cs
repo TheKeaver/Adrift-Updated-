@@ -18,7 +18,7 @@ namespace GameJam.Entities
                     new Vector2(6, 1),
                     new Vector2(-6, 1),
                     new Vector2(-6, -1),
-                    Color.SpringGreen)
+                    CVars.Get<Color>("color_player_shield"))
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_shield_size"), true);
 

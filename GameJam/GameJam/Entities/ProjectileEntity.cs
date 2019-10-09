@@ -23,7 +23,7 @@ namespace GameJam.Entities
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new QuadRenderShape(new Vector2(3, -1), new Vector2(3, 1),
                     new Vector2(-3, 1), new Vector2(-3, -1),
-                    Color.Red)
+                    CVars.Get<Color>("color_projectile"))
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("projectile_size"), false);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -47,6 +48,23 @@ namespace GameJam
 
         public bool Deserialize(string value)
         {
+            if(typeof(T) == typeof(Color))
+            {
+                string[] rgb_S = value.Split(',');
+                if(rgb_S.Length < 3)
+                {
+                    return false;
+                }
+                try
+                {
+                    Value = (T)Activator.CreateInstance(typeof(T), int.Parse(rgb_S[0]), int.Parse(rgb_S[1]), int.Parse(rgb_S[2]));
+                } catch (Exception)
+                {
+                    return false;
+                }
+                return true;
+            }
+
             try
             {
                 Value = (T)Convert.ChangeType(value, typeof(T));
@@ -59,6 +77,12 @@ namespace GameJam
 
         public string Serialize()
         {
+            if(typeof(T) == typeof(Color))
+            {
+                Color color = (Color)Activator.CreateInstance(typeof(Color), Value, 0);
+                return string.Format("{0} = {1},{2},{3}", Name, color.R, color.G, color.B * 255);
+            }
+
             return Name + " = " + Value;
         }
     }

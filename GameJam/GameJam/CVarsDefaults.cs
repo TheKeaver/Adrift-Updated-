@@ -1,4 +1,6 @@
-﻿namespace GameJam
+﻿using Microsoft.Xna.Framework;
+
+namespace GameJam
 {
     static partial class CVars
     {
@@ -80,6 +82,18 @@
             Create<float>("laser_enemy_fire_closing_envelope_decay_factor", 20, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("laser_enemy_spawn_wait_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("laser_enemy_successive_wait_period", 7, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
+            /** COLORS **/
+            Create<Color>("color_player_ship", Color.White, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_player_shield", Color.SpringGreen, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_kamikaze_enemy", Color.Violet, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_shooting_enemy", Color.Cyan, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_laser_enemy", Color.Gold, CVarFlags.DEV_PRESERVE);
+
+            Create<Color>("color_projectile", Color.Red, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_laser_beam", Color.Red, CVarFlags.DEV_PRESERVE);
+
+            Create<Color>("color_playfield", Color.Green, CVarFlags.DEV_PRESERVE);
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);

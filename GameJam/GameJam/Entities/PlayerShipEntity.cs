@@ -8,7 +8,7 @@ namespace GameJam.Entities
     {
         public static Entity Create(Engine engine, Vector2 position)
         {
-            return Create(engine, position, Color.White);
+            return Create(engine, position, CVars.Get<Color>("color_player_ship"));
         }
 
         public static Entity Create(Engine engine, Vector2 position, Color color)
@@ -36,7 +36,7 @@ namespace GameJam.Entities
                     }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
-            entity.AddComponent(new ColoredExplosionComponent(Color.White));
+            entity.AddComponent(new ColoredExplosionComponent(color));
 
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {

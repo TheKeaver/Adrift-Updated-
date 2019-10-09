@@ -25,11 +25,11 @@ namespace GameJam.Entities
                     new Vector2(-5, -1),
                     new Vector2(-3, -3),
                     new Vector2(3, -1)
-                    }, 0.35f, Color.Gold, PolyRenderShape.PolyCapStyle.Filled, true),
+                    }, 0.35f, CVars.Get<Color>("color_laser_enemy"), PolyRenderShape.PolyCapStyle.Filled, true),
                 new PolyRenderShape(new Vector2[]{ new Vector2(-3, 3),
                     new Vector2(2, 0),
                     new Vector2(-3, -3)
-                    }, 0.2f, Color.Gold, PolyRenderShape.PolyCapStyle.Filled)
+                    }, 0.2f, CVars.Get<Color>("color_laser_enemy"), PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("laser_enemy_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(Color.Gold));

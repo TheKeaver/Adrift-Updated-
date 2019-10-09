@@ -18,7 +18,7 @@ namespace GameJam.Entities
                 new QuadRenderShape(new Vector2(10, -10),
                     new Vector2(10, 10),
                     new Vector2(-10, 10),
-                    new Vector2(-10, -10), Color.Red)
+                    new Vector2(-10, -10), CVars.Get<Color>("color_laser_beam"))
             }));
 
             if (includeCollision)

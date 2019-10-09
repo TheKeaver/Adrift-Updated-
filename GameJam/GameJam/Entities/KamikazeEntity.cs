@@ -23,7 +23,7 @@ namespace GameJam.Entities
                     new Vector2(-5, 0),
                     new Vector2(-4, -1),
                     new Vector2(-5, -3)
-                    }, 0.4f, Color.Violet, PolyRenderShape.PolyCapStyle.Filled, true)
+                    }, 0.4f, CVars.Get<Color>("color_kamikaze_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("kamikaze_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(Color.Violet));
