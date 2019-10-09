@@ -3,7 +3,7 @@ using Audrey;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 
-namespace GameJam.Processes
+namespace GameJam.Processes.Animation
 {
     public class GameOverAnimationProcess : Process
     {

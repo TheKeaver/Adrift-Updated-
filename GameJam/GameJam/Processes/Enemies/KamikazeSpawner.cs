@@ -4,7 +4,7 @@ using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
 
-namespace GameJam.Processes
+namespace GameJam.Processes.Enemies
 {
     public class KamikazeSpawner : IntervalProcess
     {

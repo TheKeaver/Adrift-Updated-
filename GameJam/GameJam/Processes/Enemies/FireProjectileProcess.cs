@@ -7,7 +7,7 @@ using GameJam.Events.EnemyActions;
 using Microsoft.Xna.Framework;
 using System;
 
-namespace GameJam.Processes
+namespace GameJam.Processes.Enemies
 {
     public class FireProjectileProcess : IntervalProcess
     {
