@@ -5,6 +5,7 @@ using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
+using GameJam.Events.GameLogic;
 using GameJam.Graphics;
 using GameJam.Particles;
 using GameJam.Processes;

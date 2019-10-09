@@ -1,9 +1,8 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using Events;
 using Microsoft.Xna.Framework;
 
-namespace GameJam.Events
+namespace GameJam.Events.GameLogic
 {
     public class ProjectileBouncedEvent : IEvent
     {

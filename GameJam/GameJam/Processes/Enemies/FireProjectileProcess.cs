@@ -3,6 +3,7 @@ using Events;
 using GameJam.Components;
 using GameJam.Entities;
 using GameJam.Events;
+using GameJam.Events.EnemyActions;
 using Microsoft.Xna.Framework;
 using System;
 

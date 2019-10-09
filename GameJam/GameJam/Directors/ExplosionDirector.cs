@@ -4,6 +4,7 @@ using Events;
 using GameJam.Common;
 using GameJam.Entities;
 using GameJam.Events;
+using GameJam.Events.EnemyActions;
 using GameJam.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

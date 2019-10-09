@@ -28,7 +28,7 @@
             hover-thickness="4,4,4,4"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="4,4,4,4"
-            onclick="queue:PlayGameButtonPressedEvent">
+            onclick="queue:UI.PlayGameButtonPressedEvent">
             <Label
                 halign="center"
                 valign="center"
@@ -59,7 +59,7 @@
             hover-thickness="4,4,4,4"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="4,4,4,4"
-            onclick="queue:OptionsButtonPressedEvent">
+            onclick="queue:UI.OptionsButtonPressedEvent">
             <Label
                 halign="center"
                 valign="center"
@@ -90,7 +90,7 @@
             hover-thickness="4,4,4,4"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="4,4,4,4"
-            onclick="queue:QuitGameButtonPressedEvent">
+            onclick="queue:UI.QuitGameButtonPressedEvent">
             <Label
                 halign="center"
                 valign="center"

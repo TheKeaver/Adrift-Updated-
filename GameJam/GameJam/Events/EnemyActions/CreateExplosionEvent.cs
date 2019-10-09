@@ -1,10 +1,7 @@
 ﻿using Events;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GameJam.Events
+namespace GameJam.Events.EnemyActions
 {
     public class CreateExplosionEvent : IEvent
     {

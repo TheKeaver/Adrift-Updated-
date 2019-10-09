@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace GameJam.Events
+namespace GameJam.Events.InputHandling
 {
     /// <summary>
     /// An event queued when a mouse button is pressed.

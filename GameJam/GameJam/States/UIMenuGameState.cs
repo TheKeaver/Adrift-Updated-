@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Events;
 using GameJam.Events;
+using GameJam.Events.InputHandling;
+using GameJam.Events.UI;
 using GameJam.Input;
 using GameJam.UI;
 using Microsoft.Xna.Framework;
