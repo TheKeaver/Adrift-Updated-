@@ -3,6 +3,7 @@ using Events;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Events;
+using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

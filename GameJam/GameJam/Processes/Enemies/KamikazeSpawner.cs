@@ -1,18 +1,14 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace GameJam.Processes
+namespace GameJam.Processes.Enemies
 {
     public class KamikazeSpawner : IntervalProcess
     {
         readonly Engine Engine;
-        readonly ContentManager Content;
         readonly MTRandom random = new MTRandom();
 
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
@@ -21,10 +17,9 @@ namespace GameJam.Processes
         readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
         readonly ImmutableList<Entity> _enemyEntities;
 
-        public KamikazeSpawner(Engine engine, ContentManager content) : base(CVars.Get<float>("spawner_kamikaze_enemy_initial_period"))
+        public KamikazeSpawner(Engine engine) : base(CVars.Get<float>("spawner_kamikaze_enemy_initial_period"))
         {
             Engine = engine;
-            Content = content;
 
             _playerShipEntities = engine.GetEntitiesFor(_playerShipFamily);
             _enemyEntities = engine.GetEntitiesFor(_enemyFamily);
@@ -41,9 +36,7 @@ namespace GameJam.Processes
                     spawnPosition.Y = random.NextSingle(-CVars.Get<int>("window_height") / 2 * 0.9f, CVars.Get<int>("window_height") / 2 * 0.9f);
                 } while (IsTooCloseToPlayer(spawnPosition));
 
-                KamikazeEntity.Create(Engine,
-                    Content.Load<Texture2D>(CVars.Get<string>("texture_kamikaze")),
-                    spawnPosition);
+                KamikazeEntity.Create(Engine, spawnPosition);
             }
 
             Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_kamikaze_enemy_period_multiplier"),

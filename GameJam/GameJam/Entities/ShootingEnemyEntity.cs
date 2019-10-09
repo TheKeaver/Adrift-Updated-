@@ -1,16 +1,13 @@
 ﻿using Audrey;
-using GameJam.Common;
 using GameJam.Components;
-using GameJam.Processes;
+using GameJam.Processes.Enemies;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Entities
 {
     public static class ShootingEnemyEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position, ProcessManager processManager, ContentManager content)
+        public static Entity Create(Engine engine, Vector2 position, ProcessManager processManager)
         {
             Entity entity = engine.CreateEntity();
 
@@ -28,7 +25,7 @@ namespace GameJam.Entities
                     new Vector2(4, 0),
                     new Vector2(1, -1),
                     new Vector2(2, -4)
-                    }, 0.3f, Color.Cyan, PolyRenderShape.PolyCapStyle.Filled, true)
+                    }, 0.3f, CVars.Get<Color>("color_shooting_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("shooting_enemy_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(Color.Cyan));
@@ -41,7 +38,7 @@ namespace GameJam.Entities
                 new Vector2(-2, -5)
             })));
 
-            FireProjectileProcess fpp = new FireProjectileProcess(entity, engine, content);
+            FireProjectileProcess fpp = new FireProjectileProcess(entity, engine);
             processManager.Attach(fpp);
             entity.AddComponent(new ProjectileSpawningProcessComponent(fpp));
 

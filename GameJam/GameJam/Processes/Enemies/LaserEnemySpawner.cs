@@ -1,18 +1,14 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Processes.Enemies
 {
     public class LaserEnemySpawner : IntervalProcess
     {
         readonly Engine Engine;
-        readonly ContentManager Content;
         readonly ProcessManager ProcessManager;
         readonly MTRandom random = new MTRandom();
 
@@ -25,11 +21,10 @@ namespace GameJam.Processes.Enemies
         readonly Family _laserFamily = Family.All(typeof(LaserEnemyComponent)).Get();
         readonly ImmutableList<Entity> _laserEntities;
 
-        public LaserEnemySpawner(Engine engine, ContentManager content, ProcessManager processManager)
+        public LaserEnemySpawner(Engine engine, ProcessManager processManager)
             : base(CVars.Get<float>("spawner_laser_enemy_initial_period"))
         {
             Engine = engine;
-            Content = content;
             ProcessManager = processManager;
 
             _playerShipEntities = engine.GetEntitiesFor(_playerShipFamily);

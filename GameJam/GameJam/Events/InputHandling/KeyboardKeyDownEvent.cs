@@ -1,5 +1,4 @@
 ﻿using Events;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameJam.Events.InputHandling

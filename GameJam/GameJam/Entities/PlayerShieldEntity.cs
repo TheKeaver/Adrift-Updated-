@@ -1,13 +1,12 @@
 ﻿using Audrey;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Entities
 {
     public static class PlayerShieldEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Entity shipEntity)
+        public static Entity Create(Engine engine, Entity shipEntity)
         {
             Entity entity = engine.CreateEntity();
 
@@ -19,7 +18,7 @@ namespace GameJam.Entities
                     new Vector2(6, 1),
                     new Vector2(-6, 1),
                     new Vector2(-6, -1),
-                    Color.SpringGreen)
+                    CVars.Get<Color>("color_player_shield"))
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_shield_size"), true);
 

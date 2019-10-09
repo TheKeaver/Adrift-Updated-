@@ -1,7 +1,4 @@
 ﻿using Audrey;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Components
 {
@@ -13,6 +10,5 @@ namespace GameJam.Components
         {
             BouncesLeft = totalBounces;
         }
-        public bool hasLeftShootingEnemy = false;
     }
 }

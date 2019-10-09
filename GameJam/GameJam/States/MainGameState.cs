@@ -5,14 +5,15 @@ using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
+using GameJam.Events.GameLogic;
 using GameJam.Graphics;
 using GameJam.Particles;
 using GameJam.Processes;
+using GameJam.Processes.Animation;
 using GameJam.Processes.Enemies;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 
@@ -83,9 +84,9 @@ namespace GameJam.States
             InitSystems();
             InitDirectors();
 
-            ProcessManager.Attach(new KamikazeSpawner(Engine, Content));
-            ProcessManager.Attach(new ShooterEnemySpawner(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new LaserEnemySpawner(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new KamikazeSpawner(Engine));
+            ProcessManager.Attach(new ShooterEnemySpawner(Engine, ProcessManager));
+            ProcessManager.Attach(new LaserEnemySpawner(Engine, ProcessManager));
 
             EventManager.Instance.RegisterListener<GameOverEvent>(this);
         }
@@ -121,7 +122,8 @@ namespace GameJam.States
                 new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
                 new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager),
                 new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager),
-                new BounceDirector(Engine, Content, ProcessManager)
+                new BounceDirector(Engine, Content, ProcessManager),
+                new LaserBeamCleanupDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
             {
@@ -135,13 +137,6 @@ namespace GameJam.States
 
         public override void LoadContent()
         {
-            Content.Load<Texture2D>(CVars.Get<string>("texture_player_ship"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_player_shield"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_explosion"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_kamikaze"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_shooter_enemy"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_enemy_bullet"));
-
             Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
 
             Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
@@ -173,20 +168,18 @@ namespace GameJam.States
         void CreateEntities()
         {
             Entity playerShipEntity = PlayerShipEntity.Create(Engine,
-                Content.Load<Texture2D>(CVars.Get<string>("texture_player_ship")),
                 new Vector2(-25 + (25 * (PlayerArray.Length % 2)), 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
-                Content.Load<Texture2D>(CVars.Get<string>("texture_player_shield")), playerShipEntity);
+                playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
             playerShieldEntity.AddComponent(new PlayerComponent(PlayerArray[0]));
 
             if (PlayerArray.Length == 2)
             {
                 Entity playerTwoShipEntity = PlayerShipEntity.Create(Engine,
-                Content.Load<Texture2D>(CVars.Get<string>("texture_player_ship")),
                 new Vector2(25, 0));
                 Entity playerTwoShieldEntity = PlayerShieldEntity.Create(Engine,
-                    Content.Load<Texture2D>(CVars.Get<string>("texture_player_shield")), playerTwoShipEntity);
+                    playerTwoShipEntity);
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerTwoShieldEntity;
                 playerTwoShieldEntity.AddComponent(new PlayerComponent(PlayerArray[1]));
             }

@@ -1,7 +1,10 @@
 ﻿using System;
 using Audrey;
+using Events;
+using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
+using GameJam.Events.EnemyActions;
 using Microsoft.Xna.Framework;
 
 namespace GameJam.Processes.Enemies
@@ -48,11 +51,13 @@ namespace GameJam.Processes.Enemies
             {
                 laserEnemyComp.LaserBeamEntity.RemoveComponent<CollisionComponent>();
             }
+
+            EventManager.Instance.QueueEvent(new LaserBeamWarmUpStart(laserEnemyComp.LaserBeamEntity));
         }
 
         protected override void OnKill()
         {
-
+            EventManager.Instance.QueueEvent(new LaserBeamWarmUpEnd(LaserEnemyEntity.GetComponent<LaserEnemyComponent>().LaserBeamEntity));
         }
 
         protected override void OnTogglePause()

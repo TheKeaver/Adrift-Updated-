@@ -1,5 +1,4 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 
@@ -19,7 +18,7 @@ namespace GameJam.Entities
                 new QuadRenderShape(new Vector2(10, -10),
                     new Vector2(10, 10),
                     new Vector2(-10, 10),
-                    new Vector2(-10, -10), Color.Red)
+                    new Vector2(-10, -10), CVars.Get<Color>("color_laser_beam"))
             }));
 
             if (includeCollision)
