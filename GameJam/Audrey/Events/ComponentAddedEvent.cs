@@ -2,7 +2,7 @@
 
 namespace Audrey.Events
 {
-    public class ComponentAddedEvent : IEvent
+    public class ComponentAddedEvent<T> : IEvent where T: IComponent
     {
         public Entity Entity
         {
@@ -10,13 +10,13 @@ namespace Audrey.Events
             private set;
         }
 
-        public IComponent Component
+        public T Component
         {
             get;
             private set;
         }
 
-        public ComponentAddedEvent(Entity entity, IComponent component)
+        public ComponentAddedEvent(Entity entity, T component)
         {
             Entity = entity;
             Component = component;

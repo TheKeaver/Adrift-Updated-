@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Audrey.Events;
 using Events;
 
@@ -45,11 +46,18 @@ namespace Audrey
         /// <param name="entity">Entity.</param>
         public void DestroyEntity(Entity entity)
         {
+            if(entity == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             _entities.Remove(entity);
             UpdateFamilyBags(entity);
             foreach(IComponent component in entity._components)
             {
-                EventManager.Instance.QueueEvent(new ComponentRemovedEvent(entity, component));
+                Type componentType = component.GetType();
+                Type componentAddedEventType = typeof(ComponentRemovedEvent<>).MakeGenericType(componentType);
+                EventManager.Instance.QueueEvent((IEvent)Activator.CreateInstance(componentAddedEventType, entity, component));
             }
             EventManager.Instance.QueueEvent(new EntityCreatedEvent(entity));
         }

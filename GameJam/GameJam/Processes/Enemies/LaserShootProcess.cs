@@ -61,7 +61,6 @@ namespace GameJam.Processes.Enemies
         {
             // Destroy laser beam
             LaserEnemyComponent laserEnemyComp = LaserEnemyEntity.GetComponent<LaserEnemyComponent>();
-            DestroySubLaser(laserEnemyComp.LaserBeamEntity.GetComponent<LaserBeamComponent>());
             Engine.DestroyEntity(laserEnemyComp.LaserBeamEntity);
             laserEnemyComp.LaserBeamEntity = null;
         }
@@ -104,16 +103,6 @@ namespace GameJam.Processes.Enemies
             float thickness = (float)(-zeroToPeak * Math.Sin(2 * MathHelper.Pi * frequency * Timer.Elapsed)) + MathHelper.Lerp(_initialBeamThickness, offset, 1 - (float)Math.Exp(-initialThicknessDecaySpeed*5*alpha));
             thickness *= (float)(1 - Math.Exp(-closingEnvelopeDecaySpeed * 5 * (1 - alpha))); // Closing envelope
             laserBeamComp.Thickness = thickness;
-        }
-
-        private void DestroySubLaser(LaserBeamComponent laserBeamComp)
-        {
-            Entity beamReflectionEntity = laserBeamComp.ReflectionBeamEntity;
-            if (beamReflectionEntity != null)
-            {
-                DestroySubLaser(laserBeamComp.ReflectionBeamEntity.GetComponent<LaserBeamComponent>());
-            }
-            Engine.DestroyEntity(beamReflectionEntity);
         }
     }
 }

@@ -121,7 +121,8 @@ namespace GameJam.States
                 new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
                 new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager),
                 new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager),
-                new BounceDirector(Engine, Content, ProcessManager)
+                new BounceDirector(Engine, Content, ProcessManager),
+                new LaserBeamCleanupDirector(Engine, Content, ProcessManager)
             };
             for (int i = 0; i < _directors.Length; i++)
             {

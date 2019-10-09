@@ -90,7 +90,9 @@ namespace Audrey
             // Update caches
             _engine.UpdateFamilyBags(this);
 
-            EventManager.Instance.QueueEvent(new ComponentAddedEvent(this, component));
+            Type componentType = component.GetType();
+            Type componentAddedEventType = typeof(ComponentAddedEvent<>).MakeGenericType(componentType);
+            EventManager.Instance.QueueEvent((IEvent)Activator.CreateInstance(componentAddedEventType, this, component));
         }
 
         /// <summary>
@@ -124,7 +126,8 @@ namespace Audrey
             // Update caches
             _engine.UpdateFamilyBags(this);
 
-            EventManager.Instance.QueueEvent(new ComponentAddedEvent(this, componentToRemove));
+            Type componentRemovedEventType = typeof(ComponentAddedEvent<>).MakeGenericType(componentType);
+            EventManager.Instance.QueueEvent((IEvent)Activator.CreateInstance(componentRemovedEventType, this, componentToRemove));
         }
     }
 }

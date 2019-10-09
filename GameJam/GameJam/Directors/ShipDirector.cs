@@ -73,8 +73,6 @@ namespace GameJam.Directors
                 EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color, false));
             }
 
-            
-
             if (!entityB.HasComponent<LaserBeamComponent>())
             {
                 {
