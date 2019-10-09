@@ -3,11 +3,8 @@ using Events;
 using GameJam.Components;
 using GameJam.Entities;
 using GameJam.Events;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Processes
 {
@@ -15,6 +12,10 @@ namespace GameJam.Processes
     {
         public Entity ShootingEnemy;
         public Engine Engine;
+
+        private readonly float _shootingEnemyTip = 5;
+        private readonly float _projectileLength = 3;
+        private readonly float _errorBuffer = 0f;
 
         public FireProjectileProcess(Entity shootingEnemy, Engine engine) : base(3)
         {
@@ -35,7 +36,13 @@ namespace GameJam.Processes
                 return;
             }
 
-            ProjectileEntity.Create(Engine, ShootingEnemy.GetComponent<TransformComponent>().Position, new Microsoft.Xna.Framework.Vector2((float)Math.Cos(ShootingEnemy.GetComponent<TransformComponent>().Rotation),(float)Math.Sin(ShootingEnemy.GetComponent<TransformComponent>().Rotation)));
+            TransformComponent transformComp = ShootingEnemy.GetComponent<TransformComponent>();
+            Vector2 shootingEnemyDirection = new Vector2((float)Math.Cos(ShootingEnemy.GetComponent<TransformComponent>().Rotation), (float)Math.Sin(ShootingEnemy.GetComponent<TransformComponent>().Rotation));
+            Entity projectile = ProjectileEntity.Create(Engine, Vector2.Zero, shootingEnemyDirection);
+            TransformComponent projectileTransformComp = projectile.GetComponent<TransformComponent>();
+            Vector2 projectilePosition = shootingEnemyDirection * (_shootingEnemyTip * transformComp.Scale + _projectileLength * projectileTransformComp.Scale + _errorBuffer) + transformComp.Position;
+            projectileTransformComp.SetPosition(projectilePosition);
+
             EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
             ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft -= 1;
         }

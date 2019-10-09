@@ -22,28 +22,8 @@ namespace GameJam.Directors
             {
                 HandleCollisionStartEvent(evt as CollisionStartEvent);
             }
-            if (evt is CollisionEndEvent)
-            {
-                HandleCollisionEndEvent(evt as CollisionEndEvent);
-            }
 
             return false;
-        }
-
-        private void HandleCollisionEndEvent(CollisionEndEvent collisionEndEvent)
-        {
-            if (collisionEndEvent.EntityA.HasComponent<EnemyComponent>()
-                && !collisionEndEvent.EntityA.HasComponent<ProjectileComponent>()
-                && collisionEndEvent.EntityB.HasComponent<ProjectileComponent>())
-            {
-                collisionEndEvent.EntityB.GetComponent<ProjectileComponent>().hasLeftShootingEnemy = true;
-            }
-            if (collisionEndEvent.EntityB.HasComponent<EnemyComponent>()
-                && !collisionEndEvent.EntityB.HasComponent<ProjectileComponent>()
-                && collisionEndEvent.EntityA.HasComponent<ProjectileComponent>())
-            {
-                collisionEndEvent.EntityA.GetComponent<ProjectileComponent>().hasLeftShootingEnemy = true;
-            }
         }
 
         private void HandleCollisionStartEvent(CollisionStartEvent collisionStartEvent)
@@ -80,10 +60,6 @@ namespace GameJam.Directors
                 {
                     return;
                 }
-            }
-            if (hazard.HasComponent<ProjectileComponent>() && !hazard.GetComponent<ProjectileComponent>().hasLeftShootingEnemy)
-            {
-                return;
             }
             Color color = Color.White;
             if (enemy.HasComponent<ColoredExplosionComponent>())
