@@ -1,4 +1,4 @@
-﻿namespace GameJam
+﻿namespace GameJam.Common
 {
     /// <summary>
     /// Implementation of a countdown timer.
