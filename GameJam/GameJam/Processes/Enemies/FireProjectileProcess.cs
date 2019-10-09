@@ -15,12 +15,11 @@ namespace GameJam.Processes
     {
         public Entity ShootingEnemy;
         public Engine Engine;
-        ContentManager Content;
-        public FireProjectileProcess(Entity shootingEnemy, Engine engine, ContentManager content) : base(3)
+
+        public FireProjectileProcess(Entity shootingEnemy, Engine engine) : base(3)
         {
-            this.ShootingEnemy = shootingEnemy;
-            this.Engine = engine;
-            Content = content;
+            ShootingEnemy = shootingEnemy;
+            Engine = engine;
         }
 
         protected override void OnTick(float interval)
@@ -36,7 +35,7 @@ namespace GameJam.Processes
                 return;
             }
 
-            ProjectileEntity.Create(Engine, Content.Load<Texture2D>(CVars.Get<string>("texture_enemy_bullet")), ShootingEnemy.GetComponent<TransformComponent>().Position, new Microsoft.Xna.Framework.Vector2((float)Math.Cos(ShootingEnemy.GetComponent<TransformComponent>().Rotation),(float)Math.Sin(ShootingEnemy.GetComponent<TransformComponent>().Rotation)));
+            ProjectileEntity.Create(Engine, ShootingEnemy.GetComponent<TransformComponent>().Position, new Microsoft.Xna.Framework.Vector2((float)Math.Cos(ShootingEnemy.GetComponent<TransformComponent>().Rotation),(float)Math.Sin(ShootingEnemy.GetComponent<TransformComponent>().Rotation)));
             EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
             ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft -= 1;
         }

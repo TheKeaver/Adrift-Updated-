@@ -1,14 +1,12 @@
 ﻿using Audrey;
-using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Entities
 {
     public static class KamikazeEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position)
+        public static Entity Create(Engine engine, Vector2 position)
         {
             Entity entity = engine.CreateEntity();
 

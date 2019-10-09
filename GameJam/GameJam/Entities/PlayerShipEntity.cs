@@ -1,19 +1,17 @@
 ﻿using Audrey;
-using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Entities
 {
     public static class PlayerShipEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position)
+        public static Entity Create(Engine engine, Vector2 position)
         {
-            return Create(engine, texture, position, Color.White);
+            return Create(engine, position, Color.White);
         }
 
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position, Color color)
+        public static Entity Create(Engine engine, Vector2 position, Color color)
         {
             Entity entity = engine.CreateEntity();
 

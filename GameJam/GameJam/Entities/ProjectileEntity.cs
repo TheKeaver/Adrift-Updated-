@@ -10,7 +10,7 @@ namespace GameJam.Entities
 {
     public static class ProjectileEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position, Vector2 direction)
+        public static Entity Create(Engine engine, Vector2 position, Vector2 direction)
         {
             Entity entity = engine.CreateEntity();
 
