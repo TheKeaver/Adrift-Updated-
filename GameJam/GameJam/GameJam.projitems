@@ -136,6 +136,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\LaserBeamReflectionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\LaserBeamCleanupDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamWarmUpStart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamWarmUpEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireStart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireEnd.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

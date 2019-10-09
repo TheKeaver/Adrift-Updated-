@@ -1,8 +1,10 @@
 ﻿using System;
 using Audrey;
+using Events;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
+using GameJam.Events.EnemyActions;
 using Microsoft.Xna.Framework;
 
 namespace GameJam.Processes.Enemies
@@ -56,12 +58,15 @@ namespace GameJam.Processes.Enemies
                     new Vector2(-10, -10)
                 })));
             }
+
+            EventManager.Instance.QueueEvent(new LaserBeamFireStart(laserEnemyComp.LaserBeamEntity));
         }
 
         protected override void OnKill()
         {
             // Destroy laser beam
             LaserEnemyComponent laserEnemyComp = LaserEnemyEntity.GetComponent<LaserEnemyComponent>();
+            EventManager.Instance.QueueEvent(new LaserBeamFireEnd(laserEnemyComp.LaserBeamEntity));
             Engine.DestroyEntity(laserEnemyComp.LaserBeamEntity);
             laserEnemyComp.LaserBeamEntity = null;
         }
