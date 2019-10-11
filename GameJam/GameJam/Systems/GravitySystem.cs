@@ -8,7 +8,7 @@ namespace GameJam.Systems
     public class GravitySystem : BaseSystem
     {
         readonly Family _entitiesAffectedFamily = Family.All(typeof(MovementComponent), typeof(TransformComponent))
-                                                        .One(typeof(PlayerShipComponent), typeof(ProjectileComponent)).Get();
+                                                        .One(typeof(PlayerShipComponent), typeof(ProjectileComponent), typeof(EnemyComponent)).Get();
         readonly ImmutableList<Entity> _affectedEntities;
 
         readonly Family _gravityFamily = Family.All(typeof(TransformComponent), typeof(GravityHoleEnemyComponent)).Get();

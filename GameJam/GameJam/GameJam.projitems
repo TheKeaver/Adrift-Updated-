@@ -54,7 +54,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\EntityDestructionProcess.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\GravityEnemySpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIMenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />

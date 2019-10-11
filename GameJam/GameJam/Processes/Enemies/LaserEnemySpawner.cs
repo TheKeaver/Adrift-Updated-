@@ -3,6 +3,7 @@ using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Processes.Enemies
 {
@@ -10,7 +11,7 @@ namespace GameJam.Processes.Enemies
     {
         readonly Engine Engine;
         readonly ProcessManager ProcessManager;
-        readonly MTRandom random = new MTRandom();
+        readonly MTRandom random = new MTRandom((uint)(0xFFFFFFFF & DateTime.Now.Ticks) + 100);
 
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> _playerShipEntities;
