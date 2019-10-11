@@ -9,6 +9,9 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\KeyboardKeyDownEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Blur.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\BounceComponent.cs" />
@@ -50,10 +53,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\EntityDestructionProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\FireProjectileProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\GameOverAnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIMenuGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />

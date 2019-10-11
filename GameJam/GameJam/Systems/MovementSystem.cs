@@ -20,11 +20,11 @@ namespace GameJam.Systems
         {
             foreach (Entity movementEntity in _movementEntities)
             {
-                processMovement(movementEntity, dt);
+                ProcessMovement(movementEntity, dt);
             }
         }
 
-        void processMovement(Entity movementEntity, float dt)
+        void ProcessMovement(Entity movementEntity, float dt)
         {
             TransformComponent transformComp = movementEntity.GetComponent<TransformComponent>();
             MovementComponent movementComp = movementEntity.GetComponent<MovementComponent>();

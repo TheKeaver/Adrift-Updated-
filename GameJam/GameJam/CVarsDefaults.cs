@@ -49,6 +49,11 @@
             Create<int>("shooting_enemy_projectile_bounces", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("shooting_enemy_projectile_ammo", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            Create<float>("gravity_enemy_size", 2, CVarFlags.DEV_PRESERVE);
+            Create<float>("gravity_hole_enemy_radius", 125.0f, CVarFlags.DEV_PRESERVE);
+            Create<int>("gravity_hole_enemy_lifespan", 15, CVarFlags.DEV_PRESERVE);
+            Create<float>("gravity_hole_enemy_force", 60.0f, CVarFlags.DEV_PRESERVE);
+
             Create<float>("projectile_size", 2, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("spawner_kamikaze_enemy_initial_period", 3, CVarFlags.DEV_PRESERVE);
@@ -58,6 +63,10 @@
             Create<float>("spawner_shooting_enemy_initial_period", 10, CVarFlags.DEV_PRESERVE);
             Create<float>("spawner_shooting_enemy_period_multiplier", 0.99f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("spawner_shooting_enemy_period_min", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
+            Create<float>("spawner_gravity_enemy_initial_period", 15, CVarFlags.DEV_PRESERVE);
+            Create<float>("spawner_gravity_enemy_period_multiplier", 0.999f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("spawner_gravity_enemy_period_min", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("spawner_min_distance_away_from_player", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("spawner_max_enemy_count", 50, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
