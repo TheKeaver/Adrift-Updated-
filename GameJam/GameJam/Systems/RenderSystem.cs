@@ -90,14 +90,17 @@ namespace GameJam.Systems
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
-                Vector2 offsetPosition = (transformComp.Position - transformComp.LastPosition) * (1 - betweenFrameAlpha);
-                offsetPosition *= -1;
+                Vector2 position = transformComp.Position
+                    + (transformComp.LastPosition - transformComp.Position)
+                        * (1 - betweenFrameAlpha);
 
-                float offsetRotation = MathHelper.WrapAngle(transformComp.Rotation - transformComp.LastRotation) * (1 - betweenFrameAlpha);
+                float rotation = transformComp.Rotation
+                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha);
 
                 Vector2 scale = new Vector2(spriteComp.Bounds.X / spriteComp.Texture.Width,
                                             spriteComp.Bounds.Y / spriteComp.Texture.Height);
-				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
+				float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha);
+
                 Vector2 origin = new Vector2(spriteComp.Texture.Bounds.Width,
                                              spriteComp.Texture.Bounds.Height) * HalfHalf;
 
@@ -111,10 +114,10 @@ namespace GameJam.Systems
                                              sourceRectangle.Height) * HalfHalf;
 
                     SpriteBatch.Draw(animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Texture,
-                                      (transformComp.Position + offsetPosition) * FlipY,
+                                      position * FlipY,
                                       sourceRectangle,
                                       Color.White,
-                                      -(transformComp.Rotation + offsetRotation),
+                                      -rotation,
                                       origin,
                                       scale * transformScale,
                                       SpriteEffects.None,
@@ -123,10 +126,10 @@ namespace GameJam.Systems
                 else
                 {
                     SpriteBatch.Draw(spriteComp.Texture,
-                                      (transformComp.Position + offsetPosition) * FlipY,
+                                      position * FlipY,
                                       null,
                                       Color.White,
-                                      -(transformComp.Rotation + offsetRotation),
+                                      -rotation,
                                       origin,
                                       scale * transformScale,
                                       SpriteEffects.None,
@@ -145,19 +148,24 @@ namespace GameJam.Systems
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
-                Vector2 offsetPosition = (transformComp.Position - transformComp.LastPosition) * (1 - betweenFrameAlpha);
-                float offsetRotation = MathHelper.WrapAngle(transformComp.Rotation - transformComp.LastRotation) * (1 - betweenFrameAlpha);
-                Vector2 scale = Vector2.One;
-				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
+                Vector2 position = transformComp.Position
+                    + (transformComp.LastPosition - transformComp.Position)
+                        * (1 - betweenFrameAlpha);
+
+                float rotation = transformComp.Rotation
+                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha);
+
+                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha);
+
                 Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
 
                 SpriteBatch.DrawString(fontComp.Font,
                                         fontComp.Content,
-                                        (transformComp.Position + offsetPosition) * FlipY,
+                                        position * FlipY,
                                         fontComp.Color,
-                                        -(transformComp.Rotation + offsetRotation),
+                                        -rotation,
                                         origin,
-                                        scale * transformScale,
+                                        transformScale,
                                         SpriteEffects.None,
                                         0);
             }
@@ -198,15 +206,16 @@ namespace GameJam.Systems
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
-                Vector2 offsetPosition = (transformComp.Position - transformComp.LastPosition) * (1 - betweenFrameAlpha);
-                offsetPosition *= -1;
+                Vector2 position = transformComp.Position
+                    + (transformComp.LastPosition - transformComp.Position)
+                        * (1 - betweenFrameAlpha);
+                position *= FlipY;
 
-				Vector2 position = (transformComp.Position + offsetPosition) * FlipY;
-
-				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
-
-                float rotation = MathHelper.WrapAngle(transformComp.Rotation - transformComp.LastRotation) * (1 - betweenFrameAlpha) + transformComp.Rotation;
+                float rotation = transformComp.Rotation
+                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha);
                 rotation *= -1;
+
+                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha);
 
                 float cos = (float)Math.Cos(rotation);
                 float sin = (float)Math.Sin(rotation);
