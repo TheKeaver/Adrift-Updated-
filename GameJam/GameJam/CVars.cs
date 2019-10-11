@@ -80,7 +80,7 @@ namespace GameJam
             if(typeof(T) == typeof(Color))
             {
                 Color color = (Color)Activator.CreateInstance(typeof(Color), Value, 0);
-                return string.Format("{0} = {1},{2},{3}", Name, color.R, color.G, color.B * 255);
+                return string.Format("{0} = {1},{2},{3}", Name, color.R, color.G, color.B);
             }
 
             return Name + " = " + Value;

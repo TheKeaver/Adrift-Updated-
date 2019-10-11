@@ -115,6 +115,7 @@ namespace GameJam.States
         {
             _directors = new BaseDirector[]
             {
+                new ShipDirector(Engine, Content, ProcessManager),
                 new ShieldDirector(Engine, Content, ProcessManager),
                 new SoundDirector(Engine, Content, ProcessManager),
                 new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager),

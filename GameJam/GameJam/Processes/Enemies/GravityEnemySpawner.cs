@@ -13,7 +13,7 @@ namespace GameJam.Processes
     {
         readonly Engine Engine;
         readonly ProcessManager ProcessManager;
-        readonly MTRandom random = new MTRandom();
+        readonly MTRandom random = new MTRandom((uint)(0xFFFFFFFF & DateTime.Now.Ticks) + 21);
 
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> _playerShipEntities;
