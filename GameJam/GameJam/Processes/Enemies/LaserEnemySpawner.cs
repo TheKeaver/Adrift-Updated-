@@ -1,18 +1,14 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace GameJam.Processes
+namespace GameJam.Processes.Enemies
 {
-    public class ShooterEnemySpawner : IntervalProcess
+    public class LaserEnemySpawner : IntervalProcess
     {
         readonly Engine Engine;
-        readonly ContentManager Content;
         readonly ProcessManager ProcessManager;
         readonly MTRandom random = new MTRandom();
 
@@ -22,20 +18,24 @@ namespace GameJam.Processes
         readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
         readonly ImmutableList<Entity> _enemyEntities;
 
-        public ShooterEnemySpawner(Engine engine, ContentManager content, ProcessManager processManager)
-            : base(CVars.Get<float>("spawner_shooting_enemy_initial_period"))
+        readonly Family _laserFamily = Family.All(typeof(LaserEnemyComponent)).Get();
+        readonly ImmutableList<Entity> _laserEntities;
+
+        public LaserEnemySpawner(Engine engine, ProcessManager processManager)
+            : base(CVars.Get<float>("spawner_laser_enemy_initial_period"))
         {
             Engine = engine;
-            Content = content;
             ProcessManager = processManager;
 
             _playerShipEntities = engine.GetEntitiesFor(_playerShipFamily);
             _enemyEntities = engine.GetEntitiesFor(_enemyFamily);
+            _laserEntities = engine.GetEntitiesFor(_laserFamily);
         }
 
         protected override void OnTick(float interval)
         {
-            if (_enemyEntities.Count < CVars.Get<int>("spawner_max_enemy_count"))
+            if (_enemyEntities.Count < CVars.Get<int>("spawner_max_enemy_count")
+                && _laserEntities.Count < CVars.Get<int>("spawner_laser_enemy_max_entities"))
             {
                 Vector2 spawnPosition = new Vector2(0, 0);
                 do
@@ -44,23 +44,21 @@ namespace GameJam.Processes
                     spawnPosition.Y = random.NextSingle(-CVars.Get<int>("window_height") / 2 * 0.9f, CVars.Get<int>("window_height") / 2 * 0.9f);
                 } while (IsTooCloseToPlayer(spawnPosition));
 
-                ShootingEnemyEntity.Create(Engine,
-                    Content.Load<Texture2D>(CVars.Get<string>("texture_shooter_enemy")),
-                    spawnPosition, ProcessManager, Content);
+                LaserEnemyEntity.Create(Engine, ProcessManager, spawnPosition);
             }
 
-            Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_shooting_enemy_period_multiplier"), CVars.Get<float>("spawner_shooting_enemy_period_min"));
+            Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_laser_enemy_period_multiplier"), CVars.Get<float>("spawner_laser_enemy_period_min"));
         }
 
         bool IsTooCloseToPlayer(Vector2 position)
         {
             float minDistanceToPlayer = float.MaxValue;
 
-            foreach(Entity playerShip in _playerShipEntities)
+            foreach (Entity playerShip in _playerShipEntities)
             {
                 TransformComponent transformComponent = playerShip.GetComponent<TransformComponent>();
                 Vector2 toPlayer = transformComponent.Position - position;
-                if(toPlayer.Length() < minDistanceToPlayer)
+                if (toPlayer.Length() < minDistanceToPlayer)
                 {
                     minDistanceToPlayer = toPlayer.Length();
                 }

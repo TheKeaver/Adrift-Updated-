@@ -1,7 +1,7 @@
 ﻿using Events;
 using Microsoft.Xna.Framework;
 
-namespace GameJam.Events
+namespace GameJam.Events.InputHandling
 {
     /// <summary>
     /// An event queued when the mouse is moved.

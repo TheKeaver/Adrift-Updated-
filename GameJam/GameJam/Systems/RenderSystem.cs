@@ -79,6 +79,8 @@ namespace GameJam.Systems
                                null,
                                transformMatrix);
 
+            int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
+
             foreach (Entity entity in _spriteEntities)
             {
                 SpriteComponent spriteComp = entity.GetComponent<SpriteComponent>();
@@ -90,12 +92,17 @@ namespace GameJam.Systems
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
-                Vector2 offsetPosition = (transformComp.Position - transformComp.LastPosition) * (1 - betweenFrameAlpha);
-                offsetPosition *= -1;
+                Vector2 position = transformComp.Position
+                    + (transformComp.LastPosition - transformComp.Position)
+                        * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                float rotation = transformComp.Rotation
+                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
                 Vector2 scale = new Vector2(spriteComp.Bounds.X / spriteComp.Texture.Width,
                                             spriteComp.Bounds.Y / spriteComp.Texture.Height);
-				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
+				float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
                 Vector2 origin = new Vector2(spriteComp.Texture.Bounds.Width,
                                              spriteComp.Texture.Bounds.Height) * HalfHalf;
 
@@ -109,10 +116,10 @@ namespace GameJam.Systems
                                              sourceRectangle.Height) * HalfHalf;
 
                     SpriteBatch.Draw(animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Texture,
-                                      (transformComp.Position + offsetPosition) * FlipY,
+                                      position * FlipY,
                                       sourceRectangle,
                                       Color.White,
-                                      -transformComp.Rotation,
+                                      -rotation,
                                       origin,
                                       scale * transformScale,
                                       SpriteEffects.None,
@@ -121,12 +128,12 @@ namespace GameJam.Systems
                 else
                 {
                     SpriteBatch.Draw(spriteComp.Texture,
-                                      (transformComp.Position + offsetPosition) * FlipY,
+                                      position * FlipY,
                                       null,
                                       Color.White,
-                                      -transformComp.Rotation,
+                                      -rotation,
                                       origin,
-                                      scale,
+                                      scale * transformScale,
                                       SpriteEffects.None,
                                       0);
                 }
@@ -143,17 +150,24 @@ namespace GameJam.Systems
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
-                Vector2 scale = Vector2.One;
-				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
-				Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
+                Vector2 position = transformComp.Position
+                    + (transformComp.LastPosition - transformComp.Position)
+                        * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                float rotation = transformComp.Rotation
+                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
 
                 SpriteBatch.DrawString(fontComp.Font,
                                         fontComp.Content,
-                                        transformComp.Position * FlipY,
+                                        position * FlipY,
                                         fontComp.Color,
-                                        -transformComp.Rotation,
+                                        -rotation,
                                         origin,
-                                        scale * transformScale,
+                                        transformScale,
                                         SpriteEffects.None,
                                         0);
             }
@@ -181,6 +195,8 @@ namespace GameJam.Systems
         }
         private void DrawVectorEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
+            int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
+
             List<VertexPositionColor> _verts = new List<VertexPositionColor>();
 
             foreach (Entity entity in _vectorSpriteEntities)
@@ -194,15 +210,19 @@ namespace GameJam.Systems
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
-                Vector2 offsetPosition = (transformComp.Position - transformComp.LastPosition) * (1 - betweenFrameAlpha);
-                offsetPosition *= -1;
+                Vector2 position = transformComp.Position
+                    + (transformComp.LastPosition - transformComp.Position)
+                        * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                position *= FlipY;
 
-				Vector2 position = (transformComp.Position + offsetPosition) * FlipY;
+                float rotation = transformComp.Rotation
+                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                rotation *= -1;
 
-				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
+                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-				float cos = (float)Math.Cos(transformComp.Rotation * -1);
-                float sin = (float)Math.Sin(transformComp.Rotation * -1);
+                float cos = (float)Math.Cos(rotation);
+                float sin = (float)Math.Sin(rotation);
 
                 foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
                 {

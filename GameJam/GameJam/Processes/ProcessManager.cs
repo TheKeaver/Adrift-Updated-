@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace GameJam
@@ -45,11 +45,6 @@ namespace GameJam
         void Detatch(Process process)
         {
             _processList.Remove(process);
-        }
-
-        internal void Attach()
-        {
-            throw new NotImplementedException();
         }
 
         public bool HasProcesses()

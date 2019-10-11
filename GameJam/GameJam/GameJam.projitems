@@ -27,7 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CVarsDefaults.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BounceDirector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\BulletCollisionOnEnemyDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\HazardCollisionOnEnemyDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyCollisionOnPlayerDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
@@ -108,8 +108,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\KamikazeSpawner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
@@ -130,6 +128,26 @@
     <Compile Include="$(MSBuildThisFileDirectory)Particles\ParticleManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Particles\VelocityParticleInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ColoredExplosionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\LaserEnemyEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\LaserBeamEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\LaserEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\LaserEnemySystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\LaserBeamComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\FireProjectileProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\KamikazeSpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\ShooterEnemySpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\GameOverAnimationProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserWarmUpProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserShootProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyFreezeRotation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyUnfreezeRotation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\LaserBeamReflectionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemySpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\LaserBeamCleanupDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamWarmUpStart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamWarmUpEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireStart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireEnd.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -140,5 +158,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Events\EnemyActions\" />
     <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
     <Folder Include="$(MSBuildThisFileDirectory)Particles\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\Enemies\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\" />
   </ItemGroup>
 </Project>

@@ -1,19 +1,17 @@
 ﻿using Audrey;
-using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Entities
 {
     public static class PlayerShipEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position)
+        public static Entity Create(Engine engine, Vector2 position)
         {
-            return Create(engine, texture, position, Color.White);
+            return Create(engine, position, CVars.Get<Color>("color_player_ship"));
         }
 
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position, Color color)
+        public static Entity Create(Engine engine, Vector2 position, Color color)
         {
             Entity entity = engine.CreateEntity();
 
@@ -38,7 +36,7 @@ namespace GameJam.Entities
                     }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
-            entity.AddComponent(new ColoredExplosionComponent(Color.White));
+            entity.AddComponent(new ColoredExplosionComponent(color));
 
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {

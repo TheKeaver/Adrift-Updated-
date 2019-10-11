@@ -1,4 +1,6 @@
-﻿namespace GameJam
+﻿using Microsoft.Xna.Framework;
+
+namespace GameJam
 {
     static partial class CVars
     {
@@ -16,6 +18,7 @@
 
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** INPUT **/
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -68,8 +71,39 @@
             Create<float>("spawner_gravity_enemy_period_multiplier", 0.999f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("spawner_gravity_enemy_period_min", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            Create<float>("spawner_laser_enemy_initial_period", 15, CVarFlags.DEV_PRESERVE);
+            Create<float>("spawner_laser_enemy_period_multiplier", 0.9f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("spawner_laser_enemy_period_min", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("spawner_laser_enemy_max_entities", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
             Create<float>("spawner_min_distance_away_from_player", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("spawner_max_enemy_count", 50, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
+            Create<float>("laser_enemy_rotational_speed", 1.5f, CVarFlags.DEV_PRESERVE);
+            Create<float>("laser_enemy_size", 4f, CVarFlags.DEV_PRESERVE);
+            Create<float>("laser_enemy_warm_up_anim_duration", 0.1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_warm_up_duration", 2, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_warm_up_thickness", 1.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_fire_duration", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_fire_frequency", 80, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_fire_thickness", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_fire_thickness_variability", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_fire_initial_thickness_decay_factor", 25, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_fire_closing_envelope_decay_factor", 20, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_spawn_wait_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("laser_enemy_successive_wait_period", 7, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
+            /** COLORS **/
+            Create<Color>("color_player_ship", Color.White, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_player_shield", Color.SpringGreen, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_kamikaze_enemy", Color.Violet, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_shooting_enemy", Color.Cyan, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_laser_enemy", Color.Gold, CVarFlags.DEV_PRESERVE);
+
+            Create<Color>("color_projectile", Color.Red, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_laser_beam", Color.Red, CVarFlags.DEV_PRESERVE);
+
+            Create<Color>("color_playfield", Color.Green, CVarFlags.DEV_PRESERVE);
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);

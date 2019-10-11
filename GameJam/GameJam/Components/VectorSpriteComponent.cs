@@ -50,24 +50,102 @@ namespace GameJam.Components
 
     public class QuadRenderShape : RenderShape
     {
-        readonly VertexPositionColor[] _verts;
+        VertexPositionColor[] _verts;
+
+        private Vector2 _v1;
+        private Vector2 _v2;
+        private Vector2 _v3;
+        private Vector2 _v4;
+        private Color _color;
+
+        public Vector2 V1
+        {
+            get
+            {
+                return _v1;
+            }
+            set
+            {
+                _v1 = value;
+                ComputeVertices();
+            }
+        }
+        public Vector2 V2
+        {
+            get
+            {
+                return _v2;
+            }
+            set
+            {
+                _v2 = value;
+                ComputeVertices();
+            }
+        }
+        public Vector2 V3
+        {
+            get
+            {
+                return _v3;
+            }
+            set
+            {
+                _v3 = value;
+                ComputeVertices();
+            }
+        }
+        public Vector2 V4
+        {
+            get
+            {
+                return _v4;
+            }
+            set
+            {
+                _v4 = value;
+                ComputeVertices();
+            }
+        }
+        public Color Color
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+                ComputeVertices();
+            }
+        }
 
         public QuadRenderShape(Vector2 v1, Vector2 v2, Vector2 v3, Vector2 v4, Color color)
         {
-            _verts = new VertexPositionColor[] {
-                new VertexPositionColor(new Vector3(v1, 0), color),
-                new VertexPositionColor(new Vector3(v2, 0), color),
-                new VertexPositionColor(new Vector3(v3, 0), color),
+            _v1 = v1;
+            _v2 = v2;
+            _v3 = v3;
+            _v4 = v4;
+            _color = color;
 
-                new VertexPositionColor(new Vector3(v1, 0), color),
-                new VertexPositionColor(new Vector3(v3, 0), color),
-                new VertexPositionColor(new Vector3(v4, 0), color)
-            };
+            RebuildVerts();
         }
 
         public override VertexPositionColor[] ComputeVertices()
         {
             return _verts;
+        }
+
+        private void RebuildVerts()
+        {
+            _verts = new VertexPositionColor[] {
+                new VertexPositionColor(new Vector3(_v1, 0), _color),
+                new VertexPositionColor(new Vector3(_v2, 0), _color),
+                new VertexPositionColor(new Vector3(_v3, 0), _color),
+
+                new VertexPositionColor(new Vector3(_v1, 0), _color),
+                new VertexPositionColor(new Vector3(_v3, 0), _color),
+                new VertexPositionColor(new Vector3(_v4, 0), _color)
+            };
         }
     }
 

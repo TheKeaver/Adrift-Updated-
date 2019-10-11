@@ -41,7 +41,20 @@
     <Compile Include="Exceptions\ComponentAlreadyExistsException.cs" />
     <Compile Include="Exceptions\ComponentNotFoundException.cs" />
     <Compile Include="Exceptions\TypeNotComponentException.cs" />
+    <Compile Include="Events\EntityCreatedEvent.cs" />
+    <Compile Include="Events\ComponentAddedEvent.cs" />
+    <Compile Include="Events\EntityDestroyedEvent.cs" />
+    <Compile Include="Events\ComponentRemovedEvent.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Events\Events.csproj">
+      <Project>{E549B0DC-2E18-4704-8BC7-641F26625B31}</Project>
+      <Name>Events</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Events\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

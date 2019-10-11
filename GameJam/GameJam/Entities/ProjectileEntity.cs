@@ -10,7 +10,7 @@ namespace GameJam.Entities
 {
     public static class ProjectileEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 position, Vector2 direction)
+        public static Entity Create(Engine engine, Vector2 position, Vector2 direction)
         {
             Entity entity = engine.CreateEntity();
 
@@ -23,7 +23,7 @@ namespace GameJam.Entities
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new QuadRenderShape(new Vector2(3, -1), new Vector2(3, 1),
                     new Vector2(-3, 1), new Vector2(-3, -1),
-                    Color.Red)
+                    CVars.Get<Color>("color_projectile"))
             }));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("projectile_size"), false);
 

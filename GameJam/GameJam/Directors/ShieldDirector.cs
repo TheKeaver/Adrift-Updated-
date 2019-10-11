@@ -2,6 +2,8 @@
 using Events;
 using GameJam.Components;
 using GameJam.Events;
+using GameJam.Events.EnemyActions;
+using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System;
@@ -10,7 +12,7 @@ namespace GameJam.Directors
 {
     public class ShieldDirector : BaseDirector
     {
-        readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Exclude(typeof(ProjectileComponent)).Get();
+        readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Exclude(typeof(ProjectileComponent), typeof(LaserBeamComponent)).Get();
         readonly Family playerShieldFamily = Family.All(typeof(PlayerShieldComponent), typeof(TransformComponent)).Get();
         public ShieldDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
         {

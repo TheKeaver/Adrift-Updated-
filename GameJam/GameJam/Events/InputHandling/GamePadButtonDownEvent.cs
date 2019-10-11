@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace GameJam.Events
+namespace GameJam.Events.InputHandling
 {
     public class GamePadButtonDownEvent : IEvent
     {
