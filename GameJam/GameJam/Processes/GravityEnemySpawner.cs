@@ -12,7 +12,6 @@ namespace GameJam.Processes
     public class GravityEnemySpawner : IntervalProcess
     {
         readonly Engine Engine;
-        readonly ContentManager Content;
         readonly ProcessManager ProcessManager;
         readonly MTRandom random = new MTRandom();
 
@@ -22,11 +21,10 @@ namespace GameJam.Processes
         readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
         readonly ImmutableList<Entity> _enemyEntities;
 
-        public GravityEnemySpawner(Engine engine, ContentManager content, ProcessManager processManager)
+        public GravityEnemySpawner(Engine engine, ProcessManager processManager)
             : base(CVars.Get<float>("spawner_gravity_enemy_initial_period"))
         {
             Engine = engine;
-            Content = content;
             ProcessManager = processManager;
 
             _playerShipEntities = engine.GetEntitiesFor(_playerShipFamily);

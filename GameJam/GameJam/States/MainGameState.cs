@@ -84,11 +84,9 @@ namespace GameJam.States
             InitSystems();
             InitDirectors();
 
-            ProcessManager.Attach(new KamikazeSpawner(Engine, Content));
-            ProcessManager.Attach(new ShooterEnemySpawner(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new GravityEnemySpawner(Engine, Content, ProcessManager));
             ProcessManager.Attach(new KamikazeSpawner(Engine));
             ProcessManager.Attach(new ShooterEnemySpawner(Engine, ProcessManager));
+            ProcessManager.Attach(new GravityEnemySpawner(Engine, ProcessManager));
             ProcessManager.Attach(new LaserEnemySpawner(Engine, ProcessManager));
 
             EventManager.Instance.RegisterListener<GameOverEvent>(this);
@@ -105,7 +103,6 @@ namespace GameJam.States
                 new CollisionSystem(Engine),
                 new PlayerShieldSystem(Engine),
                 new MovementSystem(Engine),
-                new CollisionSystem(Engine),
                 new EnemyRotationSystem(Engine),
                 new AnimationSystem(Engine),
                 new LaserEnemySystem(Engine),
@@ -115,8 +112,9 @@ namespace GameJam.States
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
         }
         void InitDirectors()
-                new LaserEnemySystem(Engine),
-                new AnimationSystem(Engine),
+        {
+            _directors = new BaseDirector[]
+            {
                 new ShieldDirector(Engine, Content, ProcessManager),
                 new SoundDirector(Engine, Content, ProcessManager),
                 new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager),
@@ -126,6 +124,7 @@ namespace GameJam.States
                 new BounceDirector(Engine, Content, ProcessManager),
                 new LaserBeamCleanupDirector(Engine, Content, ProcessManager)
             };
+
             for (int i = 0; i < _directors.Length; i++)
             {
                 _directors[i].RegisterEvents();
