@@ -57,7 +57,7 @@ namespace GameJam
             Create<int>("gravity_hole_enemy_lifespan", 15, CVarFlags.DEV_PRESERVE);
             Create<float>("gravity_hole_enemy_force", 60.0f, CVarFlags.DEV_PRESERVE);
 
-            Create<float>("projectile_size", 2, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("projectile_size", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("spawner_kamikaze_enemy_initial_period", 3, CVarFlags.DEV_PRESERVE);
             Create<float>("spawner_kamikaze_enemy_period_multiplier", 0.99f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
