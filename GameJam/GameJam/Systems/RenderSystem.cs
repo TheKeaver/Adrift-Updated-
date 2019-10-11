@@ -93,6 +93,8 @@ namespace GameJam.Systems
                 Vector2 offsetPosition = (transformComp.Position - transformComp.LastPosition) * (1 - betweenFrameAlpha);
                 offsetPosition *= -1;
 
+                float offsetRotation = MathHelper.WrapAngle(transformComp.Rotation - transformComp.LastRotation) * (1 - betweenFrameAlpha);
+
                 Vector2 scale = new Vector2(spriteComp.Bounds.X / spriteComp.Texture.Width,
                                             spriteComp.Bounds.Y / spriteComp.Texture.Height);
 				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
@@ -112,7 +114,7 @@ namespace GameJam.Systems
                                       (transformComp.Position + offsetPosition) * FlipY,
                                       sourceRectangle,
                                       Color.White,
-                                      -transformComp.Rotation,
+                                      -(transformComp.Rotation + offsetRotation),
                                       origin,
                                       scale * transformScale,
                                       SpriteEffects.None,
@@ -124,9 +126,9 @@ namespace GameJam.Systems
                                       (transformComp.Position + offsetPosition) * FlipY,
                                       null,
                                       Color.White,
-                                      -transformComp.Rotation,
+                                      -(transformComp.Rotation + offsetRotation),
                                       origin,
-                                      scale,
+                                      scale * transformScale,
                                       SpriteEffects.None,
                                       0);
                 }
@@ -143,15 +145,17 @@ namespace GameJam.Systems
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
+                Vector2 offsetPosition = (transformComp.Position - transformComp.LastPosition) * (1 - betweenFrameAlpha);
+                float offsetRotation = MathHelper.WrapAngle(transformComp.Rotation - transformComp.LastRotation) * (1 - betweenFrameAlpha);
                 Vector2 scale = Vector2.One;
 				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
-				Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
+                Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
 
                 SpriteBatch.DrawString(fontComp.Font,
                                         fontComp.Content,
-                                        transformComp.Position * FlipY,
+                                        (transformComp.Position + offsetPosition) * FlipY,
                                         fontComp.Color,
-                                        -transformComp.Rotation,
+                                        -(transformComp.Rotation + offsetRotation),
                                         origin,
                                         scale * transformScale,
                                         SpriteEffects.None,
@@ -201,8 +205,11 @@ namespace GameJam.Systems
 
 				float transformScale = transformComp.Scale + (transformComp.Scale - transformComp.LastScale) * (1 - betweenFrameAlpha);
 
-				float cos = (float)Math.Cos(transformComp.Rotation * -1);
-                float sin = (float)Math.Sin(transformComp.Rotation * -1);
+                float rotation = MathHelper.WrapAngle(transformComp.Rotation - transformComp.LastRotation) * (1 - betweenFrameAlpha) + transformComp.Rotation;
+                rotation *= -1;
+
+                float cos = (float)Math.Cos(rotation);
+                float sin = (float)Math.Sin(rotation);
 
                 foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
                 {
