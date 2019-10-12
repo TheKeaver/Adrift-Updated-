@@ -21,18 +21,18 @@ namespace GameJam
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** INPUT **/
-            Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("controller_right_bumper", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("controller_left_bumper", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("input_controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_controller_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_controller_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
-            Create<float>("keyboard_shield_angular_speed", 2.513f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("input_shield_angular_speed", 2.513f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
-            Create<int>("keyboard_primary_counter_clockwise", 65, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("keyboard_primary_clockwise", 68, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_keyboard_primary_counter_clockwise", 65, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_keyboard_primary_clockwise", 68, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
-            Create<int>("keyboard_secondary_counter_clockwise", 37, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("keyboard_secondary_clockwise", 39, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_keyboard_secondary_counter_clockwise", 37, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_keyboard_secondary_clockwise", 39, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** GAMEPLAY **/
             Create<float>("player_shield_radius", 30.0f, CVarFlags.DEV_PRESERVE);
@@ -104,6 +104,9 @@ namespace GameJam
             Create<Color>("color_laser_beam", Color.Red, CVarFlags.DEV_PRESERVE);
 
             Create<Color>("color_playfield", Color.Green, CVarFlags.DEV_PRESERVE);
+
+            /** DEBUG **/
+            Create<bool>("debug_show_cvar_viewer", false, CVarFlags.LIVE_RELOAD);
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);

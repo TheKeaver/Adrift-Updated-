@@ -1,5 +1,6 @@
 using System;
 using Events;
+using GameJam.Debug;
 using GameJam.Events;
 using GameJam.Events.InputHandling;
 using GameJam.States;
@@ -75,6 +76,10 @@ namespace GameJam
 
             GamePadListener.CheckControllerConnections = true;
             GamePadListener.ControllerConnectionChanged += GamePad_ConnectionChanged;
+
+#if DEBUG
+            Components.Add(new ImGuiGameComponent(this));
+#endif
 
             base.Initialize();
         }

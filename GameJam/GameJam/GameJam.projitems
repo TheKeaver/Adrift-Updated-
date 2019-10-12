@@ -146,6 +146,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamWarmUpEnd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireStart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Debug\ImGuiGameComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -158,5 +159,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Particles\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Enemies\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Debug\" />
   </ItemGroup>
 </Project>

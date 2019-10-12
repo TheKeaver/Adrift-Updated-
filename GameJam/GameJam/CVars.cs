@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 
@@ -16,9 +17,17 @@ namespace GameJam
     interface ICVar
     {
         string Serialize();
+        string SerializeDefault();
         bool Deserialize(string val);
 
+        void Reset();
+
         int Flags
+        {
+            get;
+        }
+
+        Type UnderlyingType
         {
             get;
         }
@@ -32,6 +41,7 @@ namespace GameJam
             private set;
         }
         public T Value;
+        public readonly T DefaultValue;
 
         public int Flags
         {
@@ -39,10 +49,19 @@ namespace GameJam
             private set;
         } = 0;
 
+        Type ICVar.UnderlyingType
+        {
+            get
+            {
+                return typeof(T);
+            }
+        }
+
         public CVar(string name, T val, int flags = 0)
         {
             Name = name;
             Value = val;
+            DefaultValue = val;
             Flags = flags;
         }
 
@@ -77,13 +96,28 @@ namespace GameJam
 
         public string Serialize()
         {
-            if(typeof(T) == typeof(Color))
+            if (typeof(T) == typeof(Color))
             {
                 Color color = (Color)Activator.CreateInstance(typeof(Color), Value, 0);
-                return string.Format("{0} = {1},{2},{3}", Name, color.R, color.G, color.B);
+                return string.Format("{0},{1},{2}", color.R, color.G, color.B);
             }
 
-            return Name + " = " + Value;
+            return Value.ToString();
+        }
+        public string SerializeDefault()
+        {
+            if (typeof(T) == typeof(Color))
+            {
+                Color color = (Color)Activator.CreateInstance(typeof(Color), DefaultValue, 0);
+                return string.Format("{0},{1},{2}", color.R, color.G, color.B);
+            }
+
+            return DefaultValue.ToString();
+        }
+
+        public void Reset()
+        {
+            Value = DefaultValue;
         }
     }
 
@@ -105,7 +139,7 @@ namespace GameJam
                 {
                     continue;
                 }
-                ini += _cvars[key].Serialize() + Environment.NewLine;
+                ini += key + " = " + _cvars[key].Serialize() + Environment.NewLine;
             }
 
             return ini;
@@ -137,7 +171,7 @@ namespace GameJam
                 {
                     if(live && (_cvars[name].Flags & CVarFlags.LIVE_RELOAD) == 0)
                     {
-                        Console.WriteLine("WARNING: CVar `{0}` has not been as a live reloadable cvar. It may requite a game state change or game restart.");
+                        Console.WriteLine("WARNING: CVar `{0}` has not been as a live reloadable cvar. It may requite a game state change or game restart.", name);
                     }
                     if (_cvars[name].Deserialize(value))
                     {
@@ -166,6 +200,20 @@ namespace GameJam
             return ref cvar.Value;
         }
 
+        public static ICVar RawGet(string name)
+        {
+            if (!_cvars.ContainsKey(name))
+            {
+                throw new Exception(string.Format("CVar `{0}` does not exist.", name));
+            }
+            return _cvars[name];
+        }
+
+        public static string[] GetNames()
+        {
+            return _cvars.Keys.ToArray();
+        }
+
         private static void Create<T>(string name, T value, int flags = 0)
         {
             _cvars.Add(name, new CVar<T>(name, value, flags));
@@ -191,7 +239,7 @@ namespace GameJam
 
             return false;
         }
-        private static void Save()
+        public static void Save()
         {
             string path = GetSavePath();
             Directory.CreateDirectory(Path.GetDirectoryName(path));

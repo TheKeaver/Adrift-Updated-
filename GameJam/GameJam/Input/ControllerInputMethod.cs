@@ -20,15 +20,15 @@ namespace GameJam.Input
             {
                 GamePadState currentState = GamePad.GetState(PlayerIndex);
 
-                if(currentState.IsButtonDown((Buttons)CVars.Get<int>("controller_right_bumper")))
+                if(currentState.IsButtonDown((Buttons)CVars.Get<int>("input_controller_clockwise")))
                 {
                     // Counter-Clockwise
-                    _snapshot.Angle -= CVars.Get<float>("keyboard_shield_angular_speed") * dt;
+                    _snapshot.Angle -= CVars.Get<float>("input_shield_angular_speed") * dt;
                 }
-                if (currentState.IsButtonDown((Buttons)CVars.Get<int>("controller_left_bumper")))
+                if (currentState.IsButtonDown((Buttons)CVars.Get<int>("input_controller_counter_clockwise")))
                 {
                     // Clockwise
-                    _snapshot.Angle += CVars.Get<float>("keyboard_shield_angular_speed") * dt;
+                    _snapshot.Angle += CVars.Get<float>("input_shield_angular_speed") * dt;
                 }
             }
         }
