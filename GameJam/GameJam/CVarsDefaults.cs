@@ -107,6 +107,10 @@ namespace GameJam
 
             /** DEBUG **/
             Create<bool>("debug_show_cvar_viewer", false, CVarFlags.LIVE_RELOAD);
+            Create<bool>("debug_show_playback_controls", false, CVarFlags.LIVE_RELOAD);
+            Create<bool>("debug_pause_game_updates", false, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_update_time_scale", 1.0f, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_game_step_period", 1 / 60.0f, CVarFlags.LIVE_RELOAD);
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);

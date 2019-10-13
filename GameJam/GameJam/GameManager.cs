@@ -1,7 +1,8 @@
 using System;
 using Events;
-using GameJam.Debug;
+using GameJam.DevTools;
 using GameJam.Events;
+using GameJam.Events.DevTools;
 using GameJam.Events.InputHandling;
 using GameJam.States;
 using Microsoft.Xna.Framework;
@@ -15,7 +16,7 @@ namespace GameJam
     /// Main manager for the game. Contains implementation of the
     /// MonoGame game loop.
     /// </summary>
-    public class GameManager : Game
+    public class GameManager : Game, IEventListener
     {
         InputListenerComponent _inputListenerManager;
         MouseListener _mouseListener;
@@ -34,7 +35,7 @@ namespace GameJam
         {
             CVars.Initialize();
 
-            this.Window.Title = "Adrift";
+            Window.Title = "Adrift";
 
             Graphics = new GraphicsDeviceManager(this);
             Graphics.GraphicsProfile = GraphicsProfile.HiDef;
@@ -50,6 +51,8 @@ namespace GameJam
         
         protected override void Initialize()
         {
+            RegisterEvents();
+
             Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
 
@@ -82,6 +85,15 @@ namespace GameJam
 
             base.Initialize();
         }
+
+        private void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<StepGameUpdateEvent>(this);
+        }
+        private void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
+        }
         
         protected override void LoadContent()
         {
@@ -92,14 +104,22 @@ namespace GameJam
         
         protected override void Update(GameTime gameTime)
         {
-            EventManager.Instance.Dispatch();
-
-            if(_currentState != null)
+            if(!CVars.Get<bool>("debug_pause_game_updates"))
             {
-                _currentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+                Update((float)gameTime.ElapsedGameTime.TotalSeconds * CVars.Get<float>("debug_update_time_scale"));
             }
 
             base.Update(gameTime);
+        }
+
+        private void Update(float dt)
+        {
+            EventManager.Instance.Dispatch();
+
+            if (_currentState != null)
+            {
+                _currentState.Update(dt);
+            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -110,10 +130,20 @@ namespace GameJam
 
             if (_currentState != null)
             {
-                _currentState.Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                _currentState.Draw((float)gameTime.ElapsedGameTime.TotalSeconds
+                    * CVars.Get<float>("debug_update_time_scale")
+                    * (CVars.Get<bool>("debug_pause_game_updates") ? 0 : 1));
             }
 
             base.Draw(gameTime);
+        }
+
+        protected override void UnloadContent()
+        {
+            UnregisterEvents();
+
+            base.UnloadContent();
         }
 
         public void ChangeState(GameState nextState)
@@ -189,5 +219,15 @@ namespace GameJam
         }
 
         // Keyboard_KeyUp
+
+        public bool Handle(IEvent evt)
+        {
+            if(evt is StepGameUpdateEvent)
+            {
+                Update(CVars.Get<float>("debug_game_step_period"));
+            }
+
+            return false;
+        }
     }
 }
