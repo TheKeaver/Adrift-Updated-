@@ -21,7 +21,7 @@ namespace Events.Exceptions
     public class ListenerAlreadyExistsException : Exception
     {
         public ListenerAlreadyExistsException()
-                : base("The type passed does not exend IComponent")
+                : base("Listener already registered for the event")
         {
         }
     }

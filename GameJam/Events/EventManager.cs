@@ -23,16 +23,9 @@ namespace Events
 {
     public class EventManager
     {
-        static EventManager instance = new EventManager();
-        public static EventManager Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        public static EventManager Instance { get; } = new EventManager();
 
-        Dictionary<Type, List<IEventListener>> _listeners = new Dictionary<Type, List<IEventListener>>();
+        Dictionary<Type, List<WeakReference<IEventListener>>> _listeners = new Dictionary<Type, List<WeakReference<IEventListener>>>();
         List<IEvent> _queue = new List<IEvent>();
 
         public void RegisterListener<T>(IEventListener listener) where T : IEvent
@@ -49,12 +42,12 @@ namespace Events
 
             EnsureInitiatedListener(type);
 
-            if (_listeners[type].Contains(listener))
+            if (ContainsListener(type, listener))
             {
                 throw new ListenerAlreadyExistsException();
             }
 
-            _listeners[type].Add(listener);
+            _listeners[type].Add(new WeakReference<IEventListener>(listener));
         }
 
         public void UnregisterListener(IEventListener listener)
@@ -79,7 +72,39 @@ namespace Events
 
             EnsureInitiatedListener(type);
 
-            return _listeners[type].Remove(listener);
+            foreach (WeakReference<IEventListener> listenerRef in _listeners[type])
+            {
+                IEventListener checkListener;
+                listenerRef.TryGetTarget(out checkListener);
+                if (checkListener != null)
+                {
+                    if (checkListener == listener)
+                    {
+                        _listeners[type].Remove(listenerRef);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool ContainsListener(Type type, IEventListener listener)
+        {
+            foreach (WeakReference<IEventListener> listenerRef in _listeners[type])
+            {
+                IEventListener checkListener;
+                listenerRef.TryGetTarget(out checkListener);
+                if(checkListener != null)
+                {
+                    if(checkListener == listener)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public void QueueEvent(IEvent evt)
@@ -102,7 +127,14 @@ namespace Events
 
             for (int i = _listeners[evt.GetType()].Count - 1; i >= 0; i--)
             {
-                IEventListener listener = _listeners[evt.GetType()][i];
+                WeakReference<IEventListener> listenerRef = _listeners[evt.GetType()][i];
+                IEventListener listener;
+                listenerRef.TryGetTarget(out listener);
+                if(listener == null)
+                {
+                    UnregisterListener(listener);
+                    continue;
+                }
                 if (listener.Handle(evt))
                 {
                     return true;
@@ -116,7 +148,7 @@ namespace Events
         {
             if (!_listeners.ContainsKey(type))
             {
-                _listeners.Add(type, new List<IEventListener>());
+                _listeners.Add(type, new List<WeakReference<IEventListener>>());
             }
         }
 
