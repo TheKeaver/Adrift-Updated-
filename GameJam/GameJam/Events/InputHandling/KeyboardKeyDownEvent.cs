@@ -5,11 +5,11 @@ namespace GameJam.Events.InputHandling
 {
     public class KeyboardKeyDownEvent : IEvent
     {
-        public Keys _keyPressed;
+        public Keys Key;
 
-        public KeyboardKeyDownEvent(Keys keyPressed)
+        public KeyboardKeyDownEvent(Keys key)
         {
-            _keyPressed = keyPressed;
+            Key = key;
         }
     }
 }

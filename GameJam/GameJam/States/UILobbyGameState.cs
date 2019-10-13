@@ -88,25 +88,25 @@ namespace GameJam.States
         public bool Handle(IEvent evt)
         {
             GamePadButtonDownEvent buttonPressed = evt as GamePadButtonDownEvent;
-            if ( buttonPressed != null )
+            if (buttonPressed != null)
             {
                 // A button is pressed
-                if ( buttonPressed._pressedButton == Buttons.A )
+                if (buttonPressed._pressedButton == Buttons.A)
                 {
                     // Any player presses A while no seats are occupied
-                    if ( playerOneSeat == null )
+                    if (playerOneSeat == null)
                     {
-                        if ( playerTwoSeat == null )
+                        if (playerTwoSeat == null)
                         {
                             playerOneSeat = new Player("playerOne", new ControllerInputMethod(buttonPressed._playerIndex));
                             // Player one controller visibility helper
                             PlayerOne_VisibilityHelper(true);
                             numberOfPlayers += 1;
                         }
-                        if ( playerTwoSeat != null )
+                        if (playerTwoSeat != null)
                         {
                             ControllerInputMethod playerTwoControllerIM = playerTwoSeat.InputMethod as ControllerInputMethod;
-                            if ( playerTwoControllerIM == null || playerTwoControllerIM.PlayerIndex != buttonPressed._playerIndex )
+                            if (playerTwoControllerIM == null || playerTwoControllerIM.PlayerIndex != buttonPressed._playerIndex)
                             {
                                 playerOneSeat = new Player("playerOne", new ControllerInputMethod(buttonPressed._playerIndex));
                                 // Player one controller visibility helper
@@ -116,10 +116,10 @@ namespace GameJam.States
                         }
                     }
                     // One is occupied, Two is Open
-                    if ( playerOneSeat != null && playerTwoSeat == null )
+                    if (playerOneSeat != null && playerTwoSeat == null)
                     {
                         ControllerInputMethod playerOneControllerIM = playerOneSeat.InputMethod as ControllerInputMethod;
-                        if ( playerOneControllerIM == null || playerOneControllerIM.PlayerIndex != buttonPressed._playerIndex )
+                        if (playerOneControllerIM == null || playerOneControllerIM.PlayerIndex != buttonPressed._playerIndex)
                         {
                             playerTwoSeat = new Player("playerTwo", new ControllerInputMethod(buttonPressed._playerIndex));
                             // Player two controller visibility helper
@@ -130,16 +130,16 @@ namespace GameJam.States
                 }
 
                 // B button is pressed
-                if ( buttonPressed._pressedButton == Buttons.B )
+                if (buttonPressed._pressedButton == Buttons.B)
                 {
                     // when both players empty - return to menu screen
-                    if ( playerOneSeat == null && playerTwoSeat == null )
+                    if (playerOneSeat == null && playerTwoSeat == null)
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
                         // Both players revert to default visibility (same as below)
                     }
                     // when player 1 presses B
-                    if ( playerOneSeat != null || playerTwoSeat != null )
+                    if (playerOneSeat != null || playerTwoSeat != null)
                     {
                         playerOneSeat = null;
                         playerTwoSeat = null;
@@ -149,9 +149,9 @@ namespace GameJam.States
                 }
 
                 // If start button is pressed
-                if ( buttonPressed._pressedButton == Buttons.Start )
+                if (buttonPressed._pressedButton == Buttons.Start)
                 {
-                    if ( playerOneSeat != null )
+                    if (playerOneSeat != null)
                     {
                         Player[] players = new Player[numberOfPlayers];
                         for (int i = 0; i < numberOfPlayers; i++)
@@ -169,12 +169,12 @@ namespace GameJam.States
 
             // Keyboard Lobby Support
             KeyboardKeyDownEvent keyPressed = evt as KeyboardKeyDownEvent;
-            if ( keyPressed != null )
+            if (keyPressed != null)
             {
-                if ( keyPressed._keyPressed == Keys.A || keyPressed._keyPressed == Keys.D )
+                if (keyPressed.Key == Keys.A || keyPressed.Key == Keys.D)
                 {
                     // Any player presses A while no seats are occupied
-                    if ( playerOneSeat == null )
+                    if (playerOneSeat == null)
                     {
                         playerOneSeat = new Player("playerOne", new PrimaryKeyboardInputMethod());
                         // Player one keyboard visibility helper
@@ -183,9 +183,9 @@ namespace GameJam.States
                     }
                 }
 
-                if ( keyPressed._keyPressed == Keys.Left || keyPressed._keyPressed == Keys.Right )
+                if (keyPressed.Key == Keys.Left || keyPressed.Key == Keys.Right)
                 {
-                    if ( playerTwoSeat == null )
+                    if (playerTwoSeat == null)
                     {
                         playerTwoSeat = new Player("playerTwo", new SecondaryKeyboardInputMethod());
                         // Player two keyboard visibility helper
@@ -194,9 +194,9 @@ namespace GameJam.States
                     }
                 }
 
-                if ( keyPressed._keyPressed == Keys.Enter )
+                if (keyPressed.Key == Keys.Enter)
                 {
-                    if ( playerOneSeat != null )
+                    if (playerOneSeat != null)
                     {
                         Player[] players = new Player[numberOfPlayers];
                         for (int i = 0; i < numberOfPlayers; i++)
@@ -211,15 +211,15 @@ namespace GameJam.States
                     }
                 }
 
-                if ( keyPressed._keyPressed == Keys.Escape )
+                if (keyPressed.Key == Keys.Escape)
                 {
                     // when both players empty - return to menu screen
-                    if ( playerOneSeat == null && playerTwoSeat == null )
+                    if (playerOneSeat == null && playerTwoSeat == null)
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
                         // // Both players revert to default visibility (same as above)
                     }
-                    if ( playerOneSeat != null || playerTwoSeat != null )
+                    if (playerOneSeat != null || playerTwoSeat != null)
                     {
                         playerOneSeat = null;
                         playerTwoSeat = null;
