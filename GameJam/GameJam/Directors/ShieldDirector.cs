@@ -61,6 +61,7 @@ namespace GameJam.Directors
                 color = enemy.GetComponent<ColoredExplosionComponent>().Color;
             }
             EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position, color));
+            EventManager.Instance.QueueEvent(new IncreasePlayerScoreEvent(1));
             Engine.DestroyEntity(enemy);
         }
 

@@ -331,6 +331,11 @@
 /processor:UIWidgetsProcessor
 /build:ui/LobbyMenu.xml
 
+#begin ui/MainGameStateUI.xml
+/importer:UIWidgetsImporter
+/processor:UIWidgetsProcessor
+/build:ui/MainGameStateUI.xml
+
 #begin ui/MainMenu.xml
 /importer:UIWidgetsImporter
 /processor:UIWidgetsProcessor
