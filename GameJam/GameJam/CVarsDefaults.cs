@@ -96,6 +96,7 @@ namespace GameJam
             Create<Color>("color_kamikaze_enemy", Color.Violet, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_shooting_enemy", Color.Cyan, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_laser_enemy", Color.Gold, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_gravity_hold_enemy", Color.Purple, CVarFlags.DEV_PRESERVE);
 
             Create<Color>("color_projectile", Color.Red, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_laser_beam", Color.Red, CVarFlags.DEV_PRESERVE);

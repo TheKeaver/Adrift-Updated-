@@ -42,11 +42,11 @@ namespace GameJam.Entities
                     new Vector2(0,-3),
                     new Vector2(3,0),
                     new Vector2(0,3)
-                }, 0.3f, Color.Purple, PolyRenderShape.PolyCapStyle.Filled, false)
+                }, 0.3f, CVars.Get<Color>("color_gravity_hold_enemy"), PolyRenderShape.PolyCapStyle.Filled, false)
             }));
 
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("gravity_enemy_size"), true);
-            entity.AddComponent(new ColoredExplosionComponent(Color.Purple));
+            entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_gravity_hold_enemy")));
 
             /*entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(-6,-6),
