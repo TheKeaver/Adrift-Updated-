@@ -64,16 +64,15 @@ namespace GameJam.Processes.Enemies
 
         protected override void OnKill()
         {
-            if (!Engine.GetEntities().Contains(LaserEnemyEntity))
+            if (LaserEnemyEntity != null)
             {
                 // Destroy laser beam
                 LaserEnemyComponent laserEnemyComp = LaserEnemyEntity.GetComponent<LaserEnemyComponent>();
-                if (laserEnemyComp.LaserBeamEntity != null
-                    && Engine.GetEntities().Contains(laserEnemyComp.LaserBeamEntity))
+                if (laserEnemyComp.LaserBeamEntity != null)
                 {
-                    EventManager.Instance.QueueEvent(new LaserBeamFireEnd(laserEnemyComp.LaserBeamEntity));
                     Engine.DestroyEntity(laserEnemyComp.LaserBeamEntity);
                     laserEnemyComp.LaserBeamEntity = null;
+                    EventManager.Instance.QueueEvent(new LaserBeamFireEnd(laserEnemyComp.LaserBeamEntity));
                 }
             }
         }
