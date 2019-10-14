@@ -264,7 +264,7 @@ namespace GameJam.States
         public override void Dispose()
         {
             // Remove listeners
-            EventManager.Instance.UnregisterListener(this);
+            UnregisterEvents();
             _mainCamera.UnregisterEvents();
             AdriftPostProcessor.UnregisterEvents();
 
