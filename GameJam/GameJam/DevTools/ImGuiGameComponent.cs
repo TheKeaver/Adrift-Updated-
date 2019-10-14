@@ -15,6 +15,8 @@ namespace GameJam.DevTools
 {
     public class ImGuiGameComponent : DrawableGameComponent, IEventListener
     {
+        private readonly StatisticsProfiler _statisticsProfiler;
+
         private ImGUIRenderer _renderer;
 
         private string _cvarEditing = "";
@@ -22,8 +24,10 @@ namespace GameJam.DevTools
         private List<string> _consoleItems = new List<string>();
         private byte[] _consoleCmdLine = new byte[500];
 
-        public ImGuiGameComponent(Game game) : base(game)
+        public ImGuiGameComponent(Game game, StatisticsProfiler statisticsProfiler) : base(game)
         {
+            _statisticsProfiler = statisticsProfiler;
+
             _renderer = new ImGUIRenderer(game).Initialize().RebuildFontAtlas();
 
             Console.SetOut(new ConsoleInterceptorWriter(_consoleItems, Console.Out));
@@ -50,6 +54,7 @@ namespace GameJam.DevTools
             DrawCVarWindow();
             DrawPlaybackControls();
             DrawConsole();
+            DrawStatistics();
 
             _renderer.EndLayout();
 
@@ -81,6 +86,9 @@ namespace GameJam.DevTools
                         return true;
                     case Keys.F2:
                         CVars.Get<bool>("debug_show_playback_controls") = !CVars.Get<bool>("debug_show_playback_controls");
+                        return true;
+                    case Keys.F3:
+                        CVars.Get<bool>("debug_show_statistics") = !CVars.Get<bool>("debug_show_statistics");
                         return true;
                     case Keys.OemTilde:
                         CVars.Get<bool>("debug_show_console") = !CVars.Get<bool>("debug_show_console");
@@ -346,6 +354,28 @@ namespace GameJam.DevTools
                 }
                 _building += value;
                 _passThroughWriter.Write(value);
+            }
+        }
+
+        private void DrawStatistics()
+        {
+            if(CVars.Get<bool>("debug_show_statistics"))
+            {
+                ImGui.SetNextWindowSize(new System.Numerics.Vector2(400, 200));
+                ImGui.Begin("Statistics", ref CVars.Get<bool>("debug_show_statistics"));
+
+                ImGui.Text(string.Format("Tick dt (ms): {0}", _statisticsProfiler.TimeBetweenTicks * 1000));
+                ImGui.Text(string.Format("Tick dt [average] (ms): {0}", _statisticsProfiler.AverageTimeBetweenTicks * 1000));
+                ImGui.Text(string.Format("Frame dt (ms): {0}", _statisticsProfiler.TimeBetweenFrames * 1000));
+                ImGui.Text(string.Format("Frame dt [average] (ms): {0}", _statisticsProfiler.AverageTimeBetweenFrames * 1000));
+
+                ImGui.Text(string.Format("Update time (ms): {0}", _statisticsProfiler.UpdateTime * 1000));
+                ImGui.Text(string.Format("Update time [average] (ms): {0}", _statisticsProfiler.AverageUpdateTime * 1000));
+
+                ImGui.Text(string.Format("Draw time (ms): {0}", _statisticsProfiler.DrawTime * 1000));
+                ImGui.Text(string.Format("Draw time [average] (ms): {0}", _statisticsProfiler.AverageDrawTime * 1000));
+
+                ImGui.End();
             }
         }
     }

@@ -25,6 +25,10 @@ namespace GameJam
 
         GameState _currentState;
 
+#if DEBUG
+        StatisticsProfiler _statisticsProfiler;
+#endif
+
         public GraphicsDeviceManager Graphics
         {
             get;
@@ -47,6 +51,10 @@ namespace GameJam
 
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
+
+#if DEBUG
+            _statisticsProfiler = new StatisticsProfiler();
+#endif
         }
         
         protected override void Initialize()
@@ -80,7 +88,7 @@ namespace GameJam
             GamePadListener.ControllerConnectionChanged += GamePad_ConnectionChanged;
 
 #if DEBUG
-            Components.Add(new ImGuiGameComponent(this));
+            Components.Add(new ImGuiGameComponent(this, _statisticsProfiler));
 #endif
 
             base.Initialize();
@@ -104,10 +112,18 @@ namespace GameJam
         
         protected override void Update(GameTime gameTime)
         {
+#if DEBUG
+            _statisticsProfiler.BeginUpdate(gameTime);
+#endif
+
             if(!CVars.Get<bool>("debug_pause_game_updates"))
             {
                 Update((float)gameTime.ElapsedGameTime.TotalSeconds * CVars.Get<float>("debug_update_time_scale"));
             }
+
+#if DEBUG
+            _statisticsProfiler.EndUpdate();
+#endif
 
             base.Update(gameTime);
         }
@@ -124,6 +140,10 @@ namespace GameJam
 
         protected override void Draw(GameTime gameTime)
         {
+#if DEBUG
+            _statisticsProfiler.BeginDraw(gameTime);
+#endif
+
             Graphics.GraphicsDevice.Clear(Color.Black);
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
@@ -135,6 +155,10 @@ namespace GameJam
                     * CVars.Get<float>("debug_update_time_scale")
                     * (CVars.Get<bool>("debug_pause_game_updates") ? 0 : 1));
             }
+
+#if DEBUG
+            _statisticsProfiler.EndDraw();
+#endif
 
             base.Draw(gameTime);
         }
