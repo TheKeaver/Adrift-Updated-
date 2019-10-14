@@ -12,10 +12,14 @@ using GameJam.Processes;
 using GameJam.Processes.Animation;
 using GameJam.Processes.Enemies;
 using GameJam.Systems;
+using GameJam.UI;
+using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
+using System.Collections.Generic;
+using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
@@ -24,6 +28,11 @@ namespace GameJam.States
     /// </summary>
     public class MainGameState : GameState, IEventListener
     {
+        SpriteBatch _spriteBatch;
+        Root _root;
+
+        public int score;
+
         private ProcessManager ProcessManager
         {
             get;
@@ -65,6 +74,18 @@ namespace GameJam.States
             : base(gameManager)
         {
             PlayerArray = players;
+            _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+        }
+
+        void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<IncreasePlayerScoreEvent>(this);
+            EventManager.Instance.RegisterListener<GameOverEvent>(this);
+        }
+
+        void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
         }
 
         public override void Initialize()
@@ -89,7 +110,8 @@ namespace GameJam.States
             ProcessManager.Attach(new GravityEnemySpawner(Engine, ProcessManager));
             ProcessManager.Attach(new LaserEnemySpawner(Engine, ProcessManager));
 
-            EventManager.Instance.RegisterListener<GameOverEvent>(this);
+            _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
+            RegisterEvents();
         }
 
         void InitSystems()
@@ -134,6 +156,7 @@ namespace GameJam.States
 
         public override void Hide()
         {
+            _root.UnregisterListeners();
         }
 
         public override void LoadContent()
@@ -154,6 +177,8 @@ namespace GameJam.States
 
             _fxaaPPE = new FXAA(AdriftPostProcessor, Content);
             AdriftPostProcessor.Effects.Add(_fxaaPPE);
+
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainGameStateUI"));
         }
 
         public override void Show()
@@ -230,6 +255,10 @@ namespace GameJam.States
             VelocityParticleManager.Draw(_renderSystem.SpriteBatch);
             _renderSystem.SpriteBatch.End();
             AdriftPostProcessor.End();
+
+            _spriteBatch.Begin();
+            _root.Draw(_spriteBatch);
+            _spriteBatch.End();
         }
 
         public override void Dispose()
@@ -251,6 +280,10 @@ namespace GameJam.States
             {
                 HandleGameOverEvent(evt as GameOverEvent);
             }
+            if (evt is IncreasePlayerScoreEvent)
+            {
+                HandleIncreasePlayerScoreEvent(evt as IncreasePlayerScoreEvent);
+            }
 
             return false;
         }
@@ -266,6 +299,12 @@ namespace GameJam.States
             {
                 GameManager.ChangeState(new UIMenuGameState(GameManager));
             }));
+        }
+
+        private void HandleIncreasePlayerScoreEvent(IncreasePlayerScoreEvent increasePlayerScoreEvent)
+        {
+            score += increasePlayerScoreEvent.ScoreAddend;
+            ((Label)_root.FindWidgetByID("main_game_score_label")).Content = "Score: " + score;
         }
     }
 }

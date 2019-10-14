@@ -1,0 +1,16 @@
+﻿<UI>
+    <Widgets>
+        <Label
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="0"
+            widgth="15%"
+            height="10%"
+            
+            content="Score: "
+            font="font_game_over"
+            id="main_game_score_label"
+        />
+    </Widgets>
+</UI>
