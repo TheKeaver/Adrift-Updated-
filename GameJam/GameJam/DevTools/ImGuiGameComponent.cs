@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using Events;
 using GameJam.Events.DevTools;
 using GameJam.Events.InputHandling;
@@ -16,9 +19,14 @@ namespace GameJam.DevTools
 
         private string _cvarEditing = "";
 
+        private List<string> _consoleItems = new List<string>();
+        private byte[] _consoleCmdLine = new byte[500];
+
         public ImGuiGameComponent(Game game) : base(game)
         {
             _renderer = new ImGUIRenderer(game).Initialize().RebuildFontAtlas();
+
+            Console.SetOut(new ConsoleInterceptorWriter(_consoleItems, Console.Out));
         }
 
         public override void Initialize()
@@ -41,6 +49,7 @@ namespace GameJam.DevTools
 
             DrawCVarWindow();
             DrawPlaybackControls();
+            DrawConsole();
 
             _renderer.EndLayout();
 
@@ -49,6 +58,7 @@ namespace GameJam.DevTools
 
         private void RegisterEvents()
         {
+            EventManager.Instance.RegisterWildcardListener(this);
             EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
         }
 
@@ -59,6 +69,8 @@ namespace GameJam.DevTools
 
         public bool Handle(IEvent evt)
         {
+            LogEvent(evt);
+
             KeyboardKeyDownEvent keyboardKeyDownEvent = evt as KeyboardKeyDownEvent;
             if (keyboardKeyDownEvent != null)
             {
@@ -66,10 +78,13 @@ namespace GameJam.DevTools
                 {
                     case Keys.F1:
                         CVars.Get<bool>("debug_show_cvar_viewer") = !CVars.Get<bool>("debug_show_cvar_viewer");
-                        break;
+                        return true;
                     case Keys.F2:
                         CVars.Get<bool>("debug_show_playback_controls") = !CVars.Get<bool>("debug_show_playback_controls");
-                        break;
+                        return true;
+                    case Keys.OemTilde:
+                        CVars.Get<bool>("debug_show_console") = !CVars.Get<bool>("debug_show_console");
+                        return true;
                 }
             }
 
@@ -80,7 +95,7 @@ namespace GameJam.DevTools
         {
             if (CVars.Get<bool>("debug_show_cvar_viewer"))
             {
-                ImGui.SetNextWindowSize(new System.Numerics.Vector2(500, 500), ImGuiCond.FirstUseEver);
+                ImGui.SetNextWindowSize(new System.Numerics.Vector2(500, 400), ImGuiCond.FirstUseEver);
                 ImGui.Begin("CVar Viewer", ref CVars.Get<bool>("debug_show_cvar_viewer"));
 
                 if (ImGui.Button("Save##Control"))
@@ -216,6 +231,121 @@ namespace GameJam.DevTools
                 ImGui.InputFloat("Time Scale##Playback", ref CVars.Get<float>("debug_update_time_scale"), 0.1f);
 
                 ImGui.End();
+            }
+        }
+
+        private void LogEvent(IEvent evt)
+        {
+            Regex regex = new Regex(CVars.Get<string>("debug_console_filter"));
+            string evtName = evt.GetType().Name;
+            if (!regex.Match(evtName).Success)
+            {
+                _consoleItems.Add(string.Format("[{0}] {1}", DateTime.Now.ToString("hh:mm:ss"), evt.GetType().Name));
+                if (_consoleItems.Count > CVars.Get<int>("debug_max_console_entries"))
+                {
+                    _consoleItems.RemoveRange(0, _consoleItems.Count - CVars.Get<int>("debug_max_console_entries"));
+                }
+            }
+        }
+
+        private void DrawConsole()
+        {
+            if (CVars.Get<bool>("debug_show_console"))
+            {
+                ImGui.SetNextWindowSize(new System.Numerics.Vector2(300, 300), ImGuiCond.FirstUseEver);
+                ImGui.Begin("Developer Console", ref CVars.Get<bool>("debug_show_console"));
+
+                float footer_height_to_reserve = ImGui.GetStyle().ItemSpacing.Y + ImGui.GetFrameHeightWithSpacing();
+                ImGui.BeginChild("ConsoleScrollingRegion",
+                    new System.Numerics.Vector2(0, -footer_height_to_reserve),
+                    false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
+                ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new System.Numerics.Vector2(4, 1));
+                for (int i = 0; i < _consoleItems.Count; i++)
+                {
+                    ImGui.TextUnformatted(_consoleItems[i]);
+                }
+                if (ImGui.GetScrollY() >= ImGui.GetScrollMaxY())
+                {
+                    ImGui.SetScrollHereY(1.0f);
+                }
+
+                ImGui.PopStyleVar();
+                ImGui.EndChild();
+                ImGui.Separator();
+
+                if (ImGui.InputText("##ConsoleInput",
+                    _consoleCmdLine,
+                    (uint)_consoleCmdLine.Length,
+                    ImGuiInputTextFlags.EnterReturnsTrue
+                        | ImGuiInputTextFlags.EnterReturnsTrue))
+                {
+                    string cmd = Encoding.UTF8.GetString(_consoleCmdLine);
+                    ExecuteCommand(cmd);
+                    for (int i = 0; i < _consoleCmdLine.Length; i++)
+                    {
+                        _consoleCmdLine[i] = 0;
+                    }
+                }
+
+                ImGui.End();
+            }
+        }
+
+        private void ExecuteCommand(string rawCmd)
+        {
+            string[] parts = rawCmd.Split(' ');
+            string cvar = parts[0];
+            if (Array.IndexOf(CVars.GetNames(), cvar) > -1) {
+                string value = rawCmd.Substring(parts.Length).Trim();
+                if (value.Length > 0)
+                {
+                    string oldValue = CVars.RawGet(cvar).Serialize();
+                    CVars.RawGet(cvar).Deserialize(value);
+                    Console.WriteLine("Updated `{0}` from '{1}' to '{2}'.",
+                        cvar, oldValue, value);
+                } else
+                {
+                    CVar<bool> boolCVar = CVars.RawGet(cvar) as CVar<bool>;
+                    if(boolCVar != null)
+                    {
+                        bool oldValue = boolCVar.Value;
+                        boolCVar.Value = !oldValue;
+                        Console.WriteLine("Updated `{0}` from '{1}' to '{2}'.",
+                            cvar, oldValue, boolCVar.Value);
+                    }
+                }
+            } else
+            {
+                Console.WriteLine("CVar `{0}` not found.");
+            }
+        }
+
+        private class ConsoleInterceptorWriter : TextWriter
+        {
+            public override Encoding Encoding => Encoding.UTF8;
+
+            private List<string> _consoleItems;
+            private TextWriter _passThroughWriter;
+            private string _building = "";
+
+            public ConsoleInterceptorWriter(List<string> consoleItems, TextWriter passThroughWriter)
+            {
+                _consoleItems = consoleItems;
+                _passThroughWriter = passThroughWriter;
+            }
+
+            public override void Write(char value)
+            {
+                if(value == '\r' || value == '\n')
+                {
+                    if(_building.Length > 0)
+                    {
+                        _consoleItems.Add(_building);
+                    }
+                    _building = "";
+                }
+                _building += value;
+                _passThroughWriter.Write(value);
             }
         }
     }

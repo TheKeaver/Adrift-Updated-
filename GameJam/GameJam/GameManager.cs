@@ -215,7 +215,20 @@ namespace GameJam
 
         void Keyboard_KeyDown(object sender, KeyboardEventArgs e)
         {
-            EventManager.Instance.QueueEvent(new KeyboardKeyDownEvent(e.Key));
+            // Workaround; when the game is debug paused, the EventManager's
+            // queue isn't dispatched. Because of this, opening/closing
+            // of debug windows isn't possible when the game is debug paused.
+            if (CVars.Get<bool>("debug_pause_game_updates")
+                && (e.Key == Keys.OemTilde
+                    || e.Key == Keys.F1
+                    || e.Key == Keys.F2))
+            {
+                EventManager.Instance.TriggerEvent(new KeyboardKeyDownEvent(e.Key));
+            }
+            else
+            {
+                EventManager.Instance.QueueEvent(new KeyboardKeyDownEvent(e.Key));
+            }
         }
 
         // Keyboard_KeyUp

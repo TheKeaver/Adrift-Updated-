@@ -26,6 +26,7 @@ namespace Events
         public static EventManager Instance { get; } = new EventManager();
 
         Dictionary<Type, List<WeakReference<IEventListener>>> _listeners = new Dictionary<Type, List<WeakReference<IEventListener>>>();
+        List<WeakReference<IEventListener>> _wildcardListeners = new List<WeakReference<IEventListener>>();
         List<IEvent> _queue = new List<IEvent>();
 
         public void RegisterListener<T>(IEventListener listener) where T : IEvent
@@ -42,12 +43,22 @@ namespace Events
 
             EnsureInitiatedListener(type);
 
-            if (ContainsListener(type, listener))
+            if (ContainsListener(_listeners[type], listener))
             {
                 throw new ListenerAlreadyExistsException();
             }
 
             _listeners[type].Add(new WeakReference<IEventListener>(listener));
+        }
+
+        public void RegisterWildcardListener(IEventListener listener)
+        {
+            if(ContainsListener(_wildcardListeners, listener))
+            {
+                throw new ListenerAlreadyExistsException();
+            }
+
+            _wildcardListeners.Add(new WeakReference<IEventListener>(listener));
         }
 
         public void UnregisterListener(IEventListener listener)
@@ -56,6 +67,8 @@ namespace Events
             {
                 UnregisterListener(key, listener);
             }
+
+            UnregisterWildcardListener(listener);
         }
 
         public bool UnregisterListener<T>(IEventListener listener) where T : IEvent
@@ -89,9 +102,28 @@ namespace Events
             return false;
         }
 
-        private bool ContainsListener(Type type, IEventListener listener)
+        public bool UnregisterWildcardListener(IEventListener listener)
         {
-            foreach (WeakReference<IEventListener> listenerRef in _listeners[type])
+            foreach (WeakReference<IEventListener> listenerRef in _wildcardListeners)
+            {
+                IEventListener checkListener;
+                listenerRef.TryGetTarget(out checkListener);
+                if (checkListener != null)
+                {
+                    if (checkListener == listener)
+                    {
+                        _wildcardListeners.Remove(listenerRef);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool ContainsListener(List<WeakReference<IEventListener>> listeners, IEventListener listener)
+        {
+            foreach (WeakReference<IEventListener> listenerRef in listeners)
             {
                 IEventListener checkListener;
                 listenerRef.TryGetTarget(out checkListener);
@@ -131,6 +163,22 @@ namespace Events
                 IEventListener listener;
                 listenerRef.TryGetTarget(out listener);
                 if(listener == null)
+                {
+                    UnregisterListener(listener);
+                    continue;
+                }
+                if (listener.Handle(evt))
+                {
+                    return true;
+                }
+            }
+
+            for (int i = _wildcardListeners.Count - 1; i >= 0; i--)
+            {
+                WeakReference<IEventListener> listenerRef = _wildcardListeners[i];
+                IEventListener listener;
+                listenerRef.TryGetTarget(out listener);
+                if (listener == null)
                 {
                     UnregisterListener(listener);
                     continue;

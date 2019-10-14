@@ -13,9 +13,6 @@ namespace GameJam
             Create<int>("window_height", 600, CVarFlags.PRESERVE);
             Create<float>("window_initial_aspect_ratio", (float)CVars.Get<int>("window_width") / CVars.Get<int>("window_height"), CVarFlags.PRESERVE);
 
-            Create<int>("screen_width", 1280);
-            Create<int>("screen_height", 800);
-
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -111,6 +108,9 @@ namespace GameJam
             Create<bool>("debug_pause_game_updates", false, CVarFlags.LIVE_RELOAD);
             Create<float>("debug_update_time_scale", 1.0f, CVarFlags.LIVE_RELOAD);
             Create<float>("debug_game_step_period", 1 / 60.0f, CVarFlags.LIVE_RELOAD);
+            Create<bool>("debug_show_console", false, CVarFlags.LIVE_RELOAD);
+            Create<int>("debug_max_console_entries", 1000, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<string>("debug_console_filter", @"Mouse[A-z]+|Keyboard[A-z]+|Component[A-z]+|Entity[A-z]+|CollisionEnd[A-z]+", CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
