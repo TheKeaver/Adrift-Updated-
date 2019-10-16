@@ -107,7 +107,8 @@ namespace GameJam
         {
             // Global Content
 
-            ChangeState(new UIMenuGameState(this));
+            //ChangeState(new UIMenuGameState(this));
+            ChangeState(new TestRenderGameState(this));
         }
         
         protected override void Update(GameTime gameTime)
@@ -150,7 +151,6 @@ namespace GameJam
 
             if (_currentState != null)
             {
-
                 _currentState.Draw((float)gameTime.ElapsedGameTime.TotalSeconds
                     * CVars.Get<float>("debug_update_time_scale")
                     * (CVars.Get<bool>("debug_pause_game_updates") ? 0 : 1));
