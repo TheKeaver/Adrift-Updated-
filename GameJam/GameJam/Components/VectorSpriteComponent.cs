@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Audrey;
 using Microsoft.Xna.Framework;
@@ -170,7 +170,7 @@ namespace GameJam.Components
             switch(polyCapStyle)
             {
                 case PolyCapStyle.Filled:
-                    _verts = new VertexPositionColor[(count - 1) * 12];
+                    _verts = new VertexPositionColor[(count - 1) * 9]; // TODO
                     break;
                 case PolyCapStyle.AwayFromCenter:
                 default:
@@ -280,13 +280,23 @@ namespace GameJam.Components
                         Vector2 v3b = p3 - d2 * thickness;
                         Vector2 v3t = p3 + d2 * thickness;
 
-                        _verts[v++] = new VertexPositionColor(new Vector3(v3t.X, v3t.Y, 0), color);
-                        _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
-                        _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+                        // Check which to fill in - top or bottom
+                        Vector2 top = v3t - v2t;
 
-                        _verts[v++] = new VertexPositionColor(new Vector3(v3b.X, v3b.Y, 0), color);
-                        _verts[v++] = new VertexPositionColor(new Vector3(v3t.X, v3t.Y, 0), color);
-                        _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+                        Vector2 midpoint = p2;
+                        if (Vector2.Dot(top, p2p1) > 0)
+                        {
+                            //Vector2 midpoint = (v3b - v2b) / 2 + v2b;
+                            _verts[v++] = new VertexPositionColor(new Vector3(v3t.X, v3t.Y, 0), color);
+                            _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
+                            _verts[v++] = new VertexPositionColor(new Vector3(midpoint.X, midpoint.Y, 0), color);
+                        } else
+                        {
+                            //Vector2 midpoint = (v3t - v2t) / 2 + v2t;
+                            _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+                            _verts[v++] = new VertexPositionColor(new Vector3(v3b.X, v3b.Y, 0), color);
+                            _verts[v++] = new VertexPositionColor(new Vector3(midpoint.X, midpoint.Y, 0), color);
+                        }
                     }
                 }
             }
