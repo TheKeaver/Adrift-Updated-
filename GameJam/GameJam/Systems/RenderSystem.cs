@@ -240,7 +240,7 @@ namespace GameJam.Systems
             {
                 SetupVectorDrawing();
                 _vectorSpriteEffect.View = transformMatrix;
-                GraphicsDevice.BlendState = BlendState.Additive;
+                GraphicsDevice.BlendState = BlendState.NonPremultiplied;
                 foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
