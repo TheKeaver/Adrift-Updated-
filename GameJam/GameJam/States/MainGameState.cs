@@ -240,6 +240,8 @@ namespace GameJam.States
 
             _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
 
+            GameManager.GraphicsDevice.Clear(Color.TransparentBlack);
+
             AdriftPostProcessor.Begin();
             _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
                                         Constants.Render.GROUP_MASK_ALL,
