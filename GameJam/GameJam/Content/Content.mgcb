@@ -341,6 +341,11 @@
 /processor:UIWidgetsProcessor
 /build:ui/MainMenu.xml
 
+#begin ui/OptionsMenu.xml
+/importer:UIWidgetsImporter
+/processor:UIWidgetsProcessor
+/build:ui/OptionsMenu.xml
+
 #begin ui/test.xml
 /importer:UIWidgetsImporter
 /processor:UIWidgetsProcessor

@@ -48,7 +48,7 @@ namespace Audrey
         {
             if(entity == null)
             {
-                dthrow new ArgumentNullException();
+                throw new ArgumentNullException();
             }
 
             _entities.Remove(entity);
