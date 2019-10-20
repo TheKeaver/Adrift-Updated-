@@ -21,6 +21,8 @@ namespace GameJam.Components
 
         public Texture2D Texture;
         public Vector2 Bounds;
+        public Color Color = Color.White;
+        public float Alpha = 1;
 
         public byte RenderGroup = 0x1;
 
