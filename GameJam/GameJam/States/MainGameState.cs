@@ -241,26 +241,38 @@ namespace GameJam.States
 
             _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
 
-            GameManager.GraphicsDevice.Clear(Color.TransparentBlack);
+            GameManager.GraphicsDevice.Clear(Color.Black);
 
             AdriftPostProcessor.Begin();
-            _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
-                                        Constants.Render.GROUP_MASK_ALL,
-                                        dt,
-                                        betweenFrameAlpha);
-            _renderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
-                null,
-                null,
-                null,
-                null,
-                null,
-                _mainCamera.TransformMatrix);
-            VelocityParticleManager.Draw(_renderSystem.SpriteBatch);
-            _renderSystem.SpriteBatch.End();
-            AdriftPostProcessor.End();
+            {
+                _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
+                                            Constants.Render.RENDER_GROUP_GAME_ENTITIES,
+                                            dt,
+                                            betweenFrameAlpha);
+                _renderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    _mainCamera.TransformMatrix);
+                VelocityParticleManager.Draw(_renderSystem.SpriteBatch);
+                _renderSystem.SpriteBatch.End();
+            }
+            // We have to defer drawing the post-processor results
+            // because of unexpected behavior within MonoGame.
+            RenderTarget2D postProcessing = AdriftPostProcessor.End(false);
 
+            // Stars
+            _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
+                                        Constants.Render.RENDER_GROUP_STARS,
+                                        dt,
+                                        betweenFrameAlpha); // Stars
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
+            _spriteBatch.Draw(postProcessing,
+                postProcessing.Bounds,
+                Color.White); // Post-processing results
+            _root.Draw(_spriteBatch); // UI
             _spriteBatch.End();
         }
 
