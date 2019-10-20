@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -141,6 +141,23 @@ namespace GameJam
             Create<string>("texture_title_without_instructions", "textures/TitleNoInstructions", CVarFlags.PRESERVE);
 
             Create<string>("texture_particle_velocity", "textures/particles/VelocityParticle", CVarFlags.PRESERVE);
+
+            Create<string>("texture_background_stars_0", "textures/Stars/000", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_1", "textures/Stars/001", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_2", "textures/Stars/002", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_3", "textures/Stars/003", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_4", "textures/Stars/004", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_5", "textures/Stars/005", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_6", "textures/Stars/006", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_7", "textures/Stars/007", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_8", "textures/Stars/008", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_9", "textures/Stars/009", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_10", "textures/Stars/010", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_11", "textures/Stars/011", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_12", "textures/Stars/012", CVarFlags.PRESERVE);
+            Create<string>("texture_background_stars_13", "textures/Stars/013", CVarFlags.PRESERVE);
+
+            Create<string>("texture_background_parallax_test", "textures/ParalaxTestBackground", CVarFlags.PRESERVE);
 
             Create<string>("texture_ui_button_released", "textures/ui/button_up_background", CVarFlags.PRESERVE);
             Create<string>("texture_ui_button_hover", "textures/ui/button_over_background", CVarFlags.PRESERVE);
