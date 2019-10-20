@@ -25,6 +25,7 @@ namespace GameJam.Entities
                     new Vector2(-5, -3)
                     }, 0.4f, CVars.Get<Color>("color_kamikaze_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
+            entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("kamikaze_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_kamikaze_enemy")));
 

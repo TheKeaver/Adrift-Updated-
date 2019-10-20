@@ -31,6 +31,7 @@ namespace GameJam.Entities
                     new Vector2(-3, -3)
                     }, 0.2f, CVars.Get<Color>("color_laser_enemy"), PolyRenderShape.PolyCapStyle.Filled)
             }));
+            entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("laser_enemy_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_laser_enemy")));
 

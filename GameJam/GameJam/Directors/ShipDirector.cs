@@ -53,7 +53,10 @@ namespace GameJam.Directors
 
         void HandleCollisionStart(Entity entityA, Entity entityB)
         {
-            entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
+            if (!CVars.Get<bool>("god"))
+            {
+                entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
+            }
             if(entityA.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
             {
                 Color color = Color.White;

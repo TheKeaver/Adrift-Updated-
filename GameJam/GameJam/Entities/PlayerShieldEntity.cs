@@ -20,6 +20,7 @@ namespace GameJam.Entities
                     new Vector2(-6, -1),
                     CVars.Get<Color>("color_player_shield"))
             }));
+            entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_shield_size"), true);
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
