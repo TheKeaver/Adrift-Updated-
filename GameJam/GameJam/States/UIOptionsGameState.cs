@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Events;
 using GameJam.Events.InputHandling;
+using GameJam.Events.UI;
 using GameJam.Input;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,6 +31,11 @@ namespace GameJam.States
         {
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
             EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
+
+            EventManager.Instance.RegisterListener<DisplaySettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<ControlsSettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<DifficultySettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<SpeedSettingsButtonPressedEvent>(this);
         }
 
         void UnregisterEvents()
@@ -79,7 +86,9 @@ namespace GameJam.States
 
         public bool Handle(IEvent evt)
         {
-            throw new System.NotImplementedException();
+            // Listen for the 4 types of button settings pressed
+            // Consider buttonSelectedEvent and buttonDeselectedEvent to allow showing of right side
+            return false;
         }
     }
 }
