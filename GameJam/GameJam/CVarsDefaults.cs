@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -38,6 +38,8 @@ namespace GameJam
             Create<float>("player_shield_size", 3, CVarFlags.DEV_PRESERVE);
             Create<float>("player_ship_size", 5, CVarFlags.DEV_PRESERVE);
             Create<int>("player_ship_max_health", 3, CVarFlags.DEV_PRESERVE);
+
+            Create<bool>("god", false, CVarFlags.DEV_PRESERVE);
 
             Create<float>("kamikaze_enemy_speed", 50.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("kamikaze_enemy_rotational_speed", 0.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);

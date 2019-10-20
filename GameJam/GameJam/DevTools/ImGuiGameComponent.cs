@@ -287,7 +287,7 @@ namespace GameJam.DevTools
                     ImGuiInputTextFlags.EnterReturnsTrue
                         | ImGuiInputTextFlags.EnterReturnsTrue))
                 {
-                    string cmd = Encoding.UTF8.GetString(_consoleCmdLine);
+                    string cmd = Encoding.UTF8.GetString(_consoleCmdLine).TrimEnd((Char)0);
                     ExecuteCommand(cmd);
                     for (int i = 0; i < _consoleCmdLine.Length; i++)
                     {
@@ -304,7 +304,7 @@ namespace GameJam.DevTools
             string[] parts = rawCmd.Split(' ');
             string cvar = parts[0];
             if (Array.IndexOf(CVars.GetNames(), cvar) > -1) {
-                string value = rawCmd.Substring(parts.Length).Trim();
+                string value = rawCmd.Substring(cvar.Length).Trim();
                 if (value.Length > 0)
                 {
                     string oldValue = CVars.RawGet(cvar).Serialize();
@@ -324,7 +324,7 @@ namespace GameJam.DevTools
                 }
             } else
             {
-                Console.WriteLine("CVar `{0}` not found.");
+                Console.WriteLine("CVar `{0}` not found.", cvar);
             }
         }
 
