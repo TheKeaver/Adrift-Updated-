@@ -128,7 +128,8 @@ namespace GameJam.States
                 new EnemyRotationSystem(Engine),
                 new AnimationSystem(Engine),
                 new LaserEnemySystem(Engine),
-                new GravitySystem(Engine)
+                new GravitySystem(Engine),
+                new PulseSystem(Engine),
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
