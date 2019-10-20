@@ -130,6 +130,7 @@ namespace GameJam.States
                 new LaserEnemySystem(Engine),
                 new GravitySystem(Engine),
                 new PulseSystem(Engine),
+                new ParallaxBackgroundSystem(Engine, _mainCamera)
             };
 
             _renderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
@@ -164,6 +165,25 @@ namespace GameJam.States
         {
             Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
 
+            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_0"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_1"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_2"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_3"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_4"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_5"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_6"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_7"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_8"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_9"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_10"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_11"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_12"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_13"));
+
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_parallax_test"));
+
+            Content.Load<Texture2D>(CVars.Get<string>("texture_title_without_instructions"));
+
             Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
             Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
             Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
@@ -194,6 +214,8 @@ namespace GameJam.States
 
         void CreateEntities()
         {
+            CreateParallaxBackground();
+
             Entity playerShipEntity = PlayerShipEntity.Create(Engine,
                 new Vector2(-25 + (25 * (PlayerArray.Length % 2)), 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
@@ -211,10 +233,29 @@ namespace GameJam.States
                 playerTwoShieldEntity.AddComponent(new PlayerComponent(PlayerArray[1]));
             }
 
-            Entity topEdge = EdgeEntity.Create(Engine, new Vector2(0, CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 5), new Vector2(0,-1));
-            Entity leftEdge = EdgeEntity.Create(Engine, new Vector2(-CVars.Get<int>("window_width") / 2, 0), new Vector2(5, CVars.Get<int>("window_height")), new Vector2(1, 0));
-            Entity bottomEdge = EdgeEntity.Create(Engine, new Vector2(0, -CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 5), new Vector2(0, 1));
-            Entity rightEdge = EdgeEntity.Create(Engine, new Vector2(CVars.Get<int>("window_width") / 2, 0), new Vector2(5, CVars.Get<int>("window_height")), new Vector2(-1, 0));
+            EdgeEntity.Create(Engine, new Vector2(0, CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 5), new Vector2(0, -1));
+            EdgeEntity.Create(Engine, new Vector2(-CVars.Get<int>("window_width") / 2, 0), new Vector2(5, CVars.Get<int>("window_height")), new Vector2(1, 0));
+            EdgeEntity.Create(Engine, new Vector2(0, -CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 5), new Vector2(0, 1));
+            EdgeEntity.Create(Engine, new Vector2(CVars.Get<int>("window_width") / 2, 0), new Vector2(5, CVars.Get<int>("window_height")), new Vector2(-1, 0));
+        }
+
+        void CreateParallaxBackground()
+        {
+            ParallaxBackgroundEntity.Create(Engine,
+                Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_0")),
+                Vector2.Zero, 0.15f, true);
+            ParallaxBackgroundEntity.Create(Engine,
+                Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_1")),
+                Vector2.Zero, 0.25f);
+            ParallaxBackgroundEntity.Create(Engine,
+                Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_2")),
+                Vector2.Zero, 0.35f);
+            ParallaxBackgroundEntity.Create(Engine,
+                Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_3")),
+                Vector2.Zero, 0.55f);
+            //ParallaxBackgroundEntity.Create(Engine,
+            //    Content.Load<Texture2D>(CVars.Get<string>("texture_background_parallax_test")),
+            //    Vector2.Zero, 0.55f);
         }
 
         public override void Update(float dt)
