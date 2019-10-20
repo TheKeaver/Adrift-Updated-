@@ -150,7 +150,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DevTools\ImGuiGameComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\DevTools\StepGameUpdateEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DevTools\StatisticsProfiler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\TestRenderGameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

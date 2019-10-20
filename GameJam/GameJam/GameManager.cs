@@ -107,8 +107,7 @@ namespace GameJam
         {
             // Global Content
 
-            //ChangeState(new UIMenuGameState(this));
-            ChangeState(new TestRenderGameState(this));
+            ChangeState(new UIMenuGameState(this));
         }
         
         protected override void Update(GameTime gameTime)
