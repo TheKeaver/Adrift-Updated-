@@ -17,7 +17,7 @@ namespace GameJam
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_feathering", true, CVarFlags.PRESERVE);
-            Create<float>("graphics_feathering_width", 0.15f, CVarFlags.PRESERVE);
+            Create<float>("graphics_feathering_width", 0.2f, CVarFlags.PRESERVE);
 
             /** INPUT **/
             Create<float>("input_controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
