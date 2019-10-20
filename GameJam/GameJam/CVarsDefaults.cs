@@ -9,8 +9,8 @@ namespace GameJam
             /** GENERAL **/
             Create<float>("tick_frequency", 120, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
-            Create<int>("window_width", 960, CVarFlags.PRESERVE);
-            Create<int>("window_height", 600, CVarFlags.PRESERVE);
+            Create<int>("window_width", 1280, CVarFlags.PRESERVE);
+            Create<int>("window_height", 720, CVarFlags.PRESERVE);
             Create<float>("window_initial_aspect_ratio", (float)CVars.Get<int>("window_width") / CVars.Get<int>("window_height"), CVarFlags.PRESERVE);
 
             /** GRAPHICS **/
