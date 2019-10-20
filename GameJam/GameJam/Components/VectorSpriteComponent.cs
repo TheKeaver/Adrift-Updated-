@@ -28,25 +28,6 @@ namespace GameJam.Components
         public abstract VertexPositionColor[] ComputeVertices();
     }
 
-    public class TriangleRenderShape : RenderShape
-    {
-        readonly VertexPositionColor[] _verts;
-
-        public TriangleRenderShape(Vector2 v1, Vector2 v2, Vector2 v3, Color color)
-        {
-            _verts = new VertexPositionColor[] {
-                new VertexPositionColor(new Vector3(v1, 0), color),
-                new VertexPositionColor(new Vector3(v2, 0), color),
-                new VertexPositionColor(new Vector3(v3, 0), color)
-            };
-        }
-
-        public override VertexPositionColor[] ComputeVertices()
-        {
-            return _verts;
-        }
-    }
-
     public class QuadRenderShape : RenderShape
     {
         VertexPositionColor[] _verts;
