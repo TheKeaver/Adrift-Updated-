@@ -217,7 +217,7 @@ namespace GameJam.States
                     if ( playerOneSeat == null && playerTwoSeat == null )
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
-                        // // Both players revert to default visibility (same as above)
+                        // Both players revert to default visibility (same as above)
                     }
                     if ( playerOneSeat != null || playerTwoSeat != null )
                     {

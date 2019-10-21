@@ -205,10 +205,10 @@ namespace GameJam.UI.Widgets
             GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
             if (gamePadButtonDownEvent != null && this.isSelected)
             {
-                /*if (gamePadButtonDownEvent._pressedButton == Buttons.A)
+                if (gamePadButtonDownEvent._pressedButton == Buttons.A)
                 {
                     Action.Invoke();
-                }*/
+                }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft)
                 {
