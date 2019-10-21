@@ -160,7 +160,7 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        ChangeState(new MainGameState(GameManager, players));
+                        ChangeState(new AdriftGameState(GameManager, players));
                     }
                 }
             }
@@ -205,7 +205,7 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        ChangeState(new MainGameState(GameManager, players));
+                        ChangeState(new AdriftGameState(GameManager, players));
                     }
                 }
 

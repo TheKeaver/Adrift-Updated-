@@ -26,7 +26,7 @@ namespace GameJam.States
     /// <summary>
     /// Game state for the main game.
     /// </summary>
-    public class MainGameState : GameState, IEventListener
+    public class AdriftGameState : GameState, IEventListener
     {
         SpriteBatch _spriteBatch;
         Root _root;
@@ -68,7 +68,7 @@ namespace GameJam.States
 
         Player[] PlayerArray;
 
-        public MainGameState(GameManager gameManager, Player[] players)
+        public AdriftGameState(GameManager gameManager, Player[] players)
             : base(gameManager)
         {
             PlayerArray = players;

@@ -152,7 +152,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameShutdownEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\RenderProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\MainGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\AdriftGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIMenuGameState.cs" />

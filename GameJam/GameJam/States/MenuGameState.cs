@@ -55,7 +55,7 @@ namespace GameJam.States
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                ChangeState(new MainGameState(GameManager, players));
+                ChangeState(new AdriftGameState(GameManager, players));
             }
 
             base.OnUpdate(dt);
