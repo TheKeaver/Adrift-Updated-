@@ -10,7 +10,7 @@ using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
-    class UIMenuGameState : GameState, IEventListener
+    class UIMenuGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
         Root _root;
@@ -21,7 +21,7 @@ namespace GameJam.States
             set;
         }
 
-        public UIMenuGameState(GameManager gameManager) : base(gameManager)
+        public UIMenuGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
@@ -86,7 +86,7 @@ namespace GameJam.States
         {
             if(evt is PlayGameButtonPressedEvent)
             {
-                ChangeState(new UILobbyGameState(GameManager));
+                ChangeState(new UILobbyGameState(GameManager, SharedState));
             }
             if(evt is OptionsButtonPressedEvent)
             {

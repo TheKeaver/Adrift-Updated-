@@ -6,7 +6,7 @@ using GameJam.Common;
 
 namespace GameJam.States
 {
-    public class MenuGameState : GameState
+    public class MenuGameState : CommonGameState
     {
         private SpriteBatch _spriteBatch;
 
@@ -15,7 +15,7 @@ namespace GameJam.States
         private int numberOfPlayers = 2;
         private Timer _menuChangeTimer;
 
-        public MenuGameState(GameManager gameManager) : base(gameManager)
+        public MenuGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
         }
 
@@ -55,7 +55,7 @@ namespace GameJam.States
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                ChangeState(new AdriftGameState(GameManager, players));
+                ChangeState(new AdriftGameState(GameManager, SharedState, players));
             }
 
             base.OnUpdate(dt);

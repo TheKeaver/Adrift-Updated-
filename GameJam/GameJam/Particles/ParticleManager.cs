@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Particles
 {
-    public class ParticleManager<T>
+    public class ParticleManager<T> : Process
     {
         Action<Particle, float> _updateParticle;
         CirculateParticleArray _particles;
@@ -56,7 +56,7 @@ namespace GameJam.Particles
 			particle.UserInfo = userInfo;
 		}
 
-		public void Update(float dt)
+		protected override void OnUpdate(float dt)
 		{
 			int removalCount = 0;
 			for (int i = 0; i < _particles.Count; i++)
@@ -96,8 +96,20 @@ namespace GameJam.Particles
 			}
 		}
 
-		#region NESTED CLASSES
-		public class Particle
+        protected override void OnInitialize()
+        {
+        }
+
+        protected override void OnKill()
+        {
+        }
+
+        protected override void OnTogglePause()
+        {
+        }
+
+        #region NESTED CLASSES
+        public class Particle
 		{
 			public Texture2D Texture;
 			public Vector2 Position;

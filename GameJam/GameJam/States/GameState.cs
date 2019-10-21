@@ -1,5 +1,7 @@
 ﻿using System;
+using Events;
 using GameJam.Content;
+using GameJam.Events;
 using GameJam.Processes;
 
 namespace GameJam
@@ -30,6 +32,12 @@ namespace GameJam
 
         protected override void OnInitialize()
         {
+            // Updates the camera and post-processor with the actual screen size
+            // This fixes a bug present in a build of Super Pong
+            // Must be triggered after all listeners are registered
+            EventManager.Instance.TriggerEvent(new ResizeEvent(GameManager.GraphicsDevice.Viewport.Width,
+                                                              GameManager.GraphicsDevice.Viewport.Height));
+
             Content.Locked = true;
         }
 

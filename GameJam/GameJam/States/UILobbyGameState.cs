@@ -9,7 +9,7 @@ using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
-    class UILobbyGameState : GameState, IEventListener
+    class UILobbyGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
         Root _root;
@@ -24,7 +24,7 @@ namespace GameJam.States
             set;
         }
 
-        public UILobbyGameState(GameManager gameManager) : base(gameManager)
+        public UILobbyGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
@@ -133,7 +133,7 @@ namespace GameJam.States
                     // when both players empty - return to menu screen
                     if (playerOneSeat == null && playerTwoSeat == null)
                     {
-                        ChangeState(new UIMenuGameState(GameManager));
+                        ChangeState(new UIMenuGameState(GameManager, SharedState));
                         // Both players revert to default visibility (same as below)
                     }
                     // when player 1 presses B
@@ -160,7 +160,7 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        ChangeState(new AdriftGameState(GameManager, players));
+                        ChangeState(new AdriftGameState(GameManager, SharedState, players));
                     }
                 }
             }
@@ -205,7 +205,7 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        ChangeState(new AdriftGameState(GameManager, players));
+                        ChangeState(new AdriftGameState(GameManager, SharedState, players));
                     }
                 }
 
@@ -214,7 +214,7 @@ namespace GameJam.States
                     // when both players empty - return to menu screen
                     if (playerOneSeat == null && playerTwoSeat == null)
                     {
-                        ChangeState(new UIMenuGameState(GameManager));
+                        ChangeState(new UIMenuGameState(GameManager, SharedState));
                         // // Both players revert to default visibility (same as above)
                     }
                     if (playerOneSeat != null || playerTwoSeat != null)

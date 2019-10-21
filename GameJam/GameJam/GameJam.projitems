@@ -157,6 +157,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIMenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\SharedGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\CommonGameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
