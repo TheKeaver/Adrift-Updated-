@@ -56,8 +56,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\EntityDestructionProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\UIMenuGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
@@ -65,8 +63,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\MainGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\DelegateProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\InstantProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\IntervalProcess.cs" />
@@ -107,8 +103,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
@@ -156,6 +150,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\ParallaxBackgroundComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\ParallaxBackgroundSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameShutdownEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\RenderProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\MainGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\MenuGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\UILobbyGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\UIMenuGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -169,5 +170,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\" />
     <Folder Include="$(MSBuildThisFileDirectory)DevTools\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\DevTools\" />
+    <Folder Include="$(MSBuildThisFileDirectory)States\" />
   </ItemGroup>
 </Project>

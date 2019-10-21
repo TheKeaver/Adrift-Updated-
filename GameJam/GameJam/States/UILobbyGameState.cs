@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Events;
-using GameJam.Events;
 using GameJam.Events.InputHandling;
 using GameJam.Input;
 using GameJam.UI;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using UI.Content.Pipeline;
@@ -32,6 +29,49 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
+        protected override void OnInitialize()
+        {
+            ProcessManager = new ProcessManager();
+
+            _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
+                GameManager.GraphicsDevice.Viewport.Height);
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/LobbyMenu"));
+
+            RegisterEvents();
+            _root.RegisterListeners();
+
+            base.OnInitialize();
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            ProcessManager.Update(dt);
+
+            base.OnUpdate(dt);
+        }
+
+        protected override void OnFixedUpdate(float dt)
+        {
+            base.OnFixedUpdate(dt);
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
+        {
+            _spriteBatch.Begin();
+            _root.Draw(_spriteBatch);
+            _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
+        }
+
+        protected override void OnKill()
+        {
+            _root.UnregisterListeners();
+            UnregisterEvents();
+
+            base.OnKill();
+        }
+
         void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
@@ -41,48 +81,6 @@ namespace GameJam.States
         void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener(this);
-        }
-
-        public override void Initialize()
-        {
-            ProcessManager = new ProcessManager();
-
-            RegisterEvents();
-
-            _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
-                GameManager.GraphicsDevice.Viewport.Height);
-        }
-
-        public override void LoadContent()
-        {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/LobbyMenu"));
-        }
-
-        public override void Show()
-        {
-            _root.RegisterListeners();
-        }
-
-        public override void Hide()
-        {
-            _root.UnregisterListeners();
-        }
-
-        public override void Update(float dt)
-        {
-            ProcessManager.Update(dt);
-        }
-
-        public override void Draw(float dt)
-        {
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
-            _spriteBatch.End();
-        }
-
-        public override void Dispose()
-        {
-            UnregisterEvents();
         }
 
         public bool Handle(IEvent evt)
@@ -135,7 +133,7 @@ namespace GameJam.States
                     // when both players empty - return to menu screen
                     if (playerOneSeat == null && playerTwoSeat == null)
                     {
-                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                        ChangeState(new UIMenuGameState(GameManager));
                         // Both players revert to default visibility (same as below)
                     }
                     // when player 1 presses B
@@ -162,7 +160,7 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        GameManager.ChangeState(new MainGameState(GameManager, players));
+                        ChangeState(new MainGameState(GameManager, players));
                     }
                 }
             }
@@ -207,7 +205,7 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        GameManager.ChangeState(new MainGameState(GameManager, players));
+                        ChangeState(new MainGameState(GameManager, players));
                     }
                 }
 
@@ -216,7 +214,7 @@ namespace GameJam.States
                     // when both players empty - return to menu screen
                     if (playerOneSeat == null && playerTwoSeat == null)
                     {
-                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                        ChangeState(new UIMenuGameState(GameManager));
                         // // Both players revert to default visibility (same as above)
                     }
                     if (playerOneSeat != null || playerTwoSeat != null)

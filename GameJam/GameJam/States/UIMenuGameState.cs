@@ -26,6 +26,49 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
+        protected override void OnInitialize()
+        {
+            ProcessManager = new ProcessManager();
+
+            _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
+                GameManager.GraphicsDevice.Viewport.Height);
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainMenu"));
+
+            RegisterEvents();
+            _root.RegisterListeners();
+
+            base.OnInitialize();
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            ProcessManager.Update(dt);
+
+            base.OnUpdate(dt);
+        }
+
+        protected override void OnFixedUpdate(float dt)
+        {
+            base.OnFixedUpdate(dt);
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
+        {
+            _spriteBatch.Begin();
+            _root.Draw(_spriteBatch);
+            _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
+        }
+
+        protected override void OnKill()
+        {
+            UnregisterEvents();
+            _root.UnregisterListeners();
+
+            base.OnKill();
+        }
+
         void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<PlayGameButtonPressedEvent>(this);
@@ -39,53 +82,11 @@ namespace GameJam.States
             EventManager.Instance.UnregisterListener(this);
         }
 
-        public override void Initialize()
-        {
-            ProcessManager = new ProcessManager();
-
-            RegisterEvents();
-
-            _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
-                GameManager.GraphicsDevice.Viewport.Height);
-        }
-
-        public override void LoadContent()
-        {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainMenu"));
-        }
-
-        public override void Show()
-        {
-            _root.RegisterListeners();
-        }
-
-        public override void Hide()
-        {
-            _root.UnregisterListeners();
-        }
-
-        public override void Update(float dt)
-        {
-            ProcessManager.Update(dt);
-        }
-
-        public override void Draw(float dt)
-        {
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
-            _spriteBatch.End();
-        }
-
-        public override void Dispose()
-        {
-            UnregisterEvents();
-        }
-
         public bool Handle(IEvent evt)
         {
             if(evt is PlayGameButtonPressedEvent)
             {
-                GameManager.ChangeState(new UILobbyGameState(GameManager));
+                ChangeState(new UILobbyGameState(GameManager));
             }
             if(evt is OptionsButtonPressedEvent)
             {

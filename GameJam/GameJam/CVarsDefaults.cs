@@ -25,7 +25,7 @@ namespace GameJam
             Create<int>("input_controller_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("input_controller_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
-            Create<float>("input_shield_angular_speed", 2.513f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("input_shield_angular_speed", 5.026f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<int>("input_keyboard_primary_counter_clockwise", 65, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("input_keyboard_primary_clockwise", 68, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -41,15 +41,15 @@ namespace GameJam
 
             Create<bool>("god", false, CVarFlags.DEV_PRESERVE);
 
-            Create<float>("kamikaze_enemy_speed", 50.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<float>("kamikaze_enemy_rotational_speed", 0.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("kamikaze_enemy_speed", 100.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("kamikaze_enemy_rotational_speed", 1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("kamikaze_size", 3, CVarFlags.DEV_PRESERVE);
-            Create<float>("enemy_pushback_force", 60.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("enemy_pushback_force", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("shooting_enemy_size", 4, CVarFlags.DEV_PRESERVE);
             Create<float>("shooting_enemy_speed", 0, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<float>("shooting_enemy_rotational_speed", 1.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<float>("shooting_enemy_projectile_speed", 60.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("shooting_enemy_rotational_speed", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("shooting_enemy_projectile_speed", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("shooting_enemy_projectile_bounces", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("shooting_enemy_projectile_ammo", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
@@ -80,7 +80,7 @@ namespace GameJam
             Create<float>("spawner_min_distance_away_from_player", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("spawner_max_enemy_count", 50, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
-            Create<float>("laser_enemy_rotational_speed", 1.5f, CVarFlags.DEV_PRESERVE);
+            Create<float>("laser_enemy_rotational_speed", 3f, CVarFlags.DEV_PRESERVE);
             Create<float>("laser_enemy_size", 4f, CVarFlags.DEV_PRESERVE);
             Create<float>("laser_enemy_warm_up_anim_duration", 0.1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("laser_enemy_warm_up_duration", 2, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);

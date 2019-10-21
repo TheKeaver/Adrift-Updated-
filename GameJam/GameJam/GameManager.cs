@@ -4,6 +4,7 @@ using GameJam.DevTools;
 using GameJam.Events;
 using GameJam.Events.DevTools;
 using GameJam.Events.InputHandling;
+using GameJam.Processes;
 using GameJam.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +24,11 @@ namespace GameJam
         GamePadListener _gamePadListener;
         KeyboardListener _keyboardListener;
 
-        GameState _currentState;
+        public ProcessManager ProcessManager
+        {
+            get;
+            private set;
+        }
 
 #if DEBUG
         StatisticsProfiler _statisticsProfiler;
@@ -38,6 +43,8 @@ namespace GameJam
         public GameManager()
         {
             CVars.Initialize();
+
+            ProcessManager = new ProcessManager();
 
             Window.Title = "Adrift";
 
@@ -108,7 +115,7 @@ namespace GameJam
         {
             // Global Content
 
-            ChangeState(new UIMenuGameState(this));
+            ProcessManager.Attach(new UIMenuGameState(this));
         }
         
         protected override void Update(GameTime gameTime)
@@ -133,10 +140,7 @@ namespace GameJam
         {
             EventManager.Instance.Dispatch();
 
-            if (_currentState != null)
-            {
-                _currentState.Update(dt);
-            }
+            ProcessManager.Update(dt);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -149,11 +153,15 @@ namespace GameJam
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
-            if (_currentState != null)
+            foreach(Process process in ProcessManager.Processes)
             {
-                _currentState.Draw((float)gameTime.ElapsedGameTime.TotalSeconds
-                    * CVars.Get<float>("debug_update_time_scale")
-                    * (CVars.Get<bool>("debug_pause_game_updates") ? 0 : 1));
+                RenderProcess renderProcess = process as RenderProcess;
+                if(renderProcess != null)
+                {
+                    renderProcess.Render((float)gameTime.ElapsedGameTime.TotalSeconds
+                        * CVars.Get<float>("debug_update_time_scale")
+                        * (CVars.Get<bool>("debug_pause_game_updates") ? 0 : 1));
+                }
             }
 
 #if DEBUG
@@ -168,23 +176,6 @@ namespace GameJam
             UnregisterEvents();
 
             base.UnloadContent();
-        }
-
-        public void ChangeState(GameState nextState)
-        {
-            if (_currentState != null)
-            {
-                _currentState.Hide();
-                _currentState.UnloadContent();
-                _currentState.Dispose();
-            }
-
-            _currentState = nextState;
-            _currentState.Initialize();
-
-            _currentState.LoadContent();
-            _currentState.Content.Locked = true;
-            _currentState.Show();
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)

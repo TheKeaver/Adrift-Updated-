@@ -1,12 +1,13 @@
 ﻿using System;
 using GameJam.Content;
+using GameJam.Processes;
 
 namespace GameJam
 {
     /// <summary>
     /// A state of the game that can be switched between other states.
     /// </summary>
-    public abstract class GameState : IDisposable
+    public abstract class GameState : RenderProcess
     {
         protected GameManager GameManager
         {
@@ -27,23 +28,43 @@ namespace GameJam
             Content.RootDirectory = "Content";
         }
 
-        public abstract void Initialize();
+        protected override void OnInitialize()
+        {
+            Content.Locked = true;
+        }
 
-        public abstract void LoadContent();
+        protected override void OnUpdate(float dt)
+        {
+            base.OnUpdate(dt);
+        }
 
-        public void UnloadContent()
+        protected override void OnFixedUpdate(float dt)
+        {
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
+        {
+        }
+
+        protected override void OnKill()
+        {
+            UnloadContent();
+        }
+
+        private void UnloadContent()
         {
             Content.Unload();
         }
 
-        public abstract void Show();
+        protected override void OnTogglePause()
+        {
+        }
 
-        public abstract void Hide();
+        protected void ChangeState(GameState gameState)
+        {
+            SetNext(gameState);
+            Kill();
+        }
 
-        public abstract void Update(float dt);
-
-        public abstract void Draw(float dt);
-
-        public abstract void Dispose();
     }
 }

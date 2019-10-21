@@ -52,8 +52,6 @@ namespace GameJam.States
             private set;
         }
 
-        float _acculmulator;
-
         BaseSystem[] _systems;
 
         RenderSystem _renderSystem;
@@ -77,18 +75,7 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
-        void RegisterEvents()
-        {
-            EventManager.Instance.RegisterListener<IncreasePlayerScoreEvent>(this);
-            EventManager.Instance.RegisterListener<GameOverEvent>(this);
-        }
-
-        void UnregisterEvents()
-        {
-            EventManager.Instance.UnregisterListener(this);
-        }
-
-        public override void Initialize()
+        protected override void OnInitialize()
         {
             ProcessManager = new ProcessManager();
 
@@ -111,7 +98,146 @@ namespace GameJam.States
             ProcessManager.Attach(new LaserEnemySpawner(Engine, ProcessManager));
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
+
+            LoadContent();
+
+            CreateEntities();
+
+            _root.RegisterListeners();
             RegisterEvents();
+
+            // Updates the camera and post-processor with the actual screen size
+            // This fixes a bug present in a build of Super Pong
+            // Must be triggered after all listeners are registered
+            EventManager.Instance.TriggerEvent(new ResizeEvent(GameManager.GraphicsDevice.Viewport.Width,
+                                                              GameManager.GraphicsDevice.Viewport.Height));
+            base.OnInitialize();
+        }
+
+        private void LoadContent()
+        {
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainGameStateUI"));
+
+            Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
+
+            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_0"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_1"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_2"));
+            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_3"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_4"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_5"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_6"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_7"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_8"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_9"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_10"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_11"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_12"));
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_13"));
+
+            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_parallax_test"));
+
+            Content.Load<Texture2D>(CVars.Get<string>("texture_title_without_instructions"));
+
+            Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
+            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
+            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
+
+            Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
+
+            Content.Load<Effect>(CVars.Get<string>("effect_blur"));
+            Bloom bloom = new Bloom(AdriftPostProcessor, GameManager.Content);
+            bloom.Radius = 1.5f;
+            AdriftPostProcessor.Effects.Add(bloom);
+
+            _fxaaPPE = new FXAA(AdriftPostProcessor, Content);
+            AdriftPostProcessor.Effects.Add(_fxaaPPE);
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            ProcessManager.Update(dt);
+            VelocityParticleManager.Update(dt);
+
+            base.OnUpdate(dt);
+        }
+
+        protected override void OnFixedUpdate(float dt)
+        {
+            for (int i = 0; i < _systems.Length; i++)
+            {
+                _systems[i].Update(dt);
+            }
+
+            base.OnFixedUpdate(dt);
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
+        {
+            _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
+
+            GameManager.GraphicsDevice.Clear(Color.Black);
+
+            AdriftPostProcessor.Begin();
+            {
+                _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
+                                            Constants.Render.RENDER_GROUP_GAME_ENTITIES,
+                                            dt,
+                                            betweenFrameAlpha);
+                _renderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    _mainCamera.TransformMatrix);
+                VelocityParticleManager.Draw(_renderSystem.SpriteBatch);
+                _renderSystem.SpriteBatch.End();
+            }
+            // We have to defer drawing the post-processor results
+            // because of unexpected behavior within MonoGame.
+            RenderTarget2D postProcessing = AdriftPostProcessor.End(false);
+
+            // Stars
+            _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
+                                        Constants.Render.RENDER_GROUP_STARS,
+                                        dt,
+                                        betweenFrameAlpha); // Stars
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(postProcessing,
+                postProcessing.Bounds,
+                Color.White); // Post-processing results
+            _root.Draw(_spriteBatch); // UI
+            _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
+        }
+
+        protected override void OnKill()
+        {
+            // Remove listeners
+            UnregisterEvents();
+            _root.UnregisterListeners();
+            _mainCamera.UnregisterEvents();
+            AdriftPostProcessor.UnregisterEvents();
+
+            for (int i = 0; i < _directors.Length; i++)
+            {
+                _directors[i].UnregisterEvents();
+            }
+
+            base.OnKill();
+        }
+
+        void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<IncreasePlayerScoreEvent>(this);
+            EventManager.Instance.RegisterListener<GameOverEvent>(this);
+        }
+
+        void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
         }
 
         void InitSystems()
@@ -154,62 +280,6 @@ namespace GameJam.States
             {
                 _directors[i].RegisterEvents();
             }
-        }
-
-        public override void Hide()
-        {
-            _root.UnregisterListeners();
-        }
-
-        public override void LoadContent()
-        {
-            Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
-
-            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_0"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_1"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_2"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_3"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_4"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_5"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_6"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_7"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_8"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_9"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_10"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_11"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_12"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_13"));
-
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_parallax_test"));
-
-            Content.Load<Texture2D>(CVars.Get<string>("texture_title_without_instructions"));
-
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
-
-            Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
-
-            Content.Load<Effect>(CVars.Get<string>("effect_blur"));
-
-            Bloom bloom = new Bloom(AdriftPostProcessor, GameManager.Content);
-            bloom.Radius = 1.5f;
-            AdriftPostProcessor.Effects.Add(bloom);
-
-            _fxaaPPE = new FXAA(AdriftPostProcessor, Content);
-            AdriftPostProcessor.Effects.Add(_fxaaPPE);
-
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainGameStateUI"));
-        }
-
-        public override void Show()
-        {
-            CreateEntities();
-
-            // Updates the camera and post-processor with the actual screen size
-            // This fixes a bug present in a build of Super Pong
-            EventManager.Instance.TriggerEvent(new ResizeEvent(GameManager.GraphicsDevice.Viewport.Width,
-                                                              GameManager.GraphicsDevice.Viewport.Height));
         }
 
         void CreateEntities()
@@ -258,78 +328,6 @@ namespace GameJam.States
             //    Vector2.Zero, 0.55f);
         }
 
-        public override void Update(float dt)
-        {
-            ProcessManager.Update(dt);
-
-            _acculmulator += dt;
-            while (_acculmulator >= 1 / CVars.Get<float>("tick_frequency"))
-            {
-                _acculmulator -= 1 / CVars.Get<float>("tick_frequency");
-
-                for (int i = 0; i < _systems.Length; i++)
-                {
-                    _systems[i].Update(dt);
-                }
-            }
-
-            VelocityParticleManager.Update(dt);
-        }
-
-        public override void Draw(float dt)
-        {
-            float betweenFrameAlpha = _acculmulator / (1 / CVars.Get<float>("tick_frequency"));
-
-            _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
-
-            GameManager.GraphicsDevice.Clear(Color.Black);
-
-            AdriftPostProcessor.Begin();
-            {
-                _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
-                                            Constants.Render.RENDER_GROUP_GAME_ENTITIES,
-                                            dt,
-                                            betweenFrameAlpha);
-                _renderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    _mainCamera.TransformMatrix);
-                VelocityParticleManager.Draw(_renderSystem.SpriteBatch);
-                _renderSystem.SpriteBatch.End();
-            }
-            // We have to defer drawing the post-processor results
-            // because of unexpected behavior within MonoGame.
-            RenderTarget2D postProcessing = AdriftPostProcessor.End(false);
-
-            // Stars
-            _renderSystem.DrawEntities(_mainCamera.TransformMatrix,
-                                        Constants.Render.RENDER_GROUP_STARS,
-                                        dt,
-                                        betweenFrameAlpha); // Stars
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(postProcessing,
-                postProcessing.Bounds,
-                Color.White); // Post-processing results
-            _root.Draw(_spriteBatch); // UI
-            _spriteBatch.End();
-        }
-
-        public override void Dispose()
-        {
-            // Remove listeners
-            UnregisterEvents();
-            _mainCamera.UnregisterEvents();
-            AdriftPostProcessor.UnregisterEvents();
-
-            for (int i = 0; i < _directors.Length; i++)
-            {
-                _directors[i].UnregisterEvents();
-            }
-        }
-
         public bool Handle(IEvent evt)
         {
             if (evt is GameOverEvent)
@@ -353,7 +351,7 @@ namespace GameJam.States
 
             ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3)).SetNext(new DelegateCommand(() =>
             {
-                GameManager.ChangeState(new UIMenuGameState(GameManager));
+                ChangeState(new UIMenuGameState(GameManager));
             }));
         }
 

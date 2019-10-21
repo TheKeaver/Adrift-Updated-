@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Events;
-using GameJam.Events;
 using GameJam.Events.UI;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,58 +25,45 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
-        void RegisterEvents()
-        {
-            EventManager.Instance.RegisterListener<TestButtonPressedEvent>(this);
-        }
-        void UnregisterEvents()
-        {
-            EventManager.Instance.UnregisterListener(this);
-        }
-
-        public override void Initialize()
+        protected override void OnInitialize()
         {
             ProcessManager = new ProcessManager();
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
 
             RegisterEvents();
 
             ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
-        }
 
-        public override void LoadContent()
-        {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
-        }
-
-
-        public override void Show()
-        {
             _root.RegisterListeners();
+
+            base.OnInitialize();
         }
 
-        public override void Hide()
-        {
-            _root.UnregisterListeners();
-        }
-
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             ProcessManager.Update(dt);
+
+            base.OnUpdate(dt);
         }
 
-        public override void Draw(float dt)
+        protected override void OnRender(float dt, float betweenFrameAlpha)
         {
             _spriteBatch.Begin();
             _root.Draw(_spriteBatch);
             _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
         }
 
-        public override void Dispose()
+        protected override void OnKill()
         {
             UnregisterEvents();
+            _root.UnregisterListeners();
+
+            base.OnKill();
         }
 
         public bool Handle(IEvent evt)
@@ -113,6 +99,15 @@ namespace GameJam.States
             {
                 Root.FindWidgetByID(ID).Hidden = !Root.FindWidgetByID(ID).Hidden;
             }
+        }
+
+        void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<TestButtonPressedEvent>(this);
+        }
+        void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
         }
     }
 }
