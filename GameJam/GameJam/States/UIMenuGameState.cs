@@ -4,9 +4,7 @@ using Events;
 using GameJam.Events;
 using GameJam.Events.InputHandling;
 using GameJam.Events.UI;
-using GameJam.Input;
 using GameJam.UI;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Content.Pipeline;
 
@@ -87,7 +85,6 @@ namespace GameJam.States
         {
             if(evt is PlayGameButtonPressedEvent)
             {
-                Console.WriteLine("Play Game Pressed");
                 GameManager.ChangeState(new UILobbyGameState(GameManager));
             }
             if(evt is OptionsButtonPressedEvent)
@@ -96,7 +93,7 @@ namespace GameJam.States
             }
             if(evt is QuitGameButtonPressedEvent)
             {
-                Console.WriteLine("Quit Game Pressed");
+                EventManager.Instance.QueueEvent(new GameShutdownEvent());
             }
             return false;
         }

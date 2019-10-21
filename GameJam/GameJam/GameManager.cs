@@ -97,6 +97,7 @@ namespace GameJam
         private void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<StepGameUpdateEvent>(this);
+            EventManager.Instance.RegisterListener<GameShutdownEvent>(this);
         }
         private void UnregisterEvents()
         {
@@ -261,6 +262,11 @@ namespace GameJam
             if(evt is StepGameUpdateEvent)
             {
                 Update(CVars.Get<float>("debug_game_step_period"));
+            }
+
+            if(evt is GameShutdownEvent)
+            {
+                Exit();
             }
 
             return false;

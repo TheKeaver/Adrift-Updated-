@@ -155,6 +155,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PulseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ParallaxBackgroundComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\ParallaxBackgroundSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameShutdownEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
