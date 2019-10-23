@@ -2,6 +2,7 @@ using Audrey;
 using Events;
 using GameJam.Components;
 using GameJam.Entities;
+using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using GameJam.Processes;
 using GameJam.Processes.Animation;
@@ -155,14 +156,40 @@ namespace GameJam.States
 
         private void HandleGameOverEvent(GameOverEvent gameOverEvent)
         {
+            ProcessManager.KillAll();
+
+            // Explode all entities
+            ImmutableList<Entity> explosionEntities = SharedState.Engine.GetEntitiesFor(Family
+                .All(typeof(TransformComponent), typeof(ColoredExplosionComponent))
+                .One(typeof(PlayerShipComponent),
+                    typeof(PlayerShieldComponent),
+                    typeof(EnemyComponent),
+                    typeof(EdgeComponent))
+                .Get());
+            foreach(Entity entity in explosionEntities)
+            {
+                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                ColoredExplosionComponent coloredExplosionComp = entity.GetComponent<ColoredExplosionComponent>();
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(transformComp.Position,
+                    coloredExplosionComp.Color,
+                    false));
+            }
+
+            // Destroy all entities
+            SharedState.Engine.DestroyEntitiesFor(Family.One(typeof(PlayerShipComponent),
+                typeof(PlayerShieldComponent),
+                typeof(EnemyComponent),
+                typeof(EdgeComponent)).Get());
+
             // TODO: Game Over Process
             Entity gameOverText = SharedState.Engine.CreateEntity();
             gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<int>("window_height") / 2)));
             gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>(CVars.Get<string>("font_game_over")), "Game Over"));
-
-            ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3)).SetNext(new DelegateCommand(() =>
+            ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3))
+                .SetNext(new EntityDestructionProcess(SharedState.Engine, gameOverText))
+                .SetNext(new DelegateCommand(() =>
             {
-                ChangeState(new UIMenuGameState(GameManager, SharedState));
+                ChangeState(new UILobbyGameState(GameManager, SharedState));
             }));
         }
 
