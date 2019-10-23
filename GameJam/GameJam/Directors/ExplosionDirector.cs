@@ -53,18 +53,17 @@ namespace GameJam.Directors
                 float speed = CVars.Get<float>("particle_explosion_strength")
                     * _random.NextSingle(CVars.Get<float>("particle_explosion_variety_min"), CVars.Get<float>("particle_explosion_variety_max"));
                 float dir = _random.NextSingle(0, MathHelper.TwoPi);
-                VelocityParticleInfo info = new VelocityParticleInfo()
-                {
-                    Velocity = new Vector2((float)(speed * Math.Cos(dir)), (float)(speed * Math.Sin(dir))),
-                    LengthMultiplier = 1f
-                };
 
-                _particleManager.CreateParticle(_particleTexture,
-                                                        explosionLocation * new Vector2(1, -1), // For various reasons, ParticleManager is flipped
+                ref VelocityParticleInfo info = ref _particleManager.CreateParticle(_particleTexture,
+                                                        explosionLocation.X,
+                                                        -explosionLocation.Y, // For various reasons, ParticleManager is flipped
                                                         color,
                                                         CVars.Get<float>("particle_explosion_duration"),
-                                                        new Vector2(1, 0.5f),
-                                                        info);
+                                                        1,
+                                                        0.5f);
+                info.Velocity.X = (float)(speed * Math.Cos(dir));
+                info.Velocity.Y = (float)(speed * Math.Sin(dir));
+                info.LengthMultiplier = 1f;
             }
         }
     }
