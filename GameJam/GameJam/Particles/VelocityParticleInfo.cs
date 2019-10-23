@@ -19,7 +19,7 @@ namespace GameJam.Particles
             float alpha = Math.Min(1, Math.Min(particle.PercentLife * 2, speed * dt));
             alpha *= alpha;
 
-            particle.Color.A = (byte)(255 * alpha);
+            particle.Color.A = (byte)(255 * alpha); // This worked in LibGDX but not in MonoGame; probably won't fix
 
             particle.Scale.X = particle.UserInfo.LengthMultiplier * Math.Min(Math.Min(1, 0.2f * speed * dt + 0.1f), alpha);
 
