@@ -93,6 +93,7 @@ namespace GameJam.States
             if(evt is OptionsButtonPressedEvent)
             {
                 Console.WriteLine("Options Pressed");
+                GameManager.ChangeState(new UIOptionsGameState(GameManager));
             }
             if(evt is QuitGameButtonPressedEvent)
             {

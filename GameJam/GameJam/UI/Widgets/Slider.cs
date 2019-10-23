@@ -209,6 +209,11 @@ namespace GameJam.UI.Widgets
                 {
                     Action.Invoke();
                 }
+                // This is likely bad news
+                if (gamePadButtonDownEvent._pressedButton == Buttons.B)
+                {
+                    this.isSelected = false;
+                }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft)
                 {

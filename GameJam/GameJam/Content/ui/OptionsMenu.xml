@@ -11,7 +11,7 @@
       id="options_menu_left_panel">
       <Button
         id="Display"
-        aboveID="Speed"
+        aboveID="GameSettings"
         leftID=""
         rightID=""
         belowID="Controls"
@@ -19,7 +19,7 @@
         halign="center"
         valign="top"
         horizontal="0"
-        vertical="-5%"
+        vertical="5%"
         width="80%"
         height="20%"
         released-image="texture_ui_button_released"
@@ -45,12 +45,12 @@
         aboveID="Display"
         leftID=""
         rightID=""
-        belowID="Difficulty"
+        belowID="GameSettings"
         defaultSelected="false"
         halign="center"
         valign="top"
         horizontal="0"
-        vertical="-30%"
+        vertical="30%"
         width="80%"
         height="20%"
         released-image="texture_ui_button_released"
@@ -67,21 +67,21 @@
             vertical="0"
             width="90%"
             height="90%"
-            content="Display"
+            content="Controls"
             font="font_game_over"
             />
       </Button>
       <Button
-        id="Difficulty"
+        id="GameSettings"
         aboveID="Controls"
         leftID=""
         rightID=""
-        belowID="Speed"
+        belowID="Display"
         defaultSelected="false"
         halign="center"
-        valign="bottom"
+        valign="top"
         horizontal="0"
-        vertical="30%"
+        vertical="55%"
         width="80%"
         height="20%"
         released-image="texture_ui_button_released"
@@ -90,7 +90,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.DifficultySettingsButtonPressedEvent">
+        onclick="queue:UI.GameSettingsButtonPressedEvent">
         <Label
             halign="center"
             valign="center"
@@ -98,11 +98,11 @@
             vertical="0"
             width="90%"
             height="90%"
-            content="Difficulty"
+            content="Game Settings"
             font="font_game_over"
             />
       </Button>
-      <Button
+      <!--<Button
         id="Speed"
         aboveID="Difficulty"
         leftID=""
@@ -132,7 +132,7 @@
             content="Speed"
             font="font_game_over"
             />
-      </Button>
+      </Button> -->
     </Panel>
     <!-- End of left-hand side panel -->
     
@@ -144,7 +144,7 @@
         vertical="0"
         width="40%"
         height="75%"
-        id="options_menu_right_panel"
+        id="display_options_menu_right_panel"
         hidden="true">
         <!-- Beginning of Full/Windowed/Borderless options sub menu (Full, Window, Borderless) -->
         <Button
@@ -153,7 +153,7 @@
           leftID="BorderlessWindow"
           rightID="Windowed"
           belowID=""
-          defaultSelected="true"
+          defaultSelected="false"
           halign="center"
           valign="top"
           horizontal="0"
@@ -248,7 +248,7 @@
           leftID="Off"
           rightID="Feathering"
           belowID=""
-          defaultSelected="true"
+          defaultSelected="false"
           halign="center"
           valign="top"
           horizontal="0"
@@ -269,7 +269,7 @@
               vertical="0"
               width="90%"
               height="90%"
-              content="FXAA"
+              content="Anti-Alias: FXAA"
               font="font_game_over"
               />
         </Button>
@@ -300,7 +300,7 @@
               vertical="0"
               width="90%"
               height="90%"
-              content="Feathering"
+              content="Anti-Alias: Feathering"
               font="font_game_over"
               />
         </Button>
@@ -331,16 +331,166 @@
               vertical="0"
               width="90%"
               height="90%"
-              content="Off"
+              content="Anti-Alias: Off"
               font="font_game_over"
               />
         </Button>
         <!-- End of Anti-Aliasing options sub menu (Off, FXAA, Feathering) -->
     </Panel>
     <!-- End of Display right-hand side panel -->
+     
+    <!-- Beginning of Controls Right Side Panel -->
+    <Panel
+        halign="center"
+        valign="center"
+        horizontal="25%"
+        vertical="0"
+        width="40%"
+        height="75%"
+        id="controls_options_menu_right_panel"
+        hidden="true">
+        <!-- Rotate Left Button -->
+        <Button
+          id="Rotate_Left"
+          aboveID="Rotate_Right"
+          leftID=""
+          rightID=""
+          belowID="Rotate_Right"
+          defaultSelected="false"
+          halign="center"
+          valign="top"
+          horizontal="0"
+          vertical="5%"
+          width="80%"
+          height="20%"
+          released-image="texture_ui_button_released"
+          released-thickness="4,4,4,4"
+          hover-image="texture_ui_button_hover"
+          hover-thickness="4,4,4,4"
+          pressed-image="texture_ui_button_pressed"
+          pressed-thickness="4,4,4,4"
+          onclick="queue:UI.RotateLeftSettingsButtonPressedEvent">
+          <Label
+              halign="left"
+              valign="center"
+              horizontal="0"
+              vertical="0"
+              width="90%"
+              height="90%"
+              content="Rotate Left:"
+              font="font_game_over"
+              />
+          <!-- Place Image In button to allow for display of currently bound button -->
+        </Button>
+        <Button
+          id="Rotate_Right"
+          aboveID="Rotate_Left"
+          leftID=""
+          rightID=""
+          belowID="Rotate_Left"
+          defaultSelected="false"
+          halign="center"
+          valign="top"
+          horizontal="0"
+          vertical="30%"
+          width="80%"
+          height="20%"
+          released-image="texture_ui_button_released"
+          released-thickness="4,4,4,4"
+          hover-image="texture_ui_button_hover"
+          hover-thickness="4,4,4,4"
+          pressed-image="texture_ui_button_pressed"
+          pressed-thickness="4,4,4,4"
+          onclick="queue:UI.RotateRightSettingsButtonPressedEvent">
+          <Label
+              halign="left"
+              valign="center"
+              horizontal="0"
+              vertical="0"
+              width="90%"
+              height="90%"
+              content="Rotate Right:"
+              font="font_game_over"
+              />
+          <!-- Place Image In button to allow for display of currently bound button -->
+        </Button>
+        <!-- Future Buttons can add other controls as necessary starting here -->
+    </Panel>
+    <!-- End of Controls Right Side Panel -->
     
-    <!-- TO DO: Make Controls Right Side Panel -->
-    <!-- TO DO: Make Difficulty Right Side Panel -->
-    <!-- TO DO: Make Speed Right Side Panel -->
+    <!-- Beginning of Game Settings Right Side Panel -->
+    <Panel
+        halign="center"
+        valign="center"
+        horizontal="25%"
+        vertical="0"
+        width="40%"
+        height="75%"
+        id="game_options_menu_right_panel"
+        hidden="true">
+        <Button
+            id="Speed"
+            aboveID="Difficulty"
+            leftID=""
+            rightID=""
+            belowID="Difficulty"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="5%"
+            width="80%"
+            height="20%"
+            released-image="texture_ui_button_released"
+            released-thickness="4,4,4,4"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="4,4,4,4"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="4,4,4,4"
+            onclick="queue:UI.SpeedSettingsButtonPressedEvent">
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="90%"
+                height="90%"
+                content="Speed:"
+                font="font_game_over"
+                />
+          </Button>
+          <Button
+            id="Difficulty"
+            aboveID="Speed"
+            leftID=""
+            rightID=""
+            belowID="Speed"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="30%"
+            width="80%"
+            height="20%"
+            released-image="texture_ui_button_released"
+            released-thickness="4,4,4,4"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="4,4,4,4"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="4,4,4,4"
+            onclick="queue:UI.DifficultySettingsButtonPressedEvent">
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="90%"
+                height="90%"
+                content="Difficulty:"
+                font="font_game_over"
+                />
+          </Button>
+    </Panel>
+    <!-- End of Game Settings Right Side Panel -->
   </Widgets>
 </UI>

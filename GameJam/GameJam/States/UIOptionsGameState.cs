@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Events;
 using GameJam.Events.InputHandling;
 using GameJam.Events.UI;
-using GameJam.Input;
 using GameJam.UI;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,8 +37,10 @@ namespace GameJam.States
 
             EventManager.Instance.RegisterListener<DisplaySettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<ControlsSettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<DifficultySettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<GameSettingsButtonPressedEvent>(this);
+
             EventManager.Instance.RegisterListener<SpeedSettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<DifficultySettingsButtonPressedEvent>(this);
         }
 
         void UnregisterEvents()
@@ -97,36 +98,42 @@ namespace GameJam.States
             {
                 isOnLeftSide = false;
                 leftSideIndex = 0;
+                Console.WriteLine("displaySBPE");
                 ((Button)_root.FindWidgetByID("Display")).isSelected = false;
-                // Default selected of right side .Hidden = false;
-                // Default selected of right side .isSelected = true;
+                ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = false;
+                ((Button)_root.FindWidgetByID("FullScreen")).isSelected = true;
             }
             ControlsSettingsButtonPressedEvent controlsSBPE = evt as ControlsSettingsButtonPressedEvent;
             if (controlsSBPE != null)
             {
                 isOnLeftSide = false;
                 leftSideIndex = 1;
+                Console.WriteLine("controlSBPE");
                 ((Button)_root.FindWidgetByID("Controls")).isSelected = false;
-                // Default selected of right side .Hidden = false;
-                // Default selected of right side .isSelected = true;
+                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = false;
+                ((Button)_root.FindWidgetByID("Rotate_Left")).isSelected = true;
             }
-            DifficultySettingsButtonPressedEvent difficultySBPE = evt as DifficultySettingsButtonPressedEvent;
-            if (difficultySBPE != null)
+            GameSettingsButtonPressedEvent gameSBPE = evt as GameSettingsButtonPressedEvent;
+            if( gameSBPE != null )
             {
                 isOnLeftSide = false;
                 leftSideIndex = 2;
-                ((Button)_root.FindWidgetByID("Difficulty")).isSelected = false;
-                // Default selected of right side .Hidden = false;
-                // Default selected of right side .isSelected = true;
+                Console.WriteLine("gameSBPE");
+                ((Button)_root.FindWidgetByID("GameSettings")).isSelected = false;
+                ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = false;
+                ((Button)_root.FindWidgetByID("Speed")).isSelected = true;
             }
             SpeedSettingsButtonPressedEvent speedSBPE = evt as SpeedSettingsButtonPressedEvent;
-            if (speedSBPE != null)
+            if( speedSBPE != null )
             {
-                isOnLeftSide = false;
-                leftSideIndex = 3;
-                ((Button)_root.FindWidgetByID("Speed")).isSelected = false;
-                // Default selected of right side .Hidden = false;
-                // Default selected of right side .isSelected = true;
+                Console.WriteLine("speedSBPE");
+                // Save settings to the speed set by the player by modifying the cvars
+            }
+            DifficultySettingsButtonPressedEvent difficultySBPE = evt as DifficultySettingsButtonPressedEvent;
+            if( difficultySBPE != null )
+            {
+                Console.WriteLine("difficultySBPE");
+                // Save settings to the spawn rate set by the player by modifying the cvars
             }
 
             GamePadButtonDownEvent gpbde = evt as GamePadButtonDownEvent;
@@ -142,29 +149,23 @@ namespace GameJam.States
                                 ((Button)_root.FindWidgetByID("Display")).isSelected = true;
                                 isOnLeftSide = true;
                                 // Deslection of button/slider should be handled in the button/slider class
-                                // Right side .Hidden = true;
+                                ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = true;
                                 break;
                             case 1:
                                 ((Button)_root.FindWidgetByID("Controls")).isSelected = true;
                                 isOnLeftSide = true;
                                 // Deslection of button/slider should be handled in the button/slider class
-                                // Right side .Hidden = true;
+                                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = true;
                                 break;
                             case 2:
-                                ((Button)_root.FindWidgetByID("Difficulty")).isSelected = true;
+                                ((Button)_root.FindWidgetByID("GameSettings")).isSelected = true;
                                 isOnLeftSide = true;
                                 // Deslection of button/slider should be handled in the button/slider class
-                                // Right side .Hidden = true;
-                                break;
-                            case 3:
-                                ((Button)_root.FindWidgetByID("Speed")).isSelected = true;
-                                isOnLeftSide = true;
-                                // Deslection of button/slider should be handled in the button/slider class
-                                // Right side .Hidden = true;
+                                ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
                                 break;
                         }
                     }
-                    if ( isOnLeftSide == true )
+                    if( isOnLeftSide == true )
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
                     }
@@ -176,7 +177,7 @@ namespace GameJam.States
             {
                 if( kbkde._keyPressed == Keys.Escape )
                 {
-                    if (isOnLeftSide == false)
+                    if( isOnLeftSide == false )
                     {
                         switch (leftSideIndex)
                         {
@@ -184,29 +185,23 @@ namespace GameJam.States
                                 ((Button)_root.FindWidgetByID("Display")).isSelected = true;
                                 isOnLeftSide = true;
                                 // Deslection of button/slider should be handled in the button/slider class
-                                // Right side .Hidden = true;
+                                ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = true;
                                 break;
                             case 1:
                                 ((Button)_root.FindWidgetByID("Controls")).isSelected = true;
                                 isOnLeftSide = true;
                                 // Deslection of button/slider should be handled in the button/slider class
-                                // Right side .Hidden = true;
+                                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = true;
                                 break;
                             case 2:
-                                ((Button)_root.FindWidgetByID("Difficulty")).isSelected = true;
+                                ((Button)_root.FindWidgetByID("GameSettings")).isSelected = true;
                                 isOnLeftSide = true;
                                 // Deslection of button/slider should be handled in the button/slider class
-                                // Right side .Hidden = true;
-                                break;
-                            case 3:
-                                ((Button)_root.FindWidgetByID("Speed")).isSelected = true;
-                                isOnLeftSide = true;
-                                // Deslection of button/slider should be handled in the button/slider class
-                                // Right side .Hidden = true;
+                                ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
                                 break;
                         }
                     }
-                    if (isOnLeftSide == true)
+                    if( isOnLeftSide == true )
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
                     }

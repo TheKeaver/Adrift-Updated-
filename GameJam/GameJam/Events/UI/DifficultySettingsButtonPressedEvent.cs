@@ -2,7 +2,7 @@
 
 namespace GameJam.Events.UI
 {
-    class DifficultySettingsButtonPressedEvent : IEvent
+    public class DifficultySettingsButtonPressedEvent : IEvent
     {
     }
 }

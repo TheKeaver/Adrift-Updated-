@@ -14,8 +14,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\IncreasePlayerScoreEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\KeyboardKeyDownEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\SpeedSettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\DifficultySettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\SpeedSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\GameSettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\ControlsSettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\DisplaySettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Blur.cs" />
