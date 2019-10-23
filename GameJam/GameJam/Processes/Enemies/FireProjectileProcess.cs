@@ -2,7 +2,6 @@ using Audrey;
 using Events;
 using GameJam.Components;
 using GameJam.Entities;
-using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using Microsoft.Xna.Framework;
 using System;
@@ -43,6 +42,7 @@ namespace GameJam.Processes.Enemies
             TransformComponent projectileTransformComp = projectile.GetComponent<TransformComponent>();
             Vector2 projectilePosition = shootingEnemyDirection * (_shootingEnemyTip * transformComp.Scale + _projectileLength * projectileTransformComp.Scale + _errorBuffer) + transformComp.Position;
             projectileTransformComp.SetPosition(projectilePosition);
+            projectileTransformComp.SetRotation(transformComp.Rotation);
 
             EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
             ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft -= 1;
