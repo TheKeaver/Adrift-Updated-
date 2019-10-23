@@ -1,14 +1,5 @@
 <UI>
     <Widgets>
-      <Image
-            halign="center"
-            valign="center"
-            horizontal="0"
-            vertical="0"
-            width="100%"
-            height="100%"
-            image="texture_title_without_instructions"
-            />
       <Button
             id="Play"
             aboveID=""
