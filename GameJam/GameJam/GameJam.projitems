@@ -54,7 +54,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\EntityDestructionProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
@@ -159,6 +158,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\UIPlaygroundGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\SharedGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\CommonGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Entities\EntityDestructionProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Menu\EntityBackgroundSpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\PassiveRotationSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\MenuEntityComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\MenuBackgroundDestructionSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -173,5 +177,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)DevTools\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\DevTools\" />
     <Folder Include="$(MSBuildThisFileDirectory)States\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\Entities\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\Menu\" />
   </ItemGroup>
 </Project>

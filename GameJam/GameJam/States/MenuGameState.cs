@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using GameJam.Input;
 using GameJam.Common;
+using GameJam.Processes.Menu;
 
 namespace GameJam.States
 {

@@ -4,6 +4,7 @@ using Events;
 using GameJam.Events;
 using GameJam.Events.InputHandling;
 using GameJam.Events.UI;
+using GameJam.Processes.Menu;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Content.Pipeline;
@@ -12,14 +13,14 @@ namespace GameJam.States
 {
     class UIMenuGameState : CommonGameState, IEventListener
     {
-        SpriteBatch _spriteBatch;
-        Root _root;
-
-        private ProcessManager ProcessManager
+        public ProcessManager ProcessManager
         {
             get;
-            set;
+            private set;
         }
+
+        SpriteBatch _spriteBatch;
+        Root _root;
 
         public UIMenuGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
@@ -36,6 +37,8 @@ namespace GameJam.States
 
             RegisterEvents();
             _root.RegisterListeners();
+
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
 
             base.OnInitialize();
         }

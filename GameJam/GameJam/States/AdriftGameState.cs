@@ -7,6 +7,7 @@ using GameJam.Events.GameLogic;
 using GameJam.Processes;
 using GameJam.Processes.Animation;
 using GameJam.Processes.Enemies;
+using GameJam.Processes.Entities;
 using GameJam.UI;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;

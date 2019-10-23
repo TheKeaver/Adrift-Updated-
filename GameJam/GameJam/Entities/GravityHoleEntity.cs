@@ -1,8 +1,7 @@
 ﻿using Audrey;
 using GameJam.Components;
-using GameJam.Processes;
+using GameJam.Processes.Entities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace GameJam.Entities

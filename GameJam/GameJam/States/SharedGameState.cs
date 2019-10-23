@@ -97,7 +97,9 @@ namespace GameJam.States
                 new LaserEnemySystem(Engine),
                 new GravitySystem(Engine),
                 new PulseSystem(Engine),
-                new ParallaxBackgroundSystem(Engine, Camera)
+                new ParallaxBackgroundSystem(Engine, Camera),
+                new PassiveRotationSystem(Engine),
+                new MenuBackgroundDestructionSystem(Engine)
             };
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);

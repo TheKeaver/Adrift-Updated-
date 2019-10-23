@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using Audrey;
 using Events;
+using GameJam.Components;
+using GameJam.Events.EnemyActions;
 using GameJam.Events.InputHandling;
 using GameJam.Input;
+using GameJam.Processes.Menu;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,18 +15,18 @@ namespace GameJam.States
 {
     class UILobbyGameState : CommonGameState, IEventListener
     {
+        public ProcessManager ProcessManager
+        {
+            get;
+            private set;
+        }
+
         SpriteBatch _spriteBatch;
         Root _root;
 
         int numberOfPlayers = 0;
         public Player playerOneSeat;
         public Player playerTwoSeat;
-
-        private ProcessManager ProcessManager
-        {
-            get;
-            set;
-        }
 
         public UILobbyGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
@@ -39,6 +43,8 @@ namespace GameJam.States
 
             RegisterEvents();
             _root.RegisterListeners();
+
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
 
             base.OnInitialize();
         }
@@ -160,7 +166,7 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        ChangeState(new AdriftGameState(GameManager, SharedState, players));
+                        StartGame(players);
                     }
                 }
             }
@@ -205,7 +211,8 @@ namespace GameJam.States
                                 players[i] = playerTwoSeat;
 
                         }
-                        ChangeState(new AdriftGameState(GameManager, SharedState, players));
+
+                        StartGame(players);
                     }
                 }
 
@@ -228,6 +235,27 @@ namespace GameJam.States
             }
 
             return false;
+        }
+
+        private void StartGame(Player[] players)
+        {
+            // Explode all entities
+            ImmutableList<Entity> explosionEntities = SharedState.Engine.GetEntitiesFor(Family
+                .All(typeof(TransformComponent), typeof(ColoredExplosionComponent), typeof(MenuBackgroundComponent))
+                .Get());
+            foreach (Entity entity in explosionEntities)
+            {
+                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                ColoredExplosionComponent coloredExplosionComp = entity.GetComponent<ColoredExplosionComponent>();
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(transformComp.Position,
+                    coloredExplosionComp.Color,
+                    false));
+            }
+
+            // Destroy all entities
+            SharedState.Engine.DestroyEntitiesFor(Family.All(typeof(MenuBackgroundComponent)).Get());
+
+            ChangeState(new AdriftGameState(GameManager, SharedState, players));
         }
 
         private void PlayerOne_VisibilityHelper(bool isController)

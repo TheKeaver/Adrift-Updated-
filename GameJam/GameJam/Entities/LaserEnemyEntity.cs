@@ -7,16 +7,11 @@ namespace GameJam.Entities
 {
     public static class LaserEnemyEntity
     {
-        public static Entity Create(Engine engine, ProcessManager processManager, Vector2 position)
+        public static Entity CreateSpriteOnly(Engine engine)
         {
             Entity entity = engine.CreateEntity();
 
-            entity.AddComponent(new TransformComponent(position));
-            entity.AddComponent(new RotationComponent(CVars.Get<float>("laser_enemy_rotational_speed")));
-            entity.AddComponent(new MovementComponent(new Vector2(0, 1), 0));
-            entity.AddComponent(new LaserEnemyComponent());
-            entity.AddComponent(new EnemyComponent());
-
+            entity.AddComponent(new TransformComponent());
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(4, 0),
                     new Vector2(3, 1),
@@ -34,6 +29,19 @@ namespace GameJam.Entities
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("laser_enemy_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_laser_enemy")));
+
+            return entity;
+        }
+
+        public static Entity Create(Engine engine, ProcessManager processManager, Vector2 position)
+        {
+            Entity entity = CreateSpriteOnly(engine);
+
+            entity.GetComponent<TransformComponent>().SetPosition(position);
+            entity.AddComponent(new RotationComponent(CVars.Get<float>("laser_enemy_rotational_speed")));
+            entity.AddComponent(new MovementComponent(new Vector2(0, 1), 0));
+            entity.AddComponent(new LaserEnemyComponent());
+            entity.AddComponent(new EnemyComponent());
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(4, 0),

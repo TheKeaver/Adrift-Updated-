@@ -6,16 +6,10 @@ namespace GameJam.Entities
 {
     public static class KamikazeEntity
     {
-        public static Entity Create(Engine engine, Vector2 position)
+        public static Entity CreateSpriteOnly(Engine engine)
         {
             Entity entity = engine.CreateEntity();
-
-            entity.AddComponent(new TransformComponent(position));
-            entity.AddComponent(new RotationComponent(CVars.Get<float>("kamikaze_enemy_rotational_speed")));
-            entity.AddComponent(new MovementComponent(new Vector2(0,1), CVars.Get<float>("kamikaze_enemy_speed")));
-            entity.AddComponent(new EnemyComponent());
-            entity.AddComponent(new KamikazeComponent());
-
+            entity.AddComponent(new TransformComponent());
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(3, 0),
                     new Vector2(-5, 3),
@@ -26,8 +20,21 @@ namespace GameJam.Entities
                     }, 0.4f, CVars.Get<Color>("color_kamikaze_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
-            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("kamikaze_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_kamikaze_enemy")));
+            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("kamikaze_size"), true);
+
+            return entity;
+        }
+
+        public static Entity Create(Engine engine, Vector2 position)
+        {
+            Entity entity = CreateSpriteOnly(engine);
+
+            entity.GetComponent<TransformComponent>().SetPosition(position);
+            entity.AddComponent(new RotationComponent(CVars.Get<float>("kamikaze_enemy_rotational_speed")));
+            entity.AddComponent(new MovementComponent(new Vector2(0,1), CVars.Get<float>("kamikaze_enemy_speed")));
+            entity.AddComponent(new EnemyComponent());
+            entity.AddComponent(new KamikazeComponent());
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(5, 0),

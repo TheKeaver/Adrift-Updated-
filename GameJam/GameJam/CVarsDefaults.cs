@@ -94,6 +94,18 @@ namespace GameJam
             Create<float>("laser_enemy_spawn_wait_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("laser_enemy_successive_wait_period", 7, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            /** MENU **/
+            Create<float>("entity_background_spawner_min", 1f, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_spawner_max", 2, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_spawner_x", CVars.Get<int>("window_width") / 2 * 1.05f, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_spawner_y_min", CVars.Get<int>("window_height") * -0.49f, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_spawner_y_max", CVars.Get<int>("window_height") * 0.49f, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_spawner_destruction_x", -CVars.Get<float>("entity_background_spawner_x"), CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_entity_speed_min", 50, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_entity_speed_max", 175, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_entity_angular_speed_min", -MathHelper.PiOver2, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_entity_angular_speed_max", MathHelper.PiOver2, CVarFlags.DEV_PRESERVE);
+
             /** COLORS **/
             Create<Color>("color_player_ship", Color.White, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_player_shield", Color.SpringGreen, CVarFlags.DEV_PRESERVE);
