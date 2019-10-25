@@ -38,6 +38,23 @@
 /processorParam:TextureFormat=Color
 /build:fonts/Intro_0.png
 
+#begin fonts/Main.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:fonts/Main.fnt
+
+#begin fonts/Main_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:fonts/Main_0.png
+
 #begin sounds/Alien_Ship_Sound
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -205,18 +222,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textures/Kamikaze.png
-
-#begin textures/ParalaxTestBackground.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/ParalaxTestBackground.png
 
 #begin textures/ParalaxTestBackground.png
 /importer:TextureImporter
