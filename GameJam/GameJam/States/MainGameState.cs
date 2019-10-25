@@ -145,7 +145,8 @@ namespace GameJam.States
                 new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager),
                 new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager),
                 new BounceDirector(Engine, Content, ProcessManager),
-                new LaserBeamCleanupDirector(Engine, Content, ProcessManager)
+                new LaserBeamCleanupDirector(Engine, Content, ProcessManager)//,
+                //new SettingsDirector(Engine, Content, ProcessManager, _root)
             };
 
             for (int i = 0; i < _directors.Length; i++)

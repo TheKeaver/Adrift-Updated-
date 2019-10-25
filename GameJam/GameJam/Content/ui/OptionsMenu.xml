@@ -149,16 +149,16 @@
         <!-- Beginning of Full/Windowed/Borderless options sub menu (Full, Window, Borderless) -->
         <Button
           id="FullScreen"
-          aboveID=""
+          aboveID="FXAA"
           leftID="BorderlessWindow"
           rightID="Windowed"
-          belowID=""
+          belowID="FXAA"
           defaultSelected="false"
-          halign="center"
+          halign="left"
           valign="top"
-          horizontal="0"
+          horizontal="5%"
           vertical="5%"
-          width="80%"
+          width="25%"
           height="20%"
           released-image="texture_ui_button_released"
           released-thickness="4,4,4,4"
@@ -178,82 +178,84 @@
               font="font_game_over"
               />
         </Button>
-        <Button
-          id="Windowed"
-          aboveID=""
-          leftID="FullScreen"
-          rightID="BorderlessWindow"
-          belowID=""
-          defaultSelected="false"
-          halign="center"
-          valign="top"
-          horizontal="0"
-          vertical="5%"
-          width="80%"
-          height="20%"
-          released-image="texture_ui_button_released"
-          released-thickness="4,4,4,4"
-          hover-image="texture_ui_button_hover"
-          hover-thickness="4,4,4,4"
-          pressed-image="texture_ui_button_pressed"
-          pressed-thickness="4,4,4,4"
-          onclick="queue:UI.WindowedButtonPressedEvent">
-          <Label
-              halign="center"
-              valign="center"
-              horizontal="0"
-              vertical="0"
-              width="90%"
-              height="90%"
-              content="Windowed"
-              font="font_game_over"
+      <Button
+        id="Windowed"
+        aboveID="FXAA"
+        leftID="FullScreen"
+        rightID="BorderlessWindow"
+        belowID="FXAA"
+        defaultSelected="false"
+        halign="center"
+        valign="top"
+        horizontal="0"
+        vertical="5%"
+        width="25%"
+        height="20%"
+        released-image="texture_ui_button_released"
+        released-thickness="4,4,4,4"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="4,4,4,4"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="4,4,4,4"
+        onclick="queue:UI.WindowedButtonPressedEvent">
+        <!-- hidden="true" -->
+        <Label
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="90%"
+            height="90%"
+            content="Windowed"
+            font="font_game_over"
               />
-        </Button>
-        <Button
-          id="BorderlessWindow"
-          aboveID=""
-          leftID="Windowed"
-          rightID="FullScreen"
-          belowID=""
-          defaultSelected="false"
-          halign="center"
-          valign="top"
-          horizontal="0"
-          vertical="5%"
-          width="80%"
-          height="20%"
-          released-image="texture_ui_button_released"
-          released-thickness="4,4,4,4"
-          hover-image="texture_ui_button_hover"
-          hover-thickness="4,4,4,4"
-          pressed-image="texture_ui_button_pressed"
-          pressed-thickness="4,4,4,4"
-          onclick="queue:UI.BorderlessWindowButtonPressedEvent">
-          <Label
-              halign="center"
-              valign="center"
-              horizontal="0"
-              vertical="0"
-              width="90%"
-              height="90%"
-              content="Borderless Window"
-              font="font_game_over"
+      </Button>
+      <Button
+        id="BorderlessWindow"
+        aboveID="FXAA"
+        leftID="Windowed"
+        rightID="FullScreen"
+        belowID="FXAA"
+        defaultSelected="false"
+        halign="right"
+        valign="top"
+        horizontal="5%"
+        vertical="5%"
+        width="25%"
+        height="20%"
+        released-image="texture_ui_button_released"
+        released-thickness="4,4,4,4"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="4,4,4,4"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="4,4,4,4"
+        onclick="queue:UI.BorderlessWindowButtonPressedEvent">
+        <!-- hidden="true" -->
+        <Label
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="90%"
+            height="90%"
+            content="Borderless Window"
+            font="font_game_over"
               />
-        </Button>
+      </Button>
         <!-- End of Full/Windowed/Borderless options sub menu -->
         <!-- Beginning of Anti-Aliasing options sub menu (Off, FXAA, Feathering) -->
         <Button
           id="FXAA"
-          aboveID=""
+          aboveID="FullScreen"
           leftID="Off"
           rightID="Feathering"
-          belowID=""
+          belowID="FullScreen"
           defaultSelected="false"
-          halign="center"
+          halign="left"
           valign="top"
-          horizontal="0"
+          horizontal="5%"
           vertical="30%"
-          width="80%"
+          width="25%"
           height="20%"
           released-image="texture_ui_button_released"
           released-thickness="4,4,4,4"
@@ -273,68 +275,70 @@
               font="font_game_over"
               />
         </Button>
-        <Button
-          id="Feathering"
-          aboveID=""
-          leftID="FXAA"
-          rightID="Off"
-          belowID=""
-          defaultSelected="false"
-          halign="center"
-          valign="top"
-          horizontal="0"
-          vertical="30%"
-          width="80%"
-          height="20%"
-          released-image="texture_ui_button_released"
-          released-thickness="4,4,4,4"
-          hover-image="texture_ui_button_hover"
-          hover-thickness="4,4,4,4"
-          pressed-image="texture_ui_button_pressed"
-          pressed-thickness="4,4,4,4"
-          onclick="queue:UI.AAFeatheringButtonPressedEvent">
-          <Label
-              halign="center"
-              valign="center"
-              horizontal="0"
-              vertical="0"
-              width="90%"
-              height="90%"
-              content="Anti-Alias: Feathering"
-              font="font_game_over"
+      <Button
+        id="Feathering"
+        aboveID="FullScreen"
+        leftID="FXAA"
+        rightID="Off"
+        belowID="FullScreen"
+        defaultSelected="false"
+        halign="center"
+        valign="top"
+        horizontal="0"
+        vertical="30%"
+        width="25%"
+        height="20%"
+        released-image="texture_ui_button_released"
+        released-thickness="4,4,4,4"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="4,4,4,4"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="4,4,4,4"
+        onclick="queue:UI.AAFeatheringButtonPressedEvent">
+        <!-- hidden="true" -->
+        <Label
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="90%"
+            height="90%"
+            content="Anti-Alias: Feathering"
+            font="font_game_over"
               />
-        </Button>
-        <Button
-          id="Off"
-          aboveID=""
-          leftID="Feathering"
-          rightID="FXAA"
-          belowID=""
-          defaultSelected="false"
-          halign="center"
-          valign="top"
-          horizontal="0"
-          vertical="30%"
-          width="80%"
-          height="20%"
-          released-image="texture_ui_button_released"
-          released-thickness="4,4,4,4"
-          hover-image="texture_ui_button_hover"
-          hover-thickness="4,4,4,4"
-          pressed-image="texture_ui_button_pressed"
-          pressed-thickness="4,4,4,4"
-          onclick="queue:UI.AAOffButtonPressedEvent">
-          <Label
-              halign="center"
-              valign="center"
-              horizontal="0"
-              vertical="0"
-              width="90%"
-              height="90%"
-              content="Anti-Alias: Off"
-              font="font_game_over"
+      </Button>
+      <Button
+        id="Off"
+        aboveID="FullScreen"
+        leftID="Feathering"
+        rightID="FXAA"
+        belowID="FullScreen"
+        defaultSelected="false"
+        halign="right"
+        valign="top"
+        horizontal="5%"
+        vertical="30%"
+        width="25%"
+        height="20%"
+        released-image="texture_ui_button_released"
+        released-thickness="4,4,4,4"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="4,4,4,4"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="4,4,4,4"
+        onclick="queue:UI.AAOffButtonPressedEvent">
+        <!--hidden="true"-->
+        <Label
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="90%"
+            height="90%"
+            content="Anti-Alias: Off"
+            font="font_game_over"
               />
-        </Button>
+      </Button>
         <!-- End of Anti-Aliasing options sub menu (Off, FXAA, Feathering) -->
     </Panel>
     <!-- End of Display right-hand side panel -->
@@ -357,11 +361,11 @@
           rightID=""
           belowID="Rotate_Right"
           defaultSelected="false"
-          halign="center"
+          halign="left"
           valign="top"
-          horizontal="0"
+          horizontal="5%"
           vertical="5%"
-          width="80%"
+          width="25%"
           height="20%"
           released-image="texture_ui_button_released"
           released-thickness="4,4,4,4"
@@ -382,38 +386,39 @@
               />
           <!-- Place Image In button to allow for display of currently bound button -->
         </Button>
-        <Button
-          id="Rotate_Right"
-          aboveID="Rotate_Left"
-          leftID=""
-          rightID=""
-          belowID="Rotate_Left"
-          defaultSelected="false"
-          halign="center"
-          valign="top"
-          horizontal="0"
-          vertical="30%"
-          width="80%"
-          height="20%"
-          released-image="texture_ui_button_released"
-          released-thickness="4,4,4,4"
-          hover-image="texture_ui_button_hover"
-          hover-thickness="4,4,4,4"
-          pressed-image="texture_ui_button_pressed"
-          pressed-thickness="4,4,4,4"
-          onclick="queue:UI.RotateRightSettingsButtonPressedEvent">
-          <Label
-              halign="left"
-              valign="center"
-              horizontal="0"
-              vertical="0"
-              width="90%"
-              height="90%"
-              content="Rotate Right:"
-              font="font_game_over"
+      <Button
+        id="Rotate_Right"
+        aboveID="Rotate_Left"
+        leftID=""
+        rightID=""
+        belowID="Rotate_Left"
+        defaultSelected="false"
+        halign="right"
+        valign="top"
+        horizontal="0"
+        vertical="5%"
+        width="25%"
+        height="20%"
+        released-image="texture_ui_button_released"
+        released-thickness="4,4,4,4"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="4,4,4,4"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="4,4,4,4"
+        onclick="queue:UI.RotateRightSettingsButtonPressedEvent">
+        <!--hidden="true"-->
+        <Label
+            halign="left"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="90%"
+            height="90%"
+            content="Rotate Right:"
+            font="font_game_over"
               />
-          <!-- Place Image In button to allow for display of currently bound button -->
-        </Button>
+        <!-- Place Image In button to allow for display of currently bound button -->
+      </Button>
         <!-- Future Buttons can add other controls as necessary starting here -->
     </Panel>
     <!-- End of Controls Right Side Panel -->
@@ -459,37 +464,38 @@
                 font="font_game_over"
                 />
           </Button>
-          <Button
-            id="Difficulty"
-            aboveID="Speed"
-            leftID=""
-            rightID=""
-            belowID="Speed"
-            defaultSelected="false"
-            halign="center"
-            valign="top"
+      <Button
+        id="Difficulty"
+        aboveID="Speed"
+        leftID=""
+        rightID=""
+        belowID="Speed"
+        defaultSelected="false"
+        halign="center"
+        valign="top"
+        horizontal="0"
+        vertical="30%"
+        width="80%"
+        height="20%"
+        released-image="texture_ui_button_released"
+        released-thickness="4,4,4,4"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="4,4,4,4"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="4,4,4,4"
+        onclick="queue:UI.DifficultySettingsButtonPressedEvent">
+        <!-- hidden="true" -->
+        <Label
+            halign="left"
+            valign="center"
             horizontal="0"
-            vertical="30%"
-            width="80%"
-            height="20%"
-            released-image="texture_ui_button_released"
-            released-thickness="4,4,4,4"
-            hover-image="texture_ui_button_hover"
-            hover-thickness="4,4,4,4"
-            pressed-image="texture_ui_button_pressed"
-            pressed-thickness="4,4,4,4"
-            onclick="queue:UI.DifficultySettingsButtonPressedEvent">
-            <Label
-                halign="left"
-                valign="center"
-                horizontal="0"
-                vertical="0"
-                width="90%"
-                height="90%"
-                content="Difficulty:"
-                font="font_game_over"
+            vertical="0"
+            width="90%"
+            height="90%"
+            content="Difficulty:"
+            font="font_game_over"
                 />
-          </Button>
+      </Button>
     </Panel>
     <!-- End of Game Settings Right Side Panel -->
   </Widgets>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Events;
+using GameJam.Directors;
 using GameJam.Events.InputHandling;
 using GameJam.Events.UI;
 using GameJam.UI;
@@ -18,6 +19,7 @@ namespace GameJam.States
 
         bool isOnLeftSide = true;
         int leftSideIndex = 0;
+        public BaseDirector[] _directors;
 
         private ProcessManager ProcessManager
         {
@@ -30,17 +32,23 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
+        /*void InitDirectors()
+        {
+            _directors = new BaseDirector[]
+            {
+                new SettingsDirector(null, Content, ProcessManager, _root)
+            };
+
+            for (int i = 0; i < _directors.Length; i++)
+            {
+                _directors[i].RegisterEvents();
+            }
+        }*/
+
         void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
             EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
-
-            EventManager.Instance.RegisterListener<DisplaySettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<ControlsSettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<GameSettingsButtonPressedEvent>(this);
-
-            EventManager.Instance.RegisterListener<SpeedSettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<DifficultySettingsButtonPressedEvent>(this);
         }
 
         void UnregisterEvents()
@@ -70,6 +78,7 @@ namespace GameJam.States
             ProcessManager = new ProcessManager();
 
             RegisterEvents();
+            //InitDirectors();
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
         }
@@ -114,7 +123,7 @@ namespace GameJam.States
                 ((Button)_root.FindWidgetByID("Rotate_Left")).isSelected = true;
             }
             GameSettingsButtonPressedEvent gameSBPE = evt as GameSettingsButtonPressedEvent;
-            if( gameSBPE != null )
+            if (gameSBPE != null)
             {
                 isOnLeftSide = false;
                 leftSideIndex = 2;
@@ -124,13 +133,13 @@ namespace GameJam.States
                 ((Button)_root.FindWidgetByID("Speed")).isSelected = true;
             }
             SpeedSettingsButtonPressedEvent speedSBPE = evt as SpeedSettingsButtonPressedEvent;
-            if( speedSBPE != null )
+            if (speedSBPE != null)
             {
                 Console.WriteLine("speedSBPE");
                 // Save settings to the speed set by the player by modifying the cvars
             }
             DifficultySettingsButtonPressedEvent difficultySBPE = evt as DifficultySettingsButtonPressedEvent;
-            if( difficultySBPE != null )
+            if (difficultySBPE != null)
             {
                 Console.WriteLine("difficultySBPE");
                 // Save settings to the spawn rate set by the player by modifying the cvars
@@ -141,7 +150,11 @@ namespace GameJam.States
             {
                 if( gpbde._pressedButton == Buttons.B )
                 {
-                    if( isOnLeftSide == false )
+                    if ( isOnLeftSide == true )
+                    {
+                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                    }
+                    if ( isOnLeftSide == false )
                     {
                         switch( leftSideIndex )
                         {
@@ -164,10 +177,6 @@ namespace GameJam.States
                                 ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
                                 break;
                         }
-                    }
-                    if( isOnLeftSide == true )
-                    {
-                        GameManager.ChangeState(new UIMenuGameState(GameManager));
                     }
                 }
             }

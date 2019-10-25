@@ -32,6 +32,12 @@ namespace GameJam.Directors
             ProcessManager = processManager;
         }
 
+        protected BaseDirector(Engine engine, ProcessManager processManager)
+        {
+            Engine = engine;
+            ProcessManager = processManager;
+        }
+
         public abstract void RegisterEvents();
 
         public abstract void UnregisterEvents();
