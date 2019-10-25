@@ -46,8 +46,6 @@ namespace GameJam
 
             ProcessManager = new ProcessManager();
 
-            Window.Title = "Adrift";
-
             Graphics = new GraphicsDeviceManager(this);
             Graphics.GraphicsProfile = GraphicsProfile.HiDef;
             Graphics.PreferMultiSampling = true;
@@ -67,6 +65,8 @@ namespace GameJam
         protected override void Initialize()
         {
             RegisterEvents();
+
+            Window.Title = "Adrift";
 
             Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
