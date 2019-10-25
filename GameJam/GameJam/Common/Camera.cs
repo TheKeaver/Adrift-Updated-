@@ -73,13 +73,14 @@ namespace GameJam.Common
             _bounds.Height = h;
 
             float newAspectRatio = (float)_bounds.Width / _bounds.Height;
-            if (newAspectRatio <= CVars.Get<float>("window_initial_aspect_ratio")) // Width is dominant
+            float desiredAspectRatio = CVars.Get<float>("screen_width") / CVars.Get<float>("screen_height");
+            if (newAspectRatio <= desiredAspectRatio) // Width is dominant
             {
-                _compensationZoom = (float)_bounds.Width / CVars.Get<int>("window_width");
+                _compensationZoom = (float)_bounds.Width / CVars.Get<float>("screen_width");
             }
-            if (newAspectRatio > CVars.Get<float>("window_initial_aspect_ratio")) // Height is dominant
+            if (newAspectRatio > desiredAspectRatio) // Height is dominant
             {
-                _compensationZoom = (float)_bounds.Height / CVars.Get<int>("window_height");
+                _compensationZoom = (float)_bounds.Height / CVars.Get<float>("screen_height");
             }
         }
     }

@@ -51,8 +51,8 @@ namespace GameJam
             Graphics.PreferMultiSampling = true;
             Content.RootDirectory = "Content";
 
-            Graphics.PreferredBackBufferWidth = CVars.Get<int>("window_width");
-            Graphics.PreferredBackBufferHeight = CVars.Get<int>("window_height");
+            Graphics.PreferredBackBufferWidth = CVars.Get<int>("initial_window_width");
+            Graphics.PreferredBackBufferHeight = CVars.Get<int>("initial_window_height");
 
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;

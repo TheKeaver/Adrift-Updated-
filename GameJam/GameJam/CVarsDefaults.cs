@@ -9,9 +9,13 @@ namespace GameJam
             /** GENERAL **/
             Create<float>("tick_frequency", 120, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
-            Create<int>("window_width", 1280, CVarFlags.PRESERVE);
-            Create<int>("window_height", 720, CVarFlags.PRESERVE);
-            Create<float>("window_initial_aspect_ratio", (float)CVars.Get<int>("window_width") / CVars.Get<int>("window_height"), CVarFlags.PRESERVE);
+            Create<int>("initial_window_width", 1280, CVarFlags.PRESERVE);
+            Create<int>("initial_window_height", 720, CVarFlags.PRESERVE);
+
+            // "Screen" is the internal units of the game.
+            // Always use `screen_width` and `screen_height`.
+            Create<float>("screen_width", 1280, CVarFlags.DEV_PRESERVE);
+            Create<float>("screen_height", 720, CVarFlags.DEV_PRESERVE);
 
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -97,9 +101,9 @@ namespace GameJam
             /** MENU **/
             Create<float>("entity_background_spawner_min", 1f, CVarFlags.DEV_PRESERVE);
             Create<float>("entity_background_spawner_max", 2, CVarFlags.DEV_PRESERVE);
-            Create<float>("entity_background_spawner_x", CVars.Get<int>("window_width") / 2 * 1.05f, CVarFlags.DEV_PRESERVE);
-            Create<float>("entity_background_spawner_y_min", CVars.Get<int>("window_height") * -0.49f, CVarFlags.DEV_PRESERVE);
-            Create<float>("entity_background_spawner_y_max", CVars.Get<int>("window_height") * 0.49f, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_spawner_x", CVars.Get<float>("screen_width") / 2 * 1.05f, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_spawner_y_min", CVars.Get<float>("screen_height") * -0.49f, CVarFlags.DEV_PRESERVE);
+            Create<float>("entity_background_spawner_y_max", CVars.Get<float>("screen_height") * 0.49f, CVarFlags.DEV_PRESERVE);
             Create<float>("entity_background_spawner_destruction_x", -CVars.Get<float>("entity_background_spawner_x"), CVarFlags.DEV_PRESERVE);
             Create<float>("entity_background_entity_speed_min", 50, CVarFlags.DEV_PRESERVE);
             Create<float>("entity_background_entity_speed_max", 175, CVarFlags.DEV_PRESERVE);

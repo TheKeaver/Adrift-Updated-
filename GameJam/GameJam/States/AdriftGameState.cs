@@ -135,10 +135,10 @@ namespace GameJam.States
                 playerTwoShieldEntity.AddComponent(new PlayerComponent(PlayerArray[1]));
             }
 
-            EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 5), new Vector2(0, -1));
-            EdgeEntity.Create(SharedState.Engine, new Vector2(-CVars.Get<int>("window_width") / 2, 0), new Vector2(5, CVars.Get<int>("window_height")), new Vector2(1, 0));
-            EdgeEntity.Create(SharedState.Engine, new Vector2(0, -CVars.Get<int>("window_height") / 2), new Vector2(CVars.Get<int>("window_width"), 5), new Vector2(0, 1));
-            EdgeEntity.Create(SharedState.Engine, new Vector2(CVars.Get<int>("window_width") / 2, 0), new Vector2(5, CVars.Get<int>("window_height")), new Vector2(-1, 0));
+            EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("screen_height") / 2), new Vector2(CVars.Get<float>("screen_width"), 5), new Vector2(0, -1));
+            EdgeEntity.Create(SharedState.Engine, new Vector2(-CVars.Get<float>("screen_width") / 2, 0), new Vector2(5, CVars.Get<float>("screen_height")), new Vector2(1, 0));
+            EdgeEntity.Create(SharedState.Engine, new Vector2(0, -CVars.Get<float>("screen_height") / 2), new Vector2(CVars.Get<float>("screen_width"), 5), new Vector2(0, 1));
+            EdgeEntity.Create(SharedState.Engine, new Vector2(CVars.Get<float>("screen_width") / 2, 0), new Vector2(5, CVars.Get<float>("screen_height")), new Vector2(-1, 0));
         }
 
         public bool Handle(IEvent evt)
@@ -184,7 +184,7 @@ namespace GameJam.States
 
             // TODO: Game Over Process
             Entity gameOverText = SharedState.Engine.CreateEntity();
-            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<int>("window_height") / 2)));
+            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<int>("screen_height") / 2)));
             gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>(CVars.Get<string>("font_game_over")), "Game Over"));
             ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3))
                 .SetNext(new EntityDestructionProcess(SharedState.Engine, gameOverText))

@@ -60,11 +60,11 @@ namespace GameJam.States
             ProcessManager = new ProcessManager();
 
             PostProcessor = new PostProcessor(GameManager.GraphicsDevice,
-                CVars.Get<int>("window_width"),
-                CVars.Get<int>("window_height"));
+                CVars.Get<float>("screen_width"),
+                CVars.Get<float>("screen_height"));
             PostProcessor.RegisterEvents();
 
-            Camera = new Camera(CVars.Get<int>("window_width"), CVars.Get<int>("window_height"));
+            Camera = new Camera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
             Camera.RegisterEvents();
 
             VelocityParticleManager = new ParticleManager<VelocityParticleInfo>(1024 * 20, VelocityParticleInfo.UpdateParticle);
