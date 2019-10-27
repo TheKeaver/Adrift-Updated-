@@ -144,13 +144,13 @@ namespace GameJam.UI.Widgets
                         (int)TopLeft.Y,
                         (int)Width,
                         (int)Height),
-                        Color.Green);
+                        Color.Green * (TintColor.A / 255.0f));
                 spriteBatch.Draw(ninePatch,
                     new Rectangle((int)TopLeft.X,
                     0,
                     (int)Width,
                     10),
-                    Color.Green);
+                    Color.Green * (TintColor.A / 255.0f));
                 SubPanel.Draw(spriteBatch);
                 SliderButton.Draw(spriteBatch);
             }

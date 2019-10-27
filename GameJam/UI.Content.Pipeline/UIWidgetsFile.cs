@@ -46,6 +46,9 @@ namespace UI.Content.Pipeline
         [XmlAttribute("hidden")]
         public bool Hidden = false;
 
+        [XmlAttribute("alpha")]
+        public float Alpha = 1;
+
         [XmlAttribute("aspect-ratio")]
         public string AspectRatio = "";
 
@@ -70,6 +73,7 @@ namespace UI.Content.Pipeline
             output.Write(Width);
             output.Write(Height);
             output.Write(Hidden);
+            output.Write(Alpha);
             output.Write(AspectRatio);
             output.Write(ID);
 
@@ -89,6 +93,7 @@ namespace UI.Content.Pipeline
             Width = input.ReadString();
             Height = input.ReadString();
             Hidden = input.ReadBoolean();
+            Alpha = input.ReadSingle();
             AspectRatio = input.ReadString();
             ID = input.ReadString();
 

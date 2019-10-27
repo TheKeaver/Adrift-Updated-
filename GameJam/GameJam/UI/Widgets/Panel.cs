@@ -9,7 +9,10 @@ namespace GameJam.UI.Widgets
     {
         List<Widget> _widgets = new List<Widget>();
 
-        public Panel(HorizontalAlignment hAlign, AbstractValue horizontal, VerticalAlignment vAlign, AbstractValue vertical, AbstractValue width, AbstractValue height) : base(hAlign, horizontal, vAlign, vertical, width, height)
+        public Panel(HorizontalAlignment hAlign, AbstractValue horizontal,
+            VerticalAlignment vAlign, AbstractValue vertical,
+            AbstractValue width, AbstractValue height)
+                :base(hAlign, horizontal, vAlign, vertical, width, height)
         {
         }
 

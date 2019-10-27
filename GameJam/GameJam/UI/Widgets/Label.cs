@@ -53,7 +53,7 @@ namespace GameJam.UI.Widgets
                 spriteBatch.DrawString(_font,
                     _content,
                     TopLeft,
-                    Color.White,
+                    TintColor,
                     0,
                     Vector2.Zero,
                     scale,

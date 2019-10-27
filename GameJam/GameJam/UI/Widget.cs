@@ -285,6 +285,32 @@ namespace GameJam.UI
             }
         }
 
+        private RelativeValue _alpha;
+        public float Alpha
+        {
+            get
+            {
+                return _alpha.Percentage;
+            }
+            set
+            {
+                _alpha.Percentage = value;
+                ComputeProperties();
+            }
+        }
+        public float AbsoluteAlpha
+        {
+            get
+            {
+                return _alpha.Value;
+            }
+        }
+        public Color TintColor
+        {
+            get;
+            private set;
+        }
+
         public Vector2 TopLeft
         {
             get;
@@ -357,6 +383,14 @@ namespace GameJam.UI
                     return Parent.Height;
                 };
             }
+            _alpha = new RelativeValue(1, () =>
+            {
+                if(Parent == null)
+                {
+                    return 1;
+                }
+                return Parent.AbsoluteAlpha;
+            });
         }
 
         public abstract void Draw(SpriteBatch spriteBatch);
@@ -368,6 +402,7 @@ namespace GameJam.UI
                 // Root; only sets based on offset width and height
                 TopLeft = Vector2.Zero;
                 BottomRight = new Vector2(Width, Height);
+                TintColor = Color.White;
             } else
             {
                 float x = Parent.TopLeft.X;
@@ -400,6 +435,7 @@ namespace GameJam.UI
 
                 TopLeft = new Vector2(x, y);
                 BottomRight = new Vector2(x + Width, y + Height);
+                TintColor = Color.White * AbsoluteAlpha;
             }
 
             OnComputeProperties();

@@ -222,6 +222,7 @@ namespace GameJam.UI
             }
 
             widget.Hidden = prototype.Hidden;
+            widget.Alpha = prototype.Alpha;
 
             if (prototype.AspectRatio.Length > 0)
             {
