@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Events;
-using GameJam.Events;
 using GameJam.Events.UI;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,11 +25,11 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
-        void RegisterEvents()
+        void RegisterListeners()
         {
             EventManager.Instance.RegisterListener<TestButtonPressedEvent>(this);
         }
-        void UnregisterEvents()
+        void UnregisterListeners()
         {
             EventManager.Instance.UnregisterListener(this);
         }
@@ -42,9 +41,10 @@ namespace GameJam.States
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
 
-            RegisterEvents();
+            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
+            RegisterListeners();
 
-            ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
+            //ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
         }
 
         public override void LoadContent()
@@ -55,7 +55,6 @@ namespace GameJam.States
 
         public override void Show()
         {
-            _root.RegisterListeners();
         }
 
         public override void Hide()
@@ -77,7 +76,7 @@ namespace GameJam.States
 
         public override void Dispose()
         {
-            UnregisterEvents();
+            UnregisterListeners();
         }
 
         public bool Handle(IEvent evt)

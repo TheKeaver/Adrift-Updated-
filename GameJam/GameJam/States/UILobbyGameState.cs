@@ -47,10 +47,11 @@ namespace GameJam.States
         {
             ProcessManager = new ProcessManager();
 
-            RegisterEvents();
-
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
+            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
+
+            RegisterEvents();
         }
 
         public override void LoadContent()
@@ -60,7 +61,6 @@ namespace GameJam.States
 
         public override void Show()
         {
-            _root.RegisterListeners();
         }
 
         public override void Hide()

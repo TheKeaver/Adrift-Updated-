@@ -16,7 +16,8 @@ namespace UI.Content.Pipeline
             XmlArrayItem("Image", typeof(ImageWidgetPrototype)),
             XmlArrayItem("NinePatchImage", typeof(NinePatchImageWidgetPrototype)),
             XmlArrayItem("Panel", typeof(PanelWidgetPrototype)),
-            XmlArrayItem("Button", typeof(ButtonWidgetPrototype))]
+            XmlArrayItem("Button", typeof(ButtonWidgetPrototype)),
+            XmlArrayItem("DropDownPanel", typeof(DropDownPanelWidgetPrototype))]
         public List<WidgetPrototype> Widgets
         {
             get;
@@ -56,6 +57,7 @@ namespace UI.Content.Pipeline
         [XmlElement("NinePatchImage", typeof(NinePatchImageWidgetPrototype))]
         [XmlElement("Panel", typeof(PanelWidgetPrototype))]
         [XmlElement("Button", typeof(ButtonWidgetPrototype))]
+        [XmlElement("DropDownPanel", typeof(DropDownPanelWidgetPrototype))]
         public List<WidgetPrototype> Children;
 
         /* Update self first, then base */
@@ -253,6 +255,125 @@ namespace UI.Content.Pipeline
             IsSelected = input.ReadBoolean();
 
             OnClick = input.ReadString();
+
+            base.ReadFromInput(input);
+        }
+    }
+
+    [Serializable]
+    public class DropDownPanelContentsInfo
+    {
+        [XmlAttribute("width")]
+        public string Width;
+        [XmlAttribute("height")]
+        public string Height;
+
+        [XmlElement("Label", typeof(LabelWidgetPrototype))]
+        [XmlElement("Image", typeof(ImageWidgetPrototype))]
+        [XmlElement("NinePatchImage", typeof(NinePatchImageWidgetPrototype))]
+        [XmlElement("Panel", typeof(PanelWidgetPrototype))]
+        [XmlElement("Button", typeof(ButtonWidgetPrototype))]
+        [XmlElement("DropDownPanel", typeof(DropDownPanelWidgetPrototype))]
+        public List<WidgetPrototype> Children; // DropDownPanel can't be a child because of UI implementation limitations
+
+        public void WriteToOutput(ContentWriter output)
+        {
+            output.Write(Width);
+            output.Write(Height);
+
+            output.Write(Children.Count);
+            foreach (WidgetPrototype widget in Children)
+            {
+                output.Write(widget.GetType().AssemblyQualifiedName);
+                widget.WriteToOutput(output);
+            }
+        }
+        public void ReadFromInput(ContentReader input)
+        {
+            Width = input.ReadString();
+            Height = input.ReadString();
+
+            int count = input.ReadInt32();
+            Children = new List<WidgetPrototype>();
+            for (int i = 0; i < count; i++)
+            {
+                WidgetPrototype widget = (WidgetPrototype)Activator.CreateInstance(Type.GetType(input.ReadString()));
+                widget.ReadFromInput(input);
+                Children.Add(widget);
+            }
+        }
+    }
+    [Serializable]
+    public class DropDownPanelWidgetPrototype : WidgetPrototype
+    {
+        [XmlAttribute("released-image")]
+        public string ReleasedImage;
+        [XmlAttribute("released-thickness")]
+        public string ReleasedThickness;
+
+        [XmlAttribute("hover-image")]
+        public string HoverImage;
+        [XmlAttribute("hover-thickness")]
+        public string HoverThickness;
+
+        [XmlAttribute("pressed-image")]
+        public string PressedImage;
+        [XmlAttribute("pressed-thickness")]
+        public string PressedThickness;
+
+        [XmlAttribute("aboveID")]
+        public string AboveID = "";
+        [XmlAttribute("leftID")]
+        public string LeftID = "";
+        [XmlAttribute("rightID")]
+        public string RightID = "";
+        [XmlAttribute("belowID")]
+        public string BelowID = "";
+
+        [XmlAttribute("defaultSelected")]
+        public bool IsSelected = false;
+
+        [XmlElement("Contents", IsNullable = false)]
+        public DropDownPanelContentsInfo ContentsInfo;
+
+        public override void WriteToOutput(ContentWriter output)
+        {
+            output.Write(ReleasedImage);
+            output.Write(ReleasedThickness);
+            output.Write(HoverImage);
+            output.Write(HoverThickness);
+            output.Write(PressedImage);
+            output.Write(PressedThickness);
+
+            output.Write(AboveID);
+            output.Write(LeftID);
+            output.Write(RightID);
+            output.Write(BelowID);
+
+            output.Write(IsSelected);
+
+            ContentsInfo.WriteToOutput(output);
+
+            base.WriteToOutput(output);
+        }
+        public override void ReadFromInput(ContentReader input)
+        {
+            ReleasedImage = input.ReadString();
+            ReleasedThickness = input.ReadString();
+            HoverImage = input.ReadString();
+            HoverThickness = input.ReadString();
+            PressedImage = input.ReadString();
+            PressedThickness = input.ReadString();
+
+            AboveID = input.ReadString();
+            LeftID = input.ReadString();
+            RightID = input.ReadString();
+            BelowID = input.ReadString();
+
+            IsSelected = input.ReadBoolean();
+
+            ContentsInfo = new DropDownPanelContentsInfo();
+            ContentsInfo.ReadFromInput(input);
 
             base.ReadFromInput(input);
         }

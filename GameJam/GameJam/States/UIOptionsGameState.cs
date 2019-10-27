@@ -77,6 +77,7 @@ namespace GameJam.States
         {
             ProcessManager = new ProcessManager();
 
+            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
             RegisterEvents();
             //InitDirectors();
 
@@ -90,7 +91,6 @@ namespace GameJam.States
 
         public override void Show()
         {
-            _root.RegisterListeners();
         }
 
         public override void Update(float dt)

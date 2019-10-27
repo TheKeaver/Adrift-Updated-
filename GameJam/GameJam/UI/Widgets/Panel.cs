@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Events;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -52,6 +53,35 @@ namespace GameJam.UI.Widgets
             {
                 _widgets[i].ComputeProperties();
             }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _widgets.GetEnumerator();
+        }
+
+        public ISelectableWidget FindSelectedWidget()
+        {
+            foreach (Widget widget in _widgets)
+            {
+                ISelectableWidget selectableWidget = widget as ISelectableWidget;
+                if (selectableWidget != null && selectableWidget.isSelected)
+                {
+                    return selectableWidget;
+                }
+
+                IParentWidget parentWidget = widget as IParentWidget;
+                if (parentWidget != null)
+                {
+                    ISelectableWidget resultWidget = parentWidget.FindSelectedWidget();
+                    if (resultWidget != null)
+                    {
+                        return resultWidget;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

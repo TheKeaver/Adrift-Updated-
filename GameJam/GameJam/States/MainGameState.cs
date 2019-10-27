@@ -111,6 +111,8 @@ namespace GameJam.States
             ProcessManager.Attach(new LaserEnemySpawner(Engine, ProcessManager));
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
+            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
+
             RegisterEvents();
         }
 
@@ -145,8 +147,7 @@ namespace GameJam.States
                 new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager),
                 new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager),
                 new BounceDirector(Engine, Content, ProcessManager),
-                new LaserBeamCleanupDirector(Engine, Content, ProcessManager)//,
-                //new SettingsDirector(Engine, Content, ProcessManager, _root)
+                new LaserBeamCleanupDirector(Engine, Content, ProcessManager)
             };
 
             for (int i = 0; i < _directors.Length; i++)
@@ -180,6 +181,7 @@ namespace GameJam.States
             AdriftPostProcessor.Effects.Add(_fxaaPPE);
 
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainGameStateUI"));
+            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
         }
 
         public override void Show()
@@ -265,7 +267,7 @@ namespace GameJam.States
         public override void Dispose()
         {
             // Remove listeners
-            EventManager.Instance.UnregisterListener(this);
+            UnregisterEvents();
             _mainCamera.UnregisterEvents();
             AdriftPostProcessor.UnregisterEvents();
 

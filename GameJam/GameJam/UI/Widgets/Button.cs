@@ -1,11 +1,11 @@
 ﻿using System;
 using Events;
-using GameJam.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 using GameJam.Events.InputHandling;
+using System.Collections;
 
 namespace GameJam.UI.Widgets
 {
@@ -63,6 +63,8 @@ namespace GameJam.UI.Widgets
             }
         }
 
+        public bool ForceShowAsPressed = false;
+
         public Panel SubPanel
         {
             get;
@@ -119,7 +121,7 @@ namespace GameJam.UI.Widgets
                 {
                     ninePatch = _hoverNinePatch;
                 }
-                if(ButtonState == ButtonState.Pressed)
+                if(ButtonState == ButtonState.Pressed || ForceShowAsPressed)
                 {
                     ninePatch = _pressedNinePatch;
                 }
@@ -177,7 +179,9 @@ namespace GameJam.UI.Widgets
                         }
 
                         ButtonState = ButtonState.Released;
+
                     }
+                    return true;
                 }
             }
 
@@ -187,11 +191,6 @@ namespace GameJam.UI.Widgets
                 if(gamePadButtonDownEvent._pressedButton == Buttons.A)
                 {
                     Action.Invoke();
-                }
-                // This is likely bad news
-                if(gamePadButtonDownEvent._pressedButton == Buttons.B)
-                {
-                    this.isSelected = false;
                 }
                 if(gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft )
@@ -253,6 +252,20 @@ namespace GameJam.UI.Widgets
         {
             SubPanel.Remove(widget);
             ComputeProperties();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IParentWidget)SubPanel).GetEnumerator();
+        }
+
+        public ISelectableWidget FindSelectedWidget()
+        {
+            if(isSelected)
+            {
+                return this;
+            }
+            return null;
         }
     }
 }

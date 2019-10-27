@@ -147,6 +147,60 @@ namespace GameJam.UI
                 ((Button)widget).belowID = ((ButtonWidgetPrototype)prototype).BelowID;
                 ((Button)widget).isSelected = ((ButtonWidgetPrototype)prototype).IsSelected;
             }
+            if (prototype is DropDownPanelWidgetPrototype)
+            {
+                Texture2D releasedTexture = content.Load<Texture2D>(CVars.Get<string>(((DropDownPanelWidgetPrototype)prototype).ReleasedImage));
+                string[] releasedRawThickness = ((DropDownPanelWidgetPrototype)prototype).ReleasedThickness.Trim().Split(',');
+                if (releasedRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                Texture2D hoverTexture = content.Load<Texture2D>(CVars.Get<string>(((DropDownPanelWidgetPrototype)prototype).HoverImage));
+                string[] hoverRawThickness = ((DropDownPanelWidgetPrototype)prototype).HoverThickness.Trim().Split(',');
+                if (hoverRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                Texture2D pressedTexture = content.Load<Texture2D>(CVars.Get<string>(((DropDownPanelWidgetPrototype)prototype).PressedImage));
+                string[] pressedRawThickness = ((DropDownPanelWidgetPrototype)prototype).PressedThickness.Trim().Split(',');
+                if (pressedRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                AbstractValue contentsWidth = ValueFromString(((DropDownPanelWidgetPrototype)prototype).ContentsInfo.Width);
+                AbstractValue contentsHeight = ValueFromString(((DropDownPanelWidgetPrototype)prototype).ContentsInfo.Height);
+
+                widget = new DropDownPanel(new NinePatchRegion2D(new TextureRegion2D(releasedTexture),
+                        int.Parse(releasedRawThickness[0]),
+                        int.Parse(releasedRawThickness[1]),
+                        int.Parse(releasedRawThickness[2]),
+                        int.Parse(releasedRawThickness[3])),
+                    new NinePatchRegion2D(new TextureRegion2D(hoverTexture),
+                        int.Parse(hoverRawThickness[0]),
+                        int.Parse(hoverRawThickness[1]),
+                        int.Parse(hoverRawThickness[2]),
+                        int.Parse(hoverRawThickness[3])),
+                    new NinePatchRegion2D(new TextureRegion2D(pressedTexture),
+                        int.Parse(pressedRawThickness[0]),
+                        int.Parse(pressedRawThickness[1]),
+                        int.Parse(pressedRawThickness[2]),
+                        int.Parse(pressedRawThickness[3])),
+                    halign, horizontal, valign, vertical, width, height, contentsWidth, contentsHeight);
+
+                ((DropDownPanel)widget).rightID = ((DropDownPanelWidgetPrototype)prototype).RightID;
+                ((DropDownPanel)widget).leftID = ((DropDownPanelWidgetPrototype)prototype).LeftID;
+                ((DropDownPanel)widget).aboveID = ((DropDownPanelWidgetPrototype)prototype).AboveID;
+                ((DropDownPanel)widget).belowID = ((DropDownPanelWidgetPrototype)prototype).BelowID;
+                ((DropDownPanel)widget).isSelected = ((DropDownPanelWidgetPrototype)prototype).IsSelected;
+
+                foreach (WidgetPrototype childPrototype in ((DropDownPanelWidgetPrototype)prototype).ContentsInfo.Children)
+                {
+                    ((DropDownPanel)widget).AddContent(CreateFromPrototype(content, childPrototype, ref widgetIdDict));
+                }
+            }
 
             if (widget is IParentWidget)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Events;
 using GameJam.Events;
@@ -12,6 +13,8 @@ namespace GameJam.UI
     public class Root : Widget, IParentWidget
     {
         List<Widget> _widgets = new List<Widget>();
+
+        List<Widget> _deferredDrawQueue = new List<Widget>();
 
         Dictionary<string, WeakReference<Widget>> _widgetIdDict = new Dictionary<string, WeakReference<Widget>>();
 
@@ -83,6 +86,30 @@ namespace GameJam.UI
             return null;
         }
 
+        public ISelectableWidget FindSelectedWidget()
+        {
+            foreach(Widget widget in _widgets)
+            {
+                ISelectableWidget selectableWidget = widget as ISelectableWidget;
+                if(selectableWidget != null && selectableWidget.isSelected)
+                {
+                    return selectableWidget;
+                }
+
+                IParentWidget parentWidget = widget as IParentWidget;
+                if(parentWidget != null)
+                {
+                    ISelectableWidget resultWidget = parentWidget.FindSelectedWidget();
+                    if(resultWidget != null)
+                    {
+                        return resultWidget;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!Hidden)
@@ -91,7 +118,18 @@ namespace GameJam.UI
                 {
                     _widgets[i].Draw(spriteBatch);
                 }
+
+                for (int i = 0; i < _deferredDrawQueue.Count; i++)
+                {
+                    _deferredDrawQueue[i].Draw(spriteBatch);
+                }
+                _deferredDrawQueue.Clear();
             }
+        }
+
+        public void RequestDeferredDraw(Widget widget)
+        {
+            _deferredDrawQueue.Add(widget);
         }
 
         private void OnResize(float width, float height)
@@ -140,6 +178,11 @@ namespace GameJam.UI
             {
                 _widgets[i].ComputeProperties();
             }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _widgets.GetEnumerator();
         }
     }
 }
