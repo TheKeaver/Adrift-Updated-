@@ -213,6 +213,7 @@ namespace GameJam.UI.Widgets
                 if (gamePadButtonDownEvent._pressedButton == Buttons.B)
                 {
                     this.isSelected = false;
+                    Root.mouseMode = true;
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft)

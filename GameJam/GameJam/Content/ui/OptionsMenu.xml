@@ -263,7 +263,7 @@
           hover-thickness="4,4,4,4"
           pressed-image="texture_ui_button_pressed"
           pressed-thickness="4,4,4,4"
-          onclick="queue:UI.AAFXAAButtonPressedEvent">
+          onclick="queue:UI.AAFXAASettingsButtonPressedEvent">
           <Label
               halign="center"
               valign="center"

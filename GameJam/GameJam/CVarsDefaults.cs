@@ -6,6 +6,7 @@ namespace GameJam
     {
         private static void CreateDefaultCVars()
         {
+            /** CVar template Create<>("", , CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD); **/
             /** GENERAL **/
             Create<float>("tick_frequency", 120, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
@@ -16,7 +17,12 @@ namespace GameJam
             Create<int>("screen_width", 1280);
             Create<int>("screen_height", 800);
 
+            Create<bool>("windowed", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<bool>("borderless", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<bool>("fullscreen", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+
             /** GRAPHICS **/
+            Create<bool>("graphics_anti_alias_off", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
