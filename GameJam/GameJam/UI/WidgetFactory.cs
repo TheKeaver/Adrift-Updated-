@@ -173,6 +173,15 @@ namespace GameJam.UI
                 AbstractValue contentsWidth = ValueFromString(((DropDownPanelWidgetPrototype)prototype).ContentsInfo.Width);
                 AbstractValue contentsHeight = ValueFromString(((DropDownPanelWidgetPrototype)prototype).ContentsInfo.Height);
 
+                string[] rawEventTypes = ((DropDownPanelWidgetPrototype)prototype).CloseOn.Split(',');
+                Type[] eventTypes = new Type[rawEventTypes.Length];
+                for(int i = 0; i < rawEventTypes.Length; i++)
+                {
+                    string rawEventType = rawEventTypes[i];
+                    string assemblyQualifiedName = string.Format("GameJam.Events.{0}, GameJam", rawEventType);
+                    eventTypes[i] = Type.GetType(assemblyQualifiedName);
+                }
+
                 widget = new DropDownPanel(new NinePatchRegion2D(new TextureRegion2D(releasedTexture),
                         int.Parse(releasedRawThickness[0]),
                         int.Parse(releasedRawThickness[1]),
@@ -188,7 +197,9 @@ namespace GameJam.UI
                         int.Parse(pressedRawThickness[1]),
                         int.Parse(pressedRawThickness[2]),
                         int.Parse(pressedRawThickness[3])),
-                    halign, horizontal, valign, vertical, width, height, contentsWidth, contentsHeight);
+                    halign, horizontal, valign, vertical, width, height,
+                    contentsWidth, contentsHeight,
+                    eventTypes);
 
                 ((DropDownPanel)widget).rightID = ((DropDownPanelWidgetPrototype)prototype).RightID;
                 ((DropDownPanel)widget).leftID = ((DropDownPanelWidgetPrototype)prototype).LeftID;

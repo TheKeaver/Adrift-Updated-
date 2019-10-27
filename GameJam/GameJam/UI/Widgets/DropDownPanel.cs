@@ -89,6 +89,8 @@ namespace GameJam.UI.Widgets
         public string belowID { get => ((ISelectableWidget)SubPanel).belowID; set => ((ISelectableWidget)SubPanel).belowID = value; }
         public bool isSelected { get => ((ISelectableWidget)SubPanel).isSelected; set => ((ISelectableWidget)SubPanel).isSelected = value; }
 
+        private Type[] _closeOnEventTypes;
+
         public DropDownPanel(NinePatchRegion2D releasedNinePatch,
             NinePatchRegion2D hoverNinePatch,
             NinePatchRegion2D pressedNinePatch,
@@ -99,7 +101,8 @@ namespace GameJam.UI.Widgets
             AbstractValue width,
             AbstractValue height,
             AbstractValue contentsWidth,
-            AbstractValue contentsHeight)
+            AbstractValue contentsHeight,
+            Type[] closeOnEvents)
             :base(hAlign, horizontal, vAlign, vertical, width, height)
         {
             SubPanel = new Button(releasedNinePatch,
@@ -124,6 +127,27 @@ namespace GameJam.UI.Widgets
             ContentsPanel.Parent = this;
 
             ComputeProperties();
+
+            _closeOnEventTypes = closeOnEvents;
+            RegisterListeners();
+        }
+        ~DropDownPanel()
+        {
+            // A bit of a hack but DropDownPanel is the only
+            // widget that needs to have custom event listeners.
+            UnregisterListeners();
+        }
+
+        private void RegisterListeners()
+        {
+            foreach(Type eventType in _closeOnEventTypes)
+            {
+                EventManager.Instance.RegisterListener(eventType, this);
+            }
+        }
+        private void UnregisterListeners()
+        {
+            EventManager.Instance.UnregisterListener(this);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -147,6 +171,15 @@ namespace GameJam.UI.Widgets
         {
             if (ShowDropDown)
             {
+                if(Array.Find(_closeOnEventTypes, (Type type) =>
+                {
+                    return type == evt.GetType();
+                }) != null)
+                {
+                    ShowDropDown = false;
+                    return false;
+                }
+
                 GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
                 if(gamePadButtonDownEvent != null)
                 {

@@ -274,7 +274,7 @@ namespace UI.Content.Pipeline
         [XmlElement("Panel", typeof(PanelWidgetPrototype))]
         [XmlElement("Button", typeof(ButtonWidgetPrototype))]
         [XmlElement("DropDownPanel", typeof(DropDownPanelWidgetPrototype))]
-        public List<WidgetPrototype> Children; // DropDownPanel can't be a child because of UI implementation limitations
+        public List<WidgetPrototype> Children;
 
         public void WriteToOutput(ContentWriter output)
         {
@@ -321,6 +321,9 @@ namespace UI.Content.Pipeline
         [XmlAttribute("pressed-thickness")]
         public string PressedThickness;
 
+        [XmlAttribute("close-on")]
+        public string CloseOn;
+
         [XmlAttribute("aboveID")]
         public string AboveID = "";
         [XmlAttribute("leftID")]
@@ -345,6 +348,8 @@ namespace UI.Content.Pipeline
             output.Write(PressedImage);
             output.Write(PressedThickness);
 
+            output.Write(CloseOn);
+
             output.Write(AboveID);
             output.Write(LeftID);
             output.Write(RightID);
@@ -364,6 +369,8 @@ namespace UI.Content.Pipeline
             HoverThickness = input.ReadString();
             PressedImage = input.ReadString();
             PressedThickness = input.ReadString();
+
+            CloseOn = input.ReadString();
 
             AboveID = input.ReadString();
             LeftID = input.ReadString();

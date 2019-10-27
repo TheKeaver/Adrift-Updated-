@@ -14,7 +14,7 @@
             hover-thickness="5,5,5,5"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="5,5,5,5"
-            close-on="UI.TestButtonPressedEvent"
+            close-on="UI.TestButtonPressedEvent,UI.TestButtonPressed2Event"
             defaultSelected="true"
             >
             <Label
@@ -72,7 +72,7 @@
                     hover-thickness="5,5,5,5"
                     pressed-image="texture_ui_button_pressed"
                     pressed-thickness="5,5,5,5"
-                    onclick="queue:UI.TestButtonPressedEvent"
+                    onclick="queue:UI.TestButtonPressed2Event"
                     id="dropdown-1-button-2"
                     aboveID="dropdown-1-button-1"
                     belowID="dropdown-1-button-3"

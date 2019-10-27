@@ -69,7 +69,7 @@ namespace GameJam.UI
         {
             get
             {
-                if (this.Parent == null)
+                if (Parent == null)
                     return (Root)this;
                 else
                     return Parent.Root;
