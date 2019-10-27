@@ -26,6 +26,7 @@ namespace Events
         public static EventManager Instance { get; } = new EventManager();
 
         Dictionary<Type, List<WeakReference<IEventListener>>> _listeners = new Dictionary<Type, List<WeakReference<IEventListener>>>();
+        List<WeakReference<IEventListener>> _wildcardListeners = new List<WeakReference<IEventListener>>();
         List<IEvent> _queue = new List<IEvent>();
 
         public void RegisterListener<T>(IEventListener listener) where T : IEvent
@@ -42,7 +43,7 @@ namespace Events
 
             EnsureInitiatedListener(type);
 
-            if (ContainsListener(type, listener))
+            if (ContainsListener(_listeners[type], listener))
             {
                 throw new ListenerAlreadyExistsException();
             }
@@ -89,9 +90,9 @@ namespace Events
             return false;
         }
 
-        private bool ContainsListener(Type type, IEventListener listener)
+        private bool ContainsListener(List<WeakReference<IEventListener>> listeners, IEventListener listener)
         {
-            foreach (WeakReference<IEventListener> listenerRef in _listeners[type])
+            foreach (WeakReference<IEventListener> listenerRef in listeners)
             {
                 IEventListener checkListener;
                 listenerRef.TryGetTarget(out checkListener);
