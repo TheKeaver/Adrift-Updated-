@@ -38,8 +38,8 @@ namespace GameJam.Processes
                 Vector2 spawnPosition = new Vector2(0, 0);
                 do
                 {
-                    spawnPosition.X = random.NextSingle(-CVars.Get<int>("window_width") / 2 * 0.9f, CVars.Get<int>("window_width") / 2 * 0.9f);
-                    spawnPosition.Y = random.NextSingle(-CVars.Get<int>("window_height") / 2 * 0.9f, CVars.Get<int>("window_height") / 2 * 0.9f);
+                    spawnPosition.X = random.NextSingle(-CVars.Get<float>("screen_width") / 2 * 0.9f, CVars.Get<float>("screen_width") / 2 * 0.9f);
+                    spawnPosition.Y = random.NextSingle(-CVars.Get<float>("screen_height") / 2 * 0.9f, CVars.Get<float>("screen_height") / 2 * 0.9f);
                 } while (IsTooCloseToPlayer(spawnPosition));
 
                 GravityHoleEntity.Create(Engine, spawnPosition, ProcessManager);

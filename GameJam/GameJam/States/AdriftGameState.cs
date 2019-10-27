@@ -184,7 +184,7 @@ namespace GameJam.States
 
             // TODO: Game Over Process
             Entity gameOverText = SharedState.Engine.CreateEntity();
-            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<int>("screen_height") / 2)));
+            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<float>("screen_height") / 2)));
             gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>(CVars.Get<string>("font_game_over")), "Game Over"));
             ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3))
                 .SetNext(new EntityDestructionProcess(SharedState.Engine, gameOverText))

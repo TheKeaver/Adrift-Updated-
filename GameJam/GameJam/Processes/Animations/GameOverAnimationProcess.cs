@@ -45,7 +45,7 @@ namespace GameJam.Processes.Animation
             alpha = MathHelper.Clamp(alpha, 0, 1);
             Vector2 pos = entity.GetComponent<TransformComponent>().Position;
             float beta = Easings.ExponentialEaseOut(alpha);
-            pos.Y = MathHelper.Lerp(1.25f * CVars.Get<int>("window_height") / 2, 0, beta);
+            pos.Y = MathHelper.Lerp(1.25f * CVars.Get<float>("screen_height") / 2, 0, beta);
             entity.GetComponent<TransformComponent>().Move(pos - entity.GetComponent<TransformComponent>().Position);
         }
     }
