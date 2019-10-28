@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -321,6 +322,12 @@ namespace GameJam.UI
             get;
             internal set;
         }
+
+        public List<string> Classes
+        {
+            get;
+            private set;
+        } = new List<string>();
 
         public Widget(
             HorizontalAlignment hAlign,

@@ -275,5 +275,10 @@ namespace GameJam.UI.Widgets
         {
             ((IParentWidget)SubPanel).BuildFromPrototypes(content, prototypes);
         }
+
+        public List<Widget> FindWidgetsByClass(string className)
+        {
+            return ((IParentWidget)SubPanel).FindWidgetsByClass(className);
+        }
     }
 }

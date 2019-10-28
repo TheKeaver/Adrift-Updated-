@@ -261,6 +261,12 @@ namespace GameJam.UI
                 widgetIdDict.Add(prototype.ID, new WeakReference<Widget>(widget));
             }
 
+            if(prototype.Class.Trim().Length > 0)
+            {
+                string[] classes = prototype.Class.Trim().ToLower().Split(',');
+                widget.Classes.AddRange(classes);
+            }
+
             return widget;
         }
 

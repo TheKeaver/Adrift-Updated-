@@ -13,5 +13,6 @@ namespace GameJam.UI
         void BuildFromPrototypes(ContentManager content, List<WidgetPrototype> prototypes);
 
         ISelectableWidget FindSelectedWidget();
+        List<Widget> FindWidgetsByClass(string className);
     }
 }

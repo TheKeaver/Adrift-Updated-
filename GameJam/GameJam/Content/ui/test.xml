@@ -16,6 +16,7 @@
             pressed-thickness="5,5,5,5"
             close-on="UI.TestButtonPressedEvent,UI.TestButtonPressed2Event"
             defaultSelected="true"
+            class="one,two"
             >
             <Label
                 halign="left"
@@ -40,6 +41,8 @@
                     height="100%"
                     
                     image="texture_ui_dropdown_background"
+                    
+                    class="one"
                     />
                 <Button
                     halign="center"
@@ -58,6 +61,8 @@
                     id="dropdown-1-button-1"
                     aboveID="dropdown-1-button-3"
                     belowID="dropdown-1-button-2"
+                    
+                    class="two"
                     />
                 <Button
                     halign="center"

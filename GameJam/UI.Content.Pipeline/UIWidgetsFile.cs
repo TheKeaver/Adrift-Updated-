@@ -56,6 +56,9 @@ namespace UI.Content.Pipeline
         [XmlAttribute("id")]
         public string ID = "";
 
+        [XmlAttribute("class")]
+        public string Class = "";
+
         [XmlElement("Label", typeof(LabelWidgetPrototype))]
         [XmlElement("Image", typeof(ImageWidgetPrototype))]
         [XmlElement("NinePatchImage", typeof(NinePatchImageWidgetPrototype))]
@@ -78,6 +81,7 @@ namespace UI.Content.Pipeline
             output.Write(Alpha);
             output.Write(AspectRatio);
             output.Write(ID);
+            output.Write(Class);
 
             output.Write(Children.Count);
             foreach (WidgetPrototype widget in Children)
@@ -98,6 +102,7 @@ namespace UI.Content.Pipeline
             Alpha = input.ReadSingle();
             AspectRatio = input.ReadString();
             ID = input.ReadString();
+            Class = input.ReadString();
 
             int count = input.ReadInt32();
             Children = new List<WidgetPrototype>();

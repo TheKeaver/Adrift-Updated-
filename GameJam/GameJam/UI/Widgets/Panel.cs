@@ -96,5 +96,26 @@ namespace GameJam.UI.Widgets
 
             return null;
         }
+
+        public List<Widget> FindWidgetsByClass(string className)
+        {
+            List<Widget> widgets = new List<Widget>();
+
+            foreach (Widget widget in _widgets)
+            {
+                if (widget.Classes.Contains(className))
+                {
+                    widgets.Add(widget);
+                }
+
+                IParentWidget parent = widget as IParentWidget;
+                if (parent != null)
+                {
+                    widgets.AddRange(parent.FindWidgetsByClass(className));
+                }
+            }
+
+            return widgets;
+        }
     }
 }
