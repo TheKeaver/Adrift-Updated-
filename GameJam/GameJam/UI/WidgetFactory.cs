@@ -88,7 +88,7 @@ namespace GameJam.UI
                         int.Parse(rawThickness[3])),
                     halign, horizontal, valign, vertical, width, height);
             }
-            if (prototype is PanelWidgetPrototype)
+            if (prototype is PanelWidgetPrototype || prototype is ExternalWidgetPrototype)
             {
                 widget = new Panel(halign, horizontal, valign, vertical, width, height);
             }
@@ -221,7 +221,13 @@ namespace GameJam.UI
 
             if (widget is IParentWidget)
             {
-                foreach (WidgetPrototype childPrototype in prototype.Children)
+                List<WidgetPrototype> children = prototype.Children;
+                if(prototype is ExternalWidgetPrototype)
+                {
+                    string src = ((ExternalWidgetPrototype)prototype).Source;
+                    children = content.Load<List<WidgetPrototype>>(src);
+                }
+                foreach (WidgetPrototype childPrototype in children)
                 {
                     ((IParentWidget)widget).Add(CreateFromPrototype(content, childPrototype, ref widgetIdDict));
                 }

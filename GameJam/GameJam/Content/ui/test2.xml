@@ -8,7 +8,7 @@
             width="100%"
             height="100%"
             id="externalXmlTest">
-            <External ui="ui_test" />
+            <External src="ui_test" />
         </Panel>
     </Widgets>
 </UI>

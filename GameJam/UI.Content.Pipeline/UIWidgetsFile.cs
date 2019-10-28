@@ -17,7 +17,8 @@ namespace UI.Content.Pipeline
             XmlArrayItem("NinePatchImage", typeof(NinePatchImageWidgetPrototype)),
             XmlArrayItem("Panel", typeof(PanelWidgetPrototype)),
             XmlArrayItem("Button", typeof(ButtonWidgetPrototype)),
-            XmlArrayItem("DropDownPanel", typeof(DropDownPanelWidgetPrototype))]
+            XmlArrayItem("DropDownPanel", typeof(DropDownPanelWidgetPrototype)),
+            XmlArrayItem("External", typeof(ExternalWidgetPrototype))]
         public List<WidgetPrototype> Widgets
         {
             get;
@@ -34,9 +35,9 @@ namespace UI.Content.Pipeline
         [XmlAttribute("valign")]
         public string Valign = "center";
         [XmlAttribute("horizontal")]
-        public string Horizontal = "50%";
+        public string Horizontal = "0";
         [XmlAttribute("vertical")]
-        public string Vertical = "50%";
+        public string Vertical = "0";
 
         [XmlAttribute("width")]
         public string Width = "100%";
@@ -61,6 +62,7 @@ namespace UI.Content.Pipeline
         [XmlElement("Panel", typeof(PanelWidgetPrototype))]
         [XmlElement("Button", typeof(ButtonWidgetPrototype))]
         [XmlElement("DropDownPanel", typeof(DropDownPanelWidgetPrototype))]
+        [XmlElement("External", typeof(ExternalWidgetPrototype))]
         public List<WidgetPrototype> Children;
 
         /* Update self first, then base */
@@ -105,6 +107,27 @@ namespace UI.Content.Pipeline
                 widget.ReadFromInput(input);
                 Children.Add(widget);
             }
+        }
+    }
+
+    [Serializable]
+    public class ExternalWidgetPrototype : WidgetPrototype
+    {
+        [XmlAttribute("src")]
+        public string Source;
+
+        /* Update self first, then base */
+        public override void WriteToOutput(ContentWriter output)
+        {
+            output.Write(Source);
+
+            base.WriteToOutput(output);
+        }
+        public override void ReadFromInput(ContentReader input)
+        {
+            Source = input.ReadString();
+
+            base.ReadFromInput(input);
         }
     }
 
