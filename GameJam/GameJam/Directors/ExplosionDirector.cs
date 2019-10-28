@@ -25,7 +25,7 @@ namespace GameJam.Directors
         {
             _particleManager = particleManager;
             _random = new MTRandom();
-            _particleTexture = content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
+            _particleTexture = content.Load<Texture2D>("texture_particle_velocity");
         }
 
         public override void RegisterEvents()

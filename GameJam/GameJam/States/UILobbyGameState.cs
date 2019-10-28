@@ -56,7 +56,7 @@ namespace GameJam.States
 
         public override void LoadContent()
         {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/LobbyMenu"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_lobby_menu"));
         }
 
         public override void Show()

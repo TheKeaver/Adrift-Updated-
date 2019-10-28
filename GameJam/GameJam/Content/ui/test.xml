@@ -16,7 +16,6 @@
             pressed-thickness="5,5,5,5"
             close-on="UI.TestButtonPressedEvent,UI.TestButtonPressed2Event"
             defaultSelected="true"
-            alpha="0.5"
             >
             <Label
                 halign="left"

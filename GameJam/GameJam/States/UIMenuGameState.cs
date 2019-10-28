@@ -54,12 +54,12 @@ namespace GameJam.States
 
         public override void LoadContent()
         {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainMenu"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_main_menu"));
         }
 
         public override void Show()
         {
-            _root.RegisterListeners();
+            
         }
 
         public override void Hide()

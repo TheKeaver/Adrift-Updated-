@@ -12,13 +12,13 @@ namespace GameJam.UI
 {
     public class Root : Widget, IParentWidget
     {
-        List<Widget> _widgets = new List<Widget>();
+        private List<Widget> _widgets = new List<Widget>();
 
-        List<Widget> _deferredDrawQueue = new List<Widget>();
+        private List<Widget> _deferredDrawQueue = new List<Widget>();
 
-        Dictionary<string, WeakReference<Widget>> _widgetIdDict = new Dictionary<string, WeakReference<Widget>>();
+        internal Dictionary<string, WeakReference<Widget>> _widgetIdDict = new Dictionary<string, WeakReference<Widget>>();
 
-        public bool mouseMode = false; // False = GamePad mode
+        public bool MouseMode = true; // False = GamePad mode
 
         public Root(float width, float height) : base(HorizontalAlignment.Left, new FixedValue(0), VerticalAlignment.Top, new FixedValue(0), new FixedValue(width), new FixedValue(height))
         {
@@ -143,15 +143,15 @@ namespace GameJam.UI
         public override bool Handle(IEvent evt)
         {
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
-            if (mouseMode == false && mouseMoveEvent != null)
+            if (MouseMode == false && mouseMoveEvent != null)
             {
-                mouseMode = true;
+                MouseMode = true;
             }
 
             GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
-            if (gamePadButtonDownEvent != null && mouseMode == true)
+            if (gamePadButtonDownEvent != null && MouseMode == true)
             {
-                mouseMode = false;
+                MouseMode = false;
                 return true;
             }
 

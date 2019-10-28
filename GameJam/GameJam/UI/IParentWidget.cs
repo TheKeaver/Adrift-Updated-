@@ -1,4 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
+using UI.Content.Pipeline;
 
 namespace GameJam.UI
 {
@@ -6,6 +9,8 @@ namespace GameJam.UI
     {
         void Add(Widget widget);
         void Remove(Widget widget);
+
+        void BuildFromPrototypes(ContentManager content, List<WidgetPrototype> prototypes);
 
         ISelectableWidget FindSelectedWidget();
     }

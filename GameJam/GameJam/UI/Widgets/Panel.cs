@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Events;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using UI.Content.Pipeline;
 
 namespace GameJam.UI.Widgets
 {
@@ -25,6 +27,14 @@ namespace GameJam.UI.Widgets
         public void Remove(Widget widget)
         {
             _widgets.Remove(widget);
+        }
+
+        public void BuildFromPrototypes(ContentManager content, List<WidgetPrototype> prototypes)
+        {
+            foreach (WidgetPrototype prototype in prototypes)
+            {
+                Add(WidgetFactory.CreateFromPrototype(content, prototype, Root));
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)

@@ -163,15 +163,15 @@ namespace GameJam.States
 
         public override void LoadContent()
         {
-            Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
+            Content.Load<Texture2D>("texture_particle_velocity");
 
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
+            Content.Load<SoundEffect>("sound_explosion");
+            Content.Load<SoundEffect>("sound_projectile_fired");
+            Content.Load<SoundEffect>("sound_projectile_bounce");
 
-            Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
+            Content.Load<BitmapFont>("font_game_over");
 
-            Content.Load<Effect>(CVars.Get<string>("effect_blur"));
+            Content.Load<Effect>("effect_blur");
 
             Bloom bloom = new Bloom(AdriftPostProcessor, GameManager.Content);
             bloom.Radius = 1.5f;
@@ -180,8 +180,7 @@ namespace GameJam.States
             _fxaaPPE = new FXAA(AdriftPostProcessor, Content);
             AdriftPostProcessor.Effects.Add(_fxaaPPE);
 
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainGameStateUI"));
-            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_adrift_game_ui"));
         }
 
         public override void Show()
@@ -296,7 +295,7 @@ namespace GameJam.States
             // TODO: Game Over Process
             Entity gameOverText = Engine.CreateEntity();
             gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<int>("window_height") / 2)));
-            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>(CVars.Get<string>("font_game_over")), "Game Over"));
+            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>("font_game_over"), "Game Over"));
 
             ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3)).SetNext(new DelegateCommand(() =>
             {

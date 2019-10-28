@@ -10,8 +10,8 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:../../packages/MonoGame.Extended.Content.Pipeline.1.1.0/tools/MonoGame.Extended.Content.Pipeline.dll
 /reference:../../UI.Content.Pipeline/bin/Debug/UI.Content.Pipeline.dll
+/reference:../../Adrift.Content.Pipeline/bin/Debug/Adrift.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -362,4 +362,9 @@
 /importer:UIWidgetsImporter
 /processor:UIWidgetsProcessor
 /build:ui/test.xml
+
+#begin ui/test2.xml
+/importer:UIWidgetsImporter
+/processor:UIWidgetsProcessor
+/build:ui/test2.xml
 

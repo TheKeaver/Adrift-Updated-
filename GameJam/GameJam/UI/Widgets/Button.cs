@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 using GameJam.Events.InputHandling;
 using System.Collections;
+using Microsoft.Xna.Framework.Content;
+using System.Collections.Generic;
+using UI.Content.Pipeline;
 
 namespace GameJam.UI.Widgets
 {
@@ -49,7 +52,7 @@ namespace GameJam.UI.Widgets
                 ComputeProperties();
             }
         }
-        public NinePatchRegion2D PressedNinePatch 
+        public NinePatchRegion2D PressedNinePatch
         {
             get
             {
@@ -110,18 +113,18 @@ namespace GameJam.UI.Widgets
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if(!Hidden)
+            if (!Hidden)
             {
                 NinePatchRegion2D ninePatch = _releasedNinePatch;
-                if(ButtonState == ButtonState.Hover && Root.mouseMode == true)
+                if (ButtonState == ButtonState.Hover && Root.MouseMode == true)
                 {
                     ninePatch = _hoverNinePatch;
                 }
-                if (this.isSelected == true && Root.mouseMode == false)
+                if (this.isSelected == true && Root.MouseMode == false)
                 {
                     ninePatch = _hoverNinePatch;
                 }
-                if(ButtonState == ButtonState.Pressed || ForceShowAsPressed)
+                if (ButtonState == ButtonState.Pressed || ForceShowAsPressed)
                 {
                     ninePatch = _pressedNinePatch;
                 }
@@ -139,7 +142,7 @@ namespace GameJam.UI.Widgets
         public override bool Handle(IEvent evt)
         {
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
-            if(mouseMoveEvent != null)
+            if (mouseMoveEvent != null)
             {
                 //this.isSelected = false;
                 if (mouseMoveEvent.CurrentPosition.X > TopLeft.X
@@ -186,16 +189,16 @@ namespace GameJam.UI.Widgets
             }
 
             GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
-            if(gamePadButtonDownEvent != null && this.isSelected)
+            if (gamePadButtonDownEvent != null && this.isSelected)
             {
-                if(gamePadButtonDownEvent._pressedButton == Buttons.A)
+                if (gamePadButtonDownEvent._pressedButton == Buttons.A)
                 {
                     Action.Invoke();
                 }
-                if(gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
-                   gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft )
+                if (gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
+                   gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft)
                 {
-                    if(leftID.Length > 0)
+                    if (leftID.Length > 0)
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(leftID)).isSelected = true;
@@ -203,7 +206,7 @@ namespace GameJam.UI.Widgets
                     }
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadRight ||
-                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickRight )
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickRight)
                 {
                     if (rightID.Length > 0)
                     {
@@ -213,7 +216,7 @@ namespace GameJam.UI.Widgets
                     }
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadUp ||
-                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickUp )
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickUp)
                 {
                     if (aboveID.Length > 0)
                     {
@@ -223,7 +226,7 @@ namespace GameJam.UI.Widgets
                     }
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadDown ||
-                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickDown )
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickDown)
                 {
                     if (belowID.Length > 0)
                     {
@@ -261,11 +264,16 @@ namespace GameJam.UI.Widgets
 
         public ISelectableWidget FindSelectedWidget()
         {
-            if(isSelected)
+            if (isSelected)
             {
                 return this;
             }
             return null;
+        }
+
+        public void BuildFromPrototypes(ContentManager content, List<WidgetPrototype> prototypes)
+        {
+            ((IParentWidget)SubPanel).BuildFromPrototypes(content, prototypes);
         }
     }
 }

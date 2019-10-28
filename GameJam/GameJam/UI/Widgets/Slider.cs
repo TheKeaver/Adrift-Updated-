@@ -86,7 +86,7 @@ namespace GameJam.UI.Widgets
         public string leftID { get; set; } = "";
         public string rightID { get; set; } = "";
         public string belowID { get; set; } = "";
-        
+
         public float adjustableValue = 0.5f;
         public bool isSelected { get; set; } = false;
 
@@ -123,18 +123,18 @@ namespace GameJam.UI.Widgets
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if(!Hidden)
+            if (!Hidden)
             {
                 NinePatchRegion2D ninePatch = _releasedNinePatch;
-                if(SliderState == SliderState.Hover && Root.mouseMode == true)
+                if (SliderState == SliderState.Hover && Root.MouseMode == true)
                 {
                     ninePatch = _hoverNinePatch;
                 }
-                if(this.isSelected == true && Root.mouseMode == false)
+                if (this.isSelected == true && Root.MouseMode == false)
                 {
                     ninePatch = _hoverNinePatch;
                 }
-                if(SliderState == SliderState.Pressed)
+                if (SliderState == SliderState.Pressed)
                 {
                     ninePatch = _pressedNinePatch;
                 }
@@ -159,14 +159,14 @@ namespace GameJam.UI.Widgets
         public override bool Handle(IEvent evt)
         {
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
-            if( mouseMoveEvent != null)
+            if (mouseMoveEvent != null)
             {
-                if( mouseMoveEvent.CurrentPosition.X > TopLeft.X
+                if (mouseMoveEvent.CurrentPosition.X > TopLeft.X
                     && mouseMoveEvent.CurrentPosition.X < BottomRight.X
                     && mouseMoveEvent.CurrentPosition.Y > TopLeft.Y
-                    && mouseMoveEvent.CurrentPosition.Y < BottomRight.Y )
+                    && mouseMoveEvent.CurrentPosition.Y < BottomRight.Y)
                 {
-                    if ( SliderState != SliderState.Pressed)
+                    if (SliderState != SliderState.Pressed)
                     {
                         SliderState = SliderState.Hover;
                     }

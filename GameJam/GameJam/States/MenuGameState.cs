@@ -41,8 +41,8 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
 
             _menuTextures = new[]{
-                Content.Load<Texture2D>(CVars.Get<string>("texture_title_with_instructions")),
-                Content.Load<Texture2D>(CVars.Get<string>("texture_title_without_instructions"))
+                Content.Load<Texture2D>("texture_title_with_instructions"),
+                Content.Load<Texture2D>("texture_title_without_instructions")
             };
         }
 

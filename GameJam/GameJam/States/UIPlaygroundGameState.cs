@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Events;
 using GameJam.Events.UI;
 using GameJam.UI;
+using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Content.Pipeline;
 
@@ -49,9 +50,9 @@ namespace GameJam.States
 
         public override void LoadContent()
         {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_test2"));
+            //((Panel)_root.FindWidgetByID("externalXmlTest")).BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
         }
-
 
         public override void Show()
         {
