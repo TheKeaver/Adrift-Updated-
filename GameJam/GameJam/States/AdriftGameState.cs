@@ -95,6 +95,7 @@ namespace GameJam.States
 
             EventManager.Instance.RegisterListener<IncreasePlayerScoreEvent>(this);
             EventManager.Instance.RegisterListener<GameOverEvent>(this);
+            EventManager.Instance.RegisterListener<TogglePauseGameEvent>(this);
         }
 
         protected override void UnregisterListeners()
@@ -138,6 +139,11 @@ namespace GameJam.States
             if (evt is IncreasePlayerScoreEvent)
             {
                 HandleIncreasePlayerScoreEvent(evt as IncreasePlayerScoreEvent);
+            }
+            if(evt is TogglePauseGameEvent)
+            {
+                HandlePause();
+                return true;
             }
 
             return false;
@@ -186,6 +192,12 @@ namespace GameJam.States
         {
             score += increasePlayerScoreEvent.ScoreAddend;
             ((Label)_root.FindWidgetByID("main_game_score_label")).Content = "Score: " + score;
+        }
+
+        private void HandlePause()
+        {
+            GameManager.ProcessManager.TogglePauseAll();
+            GameManager.ProcessManager.Attach(new PauseGameState(GameManager));
         }
     }
 }

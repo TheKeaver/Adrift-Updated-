@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Audrey;
 using GameJam.Common;
 using GameJam.Directors;
@@ -104,14 +104,7 @@ namespace GameJam.States
             ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new LaserBeamCleanupDirector(Engine, Content, ProcessManager));
-                new BounceDirector(Engine, Content, ProcessManager),
-                new LaserBeamCleanupDirector(Engine, Content, ProcessManager)
-            };
-
-            for (int i = 0; i < _directors.Length; i++)
-            {
-                _directors[i].RegisterEvents();
-            }
+            ProcessManager.Attach(new PauseDirector(Engine, Content, ProcessManager));
         }
 
         private void LoadContent()

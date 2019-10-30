@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -28,6 +28,7 @@ namespace GameJam
             Create<int>("input_controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("input_controller_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("input_controller_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_controller_pause", 16, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("input_shield_angular_speed", 5.026f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
@@ -36,6 +37,8 @@ namespace GameJam
 
             Create<int>("input_keyboard_secondary_counter_clockwise", 37, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("input_keyboard_secondary_clockwise", 39, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+
+            Create<int>("input_keyboard_pause", 27, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** GAMEPLAY **/
             Create<float>("player_shield_radius", 30.0f, CVarFlags.DEV_PRESERVE);
@@ -199,6 +202,8 @@ namespace GameJam
 
             Create<string>("effect_blur", "effects/Blur", CVarFlags.PRESERVE);
             Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE);
+
+            Create<string>("ui_pause_menu", "ui/PauseMenu", CVarFlags.PRESERVE);
         }
     }
 }

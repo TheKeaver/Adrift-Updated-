@@ -538,6 +538,11 @@
 /processor:UIWidgetsProcessor
 /build:ui/MainMenu.xml
 
+#begin ui/PauseMenu.xml
+/importer:UIWidgetsImporter
+/processor:UIWidgetsProcessor
+/build:ui/PauseMenu.xml
+
 #begin ui/test.xml
 /importer:UIWidgetsImporter
 /processor:UIWidgetsProcessor
