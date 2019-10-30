@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -140,10 +140,10 @@ namespace GameJam
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
-            Create<float>("particle_explosion_strength", 1000, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_strength", 750, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_decay_multiplier", 0.96f, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_variety_min", 0.1f, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_variety_max", 1f, CVarFlags.DEV_PRESERVE);
-            Create<float>("particle_explosion_duration", 150, CVarFlags.DEV_PRESERVE);
 
             /** RESOURCES **/
             Create<string>("texture_player_ship", "textures/PlayerShip", CVarFlags.PRESERVE);

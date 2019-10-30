@@ -51,7 +51,8 @@ namespace GameJam.Particles
 			particle.Color = color;
 
 			particle.Duration = duration;
-			particle.PercentLife = 1;
+            particle.Elapsed = 0;
+            particle.Expired = false;
             particle.Scale.X = scaleX;
             particle.Scale.Y = scaleY;
 
@@ -65,13 +66,13 @@ namespace GameJam.Particles
 			{
 				Particle particle = _particles[i];
 				_updateParticle(particle, dt);
-				particle.PercentLife -= 1f / particle.Duration;
+                particle.Elapsed += dt;
 
 				// Sift deleted particles to the end of the list
 				_particles.Swap(i - removalCount, i);
 
 				// If particle has expired, delete particle
-				if (particle.PercentLife < 0)
+				if (particle.Expired)
 				{
 					removalCount++;
 				}
@@ -128,7 +129,8 @@ namespace GameJam.Particles
 
 			public Color Color = Color.TransparentBlack;
 			public float Duration;
-			public float PercentLife = 1f;
+            public float Elapsed;
+            public bool Expired;
             public T UserInfo = (T)Activator.CreateInstance(typeof(T));
         }
 

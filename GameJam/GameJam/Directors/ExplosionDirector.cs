@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Audrey;
 using Events;
 using GameJam.Common;
@@ -58,7 +58,7 @@ namespace GameJam.Directors
                                                         explosionLocation.X,
                                                         -explosionLocation.Y, // For various reasons, ParticleManager is flipped
                                                         color,
-                                                        CVars.Get<float>("particle_explosion_duration"),
+                                                        float.PositiveInfinity,
                                                         1,
                                                         0.5f);
                 info.Velocity.X = (float)(speed * Math.Cos(dir));
