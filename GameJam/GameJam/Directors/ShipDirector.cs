@@ -21,12 +21,12 @@ namespace GameJam.Directors
         {
         }
 
-        public override void RegisterEvents()
+        protected override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<CollisionStartEvent>(this);
         }
 
-        public override void UnregisterEvents()
+        protected override void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener(this);
         }

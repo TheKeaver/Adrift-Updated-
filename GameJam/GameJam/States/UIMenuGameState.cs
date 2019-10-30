@@ -13,12 +13,6 @@ namespace GameJam.States
 {
     class UIMenuGameState : CommonGameState, IEventListener
     {
-        public ProcessManager ProcessManager
-        {
-            get;
-            private set;
-        }
-
         SpriteBatch _spriteBatch;
         Root _root;
 
@@ -29,14 +23,9 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            ProcessManager = new ProcessManager();
-
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainMenu"));
-
-            RegisterEvents();
-            _root.RegisterListeners();
 
             ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
 
@@ -45,8 +34,6 @@ namespace GameJam.States
 
         protected override void OnUpdate(float dt)
         {
-            ProcessManager.Update(dt);
-
             base.OnUpdate(dt);
         }
 
@@ -64,24 +51,20 @@ namespace GameJam.States
             base.OnRender(dt, betweenFrameAlpha);
         }
 
-        protected override void OnKill()
+        protected override void RegisterListeners()
         {
-            UnregisterEvents();
-            _root.UnregisterListeners();
+            _root.RegisterListeners();
 
-            base.OnKill();
-        }
-
-        void RegisterEvents()
-        {
             EventManager.Instance.RegisterListener<PlayGameButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<OptionsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<QuitGameButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
         }
 
-        void UnregisterEvents()
+        protected override void UnregisterListeners()
         {
+            _root.UnregisterListeners();
+
             EventManager.Instance.UnregisterListener(this);
         }
 

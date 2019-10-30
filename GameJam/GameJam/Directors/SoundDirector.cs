@@ -24,14 +24,14 @@ namespace GameJam.Directors
             projectileBouncedFx = Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
         }
 
-        public override void RegisterEvents()
+        protected override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<ProjectileFiredEvent>(this);
             EventManager.Instance.RegisterListener<CreateExplosionEvent>(this);
             EventManager.Instance.RegisterListener<ProjectileBouncedEvent>(this);
         }
 
-        public override void UnregisterEvents()
+        protected override void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener(this);
         }

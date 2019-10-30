@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Audrey;
 using Events;
 using GameJam.Common;
@@ -26,12 +26,12 @@ namespace GameJam.Directors
             _particleTexture = content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
         }
 
-        public override void RegisterEvents()
+        protected override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<CreateExplosionEvent>(this);
         }
 
-        public override void UnregisterEvents()
+        protected override void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener(this);
         }

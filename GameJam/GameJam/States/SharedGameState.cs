@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Audrey;
 using GameJam.Common;
 using GameJam.Directors;
@@ -13,12 +13,6 @@ namespace GameJam.States
 {
     public class SharedGameState : GameState
     {
-        public ProcessManager ProcessManager
-        {
-            get;
-            private set;
-        }
-
         public PostProcessor PostProcessor
         {
             get;
@@ -49,7 +43,6 @@ namespace GameJam.States
             get;
             private set;
         }
-        BaseDirector[] _directors;
 
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
@@ -57,12 +50,10 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            ProcessManager = new ProcessManager();
-
             PostProcessor = new PostProcessor(GameManager.GraphicsDevice,
                 CVars.Get<float>("screen_width"),
                 CVars.Get<float>("screen_height"));
-            PostProcessor.RegisterEvents();
+            PostProcessor.RegisterEvents(); // Responds to ResizeEvent; keep outside of RegisterListeners
 
             Camera = new Camera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
             Camera.RegisterEvents();
@@ -77,8 +68,6 @@ namespace GameJam.States
             LoadContent();
 
             CreateEntities();
-
-            RegisterListeners();
 
             base.OnInitialize();
         }
@@ -106,15 +95,15 @@ namespace GameJam.States
         }
         private void InitDirectors()
         {
-            _directors = new BaseDirector[]
-            {
-                new ShipDirector(Engine, Content, ProcessManager),
-                new ShieldDirector(Engine, Content, ProcessManager),
-                new SoundDirector(Engine, Content, ProcessManager),
-                new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager),
-                new ChangeToKamikazeDirector(Engine, Content, ProcessManager),
-                new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager),
-                new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager),
+            ProcessManager.Attach(new ShipDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new ShieldDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
+            ProcessManager.Attach(new ChangeToKamikazeDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new LaserBeamCleanupDirector(Engine, Content, ProcessManager));
                 new BounceDirector(Engine, Content, ProcessManager),
                 new LaserBeamCleanupDirector(Engine, Content, ProcessManager)
             };
@@ -179,17 +168,8 @@ namespace GameJam.States
             //    Vector2.Zero, 0.55f);
         }
 
-        private void RegisterListeners()
-        {
-        }
-        private void UnregisterListeners()
-        {
-        }
-
         protected override void OnUpdate(float dt)
         {
-            ProcessManager.Update(dt);
-
             base.OnUpdate(dt);
         }
 
@@ -245,14 +225,8 @@ namespace GameJam.States
 
         protected override void OnKill()
         {
-            UnregisterListeners();
             PostProcessor.UnregisterEvents();
             Camera.UnregisterEvents();
-
-            for (int i = 0; i < _directors.Length; i++)
-            {
-                _directors[i].UnregisterEvents();
-            }
 
             throw new Exception("This game state provides shared logic with all other game states and must not be killed.");
         }

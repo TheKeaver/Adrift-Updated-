@@ -15,12 +15,6 @@ namespace GameJam.States
 {
     class UILobbyGameState : CommonGameState, IEventListener
     {
-        public ProcessManager ProcessManager
-        {
-            get;
-            private set;
-        }
-
         SpriteBatch _spriteBatch;
         Root _root;
 
@@ -35,8 +29,6 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            ProcessManager = new ProcessManager();
-
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/LobbyMenu"));
@@ -51,8 +43,6 @@ namespace GameJam.States
 
         protected override void OnUpdate(float dt)
         {
-            ProcessManager.Update(dt);
-
             base.OnUpdate(dt);
         }
 

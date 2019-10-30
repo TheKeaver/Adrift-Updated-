@@ -14,12 +14,6 @@ namespace GameJam.States
 
         Root _root;
 
-        private ProcessManager ProcessManager
-        {
-            get;
-            set;
-        }
-
         public UIPlaygroundGameState(GameManager gameManager) : base(gameManager)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
@@ -27,25 +21,17 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            ProcessManager = new ProcessManager();
-
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
 
-            RegisterEvents();
-
             ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
-
-            _root.RegisterListeners();
 
             base.OnInitialize();
         }
 
         protected override void OnUpdate(float dt)
         {
-            ProcessManager.Update(dt);
-
             base.OnUpdate(dt);
         }
 
@@ -60,9 +46,6 @@ namespace GameJam.States
 
         protected override void OnKill()
         {
-            UnregisterEvents();
-            _root.UnregisterListeners();
-
             base.OnKill();
         }
 
@@ -103,10 +86,14 @@ namespace GameJam.States
 
         void RegisterEvents()
         {
+            _root.RegisterListeners();
+
             EventManager.Instance.RegisterListener<TestButtonPressedEvent>(this);
         }
         void UnregisterEvents()
         {
+            _root.UnregisterListeners();
+
             EventManager.Instance.UnregisterListener(this);
         }
     }

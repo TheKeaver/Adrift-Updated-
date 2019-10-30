@@ -2,6 +2,7 @@ using Audrey;
 using Events;
 using GameJam.Components;
 using GameJam.Entities;
+using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using GameJam.Processes;
@@ -29,12 +30,6 @@ namespace GameJam.States
 
         public int score;
 
-        private ProcessManager ProcessManager
-        {
-            get;
-            set;
-        }
-
         Player[] PlayerArray;
 
         public AdriftGameState(GameManager gameManager,
@@ -48,8 +43,6 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            ProcessManager = new ProcessManager();
-
             ProcessManager.Attach(new KamikazeSpawner(SharedState.Engine));
             ProcessManager.Attach(new ShooterEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new GravityEnemySpawner(SharedState.Engine, ProcessManager));
@@ -60,9 +53,6 @@ namespace GameJam.States
             LoadContent();
 
             CreateEntities();
-
-            _root.RegisterListeners();
-            RegisterEvents();
 
             base.OnInitialize();
         }
@@ -82,8 +72,6 @@ namespace GameJam.States
 
         protected override void OnUpdate(float dt)
         {
-            ProcessManager.Update(dt);
-
             base.OnUpdate(dt);
         }
 
@@ -98,21 +86,21 @@ namespace GameJam.States
 
         protected override void OnKill()
         {
-            // Remove listeners
-            UnregisterEvents();
-            _root.UnregisterListeners();
-
             base.OnKill();
         }
 
-        void RegisterEvents()
+        protected override void RegisterListeners()
         {
+            _root.RegisterListeners();
+
             EventManager.Instance.RegisterListener<IncreasePlayerScoreEvent>(this);
             EventManager.Instance.RegisterListener<GameOverEvent>(this);
         }
 
-        void UnregisterEvents()
+        protected override void UnregisterListeners()
         {
+            _root.UnregisterListeners();
+            
             EventManager.Instance.UnregisterListener(this);
         }
 

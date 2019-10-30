@@ -83,5 +83,13 @@ namespace GameJam
                 _processList[i].Kill();
             }
         }
+
+        public void TogglePauseAll()
+        {
+            for (int i = 0; i < _processList.Count; i++)
+            {
+                _processList[i].TogglePause();
+            }
+        }
     }
 }

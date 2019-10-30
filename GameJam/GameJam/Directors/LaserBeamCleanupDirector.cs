@@ -49,13 +49,13 @@ namespace GameJam.Directors
             return false;
         }
 
-        public override void RegisterEvents()
+        protected override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<ComponentRemovedEvent<LaserBeamComponent>>(this);
             EventManager.Instance.RegisterListener<ComponentRemovedEvent<LaserEnemyComponent>>(this);
         }
 
-        public override void UnregisterEvents()
+        protected override void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener(this);
         }

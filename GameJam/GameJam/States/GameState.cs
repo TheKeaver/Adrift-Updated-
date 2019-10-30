@@ -1,5 +1,4 @@
-﻿using System;
-using Events;
+﻿using Events;
 using GameJam.Content;
 using GameJam.Events;
 using GameJam.Processes;
@@ -22,16 +21,26 @@ namespace GameJam
             private set;
         }
 
+        public ProcessManager ProcessManager
+        {
+            get;
+            private set;
+        }
+
         public GameState(GameManager gameManager)
         {
             GameManager = gameManager;
 
             Content = new LockingContentManager(gameManager.Services);
             Content.RootDirectory = "Content";
+
+            ProcessManager = new ProcessManager();
         }
 
         protected override void OnInitialize()
         {
+            RegisterListeners();
+
             // Updates the camera and post-processor with the actual screen size
             // This fixes a bug present in a build of Super Pong
             // Must be triggered after all listeners are registered
@@ -41,13 +50,23 @@ namespace GameJam
             Content.Locked = true;
         }
 
+        protected virtual void RegisterListeners()
+        {
+        }
+        protected virtual void UnregisterListeners()
+        {
+        }
+
         protected override void OnUpdate(float dt)
         {
+            //ProcessManager.Update(dt);
+
             base.OnUpdate(dt);
         }
 
         protected override void OnFixedUpdate(float dt)
         {
+            ProcessManager.Update(dt);
         }
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
@@ -56,6 +75,9 @@ namespace GameJam
 
         protected override void OnKill()
         {
+            ProcessManager.KillAll();
+            UnregisterListeners();
+
             UnloadContent();
         }
 
@@ -66,6 +88,15 @@ namespace GameJam
 
         protected override void OnTogglePause()
         {
+            ProcessManager.TogglePauseAll();
+
+            if(IsPaused)
+            {
+                UnregisterListeners();
+            } else
+            {
+                RegisterListeners();
+            }
         }
 
         protected void ChangeState(GameState gameState)
