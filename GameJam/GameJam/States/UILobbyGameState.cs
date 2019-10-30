@@ -18,8 +18,9 @@ namespace GameJam.States
         Root _root;
 
         int numberOfPlayers = 0;
-        public Player playerOneSeat;
-        public Player playerTwoSeat;
+        public List<Player> playersSeated;
+        //public Player playerOneSeat;
+        //public Player playersSeated[1];
 
         private ProcessManager ProcessManager
         {
@@ -45,6 +46,7 @@ namespace GameJam.States
 
         public override void Initialize()
         {
+            playersSeated = new List<Player>(4);
             ProcessManager = new ProcessManager();
 
             RegisterEvents();
@@ -88,79 +90,84 @@ namespace GameJam.States
         public bool Handle(IEvent evt)
         {
             GamePadButtonDownEvent buttonPressed = evt as GamePadButtonDownEvent;
-            if ( buttonPressed != null )
+            if( buttonPressed != null )
             {
+                PlayerIndex buttonPressedIndex = buttonPressed._playerIndex;
+                String playerString = "controller_" + ((int)buttonPressedIndex);
+                int isPlayerSeatedIndex = CheckIfSeated(playerString); // -1 means not found, else in 0,1,2 or 3
                 // A button is pressed
-                if ( buttonPressed._pressedButton == Buttons.A )
+                if( buttonPressed._pressedButton == Buttons.A )
                 {
-                    // Any player presses A while no seats are occupied
-                    if ( playerOneSeat == null )
+                    if( isPlayerSeatedIndex == -1 )
                     {
-                        if ( playerTwoSeat == null )
+                        if (playersSeated[0] == null)
                         {
-                            playerOneSeat = new Player("playerOne", new ControllerInputMethod(buttonPressed._playerIndex));
+                            playersSeated[0] = new Player(playerString, new ControllerInputMethod(buttonPressedIndex));
                             // Player one controller visibility helper
                             PlayerOne_VisibilityHelper(true);
                             numberOfPlayers += 1;
                         }
-                        if ( playerTwoSeat != null )
+                        else if (playersSeated[1] == null)
                         {
-                            ControllerInputMethod playerTwoControllerIM = playerTwoSeat.InputMethod as ControllerInputMethod;
-                            if ( playerTwoControllerIM == null || playerTwoControllerIM.PlayerIndex != buttonPressed._playerIndex )
-                            {
-                                playerOneSeat = new Player("playerOne", new ControllerInputMethod(buttonPressed._playerIndex));
-                                // Player one controller visibility helper
-                                PlayerOne_VisibilityHelper(true);
-                                numberOfPlayers += 1;
-                            }
-                        }
-                    }
-                    // One is occupied, Two is Open
-                    if ( playerOneSeat != null && playerTwoSeat == null )
-                    {
-                        ControllerInputMethod playerOneControllerIM = playerOneSeat.InputMethod as ControllerInputMethod;
-                        if ( playerOneControllerIM == null || playerOneControllerIM.PlayerIndex != buttonPressed._playerIndex )
-                        {
-                            playerTwoSeat = new Player("playerTwo", new ControllerInputMethod(buttonPressed._playerIndex));
+                            playersSeated[1] = new Player(playerString, new ControllerInputMethod(buttonPressedIndex));
                             // Player two controller visibility helper
                             PlayerTwo_VisibilityHelper(true);
                             numberOfPlayers += 1;
                         }
+                        else if (playersSeated[2] == null)
+                        {
+                            playersSeated[2] = new Player(playerString, new ControllerInputMethod(buttonPressedIndex));
+                            // Player three controller visibility helper
+                            //PlayerThree_VisibilityHelper(true);
+                            //numberOfPlayers += 1;
+                        }
+                        else if (playersSeated[3] == null)
+                        {
+                            playersSeated[3] = new Player(playerString, new ControllerInputMethod(buttonPressedIndex));
+                            // Player four controller visibility helper
+                            //PlayerFour_VisibilityHelper(true);
+                            //numberOfPlayers += 1;
+                        }
                     }
+                    // If player is seated we can place code here to handle alternative actions such as color changing
                 }
 
                 // B button is pressed
-                if ( buttonPressed._pressedButton == Buttons.B )
+                if( buttonPressed._pressedButton == Buttons.B )
                 {
-                    // when both players empty - return to menu screen
-                    if ( playerOneSeat == null && playerTwoSeat == null )
+                    // when all players empty - return to menu screen
+                    if ( isPlayerSeatedIndex == -1 )
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
-                        // Both players revert to default visibility (same as below)
                     }
                     // when player 1 presses B
-                    if ( playerOneSeat != null || playerTwoSeat != null )
+                    if ( isPlayerSeatedIndex != -1 )
                     {
-                        playerOneSeat = null;
-                        playerTwoSeat = null;
+                        // Blanks all seats
+                        playersSeated = new List<Player>(4);
                         Default_VisibilityHelper();
                         numberOfPlayers = 0;
+                        /* Other Option
+                         * Blanks occupied seat only
+                         * playerSeated[isPlayerSeatedIndex] = null;
+                         * undoSeatVisibilityHelper() // not implemented */
                     }
                 }
 
                 // If start button is pressed
                 if ( buttonPressed._pressedButton == Buttons.Start )
                 {
-                    if ( playerOneSeat != null )
+                    if ( playersSeated[0] != null )
                     {
+                        int playersCounter = 0;
                         Player[] players = new Player[numberOfPlayers];
-                        for (int i = 0; i < numberOfPlayers; i++)
+                        for (int i = 0; i < playersSeated.Count; i++)
                         {
-                            if (i == 0)
-                                players[i] = playerOneSeat;
-                            else
-                                players[i] = playerTwoSeat;
-
+                            if (playersSeated[i] != null)
+                            {
+                                players[playersCounter] = playersSeated[i];
+                                playersCounter++;
+                            }
                         }
                         GameManager.ChangeState(new MainGameState(GameManager, players));
                     }
@@ -171,41 +178,76 @@ namespace GameJam.States
             KeyboardKeyDownEvent keyPressed = evt as KeyboardKeyDownEvent;
             if ( keyPressed != null )
             {
-                if ( keyPressed._keyPressed == Keys.A || keyPressed._keyPressed == Keys.D )
+                String playerString = "keyboard_";
+                int keyboardPlayerNumber = -1;
+
+                if (keyPressed._keyPressed == Keys.A || keyPressed._keyPressed == Keys.D)
                 {
-                    // Any player presses A while no seats are occupied
-                    if ( playerOneSeat == null )
-                    {
-                        playerOneSeat = new Player("playerOne", new PrimaryKeyboardInputMethod());
-                        // Player one keyboard visibility helper
-                        PlayerOne_VisibilityHelper(false);
-                        numberOfPlayers += 1;
-                    }
+                    keyboardPlayerNumber = 1;
+                    playerString += 1;
+                }
+                else if (keyPressed._keyPressed == Keys.Left || keyPressed._keyPressed == Keys.Right )
+                {
+                    keyboardPlayerNumber = 2;
+                    playerString += 2;
                 }
 
-                if ( keyPressed._keyPressed == Keys.Left || keyPressed._keyPressed == Keys.Right )
+                int isPlayerSeatedIndex = CheckIfSeated(playerString); // -1 means not found, else in 0,1,2 or 3
+
+                if (isPlayerSeatedIndex == -1 && keyboardPlayerNumber != -1)
                 {
-                    if ( playerTwoSeat == null )
+                    if (playersSeated[0] == null)
                     {
-                        playerTwoSeat = new Player("playerTwo", new SecondaryKeyboardInputMethod());
-                        // Player two keyboard visibility helper
-                        PlayerTwo_VisibilityHelper(false);
+                        playersSeated[0] = (keyboardPlayerNumber < 2) ? 
+                            new Player( playerString, new PrimaryKeyboardInputMethod() ) :
+                            new Player( playerString, new PrimaryKeyboardInputMethod() ) ;
+                        // Player one controller visibility helper
+                        PlayerOne_VisibilityHelper(true);
                         numberOfPlayers += 1;
                     }
+                    else if (playersSeated[1] == null)
+                    {
+                        playersSeated[1] = (keyboardPlayerNumber < 2) ?
+                            new Player(playerString, new PrimaryKeyboardInputMethod()) :
+                            new Player(playerString, new PrimaryKeyboardInputMethod());
+                        // Player two controller visibility helper
+                        PlayerTwo_VisibilityHelper(true);
+                        numberOfPlayers += 1;
+                    }
+                    else if (playersSeated[2] == null)
+                    {
+                        playersSeated[2] = (keyboardPlayerNumber < 2) ?
+                            new Player(playerString, new PrimaryKeyboardInputMethod()) :
+                            new Player(playerString, new PrimaryKeyboardInputMethod());
+                        // Player three controller visibility helper
+                        //PlayerThree_VisibilityHelper(true);
+                        //numberOfPlayers += 1;
+                    }
+                    else if (playersSeated[3] == null)
+                    {
+                        playersSeated[3] = (keyboardPlayerNumber < 2) ?
+                            new Player(playerString, new PrimaryKeyboardInputMethod()) :
+                            new Player(playerString, new PrimaryKeyboardInputMethod());
+                        // Player four controller visibility helper
+                        //PlayerFour_VisibilityHelper(true);
+                        //numberOfPlayers += 1;
+                    }
                 }
+                // If player is seated we can place code here to handle alternative actions such as color changing
 
                 if ( keyPressed._keyPressed == Keys.Enter )
                 {
-                    if ( playerOneSeat != null )
+                    if (playersSeated[0] != null)
                     {
+                        int playersCounter = 0;
                         Player[] players = new Player[numberOfPlayers];
-                        for (int i = 0; i < numberOfPlayers; i++)
+                        for (int i = 0; i < playersSeated.Count; i++)
                         {
-                            if (i == 0)
-                                players[i] = playerOneSeat;
-                            else
-                                players[i] = playerTwoSeat;
-
+                            if (playersSeated[i] != null)
+                            {
+                                players[playersCounter] = playersSeated[i];
+                                playersCounter++;
+                            }
                         }
                         GameManager.ChangeState(new MainGameState(GameManager, players));
                     }
@@ -213,23 +255,41 @@ namespace GameJam.States
 
                 if ( keyPressed._keyPressed == Keys.Escape )
                 {
-                    // when both players empty - return to menu screen
-                    if ( playerOneSeat == null && playerTwoSeat == null )
+                    // when all players empty - return to menu screen
+                    if (isPlayerSeatedIndex == -1)
                     {
                         GameManager.ChangeState(new UIMenuGameState(GameManager));
-                        // Both players revert to default visibility (same as above)
                     }
-                    if ( playerOneSeat != null || playerTwoSeat != null )
+                    // when player 1 presses B
+                    if (isPlayerSeatedIndex != -1)
                     {
-                        playerOneSeat = null;
-                        playerTwoSeat = null;
+                        // Blanks all seats
+                        playersSeated = new List<Player>(4);
                         Default_VisibilityHelper();
                         numberOfPlayers = 0;
+                        /* Other Option
+                         * Blanks occupied seat only
+                         * playerSeated[isPlayerSeatedIndex] = null;
+                         * undoSeatVisibilityHelper() // not implemented */
                     }
                 }
             }
 
             return false;
+        }
+
+        // Returns index when found, else returns -1
+        private int CheckIfSeated(String playerString)
+        {
+            for( int i=0; i<playersSeated.Count; i++ )
+            {
+                String temp = playersSeated[i].InputMethod.ToString();
+                if ( temp.Equals(playerString) )
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         private void PlayerOne_VisibilityHelper(bool isController)

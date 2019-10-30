@@ -6,11 +6,13 @@ namespace GameJam.Input
     public class ControllerInputMethod : InputMethod
     {
         public readonly PlayerIndex PlayerIndex;
+        public string toString;
         readonly GamePadCapabilities _capabilities;
 
         public ControllerInputMethod(PlayerIndex playerIndex)
         {
             PlayerIndex = playerIndex;
+            toString = "controller_" + ((int)playerIndex);
             _capabilities = GamePad.GetCapabilities(PlayerIndex);
         }
 
@@ -20,17 +22,22 @@ namespace GameJam.Input
             {
                 GamePadState currentState = GamePad.GetState(PlayerIndex);
 
-                if(currentState.IsButtonDown((Buttons)CVars.Get<int>("controller_right_bumper")))
+                if(currentState.IsButtonDown((Buttons)CVars.Get<int>(toString + "_rotate_left")))
                 {
                     // Counter-Clockwise
                     _snapshot.Angle -= CVars.Get<float>("keyboard_shield_angular_speed") * dt;
                 }
-                if (currentState.IsButtonDown((Buttons)CVars.Get<int>("controller_left_bumper")))
+                if (currentState.IsButtonDown((Buttons)CVars.Get<int>(toString + "_rotate_right")))
                 {
                     // Clockwise
                     _snapshot.Angle += CVars.Get<float>("keyboard_shield_angular_speed") * dt;
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return toString;
         }
     }
 }

@@ -163,46 +163,53 @@ namespace GameJam.States
             {
                 Console.WriteLine("fullSBPE");
                 // Set to full screen
+                CVars.Get<bool>("display_windowed").Equals(false);
+                CVars.Get<bool>("display_borderless").Equals(false);
+                CVars.Get<bool>("display_fullscreen").Equals(true);
+                // Generate event to force GameManager to change to correct settings
             }
             WindowedSettingsButtonPressed windowedSBPE = evt as WindowedSettingsButtonPressed;
             if( windowedSBPE != null )
             {
                 Console.WriteLine("windowedSBPE");
                 // Set to windowed
+                CVars.Get<bool>("display_windowed").Equals(true);
+                CVars.Get<bool>("display_borderless").Equals(false);
+                CVars.Get<bool>("display_fullscreen").Equals(false);
+                // Generate event to force GameManager to change to correct settings
+
             }
             BorderlessWindowButtonPressedEvent borderlessWindowSBPE = evt as BorderlessWindowButtonPressedEvent;
             if( borderlessWindowSBPE != null )
             {
                 Console.WriteLine("bordelessWindowSBPE");
                 // Set to borderless window
+                CVars.Get<bool>("display_windowed").Equals(false);
+                CVars.Get<bool>("display_borderless").Equals(true);
+                CVars.Get<bool>("display_fullscreen").Equals(false);
+                // Generate event to force GameManager to change to correct settings
             }
 
             AAFXAASettingsButtonPressedEvent aafxaaSBPE = evt as AAFXAASettingsButtonPressedEvent;
             if( aafxaaSBPE != null )
             {
                 Console.WriteLine("aafxaaSBPE");
-                CVars.Get<bool>("graphics_anti_alias_off").Equals(false);
                 CVars.Get<bool>("graphics_fxaa").Equals(true);
                 // CVars.Get<bool>("graphics_feathering").Equals(false);
-                // Generate event to force GameManager to change to correct settings
             }
             AAFeatheringButtonPressedEvent aafeatherSBPE = evt as AAFeatheringButtonPressedEvent;
             if( aafeatherSBPE != null )
             {
                 Console.WriteLine("aafeatherSBPE");
-                CVars.Get<bool>("graphics_anti_alias_off").Equals(false);
                 CVars.Get<bool>("graphics_fxaa").Equals(false);
                 // CVars.Get<bool>("graphics_feathering").Equals(true);
-                // Generate event to force GameManager to change to correct settings
             }
             AAOffButtonPressedEvent aaoffSBPE = evt as AAOffButtonPressedEvent;
             if( aaoffSBPE != null )
             {
                 Console.WriteLine("aaoffSBPE");
-                CVars.Get<bool>("graphics_anti_alias_off").Equals(true);
                 CVars.Get<bool>("graphics_fxaa").Equals(false);
                 // CVars.Get<bool>("graphics_feathering").Equals(false);
-                // Generate event to force GameManager to change to correct settings
             }
 
             RotateLeftSettingsButtonPressedEvent rlSBPE = evt as RotateLeftSettingsButtonPressedEvent;
@@ -272,16 +279,16 @@ namespace GameJam.States
                     switch (gpbde._playerIndex)
                     {
                         case PlayerIndex.One:
-                            // CVars.Get<int>("controller_1_rotate_left").Equals((int)gpbde._pressedButton);
+                            CVars.Get<int>("controller_1_rotate_left").Equals((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Two:
-                            // CVars.Get<int>("controller_2_rotate_left").Equals((int)gpbde._pressedButton);
+                            CVars.Get<int>("controller_2_rotate_left").Equals((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Three:
-                            // CVars.Get<int>("controller_3_rotate_left").Equals((int)gpbde._pressedButton);
+                            CVars.Get<int>("controller_3_rotate_left").Equals((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Four:
-                            // CVars.Get<int>("controller_4_rotate_left").Equals((int)gpbde._pressedButton);
+                            CVars.Get<int>("controller_4_rotate_left").Equals((int)gpbde._pressedButton);
                             break;
                     }
                     this.rotateLeftBindingMode = false;
@@ -291,16 +298,16 @@ namespace GameJam.States
                     switch (gpbde._playerIndex)
                     {
                         case PlayerIndex.One:
-                            // CVars.Get<int>("controller_1_rotate_right").Equals((int)gpbde._pressedButton);
+                            CVars.Get<int>("controller_1_rotate_right").Equals((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Two:
-                            // CVars.Get<int>("controller_2_rotate_right").Equals((int)gpbde._pressedButton);
+                            CVars.Get<int>("controller_2_rotate_right").Equals((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Three:
-                            // CVars.Get<int>("controller_3_rotate_right").Equals((int)gpbde._pressedButton);
+                            CVars.Get<int>("controller_3_rotate_right").Equals((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Four:
-                            // CVars.Get<int>("controller_4_rotate_right").Equals((int)gpbde._pressedButton);
+                            CVars.Get<int>("controller_4_rotate_right").Equals((int)gpbde._pressedButton);
                             break;
                     }
                     this.rotateRightBindingMode = false;
@@ -312,7 +319,11 @@ namespace GameJam.States
             {
                 if( kbkde._keyPressed == Keys.Escape )
                 {
-                    if( isOnLeftSide == false )
+                    if (isOnLeftSide == true)
+                    {
+                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                    }
+                    if ( isOnLeftSide == false )
                     {
                         switch (leftSideIndex)
                         {
@@ -335,10 +346,6 @@ namespace GameJam.States
                                 ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
                                 break;
                         }
-                    }
-                    if( isOnLeftSide == true )
-                    {
-                        GameManager.ChangeState(new UIMenuGameState(GameManager));
                     }
                 }
             }

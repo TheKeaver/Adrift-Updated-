@@ -194,6 +194,8 @@ namespace GameJam.States
 
         void CreateEntities()
         {
+            // TO DO: Implement player 3 and player 4 before finishing this
+
             Entity playerShipEntity = PlayerShipEntity.Create(Engine,
                 new Vector2(-25 + (25 * (PlayerArray.Length % 2)), 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(Engine,
