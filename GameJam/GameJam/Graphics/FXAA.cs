@@ -86,7 +86,7 @@ namespace GameJam.Graphics
 
         public FXAA(PostProcessor postProcessor, ContentManager content) : base(postProcessor)
         {
-            _fxaaEffect = content.Load<Effect>(CVars.Get<string>("effect_fxaa"));
+            _fxaaEffect = content.Load<Effect>("effect_fxaa");
         }
 
         public override void Dispose()

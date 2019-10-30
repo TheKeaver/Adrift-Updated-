@@ -17,7 +17,7 @@
                 height="100%"
               
                 image="texture_ui_lobby_panel_background"
-                thickness="4,4,4,4"
+                thickness="5,5,5,5"
                 aspect-ratio="1.0"
                 id="player_one_lobby_seat_border">
             </NinePatchImage>
@@ -91,7 +91,7 @@
                 height="100%"
               
                 image="texture_ui_lobby_panel_background"
-                thickness="4,4,4,4"
+                thickness="5,5,5,5"
                 aspect-ratio="1.0"
                 id="player_two_lobby_seat_border">
             </NinePatchImage>

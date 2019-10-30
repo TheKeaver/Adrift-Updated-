@@ -49,20 +49,20 @@ namespace GameJam.States
             playersSeated = new List<Player>(4);
             ProcessManager = new ProcessManager();
 
-            RegisterEvents();
-
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
+            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
+
+            RegisterEvents();
         }
 
         public override void LoadContent()
         {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/LobbyMenu"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_lobby_menu"));
         }
 
         public override void Show()
         {
-            _root.RegisterListeners();
         }
 
         public override void Hide()

@@ -144,6 +144,7 @@ namespace GameJam
             Create<string>("texture_ui_button_hover", "textures/ui/button_over_background", CVarFlags.PRESERVE);
             Create<string>("texture_ui_button_pressed", "textures/ui/button_down_background", CVarFlags.PRESERVE);
             Create<string>("texture_ui_lobby_panel_background", "textures/ui/LobbyPanelBackground", CVarFlags.PRESERVE);
+            Create<string>("texture_ui_dropdown_background", "textures/ui/dropdown_contents_background", CVarFlags.PRESERVE);
 
             Create<string>("texture_input_keyboard_a_key", "textures/input/Keyboard_Black_A", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_d_key", "textures/input/Keyboard_Black_D", CVarFlags.PRESERVE);
@@ -160,9 +161,18 @@ namespace GameJam
             Create<string>("sound_projectile_bounce", "sounds/Proj_Bounce", CVarFlags.PRESERVE);
 
             Create<string>("font_game_over", "fonts/Intro", CVarFlags.PRESERVE);
+            Create<string>("font_texture_game_over", "fonts/Intro_0", CVarFlags.PRESERVE);
 
             Create<string>("effect_blur", "effects/Blur", CVarFlags.PRESERVE);
             Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE);
+
+            Create<string>("ui_main_menu", "ui/MainMenu", CVarFlags.PRESERVE);
+            Create<string>("ui_lobby_menu", "ui/LobbyMenu", CVarFlags.PRESERVE);
+            Create<string>("ui_options_menu", "ui/OptionsMenu", CVarFlags.PRESERVE);
+            Create<string>("ui_adrift_game_ui", "ui/MainGameStateUI", CVarFlags.PRESERVE);
+
+            Create<string>("ui_test", "ui/test", CVarFlags.PRESERVE);
+            Create<string>("ui_test2", "ui/test2", CVarFlags.PRESERVE);
         }
     }
 }

@@ -164,6 +164,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamWarmUpEnd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireStart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\DropDownPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\TestButtonPressed2Event.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -174,5 +177,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Particles\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Enemies\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\" />
   </ItemGroup>
 </Project>

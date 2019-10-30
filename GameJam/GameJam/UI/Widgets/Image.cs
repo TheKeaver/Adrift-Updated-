@@ -43,7 +43,7 @@ namespace GameJam.UI.Widgets
                 spriteBatch.Draw(Texture,
                     TopLeft,
                     null,
-                    Color.White,
+                    TintColor,
                     0,
                     Vector2.Zero,
                     scale,

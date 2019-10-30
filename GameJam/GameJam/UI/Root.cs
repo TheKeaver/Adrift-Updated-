@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Events;
 using GameJam.Events;
@@ -11,11 +12,13 @@ namespace GameJam.UI
 {
     public class Root : Widget, IParentWidget
     {
-        List<Widget> _widgets = new List<Widget>();
+        private List<Widget> _widgets = new List<Widget>();
 
-        Dictionary<string, WeakReference<Widget>> _widgetIdDict = new Dictionary<string, WeakReference<Widget>>();
+        private List<Widget> _deferredDrawQueue = new List<Widget>();
 
-        public bool mouseMode = false; // False = GamePad mode
+        internal Dictionary<string, WeakReference<Widget>> _widgetIdDict = new Dictionary<string, WeakReference<Widget>>();
+
+        public bool MouseMode = true; // False = GamePad mode
 
         public Root(float width, float height) : base(HorizontalAlignment.Left, new FixedValue(0), VerticalAlignment.Top, new FixedValue(0), new FixedValue(width), new FixedValue(height))
         {
@@ -83,6 +86,53 @@ namespace GameJam.UI
             return null;
         }
 
+        public List<Widget> FindWidgetsByClass(string className)
+        {
+            className = className.Trim().ToLower();
+
+            List<Widget> widgets = new List<Widget>();
+
+            foreach(Widget widget in _widgets)
+            {
+                if(widget.Classes.Contains(className))
+                {
+                    widgets.Add(widget);
+                }
+
+                IParentWidget parent = widget as IParentWidget;
+                if (parent != null)
+                {
+                    widgets.AddRange(parent.FindWidgetsByClass(className));
+                }
+            }
+
+            return widgets;
+        }
+
+        public ISelectableWidget FindSelectedWidget()
+        {
+            foreach(Widget widget in _widgets)
+            {
+                ISelectableWidget selectableWidget = widget as ISelectableWidget;
+                if(selectableWidget != null && selectableWidget.isSelected)
+                {
+                    return selectableWidget;
+                }
+
+                IParentWidget parentWidget = widget as IParentWidget;
+                if(parentWidget != null)
+                {
+                    ISelectableWidget resultWidget = parentWidget.FindSelectedWidget();
+                    if(resultWidget != null)
+                    {
+                        return resultWidget;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!Hidden)
@@ -91,7 +141,18 @@ namespace GameJam.UI
                 {
                     _widgets[i].Draw(spriteBatch);
                 }
+
+                for (int i = 0; i < _deferredDrawQueue.Count; i++)
+                {
+                    _deferredDrawQueue[i].Draw(spriteBatch);
+                }
+                _deferredDrawQueue.Clear();
             }
+        }
+
+        public void RequestDeferredDraw(Widget widget)
+        {
+            _deferredDrawQueue.Add(widget);
         }
 
         private void OnResize(float width, float height)
@@ -105,15 +166,15 @@ namespace GameJam.UI
         public override bool Handle(IEvent evt)
         {
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
-            if (mouseMode == false && mouseMoveEvent != null)
+            if (MouseMode == false && mouseMoveEvent != null)
             {
-                mouseMode = true;
+                MouseMode = true;
             }
 
             GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
-            if (gamePadButtonDownEvent != null && mouseMode == true)
+            if (gamePadButtonDownEvent != null && MouseMode == true)
             {
-                mouseMode = false;
+                MouseMode = false;
                 return true;
             }
 
@@ -140,6 +201,11 @@ namespace GameJam.UI
             {
                 _widgets[i].ComputeProperties();
             }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _widgets.GetEnumerator();
         }
     }
 }

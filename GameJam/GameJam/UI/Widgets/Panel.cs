@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Events;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using UI.Content.Pipeline;
 
 namespace GameJam.UI.Widgets
 {
@@ -8,7 +11,10 @@ namespace GameJam.UI.Widgets
     {
         List<Widget> _widgets = new List<Widget>();
 
-        public Panel(HorizontalAlignment hAlign, AbstractValue horizontal, VerticalAlignment vAlign, AbstractValue vertical, AbstractValue width, AbstractValue height) : base(hAlign, horizontal, vAlign, vertical, width, height)
+        public Panel(HorizontalAlignment hAlign, AbstractValue horizontal,
+            VerticalAlignment vAlign, AbstractValue vertical,
+            AbstractValue width, AbstractValue height)
+                :base(hAlign, horizontal, vAlign, vertical, width, height)
         {
         }
 
@@ -21,6 +27,14 @@ namespace GameJam.UI.Widgets
         public void Remove(Widget widget)
         {
             _widgets.Remove(widget);
+        }
+
+        public void BuildFromPrototypes(ContentManager content, List<WidgetPrototype> prototypes)
+        {
+            foreach (WidgetPrototype prototype in prototypes)
+            {
+                Add(WidgetFactory.CreateFromPrototype(content, prototype, Root));
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -52,6 +66,56 @@ namespace GameJam.UI.Widgets
             {
                 _widgets[i].ComputeProperties();
             }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _widgets.GetEnumerator();
+        }
+
+        public ISelectableWidget FindSelectedWidget()
+        {
+            foreach (Widget widget in _widgets)
+            {
+                ISelectableWidget selectableWidget = widget as ISelectableWidget;
+                if (selectableWidget != null && selectableWidget.isSelected)
+                {
+                    return selectableWidget;
+                }
+
+                IParentWidget parentWidget = widget as IParentWidget;
+                if (parentWidget != null)
+                {
+                    ISelectableWidget resultWidget = parentWidget.FindSelectedWidget();
+                    if (resultWidget != null)
+                    {
+                        return resultWidget;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public List<Widget> FindWidgetsByClass(string className)
+        {
+            List<Widget> widgets = new List<Widget>();
+
+            foreach (Widget widget in _widgets)
+            {
+                if (widget.Classes.Contains(className))
+                {
+                    widgets.Add(widget);
+                }
+
+                IParentWidget parent = widget as IParentWidget;
+                if (parent != null)
+                {
+                    widgets.AddRange(parent.FindWidgetsByClass(className));
+                }
+            }
+
+            return widgets;
         }
     }
 }

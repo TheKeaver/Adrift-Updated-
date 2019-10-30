@@ -102,6 +102,7 @@ namespace GameJam.States
         {
             ProcessManager = new ProcessManager();
 
+            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
             RegisterEvents();
             //InitDirectors();
 
@@ -110,12 +111,11 @@ namespace GameJam.States
 
         public override void LoadContent()
         {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/OptionsMenu"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_options_menu"));
         }
 
         public override void Show()
         {
-            _root.RegisterListeners();
         }
 
         public override void Update(float dt)
@@ -256,19 +256,19 @@ namespace GameJam.States
                             case 0:
                                 ((Button)_root.FindWidgetByID("Display")).isSelected = true;
                                 isOnLeftSide = true;
-                                // Deslection of button/slider should be handled in the button/slider class
+                                // FindSelectedWidget("name").isSelected = false;
                                 ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = true;
                                 break;
                             case 1:
                                 ((Button)_root.FindWidgetByID("Controls")).isSelected = true;
                                 isOnLeftSide = true;
-                                // Deslection of button/slider should be handled in the button/slider class
+                                // FindSelectedWidget("name").isSelected = false;
                                 ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = true;
                                 break;
                             case 2:
                                 ((Button)_root.FindWidgetByID("GameSettings")).isSelected = true;
                                 isOnLeftSide = true;
-                                // Deslection of button/slider should be handled in the button/slider class
+                                // FindSelectedWidget("name").isSelected = false;
                                 ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
                                 break;
                         }
