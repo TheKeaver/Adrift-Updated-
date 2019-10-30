@@ -2,20 +2,23 @@
 using Events;
 using GameJam.Directors;
 using GameJam.Events;
+using GameJam.Events.UI.Pause;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
-    public class PauseGameState : GameState, IEventListener
+    public class PauseGameState : CommonGameState, IEventListener
     {
         private SpriteBatch _spriteBatch;
         private Root _root;
+        private readonly Process _gameProcess;
 
-        public PauseGameState(GameManager gameManager) : base(gameManager)
+        public PauseGameState(GameManager gameManager, SharedGameState sharedState, Process gameProcess) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            _gameProcess = gameProcess;
         }
 
         protected override void OnInitialize()
@@ -62,6 +65,7 @@ namespace GameJam.States
             _root.RegisterListeners();
 
             EventManager.Instance.RegisterListener<TogglePauseGameEvent>(this);
+            EventManager.Instance.RegisterListener<ExitToLobbyEvent>(this);
 
             base.RegisterListeners();
         }
@@ -77,11 +81,15 @@ namespace GameJam.States
 
         public bool Handle(IEvent evt)
         {
-            if(evt is TogglePauseGameEvent)
+            if (evt is TogglePauseGameEvent)
             {
                 HandleUnpause();
 
                 return true;
+            }
+            if (evt is ExitToLobbyEvent)
+            {
+                HandleReturnToLobby();
             }
 
             return false;
@@ -91,6 +99,13 @@ namespace GameJam.States
         {
             GameManager.ProcessManager.TogglePauseAll();
             Kill();
+        }
+
+        private void HandleReturnToLobby()
+        {
+            GameManager.ProcessManager.TogglePauseAll();
+            _gameProcess.Kill();
+            ChangeState(new UILobbyGameState(GameManager, SharedState));
         }
     }
 }

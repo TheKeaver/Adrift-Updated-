@@ -5,6 +5,7 @@ using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
+using GameJam.Events.UI.Pause;
 using GameJam.Processes;
 using GameJam.Processes.Animation;
 using GameJam.Processes.Enemies;
@@ -86,6 +87,8 @@ namespace GameJam.States
 
         protected override void OnKill()
         {
+            CleanDestroyAllEntities();
+
             base.OnKill();
         }
 
@@ -149,10 +152,8 @@ namespace GameJam.States
             return false;
         }
 
-        private void HandleGameOverEvent(GameOverEvent gameOverEvent)
+        private void CleanDestroyAllEntities()
         {
-            ProcessManager.KillAll();
-
             // Explode all entities
             ImmutableList<Entity> explosionEntities = SharedState.Engine.GetEntitiesFor(Family
                 .All(typeof(TransformComponent), typeof(ColoredExplosionComponent))
@@ -161,7 +162,7 @@ namespace GameJam.States
                     typeof(EnemyComponent),
                     typeof(EdgeComponent))
                 .Get());
-            foreach(Entity entity in explosionEntities)
+            foreach (Entity entity in explosionEntities)
             {
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
                 ColoredExplosionComponent coloredExplosionComp = entity.GetComponent<ColoredExplosionComponent>();
@@ -175,6 +176,13 @@ namespace GameJam.States
                 typeof(PlayerShieldComponent),
                 typeof(EnemyComponent),
                 typeof(EdgeComponent)).Get());
+        }
+
+        private void HandleGameOverEvent(GameOverEvent gameOverEvent)
+        {
+            ProcessManager.KillAll();
+
+            CleanDestroyAllEntities();
 
             // TODO: Game Over Process
             Entity gameOverText = SharedState.Engine.CreateEntity();
@@ -197,7 +205,7 @@ namespace GameJam.States
         private void HandlePause()
         {
             GameManager.ProcessManager.TogglePauseAll();
-            GameManager.ProcessManager.Attach(new PauseGameState(GameManager));
+            GameManager.ProcessManager.Attach(new PauseGameState(GameManager, SharedState, this));
         }
     }
 }
