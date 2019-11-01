@@ -25,12 +25,12 @@ namespace GameJam.Input
                 if(currentState.IsButtonDown((Buttons)CVars.Get<int>(toString + "_rotate_left")))
                 {
                     // Counter-Clockwise
-                    _snapshot.Angle += CVars.Get<float>("keyboard_shield_angular_speed") * dt;
+                    _snapshot.Angle += CVars.Get<float>("input_shield_angular_speed") * dt;
                 }
                 if (currentState.IsButtonDown((Buttons)CVars.Get<int>(toString + "_rotate_right")))
                 {
                     // Clockwise
-                    _snapshot.Angle -= CVars.Get<float>("keyboard_shield_angular_speed") * dt;
+                    _snapshot.Angle -= CVars.Get<float>("input_shield_angular_speed") * dt;
                 }
             }
         }

@@ -25,7 +25,7 @@ namespace GameJam.States
         {
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainMenu"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_main_menu"));
 
             ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
 
@@ -76,8 +76,7 @@ namespace GameJam.States
             }
             if(evt is OptionsButtonPressedEvent)
             {
-                Console.WriteLine("Options Pressed");
-                GameManager.ChangeState(new UIOptionsGameState(GameManager));
+                ChangeState(new UIOptionsGameState(GameManager, SharedState));
             }
             if(evt is QuitGameButtonPressedEvent)
             {

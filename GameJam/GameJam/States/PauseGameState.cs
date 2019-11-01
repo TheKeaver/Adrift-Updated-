@@ -24,7 +24,7 @@ namespace GameJam.States
         protected override void OnInitialize()
         {
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
-            _root.BuildFromPrototypes(GameManager.Content, GameManager.Content.Load<List<WidgetPrototype>>(CVars.Get<string>("ui_pause_menu")));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_pause_menu"));
 
             ProcessManager.Attach(new PauseDirector(null, Content, ProcessManager));
 

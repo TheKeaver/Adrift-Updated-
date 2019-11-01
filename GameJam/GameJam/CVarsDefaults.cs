@@ -18,10 +18,6 @@ namespace GameJam
             Create<float>("screen_width", 1280, CVarFlags.DEV_PRESERVE);
             Create<float>("screen_height", 720, CVarFlags.DEV_PRESERVE);
 
-            Create<bool>("display_windowed", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<bool>("display_borderless", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<bool>("display_fullscreen", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -223,8 +219,9 @@ namespace GameJam
             Create<string>("sound_projectile_bounce", "sounds/Proj_Bounce", CVarFlags.PRESERVE);
 
             Create<string>("font_game_over", "fonts/Intro", CVarFlags.PRESERVE);
-            Create<string>("font_hyperspace", "fonts/Main", CVarFlags.PRESERVE);
             Create<string>("font_texture_game_over", "fonts/Intro_0", CVarFlags.PRESERVE);
+            Create<string>("font_hyperspace", "fonts/Main", CVarFlags.PRESERVE);
+            Create<string>("font_texture_hyperspace", "fonts/Main_0", CVarFlags.PRESERVE);
 
             Create<string>("effect_blur", "effects/Blur", CVarFlags.PRESERVE);
             Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE);
@@ -232,12 +229,11 @@ namespace GameJam
             Create<string>("ui_main_menu", "ui/MainMenu", CVarFlags.PRESERVE);
             Create<string>("ui_lobby_menu", "ui/LobbyMenu", CVarFlags.PRESERVE);
             Create<string>("ui_options_menu", "ui/OptionsMenu", CVarFlags.PRESERVE);
+            Create<string>("ui_pause_menu", "ui/PauseMenu", CVarFlags.PRESERVE);
             Create<string>("ui_adrift_game_ui", "ui/MainGameStateUI", CVarFlags.PRESERVE);
 
             Create<string>("ui_test", "ui/test", CVarFlags.PRESERVE);
             Create<string>("ui_test2", "ui/test2", CVarFlags.PRESERVE);
-
-            Create<string>("ui_pause_menu", "ui/PauseMenu", CVarFlags.PRESERVE);
         }
     }
 }

@@ -109,26 +109,26 @@ namespace GameJam.States
 
         private void LoadContent()
         {
-            Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity"));
+            Content.Load<Texture2D>("texture_particle_velocity");
 
-            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_0"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_1"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_2"));
-            Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_3"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_4"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_5"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_6"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_7"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_8"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_9"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_10"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_11"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_12"));
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_13"));
+            Content.Load<Texture2D>("texture_background_stars_0");
+            Content.Load<Texture2D>("texture_background_stars_1");
+            Content.Load<Texture2D>("texture_background_stars_2");
+            Content.Load<Texture2D>("texture_background_stars_3");
+            //Content.Load<Texture2D>("texture_background_stars_4");
+            //Content.Load<Texture2D>("texture_background_stars_5");
+            //Content.Load<Texture2D>("texture_background_stars_6");
+            //Content.Load<Texture2D>("texture_background_stars_7");
+            //Content.Load<Texture2D>("texture_background_stars_8");
+            //Content.Load<Texture2D>("texture_background_stars_9");
+            //Content.Load<Texture2D>("texture_background_stars_10");
+            //Content.Load<Texture2D>("texture_background_stars_11");
+            //Content.Load<Texture2D>("texture_background_stars_12");
+            //Content.Load<Texture2D>("texture_background_stars_13");
 
-            //Content.Load<Texture2D>(CVars.Get<string>("texture_background_parallax_test"));
+            //Content.Load<Texture2D>("texture_background_parallax_test");
 
-            Content.Load<Effect>(CVars.Get<string>("effect_blur"));
+            Content.Load<Effect>("effect_blur");
             Bloom bloom = new Bloom(PostProcessor, GameManager.Content);
             bloom.Radius = 1.5f;
             PostProcessor.Effects.Add(bloom);
@@ -145,19 +145,19 @@ namespace GameJam.States
         void CreateParallaxBackground()
         {
             ParallaxBackgroundEntity.Create(Engine,
-                Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_0")),
+                Content.Load<Texture2D>("texture_background_stars_0"),
                 Vector2.Zero, 0.15f, true);
             ParallaxBackgroundEntity.Create(Engine,
-                Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_1")),
+                Content.Load<Texture2D>("texture_background_stars_1"),
                 Vector2.Zero, 0.25f);
             ParallaxBackgroundEntity.Create(Engine,
-                Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_2")),
+                Content.Load<Texture2D>("texture_background_stars_2"),
                 Vector2.Zero, 0.35f);
             ParallaxBackgroundEntity.Create(Engine,
-                Content.Load<Texture2D>(CVars.Get<string>("texture_background_stars_3")),
+                Content.Load<Texture2D>("texture_background_stars_3"),
                 Vector2.Zero, 0.55f);
             //ParallaxBackgroundEntity.Create(Engine,
-            //    Content.Load<Texture2D>(CVars.Get<string>("texture_background_parallax_test")),
+            //    Content.Load<Texture2D>("texture_background_parallax_test"),
             //    Vector2.Zero, 0.55f);
         }
 

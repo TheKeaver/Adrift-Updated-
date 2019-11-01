@@ -60,15 +60,15 @@ namespace GameJam.States
 
         private void LoadContent()
         {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainGameStateUI"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_adrift_game_ui"));
 
-            Content.Load<Texture2D>(CVars.Get<string>("texture_title_without_instructions"));
+            Content.Load<Texture2D>("texture_title_without_instructions");
 
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
-            Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
+            Content.Load<SoundEffect>("sound_explosion");
+            Content.Load<SoundEffect>("sound_projectile_fired");
+            Content.Load<SoundEffect>("sound_projectile_bounce");
 
-            Content.Load<BitmapFont>(CVars.Get<string>("font_game_over"));
+            Content.Load<BitmapFont>("font_game_over");
         }
 
         protected override void OnUpdate(float dt)
@@ -187,7 +187,7 @@ namespace GameJam.States
             // TODO: Game Over Process
             Entity gameOverText = SharedState.Engine.CreateEntity();
             gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<float>("screen_height") / 2)));
-            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>(CVars.Get<string>("font_game_over")), "Game Over"));
+            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>("font_game_over"), "Game Over"));
             ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3))
                 .SetNext(new EntityDestructionProcess(SharedState.Engine, gameOverText))
                 .SetNext(new DelegateCommand(() =>

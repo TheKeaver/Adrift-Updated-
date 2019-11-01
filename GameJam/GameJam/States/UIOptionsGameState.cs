@@ -15,7 +15,7 @@ using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
-    public class UIOptionsGameState : GameState, IEventListener
+    public class UIOptionsGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
         Root _root;
@@ -26,100 +26,9 @@ namespace GameJam.States
         bool isOnLeftSide = true;
         int leftSideIndex = 0;
 
-        //public BaseDirector[] _directors;
-
-        private ProcessManager ProcessManager
-        {
-            get;
-            set;
-        }
-
-        public UIOptionsGameState(GameManager gameManager) : base(gameManager)
+        public UIOptionsGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
-        }
-
-        /*void InitDirectors()
-        {
-            _directors = new BaseDirector[]
-            {
-                new SettingsDirector(null, Content, ProcessManager, _root)
-            };
-
-            for (int i = 0; i < _directors.Length; i++)
-            {
-                _directors[i].RegisterEvents();
-            }
-        }*/
-
-        void RegisterEvents()
-        {
-            EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
-            EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
-
-            EventManager.Instance.RegisterListener<DisplaySettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<ControlsSettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<GameSettingsButtonPressedEvent>(this);
-
-            EventManager.Instance.RegisterListener<FullScreenSettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<WindowedSettingsButtonPressed>(this);
-            EventManager.Instance.RegisterListener<BorderlessWindowButtonPressedEvent>(this);
-
-            EventManager.Instance.RegisterListener<AAFXAASettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<AAFeatheringButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<AAOffButtonPressedEvent>(this);
-
-            EventManager.Instance.RegisterListener<RotateLeftSettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<RotateRightSettingsButtonPressedEvent>(this);
-
-            EventManager.Instance.RegisterListener<SpeedSettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<DifficultySettingsButtonPressedEvent>(this);
-        }
-
-        void UnregisterEvents()
-        {
-            EventManager.Instance.UnregisterListener(this);
-        }
-
-        public override void Dispose()
-        {
-            UnregisterEvents();
-        }
-
-        public override void Draw(float dt)
-        {
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
-            _spriteBatch.End();
-        }
-
-        public override void Hide()
-        {
-            _root.UnregisterListeners();
-        }
-
-        public override void Initialize()
-        {
-            ProcessManager = new ProcessManager();
-
-            _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
-            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
-            RegisterEvents();
-            //InitDirectors();
-        }
-
-        public override void LoadContent()
-        {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_options_menu"));
-        }
-
-        public override void Show()
-        {
-        }
-
-        public override void Update(float dt)
-        {
-            ProcessManager.Update(dt);
         }
 
         public bool Handle(IEvent evt)
@@ -132,7 +41,7 @@ namespace GameJam.States
                     _root.FindSelectedWidget().isSelected = false;
                     if ( isOnLeftSide == true )
                     {
-                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                        ChangeState(new UIMenuGameState(GameManager, SharedState));
                     }
                     if ( isOnLeftSide == false )
                     {
@@ -205,11 +114,11 @@ namespace GameJam.States
             KeyboardKeyDownEvent kbkde = evt as KeyboardKeyDownEvent;
             if( kbkde != null )
             {
-                if( kbkde._keyPressed == Keys.Escape )
+                if( kbkde.Key == Keys.Escape )
                 {
                     if (isOnLeftSide == true)
                     {
-                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                        ChangeState(new UIMenuGameState(GameManager, SharedState));
                     }
                     if ( isOnLeftSide == false )
                     {
@@ -355,6 +264,70 @@ namespace GameJam.States
             }
 
             return false;
+        }
+        // Select these below when making new GameState
+        protected override void OnInitialize()
+        {
+            _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
+
+            LoadContent();
+
+            base.OnInitialize();
+        }
+
+        private void LoadContent()
+        {
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_options_menu"));
+        }
+
+        protected override void RegisterListeners()
+        {
+            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
+
+            EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
+            EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
+
+            EventManager.Instance.RegisterListener<DisplaySettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<ControlsSettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<GameSettingsButtonPressedEvent>(this);
+
+            EventManager.Instance.RegisterListener<FullScreenSettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<WindowedSettingsButtonPressed>(this);
+            EventManager.Instance.RegisterListener<BorderlessWindowButtonPressedEvent>(this);
+
+            EventManager.Instance.RegisterListener<AAFXAASettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<AAFeatheringButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<AAOffButtonPressedEvent>(this);
+
+            EventManager.Instance.RegisterListener<RotateLeftSettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<RotateRightSettingsButtonPressedEvent>(this);
+
+            EventManager.Instance.RegisterListener<SpeedSettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<DifficultySettingsButtonPressedEvent>(this);
+
+            base.RegisterListeners();
+        }
+
+        protected override void UnregisterListeners()
+        {
+            _root.UnregisterListeners();
+            EventManager.Instance.UnregisterListener(this);
+
+            base.UnregisterListeners();
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
+        {
+            _spriteBatch.Begin();
+            _root.Draw(_spriteBatch);
+            _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
+        }
+
+        protected override void OnKill()
+        {
+            base.OnKill();
         }
     }
 }
