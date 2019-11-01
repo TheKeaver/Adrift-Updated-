@@ -144,6 +144,14 @@ namespace GameJam
                 CVars.Save();
             }
 
+            // V-sync
+            if(Graphics.SynchronizeWithVerticalRetrace
+                != CVars.Get<bool>("display_vsync"))
+            {
+                Graphics.SynchronizeWithVerticalRetrace = CVars.Get<bool>("display_vsync");
+                applyChanges = true;
+            }
+
             if(applyChanges)
             {
                 Graphics.ApplyChanges();

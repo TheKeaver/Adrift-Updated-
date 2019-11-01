@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -29,6 +29,8 @@ namespace GameJam
             Create<bool>("display_windowed", true, CVarFlags.PRESERVE);
             Create<bool>("display_borderless", false, CVarFlags.PRESERVE);
             Create<bool>("display_fullscreen", false, CVarFlags.PRESERVE);
+
+            Create<bool>("display_vsync", true, CVarFlags.PRESERVE);
 
             /** INPUT **/
             Create<float>("input_controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
