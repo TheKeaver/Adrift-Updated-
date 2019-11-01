@@ -48,7 +48,7 @@ namespace GameJam
 
             Graphics = new GraphicsDeviceManager(this);
             Graphics.GraphicsProfile = GraphicsProfile.HiDef;
-            Graphics.PreferMultiSampling = true;
+            Graphics.PreferMultiSampling = false;
             Content.RootDirectory = "Content";
 
             Graphics.PreferredBackBufferWidth = CVars.Get<int>("initial_window_width");
@@ -98,13 +98,63 @@ namespace GameJam
             Components.Add(new ImGuiGameComponent(this, _statisticsProfiler));
 #endif
 
+            ReloadDisplayOptions();
+
             base.Initialize();
+        }
+
+        private void ReloadDisplayOptions()
+        {
+            bool applyChanges = false;
+
+            // Windowed/Borderless/Fullscreen
+            if (CVars.Get<bool>("display_fullscreen"))
+            {
+                if(!Graphics.IsFullScreen)
+                {
+                    Graphics.IsFullScreen = true;
+                    Graphics.HardwareModeSwitch = true;
+                    applyChanges = true;
+                }
+
+                CVars.Get<bool>("display_borderless") = false;
+                CVars.Get<bool>("display_windowed") = false;
+                CVars.Save();
+            } else if (CVars.Get<bool>("display_borderless"))
+            {
+                if (!Graphics.IsFullScreen)
+                {
+                    Graphics.IsFullScreen = true;
+                    Graphics.HardwareModeSwitch = false;
+                    applyChanges = true;
+                }
+
+                CVars.Get<bool>("display_windowed") = false;
+                CVars.Save();
+            } else
+            {
+                if (Graphics.IsFullScreen)
+                {
+                    Graphics.IsFullScreen = false;
+                }
+                Graphics.HardwareModeSwitch = false;
+                applyChanges = true;
+
+                CVars.Get<bool>("display_windowed") = false;
+                CVars.Save();
+            }
+
+            if(applyChanges)
+            {
+                Graphics.ApplyChanges();
+            }
         }
 
         private void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<StepGameUpdateEvent>(this);
             EventManager.Instance.RegisterListener<GameShutdownEvent>(this);
+            EventManager.Instance.RegisterListener<ReloadDisplayOptionsEvent>(this);
         }
         private void UnregisterEvents()
         {
@@ -259,6 +309,11 @@ namespace GameJam
             if(evt is GameShutdownEvent)
             {
                 Exit();
+            }
+
+            if(evt is ReloadDisplayOptionsEvent)
+            {
+                ReloadDisplayOptions();
             }
 
             return false;

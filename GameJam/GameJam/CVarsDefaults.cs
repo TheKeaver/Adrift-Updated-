@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -22,6 +22,13 @@ namespace GameJam
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_feathering", true, CVarFlags.PRESERVE);
             Create<float>("graphics_feathering_width", 0.2f, CVarFlags.PRESERVE);
+            /**
+             * If more than one are true; priority in order of highest
+             * to lowest: fullscreen, borderless, windowed
+             * **/
+            Create<bool>("display_windowed", true, CVarFlags.PRESERVE);
+            Create<bool>("display_borderless", false, CVarFlags.PRESERVE);
+            Create<bool>("display_fullscreen", false, CVarFlags.PRESERVE);
 
             /** INPUT **/
             Create<float>("input_controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
