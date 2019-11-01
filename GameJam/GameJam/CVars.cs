@@ -191,7 +191,7 @@ namespace GameJam
 
             return false;
         }
-        private static void Save()
+        public static void Save()
         {
             string path = GetSavePath();
             Directory.CreateDirectory(Path.GetDirectoryName(path));

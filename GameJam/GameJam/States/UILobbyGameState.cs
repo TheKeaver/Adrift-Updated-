@@ -47,6 +47,11 @@ namespace GameJam.States
         public override void Initialize()
         {
             playersSeated = new List<Player>(4);
+            playersSeated.Add(null);
+            playersSeated.Add(null);
+            playersSeated.Add(null);
+            playersSeated.Add(null);
+
             ProcessManager = new ProcessManager();
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
@@ -283,10 +288,13 @@ namespace GameJam.States
         {
             for( int i=0; i<playersSeated.Count; i++ )
             {
-                String temp = playersSeated[i].InputMethod.ToString();
-                if ( temp.Equals(playerString) )
+                if (playersSeated[i] != null)
                 {
-                    return i;
+                    String temp = playersSeated[i].InputMethod.ToString();
+                    if (temp.Equals(playerString))
+                    {
+                        return i;
+                    }
                 }
             }
             return -1;

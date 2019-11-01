@@ -84,7 +84,7 @@ namespace GameJam
             // Global Content
 
             //ChangeState(new UIMenuGameState(this));
-            ChangeState(new UIPlaygroundGameState(this));
+            ChangeState(new UIOptionsGameState(this));
         }
         
         protected override void Update(GameTime gameTime)

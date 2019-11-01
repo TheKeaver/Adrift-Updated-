@@ -1,6 +1,7 @@
 ﻿using System;
 using Audrey;
 using Events;
+using GameJam.Events.Settings;
 using GameJam.Events.UI;
 using GameJam.UI;
 using GameJam.UI.Widgets;

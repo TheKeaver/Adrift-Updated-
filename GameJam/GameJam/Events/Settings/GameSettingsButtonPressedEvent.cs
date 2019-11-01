@@ -1,6 +1,6 @@
 ﻿using Events;
 
-namespace GameJam.Events.UI
+namespace GameJam.Events.Settings
 {
     class GameSettingsButtonPressedEvent : IEvent
     {

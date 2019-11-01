@@ -28,7 +28,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.DisplaySettingsButtonPressedEvent">
+        onclick="queue:Settings.DisplaySettingsButtonPressedEvent">
         <Label
             halign="center"
             valign="center"
@@ -59,7 +59,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.ControlsSettingsButtonPressedEvent">
+        onclick="queue:Settings.ControlsSettingsButtonPressedEvent">
         <Label
             halign="center"
             valign="center"
@@ -90,7 +90,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.GameSettingsButtonPressedEvent">
+        onclick="queue:Settings.GameSettingsButtonPressedEvent">
         <Label
             halign="center"
             valign="center"
@@ -166,7 +166,7 @@
           hover-thickness="4,4,4,4"
           pressed-image="texture_ui_button_pressed"
           pressed-thickness="4,4,4,4"
-          onclick="queue:UI.FullScreenButtonPressedEvent">
+          onclick="queue:Settings.FullScreenButtonPressedEvent">
           <Label
               halign="center"
               valign="center"
@@ -197,7 +197,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.WindowedButtonPressedEvent">
+        onclick="queue:Settings.WindowedButtonPressedEvent">
         <!-- hidden="true" -->
         <Label
             halign="center"
@@ -229,7 +229,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.BorderlessWindowButtonPressedEvent">
+        onclick="queue:Settings.BorderlessWindowButtonPressedEvent">
         <!-- hidden="true" -->
         <Label
             halign="center"
@@ -263,7 +263,7 @@
           hover-thickness="4,4,4,4"
           pressed-image="texture_ui_button_pressed"
           pressed-thickness="4,4,4,4"
-          onclick="queue:UI.AAFXAASettingsButtonPressedEvent">
+          onclick="queue:Settings.AAFXAASettingsButtonPressedEvent">
           <Label
               halign="center"
               valign="center"
@@ -294,7 +294,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.AAFeatheringButtonPressedEvent">
+        onclick="queue:Settings.AAFeatheringButtonPressedEvent">
         <!-- hidden="true" -->
         <Label
             halign="center"
@@ -326,7 +326,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.AAOffButtonPressedEvent">
+        onclick="queue:Settings.AAOffButtonPressedEvent">
         <!--hidden="true"-->
         <Label
             halign="center"
@@ -373,7 +373,7 @@
           hover-thickness="4,4,4,4"
           pressed-image="texture_ui_button_pressed"
           pressed-thickness="4,4,4,4"
-          onclick="queue:UI.RotateLeftSettingsButtonPressedEvent">
+          onclick="queue:Settings.RotateLeftSettingsButtonPressedEvent">
           <Label
               halign="left"
               valign="center"
@@ -405,7 +405,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.RotateRightSettingsButtonPressedEvent">
+        onclick="queue:Settings.RotateRightSettingsButtonPressedEvent">
         <!--hidden="true"-->
         <Label
             halign="left"
@@ -452,7 +452,7 @@
             hover-thickness="4,4,4,4"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="4,4,4,4"
-            onclick="queue:UI.SpeedSettingsButtonPressedEvent">
+            onclick="queue:Settings.SpeedSettingsButtonPressedEvent">
             <Label
                 halign="left"
                 valign="center"
@@ -483,7 +483,7 @@
         hover-thickness="4,4,4,4"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="4,4,4,4"
-        onclick="queue:UI.DifficultySettingsButtonPressedEvent">
+        onclick="queue:Settings.DifficultySettingsButtonPressedEvent">
         <!-- hidden="true" -->
         <Label
             halign="left"

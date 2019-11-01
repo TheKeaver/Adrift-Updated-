@@ -53,6 +53,7 @@ namespace GameJam.States
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_test2"));
             //((Panel)_root.FindWidgetByID("externalXmlTest")).BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
             //List<Widget> selectedWidgets = _root.FindWidgetsByClass("two");
+            //_root.FindSelectedWidget().isSelected = false;
         }
 
         public override void Show()

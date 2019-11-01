@@ -24,22 +24,23 @@ namespace GameJam
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<bool>("graphics_feathering", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** INPUT **/
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             // P1
-            Create<int>("controller_1_rotate_left", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("controller_1_rotate_right", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_0_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_0_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             // P2
-            Create<int>("controller_2_rotate_left", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("controller_2_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_1_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_1_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             // P3
-            Create<int>("controller_3_rotate_left", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("controller_3_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_2_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_2_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             // P4
-            Create<int>("controller_4_rotate_left", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<int>("controller_4_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_3_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_3_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("keyboard_shield_angular_speed", 2.513f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
