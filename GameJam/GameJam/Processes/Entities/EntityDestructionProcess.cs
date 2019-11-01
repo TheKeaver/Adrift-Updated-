@@ -1,13 +1,6 @@
 ﻿using Audrey;
-using Events;
-using GameJam.Components;
-using GameJam.Entities;
-using GameJam.Events;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 
-namespace GameJam.Processes
+namespace GameJam.Processes.Entities
 {
     public class EntityDestructionProcess : InstantProcess
     {

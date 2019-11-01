@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Events;
 using GameJam.Events.UI;
 using GameJam.UI;
-using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Content.Pipeline;
 
@@ -15,71 +14,39 @@ namespace GameJam.States
 
         Root _root;
 
-        private ProcessManager ProcessManager
-        {
-            get;
-            set;
-        }
-
         public UIPlaygroundGameState(GameManager gameManager) : base(gameManager)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
-        void RegisterListeners()
+        protected override void OnInitialize()
         {
-            EventManager.Instance.RegisterListener<TestButtonPressedEvent>(this);
-        }
-        void UnregisterListeners()
-        {
-            EventManager.Instance.UnregisterListener(this);
-        }
-
-        public override void Initialize()
-        {
-            ProcessManager = new ProcessManager();
-
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
 
-            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
-            RegisterListeners();
+            ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
 
-            //ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
+            base.OnInitialize();
         }
 
-        public override void LoadContent()
+        protected override void OnUpdate(float dt)
         {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_test2"));
-            //((Panel)_root.FindWidgetByID("externalXmlTest")).BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
-            //List<Widget> selectedWidgets = _root.FindWidgetsByClass("two");
-            //_root.FindSelectedWidget().isSelected = false;
+            base.OnUpdate(dt);
         }
 
-        public override void Show()
-        {
-        }
-
-        public override void Hide()
-        {
-            _root.UnregisterListeners();
-        }
-
-        public override void Update(float dt)
-        {
-            ProcessManager.Update(dt);
-        }
-
-        public override void Draw(float dt)
+        protected override void OnRender(float dt, float betweenFrameAlpha)
         {
             _spriteBatch.Begin();
             _root.Draw(_spriteBatch);
             _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
         }
 
-        public override void Dispose()
+        protected override void OnKill()
         {
-            UnregisterListeners();
+            base.OnKill();
         }
 
         public bool Handle(IEvent evt)
@@ -115,6 +82,19 @@ namespace GameJam.States
             {
                 Root.FindWidgetByID(ID).Hidden = !Root.FindWidgetByID(ID).Hidden;
             }
+        }
+
+        void RegisterEvents()
+        {
+            _root.RegisterListeners();
+
+            EventManager.Instance.RegisterListener<TestButtonPressedEvent>(this);
+        }
+        void UnregisterEvents()
+        {
+            _root.UnregisterListeners();
+
+            EventManager.Instance.UnregisterListener(this);
         }
     }
 }

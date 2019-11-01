@@ -4,92 +4,75 @@ using Events;
 using GameJam.Events;
 using GameJam.Events.InputHandling;
 using GameJam.Events.UI;
-using GameJam.Input;
+using GameJam.Processes.Menu;
 using GameJam.UI;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
-    class UIMenuGameState : GameState, IEventListener
+    class UIMenuGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
         Root _root;
 
-        private ProcessManager ProcessManager
-        {
-            get;
-            set;
-        }
-
-        public UIMenuGameState(GameManager gameManager) : base(gameManager)
+        public UIMenuGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
-        void RegisterEvents()
+        protected override void OnInitialize()
         {
+            _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
+                GameManager.GraphicsDevice.Viewport.Height);
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/MainMenu"));
+
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
+
+            base.OnInitialize();
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            base.OnUpdate(dt);
+        }
+
+        protected override void OnFixedUpdate(float dt)
+        {
+            base.OnFixedUpdate(dt);
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
+        {
+            _spriteBatch.Begin();
+            _root.Draw(_spriteBatch);
+            _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
+        }
+
+        protected override void RegisterListeners()
+        {
+            _root.RegisterListeners();
+
             EventManager.Instance.RegisterListener<PlayGameButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<OptionsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<QuitGameButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
         }
 
-        void UnregisterEvents()
-        {
-            EventManager.Instance.UnregisterListener(this);
-        }
-
-        public override void Initialize()
-        {
-            ProcessManager = new ProcessManager();
-
-            _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
-                GameManager.GraphicsDevice.Viewport.Height);
-            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
-
-            RegisterEvents();
-        }
-
-        public override void LoadContent()
-        {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_main_menu"));
-        }
-
-        public override void Show()
-        {
-            
-        }
-
-        public override void Hide()
+        protected override void UnregisterListeners()
         {
             _root.UnregisterListeners();
-        }
 
-        public override void Update(float dt)
-        {
-            ProcessManager.Update(dt);
-        }
-
-        public override void Draw(float dt)
-        {
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
-            _spriteBatch.End();
-        }
-
-        public override void Dispose()
-        {
-            UnregisterEvents();
+            EventManager.Instance.UnregisterListener(this);
         }
 
         public bool Handle(IEvent evt)
         {
             if(evt is PlayGameButtonPressedEvent)
             {
-                Console.WriteLine("Play Game Pressed");
-                GameManager.ChangeState(new UILobbyGameState(GameManager));
+                ChangeState(new UILobbyGameState(GameManager, SharedState));
             }
             if(evt is OptionsButtonPressedEvent)
             {
@@ -98,7 +81,7 @@ namespace GameJam.States
             }
             if(evt is QuitGameButtonPressedEvent)
             {
-                Console.WriteLine("Quit Game Pressed");
+                EventManager.Instance.QueueEvent(new GameShutdownEvent());
             }
             return false;
         }

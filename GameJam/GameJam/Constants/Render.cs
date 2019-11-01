@@ -16,5 +16,9 @@
 
         public static readonly byte GROUP_MASK_NONE = 0x0;
         public static readonly byte GROUP_MASK_ALL = 0xFF;
+
+        ///////////////
+        public static readonly byte RENDER_GROUP_STARS = GROUP_ONE;
+        public static readonly byte RENDER_GROUP_GAME_ENTITIES = GROUP_TWO;
     }
 }

@@ -20,6 +20,7 @@ namespace GameJam.Entities
                     new Vector2(-10, 10),
                     new Vector2(-10, -10), CVars.Get<Color>("color_laser_beam"))
             }));
+            entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
 
             if (includeCollision)
             {

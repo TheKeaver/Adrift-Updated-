@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Events;
 using GameJam.Content;
+using GameJam.Events;
+using GameJam.Processes;
 
 namespace GameJam
 {
     /// <summary>
     /// A state of the game that can be switched between other states.
     /// </summary>
-    public abstract class GameState : IDisposable
+    public abstract class GameState : RenderProcess
     {
         protected GameManager GameManager
         {
@@ -19,31 +21,89 @@ namespace GameJam
             private set;
         }
 
+        public ProcessManager ProcessManager
+        {
+            get;
+            private set;
+        }
+
         public GameState(GameManager gameManager)
         {
             GameManager = gameManager;
 
             Content = new LockingContentManager(gameManager.Services);
             Content.RootDirectory = "Content";
+
+            ProcessManager = new ProcessManager();
         }
 
-        public abstract void Initialize();
+        protected override void OnInitialize()
+        {
+            RegisterListeners();
 
-        public abstract void LoadContent();
+            // Updates the camera and post-processor with the actual screen size
+            // This fixes a bug present in a build of Super Pong
+            // Must be triggered after all listeners are registered
+            EventManager.Instance.TriggerEvent(new ResizeEvent(GameManager.GraphicsDevice.Viewport.Width,
+                                                              GameManager.GraphicsDevice.Viewport.Height));
 
-        public void UnloadContent()
+            Content.Locked = true;
+        }
+
+        protected virtual void RegisterListeners()
+        {
+        }
+        protected virtual void UnregisterListeners()
+        {
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            //ProcessManager.Update(dt);
+
+            base.OnUpdate(dt);
+        }
+
+        protected override void OnFixedUpdate(float dt)
+        {
+            ProcessManager.Update(dt);
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
+        {
+        }
+
+        protected override void OnKill()
+        {
+            ProcessManager.KillAll();
+            UnregisterListeners();
+
+            UnloadContent();
+        }
+
+        private void UnloadContent()
         {
             Content.Unload();
         }
 
-        public abstract void Show();
+        protected override void OnTogglePause()
+        {
+            ProcessManager.TogglePauseAll();
 
-        public abstract void Hide();
+            if(IsPaused)
+            {
+                UnregisterListeners();
+            } else
+            {
+                RegisterListeners();
+            }
+        }
 
-        public abstract void Update(float dt);
+        protected void ChangeState(GameState gameState)
+        {
+            SetNext(gameState);
+            Kill();
+        }
 
-        public abstract void Draw(float dt);
-
-        public abstract void Dispose();
     }
 }

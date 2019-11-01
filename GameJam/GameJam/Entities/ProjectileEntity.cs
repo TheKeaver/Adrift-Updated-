@@ -25,6 +25,7 @@ namespace GameJam.Entities
                     new Vector2(-3, 1), new Vector2(-3, -1),
                     CVars.Get<Color>("color_projectile"))
             }));
+            entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("projectile_size"), false);
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {

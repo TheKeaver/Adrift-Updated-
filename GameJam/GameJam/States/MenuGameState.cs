@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using GameJam;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using GameJam.Input;
 using GameJam.Common;
+using GameJam.Processes.Menu;
 
 namespace GameJam.States
 {
-    public class MenuGameState : GameState
+    public class MenuGameState : CommonGameState
     {
         private SpriteBatch _spriteBatch;
 
@@ -17,26 +16,11 @@ namespace GameJam.States
         private int numberOfPlayers = 2;
         private Timer _menuChangeTimer;
 
-        public MenuGameState(GameManager gameManager) : base(gameManager)
+        public MenuGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
         }
 
-        public override void Dispose()
-        {
-            
-        }
-
-        public override void Hide()
-        {
-            
-        }
-
-        public override void Initialize()
-        {
-            _menuChangeTimer = new Timer(0.8f);
-        }
-
-        public override void LoadContent()
+        protected override void OnInitialize()
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
 
@@ -44,17 +28,16 @@ namespace GameJam.States
                 Content.Load<Texture2D>("texture_title_with_instructions"),
                 Content.Load<Texture2D>("texture_title_without_instructions")
             };
+
+            _menuChangeTimer = new Timer(0.8f);
+
+            base.OnInitialize();
         }
 
-        public override void Show()
-        {
-            
-        }
-
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             _menuChangeTimer.Update(dt);
-            if(_menuChangeTimer.HasElapsed())
+            if (_menuChangeTimer.HasElapsed())
             {
                 _menuChangeTimer.Reset();
 
@@ -62,7 +45,7 @@ namespace GameJam.States
             }
 
             Player[] players = new Player[numberOfPlayers];
-            for ( int i=0; i<numberOfPlayers; i++)
+            for (int i = 0; i < numberOfPlayers; i++)
             {
                 if (i == 0)
                     players[i] = new Player("playerOne", new PrimaryKeyboardInputMethod());
@@ -71,19 +54,33 @@ namespace GameJam.States
 
             }
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Enter))
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                GameManager.ChangeState( new MainGameState(GameManager, players) );
+                ChangeState(new AdriftGameState(GameManager, SharedState, players));
             }
+
+            base.OnUpdate(dt);
         }
 
-        public override void Draw(float dt)
+        protected override void OnFixedUpdate(float dt)
+        {
+            base.OnFixedUpdate(dt);
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
         {
             _spriteBatch.Begin();
             _spriteBatch.Draw(_menuTextures[_menuTextureIdx],
                 new Rectangle(0, 0, CVars.Get<int>("window_width"), CVars.Get<int>("window_height")),
                 Color.White);
             _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
+        }
+
+        protected override void OnKill()
+        {
+            base.OnKill();
         }
     }
 }

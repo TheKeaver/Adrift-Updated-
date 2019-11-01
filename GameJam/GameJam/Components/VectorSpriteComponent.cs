@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Audrey;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace GameJam.Components
 {
@@ -27,25 +26,6 @@ namespace GameJam.Components
     public abstract class RenderShape
     {
         public abstract VertexPositionColor[] ComputeVertices();
-    }
-
-    public class TriangleRenderShape : RenderShape
-    {
-        readonly VertexPositionColor[] _verts;
-
-        public TriangleRenderShape(Vector2 v1, Vector2 v2, Vector2 v3, Color color)
-        {
-            _verts = new VertexPositionColor[] {
-                new VertexPositionColor(new Vector3(v1, 0), color),
-                new VertexPositionColor(new Vector3(v2, 0), color),
-                new VertexPositionColor(new Vector3(v3, 0), color)
-            };
-        }
-
-        public override VertexPositionColor[] ComputeVertices()
-        {
-            return _verts;
-        }
     }
 
     public class QuadRenderShape : RenderShape
@@ -137,15 +117,101 @@ namespace GameJam.Components
 
         private void RebuildVerts()
         {
-            _verts = new VertexPositionColor[] {
-                new VertexPositionColor(new Vector3(_v1, 0), _color),
-                new VertexPositionColor(new Vector3(_v2, 0), _color),
-                new VertexPositionColor(new Vector3(_v3, 0), _color),
+            bool feathering = CVars.Get<bool>("graphics_feathering");
+            if (feathering)
+            {
+                float feather = CVars.Get<float>("graphics_feathering_width");
 
-                new VertexPositionColor(new Vector3(_v1, 0), _color),
-                new VertexPositionColor(new Vector3(_v3, 0), _color),
-                new VertexPositionColor(new Vector3(_v4, 0), _color)
-            };
+                Vector2 v12 = V1 - V2;
+                v12 = new Vector2(-v12.Y, v12.X);
+                v12.Normalize();
+                Vector2 v23 = V2 - V3;
+                v23 = new Vector2(-v23.Y, v23.X);
+                v23.Normalize();
+                Vector2 v34 = V3 - V4;
+                v34 = new Vector2(-v34.Y, v34.X);
+                v34.Normalize();
+                Vector2 v41 = V4 - V1;
+                v41 = new Vector2(-v41.Y, v41.X);
+                v41.Normalize();
+
+                Vector2 v1Norm = v41 + v12;
+                v1Norm.Normalize();
+                Vector2 v2Norm = v12 + v23;
+                v2Norm.Normalize();
+                Vector2 v3Norm = v23 + v34;
+                v3Norm.Normalize();
+                Vector2 v4Norm = v34 + v41;
+                v4Norm.Normalize();
+
+                float diagonalFeather = (float)(feather * Math.Sqrt(2));
+
+                Vector2 v1f = v1Norm * diagonalFeather + V1;
+                Vector2 v2f = v2Norm * diagonalFeather + V2;
+                Vector2 v3f = v3Norm * diagonalFeather + V3;
+                Vector2 v4f = v4Norm * diagonalFeather + V4;
+
+                Color featherColor = new Color(_color, 0);
+
+                _verts = new VertexPositionColor[] {
+                    // Body
+                    new VertexPositionColor(new Vector3(_v1, 0), _color),
+                    new VertexPositionColor(new Vector3(_v2, 0), _color),
+                    new VertexPositionColor(new Vector3(_v3, 0), _color),
+
+                    new VertexPositionColor(new Vector3(_v1, 0), _color),
+                    new VertexPositionColor(new Vector3(_v3, 0), _color),
+                    new VertexPositionColor(new Vector3(_v4, 0), _color),
+
+                    // Top Feather
+                    new VertexPositionColor(new Vector3(v1f, 0), featherColor),
+                    new VertexPositionColor(new Vector3(v2f, 0), featherColor),
+                    new VertexPositionColor(new Vector3(V2, 0), _color),
+
+                    new VertexPositionColor(new Vector3(v1f, 0), featherColor),
+                    new VertexPositionColor(new Vector3(V2, 0), _color),
+                    new VertexPositionColor(new Vector3(V1, 0), _color),
+
+                    // Bottom Feather
+                    new VertexPositionColor(new Vector3(V4, 0), _color),
+                    new VertexPositionColor(new Vector3(V3, 0), _color),
+                    new VertexPositionColor(new Vector3(v3f, 0), featherColor),
+
+                    new VertexPositionColor(new Vector3(V4, 0), _color),
+                    new VertexPositionColor(new Vector3(v3f, 0), featherColor),
+                    new VertexPositionColor(new Vector3(v4f, 0), featherColor),
+
+                    // Left Feather
+                    new VertexPositionColor(new Vector3(v1f, 0), featherColor),
+                    new VertexPositionColor(new Vector3(V1, 0), _color),
+                    new VertexPositionColor(new Vector3(V4, 0), _color),
+
+                    new VertexPositionColor(new Vector3(v1f, 0), featherColor),
+                    new VertexPositionColor(new Vector3(V4, 0), _color),
+                    new VertexPositionColor(new Vector3(v4f, 0), featherColor),
+
+                    // Right Feather
+                    new VertexPositionColor(new Vector3(V2, 0), _color),
+                    new VertexPositionColor(new Vector3(v2f, 0), featherColor),
+                    new VertexPositionColor(new Vector3(v3f, 0), featherColor),
+
+                    new VertexPositionColor(new Vector3(V2, 0), _color),
+                    new VertexPositionColor(new Vector3(v3f, 0), featherColor),
+                    new VertexPositionColor(new Vector3(V3, 0), _color)
+                };
+            }
+            else
+            {
+                _verts = new VertexPositionColor[] {
+                    new VertexPositionColor(new Vector3(_v1, 0), _color),
+                    new VertexPositionColor(new Vector3(_v2, 0), _color),
+                    new VertexPositionColor(new Vector3(_v3, 0), _color),
+
+                    new VertexPositionColor(new Vector3(_v1, 0), _color),
+                    new VertexPositionColor(new Vector3(_v3, 0), _color),
+                    new VertexPositionColor(new Vector3(_v4, 0), _color)
+                };
+            }
         }
     }
 
@@ -162,6 +228,9 @@ namespace GameJam.Components
 
         public PolyRenderShape(Vector2[] points, float thickness, Color color, PolyCapStyle polyCapStyle = PolyCapStyle.None, bool closed = false)
         {
+            bool feathering = CVars.Get<bool>("graphics_feathering");
+            float feather = CVars.Get<float>("graphics_feathering_width");
+
             int count = points.Length;
             if(closed)
             {
@@ -170,11 +239,11 @@ namespace GameJam.Components
             switch(polyCapStyle)
             {
                 case PolyCapStyle.Filled:
-                    _verts = new VertexPositionColor[(count - 1) * 12];
+                    _verts = new VertexPositionColor[(count - 1) * (feathering ? 27 : 9)];
                     break;
                 case PolyCapStyle.AwayFromCenter:
                 default:
-                    _verts = new VertexPositionColor[(count - 1) * 6];
+                    _verts = new VertexPositionColor[(count - 1) * (feathering ? 18 : 6)];
                     break;
             }
             int v = 0;
@@ -233,10 +302,11 @@ namespace GameJam.Components
                 }
 
                 { // Empty
-                    Vector2 v1b = p1 - d * thickness;
-                    Vector2 v1t = p1 + d * thickness;
-                    Vector2 v2b = p2 - d * thickness;
-                    Vector2 v2t = p2 + d * thickness;
+                    // These are outside because they are needed for end cap feathering
+                    Vector2 v2b = p2 - d * thickness / 2;
+                    Vector2 v2t = p2 + d * thickness / 2;
+                    Vector2 v1b = p1 - d * thickness / 2;
+                    Vector2 v1t = p1 + d * thickness / 2;
 
                     _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
                     _verts[v++] = new VertexPositionColor(new Vector3(v1t.X, v1t.Y, 0), color);
@@ -246,7 +316,35 @@ namespace GameJam.Components
                     _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
                     _verts[v++] = new VertexPositionColor(new Vector3(v1b.X, v1b.Y, 0), color);
 
-                    if(polyCapStyle == PolyCapStyle.Filled)
+                    Vector2 v2tf = v2t + d * feather;
+                    Vector2 v2bf = v2b - d * feather;
+                    Color featherColor = new Color(color, 0);
+                    //Color featherColor = Color.HotPink;
+                    if (feathering)
+                    {
+                        Vector2 v1tf = v1t + d * feather;
+                        Vector2 v1bf = v1b - d * feather;
+
+                        // Top feather
+                        _verts[v++] = new VertexPositionColor(new Vector3(v1t.X, v1t.Y, 0), color);
+                        _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
+                        _verts[v++] = new VertexPositionColor(new Vector3(v2tf.X, v2tf.Y, 0), featherColor);
+
+                        _verts[v++] = new VertexPositionColor(new Vector3(v1t.X, v1t.Y, 0), color);
+                        _verts[v++] = new VertexPositionColor(new Vector3(v2tf.X, v2tf.Y, 0), featherColor);
+                        _verts[v++] = new VertexPositionColor(new Vector3(v1tf.X, v1tf.Y, 0), featherColor);
+
+                        // Bottom feather
+                        _verts[v++] = new VertexPositionColor(new Vector3(v1b.X, v1b.Y, 0), color);
+                        _verts[v++] = new VertexPositionColor(new Vector3(v2bf.X, v2bf.Y, 0), featherColor);
+                        _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+
+                        _verts[v++] = new VertexPositionColor(new Vector3(v1b.X, v1b.Y, 0), color);
+                        _verts[v++] = new VertexPositionColor(new Vector3(v1bf.X, v1bf.Y, 0), featherColor);
+                        _verts[v++] = new VertexPositionColor(new Vector3(v2bf.X, v2bf.Y, 0), featherColor);
+                    }
+
+                    if (polyCapStyle == PolyCapStyle.Filled)
                     {
                         int j;
                         if (i >= points.Length)
@@ -277,16 +375,49 @@ namespace GameJam.Components
                         Vector2 d2 = new Vector2(-p4p3.Y, p4p3.X);
                         d2.Normalize();
 
-                        Vector2 v3b = p3 - d2 * thickness;
-                        Vector2 v3t = p3 + d2 * thickness;
+                        Vector2 v3b = p3 - d2 * thickness / 2;
+                        Vector2 v3t = p3 + d2 * thickness / 2;
 
-                        _verts[v++] = new VertexPositionColor(new Vector3(v3t.X, v3t.Y, 0), color);
-                        _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
-                        _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+                        // Check which to fill in - top or bottom
+                        Vector2 top = v3t - v2t;
 
-                        _verts[v++] = new VertexPositionColor(new Vector3(v3b.X, v3b.Y, 0), color);
-                        _verts[v++] = new VertexPositionColor(new Vector3(v3t.X, v3t.Y, 0), color);
-                        _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+                        Vector2 midpoint = p2;
+                        if (Vector2.Dot(top, p2p1) > 0)
+                        {
+                            _verts[v++] = new VertexPositionColor(new Vector3(v3t.X, v3t.Y, 0), color);
+                            _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
+                            _verts[v++] = new VertexPositionColor(new Vector3(midpoint.X, midpoint.Y, 0), color);
+                            if (feathering)
+                            {
+                                Vector2 v3tf = v3t + d2 * feather;
+
+                                _verts[v++] = new VertexPositionColor(new Vector3(v3tf.X, v3tf.Y, 0), featherColor);
+                                _verts[v++] = new VertexPositionColor(new Vector3(v2tf.X, v2tf.Y, 0), featherColor);
+                                _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
+
+                                _verts[v++] = new VertexPositionColor(new Vector3(v3tf.X, v3tf.Y, 0), featherColor);
+                                _verts[v++] = new VertexPositionColor(new Vector3(v2t.X, v2t.Y, 0), color);
+                                _verts[v++] = new VertexPositionColor(new Vector3(v3t.X, v3t.Y, 0), color);
+                            }
+                        } else
+                        {
+                            _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+                            _verts[v++] = new VertexPositionColor(new Vector3(v3b.X, v3b.Y, 0), color);
+                            _verts[v++] = new VertexPositionColor(new Vector3(midpoint.X, midpoint.Y, 0), color);
+
+                            if (feathering)
+                            {
+                                Vector2 v3bf = v3b - d2 * feather;
+
+                                _verts[v++] = new VertexPositionColor(new Vector3(v2bf.X, v2bf.Y, 0), featherColor);
+                                _verts[v++] = new VertexPositionColor(new Vector3(v3bf.X, v3bf.Y, 0), featherColor);
+                                _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+
+                                _verts[v++] = new VertexPositionColor(new Vector3(v3bf.X, v3bf.Y, 0), featherColor);
+                                _verts[v++] = new VertexPositionColor(new Vector3(v3b.X, v3b.Y, 0), color);
+                                _verts[v++] = new VertexPositionColor(new Vector3(v2b.X, v2b.Y, 0), color);
+                            }
+                        }
                     }
                 }
             }

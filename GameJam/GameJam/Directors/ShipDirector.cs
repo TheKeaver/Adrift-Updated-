@@ -21,12 +21,12 @@ namespace GameJam.Directors
         {
         }
 
-        public override void RegisterEvents()
+        protected override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<CollisionStartEvent>(this);
         }
 
-        public override void UnregisterEvents()
+        protected override void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener(this);
         }
@@ -53,7 +53,10 @@ namespace GameJam.Directors
 
         void HandleCollisionStart(Entity entityA, Entity entityB)
         {
-            entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
+            if (!CVars.Get<bool>("god"))
+            {
+                entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
+            }
             if(entityA.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
             {
                 Color color = Color.White;

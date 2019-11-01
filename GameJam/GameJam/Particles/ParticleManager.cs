@@ -4,18 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Particles
 {
-    public class ParticleManager<T>
+    public class ParticleManager<T> : Process
     {
         Action<Particle, float> _updateParticle;
         CirculateParticleArray _particles;
-
-        Vector2 FlipY
-        {
-            get
-            {
-                return new Vector2(1, -1);
-            }
-        }
 
 		public ParticleManager(int capacity, Action<Particle, float> updateParticle)
 		{
@@ -29,7 +21,14 @@ namespace GameJam.Particles
 			}
 		}
 
-		public void CreateParticle(Texture2D texture, Vector2 position, Color color, float duration, Vector2 scale, T userInfo, float rotation = 0)
+		public ref T CreateParticle(Texture2D texture,
+            float x,
+            float y,
+            Color color,
+            float duration,
+            float scaleX,
+            float scaleY,
+            float rotation = 0)
 		{
 			Particle particle;
 			if (_particles.Count == _particles.Capacity)
@@ -46,30 +45,34 @@ namespace GameJam.Particles
 
 			// Create the particle (populate its values)
 			particle.Texture = texture;
-			particle.Position = position;
-			particle.Rotation = rotation;
+            particle.Position.X = x;
+            particle.Position.Y = y;
+            particle.Rotation = rotation;
 			particle.Color = color;
 
 			particle.Duration = duration;
-			particle.PercentLife = 1;
-			particle.Scale = scale;
-			particle.UserInfo = userInfo;
+            particle.Elapsed = 0;
+            particle.Expired = false;
+            particle.Scale.X = scaleX;
+            particle.Scale.Y = scaleY;
+
+            return ref particle.UserInfo;
 		}
 
-		public void Update(float dt)
+		protected override void OnUpdate(float dt)
 		{
 			int removalCount = 0;
 			for (int i = 0; i < _particles.Count; i++)
 			{
 				Particle particle = _particles[i];
 				_updateParticle(particle, dt);
-				particle.PercentLife -= 1f / particle.Duration;
+                particle.Elapsed += dt;
 
 				// Sift deleted particles to the end of the list
 				_particles.Swap(i - removalCount, i);
 
 				// If particle has expired, delete particle
-				if (particle.PercentLife < 0)
+				if (particle.Expired)
 				{
 					removalCount++;
 				}
@@ -79,37 +82,57 @@ namespace GameJam.Particles
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
+            Vector2 origin = Vector2.Zero;
+            Texture2D texture = null;
 			for (int i = 0; i < _particles.Count; i++)
 			{
 				Particle particle = _particles[i];
 
-				Vector2 origin = new Vector2(particle.Texture.Width / 2, particle.Texture.Height / 2);
+                if(particle.Texture != texture)
+                {
+                    texture = _particles[i].Texture;
+                    origin = new Vector2(particle.Texture.Width / 2, particle.Texture.Height / 2);
+                }
+
 				spriteBatch.Draw(particle.Texture,
-								 particle.Position,
-								 null,
-								 particle.Color,
-								 particle.Rotation,
-								 origin,
-								 particle.Scale,
-								0,
-								0);
+                    particle.Position,
+                    null,
+                    particle.Color,
+                    particle.Rotation,
+                    origin,
+                    particle.Scale,
+                    0,
+                    0);
 			}
 		}
 
-		#region NESTED CLASSES
-		public class Particle
+        protected override void OnInitialize()
+        {
+        }
+
+        protected override void OnKill()
+        {
+        }
+
+        protected override void OnTogglePause()
+        {
+        }
+
+        #region NESTED CLASSES
+        public class Particle
 		{
-			public Texture2D Texture;
-			public Vector2 Position;
+			public Texture2D Texture = null;
+			public Vector2 Position = Vector2.Zero;
 			public float Rotation;
 
 			public Vector2 Scale = Vector2.One;
 
-			public Color Color;
+			public Color Color = Color.TransparentBlack;
 			public float Duration;
-			public float PercentLife = 1f;
-			public T UserInfo;
-		}
+            public float Elapsed;
+            public bool Expired;
+            public T UserInfo = (T)Activator.CreateInstance(typeof(T));
+        }
 
 		class CirculateParticleArray
 		{

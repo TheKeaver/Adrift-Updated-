@@ -118,7 +118,7 @@ namespace GameJam.Systems
                     SpriteBatch.Draw(animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Texture,
                                       position * FlipY,
                                       sourceRectangle,
-                                      Color.White,
+                                      spriteComp.Color * spriteComp.Alpha,
                                       -rotation,
                                       origin,
                                       scale * transformScale,
@@ -130,7 +130,7 @@ namespace GameJam.Systems
                     SpriteBatch.Draw(spriteComp.Texture,
                                       position * FlipY,
                                       null,
-                                      Color.White,
+                                      spriteComp.Color * spriteComp.Alpha,
                                       -rotation,
                                       origin,
                                       scale * transformScale,
@@ -240,7 +240,7 @@ namespace GameJam.Systems
             {
                 SetupVectorDrawing();
                 _vectorSpriteEffect.View = transformMatrix;
-
+                GraphicsDevice.BlendState = BlendState.NonPremultiplied;
                 foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
                 {
                     pass.Apply();

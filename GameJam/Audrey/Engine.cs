@@ -63,6 +63,19 @@ namespace Audrey
         }
 
         /// <summary>
+        /// Removes Entities from the Engine that match a Family.
+        /// </summary>
+        /// <param name="family">Family of entities to destroy</param>
+        public void DestroyEntitiesFor(Family family)
+        {
+            ImmutableList<Entity> entities = GetEntitiesFor(family);
+            while(entities.Count > 0)
+            {
+                DestroyEntity(entities[0]);
+            }
+        }
+
+        /// <summary>
         /// Gets a ImmutableList<Entity> reference for the Entities in the Engine.
         /// </summary>
         /// <returns>Entities within this Engine.</returns>

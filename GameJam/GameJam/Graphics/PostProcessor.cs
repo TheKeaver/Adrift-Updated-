@@ -72,7 +72,7 @@ namespace GameJam.Graphics
             Drawing = true;
 
             GraphicsDevice.SetRenderTarget(_renderTarget);
-            GraphicsDevice.Clear(Color.Transparent);
+            GraphicsDevice.Clear(Color.TransparentBlack);
         }
 
         public void Update(float dt)
@@ -114,7 +114,8 @@ namespace GameJam.Graphics
             // Render as a fullscreen quad
             if (draw)
             {
-                SpriteBatch.Begin();
+                SpriteBatch.Begin(SpriteSortMode.Deferred,
+                    BlendState.AlphaBlend);
                 SpriteBatch.Draw(finalTarget, Bounds, Color.White);
                 SpriteBatch.End();
             }

@@ -1,7 +1,10 @@
 using System;
 using Events;
+using GameJam.DevTools;
 using GameJam.Events;
+using GameJam.Events.DevTools;
 using GameJam.Events.InputHandling;
+using GameJam.Processes;
 using GameJam.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,15 +17,22 @@ namespace GameJam
     /// Main manager for the game. Contains implementation of the
     /// MonoGame game loop.
     /// </summary>
-    public class GameManager : Game
+    public class GameManager : Game, IEventListener
     {
         InputListenerComponent _inputListenerManager;
         MouseListener _mouseListener;
         GamePadListener _gamePadListener;
         KeyboardListener _keyboardListener;
 
-        GameState _currentState;
-        bool _cvarSyncButtonReleased = false;
+        public ProcessManager ProcessManager
+        {
+            get;
+            private set;
+        }
+
+#if DEBUG
+        StatisticsProfiler _statisticsProfiler;
+#endif
 
         public GraphicsDeviceManager Graphics
         {
@@ -34,22 +44,30 @@ namespace GameJam
         {
             CVars.Initialize();
 
-            this.Window.Title = "Adrift";
+            ProcessManager = new ProcessManager();
 
             Graphics = new GraphicsDeviceManager(this);
             Graphics.GraphicsProfile = GraphicsProfile.HiDef;
-            Graphics.PreferMultiSampling = true;
+            Graphics.PreferMultiSampling = false;
             Content.RootDirectory = "Content";
 
-            Graphics.PreferredBackBufferWidth = CVars.Get<int>("window_width");
-            Graphics.PreferredBackBufferHeight = CVars.Get<int>("window_height");
+            Graphics.PreferredBackBufferWidth = CVars.Get<int>("initial_window_width");
+            Graphics.PreferredBackBufferHeight = CVars.Get<int>("initial_window_height");
 
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
+
+#if DEBUG
+            _statisticsProfiler = new StatisticsProfiler();
+#endif
         }
         
         protected override void Initialize()
         {
+            RegisterEvents();
+
+            Window.Title = "Adrift";
+
             Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
 
@@ -76,67 +94,147 @@ namespace GameJam
             GamePadListener.CheckControllerConnections = true;
             GamePadListener.ControllerConnectionChanged += GamePad_ConnectionChanged;
 
+#if DEBUG
+            Components.Add(new ImGuiGameComponent(this, _statisticsProfiler));
+#endif
+
+            ReloadDisplayOptions();
+
             base.Initialize();
+        }
+
+        private void ReloadDisplayOptions()
+        {
+            bool applyChanges = false;
+
+            // Windowed/Borderless/Fullscreen
+            if (CVars.Get<bool>("display_fullscreen"))
+            {
+                if(!Graphics.IsFullScreen)
+                {
+                    Graphics.IsFullScreen = true;
+                    Graphics.HardwareModeSwitch = true;
+                    applyChanges = true;
+                }
+
+                CVars.Get<bool>("display_borderless") = false;
+                CVars.Get<bool>("display_windowed") = false;
+                CVars.Save();
+            } else if (CVars.Get<bool>("display_borderless"))
+            {
+                if (!Graphics.IsFullScreen)
+                {
+                    Graphics.IsFullScreen = true;
+                    Graphics.HardwareModeSwitch = false;
+                    applyChanges = true;
+                }
+
+                CVars.Get<bool>("display_windowed") = false;
+                CVars.Save();
+            } else
+            {
+                if (Graphics.IsFullScreen)
+                {
+                    Graphics.IsFullScreen = false;
+                }
+                Graphics.HardwareModeSwitch = false;
+                applyChanges = true;
+
+                CVars.Get<bool>("display_windowed") = false;
+                CVars.Save();
+            }
+
+            // V-sync
+            if(Graphics.SynchronizeWithVerticalRetrace
+                != CVars.Get<bool>("display_vsync"))
+            {
+                Graphics.SynchronizeWithVerticalRetrace = CVars.Get<bool>("display_vsync");
+                applyChanges = true;
+            }
+
+            if(applyChanges)
+            {
+                Graphics.ApplyChanges();
+            }
+        }
+
+        private void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<StepGameUpdateEvent>(this);
+            EventManager.Instance.RegisterListener<GameShutdownEvent>(this);
+            EventManager.Instance.RegisterListener<ReloadDisplayOptionsEvent>(this);
+        }
+        private void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
         }
         
         protected override void LoadContent()
         {
             // Global Content
 
-            //ChangeState(new UIMenuGameState(this));
-            ChangeState(new UIOptionsGameState(this));
+            SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
+            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
         }
         
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.F2) && _cvarSyncButtonReleased)
+#if DEBUG
+            _statisticsProfiler.BeginUpdate(gameTime);
+#endif
+
+            if(!CVars.Get<bool>("debug_pause_game_updates"))
             {
-                CVars.SynchronizeFromFile();
-                _cvarSyncButtonReleased = false;
-            } else
-            {
-                _cvarSyncButtonReleased = true;
+                Update((float)gameTime.ElapsedGameTime.TotalSeconds * CVars.Get<float>("debug_update_time_scale"));
             }
 
-            EventManager.Instance.Dispatch();
-
-            if(_currentState != null)
-            {
-                _currentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-            }
+#if DEBUG
+            _statisticsProfiler.EndUpdate();
+#endif
 
             base.Update(gameTime);
         }
 
+        private void Update(float dt)
+        {
+            EventManager.Instance.Dispatch();
+
+            ProcessManager.Update(dt);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
+#if DEBUG
+            _statisticsProfiler.BeginDraw(gameTime);
+#endif
+
             Graphics.GraphicsDevice.Clear(Color.Black);
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
-            if (_currentState != null)
+            foreach(Process process in ProcessManager.Processes)
             {
-                _currentState.Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
+                RenderProcess renderProcess = process as RenderProcess;
+                if(renderProcess != null)
+                {
+                    renderProcess.Render((float)gameTime.ElapsedGameTime.TotalSeconds
+                        * CVars.Get<float>("debug_update_time_scale")
+                        * (CVars.Get<bool>("debug_pause_game_updates") ? 0 : 1));
+                }
             }
+
+#if DEBUG
+            _statisticsProfiler.EndDraw();
+#endif
 
             base.Draw(gameTime);
         }
 
-        public void ChangeState(GameState nextState)
+        protected override void UnloadContent()
         {
-            if (_currentState != null)
-            {
-                _currentState.Hide();
-                _currentState.UnloadContent();
-                _currentState.Dispose();
-            }
+            UnregisterEvents();
 
-            _currentState = nextState;
-            _currentState.Initialize();
-
-            _currentState.LoadContent();
-            _currentState.Content.Locked = true;
-            _currentState.Show();
+            base.UnloadContent();
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)
@@ -191,9 +289,42 @@ namespace GameJam
 
         void Keyboard_KeyDown(object sender, KeyboardEventArgs e)
         {
-            EventManager.Instance.QueueEvent(new KeyboardKeyDownEvent(e.Key));
+            // Workaround; when the game is debug paused, the EventManager's
+            // queue isn't dispatched. Because of this, opening/closing
+            // of debug windows isn't possible when the game is debug paused.
+            if (CVars.Get<bool>("debug_pause_game_updates")
+                && (e.Key == Keys.OemTilde
+                    || e.Key == Keys.F1
+                    || e.Key == Keys.F2))
+            {
+                EventManager.Instance.TriggerEvent(new KeyboardKeyDownEvent(e.Key));
+            }
+            else
+            {
+                EventManager.Instance.QueueEvent(new KeyboardKeyDownEvent(e.Key));
+            }
         }
 
         // Keyboard_KeyUp
+
+        public bool Handle(IEvent evt)
+        {
+            if(evt is StepGameUpdateEvent)
+            {
+                Update(CVars.Get<float>("debug_game_step_period"));
+            }
+
+            if(evt is GameShutdownEvent)
+            {
+                Exit();
+            }
+
+            if(evt is ReloadDisplayOptionsEvent)
+            {
+                ReloadDisplayOptions();
+            }
+
+            return false;
+        }
     }
 }

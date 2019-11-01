@@ -1,15 +1,15 @@
-﻿<UI>
+<UI>
     <Widgets>
         <Label
-            halign="center"
+            halign="left"
             valign="top"
-            horizontal="0"
-            vertical="0"
-            widgth="15%"
-            height="10%"
+            horizontal="10"
+            vertical="10"
+            widgth="10%"
+            height="5%"
             
-            content="Score: "
-            font="font_game_over"
+            content="Score: 0"
+            font="font_hyperspace"
             id="main_game_score_label"
         />
     </Widgets>

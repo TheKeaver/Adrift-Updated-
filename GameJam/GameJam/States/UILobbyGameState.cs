@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Audrey;
 using Events;
-using GameJam.Events;
+using GameJam.Components;
+using GameJam.Events.EnemyActions;
 using GameJam.Events.InputHandling;
 using GameJam.Input;
+using GameJam.Processes.Menu;
 using GameJam.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +14,7 @@ using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
-    class UILobbyGameState : GameState, IEventListener
+    class UILobbyGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
         Root _root;
@@ -22,15 +24,56 @@ namespace GameJam.States
         //public Player playerOneSeat;
         //public Player playersSeated[1];
 
-        private ProcessManager ProcessManager
-        {
-            get;
-            set;
-        }
-
-        public UILobbyGameState(GameManager gameManager) : base(gameManager)
+        public UILobbyGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+        }
+
+        protected override void OnInitialize()
+        {
+            playersSeated = new List<Player>(4);
+            playersSeated.Add(null);
+            playersSeated.Add(null);
+            playersSeated.Add(null);
+            playersSeated.Add(null);
+
+            _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
+                GameManager.GraphicsDevice.Viewport.Height);
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/LobbyMenu"));
+
+            RegisterEvents();
+            _root.RegisterListeners();
+
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
+
+            base.OnInitialize();
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            base.OnUpdate(dt);
+        }
+
+        protected override void OnFixedUpdate(float dt)
+        {
+            base.OnFixedUpdate(dt);
+        }
+
+        protected override void OnRender(float dt, float betweenFrameAlpha)
+        {
+            _spriteBatch.Begin();
+            _root.Draw(_spriteBatch);
+            _spriteBatch.End();
+
+            base.OnRender(dt, betweenFrameAlpha);
+        }
+
+        protected override void OnKill()
+        {
+            _root.UnregisterListeners();
+            UnregisterEvents();
+
+            base.OnKill();
         }
 
         void RegisterEvents()
@@ -44,62 +87,14 @@ namespace GameJam.States
             EventManager.Instance.UnregisterListener(this);
         }
 
-        public override void Initialize()
-        {
-            playersSeated = new List<Player>(4);
-            playersSeated.Add(null);
-            playersSeated.Add(null);
-            playersSeated.Add(null);
-            playersSeated.Add(null);
-
-            ProcessManager = new ProcessManager();
-
-            _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
-                GameManager.GraphicsDevice.Viewport.Height);
-            _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
-
-            RegisterEvents();
-        }
-
-        public override void LoadContent()
-        {
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_lobby_menu"));
-        }
-
-        public override void Show()
-        {
-        }
-
-        public override void Hide()
-        {
-            _root.UnregisterListeners();
-        }
-
-        public override void Update(float dt)
-        {
-            ProcessManager.Update(dt);
-        }
-
-        public override void Draw(float dt)
-        {
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
-            _spriteBatch.End();
-        }
-
-        public override void Dispose()
-        {
-            UnregisterEvents();
-        }
-
         public bool Handle(IEvent evt)
         {
             GamePadButtonDownEvent buttonPressed = evt as GamePadButtonDownEvent;
-            if( buttonPressed != null )
+            if (buttonPressed != null)
             {
                 PlayerIndex buttonPressedIndex = buttonPressed._playerIndex;
-                String playerString = "controller_" + ((int)buttonPressedIndex);
-                int isPlayerSeatedIndex = CheckIfSeated(playerString); // -1 means not found, else in 0,1,2 or 3
+                string playerstring = "controller_" + ((int)buttonPressedIndex);
+                int isPlayerSeatedIndex = CheckIfSeated(playerstring); // -1 means not found, else in 0,1,2 or 3
                 // A button is pressed
                 if( buttonPressed._pressedButton == Buttons.A )
                 {
@@ -107,28 +102,28 @@ namespace GameJam.States
                     {
                         if (playersSeated[0] == null)
                         {
-                            playersSeated[0] = new Player(playerString, new ControllerInputMethod(buttonPressedIndex));
+                            playersSeated[0] = new Player(playerstring, new ControllerInputMethod(buttonPressedIndex));
                             // Player one controller visibility helper
                             PlayerOne_VisibilityHelper(true);
                             numberOfPlayers += 1;
                         }
                         else if (playersSeated[1] == null)
                         {
-                            playersSeated[1] = new Player(playerString, new ControllerInputMethod(buttonPressedIndex));
+                            playersSeated[1] = new Player(playerstring, new ControllerInputMethod(buttonPressedIndex));
                             // Player two controller visibility helper
                             PlayerTwo_VisibilityHelper(true);
                             numberOfPlayers += 1;
                         }
                         else if (playersSeated[2] == null)
                         {
-                            playersSeated[2] = new Player(playerString, new ControllerInputMethod(buttonPressedIndex));
+                            playersSeated[2] = new Player(playerstring, new ControllerInputMethod(buttonPressedIndex));
                             // Player three controller visibility helper
                             //PlayerThree_VisibilityHelper(true);
                             //numberOfPlayers += 1;
                         }
                         else if (playersSeated[3] == null)
                         {
-                            playersSeated[3] = new Player(playerString, new ControllerInputMethod(buttonPressedIndex));
+                            playersSeated[3] = new Player(playerstring, new ControllerInputMethod(buttonPressedIndex));
                             // Player four controller visibility helper
                             //PlayerFour_VisibilityHelper(true);
                             //numberOfPlayers += 1;
@@ -143,7 +138,7 @@ namespace GameJam.States
                     // when all players empty - return to menu screen
                     if ( isPlayerSeatedIndex == -1 )
                     {
-                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                        ChangeState(new UIMenuGameState(GameManager, SharedState));
                     }
                     // when player 1 presses B
                     if ( isPlayerSeatedIndex != -1 )
@@ -160,7 +155,7 @@ namespace GameJam.States
                 }
 
                 // If start button is pressed
-                if ( buttonPressed._pressedButton == Buttons.Start )
+                if (buttonPressed._pressedButton == Buttons.Start)
                 {
                     if ( playersSeated[0] != null )
                     {
@@ -174,38 +169,38 @@ namespace GameJam.States
                                 playersCounter++;
                             }
                         }
-                        GameManager.ChangeState(new MainGameState(GameManager, players));
+                        StartGame(players);
                     }
                 }
             }
 
             // Keyboard Lobby Support
             KeyboardKeyDownEvent keyPressed = evt as KeyboardKeyDownEvent;
-            if ( keyPressed != null )
+            if (keyPressed != null)
             {
-                String playerString = "keyboard_";
+                string playerstring = "keyboard_";
                 int keyboardPlayerNumber = -1;
 
-                if (keyPressed._keyPressed == Keys.A || keyPressed._keyPressed == Keys.D)
+                if (keyPressed.Key == Keys.A || keyPressed.Key == Keys.D)
                 {
                     keyboardPlayerNumber = 1;
-                    playerString += 1;
+                    playerstring += 1;
                 }
-                else if (keyPressed._keyPressed == Keys.Left || keyPressed._keyPressed == Keys.Right )
+                else if (keyPressed.Key == Keys.Left || keyPressed.Key == Keys.Right )
                 {
                     keyboardPlayerNumber = 2;
-                    playerString += 2;
+                    playerstring += 2;
                 }
 
-                int isPlayerSeatedIndex = CheckIfSeated(playerString); // -1 means not found, else in 0,1,2 or 3
+                int isPlayerSeatedIndex = CheckIfSeated(playerstring); // -1 means not found, else in 0,1,2 or 3
 
                 if (isPlayerSeatedIndex == -1 && keyboardPlayerNumber != -1)
                 {
                     if (playersSeated[0] == null)
                     {
                         playersSeated[0] = (keyboardPlayerNumber < 2) ? 
-                            new Player( playerString, new PrimaryKeyboardInputMethod() ) :
-                            new Player( playerString, new PrimaryKeyboardInputMethod() ) ;
+                            new Player( playerstring, new PrimaryKeyboardInputMethod() ) :
+                            new Player( playerstring, new PrimaryKeyboardInputMethod() ) ;
                         // Player one controller visibility helper
                         PlayerOne_VisibilityHelper(true);
                         numberOfPlayers += 1;
@@ -213,8 +208,8 @@ namespace GameJam.States
                     else if (playersSeated[1] == null)
                     {
                         playersSeated[1] = (keyboardPlayerNumber < 2) ?
-                            new Player(playerString, new PrimaryKeyboardInputMethod()) :
-                            new Player(playerString, new PrimaryKeyboardInputMethod());
+                            new Player(playerstring, new PrimaryKeyboardInputMethod()) :
+                            new Player(playerstring, new PrimaryKeyboardInputMethod());
                         // Player two controller visibility helper
                         PlayerTwo_VisibilityHelper(true);
                         numberOfPlayers += 1;
@@ -222,8 +217,8 @@ namespace GameJam.States
                     else if (playersSeated[2] == null)
                     {
                         playersSeated[2] = (keyboardPlayerNumber < 2) ?
-                            new Player(playerString, new PrimaryKeyboardInputMethod()) :
-                            new Player(playerString, new PrimaryKeyboardInputMethod());
+                            new Player(playerstring, new PrimaryKeyboardInputMethod()) :
+                            new Player(playerstring, new PrimaryKeyboardInputMethod());
                         // Player three controller visibility helper
                         //PlayerThree_VisibilityHelper(true);
                         //numberOfPlayers += 1;
@@ -231,8 +226,8 @@ namespace GameJam.States
                     else if (playersSeated[3] == null)
                     {
                         playersSeated[3] = (keyboardPlayerNumber < 2) ?
-                            new Player(playerString, new PrimaryKeyboardInputMethod()) :
-                            new Player(playerString, new PrimaryKeyboardInputMethod());
+                            new Player(playerstring, new PrimaryKeyboardInputMethod()) :
+                            new Player(playerstring, new PrimaryKeyboardInputMethod());
                         // Player four controller visibility helper
                         //PlayerFour_VisibilityHelper(true);
                         //numberOfPlayers += 1;
@@ -240,7 +235,7 @@ namespace GameJam.States
                 }
                 // If player is seated we can place code here to handle alternative actions such as color changing
 
-                if ( keyPressed._keyPressed == Keys.Enter )
+                if (keyPressed.Key == Keys.Enter)
                 {
                     if (playersSeated[0] != null)
                     {
@@ -254,16 +249,17 @@ namespace GameJam.States
                                 playersCounter++;
                             }
                         }
-                        GameManager.ChangeState(new MainGameState(GameManager, players));
+
+                        StartGame(players);
                     }
                 }
 
-                if ( keyPressed._keyPressed == Keys.Escape )
+                if (keyPressed.Key == Keys.Escape)
                 {
                     // when all players empty - return to menu screen
                     if (isPlayerSeatedIndex == -1)
                     {
-                        GameManager.ChangeState(new UIMenuGameState(GameManager));
+                        ChangeState(new UIMenuGameState(GameManager, SharedState));
                     }
                     // when player 1 presses B
                     if (isPlayerSeatedIndex != -1)
@@ -284,20 +280,40 @@ namespace GameJam.States
         }
 
         // Returns index when found, else returns -1
-        private int CheckIfSeated(String playerString)
+        private int CheckIfSeated(string playerstring)
         {
-            for( int i=0; i<playersSeated.Count; i++ )
+            for (int i = 0; i < playersSeated.Count; i++)
             {
                 if (playersSeated[i] != null)
                 {
-                    String temp = playersSeated[i].InputMethod.ToString();
-                    if (temp.Equals(playerString))
+                    string temp = playersSeated[i].InputMethod.ToString();
+                    if (temp.Equals(playerstring))
                     {
                         return i;
                     }
                 }
             }
             return -1;
+        }
+        private void StartGame(Player[] players)
+        {
+            // Explode all entities
+            ImmutableList<Entity> explosionEntities = SharedState.Engine.GetEntitiesFor(Family
+                .All(typeof(TransformComponent), typeof(ColoredExplosionComponent), typeof(MenuBackgroundComponent))
+                .Get());
+            foreach (Entity entity in explosionEntities)
+            {
+                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                ColoredExplosionComponent coloredExplosionComp = entity.GetComponent<ColoredExplosionComponent>();
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(transformComp.Position,
+                    coloredExplosionComp.Color,
+                    false));
+            }
+
+            // Destroy all entities
+            SharedState.Engine.DestroyEntitiesFor(Family.All(typeof(MenuBackgroundComponent)).Get());
+
+            ChangeState(new AdriftGameState(GameManager, SharedState, players));
         }
 
         private void PlayerOne_VisibilityHelper(bool isController)
