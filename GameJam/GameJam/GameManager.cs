@@ -295,7 +295,8 @@ namespace GameJam
             if (CVars.Get<bool>("debug_pause_game_updates")
                 && (e.Key == Keys.OemTilde
                     || e.Key == Keys.F1
-                    || e.Key == Keys.F2))
+                    || e.Key == Keys.F2
+                    || e.Key == Keys.F3))
             {
                 EventManager.Instance.TriggerEvent(new KeyboardKeyDownEvent(e.Key));
             }
