@@ -17,6 +17,8 @@ namespace GameJam
             Create<float>("screen_width", 1280, CVarFlags.DEV_PRESERVE);
             Create<float>("screen_height", 720, CVarFlags.DEV_PRESERVE);
 
+            Create<bool>("process_multithreading", true, CVarFlags.PRESERVE | CVarFlags.DEV_PRESERVE);
+
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);

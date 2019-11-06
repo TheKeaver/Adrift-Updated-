@@ -1,4 +1,4 @@
-﻿using Events;
+using Events;
 using GameJam.Content;
 using GameJam.Events;
 using GameJam.Processes;
@@ -59,8 +59,6 @@ namespace GameJam
 
         protected override void OnUpdate(float dt)
         {
-            //ProcessManager.Update(dt);
-
             base.OnUpdate(dt);
         }
 

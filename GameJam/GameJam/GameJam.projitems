@@ -168,6 +168,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\PauseGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\Pause\ExitToLobbyEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ReloadDisplayOptionsEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\ParallelProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
