@@ -16,7 +16,7 @@ namespace GameJam.Systems
             _entities = Engine.GetEntitiesFor(_family);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity entity in _entities)
             {

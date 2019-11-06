@@ -13,7 +13,7 @@ namespace GameJam.Systems
             _animatedEntities = engine.GetEntitiesFor(_animatedSprites);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             foreach(Entity animatedEntity in _animatedEntities)
             {

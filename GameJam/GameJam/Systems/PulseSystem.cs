@@ -16,7 +16,7 @@ namespace GameJam.Systems
             _pulseEntities = Engine.GetEntitiesFor(_pulseFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             foreach(Entity pulseEntity in _pulseEntities)
             {

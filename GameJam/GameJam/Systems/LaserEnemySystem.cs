@@ -23,17 +23,17 @@ namespace GameJam.Systems
             _raycastWithShieldEntities = Engine.GetEntitiesFor(_raycastWithShieldFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity laserEnemyEntity in _laserEnemyEntities)
             {
                 LaserEnemyComponent laserEnemyComp = laserEnemyEntity.GetComponent<LaserEnemyComponent>();
                 Entity laserBeamEntity = laserEnemyComp.LaserBeamEntity;
 
-                if(laserBeamEntity != null)
+                if (laserBeamEntity != null)
                 {
                     LaserBeamComponent laserBeamComp = laserBeamEntity.GetComponent<LaserBeamComponent>();
-                    if(laserBeamComp == null)
+                    if (laserBeamComp == null)
                     {
                         throw new Exception("Laser beam does not have a `LaserBeamComponent`.");
                     }
@@ -106,7 +106,7 @@ namespace GameJam.Systems
                 laserBeamComp.Color);
 
             CollisionComponent collisionComp = laserBeamEntity.GetComponent<CollisionComponent>();
-            if(collisionComp != null)
+            if (collisionComp != null)
             {
                 ((PolygonCollisionShape)collisionComp.CollisionShapes[0]).Vertices = new Vector2[]
                 {
@@ -147,9 +147,9 @@ namespace GameJam.Systems
                 foreach (CollisionShape collisionShape in raycastCollisionComp.CollisionShapes)
                 {
                     PolygonCollisionShape polygonShape = collisionShape as PolygonCollisionShape;
-                    if(polygonShape != null)
+                    if (polygonShape != null)
                     {
-                        for(int i = 0; i < polygonShape.Vertices.Length; i++)
+                        for (int i = 0; i < polygonShape.Vertices.Length; i++)
                         {
                             int j = (i + 1) % polygonShape.Vertices.Length;
 
@@ -171,7 +171,7 @@ namespace GameJam.Systems
                             double t1 = det * Vector2.Dot(v3, v4);
                             double t2 = det * Vector2.Dot(v1, v3);
 
-                            if(t2 >= 0 && t2 <= 1
+                            if (t2 >= 0 && t2 <= 1
                                 && t1 >= 0)
                             {
                                 // Hit
@@ -181,7 +181,7 @@ namespace GameJam.Systems
                                 {
                                     hit.Position = newHit;
                                     hit.Normal = new Vector2(-v2.Y, v2.X);
-                                    if(Vector2.Dot(direction, hit.Normal) > 0)
+                                    if (Vector2.Dot(direction, hit.Normal) > 0)
                                     {
                                         hit.Normal *= -1;
                                     }

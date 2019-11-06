@@ -75,22 +75,21 @@ namespace GameJam.States
         private void InitSystems()
         {
             // Order matters
-            _systems = new BaseSystem[]
-            {
-                new InputSystem(Engine), // Input system must go first so snapshots are accurate
-                new CollisionSystem(Engine),
-                new PlayerShieldSystem(Engine),
-                new MovementSystem(Engine),
-                new EnemyRotationSystem(Engine),
-                new AnimationSystem(Engine),
-                new LaserEnemySystem(Engine),
-                new GravitySystem(Engine),
-                new PulseSystem(Engine),
-                new ParallaxBackgroundSystem(Engine, Camera),
-                new PassiveRotationSystem(Engine),
-                new MenuBackgroundDestructionSystem(Engine)
-            };
+            ProcessManager.Attach(new InputSystem(Engine)); // Input system must go first so snapshots are accurate
+            ProcessManager.Attach(new CollisionSystem(Engine));
+            ProcessManager.Attach(new PlayerShieldSystem(Engine));
+            ProcessManager.Attach(new MovementSystem(Engine));
+            ProcessManager.Attach(new EnemyRotationSystem(Engine));
+            ProcessManager.Attach(new AnimationSystem(Engine));
+            ProcessManager.Attach(new LaserEnemySystem(Engine));
+            ProcessManager.Attach(new GravitySystem(Engine));
+            ProcessManager.Attach(new PulseSystem(Engine));
+            ProcessManager.Attach(new ParallaxBackgroundSystem(Engine, Camera));
+            ProcessManager.Attach(new PassiveRotationSystem(Engine));
+            ProcessManager.Attach(new MenuBackgroundDestructionSystem(Engine));
 
+            // Render system is a "system" but not a classical one.
+            // It is called manually.
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
         }
         private void InitDirectors()
@@ -168,11 +167,6 @@ namespace GameJam.States
 
         protected override void OnFixedUpdate(float dt)
         {
-            for (int i = 0; i < _systems.Length; i++)
-            {
-                _systems[i].Update(dt);
-            }
-
             base.OnFixedUpdate(dt);
         }
 

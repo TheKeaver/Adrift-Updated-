@@ -17,7 +17,7 @@ namespace GameJam.Systems
             playerShieldEntities = engine.GetEntitiesFor(playerShieldFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity playerShield in playerShieldEntities)
             {

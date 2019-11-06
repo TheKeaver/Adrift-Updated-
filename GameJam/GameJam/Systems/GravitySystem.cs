@@ -20,7 +20,7 @@ namespace GameJam.Systems
             _gravityEntities = engine.GetEntitiesFor(_gravityFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity affectedEntity in _affectedEntities)
             {

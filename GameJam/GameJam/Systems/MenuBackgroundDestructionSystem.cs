@@ -14,7 +14,7 @@ namespace GameJam.Systems
             _menuBackgroundEntities = Engine.GetEntitiesFor(_menuBackgroundFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             for(int i = 0; i < _menuBackgroundEntities.Count; i++)
             {

@@ -47,7 +47,7 @@ namespace GameJam.Systems
             _collisionEntities = engine.GetEntitiesFor(_collisionFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             ProcessCollisions();
         }
@@ -58,7 +58,7 @@ namespace GameJam.Systems
 
             foreach (Entity entityA in _collisionEntities)
             {
-                if(!processedPairs.ContainsKey(entityA))
+                if (!processedPairs.ContainsKey(entityA))
                 {
                     processedPairs.Add(entityA, new List<Entity>());
                 }
@@ -96,7 +96,7 @@ namespace GameJam.Systems
 
                     bool resolved = false; // If true, _any_ of the shapes have intersected
                     bool intersecting = false;
-                    foreach(CollisionShape shapeA in collisionCompA.CollisionShapes)
+                    foreach (CollisionShape shapeA in collisionCompA.CollisionShapes)
                     {
                         Vector2 pA = transformCompA.Position +
                             new Vector2(shapeA.Offset.X * cosA - shapeA.Offset.Y * sinA,
@@ -115,21 +115,22 @@ namespace GameJam.Systems
                                     + shapeB.MaxRadiusSquared * transformCompB.Scale * transformCompB.Scale)
                             {
                                 // _May_ be intersecting
-                                if(CheckShapeIntersection(pA, cosA, sinA, transformCompA.Scale, shapeA,
+                                if (CheckShapeIntersection(pA, cosA, sinA, transformCompA.Scale, shapeA,
                                     pB, cosB, sinB, transformCompB.Scale, shapeB))
                                 {
                                     intersecting = true;
                                     resolved = true;
                                     break;
                                 }
-                            } else
+                            }
+                            else
                             {
                                 // Guarenteed to not be intersecting
                                 continue;
                             }
                         }
 
-                        if(resolved)
+                        if (resolved)
                         {
                             break;
                         }
@@ -137,13 +138,13 @@ namespace GameJam.Systems
 
                     bool previouslyIntersecting = collisionCompA.CollidingWith.Contains(entityB)
                         || collisionCompB.CollidingWith.Contains(entityA);
-                    if(!previouslyIntersecting && intersecting)
+                    if (!previouslyIntersecting && intersecting)
                     {
                         EventManager.Instance.QueueEvent(new CollisionStartEvent(entityA, entityB));
                         collisionCompA.CollidingWith.Add(entityB);
                         collisionCompB.CollidingWith.Add(entityA);
                     }
-                    if(previouslyIntersecting && !intersecting)
+                    if (previouslyIntersecting && !intersecting)
                     {
                         EventManager.Instance.QueueEvent(new CollisionEndEvent(entityA, entityB));
                         collisionCompA.CollidingWith.Remove(entityB);
@@ -162,7 +163,7 @@ namespace GameJam.Systems
             CircleCollisionShape circleB = shapeB as CircleCollisionShape;
             PolygonCollisionShape polygonB = shapeB as PolygonCollisionShape;
 
-            if(circleA != null && circleB != null)
+            if (circleA != null && circleB != null)
             {
                 return CheckCircleCircleIntersection(posA, circleA,
                     posB, circleB);
@@ -211,7 +212,7 @@ namespace GameJam.Systems
 
             BoundingCircle worldCircleB = new BoundingCircle(posB, circleB.Radius);
 
-            for(int i = 0; i < worldPolyA.Length; i++)
+            for (int i = 0; i < worldPolyA.Length; i++)
             {
                 int j = (i + 1) % worldPolyA.Length;
 
@@ -221,7 +222,7 @@ namespace GameJam.Systems
                 // Check vertices; guarenteed to intersect if vertices
                 // are contained and less expensive than a segment intersection
                 // test.
-                if(worldCircleB.Contains(v1) || worldCircleB.Contains(v2))
+                if (worldCircleB.Contains(v1) || worldCircleB.Contains(v2))
                 {
                     return true;
                 }
@@ -230,11 +231,11 @@ namespace GameJam.Systems
                 Vector2 segment = v2 - v1;
                 float circleOnSegment = Vector2.Dot(segment, worldCircleB.Position);
                 // Make sure segment is along the segment
-                if(circleOnSegment < 0)
+                if (circleOnSegment < 0)
                 {
                     continue;
                 }
-                if(circleOnSegment * circleOnSegment > segment.LengthSquared())
+                if (circleOnSegment * circleOnSegment > segment.LengthSquared())
                 {
                     continue;
                 }
@@ -242,7 +243,7 @@ namespace GameJam.Systems
                 segment.Normalize();
                 Vector2 intersectionPoint = segment * circleOnSegment + v1;
                 // Check for intersection of intersection point
-                if(worldCircleB.Contains(intersectionPoint))
+                if (worldCircleB.Contains(intersectionPoint))
                 {
                     return true;
                 }
@@ -266,7 +267,7 @@ namespace GameJam.Systems
                     sinB * polygonB.Vertices[i].X + cosB * polygonB.Vertices[i].Y) * scaleB + posB;
             }
 
-            for(int i = 0; i < worldPolyA.Length; i++)
+            for (int i = 0; i < worldPolyA.Length; i++)
             {
                 int j = (i + 1) % worldPolyA.Length;
                 Vector2 edge = worldPolyA[j] - worldPolyA[i];
@@ -274,7 +275,7 @@ namespace GameJam.Systems
                 Vector2 axis = new Vector2(-edge.Y, edge.X);
                 axis.Normalize();
 
-                if(!PassSAT(worldPolyA, worldPolyB, axis))
+                if (!PassSAT(worldPolyA, worldPolyB, axis))
                 {
                     // SAT: If any check does _not_ pass, they are _not_ intersecting
                     return false;
@@ -300,7 +301,7 @@ namespace GameJam.Systems
         private bool PassSAT(Vector2[] polyA, Vector2[] polyB, Vector2 axis)
         {
             float minA = float.PositiveInfinity, maxA = float.NegativeInfinity;
-            for(int i = 0; i < polyA.Length; i++)
+            for (int i = 0; i < polyA.Length; i++)
             {
                 float q = Vector2.Dot(polyA[i], axis);
                 minA = Math.Min(minA, q);

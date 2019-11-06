@@ -24,7 +24,7 @@ namespace GameJam.Systems
             _parallaxEntities = Engine.GetEntitiesFor(_parallaxFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             foreach(Entity parallaxEntity in _parallaxEntities)
             {
