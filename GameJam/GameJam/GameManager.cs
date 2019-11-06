@@ -107,11 +107,23 @@ namespace GameJam
         {
             bool applyChanges = false;
 
+            DisplayModeCollection displayModes = Graphics.GraphicsDevice.Adapter.SupportedDisplayModes;
+
             // Windowed/Borderless/Fullscreen
             if (CVars.Get<bool>("display_fullscreen"))
             {
                 if(!Graphics.IsFullScreen)
                 {
+                    if(CVars.Get<int>("display_fullscreen_width") < 0 || CVars.Get<int>("display_fullscreen_height") < 0)
+                    {
+                        CVars.Get<int>("display_fullscreen_width") = Graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+                        CVars.Get<int>("display_fullscreen_height") = Graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+                        CVars.Save();
+                    }
+
+                    Graphics.PreferredBackBufferWidth = CVars.Get<int>("display_fullscreen_width");
+                    Graphics.PreferredBackBufferHeight = CVars.Get<int>("display_fullscreen_height");
+
                     Graphics.IsFullScreen = true;
                     Graphics.HardwareModeSwitch = true;
                     applyChanges = true;

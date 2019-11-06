@@ -32,6 +32,9 @@ namespace GameJam
 
             Create<bool>("display_vsync", true, CVarFlags.PRESERVE);
 
+            Create<int>("display_fullscreen_width", -1, CVarFlags.PRESERVE);
+            Create<int>("display_fullscreen_height", -1, CVarFlags.PRESERVE);
+
             /** INPUT **/
             Create<float>("input_controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("input_controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
