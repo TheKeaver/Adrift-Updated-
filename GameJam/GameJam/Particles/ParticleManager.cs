@@ -1,10 +1,11 @@
 ﻿using System;
+using GameJam.Processes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Particles
 {
-    public class ParticleManager<T> : Process
+    public class ParticleManager<T> : ParallelProcess
     {
         Action<Particle, float> _updateParticle;
         CirculateParticleArray _particles;
@@ -59,7 +60,7 @@ namespace GameJam.Particles
             return ref particle.UserInfo;
 		}
 
-		protected override void OnUpdate(float dt)
+		protected override void OnRun(float dt)
 		{
 			int removalCount = 0;
 			for (int i = 0; i < _particles.Count; i++)
