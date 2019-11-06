@@ -159,6 +159,11 @@ namespace Events
 
             for (int i = _listeners[evt.GetType()].Count - 1; i >= 0; i--)
             {
+                if(i >= _listeners[evt.GetType()].Count)
+                {
+                    continue;
+                }
+
                 WeakReference<IEventListener> listenerRef = _listeners[evt.GetType()][i];
                 IEventListener listener;
                 listenerRef.TryGetTarget(out listener);
@@ -175,6 +180,11 @@ namespace Events
 
             for (int i = _wildcardListeners.Count - 1; i >= 0; i--)
             {
+                if (i >= _wildcardListeners.Count)
+                {
+                    continue;
+                }
+
                 WeakReference<IEventListener> listenerRef = _wildcardListeners[i];
                 IEventListener listener;
                 listenerRef.TryGetTarget(out listener);

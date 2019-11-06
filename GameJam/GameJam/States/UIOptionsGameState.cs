@@ -39,7 +39,7 @@ namespace GameJam.States
                 if ( rotateLeftBindingMode == false && rotateRightBindingMode == false && gpbde._pressedButton == Buttons.B )
                 {
                     _root.FindSelectedWidget().isSelected = false;
-                    if ( isOnLeftSide == true )
+                    if (isOnLeftSide == true)
                     {
                         ChangeState(new UIMenuGameState(GameManager, SharedState));
                     }
@@ -154,9 +154,14 @@ namespace GameJam.States
                 isOnLeftSide = false;
                 leftSideIndex = 0;
                 Console.WriteLine("displaySBPE");
+
+                //_root.FindSelectedWidget().isSelected = false;
                 ((Button)_root.FindWidgetByID("Display")).isSelected = false;
+                ((DropDownPanel)_root.FindWidgetByID("Screen_Size_Settings_Dropdown")).isSelected = true;
+
+                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = true;
+                ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
                 ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = false;
-                ((Button)_root.FindWidgetByID("FullScreen")).isSelected = true;
             }
             ControlsSettingsButtonPressedEvent controlsSBPE = evt as ControlsSettingsButtonPressedEvent;
             if (controlsSBPE != null)
@@ -164,9 +169,14 @@ namespace GameJam.States
                 isOnLeftSide = false;
                 leftSideIndex = 1;
                 Console.WriteLine("controlSBPE");
+
+                //_root.FindSelectedWidget().isSelected = false;
                 ((Button)_root.FindWidgetByID("Controls")).isSelected = false;
-                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = false;
                 ((Button)_root.FindWidgetByID("Rotate_Left")).isSelected = true;
+
+                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = false;
+                ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
+                ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = true;
             }
             GameSettingsButtonPressedEvent gameSBPE = evt as GameSettingsButtonPressedEvent;
             if (gameSBPE != null)
@@ -174,9 +184,14 @@ namespace GameJam.States
                 isOnLeftSide = false;
                 leftSideIndex = 2;
                 Console.WriteLine("gameSBPE");
+
+                //_root.FindSelectedWidget().isSelected = false;
                 ((Button)_root.FindWidgetByID("GameSettings")).isSelected = false;
+                ((DropDownPanel)_root.FindWidgetByID("Speed_Dropdown")).isSelected = true;
+
+                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = true;
                 ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = false;
-                ((Button)_root.FindWidgetByID("Speed")).isSelected = true;
+                ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = true;
             }
 
             FullScreenSettingsButtonPressedEvent fullscreenSBPE = evt as FullScreenSettingsButtonPressedEvent;
@@ -198,7 +213,6 @@ namespace GameJam.States
                 CVars.Get<bool>("display_borderless") = false;
                 CVars.Get<bool>("display_fullscreen") = false;
                 // TODO : Generate event to force GameManager to change to correct settings
-
             }
             BorderlessWindowButtonPressedEvent borderlessWindowSBPE = evt as BorderlessWindowButtonPressedEvent;
             if (borderlessWindowSBPE != null)
@@ -250,19 +264,6 @@ namespace GameJam.States
                 ((Button)_root.FindWidgetByID("Rotate_Right")).isSelected = false;
             }
 
-            SpeedSettingsButtonPressedEvent speedSBPE = evt as SpeedSettingsButtonPressedEvent;
-            if (speedSBPE != null)
-            {
-                Console.WriteLine("speedSBPE");
-                // Save settings to the speed set by the player by modifying the cvars
-            }
-            DifficultySettingsButtonPressedEvent difficultySBPE = evt as DifficultySettingsButtonPressedEvent;
-            if (difficultySBPE != null)
-            {
-                Console.WriteLine("difficultySBPE");
-                // Save settings to the spawn rate set by the player by modifying the cvars
-            }
-
             return false;
         }
         // Select these below when making new GameState
@@ -271,6 +272,15 @@ namespace GameJam.States
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
 
             LoadContent();
+
+            ((Button)_root.FindWidgetByID("0.5x")).Action = () => { CVars.Get<float>("game_speed") = 0.5f; EventManager.Instance.QueueEvent(new SpeedSettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Speed_Dropdown_Label")).Content = "Speed: 0.5x"; };
+            ((Button)_root.FindWidgetByID("1.0x")).Action = () => { CVars.Get<float>("game_speed") = 1.0f; EventManager.Instance.QueueEvent(new SpeedSettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Speed_Dropdown_Label")).Content = "Speed: 1.0x"; };
+            ((Button)_root.FindWidgetByID("1.5x")).Action = () => { CVars.Get<float>("game_speed") = 1.5f; EventManager.Instance.QueueEvent(new SpeedSettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Speed_Dropdown_Label")).Content = "Speed: 1.5x"; };
+            ((Button)_root.FindWidgetByID("2.0x")).Action = () => { CVars.Get<float>("game_speed") = 2.0f; EventManager.Instance.QueueEvent(new SpeedSettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Speed_Dropdown_Label")).Content = "Speed: 2.0x"; };
+
+            ((Button)_root.FindWidgetByID("Easy")).Action = () => { CVars.Get<int>("game_difficulty") = 0; EventManager.Instance.QueueEvent(new DifficultySettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficulty: Easy"; };
+            ((Button)_root.FindWidgetByID("Normal")).Action = () => { CVars.Get<int>("game_difficulty") = 1; EventManager.Instance.QueueEvent(new DifficultySettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficulty: Normal"; };
+            ((Button)_root.FindWidgetByID("Hard")).Action = () => { CVars.Get<int>("game_difficulty") = 2; EventManager.Instance.QueueEvent(new DifficultySettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficulty: Hard"; };
 
             base.OnInitialize();
         }
@@ -301,9 +311,6 @@ namespace GameJam.States
 
             EventManager.Instance.RegisterListener<RotateLeftSettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<RotateRightSettingsButtonPressedEvent>(this);
-
-            EventManager.Instance.RegisterListener<SpeedSettingsButtonPressedEvent>(this);
-            EventManager.Instance.RegisterListener<DifficultySettingsButtonPressedEvent>(this);
 
             base.RegisterListeners();
         }

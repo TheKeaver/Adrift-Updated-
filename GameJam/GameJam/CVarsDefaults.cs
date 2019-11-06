@@ -61,6 +61,9 @@ namespace GameJam
             Create<int>("input_keyboard_pause", 27, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** GAMEPLAY **/
+            Create<float>("game_speed", 1.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("game_difficulty", 1, CVarFlags.PRESERVE);
+
             Create<float>("player_shield_radius", 30.0f, CVarFlags.DEV_PRESERVE);
             Create<float>("player_shield_size", 3, CVarFlags.DEV_PRESERVE);
             Create<float>("player_ship_size", 5, CVarFlags.DEV_PRESERVE);

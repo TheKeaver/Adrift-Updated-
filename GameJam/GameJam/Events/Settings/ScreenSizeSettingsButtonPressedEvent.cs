@@ -2,7 +2,7 @@
 
 namespace GameJam.Events.Settings
 {
-    public class ControlsSettingsButtonPressedEvent: IEvent
+    public class ScreenSizeSettingsButtonPressedEvent : IEvent
     {
     }
 }

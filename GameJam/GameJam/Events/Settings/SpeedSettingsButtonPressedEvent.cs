@@ -2,7 +2,7 @@
 
 namespace GameJam.Events.Settings
 {
-    class SpeedSettingsButtonPressedEvent : IEvent
+    public class SpeedSettingsButtonPressedEvent : IEvent
     {
     }
 }

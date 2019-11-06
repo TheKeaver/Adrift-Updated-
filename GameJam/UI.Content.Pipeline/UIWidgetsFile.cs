@@ -238,7 +238,7 @@ namespace UI.Content.Pipeline
         public string PressedThickness;
 
         [XmlAttribute("onclick")]
-        public string OnClick;
+        public string OnClick = "";
 
         [XmlAttribute("aboveID")]
         public string AboveID = "";
