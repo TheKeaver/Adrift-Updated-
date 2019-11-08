@@ -462,6 +462,7 @@
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="5,5,5,5"
         close-on="Settings.SpeedSettingsButtonPressedEvent"
+        aboveID="Volume_Slider"
         belowID="Difficulty_Dropdown"
         class="DropDown"
         >
@@ -622,6 +623,7 @@
         pressed-thickness="5,5,5,5"
         close-on="Settings.DifficultySettingsButtonPressedEvent"
         aboveID="Speed_Dropdown"
+        belowID="Volume_Slider"
         class="DropDown"
         >
         <Label
@@ -739,6 +741,23 @@
           </Button>
         </Contents>
       </DropDownPanel>
+      <Slider
+        id="Volume_Slider"
+        aboveID="Difficulty_Dropdown"
+        belowID="Speed_Dropdown"
+        halign="center"
+        valign="top"
+        horizontal="0"
+        vertical="55%"
+        width="100%"
+        height="20%"
+        released-image="texture_ui_button_released"
+        released-thickness="5,5,5,5"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="5,5,5,5"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="5,5,5,5">
+      </Slider>
     </Panel>
     <!-- End of Game Settings Right Side Panel -->
   </Widgets>

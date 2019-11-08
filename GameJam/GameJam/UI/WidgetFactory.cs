@@ -153,6 +153,68 @@ namespace GameJam.UI
                 ((Button)widget).belowID = ((ButtonWidgetPrototype)prototype).BelowID;
                 ((Button)widget).isSelected = ((ButtonWidgetPrototype)prototype).IsSelected;
             }
+            if (prototype is SliderWidgetPrototype)
+            {
+                Texture2D releasedTexture = content.Load<Texture2D>(((SliderWidgetPrototype)prototype).ReleasedImage);
+                string[] releasedRawThickness = ((SliderWidgetPrototype)prototype).ReleasedThickness.Trim().Split(',');
+                if (releasedRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                Texture2D hoverTexture = content.Load<Texture2D>(((SliderWidgetPrototype)prototype).HoverImage);
+                string[] hoverRawThickness = ((SliderWidgetPrototype)prototype).HoverThickness.Trim().Split(',');
+                if (hoverRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                Texture2D pressedTexture = content.Load<Texture2D>(((SliderWidgetPrototype)prototype).PressedImage);
+                string[] pressedRawThickness = ((SliderWidgetPrototype)prototype).PressedThickness.Trim().Split(',');
+                if (pressedRawThickness.Length != 4)
+                {
+                    throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
+                }
+
+                widget = new Button(new NinePatchRegion2D(new TextureRegion2D(releasedTexture),
+                        int.Parse(releasedRawThickness[0]),
+                        int.Parse(releasedRawThickness[1]),
+                        int.Parse(releasedRawThickness[2]),
+                        int.Parse(releasedRawThickness[3])),
+                    new NinePatchRegion2D(new TextureRegion2D(hoverTexture),
+                        int.Parse(hoverRawThickness[0]),
+                        int.Parse(hoverRawThickness[1]),
+                        int.Parse(hoverRawThickness[2]),
+                        int.Parse(hoverRawThickness[3])),
+                    new NinePatchRegion2D(new TextureRegion2D(pressedTexture),
+                        int.Parse(pressedRawThickness[0]),
+                        int.Parse(pressedRawThickness[1]),
+                        int.Parse(pressedRawThickness[2]),
+                        int.Parse(pressedRawThickness[3])),
+                    halign, horizontal, valign, vertical, width, height);
+                /*if (((SliderWidgetPrototype)prototype).OnClick.Length > 0)
+                {
+                    string[] onclickParts = ((SliderWidgetPrototype)prototype).OnClick.Trim().Split(':');
+                    switch (onclickParts[0].ToLower())
+                    {
+                        case "queue":
+                            ((Button)widget).Action = () =>
+                            {
+                                string assemblyQualifiedName = string.Format("GameJam.Events.{0}, GameJam", onclickParts[1]);
+                                IEvent evt = (IEvent)Activator.CreateInstance(Type.GetType(assemblyQualifiedName));
+                                EventManager.Instance.QueueEvent(evt);
+                            };
+                            break;
+                        default:
+                            throw new Exception(string.Format("Unkown action type: `{0}`", onclickParts[0]));
+                    }
+                }*/
+                ((Button)widget).rightID = ((SliderWidgetPrototype)prototype).RightID;
+                ((Button)widget).leftID = ((SliderWidgetPrototype)prototype).LeftID;
+                ((Button)widget).aboveID = ((SliderWidgetPrototype)prototype).AboveID;
+                ((Button)widget).belowID = ((SliderWidgetPrototype)prototype).BelowID;
+                ((Button)widget).isSelected = ((SliderWidgetPrototype)prototype).IsSelected;
+            }
             if (prototype is DropDownPanelWidgetPrototype)
             {
                 Texture2D releasedTexture = content.Load<Texture2D>(((DropDownPanelWidgetPrototype)prototype).ReleasedImage);

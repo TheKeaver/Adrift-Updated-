@@ -226,7 +226,8 @@ namespace GameJam.UI.Widgets
                     }
                     if (leftID.Length == 0)
                     {
-                        adjustableValue -= 0.01f;
+                        if( adjustableValue > 0 )
+                            adjustableValue -= 0.05f;
                         return true;
                     }
                 }
@@ -241,7 +242,8 @@ namespace GameJam.UI.Widgets
                     }
                     if (rightID.Length == 0)
                     {
-                        adjustableValue += 0.01f;
+                        if( adjustableValue < 1 )
+                            adjustableValue += 0.01f;
                         return true;
                     }
                 }
@@ -256,7 +258,8 @@ namespace GameJam.UI.Widgets
                     }
                     if (aboveID.Length == 0)
                     {
-                        adjustableValue += 0.01f;
+                        if( adjustableValue < 1 )
+                            adjustableValue += 0.01f;
                         return true;
                     }
                 }
@@ -271,7 +274,8 @@ namespace GameJam.UI.Widgets
                     }
                     if (belowID.Length == 0)
                     {
-                        adjustableValue -= 0.01f;
+                        if( adjustableValue > 0)
+                           adjustableValue -= 0.01f;
                     }
                 }
             }
