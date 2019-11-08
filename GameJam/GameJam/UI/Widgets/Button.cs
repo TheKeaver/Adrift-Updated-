@@ -141,6 +141,11 @@ namespace GameJam.UI.Widgets
 
         public override bool Handle(IEvent evt)
         {
+            if(Hidden)
+            {
+                return false;
+            }
+
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
             if (mouseMoveEvent != null)
             {

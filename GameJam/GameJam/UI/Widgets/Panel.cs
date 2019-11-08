@@ -50,6 +50,11 @@ namespace GameJam.UI.Widgets
 
         public override bool Handle(IEvent evt)
         {
+            if(Hidden)
+            {
+                return false;
+            }
+
             for (int i = 0; i < _widgets.Count; i++)
             {
                 if (_widgets[i].Handle(evt))

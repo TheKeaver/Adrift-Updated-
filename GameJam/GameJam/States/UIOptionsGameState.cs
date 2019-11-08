@@ -45,22 +45,28 @@ namespace GameJam.States
                     }
                     if ( isOnLeftSide == false )
                     {
+                        foreach ( DropDownPanel ddp in _root.FindWidgetsByClass("DropDown") )
+                        {
+                            ddp.ShowDropDown = false;
+                            ddp.isSelected = false;
+                        }
+
                         switch( leftSideIndex )
                         {
                             case 0:
+                                ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = true;
                                 ((Button)_root.FindWidgetByID("Display")).isSelected = true;
                                 isOnLeftSide = true;
-                                ((Panel)_root.FindWidgetByID("display_options_menu_right_panel")).Hidden = true;
                                 break;
                             case 1:
+                                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = true;
                                 ((Button)_root.FindWidgetByID("Controls")).isSelected = true;
                                 isOnLeftSide = true;
-                                ((Panel)_root.FindWidgetByID("controls_options_menu_right_panel")).Hidden = true;
                                 break;
                             case 2:
+                                ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
                                 ((Button)_root.FindWidgetByID("GameSettings")).isSelected = true;
                                 isOnLeftSide = true;
-                                ((Panel)_root.FindWidgetByID("game_options_menu_right_panel")).Hidden = true;
                                 break;
                         }
                     }
@@ -70,15 +76,31 @@ namespace GameJam.States
                     switch (gpbde._playerIndex)
                     {
                         case PlayerIndex.One:
+                            if( CVars.Get<int>("controller_0_rotate_right") == ((int)gpbde._pressedButton))
+                            {
+                                CVars.Get<int>("controller_0_rotate_right") = CVars.Get<int>("controller_0_rotate_left");
+                            }
                             CVars.Get<int>("controller_0_rotate_left") = ((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Two:
+                            if (CVars.Get<int>("controller_1_rotate_right") == ((int)gpbde._pressedButton))
+                            {
+                                CVars.Get<int>("controller_1_rotate_right") = CVars.Get<int>("controller_1_rotate_left");
+                            }
                             CVars.Get<int>("controller_1_rotate_left") = ((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Three:
+                            if (CVars.Get<int>("controller_2_rotate_right") == ((int)gpbde._pressedButton))
+                            {
+                                CVars.Get<int>("controller_2_rotate_right") = CVars.Get<int>("controller_2_rotate_left");
+                            }
                             CVars.Get<int>("controller_2_rotate_left") = ((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Four:
+                            if (CVars.Get<int>("controller_3_rotate_right") == ((int)gpbde._pressedButton))
+                            {
+                                CVars.Get<int>("controller_3_rotate_right") = CVars.Get<int>("controller_3_rotate_left");
+                            }
                             CVars.Get<int>("controller_3_rotate_left") = ((int)gpbde._pressedButton);
                             break;
                     }
@@ -92,15 +114,31 @@ namespace GameJam.States
                     switch (gpbde._playerIndex)
                     {
                         case PlayerIndex.One:
+                            if (CVars.Get<int>("controller_0_rotate_left") == ((int)gpbde._pressedButton))
+                            {
+                                CVars.Get<int>("controller_0_rotate_left") = CVars.Get<int>("controller_0_rotate_right");
+                            }
                             CVars.Get<int>("controller_0_rotate_right") = ((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Two:
+                            if (CVars.Get<int>("controller_1_rotate_left") == ((int)gpbde._pressedButton))
+                            {
+                                CVars.Get<int>("controller_1_rotate_left") = CVars.Get<int>("controller_1_rotate_right");
+                            }
                             CVars.Get<int>("controller_1_rotate_right") = ((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Three:
+                            if (CVars.Get<int>("controller_2_rotate_left") == ((int)gpbde._pressedButton))
+                            {
+                                CVars.Get<int>("controller_2_rotate_left") = CVars.Get<int>("controller_2_rotate_right");
+                            }
                             CVars.Get<int>("controller_2_rotate_right") = ((int)gpbde._pressedButton);
                             break;
                         case PlayerIndex.Four:
+                            if (CVars.Get<int>("controller_3_rotate_left") == CVars.Get<int>("controller_3_rotate_right"))
+                            {
+                                CVars.Get<int>("controller_3_rotate_left") = CVars.Get<int>("controller_3_rotate_right");
+                            }
                             CVars.Get<int>("controller_3_rotate_right") = ((int)gpbde._pressedButton);
                             break;
                     }
@@ -197,54 +235,60 @@ namespace GameJam.States
             FullScreenSettingsButtonPressedEvent fullscreenSBPE = evt as FullScreenSettingsButtonPressedEvent;
             if (fullscreenSBPE != null)
             {
-                Console.WriteLine("fullSBPE");
+                ((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content = "Screen Size: Full Screen";
                 // Set to full screen
                 CVars.Get<bool>("display_windowed") = false;
                 CVars.Get<bool>("display_borderless") = false;
                 CVars.Get<bool>("display_fullscreen") = true;
-                // TODO : Generate event to force GameManager to change to correct settings
+                // Generate event to force GameManager to change to correct settings
+                EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
             WindowedSettingsButtonPressed windowedSBPE = evt as WindowedSettingsButtonPressed;
             if (windowedSBPE != null)
             {
-                Console.WriteLine("windowedSBPE");
+                ((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content = "Screen Size: Windowed";
                 // Set to windowed
                 CVars.Get<bool>("display_windowed") = true;
                 CVars.Get<bool>("display_borderless") = false;
                 CVars.Get<bool>("display_fullscreen") = false;
-                // TODO : Generate event to force GameManager to change to correct settings
+                // Generate event to force GameManager to change to correct settings
+                EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
             BorderlessWindowButtonPressedEvent borderlessWindowSBPE = evt as BorderlessWindowButtonPressedEvent;
             if (borderlessWindowSBPE != null)
             {
-                Console.WriteLine("bordelessWindowSBPE");
+                ((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content = "Screen Size: Borderless";
                 // Set to borderless window
                 CVars.Get<bool>("display_windowed") = false;
                 CVars.Get<bool>("display_borderless") = true;
                 CVars.Get<bool>("display_fullscreen") = false;
-                // TODO : Generate event to force GameManager to change to correct settings
+                // Generate event to force GameManager to change to correct settings
+                EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
 
             AAFXAASettingsButtonPressedEvent aafxaaSBPE = evt as AAFXAASettingsButtonPressedEvent;
             if (aafxaaSBPE != null)
             {
-                Console.WriteLine("aafxaaSBPE");
+                ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: FXAA";
                 CVars.Get<bool>("graphics_fxaa") = false;
                 CVars.Get<bool>("graphics_feathering").Equals(false);
+                EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
             AAFeatheringButtonPressedEvent aafeatherSBPE = evt as AAFeatheringButtonPressedEvent;
             if (aafeatherSBPE != null)
             {
-                Console.WriteLine("aafeatherSBPE");
+                ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Feathering";
                 CVars.Get<bool>("graphics_fxaa") = false;
                 CVars.Get<bool>("graphics_feathering").Equals(true);
+                EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
             AAOffButtonPressedEvent aaoffSBPE = evt as AAOffButtonPressedEvent;
             if (aaoffSBPE != null)
             {
-                Console.WriteLine("aaoffSBPE");
+                ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Off";
                 CVars.Get<bool>("graphics_fxaa") = false;
                 CVars.Get<bool>("graphics_feathering").Equals(false);
+                EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
 
             RotateLeftSettingsButtonPressedEvent rlSBPE = evt as RotateLeftSettingsButtonPressedEvent;
@@ -281,6 +325,14 @@ namespace GameJam.States
             ((Button)_root.FindWidgetByID("Easy")).Action = () => { CVars.Get<int>("game_difficulty") = 0; EventManager.Instance.QueueEvent(new DifficultySettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficulty: Easy"; };
             ((Button)_root.FindWidgetByID("Normal")).Action = () => { CVars.Get<int>("game_difficulty") = 1; EventManager.Instance.QueueEvent(new DifficultySettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficulty: Normal"; };
             ((Button)_root.FindWidgetByID("Hard")).Action = () => { CVars.Get<int>("game_difficulty") = 2; EventManager.Instance.QueueEvent(new DifficultySettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficulty: Hard"; };
+
+            ((Button)_root.FindWidgetByID("FXAA")).Action = () => { EventManager.Instance.QueueEvent(new AAFXAASettingsButtonPressedEvent()); };
+            ((Button)_root.FindWidgetByID("Feathering")).Action = () => { EventManager.Instance.QueueEvent(new AAFeatheringButtonPressedEvent()); };
+            ((Button)_root.FindWidgetByID("Off")).Action = () => { EventManager.Instance.QueueEvent(new AAOffButtonPressedEvent()); };
+
+            ((Button)_root.FindWidgetByID("FullScreen")).Action = () => { EventManager.Instance.QueueEvent(new FullScreenSettingsButtonPressedEvent()); };
+            ((Button)_root.FindWidgetByID("Windowed")).Action = () => { EventManager.Instance.QueueEvent(new WindowedSettingsButtonPressed()); };
+            ((Button)_root.FindWidgetByID("BorderlessWindow")).Action = () => { EventManager.Instance.QueueEvent(new BorderlessWindowButtonPressedEvent()); };
 
             base.OnInitialize();
         }

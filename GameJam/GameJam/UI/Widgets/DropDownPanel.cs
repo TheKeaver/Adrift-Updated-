@@ -76,13 +76,17 @@ namespace GameJam.UI.Widgets
             }
             set
             {
-                _showDropDown = value;
-                if (_showDropDown)
+                if (value != _showDropDown)
                 {
-                    TryChangeSelectionToDropDown();
-                } else
-                {
-                    TryChangeSelectionFromDropDown();
+                    _showDropDown = value;
+                    if (_showDropDown)
+                    {
+                        TryChangeSelectionToDropDown();
+                    }
+                    else
+                    {
+                        TryChangeSelectionFromDropDown();
+                    }
                 }
             }
         }
@@ -172,6 +176,11 @@ namespace GameJam.UI.Widgets
 
         public override bool Handle(IEvent evt)
         {
+            if(Hidden)
+            {
+                return false;
+            }
+            
             if (ShowDropDown)
             {
                 if(Array.Find(_closeOnEventTypes, (Type type) =>
