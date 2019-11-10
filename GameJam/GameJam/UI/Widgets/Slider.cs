@@ -64,13 +64,13 @@ namespace GameJam.UI.Widgets
             }
         }
 
-        public Panel SubPanel
+        /*public Panel SubPanel
         {
             get;
             private set;
-        }
+        }*/
 
-        public Panel SliderButton
+        public Button SliderButton
         {
             get;
             private set;
@@ -90,6 +90,8 @@ namespace GameJam.UI.Widgets
         public float adjustableValue = 0.5f;
         public bool isSelected { get; set; } = false;
 
+        public bool isDragging { get; set; } = false;
+
         public Slider(NinePatchRegion2D releasedNinePatch,
             NinePatchRegion2D hoverNinePatch,
             NinePatchRegion2D pressedNinePatch,
@@ -107,17 +109,20 @@ namespace GameJam.UI.Widgets
             _hoverNinePatch = hoverNinePatch;
             _pressedNinePatch = pressedNinePatch;
 
-            SubPanel = new Panel(HorizontalAlignment.Center, new FixedValue(0),
+            /*SubPanel = new Panel(HorizontalAlignment.Center, new FixedValue(0),
                 VerticalAlignment.Center, new FixedValue(0),
                 new RelativeValue(1, () => { return Width; }),
-                new RelativeValue(1, () => { return Height; }));
+                new RelativeValue(1, () => { return Height; }));*/
 
-            SliderButton = new Panel(HorizontalAlignment.Center, new FixedValue(0),
+            SliderButton = new Button(_releasedNinePatch,
+                _hoverNinePatch,
+                _pressedNinePatch,
+                HorizontalAlignment.Center, new FixedValue(0),
                 VerticalAlignment.Center, new FixedValue(0),
                 new RelativeValue(0.2f, () => { return Width; }),
                 new RelativeValue(0.3f, () => { return Height; }));
 
-            SubPanel.Parent = this;
+            //SubPanel.Parent = this;
             SliderButton.Parent = this;
         }
 
@@ -139,66 +144,39 @@ namespace GameJam.UI.Widgets
                     ninePatch = _pressedNinePatch;
                 }
 
-                spriteBatch.Draw(ninePatch,
+                spriteBatch.Draw(_releasedNinePatch,
                     new Rectangle((int)TopLeft.X,
-                        (int)TopLeft.Y,
-                        (int)Width,
-                        (int)Height),
-                        Color.Green * (TintColor.A / 255.0f));
-                spriteBatch.Draw(ninePatch,
-                    new Rectangle((int)TopLeft.X,
-                    0,
+                    (int)(TopLeft.Y + (Height/2) - Height/20),
                     (int)Width,
-                    10),
-                    Color.Green * (TintColor.A / 255.0f));
-                SubPanel.Draw(spriteBatch);
+                    (int)Height/10),
+                    Color.Green);
+
                 SliderButton.Draw(spriteBatch);
             }
         }
 
         public override bool Handle(IEvent evt)
         {
+            SliderButton.Handle(evt);
+
+            MouseButtonEvent mouseButtonEvent = evt as MouseButtonEvent;
+            if( mouseButtonEvent != null )
+            {
+                if (mouseButtonEvent.LeftButtonState == Microsoft.Xna.Framework.Input.ButtonState.Pressed && SliderButton.ButtonState == ButtonState.Pressed)
+                    isDragging = true;
+                if (mouseButtonEvent.LeftButtonState == Microsoft.Xna.Framework.Input.ButtonState.Released)
+                    isDragging = false;
+            }
+
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
             if (mouseMoveEvent != null)
             {
-                if (mouseMoveEvent.CurrentPosition.X > TopLeft.X
-                    && mouseMoveEvent.CurrentPosition.X < BottomRight.X
-                    && mouseMoveEvent.CurrentPosition.Y > TopLeft.Y
-                    && mouseMoveEvent.CurrentPosition.Y < BottomRight.Y)
+                if( SliderButton.ButtonState == ButtonState.Pressed )
                 {
-                    if (SliderState != SliderState.Pressed)
-                    {
-                        SliderState = SliderState.Hover;
-                    }
-                }
-                else
-                {
-                    SliderState = SliderState.Released;
-                }
-            }
-
-            MouseButtonEvent mouseButtonEvent = evt as MouseButtonEvent;
-            if (mouseButtonEvent != null)
-            {
-                if (mouseButtonEvent.CurrentPosition.X > TopLeft.X
-                    && mouseButtonEvent.CurrentPosition.X < BottomRight.X
-                    && mouseButtonEvent.CurrentPosition.Y > TopLeft.Y
-                    && mouseButtonEvent.CurrentPosition.Y < BottomRight.Y)
-                {
-                    if (mouseButtonEvent.LeftButtonState == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
-                    {
-                        SliderState = SliderState.Pressed;
-                    }
-                    if (SliderState == SliderState.Pressed
-                        && mouseButtonEvent.LeftButtonState == Microsoft.Xna.Framework.Input.ButtonState.Released)
-                    {
-                        if (Action != null && !Hidden)
-                        {
-                            Action.Invoke();
-                        }
-
-                        SliderState = SliderState.Released;
-                    }
+                    // Set position to mouse position
+                    SliderButton.HorizontalValue = new FixedValue(mouseMoveEvent.CurrentPosition.X -
+                        ( (BottomRight.X - TopLeft.X)/2 + TopLeft.X )
+                        );
                 }
             }
 
@@ -281,6 +259,11 @@ namespace GameJam.UI.Widgets
             }
 
             return false;
+        }
+
+        protected override void OnComputeProperties()
+        {
+            SliderButton.ComputeProperties();
         }
     }
 }

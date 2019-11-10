@@ -176,7 +176,7 @@ namespace GameJam.UI
                     throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
                 }
 
-                widget = new Button(new NinePatchRegion2D(new TextureRegion2D(releasedTexture),
+                widget = new Slider(new NinePatchRegion2D(new TextureRegion2D(releasedTexture),
                         int.Parse(releasedRawThickness[0]),
                         int.Parse(releasedRawThickness[1]),
                         int.Parse(releasedRawThickness[2]),
@@ -192,28 +192,11 @@ namespace GameJam.UI
                         int.Parse(pressedRawThickness[2]),
                         int.Parse(pressedRawThickness[3])),
                     halign, horizontal, valign, vertical, width, height);
-                /*if (((SliderWidgetPrototype)prototype).OnClick.Length > 0)
-                {
-                    string[] onclickParts = ((SliderWidgetPrototype)prototype).OnClick.Trim().Split(':');
-                    switch (onclickParts[0].ToLower())
-                    {
-                        case "queue":
-                            ((Button)widget).Action = () =>
-                            {
-                                string assemblyQualifiedName = string.Format("GameJam.Events.{0}, GameJam", onclickParts[1]);
-                                IEvent evt = (IEvent)Activator.CreateInstance(Type.GetType(assemblyQualifiedName));
-                                EventManager.Instance.QueueEvent(evt);
-                            };
-                            break;
-                        default:
-                            throw new Exception(string.Format("Unkown action type: `{0}`", onclickParts[0]));
-                    }
-                }*/
-                ((Button)widget).rightID = ((SliderWidgetPrototype)prototype).RightID;
-                ((Button)widget).leftID = ((SliderWidgetPrototype)prototype).LeftID;
-                ((Button)widget).aboveID = ((SliderWidgetPrototype)prototype).AboveID;
-                ((Button)widget).belowID = ((SliderWidgetPrototype)prototype).BelowID;
-                ((Button)widget).isSelected = ((SliderWidgetPrototype)prototype).IsSelected;
+                ((Slider)widget).rightID = ((SliderWidgetPrototype)prototype).RightID;
+                ((Slider)widget).leftID = ((SliderWidgetPrototype)prototype).LeftID;
+                ((Slider)widget).aboveID = ((SliderWidgetPrototype)prototype).AboveID;
+                ((Slider)widget).belowID = ((SliderWidgetPrototype)prototype).BelowID;
+                ((Slider)widget).isSelected = ((SliderWidgetPrototype)prototype).IsSelected;
             }
             if (prototype is DropDownPanelWidgetPrototype)
             {
