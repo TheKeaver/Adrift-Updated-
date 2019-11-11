@@ -191,7 +191,7 @@ namespace GameJam.UI
                         int.Parse(pressedRawThickness[1]),
                         int.Parse(pressedRawThickness[2]),
                         int.Parse(pressedRawThickness[3])),
-                    halign, horizontal, valign, vertical, width, height);
+                    halign, horizontal, valign, vertical, width, height, ((SliderWidgetPrototype)prototype).isVertical, ((SliderWidgetPrototype)prototype).isHorizontal, ((SliderWidgetPrototype)prototype).divisions);
                 ((Slider)widget).rightID = ((SliderWidgetPrototype)prototype).RightID;
                 ((Slider)widget).leftID = ((SliderWidgetPrototype)prototype).LeftID;
                 ((Slider)widget).aboveID = ((SliderWidgetPrototype)prototype).AboveID;

@@ -313,8 +313,13 @@ namespace UI.Content.Pipeline
         [XmlAttribute("pressed-thickness")]
         public string PressedThickness;
 
-        //[XmlAttribute("onclick")]
-        //public string OnClick = "";
+        [XmlAttribute("isVertical")]
+        public bool isVertical;
+        [XmlAttribute("isHorizontal")]
+        public bool isHorizontal;
+
+        [XmlAttribute("divisions")]
+        public int divisions;
 
         [XmlAttribute("aboveID")]
         public string AboveID = "";
@@ -343,7 +348,10 @@ namespace UI.Content.Pipeline
 
             output.Write(IsSelected);
 
-            //output.Write(OnClick);
+            output.Write(isHorizontal);
+            output.Write(isVertical);
+
+            output.Write(divisions);
 
             base.WriteToOutput(output);
         }
@@ -363,7 +371,10 @@ namespace UI.Content.Pipeline
 
             IsSelected = input.ReadBoolean();
 
-            //OnClick = input.ReadString();
+            isHorizontal = input.ReadBoolean();
+            isVertical = input.ReadBoolean();
+
+            divisions = input.ReadInt32();
 
             base.ReadFromInput(input);
         }

@@ -5,17 +5,9 @@
     /// </summary>
     public static class MathUtils
     {
-        public static float Clamp(float min, float max, float val)
+        public static float InverseLerp(float a, float b, float v)
         {
-            if (val < min)
-            {
-                return min;
-            }
-            if (val > max)
-            {
-                return max;
-            }
-            return val;
+            return ((v - a) / (b - a));
         }
     }
 }

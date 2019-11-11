@@ -87,9 +87,14 @@ namespace GameJam.UI.Widgets
         public string rightID { get; set; } = "";
         public string belowID { get; set; } = "";
 
-        public float adjustableValue = 0.5f;
-        public bool isSelected { get; set; } = false;
+        public float horizontalValue { get; }
+        public float verticalValue { get; }
 
+        public int divisions;
+
+        public bool isVertical = false;
+        public bool isHorizontal = false;
+        public bool isSelected { get; set; } = false;
         public bool isDragging { get; set; } = false;
 
         public Slider(NinePatchRegion2D releasedNinePatch,
@@ -103,16 +108,18 @@ namespace GameJam.UI.Widgets
             AbstractValue vertical,
 
             AbstractValue width,
-            AbstractValue height) : base(hAlign, horizontal, vAlign, vertical, width, height)
+            AbstractValue height,
+            bool isVertical,
+            bool isHorizontal,
+            int divisions) : base(hAlign, horizontal, vAlign, vertical, width, height)
         {
             _releasedNinePatch = releasedNinePatch;
             _hoverNinePatch = hoverNinePatch;
             _pressedNinePatch = pressedNinePatch;
 
-            /*SubPanel = new Panel(HorizontalAlignment.Center, new FixedValue(0),
-                VerticalAlignment.Center, new FixedValue(0),
-                new RelativeValue(1, () => { return Width; }),
-                new RelativeValue(1, () => { return Height; }));*/
+            this.isVertical = isVertical;
+            this.isHorizontal = isHorizontal;
+            this.divisions = divisions;
 
             SliderButton = new Button(_releasedNinePatch,
                 _hoverNinePatch,
@@ -144,7 +151,7 @@ namespace GameJam.UI.Widgets
                     ninePatch = _pressedNinePatch;
                 }
 
-                spriteBatch.Draw(_releasedNinePatch,
+                spriteBatch.Draw(ninePatch,
                     new Rectangle((int)TopLeft.X,
                     (int)(TopLeft.Y + (Height/2) - Height/20),
                     (int)Width,
@@ -160,7 +167,7 @@ namespace GameJam.UI.Widgets
             SliderButton.Handle(evt);
 
             MouseButtonEvent mouseButtonEvent = evt as MouseButtonEvent;
-            if( mouseButtonEvent != null )
+            if (mouseButtonEvent != null)
             {
                 if (mouseButtonEvent.LeftButtonState == Microsoft.Xna.Framework.Input.ButtonState.Pressed && SliderButton.ButtonState == ButtonState.Pressed)
                     isDragging = true;
@@ -171,22 +178,31 @@ namespace GameJam.UI.Widgets
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
             if (mouseMoveEvent != null)
             {
-                if( SliderButton.ButtonState == ButtonState.Pressed )
+                if (isDragging == true || SliderButton.ButtonState == ButtonState.Pressed)
                 {
-                    // Set position to mouse position
-                    SliderButton.HorizontalValue = new FixedValue(mouseMoveEvent.CurrentPosition.X -
-                        ( (BottomRight.X - TopLeft.X)/2 + TopLeft.X )
-                        );
+                    if (isHorizontal)
+                    {
+                        SliderButton.HorizontalValue = new FixedValue(
+                            MathHelper.Clamp(mouseMoveEvent.CurrentPosition.X, (float)TopLeft.X, (float)BottomRight.X) -
+                            ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X)
+                            );
+                    }
+
+                    if (isVertical)
+                    {
+                        SliderButton.HorizontalValue = new FixedValue(
+                            MathHelper.Clamp(mouseMoveEvent.CurrentPosition.Y, (float)TopLeft.Y, (float)BottomRight.Y) -
+                            ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y)
+                            );
+                    }
                 }
             }
 
             GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
             if (gamePadButtonDownEvent != null && this.isSelected)
             {
-                if (gamePadButtonDownEvent._pressedButton == Buttons.A)
-                {
-                    Action.Invoke();
-                }
+                float oneUnitOfWidth = (BottomRight.X - TopLeft.X) / divisions;
+                float oneUnitOfHeight = (BottomRight.Y - TopLeft.Y) / divisions;
                 // This is likely bad news
                 if (gamePadButtonDownEvent._pressedButton == Buttons.B)
                 {
@@ -196,68 +212,75 @@ namespace GameJam.UI.Widgets
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft)
                 {
-                    if (leftID.Length > 0)
+                    if (!isHorizontal)
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(leftID)).isSelected = true;
                         return true;
                     }
-                    if (leftID.Length == 0)
+                    if (isHorizontal)
                     {
-                        if( adjustableValue > 0 )
-                            adjustableValue -= 0.05f;
+                        SliderButton.HorizontalValue = new FixedValue(
+                            MathHelper.Clamp(SliderButton.Horizontal + ((BottomRight.X - TopLeft.X)/2 + TopLeft.X) - oneUnitOfWidth, (float)TopLeft.X, (float)BottomRight.X) -
+                            ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X)
+                            );
                         return true;
                     }
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadRight ||
                     gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickRight)
                 {
-                    if (rightID.Length > 0)
+                    if (!isHorizontal)
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(rightID)).isSelected = true;
                         return true;
                     }
-                    if (rightID.Length == 0)
+                    if (isHorizontal)
                     {
-                        if( adjustableValue < 1 )
-                            adjustableValue += 0.01f;
+                        SliderButton.HorizontalValue = new FixedValue(
+                            MathHelper.Clamp(SliderButton.Horizontal + ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X) + oneUnitOfWidth, (float)TopLeft.X, (float)BottomRight.X) -
+                            ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X)
+                            );
                         return true;
                     }
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadUp ||
                     gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickUp)
                 {
-                    if (aboveID.Length > 0)
+                    if (!isVertical)
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(aboveID)).isSelected = true;
                         return true;
                     }
-                    if (aboveID.Length == 0)
+                    if (isVertical)
                     {
-                        if( adjustableValue < 1 )
-                            adjustableValue += 0.01f;
-                        return true;
+                        SliderButton.HorizontalValue = new FixedValue(
+                            MathHelper.Clamp(SliderButton.Vertical + ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y) - oneUnitOfHeight, (float)BottomRight.Y, (float)TopLeft.Y) -
+                            ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y)
+                            );
                     }
+                    return true;
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadDown ||
                     gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickDown)
                 {
-                    if (belowID.Length > 0)
+                    if (!isVertical)
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(belowID)).isSelected = true;
                         return true;
                     }
-                    if (belowID.Length == 0)
+                    if (isVertical)
                     {
-                        if( adjustableValue > 0)
-                           adjustableValue -= 0.01f;
+                        SliderButton.HorizontalValue = new FixedValue(
+                            MathHelper.Clamp(SliderButton.Vertical + ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y) + oneUnitOfHeight, (float)BottomRight.Y, (float)TopLeft.Y) -
+                            ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y)
+                            );
                     }
                 }
             }
-
             return false;
         }
 

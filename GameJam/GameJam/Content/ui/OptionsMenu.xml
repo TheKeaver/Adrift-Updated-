@@ -775,7 +775,10 @@
           hover-image="texture_ui_button_hover"
           hover-thickness="5,5,5,5"
           pressed-image="texture_ui_button_pressed"
-          pressed-thickness="5,5,5,5">
+          pressed-thickness="5,5,5,5"
+          isVertical="false"
+          isHorizontal="true"
+          divisions="10">
         </Slider>
       </Panel>
     </Panel>
