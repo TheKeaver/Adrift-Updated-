@@ -18,6 +18,8 @@ namespace GameJam.UI.Widgets
                 _texture = value;
 
                 _bounds = new Vector2(_texture.Width, _texture.Height);
+
+                ComputeProperties();
             }
         }
 

@@ -207,15 +207,84 @@ namespace GameJam
             Create<string>("texture_ui_lobby_panel_background", "textures/ui/LobbyPanelBackground", CVarFlags.PRESERVE);
             Create<string>("texture_ui_dropdown_background", "textures/ui/dropdown_contents_background", CVarFlags.PRESERVE);
 
-            Create<string>("texture_input_keyboard_a_key", "textures/input/Keyboard_Black_A", CVarFlags.PRESERVE);
-            Create<string>("texture_input_keyboard_d_key", "textures/input/Keyboard_Black_D", CVarFlags.PRESERVE);
-            Create<string>("texture_input_keyboard_left_arrow_key", "textures/input/Keyboard_Black_Arrow_Left", CVarFlags.PRESERVE);
-            Create<string>("texture_input_keyboard_right_arrow_key", "textures/input/Keyboard_Black_Arrow_Right", CVarFlags.PRESERVE);
+            /** BEGIN KEYBOARD INPUT TEXTURES **/
+            Create<string>("texture_input_keyboard_key_0", "textures/input/Keyboard/Keyboard_Black_0", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_1", "textures/input/Keyboard/Keyboard_Black_1", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_2", "textures/input/Keyboard/Keyboard_Black_2", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_3", "textures/input/Keyboard/Keyboard_Black_3", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_4", "textures/input/Keyboard/Keyboard_Black_4", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_5", "textures/input/Keyboard/Keyboard_Black_5", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_6", "textures/input/Keyboard/Keyboard_Black_6", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_7", "textures/input/Keyboard/Keyboard_Black_7", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_8", "textures/input/Keyboard/Keyboard_Black_8", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_9", "textures/input/Keyboard/Keyboard_Black_9", CVarFlags.PRESERVE);
 
-            Create<string>("texture_input_controller_a_button", "textures/input/XBoxOne_A", CVarFlags.PRESERVE);
-            Create<string>("texture_input_controller_b_button", "textures/input/XBoxOne_B", CVarFlags.PRESERVE);
-            Create<string>("texture_input_controller_left_bumper", "textures/input/XBoxOne_LB", CVarFlags.PRESERVE);
-            Create<string>("texture_input_controller_right_bumper", "textures/input/XBoxOne_RB", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_a", "textures/input/Keyboard/Keyboard_Black_A", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_b", "textures/input/Keyboard/Keyboard_Black_B", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_c", "textures/input/Keyboard/Keyboard_Black_C", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_d", "textures/input/Keyboard/Keyboard_Black_D", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_e", "textures/input/Keyboard/Keyboard_Black_E", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_f", "textures/input/Keyboard/Keyboard_Black_F", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_g", "textures/input/Keyboard/Keyboard_Black_G", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_h", "textures/input/Keyboard/Keyboard_Black_H", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_i", "textures/input/Keyboard/Keyboard_Black_I", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_j", "textures/input/Keyboard/Keyboard_Black_J", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_k", "textures/input/Keyboard/Keyboard_Black_K", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_l", "textures/input/Keyboard/Keyboard_Black_L", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_m", "textures/input/Keyboard/Keyboard_Black_M", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_n", "textures/input/Keyboard/Keyboard_Black_N", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_o", "textures/input/Keyboard/Keyboard_Black_O", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_p", "textures/input/Keyboard/Keyboard_Black_P", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_q", "textures/input/Keyboard/Keyboard_Black_Q", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_r", "textures/input/Keyboard/Keyboard_Black_R", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_s", "textures/input/Keyboard/Keyboard_Black_S", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_t", "textures/input/Keyboard/Keyboard_Black_T", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_u", "textures/input/Keyboard/Keyboard_Black_U", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_v", "textures/input/Keyboard/Keyboard_Black_V", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_w", "textures/input/Keyboard/Keyboard_Black_W", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_x", "textures/input/Keyboard/Keyboard_Black_X", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_y", "textures/input/Keyboard/Keyboard_Black_Y", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_z", "textures/input/Keyboard/Keyboard_Black_Z", CVarFlags.PRESERVE);
+
+            Create<string>("texture_input_keyboard_key_up", "textures/input/Keyboard/Keyboard_Black_Arrow_Up", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_down", "textures/input/Keyboard/Keyboard_Black_Arrow_Down", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_left", "textures/input/Keyboard/Keyboard_Black_Arrow_Left", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_right", "textures/input/Keyboard/Keyboard_Black_Arrow_Right", CVarFlags.PRESERVE);
+
+            Create<string>("texture_input_keyboard_key_bracket_left", "textures/input/Keyboard/Keyboard_Black_Bracket_Left", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_bracket_right", "textures/input/Keyboard/Keyboard_Black_Bracket_Right", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_semicolon", "textures/input/Keyboard/Keyboard_Black_Semicolon", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_quote", "textures/input/Keyboard/Keyboard_Black_Quote", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_angle_left", "textures/input/Keyboard/Keyboard_Black_Mark_Left", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_angle_right", "textures/input/Keyboard/Keyboard_Black_Mark_Right", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_question", "textures/input/Keyboard/Keyboard_Black_Question", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_slash", "textures/input/Keyboard/Keyboard_Black_Slash", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_minus", "textures/input/Keyboard/Keyboard_Black_Minus", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_plus", "textures/input/Keyboard/Keyboard_Black_Plus", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_space", "textures/input/Keyboard/Keyboard_Black_Space", CVarFlags.PRESERVE);
+
+            Create<string>("texture_input_keyboard_key_blank", "textures/input/Keyboard/Blank_Black_Normal", CVarFlags.PRESERVE);
+            /** END KEYBOARD INPUT TEXTURES **/
+
+            /** BEGIN GAMEPAD INPUT TEXTURES **/
+            Create<string>("texture_input_gamepad_a", "textures/input/XboxOne/XboxOne_A", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_b", "textures/input/XboxOne/XboxOne_B", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_x", "textures/input/XboxOne/XboxOne_X", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_y", "textures/input/XboxOne/XboxOne_Y", CVarFlags.PRESERVE);
+
+            Create<string>("texture_input_gamepad_dpad_up", "textures/input/XboxOne/XboxOne_Dpad_Up", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_dpad_down", "textures/input/XboxOne/XboxOne_Dpad_Down", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_dpad_left", "textures/input/XboxOne/XboxOne_Dpad_Left", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_dpad_right", "textures/input/XboxOne/XboxOne_Dpad_Right", CVarFlags.PRESERVE);
+
+            Create<string>("texture_input_gamepad_bumper_left", "textures/input/XboxOne/XboxOne_LB", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_bumper_right", "textures/input/XboxOne/XboxOne_RB", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_trigger_left", "textures/input/XboxOne/XboxOne_LT", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_trigger_right", "textures/input/XboxOne/XboxOne_RT", CVarFlags.PRESERVE);
+
+            Create<string>("texture_input_gamepad_stick_left", "textures/input/XboxOne/XboxOne_Left_Stick", CVarFlags.PRESERVE);
+            Create<string>("texture_input_gamepad_stick_right", "textures/input/XboxOne/XboxOne_Right_Stick", CVarFlags.PRESERVE);
+            /** END GAMEPAD INPUT TEXTURES **/
 
             Create<string>("sound_explosion", "sounds/Explosion_Sound", CVarFlags.PRESERVE);
             Create<string>("sound_projectile_fired", "sounds/Laser_Shot", CVarFlags.PRESERVE);
@@ -230,10 +299,12 @@ namespace GameJam
             Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE);
 
             Create<string>("ui_main_menu", "ui/MainMenu", CVarFlags.PRESERVE);
-            Create<string>("ui_lobby_menu", "ui/LobbyMenu", CVarFlags.PRESERVE);
             Create<string>("ui_options_menu", "ui/OptionsMenu", CVarFlags.PRESERVE);
             Create<string>("ui_pause_menu", "ui/PauseMenu", CVarFlags.PRESERVE);
             Create<string>("ui_adrift_game_ui", "ui/MainGameStateUI", CVarFlags.PRESERVE);
+
+            Create<string>("ui_lobby_menu", "ui/Lobby/LobbyMenu", CVarFlags.PRESERVE);
+            Create<string>("ui_lobby_menu_join_instructions", "ui/Lobby/JoinInstructions", CVarFlags.PRESERVE);
 
             Create<string>("ui_test", "ui/test", CVarFlags.PRESERVE);
             Create<string>("ui_test2", "ui/test2", CVarFlags.PRESERVE);

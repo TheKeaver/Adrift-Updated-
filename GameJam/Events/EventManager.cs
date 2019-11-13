@@ -48,7 +48,7 @@ namespace Events
                 throw new ListenerAlreadyExistsException();
             }
 
-            _listeners[type].Add(new WeakReference<IEventListener>(listener));
+            _listeners[type].Insert(0, new WeakReference<IEventListener>(listener));
         }
 
         public void RegisterWildcardListener(IEventListener listener)
@@ -58,7 +58,7 @@ namespace Events
                 throw new ListenerAlreadyExistsException();
             }
 
-            _wildcardListeners.Add(new WeakReference<IEventListener>(listener));
+            _wildcardListeners.Insert(0, new WeakReference<IEventListener>(listener));
         }
 
         public void UnregisterListener(IEventListener listener)

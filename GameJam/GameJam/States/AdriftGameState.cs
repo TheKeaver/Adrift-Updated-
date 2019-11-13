@@ -1,6 +1,7 @@
 using Audrey;
 using Events;
 using GameJam.Components;
+using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Events.EnemyActions;
@@ -48,6 +49,7 @@ namespace GameJam.States
             ProcessManager.Attach(new ShooterEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new GravityEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new LaserEnemySpawner(SharedState.Engine, ProcessManager));
+            ProcessManager.Attach(new PauseDirector(SharedState.Engine, Content, ProcessManager));
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
 
