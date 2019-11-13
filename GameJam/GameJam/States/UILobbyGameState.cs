@@ -329,11 +329,6 @@ namespace GameJam.States
 
             for (int i = 0; i < _playersSeated.Length; i++)
             {
-                if(i > 1)
-                {
-                    break;
-                }
-
                 _root.FindWidgetByID(string.Format("player_{0}_join_instructions", i)).Hidden = _playersSeated[i] != null;
                 _root.FindWidgetByID(string.Format("player_{0}_play_instructions", i)).Hidden = _playersSeated[i] == null;
                 if(_playersSeated[i] != null)

@@ -8,247 +8,502 @@
         <Panel
             halign="center"
             valign="center"
-            horizontal="-25%"
             vertical="0"
-            width="40%"
+            horizontal="0"
+            width="80%"
             height="75%"
-            aspect-ratio="1:1">
-            <NinePatchImage
-                halign="center"
-                valign="center"
-                horizontal="0"
-                vertical="0"
-                width="100%"
-                height="100%"
-              
-                image="texture_ui_lobby_panel_background"
-                thickness="5,5,5,5">
-            </NinePatchImage>
-            
+            >
             <Panel
-                id="player_0_join_instructions"
                 halign="center"
                 valign="center"
-                horizontal="0"
-                vertical="0"
-                width="100%"
-                height="100%"
-                >
-                <External src="ui_lobby_menu_join_instructions" />
-            </Panel>
-            
-            <Panel
-                id="player_0_play_instructions"
-                halign="center"
-                valign="center"
-                horizontal="0"
-                vertical="0"
-                width="100%"
-                height="100%"
-                >
-                <Label
+                horizontal="-25%"
+                vertical="-25%"
+                width="45%"
+                height="45%"
+                aspect-ratio="1:1">
+                <NinePatchImage
                     halign="center"
-                    valign="top"
+                    valign="center"
                     horizontal="0"
-                    vertical="25%"
-                    width="75%"
-                    height="10%"
-                    font="font_hyperspace"
-                    content="Controls:"
-                    />
-                <!-- Controller -->
-                <Image
+                    vertical="0"
+                    width="100%"
+                    height="100%"
+                
+                    image="texture_ui_lobby_panel_background"
+                    thickness="5,5,5,5">
+                </NinePatchImage>
+                
+                <Panel
+                    id="player_0_join_instructions"
                     halign="center"
                     valign="center"
-                    horizontal="-7.5%"
-                    vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_left"
-                    aspect-ratio="1:1"
-                    id="player_0_controller_counter_clockwise_texture"
-                    class="player_0_controls_instruction"
-                    />
-                <Image
-                    halign="center"
-                    valign="center"
-                    horizontal="7.5%"
-                    vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_right"
-                    aspect-ratio="1:1"
-                    id="player_0_controller_clockwise_texture"
-                    class="player_0_controls_instruction"
-                    />
-                <!-- Keyboard -->
-                <Image
-                    halign="center"
-                    valign="center"
-                    horizontal="-7.5%"
-                    vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_left"
-                    aspect-ratio="1:1"
-                    class="primary_keyboard_counter_clockwise_texture,player_0_primary_keyboard_instructions,player_0_controls_instruction"
-                    />
-                <Image
-                    halign="center"
-                    valign="center"
-                    horizontal="7.5%"
-                    vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_right"
-                    aspect-ratio="1:1"
-                    class="primary_keyboard_clockwise_texture,player_0_primary_keyboard_instructions,player_0_controls_instruction"
-                    />
-                <Image
-                    halign="center"
-                    valign="center"
-                    horizontal="-7.5%"
-                    vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_left"
-                    aspect-ratio="1:1"
-                    class="secondary_keyboard_counter_clockwise_texture,player_0_secondary_keyboard_instructions,player_0_controls_instruction"
-                    />
-                <Image
-                    halign="center"
-                    valign="center"
-                    horizontal="7.5%"
-                    vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_right"
-                    aspect-ratio="1:1"
-                    class="secondary_keyboard_clockwise_texture,player_0_secondary_keyboard_instructions,player_0_controls_instruction"
-                    />
-            </Panel>
-        </Panel>
-        <Panel
-            halign="center"
-            valign="center"
-            horizontal="25%"
-            vertical="0"
-            width="40%"
-            height="75%"
-            aspect-ratio="1:1">
-            <NinePatchImage
-                halight="center"
-                valign="center"
-                horizontal="0"
-                vertical="0"
-                width="100%"
-                height="100%"
-              
-                image="texture_ui_lobby_panel_background"
-                thickness="5,5,5,5">
-            </NinePatchImage>
-            
-            <Panel
-                id="player_1_join_instructions"
-                halign="center"
-                valign="center"
-                horizontal="0"
-                vertical="0"
-                width="100%"
-                height="100%"
-                >
-                <External src="ui_lobby_menu_join_instructions" />
-            </Panel>
-            
-            <Panel
-                id="player_1_play_instructions"
-                halign="center"
-                valign="center"
-                horizontal="0"
-                vertical="0"
-                width="100%"
-                height="100%"
-                >
-                <Label
-                    halign="center"
-                    valign="top"
                     horizontal="0"
-                    vertical="25%"
-                    width="75%"
-                    height="10%"
-                    font="font_hyperspace"
-                    content="Controls:"
-                    />
-                <!-- Controller -->
-                <Image
+                    vertical="0"
+                    width="100%"
+                    height="100%"
+                    >
+                    <External src="ui_lobby_menu_join_instructions" />
+                </Panel>
+                
+                <Panel
+                    id="player_0_play_instructions"
                     halign="center"
                     valign="center"
-                    horizontal="-7.5%"
+                    horizontal="0"
                     vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_left"
-                    aspect-ratio="1:1"
-                    id="player_1_controller_counter_clockwise_texture"
-                    class="player_1_controls_instruction"
-                    />
-                <Image
+                    width="100%"
+                    height="100%"
+                    >
+                    <Label
+                        halign="center"
+                        valign="top"
+                        horizontal="0"
+                        vertical="25%"
+                        width="75%"
+                        height="10%"
+                        font="font_hyperspace"
+                        content="Controls:"
+                        />
+                    <!-- Controller -->
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        id="player_0_controller_counter_clockwise_texture"
+                        class="player_0_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        id="player_0_controller_clockwise_texture"
+                        class="player_0_controls_instruction"
+                        />
+                    <!-- Keyboard -->
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        class="primary_keyboard_counter_clockwise_texture,player_0_primary_keyboard_instructions,player_0_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        class="primary_keyboard_clockwise_texture,player_0_primary_keyboard_instructions,player_0_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        class="secondary_keyboard_counter_clockwise_texture,player_0_secondary_keyboard_instructions,player_0_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        class="secondary_keyboard_clockwise_texture,player_0_secondary_keyboard_instructions,player_0_controls_instruction"
+                        />
+                </Panel>
+            </Panel>
+            <Panel
+                halign="center"
+                valign="center"
+                horizontal="25%"
+                vertical="-25%"
+                width="45%"
+                height="45%"
+                aspect-ratio="1:1">
+                <NinePatchImage
+                    halight="center"
+                    valign="center"
+                    horizontal="0"
+                    vertical="0"
+                    width="100%"
+                    height="100%"
+                
+                    image="texture_ui_lobby_panel_background"
+                    thickness="5,5,5,5">
+                </NinePatchImage>
+                
+                <Panel
+                    id="player_1_join_instructions"
                     halign="center"
                     valign="center"
-                    horizontal="7.5%"
+                    horizontal="0"
                     vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_right"
-                    aspect-ratio="1:1"
-                    id="player_1_controller_clockwise_texture"
-                    class="player_1_controls_instruction"
-                    />
-                <!-- Keyboard -->
-                <Image
+                    width="100%"
+                    height="100%"
+                    >
+                    <External src="ui_lobby_menu_join_instructions" />
+                </Panel>
+                
+                <Panel
+                    id="player_1_play_instructions"
                     halign="center"
                     valign="center"
-                    horizontal="-7.5%"
+                    horizontal="0"
                     vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_left"
-                    aspect-ratio="1:1"
-                    class="primary_keyboard_counter_clockwise_texture,player_1_primary_keyboard_instructions,player_1_controls_instruction"
-                    />
-                <Image
+                    width="100%"
+                    height="100%"
+                    >
+                    <Label
+                        halign="center"
+                        valign="top"
+                        horizontal="0"
+                        vertical="25%"
+                        width="75%"
+                        height="10%"
+                        font="font_hyperspace"
+                        content="Controls:"
+                        />
+                    <!-- Controller -->
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        id="player_1_controller_counter_clockwise_texture"
+                        class="player_1_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        id="player_1_controller_clockwise_texture"
+                        class="player_1_controls_instruction"
+                        />
+                    <!-- Keyboard -->
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        class="primary_keyboard_counter_clockwise_texture,player_1_primary_keyboard_instructions,player_1_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        class="primary_keyboard_clockwise_texture,player_1_primary_keyboard_instructions,player_1_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        class="secondary_keyboard_counter_clockwise_texture,player_1_secondary_keyboard_instructions,player_1_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        class="secondary_keyboard_clockwise_texture,player_1_secondary_keyboard_instructions,player_1_controls_instruction"
+                        />
+                </Panel>
+            </Panel>
+            <Panel
+                halign="center"
+                valign="center"
+                horizontal="-25%"
+                vertical="25%"
+                width="45%"
+                height="45%"
+                aspect-ratio="1:1">
+                <NinePatchImage
+                    halight="center"
+                    valign="center"
+                    horizontal="0"
+                    vertical="0"
+                    width="100%"
+                    height="100%"
+                
+                    image="texture_ui_lobby_panel_background"
+                    thickness="5,5,5,5">
+                </NinePatchImage>
+                
+                <Panel
+                    id="player_2_join_instructions"
                     halign="center"
                     valign="center"
-                    horizontal="7.5%"
+                    horizontal="0"
                     vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_right"
-                    aspect-ratio="1:1"
-                    class="primary_keyboard_clockwise_texture,player_1_primary_keyboard_instructions,player_1_controls_instruction"
-                    />
-                <Image
+                    width="100%"
+                    height="100%"
+                    >
+                    <External src="ui_lobby_menu_join_instructions" />
+                </Panel>
+                
+                <Panel
+                    id="player_2_play_instructions"
                     halign="center"
                     valign="center"
-                    horizontal="-7.5%"
+                    horizontal="0"
                     vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_left"
-                    aspect-ratio="1:1"
-                    class="secondary_keyboard_counter_clockwise_texture,player_1_secondary_keyboard_instructions,player_1_controls_instruction"
-                    />
-                <Image
+                    width="100%"
+                    height="100%"
+                    >
+                    <Label
+                        halign="center"
+                        valign="top"
+                        horizontal="0"
+                        vertical="25%"
+                        width="75%"
+                        height="10%"
+                        font="font_hyperspace"
+                        content="Controls:"
+                        />
+                    <!-- Controller -->
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        id="player_2_controller_counter_clockwise_texture"
+                        class="player_2_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        id="player_2_controller_clockwise_texture"
+                        class="player_2_controls_instruction"
+                        />
+                    <!-- Keyboard -->
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        class="primary_keyboard_counter_clockwise_texture,player_2_primary_keyboard_instructions,player_2_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        class="primary_keyboard_clockwise_texture,player_2_primary_keyboard_instructions,player_2_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        class="secondary_keyboard_counter_clockwise_texture,player_2_secondary_keyboard_instructions,player_2_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        class="secondary_keyboard_clockwise_texture,player_2_secondary_keyboard_instructions,player_2_controls_instruction"
+                        />
+                </Panel>
+            </Panel>
+            <Panel
+                halign="center"
+                valign="center"
+                horizontal="25%"
+                vertical="25%"
+                width="45%"
+                height="45%"
+                aspect-ratio="1:1">
+                <NinePatchImage
+                    halight="center"
+                    valign="center"
+                    horizontal="0"
+                    vertical="0"
+                    width="100%"
+                    height="100%"
+                
+                    image="texture_ui_lobby_panel_background"
+                    thickness="5,5,5,5">
+                </NinePatchImage>
+                
+                <Panel
+                    id="player_3_join_instructions"
                     halign="center"
                     valign="center"
-                    horizontal="7.5%"
+                    horizontal="0"
                     vertical="0"
-                    width="15%"
-                    height="15%"
-                    image="texture_input_keyboard_key_right"
-                    aspect-ratio="1:1"
-                    class="secondary_keyboard_clockwise_texture,player_1_secondary_keyboard_instructions,player_1_controls_instruction"
-                    />
+                    width="100%"
+                    height="100%"
+                    >
+                    <External src="ui_lobby_menu_join_instructions" />
+                </Panel>
+                
+                <Panel
+                    id="player_3_play_instructions"
+                    halign="center"
+                    valign="center"
+                    horizontal="0"
+                    vertical="0"
+                    width="100%"
+                    height="100%"
+                    >
+                    <Label
+                        halign="center"
+                        valign="top"
+                        horizontal="0"
+                        vertical="25%"
+                        width="75%"
+                        height="10%"
+                        font="font_hyperspace"
+                        content="Controls:"
+                        />
+                    <!-- Controller -->
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        id="player_3_controller_counter_clockwise_texture"
+                        class="player_3_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        id="player_3_controller_clockwise_texture"
+                        class="player_3_controls_instruction"
+                        />
+                    <!-- Keyboard -->
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        class="primary_keyboard_counter_clockwise_texture,player_3_primary_keyboard_instructions,player_3_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        class="primary_keyboard_clockwise_texture,player_3_primary_keyboard_instructions,player_3_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="-7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_left"
+                        aspect-ratio="1:1"
+                        class="secondary_keyboard_counter_clockwise_texture,player_3_secondary_keyboard_instructions,player_3_controls_instruction"
+                        />
+                    <Image
+                        halign="center"
+                        valign="center"
+                        horizontal="7.5%"
+                        vertical="0"
+                        width="15%"
+                        height="15%"
+                        image="texture_input_keyboard_key_right"
+                        aspect-ratio="1:1"
+                        class="secondary_keyboard_clockwise_texture,player_3_secondary_keyboard_instructions,player_3_controls_instruction"
+                        />
+                </Panel>
             </Panel>
         </Panel>
     </Widgets>
