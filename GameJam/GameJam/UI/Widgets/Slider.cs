@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 using GameJam.Events.InputHandling;
-
+using GameJam.Common;
 
 namespace GameJam.UI.Widgets
 {
@@ -87,8 +87,8 @@ namespace GameJam.UI.Widgets
         public string rightID { get; set; } = "";
         public string belowID { get; set; } = "";
 
-        public float horizontalValue { get; }
-        public float verticalValue { get; }
+        public int horizontalValue { get; set; }
+        public int verticalValue { get; set; }
 
         public int divisions;
 
@@ -166,6 +166,9 @@ namespace GameJam.UI.Widgets
         {
             SliderButton.Handle(evt);
 
+            float distanceToCenterOfButtonX = ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X);
+            float distanceToCenterOfButtonY = ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y);
+
             MouseButtonEvent mouseButtonEvent = evt as MouseButtonEvent;
             if (mouseButtonEvent != null)
             {
@@ -182,18 +185,16 @@ namespace GameJam.UI.Widgets
                 {
                     if (isHorizontal)
                     {
-                        SliderButton.HorizontalValue = new FixedValue(
-                            MathHelper.Clamp(mouseMoveEvent.CurrentPosition.X, (float)TopLeft.X, (float)BottomRight.X) -
-                            ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X)
-                            );
+                        int beta = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.X, BottomRight.X, mouseMoveEvent.CurrentPosition.X) * divisions, 0, divisions)));
+                        float posX = MathHelper.Lerp(TopLeft.X, BottomRight.X, (float)beta/divisions);
+                        SliderButton.HorizontalValue = new FixedValue( posX - (BottomRight.X - TopLeft.X) / 2 - TopLeft.X);
                     }
 
                     if (isVertical)
                     {
-                        SliderButton.HorizontalValue = new FixedValue(
-                            MathHelper.Clamp(mouseMoveEvent.CurrentPosition.Y, (float)TopLeft.Y, (float)BottomRight.Y) -
-                            ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y)
-                            );
+                        int beta = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.Y, BottomRight.Y, mouseMoveEvent.CurrentPosition.Y) * divisions, 0, divisions)));
+                        float posY = MathHelper.Lerp(TopLeft.Y, BottomRight.Y, (float)beta/divisions);
+                        SliderButton.HorizontalValue = new FixedValue(posY - (BottomRight.Y - TopLeft.Y) / 2 - TopLeft.Y);
                     }
                 }
             }
@@ -203,6 +204,7 @@ namespace GameJam.UI.Widgets
             {
                 float oneUnitOfWidth = (BottomRight.X - TopLeft.X) / divisions;
                 float oneUnitOfHeight = (BottomRight.Y - TopLeft.Y) / divisions;
+
                 // This is likely bad news
                 if (gamePadButtonDownEvent._pressedButton == Buttons.B)
                 {
@@ -216,15 +218,13 @@ namespace GameJam.UI.Widgets
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(leftID)).isSelected = true;
-                        return true;
                     }
                     if (isHorizontal)
                     {
                         SliderButton.HorizontalValue = new FixedValue(
-                            MathHelper.Clamp(SliderButton.Horizontal + ((BottomRight.X - TopLeft.X)/2 + TopLeft.X) - oneUnitOfWidth, (float)TopLeft.X, (float)BottomRight.X) -
-                            ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X)
+                            MathHelper.Clamp(SliderButton.Horizontal + distanceToCenterOfButtonX - oneUnitOfWidth, (float)TopLeft.X, (float)BottomRight.X) -
+                            distanceToCenterOfButtonX
                             );
-                        return true;
                     }
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadRight ||
@@ -234,15 +234,13 @@ namespace GameJam.UI.Widgets
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(rightID)).isSelected = true;
-                        return true;
                     }
                     if (isHorizontal)
                     {
                         SliderButton.HorizontalValue = new FixedValue(
-                            MathHelper.Clamp(SliderButton.Horizontal + ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X) + oneUnitOfWidth, (float)TopLeft.X, (float)BottomRight.X) -
-                            ((BottomRight.X - TopLeft.X) / 2 + TopLeft.X)
+                            MathHelper.Clamp(SliderButton.Horizontal + distanceToCenterOfButtonX + oneUnitOfWidth, (float)TopLeft.X, (float)BottomRight.X) -
+                            distanceToCenterOfButtonX
                             );
-                        return true;
                     }
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadUp ||
@@ -252,16 +250,14 @@ namespace GameJam.UI.Widgets
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(aboveID)).isSelected = true;
-                        return true;
                     }
                     if (isVertical)
                     {
                         SliderButton.HorizontalValue = new FixedValue(
-                            MathHelper.Clamp(SliderButton.Vertical + ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y) - oneUnitOfHeight, (float)BottomRight.Y, (float)TopLeft.Y) -
-                            ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y)
+                            MathHelper.Clamp(SliderButton.Vertical + distanceToCenterOfButtonY - oneUnitOfHeight, (float)BottomRight.Y, (float)TopLeft.Y) -
+                            distanceToCenterOfButtonY
                             );
                     }
-                    return true;
                 }
                 if (gamePadButtonDownEvent._pressedButton == Buttons.DPadDown ||
                     gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickDown)
@@ -270,17 +266,22 @@ namespace GameJam.UI.Widgets
                     {
                         this.isSelected = false;
                         ((ISelectableWidget)Root.FindWidgetByID(belowID)).isSelected = true;
-                        return true;
                     }
                     if (isVertical)
                     {
                         SliderButton.HorizontalValue = new FixedValue(
-                            MathHelper.Clamp(SliderButton.Vertical + ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y) + oneUnitOfHeight, (float)BottomRight.Y, (float)TopLeft.Y) -
-                            ((BottomRight.Y - TopLeft.Y) / 2 + TopLeft.Y)
+                            MathHelper.Clamp(SliderButton.Vertical + distanceToCenterOfButtonY + oneUnitOfHeight, (float)BottomRight.Y, (float)TopLeft.Y) -
+                            distanceToCenterOfButtonY
                             );
                     }
                 }
             }
+            horizontalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.X, BottomRight.X, (SliderButton.Horizontal + distanceToCenterOfButtonX)) * divisions, 0, divisions)));
+            //Console.WriteLine(horizontalValue);
+
+            verticalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.Y, BottomRight.Y, (SliderButton.Vertical + distanceToCenterOfButtonY)) * divisions, 0, divisions)));
+            //Console.WriteLine(verticalValue);
+
             return false;
         }
 
