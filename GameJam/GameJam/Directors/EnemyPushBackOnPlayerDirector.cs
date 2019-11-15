@@ -8,11 +8,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Directors
 {
-    public class EnemyCollisionOnPlayerDirector : BaseDirector
+    public class EnemyPushBackOnPlayerDirector : BaseDirector
     {
         readonly Family playerFamily = Family.One(typeof(PlayerShieldComponent), typeof(PlayerShipComponent)).Get();
         readonly Family enemyShipFamily = Family.One(typeof(KamikazeComponent), typeof(ShootingEnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
-        public EnemyCollisionOnPlayerDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
+        public EnemyPushBackOnPlayerDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
         }
 
@@ -60,6 +60,9 @@ namespace GameJam.Directors
             {
                 player = playerEntity;
             }
+
+            if (player.GetComponent<PlayerShipComponent>().IsCollidingWithWall == true)
+                return;
 
             MovementComponent movementComp = player.GetComponent<MovementComponent>();
             TransformComponent shipTransformComp = player.GetComponent<TransformComponent>();

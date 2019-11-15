@@ -12,12 +12,12 @@ using System.Text;
 
 namespace GameJam.Directors
 {
-    public class ShipDirector : BaseDirector
+    public class EnemyCollisionWithShipDirector : BaseDirector
     {
         readonly Family playerShipFamily = Family.All(typeof(PlayerShipComponent), typeof(TransformComponent)).Get();
         readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Exclude(typeof(LaserBeamReflectionComponent)).Get();
 
-        public ShipDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
+        public EnemyCollisionWithShipDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
         {
         }
 

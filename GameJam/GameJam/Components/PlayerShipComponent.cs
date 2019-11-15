@@ -6,10 +6,12 @@ namespace GameJam.Components
     {
         public int LifeRemaining;
         public Entity ShipShield;
+        public bool IsCollidingWithWall;
 
         public PlayerShipComponent(int maxLife)
         {
             LifeRemaining = maxLife;
+            IsCollidingWithWall = false;
         }
     }
 }
