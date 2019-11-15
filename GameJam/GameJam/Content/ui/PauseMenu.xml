@@ -43,7 +43,7 @@
             id="Exit"
             aboveID="Resume"
             belowID="Resume"
-            defaultSelected="true"
+            defaultSelected="false"
             halign="center"
             valign="center"
             horizontal="0"
