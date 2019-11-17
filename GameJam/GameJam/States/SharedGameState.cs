@@ -69,7 +69,7 @@ namespace GameJam.States
             ProcessManager.Attach(VelocityParticleManager);
 
             ParallelExplosionParticleGenerationProcess = new ParallelExplosionParticleGenerationProcess(VelocityParticleManager,
-                Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity")));
+                Content.Load<Texture2D>("texture_particle_velocity"));
             ProcessManager.Attach(ParallelExplosionParticleGenerationProcess);
 
             Engine = new Engine();
