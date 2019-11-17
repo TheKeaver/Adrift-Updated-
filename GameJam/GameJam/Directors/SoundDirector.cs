@@ -19,9 +19,9 @@ namespace GameJam.Directors
 
         public SoundDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
-            explosionFx = Content.Load<SoundEffect>(CVars.Get<string>("sound_explosion"));
-            projectileFiredFx = Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_fired"));
-            projectileBouncedFx = Content.Load<SoundEffect>(CVars.Get<string>("sound_projectile_bounce"));
+            explosionFx = Content.Load<SoundEffect>("sound_explosion");
+            projectileFiredFx = Content.Load<SoundEffect>("sound_projectile_fired");
+            projectileBouncedFx = Content.Load<SoundEffect>("sound_projectile_bounce");
         }
 
         protected override void RegisterEvents()

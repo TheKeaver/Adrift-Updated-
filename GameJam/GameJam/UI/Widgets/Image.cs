@@ -18,6 +18,8 @@ namespace GameJam.UI.Widgets
                 _texture = value;
 
                 _bounds = new Vector2(_texture.Width, _texture.Height);
+
+                ComputeProperties();
             }
         }
 
@@ -43,7 +45,7 @@ namespace GameJam.UI.Widgets
                 spriteBatch.Draw(Texture,
                     TopLeft,
                     null,
-                    Color.White,
+                    TintColor,
                     0,
                     Vector2.Zero,
                     scale,

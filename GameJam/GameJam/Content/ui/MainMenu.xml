@@ -8,7 +8,7 @@
             width="75%"
             height="40%"
             content="Adrift"
-            font="font_hyperspace"
+            font="font_title"
             />
       <Button
             id="Play"
@@ -24,11 +24,11 @@
             width="25%"
             height="10%"
             released-image="texture_ui_button_released"
-            released-thickness="4,4,4,4"
+            released-thickness="5,5,5,5"
             hover-image="texture_ui_button_hover"
-            hover-thickness="4,4,4,4"
+            hover-thickness="5,5,5,5"
             pressed-image="texture_ui_button_pressed"
-            pressed-thickness="4,4,4,4"
+            pressed-thickness="5,5,5,5"
             onclick="queue:UI.PlayGameButtonPressedEvent">
             <Label
                 halign="center"
@@ -55,11 +55,11 @@
             width="25%"
             height="10%"
             released-image="texture_ui_button_released"
-            released-thickness="4,4,4,4"
+            released-thickness="5,5,5,5"
             hover-image="texture_ui_button_hover"
-            hover-thickness="4,4,4,4"
+            hover-thickness="5,5,5,5"
             pressed-image="texture_ui_button_pressed"
-            pressed-thickness="4,4,4,4"
+            pressed-thickness="5,5,5,5"
             onclick="queue:UI.OptionsButtonPressedEvent">
             <Label
                 halign="center"
@@ -86,11 +86,11 @@
             width="25%"
             height="10%"
             released-image="texture_ui_button_released"
-            released-thickness="4,4,4,4"
+            released-thickness="5,5,5,5"
             hover-image="texture_ui_button_hover"
-            hover-thickness="4,4,4,4"
+            hover-thickness="5,5,5,5"
             pressed-image="texture_ui_button_pressed"
-            pressed-thickness="4,4,4,4"
+            pressed-thickness="5,5,5,5"
             onclick="queue:UI.QuitGameButtonPressedEvent">
             <Label
                 halign="center"

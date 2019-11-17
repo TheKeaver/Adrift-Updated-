@@ -1,5 +1,4 @@
 ﻿using System;
-using GameJam.Content;
 using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Content
@@ -19,8 +18,18 @@ namespace GameJam.Content
         {
         }
 
-        public override T Load<T>(string assetName)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0133:Parameter name differs in base declaration", Justification = "Functional behavior difference compared to XNA.ContentManager. ContentManager loads using CVar aliases instead of asset paths directly.")]
+        public override T Load<T>(string cvarAssetName)
         {
+            string assetName;
+            try
+            {
+                assetName = CVars.Get<string>(cvarAssetName);
+            } catch (Exception)
+            {
+                throw new Exception(string.Format("Can not load content (CVar does not exist): `${0}`.", cvarAssetName));
+            }
+
             if (Locked && !LoadedAssets.ContainsKey(assetName))
             {
                 throw new ContentLockedException();
