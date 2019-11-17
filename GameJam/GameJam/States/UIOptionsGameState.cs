@@ -5,6 +5,7 @@ using GameJam.Content;
 using GameJam.Events;
 using GameJam.Events.InputHandling;
 using GameJam.Events.Settings;
+using GameJam.Events.UI;
 using GameJam.UI;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
@@ -37,6 +38,19 @@ namespace GameJam.States
 
         public bool Handle(IEvent evt)
         {
+            if(evt is EnterMouseUIModeEvent)
+            {
+                UpdateButtonBindingsForKeyboard();
+            }
+            if(evt is EnterGamePadUIModeEvent)
+            {
+                UpdateButtonBindingsForGamePad(((EnterGamePadUIModeEvent)evt).PlayerIndex);
+            }
+            if(evt is GamePadUIModeOperatorChangedEvent)
+            {
+                UpdateButtonBindingsForGamePad(((GamePadUIModeOperatorChangedEvent)evt).PlayerIndex);
+            }
+
             GamePadButtonDownEvent gpbde = evt as GamePadButtonDownEvent;
             if( gpbde != null )
             {
@@ -212,19 +226,12 @@ namespace GameJam.States
                     _root.AutoControlModeSwitching = true;
                     return true;
                 }
-
-                UpdateButtonBindingsForGamePad(gpbde._playerIndex);
             }
 
             KeyboardKeyDownEvent kbkde = evt as KeyboardKeyDownEvent;
             if( kbkde != null )
             {
                 return HandleKeyboardKeyDownEvent(kbkde);
-            }
-            if(evt is MouseMoveEvent
-                || evt is MouseButtonEvent)
-            {
-                UpdateButtonBindingsForKeyboard();
             }
 
             // Listen for the 3 types of button settings pressed
@@ -382,8 +389,6 @@ namespace GameJam.States
 
         private bool HandleKeyboardKeyDownEvent(KeyboardKeyDownEvent keyboardKeyDownEvent)
         {
-            UpdateButtonBindingsForKeyboard();
-
             if (rotateLeftBindingMode || rotateRightBindingMode)
             {
                 if(!bindingGamepad)
@@ -520,6 +525,14 @@ namespace GameJam.States
             ((Button)_root.FindWidgetByID("Windowed")).Action = () => { EventManager.Instance.QueueEvent(new WindowedSettingsButtonPressed()); };
             ((Button)_root.FindWidgetByID("BorderlessWindow")).Action = () => { EventManager.Instance.QueueEvent(new BorderlessWindowButtonPressedEvent()); };
 
+            if(CVars.Get<bool>("ui_mouse_mode"))
+            {
+                UpdateButtonBindingsForKeyboard();
+            } else
+            {
+                UpdateButtonBindingsForGamePad((PlayerIndex)CVars.Get<int>("ui_gamepad_mode_current_operator"));
+            }
+
             base.OnInitialize();
         }
 
@@ -537,11 +550,12 @@ namespace GameJam.States
         {
             _root.RegisterListeners(); // Root must be registered first because of "B" button event consumption
 
+            EventManager.Instance.RegisterListener<EnterMouseUIModeEvent>(this);
+            EventManager.Instance.RegisterListener<EnterGamePadUIModeEvent>(this);
+            EventManager.Instance.RegisterListener<GamePadUIModeOperatorChangedEvent>(this);
+
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
             EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
-
-            EventManager.Instance.RegisterListener<MouseMoveEvent>(this);
-            EventManager.Instance.RegisterListener<MouseButtonEvent>(this);
 
             EventManager.Instance.RegisterListener<DisplaySettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<ControlsSettingsButtonPressedEvent>(this);

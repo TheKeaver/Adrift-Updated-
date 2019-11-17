@@ -33,6 +33,11 @@ namespace GameJam
 
             Create<bool>("display_vsync", true, CVarFlags.PRESERVE);
 
+            /** UI logic **/
+            Create<bool>("ui_mouse_mode", true, CVarFlags.LIVE_RELOAD);
+            Create<int>("ui_gamepad_mode_current_operator", 0, CVarFlags.LIVE_RELOAD);
+            Create<bool>("ui_auto_control_mode_switching", true, CVarFlags.LIVE_RELOAD);
+
             /** INPUT **/
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
