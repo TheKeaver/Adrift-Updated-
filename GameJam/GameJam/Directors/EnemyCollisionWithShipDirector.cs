@@ -75,7 +75,7 @@ namespace GameJam.Directors
                 {
                     color = entityA.GetComponent<ColoredExplosionComponent>().Color;
                 }
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color, false));
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color));
             }
 
             if (!entityB.HasComponent<LaserBeamComponent>())
