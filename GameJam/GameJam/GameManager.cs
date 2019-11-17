@@ -1,6 +1,7 @@
 using System;
 using Events;
 using GameJam.DevTools;
+using GameJam.Directors;
 using GameJam.Events;
 using GameJam.Events.DevTools;
 using GameJam.Events.InputHandling;
@@ -70,6 +71,8 @@ namespace GameJam
 
             Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
+
+            ProcessManager.Attach(new UIControlModeDirector());
 
             _inputListenerManager = new InputListenerComponent(this);
             Components.Add(_inputListenerManager);

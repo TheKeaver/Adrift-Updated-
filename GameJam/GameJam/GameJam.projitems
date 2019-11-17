@@ -12,8 +12,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAOffButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAFXAASettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAFeatheringButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\BorderlessWindowButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\FullScreenSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\RotateRightSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\RotateLeftSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\ScreenSizeSettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\IncreasePlayerScoreEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\KeyboardKeyDownEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\DifficultySettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SpeedSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\GameSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\ControlsSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\DisplaySettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\WindowedSettingsButtonPressed.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Blur.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\BounceComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\EdgeComponent.cs" />
@@ -55,6 +70,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
@@ -105,6 +121,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Slider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\WidgetFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\IParentWidget.cs" />
@@ -140,6 +157,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamWarmUpEnd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireStart.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireEnd.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\DropDownPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\TestButtonPressed2Event.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DevTools\ImGuiGameComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\DevTools\StepGameUpdateEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DevTools\StatisticsProfiler.cs" />
@@ -170,6 +190,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\ReloadDisplayOptionsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\ParallelProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Common\ParallelExplosionParticleGenerationProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\KeyTextureMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\GamePadTextureMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SecondaryRotateLeftSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SecondaryRotateRightSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\UIControlModeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\EnterMouseUIModeEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\EnterGamePadUIModeEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\GamePadUIModeOperatorChangedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -177,7 +205,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\EnemyActions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)UI\Widgets\" />
     <Folder Include="$(MSBuildThisFileDirectory)Particles\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Enemies\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\" />
@@ -188,5 +215,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Menu\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\UI\Pause\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Common\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\" />
   </ItemGroup>
 </Project>

@@ -23,9 +23,9 @@ namespace GameJam.States
         {
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
-            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui/test"));
+            _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_test"));
 
-            ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
+            // ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
 
             base.OnInitialize();
         }

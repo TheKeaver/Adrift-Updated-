@@ -1,0 +1,15 @@
+<UI>
+    <Widgets>
+        <Panel
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="50%"
+            height="50%"
+            id="externalXmlTest">
+            <External src="ui_test" />
+        </Panel>
+    </Widgets>
+</UI>
+

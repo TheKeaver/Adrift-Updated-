@@ -36,7 +36,7 @@ namespace GameJam.UI.Widgets
                         (int)TopLeft.Y,
                         (int)Width,
                         (int)Height),
-                    Color.White);
+                    TintColor);
             }
         }
 
