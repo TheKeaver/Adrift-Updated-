@@ -5,6 +5,7 @@ using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Graphics;
 using GameJam.Particles;
+using GameJam.Processes.Common;
 using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,6 +28,12 @@ namespace GameJam.States
         }
 
         public ParticleManager<VelocityParticleInfo> VelocityParticleManager
+        {
+            get;
+            private set;
+        }
+
+        public ParallelExplosionParticleGenerationProcess ParallelExplosionParticleGenerationProcess
         {
             get;
             private set;
@@ -60,6 +67,10 @@ namespace GameJam.States
 
             VelocityParticleManager = new ParticleManager<VelocityParticleInfo>(1024 * 20, VelocityParticleInfo.UpdateParticle);
             ProcessManager.Attach(VelocityParticleManager);
+
+            ParallelExplosionParticleGenerationProcess = new ParallelExplosionParticleGenerationProcess(VelocityParticleManager,
+                Content.Load<Texture2D>(CVars.Get<string>("texture_particle_velocity")));
+            ProcessManager.Attach(ParallelExplosionParticleGenerationProcess);
 
             Engine = new Engine();
             InitSystems();
@@ -97,7 +108,7 @@ namespace GameJam.States
             ProcessManager.Attach(new ShipDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new ShieldDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
+            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, ParallelExplosionParticleGenerationProcess));
             ProcessManager.Attach(new ChangeToKamikazeDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));

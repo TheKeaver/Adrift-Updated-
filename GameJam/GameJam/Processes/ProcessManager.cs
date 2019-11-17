@@ -112,6 +112,12 @@ namespace GameJam
                 ParallelProcess parallelProcess = _parallelProcessList[i];
                 if (parallelProcess != null)
                 {
+                    if(parallelProcess.RequestWorkInBackground
+                        && CVars.Get<bool>("process_allow_background"))
+                    {
+                        continue;
+                    }
+
                     parallelProcess.Await();
                 }
             }

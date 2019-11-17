@@ -9,16 +9,18 @@ namespace GameJam.Processes
 
         private float _dt;
 
-        public ParallelProcess()
+        public bool RequestWorkInBackground
         {
-        }
+            get;
+            set;
+        } = false;
 
         protected override void OnUpdate(float dt)
         {
             _dt = dt;
             if (CVars.Get<bool>("process_multithreading"))
             {
-                if(_task != null && !_task.IsCompleted)
+                if(_task != null && !_task.IsCompleted && !RequestWorkInBackground)
                 {
                     throw new Exception("Parallel process did not finish from previous tick (process already running).");
                 }

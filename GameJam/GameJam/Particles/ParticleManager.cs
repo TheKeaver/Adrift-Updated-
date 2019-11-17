@@ -22,7 +22,7 @@ namespace GameJam.Particles
 			}
 		}
 
-		public ref T CreateParticle(Texture2D texture,
+        public Particle CreateReservedParticle(Texture2D texture,
             float x,
             float y,
             Color color,
@@ -31,21 +31,23 @@ namespace GameJam.Particles
             float scaleY,
             float rotation = 0)
 		{
-			Particle particle;
+            int i;
 			if (_particles.Count == _particles.Capacity)
 			{
 				// Rewrite oldest particle; list is full
-				particle = _particles[0];
+                i = 0;
 				_particles.Start++;
 			}
 			else
 			{
-				particle = _particles[_particles.Count];
+                i = _particles.Count;
 				_particles.Count++;
 			}
+			Particle particle = _particles[i];
+            particle.Reserved = true;
 
-			// Create the particle (populate its values)
-			particle.Texture = texture;
+            // Create the particle (populate its values)
+            particle.Texture = texture;
             particle.Position.X = x;
             particle.Position.Y = y;
             particle.Rotation = rotation;
@@ -57,10 +59,14 @@ namespace GameJam.Particles
             particle.Scale.X = scaleX;
             particle.Scale.Y = scaleY;
 
-            return ref particle.UserInfo;
+            return particle;
 		}
+        public void FreeParticle(int i)
+        {
+            _particles[i].Reserved = false;
+        }
 
-		protected override void OnRun(float dt)
+        protected override void OnRun(float dt)
 		{
 			int removalCount = 0;
 			for (int i = 0; i < _particles.Count; i++)
@@ -88,6 +94,10 @@ namespace GameJam.Particles
 			for (int i = 0; i < _particles.Count; i++)
 			{
 				Particle particle = _particles[i];
+                if(particle.Reserved)
+                {
+                    continue;
+                }
 
                 if(particle.Texture != texture)
                 {
@@ -122,6 +132,8 @@ namespace GameJam.Particles
         #region NESTED CLASSES
         public class Particle
 		{
+            public bool Reserved = false;
+
 			public Texture2D Texture = null;
 			public Vector2 Position = Vector2.Zero;
 			public float Rotation;
