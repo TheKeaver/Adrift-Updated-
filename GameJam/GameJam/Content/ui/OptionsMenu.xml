@@ -35,7 +35,7 @@
             width="90%"
             height="90%"
             content="Display"
-            font="font_game_over"
+            font="font_hyperspace"
             />
       </Button>
       <Button
@@ -64,7 +64,7 @@
             width="90%"
             height="90%"
             content="Controls"
-            font="font_game_over"
+            font="font_hyperspace"
             />
       </Button>
       <Button
@@ -93,7 +93,7 @@
             width="90%"
             height="90%"
             content="Game Settings"
-            font="font_game_over"
+            font="font_hyperspace"
             />
       </Button>
     </Panel>
@@ -137,7 +137,7 @@
           width="75%"
           height="75%"
           content="Screen Size: Full Screen"
-          font="font_game_over"
+          font="font_hyperspace"
         />
         <Contents
           width="100%"
@@ -169,7 +169,7 @@
               width="100%"
               height="100%"
               content="Full Screen"
-              font="font_game_over"
+              font="font_hyperspace"
               />
         </Button>
         <Button
@@ -199,7 +199,7 @@
               width="100%"
               height="100%"
               content="Windowed"
-              font="font_game_over"
+              font="font_hyperspace"
                 />
         </Button>
         <Button
@@ -229,7 +229,7 @@
               width="100%"
               height="100%"
               content="Borderless Window"
-              font="font_game_over"
+              font="font_hyperspace"
                 />
          </Button>
        </Contents>
@@ -263,7 +263,7 @@
           width="75%"
           height="75%"
           content="Anti-Alias: FXAA"
-          font="font_game_over"
+          font="font_hyperspace"
         />
         <Contents
           width="100%"
@@ -294,7 +294,7 @@
                 width="100%"
                 height="100%"
                 content="FXAA"
-                font="font_game_over"
+                font="font_hyperspace"
                 />
           </Button>
           <Button
@@ -324,7 +324,7 @@
                 width="100%"
                 height="100%"
                 content="Feathering"
-                font="font_game_over"
+                font="font_hyperspace"
                   />
           </Button>
           <Button
@@ -354,7 +354,7 @@
                 width="100%"
                 height="100%"
                 content="Off"
-                font="font_game_over"
+                font="font_hyperspace"
                   />
           </Button>
         </Contents>
@@ -373,67 +373,189 @@
         height="75%"
         id="controls_options_menu_right_panel"
         hidden="true">
-        <!-- Rotate Left Button -->
-        <Button
-          id="Rotate_Left"
-          belowID="Rotate_Right"
-          defaultSelected="false"
-          halign="center"
-          valign="top"
+        <Panel
+          halign="left"
+          valign="center"
           horizontal="0"
-          vertical="5%"
-          width="80%"
-          height="25%"
-          released-image="texture_ui_button_released"
-          released-thickness="5,5,5,5"
-          hover-image="texture_ui_button_hover"
-          hover-thickness="5,5,5,5"
-          pressed-image="texture_ui_button_pressed"
-          pressed-thickness="5,5,5,5"
-          onclick="queue:Settings.RotateLeftSettingsButtonPressedEvent">
-          <Label
-              halign="left"
-              valign="center"
-              horizontal="0"
-              vertical="0"
-              width="75%"
-              height="75%"
-              content="Rotate Left:"
-              font="font_game_over"
-              />
-          <!-- Place Image In button to allow for display of currently bound button -->
-        </Button>
-      <Button
-        id="Rotate_Right"
-        aboveID="Rotate_Left"
-        defaultSelected="false"
-        halign="center"
-        valign="top"
-        horizontal="0"
-        vertical="35%"
-        width="80%"
-        height="25%"
-        released-image="texture_ui_button_released"
-        released-thickness="5,5,5,5"
-        hover-image="texture_ui_button_hover"
-        hover-thickness="5,5,5,5"
-        pressed-image="texture_ui_button_pressed"
-        pressed-thickness="5,5,5,5"
-        onclick="queue:Settings.RotateRightSettingsButtonPressedEvent">
-        <!--hidden="true"-->
-        <Label
-            halign="left"
-            valign="center"
+          vertical="0"
+          width="50%"
+          height="100%">
+          <!-- Primary/Controller Rotate Left Button -->
+          <Button
+            id="Rotate_Left"
+            aboveID="Rotate_Right"
+            belowID="Rotate_Right"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
             horizontal="0"
-            vertical="0"
-            width="75%"
-            height="75%"
-            content="Rotate Right:"
-            font="font_game_over"
+            vertical="5%"
+            width="80%"
+            height="15%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:Settings.RotateLeftSettingsButtonPressedEvent">
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="75%"
+                height="75%"
+                content="Rotate Left:"
+                font="font_hyperspace"
+                />
+            <!-- Image In button to allow for display of currently bound button -->
+            <Image
+              halign="right"
+              valign="center"
+              horizontal="5%"
+              vertical="0"
+              width="100%"
+              height="50%"
+              aspect-ratio="1:1"
+              image="texture_input_gamepad_a"
+              id="primary_counter_clockwise_button_texture"
               />
-        <!-- Place Image In button to allow for display of currently bound button -->
-      </Button>
-        <!-- Future Buttons can add other controls as necessary starting here -->
+          </Button>
+          <!-- Primary/Controller Rotate Right Button -->
+          <Button
+            id="Rotate_Right"
+            aboveID="Rotate_Left"
+            belowID="Rotate_Left"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="35%"
+            width="80%"
+            height="15%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:Settings.RotateRightSettingsButtonPressedEvent">
+            <!--hidden="true"-->
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="75%"
+                height="75%"
+                content="Rotate Right:"
+                font="font_hyperspace"
+                  />
+            <!-- Image In button to allow for display of currently bound button -->
+            <Image
+                halign="right"
+                valign="center"
+                horizontal="5%"
+                vertical="0"
+                width="100%"
+                height="50%"
+                aspect-ratio="1:1"
+                image="texture_input_gamepad_a"
+                id="primary_clockwise_button_texture"
+                />
+          </Button>
+        </Panel>
+        <Panel
+          halign="right"
+          valign="center"
+          horizontal="0"
+          vertical="0"
+          width="50%"
+          height="100%">
+          <!-- Secondary/Controller Rotate Left Button -->
+          <Button
+            id="Secondary_Rotate_Left"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="5%"
+            width="80%"
+            height="15%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:Settings.SecondaryRotateLeftSettingsButtonPressedEvent">
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="75%"
+                height="75%"
+                content="Secondary\nRotate Left:"
+                font="font_hyperspace"
+                />
+            <!-- Image In button to allow for display of currently bound button -->
+            <Image
+              halign="right"
+              valign="center"
+              horizontal="5%"
+              vertical="0"
+              width="100%"
+              height="50%"
+              aspect-ratio="1:1"
+              image="texture_input_gamepad_a"
+              id="secondary_counter_clockwise_button_texture"
+              />
+          </Button>
+          <!-- Secondary/Controller Rotate Right Button -->
+          <Button
+            id="Secondary_Rotate_Right"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="35%"
+            width="80%"
+            height="15%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:Settings.SecondaryRotateRightSettingsButtonPressedEvent">
+            <!--hidden="true"-->
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="75%"
+                height="75%"
+                content="Secondary\nRotate Right:"
+                font="font_hyperspace"
+                  />
+            <!-- Image In button to allow for display of currently bound button -->
+            <Image
+                halign="right"
+                valign="center"
+                horizontal="5%"
+                vertical="0"
+                width="100%"
+                height="50%"
+                aspect-ratio="1:1"
+                image="texture_input_gamepad_a"
+                id="secondary_clockwise_button_texture"
+                />
+          </Button>
+          <!-- Future Buttons can add other controls as necessary starting here -->
+        </Panel>
     </Panel>
     <!-- End of Controls Right Side Panel -->
     
@@ -474,7 +596,7 @@
           width="75%"
           height="75%"
           content="Speed: 1.0x"
-          font="font_game_over"
+          font="font_hyperspace"
           />
         <Contents
           width="100%"
@@ -514,7 +636,7 @@
                 width="100%"
                 height="100%"
                 content="0.5x"
-                font="font_game_over"
+                font="font_hyperspace"
                   />
           </Button>
           <Button
@@ -543,7 +665,7 @@
                 width="100%"
                 height="100%"
                 content="1.0x"
-                font="font_game_over"
+                font="font_hyperspace"
                   />
           </Button>
           <Button
@@ -572,7 +694,7 @@
                 width="100%"
                 height="100%"
                 content="1.5x"
-                font="font_game_over"
+                font="font_hyperspace"
                   />
           </Button>
           <Button
@@ -601,7 +723,7 @@
                 width="100%"
                 height="100%"
                 content="2.0x"
-                font="font_game_over"
+                font="font_hyperspace"
                   />
           </Button>
         </Contents>
@@ -633,7 +755,7 @@
           width="100%"
           height="100%"
           content="Difficulty: Normal"
-          font="font_game_over"
+          font="font_hyperspace"
           />
         <Contents
           width="100%"
@@ -674,7 +796,7 @@
                 width="100%"
                 height="100%"
                 content="Easy"
-                font="font_game_over"
+                font="font_hyperspace"
                     />
           </Button>
           <Button
@@ -704,7 +826,7 @@
                 width="100%"
                 height="100%"
                 content="Normal"
-                font="font_game_over"
+                font="font_hyperspace"
                     />
           </Button>
           <Button
@@ -734,7 +856,7 @@
                 width="100%"
                 height="100%"
                 content="Hard"
-                font="font_game_over"
+                font="font_hyperspace"
                     />
           </Button>
         </Contents>

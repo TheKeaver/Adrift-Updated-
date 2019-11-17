@@ -21,6 +21,23 @@
 #begin effects/FXAA.xnb
 /copy:effects/FXAA.xnb
 
+#begin fonts/Hyperspace.fnt
+/importer:BitmapFontImporter
+/processor:BitmapFontProcessor
+/build:fonts/Hyperspace.fnt
+
+#begin fonts/Hyperspace_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:fonts/Hyperspace_0.png
+
 #begin fonts/Intro.fnt
 /importer:BitmapFontImporter
 /processor:BitmapFontProcessor
@@ -38,12 +55,12 @@
 /processorParam:TextureFormat=Color
 /build:fonts/Intro_0.png
 
-#begin fonts/Main.fnt
+#begin fonts/Title.fnt
 /importer:BitmapFontImporter
 /processor:BitmapFontProcessor
-/build:fonts/Main.fnt
+/build:fonts/Title.fnt
 
-#begin fonts/Main_0.png
+#begin fonts/Title_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -53,7 +70,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:fonts/Main_0.png
+/build:fonts/Title_0.png
 
 #begin sounds/Alien_Ship_Sound
 /importer:WavImporter

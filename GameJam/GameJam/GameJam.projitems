@@ -190,6 +190,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\ReloadDisplayOptionsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\KeyTextureMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\GamePadTextureMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SecondaryRotateLeftSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SecondaryRotateRightSettingsButtonPressedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

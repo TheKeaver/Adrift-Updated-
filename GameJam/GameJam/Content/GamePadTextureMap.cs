@@ -31,7 +31,15 @@ namespace GameJam.Content
             _dictionary.Add(Buttons.LeftTrigger, "texture_input_gamepad_trigger_left");
             _dictionary.Add(Buttons.RightTrigger, "texture_input_gamepad_trigger_right");
 
+            _dictionary.Add(Buttons.LeftThumbstickUp, "texture_input_gamepad_stick_left");
+            _dictionary.Add(Buttons.LeftThumbstickDown, "texture_input_gamepad_stick_left");
+            _dictionary.Add(Buttons.LeftThumbstickLeft, "texture_input_gamepad_stick_left");
+            _dictionary.Add(Buttons.LeftThumbstickRight, "texture_input_gamepad_stick_left");
             _dictionary.Add(Buttons.LeftStick, "texture_input_gamepad_stick_left");
+            _dictionary.Add(Buttons.RightThumbstickUp, "texture_input_gamepad_stick_right");
+            _dictionary.Add(Buttons.RightThumbstickDown, "texture_input_gamepad_stick_right");
+            _dictionary.Add(Buttons.RightThumbstickLeft, "texture_input_gamepad_stick_right");
+            _dictionary.Add(Buttons.RightThumbstickRight, "texture_input_gamepad_stick_right");
             _dictionary.Add(Buttons.RightStick, "texture_input_gamepad_stick_right");
         }
 

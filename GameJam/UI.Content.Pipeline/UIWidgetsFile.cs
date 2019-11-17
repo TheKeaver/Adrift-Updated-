@@ -146,7 +146,7 @@ namespace UI.Content.Pipeline
 
         public override void WriteToOutput(ContentWriter output)
         {
-            output.Write(Content);
+            output.Write(Content.Replace("\\n", "\n"));
             output.Write(Font);
 
             base.WriteToOutput(output);

@@ -19,6 +19,7 @@ namespace GameJam.UI
         internal Dictionary<string, WeakReference<Widget>> _widgetIdDict = new Dictionary<string, WeakReference<Widget>>();
 
         public bool MouseMode = true; // False = GamePad mode
+        public bool AutoControlModeSwitching = true;
 
         public Root(float width, float height) : base(HorizontalAlignment.Left, new FixedValue(0), VerticalAlignment.Top, new FixedValue(0), new FixedValue(width), new FixedValue(height))
         {
@@ -166,13 +167,13 @@ namespace GameJam.UI
         public override bool Handle(IEvent evt)
         {
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
-            if (MouseMode == false && mouseMoveEvent != null)
+            if (AutoControlModeSwitching && MouseMode == false && mouseMoveEvent != null)
             {
                 MouseMode = true;
             }
 
             GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
-            if (gamePadButtonDownEvent != null && MouseMode == true)
+            if (AutoControlModeSwitching && gamePadButtonDownEvent != null && MouseMode == true)
             {
                 MouseMode = false;
                 return true;
