@@ -21,7 +21,7 @@ namespace Events.Exceptions
     public class TypeNotEventException : Exception
     {
         public TypeNotEventException()
-                : base("The type passed does not exend IComponent")
+                : base("The type passed does not exend IEvent")
         {
         }
     }

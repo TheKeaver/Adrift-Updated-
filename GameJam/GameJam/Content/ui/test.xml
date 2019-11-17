@@ -1,6 +1,108 @@
 <UI>
     <Widgets>
-        <NinePatchImage
+        <DropDownPanel
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="10%"
+            width="50%"
+            height="50%"
+            aspect-ratio="20:4"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            close-on="UI.TestButtonPressedEvent,UI.TestButtonPressed2Event"
+            defaultSelected="true"
+            class="one,two"
+            >
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="5%"
+                vertical="0"
+                width="50%"
+                height="50%"
+
+                content="DropDown"
+                font="font_game_over"
+                />
+            <Contents
+                width="100%"
+                height="300%">
+                <Image
+                    halign="center"
+                    valign="center"
+                    horizontal="0"
+                    vertical="0"
+                    width="100%"
+                    height="100%"
+                    
+                    image="texture_ui_dropdown_background"
+                    
+                    class="one"
+                    />
+                <Button
+                    halign="center"
+                    valign="top"
+                    horizontal="0"
+                    vertical="0"
+                    width="100%"
+                    height="33.333333%"
+                    released-image="texture_ui_button_released"
+                    released-thickness="5,5,5,5"
+                    hover-image="texture_ui_button_hover"
+                    hover-thickness="5,5,5,5"
+                    pressed-image="texture_ui_button_pressed"
+                    pressed-thickness="5,5,5,5"
+                    onclick="queue:UI.TestButtonPressedEvent"
+                    id="dropdown-1-button-1"
+                    aboveID="dropdown-1-button-3"
+                    belowID="dropdown-1-button-2"
+                    
+                    class="two"
+                    />
+                <Button
+                    halign="center"
+                    valign="top"
+                    horizontal="0"
+                    vertical="33.333333%"
+                    width="100%"
+                    height="33.333333%"
+                    released-image="texture_ui_button_released"
+                    released-thickness="5,5,5,5"
+                    hover-image="texture_ui_button_hover"
+                    hover-thickness="5,5,5,5"
+                    pressed-image="texture_ui_button_pressed"
+                    pressed-thickness="5,5,5,5"
+                    onclick="queue:UI.TestButtonPressed2Event"
+                    id="dropdown-1-button-2"
+                    aboveID="dropdown-1-button-1"
+                    belowID="dropdown-1-button-3"
+                    />
+                <Button
+                    halign="center"
+                    valign="top"
+                    horizontal="0"
+                    vertical="66.666666%"
+                    width="100%"
+                    height="33.333333%"
+                    released-image="texture_ui_button_released"
+                    released-thickness="5,5,5,5"
+                    hover-image="texture_ui_button_hover"
+                    hover-thickness="5,5,5,5"
+                    pressed-image="texture_ui_button_pressed"
+                    pressed-thickness="5,5,5,5"
+                    onclick="queue:UI.TestButtonPressedEvent"
+                    id="dropdown-1-button-3"
+                    aboveID="dropdown-1-button-2"
+                    belowID="dropdown-1-button-1"
+                    />
+            </Contents>
+        </DropDownPanel>
+        <!--<NinePatchImage
             halign="center"
             valign="center"
             horizontal="0"
@@ -88,6 +190,6 @@
                 image="texture_ui_button_pressed"
                 thickness="4,4,4,4"
                 />
-        </Button>
+        </Button>-->
     </Widgets>
 </UI>

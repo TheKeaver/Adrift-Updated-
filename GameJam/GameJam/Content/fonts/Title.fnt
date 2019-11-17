@@ -3,7 +3,7 @@
        <info aa='1' size='300' smooth='1' stretchH='100' bold='0' padding='0,0,0,0' spacing='0,0' charset='' italic='0' unicode='0' face='Hyperspace'/>
        <common scaleW='1856' packed='0' pages='1' lineHeight='369' scaleH='1856' base='308'/>
        <pages>
-            <page id='0' file='Main_0.png'/>
+            <page id='0' file='font_texture_title'/>
        </pages>
         <chars count='95'>
             <char xadvance='184' x='1479' chnl='0' yoffset='308' y='1636' xoffset='0' id='32' page='0' height='2' width='186'/>
