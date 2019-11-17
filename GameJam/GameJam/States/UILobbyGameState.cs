@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Audrey;
 using Events;
 using GameJam.Components;
+using GameJam.Content;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.InputHandling;
 using GameJam.Input;
 using GameJam.Processes.Menu;
 using GameJam.UI;
+using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,10 +22,28 @@ namespace GameJam.States
         SpriteBatch _spriteBatch;
         Root _root;
 
-        int numberOfPlayers = 0;
-        public List<Player> playersSeated;
-        //public Player playerOneSeat;
-        //public Player playersSeated[1];
+        KeyTextureMap _keyTextureMap;
+        GamePadTextureMap _gamePadTextureMap;
+
+        public static readonly int MAX_PLAYERS = 4;
+
+        public Player[] _playersSeated = new Player[MAX_PLAYERS];
+
+        public int SeatedPlayerCount
+        {
+            get
+            {
+                int _count = 0;
+                for (int i = 0; i < _playersSeated.Length; i++)
+                {
+                    if (_playersSeated[i] != null)
+                    {
+                        _count++;
+                    }
+                }
+                return _count;
+            }
+        }
 
         public UILobbyGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
@@ -31,20 +52,18 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            playersSeated = new List<Player>(4);
-            playersSeated.Add(null);
-            playersSeated.Add(null);
-            playersSeated.Add(null);
-            playersSeated.Add(null);
-
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_lobby_menu"));
 
-            RegisterEvents();
-            _root.RegisterListeners();
+            _keyTextureMap = new KeyTextureMap();
+            _keyTextureMap.CacheAll(Content);
+            _gamePadTextureMap = new GamePadTextureMap();
+            _gamePadTextureMap.CacheAll(Content);
 
             ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
+
+            UpdateUI();
 
             base.OnInitialize();
         }
@@ -68,23 +87,19 @@ namespace GameJam.States
             base.OnRender(dt, betweenFrameAlpha);
         }
 
-        protected override void OnKill()
-        {
-            _root.UnregisterListeners();
-            UnregisterEvents();
-
-            base.OnKill();
-        }
-
-        void RegisterEvents()
+        protected override void RegisterListeners()
         {
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
             EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
+            // Root usually goes first, but goes last in this case. It will
+            // absorb the GamePadButtonDownEvent otherwise.
+            _root.RegisterListeners();
         }
 
-        void UnregisterEvents()
+        protected override void UnregisterListeners()
         {
             EventManager.Instance.UnregisterListener(this);
+            _root.UnregisterListeners();
         }
 
         public bool Handle(IEvent evt)
@@ -92,202 +107,173 @@ namespace GameJam.States
             GamePadButtonDownEvent buttonPressed = evt as GamePadButtonDownEvent;
             if (buttonPressed != null)
             {
-                PlayerIndex buttonPressedIndex = buttonPressed._playerIndex;
-                string playerstring = "controller_" + ((int)buttonPressedIndex);
-                int isPlayerSeatedIndex = CheckIfSeated(playerstring); // -1 means not found, else in 0,1,2 or 3
-                // A button is pressed
-                if( buttonPressed._pressedButton == Buttons.A )
-                {
-                    if( isPlayerSeatedIndex == -1 )
-                    {
-                        if (playersSeated[0] == null)
-                        {
-                            playersSeated[0] = new Player(playerstring, new ControllerInputMethod(buttonPressedIndex));
-                            // Player one controller visibility helper
-                            PlayerOne_VisibilityHelper(true);
-                            numberOfPlayers += 1;
-                        }
-                        else if (playersSeated[1] == null)
-                        {
-                            playersSeated[1] = new Player(playerstring, new ControllerInputMethod(buttonPressedIndex));
-                            // Player two controller visibility helper
-                            PlayerTwo_VisibilityHelper(true);
-                            numberOfPlayers += 1;
-                        }
-                        else if (playersSeated[2] == null)
-                        {
-                            playersSeated[2] = new Player(playerstring, new ControllerInputMethod(buttonPressedIndex));
-                            // Player three controller visibility helper
-                            //PlayerThree_VisibilityHelper(true);
-                            //numberOfPlayers += 1;
-                        }
-                        else if (playersSeated[3] == null)
-                        {
-                            playersSeated[3] = new Player(playerstring, new ControllerInputMethod(buttonPressedIndex));
-                            // Player four controller visibility helper
-                            //PlayerFour_VisibilityHelper(true);
-                            //numberOfPlayers += 1;
-                        }
-                    }
-                    // If player is seated we can place code here to handle alternative actions such as color changing
-                }
-
-                // B button is pressed
-                if( buttonPressed._pressedButton == Buttons.B )
-                {
-                    // when all players empty - return to menu screen
-                    if ( isPlayerSeatedIndex == -1 )
-                    {
-                        ChangeState(new UIMenuGameState(GameManager, SharedState));
-                    }
-                    // when player 1 presses B
-                    if ( isPlayerSeatedIndex != -1 )
-                    {
-                        // Blanks all seats
-                        playersSeated = new List<Player>(4);
-                        Default_VisibilityHelper();
-                        numberOfPlayers = 0;
-                        /* Other Option
-                         * Blanks occupied seat only
-                         * playerSeated[isPlayerSeatedIndex] = null;
-                         * undoSeatVisibilityHelper() // not implemented */
-                    }
-                }
-
-                // If start button is pressed
-                if (buttonPressed._pressedButton == Buttons.Start)
-                {
-                    if ( playersSeated[0] != null )
-                    {
-                        int playersCounter = 0;
-                        Player[] players = new Player[numberOfPlayers];
-                        for (int i = 0; i < playersSeated.Count; i++)
-                        {
-                            if (playersSeated[i] != null)
-                            {
-                                players[playersCounter] = playersSeated[i];
-                                playersCounter++;
-                            }
-                        }
-                        StartGame(players);
-                    }
-                }
+                return HandleGamePadButtonDownEvent(buttonPressed);
             }
 
             // Keyboard Lobby Support
             KeyboardKeyDownEvent keyPressed = evt as KeyboardKeyDownEvent;
             if (keyPressed != null)
             {
-                string playerstring = "keyboard_";
-                int keyboardPlayerNumber = -1;
+                HandleKeyboardKeyDownEvent(keyPressed);
 
-                if (keyPressed.Key == Keys.A || keyPressed.Key == Keys.D)
+            }
+
+            return false;
+        }
+
+        private bool HandleGamePadButtonDownEvent(GamePadButtonDownEvent gamePadButtonDownEvent)
+        {
+            PlayerIndex gamepadIndex = gamePadButtonDownEvent._playerIndex;
+            string playerstring = "controller_" + ((int)gamepadIndex);
+            int isPlayerSeatedIndex = CheckIfSeated(playerstring); // -1 means not found, else in 0,1,2 or 3
+                                                                   // A button is pressed
+            if (gamePadButtonDownEvent._pressedButton == Buttons.A)
+            {
+                if (isPlayerSeatedIndex == -1)
                 {
-                    keyboardPlayerNumber = 1;
-                    playerstring += 1;
+                    // Player is not seated -- Put them in the next available
+                    // seat.
+                    SeatPlayer(new Player(playerstring, new ControllerInputMethod(gamepadIndex)));
+                    return true;
                 }
-                else if (keyPressed.Key == Keys.Left || keyPressed.Key == Keys.Right )
+                // TODO: If player is seated we can place code here to handle alternative actions such as color changing
+            }
+
+            // B button is pressed
+            if (gamePadButtonDownEvent._pressedButton == Buttons.B)
+            {
+                // If not seated; go back to main menu
+                if (isPlayerSeatedIndex < 0)
                 {
-                    keyboardPlayerNumber = 2;
-                    playerstring += 2;
+                    ChangeState(new UIMenuGameState(GameManager, SharedState));
+                    return true;
                 }
-
-                int isPlayerSeatedIndex = CheckIfSeated(playerstring); // -1 means not found, else in 0,1,2 or 3
-
-                if (isPlayerSeatedIndex == -1 && keyboardPlayerNumber != -1)
+                // when player 1 presses B
+                if (isPlayerSeatedIndex == 0)
                 {
-                    if (playersSeated[0] == null)
-                    {
-                        playersSeated[0] = (keyboardPlayerNumber < 2) ? 
-                            new Player( playerstring, new PrimaryKeyboardInputMethod() ) :
-                            new Player( playerstring, new PrimaryKeyboardInputMethod() ) ;
-                        // Player one controller visibility helper
-                        PlayerOne_VisibilityHelper(true);
-                        numberOfPlayers += 1;
-                    }
-                    else if (playersSeated[1] == null)
-                    {
-                        playersSeated[1] = (keyboardPlayerNumber < 2) ?
-                            new Player(playerstring, new PrimaryKeyboardInputMethod()) :
-                            new Player(playerstring, new PrimaryKeyboardInputMethod());
-                        // Player two controller visibility helper
-                        PlayerTwo_VisibilityHelper(true);
-                        numberOfPlayers += 1;
-                    }
-                    else if (playersSeated[2] == null)
-                    {
-                        playersSeated[2] = (keyboardPlayerNumber < 2) ?
-                            new Player(playerstring, new PrimaryKeyboardInputMethod()) :
-                            new Player(playerstring, new PrimaryKeyboardInputMethod());
-                        // Player three controller visibility helper
-                        //PlayerThree_VisibilityHelper(true);
-                        //numberOfPlayers += 1;
-                    }
-                    else if (playersSeated[3] == null)
-                    {
-                        playersSeated[3] = (keyboardPlayerNumber < 2) ?
-                            new Player(playerstring, new PrimaryKeyboardInputMethod()) :
-                            new Player(playerstring, new PrimaryKeyboardInputMethod());
-                        // Player four controller visibility helper
-                        //PlayerFour_VisibilityHelper(true);
-                        //numberOfPlayers += 1;
-                    }
+                    // Blanks all seats
+                    _playersSeated = new Player[4];
+                    UpdateUI();
+                    return true;
                 }
-                // If player is seated we can place code here to handle alternative actions such as color changing
+                // Blank only the player's seat
+                _playersSeated[isPlayerSeatedIndex] = null;
+                UpdateUI();
+                return true;
+            }
 
-                if (keyPressed.Key == Keys.Enter)
+            // If start button is pressed
+            if (gamePadButtonDownEvent._pressedButton == Buttons.Start)
+            {
+                if (SeatedPlayerCount > 0)
                 {
-                    if (playersSeated[0] != null)
-                    {
-                        int playersCounter = 0;
-                        Player[] players = new Player[numberOfPlayers];
-                        for (int i = 0; i < playersSeated.Count; i++)
-                        {
-                            if (playersSeated[i] != null)
-                            {
-                                players[playersCounter] = playersSeated[i];
-                                playersCounter++;
-                            }
-                        }
-
-                        StartGame(players);
-                    }
-                }
-
-                if (keyPressed.Key == Keys.Escape)
-                {
-                    // when all players empty - return to menu screen
-                    if (isPlayerSeatedIndex == -1)
-                    {
-                        ChangeState(new UIMenuGameState(GameManager, SharedState));
-                    }
-                    // when player 1 presses B
-                    if (isPlayerSeatedIndex != -1)
-                    {
-                        // Blanks all seats
-                        playersSeated = new List<Player>(4);
-                        Default_VisibilityHelper();
-                        numberOfPlayers = 0;
-                        /* Other Option
-                         * Blanks occupied seat only
-                         * playerSeated[isPlayerSeatedIndex] = null;
-                         * undoSeatVisibilityHelper() // not implemented */
-                    }
+                    StartGame(CondenseSeatedPlayersArray());
+                    return true;
                 }
             }
 
             return false;
         }
 
+        private bool HandleKeyboardKeyDownEvent(KeyboardKeyDownEvent keyboardKeyDownEvent)
+        {
+            string playerString = "keyboard_";
+
+            InputMethod inputMethod = null;
+            if(keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")
+                || keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_primary_clockwise"))
+            {
+                inputMethod = new PrimaryKeyboardInputMethod();
+                playerString += "primary";
+            }
+            if (keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")
+                || keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_secondary_clockwise"))
+            {
+                inputMethod = new SecondaryKeyboardInputMethod();
+                playerString += "secondary";
+            }
+
+            int isPlayerSeatedIndex = CheckIfSeated(playerString); // -1 means not found, else in 0,1,2 or 3
+
+            if (isPlayerSeatedIndex == -1 && inputMethod != null)
+            {
+                // Player is not seated -- Put them in the next available
+                // seat.
+                SeatPlayer(new Player(playerString, inputMethod));
+                return true;
+            }
+            // TODO: If player is seated we can place code here to handle alternative actions such as color changing
+
+            if (keyboardKeyDownEvent.Key == Keys.Enter)
+            {
+                if (SeatedPlayerCount > 0)
+                {
+                    StartGame(CondenseSeatedPlayersArray());
+                }
+            }
+
+            if (keyboardKeyDownEvent.Key == Keys.Escape)
+            {
+                // Remove keyboard player (if there is one)
+                for(int i = _playersSeated.Length - 1; i >= 0; i--)
+                {
+                    if(_playersSeated[i] == null)
+                    {
+                        continue;
+                    }
+                    if(_playersSeated[i].InputMethod is PrimaryKeyboardInputMethod
+                        || _playersSeated[i].InputMethod is SecondaryKeyboardInputMethod)
+                    {
+                        if (i == 0)
+                        {
+                            // Player 1 pressed Escape
+                            // Blanks all seats
+                            _playersSeated = new Player[4];
+                            UpdateUI();
+                            return true;
+                        }
+
+                        _playersSeated[i] = null;
+                        UpdateUI();
+                        return true;
+                    }
+                }
+
+                // Player not removed
+                // If not seated; go back to main menu
+                if (isPlayerSeatedIndex < 0)
+                {
+                    ChangeState(new UIMenuGameState(GameManager, SharedState));
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void SeatPlayer(Player player)
+        {
+            for(int i = 0; i < _playersSeated.Length; i++)
+            {
+                if(_playersSeated[i] != null)
+                {
+                    continue;
+                }
+                _playersSeated[i] = player;
+                break;
+            }
+
+            UpdateUI();
+        }
+
         // Returns index when found, else returns -1
         private int CheckIfSeated(string playerstring)
         {
-            for (int i = 0; i < playersSeated.Count; i++)
+            for (int i = 0; i < _playersSeated.Length; i++)
             {
-                if (playersSeated[i] != null)
+                if (_playersSeated[i] != null)
                 {
-                    string temp = playersSeated[i].InputMethod.ToString();
-                    if (temp.Equals(playerstring))
+                    if(_playersSeated[i].Name == playerstring)
                     {
                         return i;
                     }
@@ -295,6 +281,21 @@ namespace GameJam.States
             }
             return -1;
         }
+
+        private Player[] CondenseSeatedPlayersArray()
+        {
+            List<Player> players = new List<Player>();
+            foreach(Player player in _playersSeated)
+            {
+                if(player == null)
+                {
+                    continue;
+                }
+                players.Add(player);
+            }
+            return players.ToArray();
+        }
+
         private void StartGame(Player[] players)
         {
             // Explode all entities
@@ -316,37 +317,102 @@ namespace GameJam.States
             ChangeState(new AdriftGameState(GameManager, SharedState, players));
         }
 
-        private void PlayerOne_VisibilityHelper(bool isController)
+        private void UpdateUI()
         {
-            _root.FindWidgetByID("player_one_a_button").Hidden = true;
-            _root.FindWidgetByID("player_one_left_bumper").Hidden = !isController;
-            _root.FindWidgetByID("player_one_right_bumper").Hidden = !isController;
-            _root.FindWidgetByID("player_one_a_key").Hidden = isController;
-            _root.FindWidgetByID("player_one_d_key").Hidden = isController;
+            UpdatePlayAndJoinInstructions();
+            UpdateKeyBindingTextures();
         }
-
-        private void PlayerTwo_VisibilityHelper(bool isController)
+        private void UpdatePlayAndJoinInstructions()
         {
-            _root.FindWidgetByID("player_two_a_button").Hidden = true;
-            _root.FindWidgetByID("player_two_left_bumper").Hidden = !isController;
-            _root.FindWidgetByID("player_two_right_bumper").Hidden = !isController;
-            _root.FindWidgetByID("player_two_left_arrow_key").Hidden = isController;
-            _root.FindWidgetByID("player_two_right_arrow_key").Hidden = isController;
+            bool primaryKeyboardInputMethodUsed = false;
+            bool secondaryKeyboardInputMethodUsed = false;
+
+            for (int i = 0; i < _playersSeated.Length; i++)
+            {
+                _root.FindWidgetByID(string.Format("player_{0}_join_instructions", i)).Hidden = _playersSeated[i] != null;
+                _root.FindWidgetByID(string.Format("player_{0}_play_instructions", i)).Hidden = _playersSeated[i] == null;
+                if(_playersSeated[i] != null)
+                {
+                    _root.FindWidgetsByClass(string.Format("player_{0}_controls_instruction", i)).ForEach((Widget widget) =>
+                    {
+                        widget.Hidden = true;
+                    });
+
+                    if (_playersSeated[i].InputMethod is ControllerInputMethod)
+                    {
+                        PlayerIndex controllerIndex = ((ControllerInputMethod)_playersSeated[i].InputMethod).PlayerIndex;
+
+                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_counter_clockwise_texture", i))).Texture = Content.Load<Texture2D>(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_left", (int)controllerIndex))]);
+                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_counter_clockwise_texture", i))).Hidden = false;
+                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_clockwise_texture", i))).Texture = Content.Load<Texture2D>(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_right", (int)controllerIndex))]);
+                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_clockwise_texture", i))).Hidden = false;
+                    }
+                    else if (_playersSeated[i].InputMethod is PrimaryKeyboardInputMethod)
+                    {
+                        _root.FindWidgetsByClass(string.Format("player_{0}_primary_keyboard_instructions", i)).ForEach((Widget widget) =>
+                        {
+                            widget.Hidden = false;
+                        });
+
+                        primaryKeyboardInputMethodUsed = true;
+                    }
+                    else
+                    {
+                        // SecondaryKeyboardInputMethod
+                        _root.FindWidgetsByClass(string.Format("player_{0}_secondary_keyboard_instructions", i)).ForEach((Widget widget) =>
+                        {
+                            widget.Hidden = false;
+                        });
+
+                        secondaryKeyboardInputMethodUsed = true;
+                    }
+                }
+            }
+
+            _root.FindWidgetsByClass("primary_keyboard_join_instructions").ForEach((Widget widget) =>
+            {
+                widget.Hidden = primaryKeyboardInputMethodUsed;
+            });
+            _root.FindWidgetsByClass("secondary_keyboard_join_instructions").ForEach((Widget widget) =>
+            {
+                widget.Hidden = secondaryKeyboardInputMethodUsed;
+            });
         }
-
-        private void Default_VisibilityHelper()
+        private void UpdateKeyBindingTextures()
         {
-            _root.FindWidgetByID("player_one_a_button").Hidden = false;
-            _root.FindWidgetByID("player_one_left_bumper").Hidden = true;
-            _root.FindWidgetByID("player_one_right_bumper").Hidden = true;
-            _root.FindWidgetByID("player_one_a_key").Hidden = false;
-            _root.FindWidgetByID("player_one_d_key").Hidden = false;
+            _root.FindWidgetsByClass("primary_keyboard_counter_clockwise_texture").ForEach((Widget widget) =>
+            {
+                Image image = widget as Image;
+                if(image != null)
+                {
+                    image.Texture = Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")]);
+                }
+            });
+            _root.FindWidgetsByClass("primary_keyboard_clockwise_texture").ForEach((Widget widget) =>
+            {
+                Image image = widget as Image;
+                if (image != null)
+                {
+                    image.Texture = Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_clockwise")]);
+                }
+            });
 
-            _root.FindWidgetByID("player_two_a_button").Hidden = false;
-            _root.FindWidgetByID("player_two_left_bumper").Hidden = true;
-            _root.FindWidgetByID("player_two_right_bumper").Hidden = true;
-            _root.FindWidgetByID("player_two_left_arrow_key").Hidden = false;
-            _root.FindWidgetByID("player_two_right_arrow_key").Hidden = false;
+            _root.FindWidgetsByClass("secondary_keyboard_counter_clockwise_texture").ForEach((Widget widget) =>
+            {
+                Image image = widget as Image;
+                if (image != null)
+                {
+                    image.Texture = Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")]);
+                }
+            });
+            _root.FindWidgetsByClass("secondary_keyboard_clockwise_texture").ForEach((Widget widget) =>
+            {
+                Image image = widget as Image;
+                if (image != null)
+                {
+                    image.Texture = Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_clockwise")]);
+                }
+            });
         }
     }
 }

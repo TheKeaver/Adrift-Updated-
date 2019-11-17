@@ -1,0 +1,85 @@
+<UI>
+    <Widgets>
+        <Label
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="5%"
+            width="90%"
+            height="20%"
+            font="font_hyperspace"
+            content="Press"
+            />
+        
+        <!-- Controller -->
+        <Image
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="-15%"
+            width="15%"
+            height="15%"
+            image="texture_input_gamepad_a"
+            aspect-ratio="1:1"
+            />
+            
+        <!-- Primary Keyboard -->
+        <Image
+            halign="center"
+            valign="center"
+            horizontal="-7.5%"
+            vertical="0"
+            width="15%"
+            height="15%"
+            image="texture_input_keyboard_key_left"
+            aspect-ratio="1:1"
+            class="primary_keyboard_join_instructions,primary_keyboard_counter_clockwise_texture"
+            />
+        <Image
+            halign="center"
+            valign="center"
+            horizontal="7.5%"
+            vertical="0"
+            width="15%"
+            height="15%"
+            image="texture_input_keyboard_key_right"
+            aspect-ratio="1:1"
+            class="primary_keyboard_join_instructions,primary_keyboard_clockwise_texture"
+            />
+        
+        <!-- Secondary Keyboard -->
+        <Image
+            halign="center"
+            valign="center"
+            horizontal="-7.5%"
+            vertical="15%"
+            width="15%"
+            height="15%"
+            image="texture_input_keyboard_key_a"
+            aspect-ratio="1:1"
+            class="secondary_keyboard_join_instructions,secondary_keyboard_counter_clockwise_texture"
+            />
+        <Image
+            halign="center"
+            valign="center"
+            horizontal="7.5%"
+            vertical="15%"
+            width="15%"
+            height="15%"
+            image="texture_input_keyboard_key_d"
+            aspect-ratio="1:1"
+            class="secondary_keyboard_join_instructions,secondary_keyboard_clockwise_texture"
+            />
+            
+        <Label
+            halign="center"
+            valign="bottom"
+            horizontal="0"
+            vertical="5%"
+            width="90%"
+            height="20%"
+            font="font_hyperspace"
+            content="To Join"
+            />
+    </Widgets>
+</UI>

@@ -188,6 +188,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\PauseGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\Pause\ExitToLobbyEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ReloadDisplayOptionsEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\KeyTextureMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\GamePadTextureMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SecondaryRotateLeftSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SecondaryRotateRightSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\UIControlModeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\EnterMouseUIModeEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\EnterGamePadUIModeEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\UI\GamePadUIModeOperatorChangedEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

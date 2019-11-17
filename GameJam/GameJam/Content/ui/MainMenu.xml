@@ -8,7 +8,7 @@
             width="75%"
             height="40%"
             content="Adrift"
-            font="font_hyperspace"
+            font="font_title"
             />
       <Button
             id="Play"

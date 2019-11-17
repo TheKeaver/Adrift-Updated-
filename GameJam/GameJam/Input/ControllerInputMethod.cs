@@ -35,9 +35,9 @@ namespace GameJam.Input
             }
         }
 
-        public override string ToString()
-        {
-            return toString;
+        public override string ToString()
+        {
+            return toString;
         }
     }
 }
