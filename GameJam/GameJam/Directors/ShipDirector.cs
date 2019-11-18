@@ -73,7 +73,14 @@ namespace GameJam.Directors
                 EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color));
 
                 Engine.DestroyEntity(entityA);
-                EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield));
+
+                Entity responsibleEntity = entityB;
+                if(entityB.HasComponent<LaserBeamComponent>())
+                {
+                    responsibleEntity = FindLaserBeamOwner(responsibleEntity);
+                }
+                EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<PlayerComponent>().Player,
+                    responsibleEntity));
             } else
             {
                 Color color = Color.White;
@@ -101,6 +108,20 @@ namespace GameJam.Directors
         private void HandleShipComponentRemovedEvent(ComponentRemovedEvent<PlayerShipComponent> shipComponentRemovedEvent)
         {
             Engine.DestroyEntity(shipComponentRemovedEvent.Component.ShipShield);
+        }
+
+        private Entity FindLaserBeamOwner(Entity laserBeamEntity)
+        {
+            Family laserEnemyFamily = Family.All(typeof(LaserBeamComponent)).Get();
+            foreach (Entity entity in Engine.GetEntitiesFor(laserEnemyFamily))
+            {
+                LaserEnemyComponent laserEnemyComponent = entity.GetComponent<LaserEnemyComponent>();
+                if(laserEnemyComponent.LaserBeamEntity == laserBeamEntity)
+                {
+                    return entity;
+                }
+            }
+            return null;
         }
     }
 }
