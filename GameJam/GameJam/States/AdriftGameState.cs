@@ -32,14 +32,18 @@ namespace GameJam.States
 
         public int score;
 
-        Player[] PlayerArray;
+        public Player[] Players
+        {
+            get;
+            private set;
+        }
 
         public AdriftGameState(GameManager gameManager,
             SharedGameState sharedState,
             Player[] players)
             : base(gameManager, sharedState)
         {
-            PlayerArray = players;
+            Players = players;
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
@@ -54,6 +58,8 @@ namespace GameJam.States
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
 
             LoadContent();
+
+            ProcessManager.Attach(new PlayerScoreDirector(Players, _root, SharedState.Engine, Content, ProcessManager));
 
             CreateEntities();
 
@@ -98,7 +104,6 @@ namespace GameJam.States
         {
             _root.RegisterListeners();
 
-            EventManager.Instance.RegisterListener<IncreasePlayerScoreEvent>(this);
             EventManager.Instance.RegisterListener<GameOverEvent>(this);
             EventManager.Instance.RegisterListener<TogglePauseGameEvent>(this);
         }
@@ -113,20 +118,20 @@ namespace GameJam.States
         void CreateEntities()
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2(-25 + (25 * (PlayerArray.Length % 2)), 0));
+                new Vector2(-25 + (25 * (Players.Length % 2)), 0));
             Entity playerShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                 playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
-            playerShieldEntity.AddComponent(new PlayerComponent(PlayerArray[0]));
+            playerShieldEntity.AddComponent(new PlayerComponent(Players[0]));
 
-            if (PlayerArray.Length == 2)
+            if (Players.Length == 2)
             {
                 Entity playerTwoShipEntity = PlayerShipEntity.Create(SharedState.Engine,
                 new Vector2(25, 0));
                 Entity playerTwoShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                     playerTwoShipEntity);
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerTwoShieldEntity;
-                playerTwoShieldEntity.AddComponent(new PlayerComponent(PlayerArray[1]));
+                playerTwoShieldEntity.AddComponent(new PlayerComponent(Players[1]));
             }
 
             EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("screen_height") / 2), new Vector2(CVars.Get<float>("screen_width"), 5), new Vector2(0, -1));
@@ -140,10 +145,6 @@ namespace GameJam.States
             if (evt is GameOverEvent)
             {
                 HandleGameOverEvent(evt as GameOverEvent);
-            }
-            if (evt is IncreasePlayerScoreEvent)
-            {
-                HandleIncreasePlayerScoreEvent(evt as IncreasePlayerScoreEvent);
             }
             if(evt is TogglePauseGameEvent)
             {
@@ -196,12 +197,6 @@ namespace GameJam.States
             {
                 ChangeState(new UILobbyGameState(GameManager, SharedState));
             }));
-        }
-
-        private void HandleIncreasePlayerScoreEvent(IncreasePlayerScoreEvent increasePlayerScoreEvent)
-        {
-            score += increasePlayerScoreEvent.ScoreAddend;
-            ((Label)_root.FindWidgetByID("main_game_score_label")).Content = "Score: " + score;
         }
 
         private void HandlePause()

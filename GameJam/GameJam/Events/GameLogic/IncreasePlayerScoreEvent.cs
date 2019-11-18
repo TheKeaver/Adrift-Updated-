@@ -1,16 +1,16 @@
 ﻿using Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Events.GameLogic
 {
     public class IncreasePlayerScoreEvent : IEvent
     {
-        public int ScoreAddend;
-        public IncreasePlayerScoreEvent(int scoreAddend)
+        public Player Player;
+        public int ScoreIncrement;
+
+        public IncreasePlayerScoreEvent(Player player, int scoreIncrement)
         {
-            ScoreAddend = scoreAddend;
+            Player = player;
+            ScoreIncrement = scoreIncrement;
         }
     }
 }
