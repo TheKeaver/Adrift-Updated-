@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using Audrey.Events;
 using Events;
 using GameJam.Components;
 using GameJam.Events;
@@ -24,6 +25,7 @@ namespace GameJam.Directors
         protected override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<CollisionStartEvent>(this);
+            EventManager.Instance.RegisterListener<ComponentRemovedEvent<PlayerShipComponent>>(this);
         }
 
         protected override void UnregisterEvents()
@@ -37,10 +39,14 @@ namespace GameJam.Directors
             {
                 OrderColliders(evt as CollisionStartEvent);
             }
+            if(evt is ComponentRemovedEvent<PlayerShipComponent>)
+            {
+                HandleShipComponentRemovedEvent(evt as ComponentRemovedEvent<PlayerShipComponent>);
+            }
             return false;
         }
 
-        void OrderColliders(CollisionStartEvent collisionStartEvent)
+        private void OrderColliders(CollisionStartEvent collisionStartEvent)
         {
             Entity entityA = collisionStartEvent.EntityA;
             Entity entityB = collisionStartEvent.EntityB;
@@ -51,7 +57,7 @@ namespace GameJam.Directors
                 HandleCollisionStart(entityA, entityB);
         }
 
-        void HandleCollisionStart(Entity entityA, Entity entityB)
+        private void HandleCollisionStart(Entity entityA, Entity entityB)
         {
             if (!CVars.Get<bool>("god"))
             {
@@ -90,6 +96,11 @@ namespace GameJam.Directors
                 }
                 Engine.DestroyEntity(entityB);
             }
+        }
+
+        private void HandleShipComponentRemovedEvent(ComponentRemovedEvent<PlayerShipComponent> shipComponentRemovedEvent)
+        {
+            Engine.DestroyEntity(shipComponentRemovedEvent.Component.ShipShield);
         }
     }
 }
