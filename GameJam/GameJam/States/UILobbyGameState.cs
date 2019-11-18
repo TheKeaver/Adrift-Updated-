@@ -180,14 +180,14 @@ namespace GameJam.States
             string playerString = "keyboard_";
 
             InputMethod inputMethod = null;
-            if(keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")
-                || keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_primary_clockwise"))
+            if(keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")
+                || keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_primary_clockwise"))
             {
                 inputMethod = new PrimaryKeyboardInputMethod();
                 playerString += "primary";
             }
-            if (keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")
-                || keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_secondary_clockwise"))
+            if (keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")
+                || keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_secondary_clockwise"))
             {
                 inputMethod = new SecondaryKeyboardInputMethod();
                 playerString += "secondary";
@@ -204,7 +204,7 @@ namespace GameJam.States
             }
             // TODO: If player is seated we can place code here to handle alternative actions such as color changing
 
-            if (keyboardKeyDownEvent.Key == Keys.Enter)
+            if (keyboardKeyDownEvent._key == Keys.Enter)
             {
                 if (SeatedPlayerCount > 0)
                 {
@@ -212,7 +212,7 @@ namespace GameJam.States
                 }
             }
 
-            if (keyboardKeyDownEvent.Key == Keys.Escape)
+            if (keyboardKeyDownEvent._key == Keys.Escape)
             {
                 // Remove keyboard player (if there is one)
                 for(int i = _playersSeated.Length - 1; i >= 0; i--)

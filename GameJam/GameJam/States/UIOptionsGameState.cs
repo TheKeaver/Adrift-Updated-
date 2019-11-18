@@ -393,7 +393,7 @@ namespace GameJam.States
             {
                 if(!bindingGamepad)
                 {
-                    switch(keyboardKeyDownEvent.Key)
+                    switch(keyboardKeyDownEvent._key)
                     {
                         case Keys.D0:
                         case Keys.D1:
@@ -449,7 +449,7 @@ namespace GameJam.States
                         case Keys.OemMinus:
                         case Keys.OemPlus:
                         case Keys.Space:
-                            CVars.Get<int>(string.Format("input_keyboard_{0}{1}_clockwise", secondaryBindingMode ? "secondary" : "primary", rotateLeftBindingMode ? "_counter" : "")) = (int)keyboardKeyDownEvent.Key;
+                            CVars.Get<int>(string.Format("input_keyboard_{0}{1}_clockwise", secondaryBindingMode ? "secondary" : "primary", rotateLeftBindingMode ? "_counter" : "")) = (int)keyboardKeyDownEvent._key;
                             CVars.Save();
                             UpdateButtonBindingsForKeyboard();
                             this.rotateLeftBindingMode = false;
@@ -464,7 +464,7 @@ namespace GameJam.States
             }
             else
             {
-                if (keyboardKeyDownEvent.Key == Keys.Escape)
+                if (keyboardKeyDownEvent._key == Keys.Escape)
                 {
                     if (isOnLeftSide)
                     {

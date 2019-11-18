@@ -7,8 +7,8 @@ namespace GameJam.Input
 {
     public class ControllerInputMethod : InputMethod, IEventListener
     {
-        public bool isRotatingRight;
-        public bool isRotatingLeft;
+        public bool isRotatingCW;
+        public bool isRotatingCCW;
         public readonly PlayerIndex PlayerIndex;
         readonly GamePadCapabilities _capabilities;
 
@@ -16,25 +16,23 @@ namespace GameJam.Input
         {
             PlayerIndex = playerIndex;
             _capabilities = GamePad.GetCapabilities(PlayerIndex);
-            isRotatingLeft = false;
-            isRotatingRight = false;
+            isRotatingCCW = false;
+            isRotatingCW = false;
 
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
             EventManager.Instance.RegisterListener<GamePadButtonUpEvent>(this);
-            EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
-            EventManager.Instance.RegisterListener<KeyboardKeyUpEvent>(this);
         }
 
         public override void Update(float dt)
         {
             if(_capabilities.IsConnected)
             {
-                if(isRotatingRight)
+                if(isRotatingCW)
                 {
                     // Counter-Clockwise
                     _snapshot.Angle -= CVars.Get<float>("input_shield_angular_speed") * dt;
                 }
-                if (isRotatingLeft)
+                if (isRotatingCCW)
                 {
                     // Clockwise
                     _snapshot.Angle += CVars.Get<float>("input_shield_angular_speed") * dt;
@@ -44,15 +42,36 @@ namespace GameJam.Input
 
         public bool Handle(IEvent evt)
         {
-            GamePadButtonDownEvent gpbde = evt as GamePadButtonDownEvent;
-            //if( gpbde._pressedButton == CVars.Get<Buttons>(""))
-            GamePadButtonUpEvent gpbue = evt as GamePadButtonUpEvent;
-            //if( gpbue._releasedButton == Carvs.Get<Buttons>(""))
-            KeyboardKeyDownEvent kbkde = evt as KeyboardKeyDownEvent;
-            //if( kbkde._pressedKey == CVars.Get<Keys>(""))
-            KeyboardKeyUpEvent kbkue = evt as KeyboardKeyUpEvent;
-            //if( kbkue._releasedKey == CVars.Get<Keys>(""))
+            if (evt is GamePadButtonDownEvent)
+                HandleGamePadRotationOn(evt as GamePadButtonDownEvent);
+            if (evt is GamePadButtonUpEvent)
+                HandleGamePadRotationOff(evt as GamePadButtonUpEvent);
+
             return false;
+        }
+
+        private void HandleGamePadRotationOn(GamePadButtonDownEvent gpbde)
+        {
+            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_left"))
+            {
+                isRotatingCCW = true;
+            }
+            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_right"))
+            {
+                isRotatingCW = true;
+            }
+        }
+
+        private void HandleGamePadRotationOff(GamePadButtonUpEvent gpbue)
+        {
+            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_left"))
+            {
+                isRotatingCCW = false;
+            }
+            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_right"))
+            {
+                isRotatingCW = true;
+            }
         }
 
         ~ControllerInputMethod()
