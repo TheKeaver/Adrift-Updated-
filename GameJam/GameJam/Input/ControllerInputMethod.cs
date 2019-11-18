@@ -70,7 +70,7 @@ namespace GameJam.Input
             }
             if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_right"))
             {
-                isRotatingCW = true;
+                isRotatingCW = false;
             }
         }
 
