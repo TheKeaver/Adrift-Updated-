@@ -50,6 +50,7 @@ namespace GameJam.States
             ProcessManager.Attach(new GravityEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new LaserEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new PauseDirector(SharedState.Engine, Content, ProcessManager));
+            ProcessManager.Attach(new CameraProcess(SharedState.Camera, SharedState.Engine));
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
 

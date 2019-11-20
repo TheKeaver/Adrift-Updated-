@@ -72,6 +72,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
