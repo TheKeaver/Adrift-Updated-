@@ -132,6 +132,11 @@ namespace GameJam
             Create<float>("laser_enemy_spawn_wait_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("laser_enemy_successive_wait_period", 7, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            Create<int>("game_over_responsible_enemy_flash_count", 10, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("game_over_responsible_enemy_flash_period", 0.16f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("game_over_edge_fade_out_duration", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("game_over_camera_reset_duration", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
             /** MENU **/
             Create<float>("entity_background_spawner_min", 1f, CVarFlags.DEV_PRESERVE);
             Create<float>("entity_background_spawner_max", 2, CVarFlags.DEV_PRESERVE);

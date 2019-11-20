@@ -9,6 +9,7 @@ using GameJam.Events.GameLogic;
 using GameJam.Events.UI.Pause;
 using GameJam.Processes;
 using GameJam.Processes.Animation;
+using GameJam.Processes.Animations;
 using GameJam.Processes.Enemies;
 using GameJam.Processes.Entities;
 using GameJam.UI;
@@ -155,7 +156,7 @@ namespace GameJam.States
             return false;
         }
 
-        private void CleanDestroyAllEntities()
+        private void CleanDestroyAllEntities(bool includeEdges = true)
         {
             // Explode all entities
             ImmutableList<Entity> explosionEntities = SharedState.Engine.GetEntitiesFor(Family
@@ -176,21 +177,25 @@ namespace GameJam.States
             }
 
             // Destroy all entities
-            SharedState.Engine.DestroyEntitiesFor(Family.One(typeof(PlayerShipComponent),
+            FamilyBuilder familyBuilder = Family.One(typeof(PlayerShipComponent),
                 typeof(PlayerShieldComponent),
-                typeof(EnemyComponent),
-                typeof(EdgeComponent))
-                .Exclude(typeof(DontDestroyForGameOverComponent)).Get());
+                typeof(EnemyComponent)).Exclude(typeof(DontDestroyForGameOverComponent));
+            if(includeEdges)
+            {
+                familyBuilder.One(typeof(EdgeComponent));
+            }
+            SharedState.Engine.DestroyEntitiesFor(familyBuilder.Get());
         }
 
         private void HandleGameOverEvent(GameOverEvent gameOverEvent)
         {
             ProcessManager.KillAll();
-            gameOverEvent.ResponsibleEntity.AddComponent(new DontDestroyForGameOverComponent());
-            ImmutableList<IComponent> components = gameOverEvent.ResponsibleEntity.GetComponents();
-            if (gameOverEvent.ResponsibleEntity.HasComponent<ProjectileComponent>())
+            Entity responsibleEntity = gameOverEvent.ResponsibleEntity;
+            responsibleEntity.AddComponent(new DontDestroyForGameOverComponent());
+            ImmutableList<IComponent> components = responsibleEntity.GetComponents();
+            if (responsibleEntity.HasComponent<ProjectileComponent>())
             {
-                gameOverEvent.ResponsibleEntity.AddComponent(new ColoredExplosionComponent(gameOverEvent.ResponsibleEntity.GetComponent<ProjectileComponent>().Color));
+                responsibleEntity.AddComponent(new ColoredExplosionComponent(responsibleEntity.GetComponent<ProjectileComponent>().Color));
             }
             for (int i = components.Count - 1; i >= 0; i--)
             {
@@ -198,21 +203,31 @@ namespace GameJam.States
                     && !(components[i] is VectorSpriteComponent)
                     && !(components[i] is ColoredExplosionComponent))
                 {
-                    gameOverEvent.ResponsibleEntity.RemoveComponent(components[i].GetType());
+                    responsibleEntity.RemoveComponent(components[i].GetType());
                 }
             }
-            CleanDestroyAllEntities();
+            CleanDestroyAllEntities(false);
 
-            // TODO: Game Over Process
-            //Entity gameOverText = SharedState.Engine.CreateEntity();
-            //gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<float>("screen_height") / 2)));
-            //gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>("font_game_over"), "Game Over"));
-            //ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3))
-            //    .SetNext(new EntityDestructionProcess(SharedState.Engine, gameOverText))
-            //    .SetNext(new DelegateCommand(() =>
-            //{
-            //    ChangeState(new UILobbyGameState(GameManager, SharedState));
-            //}));
+            ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") /2))
+                .SetNext(new DelegateCommand(() =>
+            {
+                // Explosion
+                TransformComponent transformComp = responsibleEntity.GetComponent<TransformComponent>();
+                ColoredExplosionComponent coloredExplosionComp = responsibleEntity.GetComponent<ColoredExplosionComponent>();
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(transformComp.Position,
+                    coloredExplosionComp.Color,
+                    false));
+
+                // Fade out edges
+                foreach(Entity edgeEntity in SharedState.Engine.GetEntitiesFor(Family.All(typeof(EdgeComponent), typeof(VectorSpriteComponent)).Get()))
+                {
+                    SharedState.ProcessManager.Attach(new SpriteEntityFadeOutProcess(SharedState.Engine, edgeEntity, CVars.Get<float>("game_over_edge_fade_out_duration"),  Easings.Functions.QuadraticEaseOut))
+                        .SetNext(new EntityDestructionProcess(SharedState.Engine, edgeEntity));
+                }
+
+                // Move camera towards center of screen
+                SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Easings.Functions.CubicEaseOut));
+            })).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity));
         }
 
         private void HandlePause()

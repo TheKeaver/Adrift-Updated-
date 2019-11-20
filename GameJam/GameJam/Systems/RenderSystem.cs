@@ -231,7 +231,7 @@ namespace GameJam.Systems
                     {
                         VertexPositionColor vert = verts[i];
                         _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * cos + vert.Position.Y * -1.0f * -sin) * transformScale + position.X,
-                            (vert.Position.X * sin + vert.Position.Y * -1.0f * cos) * transformScale + position.Y, 0), vert.Color));
+                            (vert.Position.X * sin + vert.Position.Y * -1.0f * cos) * transformScale + position.Y, 0), vert.Color * vectorSpriteComp.Alpha));
                     }
                 }
             }

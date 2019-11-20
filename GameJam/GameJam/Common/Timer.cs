@@ -5,20 +5,20 @@
     /// </summary>
     public class Timer
     {
-        float _duration;
+        public float Duration { get; private set; }
 
         public float Elapsed { get; private set; }
 
         public float Alpha {
             get
             {
-                return Elapsed / _duration;
+                return Elapsed / Duration;
             }
         }
 
         public Timer(float duration)
         {
-            _duration = duration;
+            Duration = duration;
         }
 
         public void Update(float dt)
@@ -28,7 +28,7 @@
 
         public bool HasElapsed()
         {
-            return Elapsed >= _duration;
+            return Elapsed >= Duration;
         }
 
         public void Reset()
@@ -38,7 +38,7 @@
 
         public void Reset(float newDuration)
         {
-            _duration = newDuration;
+            Duration = newDuration;
             Reset();
         }
     }
