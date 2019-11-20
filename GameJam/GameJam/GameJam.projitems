@@ -202,6 +202,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Entities\SpriteEntityFadeOutProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\AnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\CameraPositionZoomResetProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

@@ -227,7 +227,10 @@ namespace GameJam.States
 
                 // Move camera towards center of screen
                 SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Easings.Functions.CubicEaseOut));
-            })).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity));
+            })).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity)).SetNext(new DelegateProcess(() =>
+            {
+                ChangeState(new GameOverGameState(GameManager, SharedState));
+            }));
         }
 
         private void HandlePause()
