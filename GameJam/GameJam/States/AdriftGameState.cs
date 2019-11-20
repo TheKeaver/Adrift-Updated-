@@ -208,8 +208,8 @@ namespace GameJam.States
             }
             CleanDestroyAllEntities(false);
 
-            ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") /2))
-                .SetNext(new DelegateCommand(() =>
+            ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") / 2))
+                .SetNext(new DelegateProcess(() =>
             {
                 // Explosion
                 TransformComponent transformComp = responsibleEntity.GetComponent<TransformComponent>();
@@ -219,9 +219,9 @@ namespace GameJam.States
                     false));
 
                 // Fade out edges
-                foreach(Entity edgeEntity in SharedState.Engine.GetEntitiesFor(Family.All(typeof(EdgeComponent), typeof(VectorSpriteComponent)).Get()))
+                foreach (Entity edgeEntity in SharedState.Engine.GetEntitiesFor(Family.All(typeof(EdgeComponent), typeof(VectorSpriteComponent)).Get()))
                 {
-                    SharedState.ProcessManager.Attach(new SpriteEntityFadeOutProcess(SharedState.Engine, edgeEntity, CVars.Get<float>("game_over_edge_fade_out_duration"),  Easings.Functions.QuadraticEaseOut))
+                    SharedState.ProcessManager.Attach(new SpriteEntityFadeOutProcess(SharedState.Engine, edgeEntity, CVars.Get<float>("game_over_edge_fade_out_duration"), Easings.Functions.QuadraticEaseOut))
                         .SetNext(new EntityDestructionProcess(SharedState.Engine, edgeEntity));
                 }
 
