@@ -164,6 +164,7 @@ namespace GameJam.States
                     typeof(PlayerShieldComponent),
                     typeof(EnemyComponent),
                     typeof(EdgeComponent))
+                .Exclude(typeof(DontDestroyForGameOverComponent))
                 .Get());
             foreach (Entity entity in explosionEntities)
             {
@@ -178,25 +179,40 @@ namespace GameJam.States
             SharedState.Engine.DestroyEntitiesFor(Family.One(typeof(PlayerShipComponent),
                 typeof(PlayerShieldComponent),
                 typeof(EnemyComponent),
-                typeof(EdgeComponent)).Get());
+                typeof(EdgeComponent))
+                .Exclude(typeof(DontDestroyForGameOverComponent)).Get());
         }
 
         private void HandleGameOverEvent(GameOverEvent gameOverEvent)
         {
             ProcessManager.KillAll();
-
+            gameOverEvent.ResponsibleEntity.AddComponent(new DontDestroyForGameOverComponent());
+            ImmutableList<IComponent> components = gameOverEvent.ResponsibleEntity.GetComponents();
+            if (gameOverEvent.ResponsibleEntity.HasComponent<ProjectileComponent>())
+            {
+                gameOverEvent.ResponsibleEntity.AddComponent(new ColoredExplosionComponent(gameOverEvent.ResponsibleEntity.GetComponent<ProjectileComponent>().Color));
+            }
+            for (int i = components.Count - 1; i >= 0; i--)
+            {
+                if (!(components[i] is TransformComponent)
+                    && !(components[i] is VectorSpriteComponent)
+                    && !(components[i] is ColoredExplosionComponent))
+                {
+                    gameOverEvent.ResponsibleEntity.RemoveComponent(components[i].GetType());
+                }
+            }
             CleanDestroyAllEntities();
 
             // TODO: Game Over Process
-            Entity gameOverText = SharedState.Engine.CreateEntity();
-            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<float>("screen_height") / 2)));
-            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>("font_game_over"), "Game Over"));
-            ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3))
-                .SetNext(new EntityDestructionProcess(SharedState.Engine, gameOverText))
-                .SetNext(new DelegateCommand(() =>
-            {
-                ChangeState(new UILobbyGameState(GameManager, SharedState));
-            }));
+            //Entity gameOverText = SharedState.Engine.CreateEntity();
+            //gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<float>("screen_height") / 2)));
+            //gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>("font_game_over"), "Game Over"));
+            //ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3))
+            //    .SetNext(new EntityDestructionProcess(SharedState.Engine, gameOverText))
+            //    .SetNext(new DelegateCommand(() =>
+            //{
+            //    ChangeState(new UILobbyGameState(GameManager, SharedState));
+            //}));
         }
 
         private void HandlePause()

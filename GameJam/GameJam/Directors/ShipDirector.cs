@@ -81,6 +81,7 @@ namespace GameJam.Directors
                 }
                 EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<PlayerComponent>().Player,
                     responsibleEntity));
+                return;
             } else
             {
                 Color color = Color.White;
