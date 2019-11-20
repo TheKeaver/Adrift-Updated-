@@ -48,7 +48,7 @@ namespace GameJam.States
             ProcessManager.Attach(new KamikazeSpawner(SharedState.Engine));
             ProcessManager.Attach(new ShooterEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new GravityEnemySpawner(SharedState.Engine, ProcessManager));
-            //ProcessManager.Attach(new LaserEnemySpawner(SharedState.Engine, ProcessManager));
+            ProcessManager.Attach(new LaserEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new PauseDirector(SharedState.Engine, Content, ProcessManager));
             ProcessManager.Attach(new CameraProcess(SharedState.Camera, SharedState.Engine));
 
