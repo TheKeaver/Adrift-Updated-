@@ -41,7 +41,7 @@ namespace GameJam.Processes.Entities
 
         protected override void OnUpdateAnimation()
         {
-            if(!Engine.GetEntities().Contains(Entity))
+            if(!Engine.GetEntities().Contains(Entity) && IsAlive)
             {
                 Kill();
                 return;

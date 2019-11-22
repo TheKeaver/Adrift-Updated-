@@ -65,6 +65,8 @@ namespace GameJam.States
 
             CreateEntities();
 
+            SharedState.Camera.Zoom = 2;
+
             base.OnInitialize();
         }
 
@@ -235,14 +237,14 @@ namespace GameJam.States
                     coloredExplosionComp.Color,
                     false));
 
-                // Fade out edges
+                // Fade out edges (owned by shared state)
                 foreach (Entity edgeEntity in SharedState.Engine.GetEntitiesFor(Family.All(typeof(EdgeComponent), typeof(VectorSpriteComponent)).Get()))
                 {
                     SharedState.ProcessManager.Attach(new SpriteEntityFadeOutProcess(SharedState.Engine, edgeEntity, CVars.Get<float>("game_over_edge_fade_out_duration"), Easings.Functions.QuadraticEaseOut))
                         .SetNext(new EntityDestructionProcess(SharedState.Engine, edgeEntity));
                 }
 
-                // Move camera towards center of screen
+                // Move camera towards center of screen (owned by shared state)
                 SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Easings.Functions.CubicEaseOut));
             })).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity)).SetNext(new DelegateProcess(() =>
             {
