@@ -84,9 +84,9 @@ namespace GameJam
 
             Create<bool>("god", false, CVarFlags.DEV_PRESERVE);
 
-            Create<float>("kamikaze_enemy_speed", 100.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<float>("kamikaze_enemy_rotational_speed", 1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<float>("kamikaze_size", 3, CVarFlags.DEV_PRESERVE);
+            Create<float>("chasing_enemy_speed", 100.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("chasing_enemy_rotational_speed", 1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("chasing_enemy_size", 3, CVarFlags.DEV_PRESERVE);
             Create<float>("enemy_pushback_force", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("shooting_enemy_size", 4, CVarFlags.DEV_PRESERVE);
@@ -103,9 +103,9 @@ namespace GameJam
 
             Create<float>("projectile_size", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
-            Create<float>("spawner_kamikaze_enemy_initial_period", 3, CVarFlags.DEV_PRESERVE);
-            Create<float>("spawner_kamikaze_enemy_period_multiplier", 0.99f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<float>("spawner_kamikaze_enemy_period_min", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("spawner_chasing_enemy_initial_period", 3, CVarFlags.DEV_PRESERVE);
+            Create<float>("spawner_chasing_enemy_period_multiplier", 0.99f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("spawner_chasing_enemy_period_min", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("spawner_shooting_enemy_initial_period", 10, CVarFlags.DEV_PRESERVE);
             Create<float>("spawner_shooting_enemy_period_multiplier", 0.99f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -152,7 +152,7 @@ namespace GameJam
             /** COLORS **/
             Create<Color>("color_player_ship", Color.White, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_player_shield", Color.SpringGreen, CVarFlags.DEV_PRESERVE);
-            Create<Color>("color_kamikaze_enemy", Color.Violet, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_chasing_enemy", Color.Violet, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_shooting_enemy", Color.Cyan, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_laser_enemy", Color.Gold, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_gravity_hold_enemy", Color.Purple, CVarFlags.DEV_PRESERVE);
@@ -188,7 +188,7 @@ namespace GameJam
             Create<string>("texture_player_ship", "textures/PlayerShip", CVarFlags.PRESERVE);
             Create<string>("texture_player_shield", "textures/shield", CVarFlags.PRESERVE);
             Create<string>("texture_explosion", "textures/Explosion", CVarFlags.PRESERVE);
-            Create<string>("texture_kamikaze", "textures/Kamikaze", CVarFlags.PRESERVE);
+            Create<string>("texture_chasing_enemy", "textures/Kamikaze", CVarFlags.PRESERVE);
             Create<string>("texture_shooter_enemy", "textures/ShootingEnemy", CVarFlags.PRESERVE);
             Create<string>("texture_enemy_bullet", "textures/EnemyBullet", CVarFlags.PRESERVE);
 

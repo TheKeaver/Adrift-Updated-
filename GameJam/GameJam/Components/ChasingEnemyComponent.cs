@@ -2,7 +2,7 @@
 
 namespace GameJam.Components
 {
-    public class KamikazeComponent : IComponent
+    public class ChasingEnemyComponent : IComponent
     {
     }
 }

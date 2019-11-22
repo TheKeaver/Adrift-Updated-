@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Directors
 {
-    public class ChangeToKamikazeDirector : BaseDirector
+    public class ChangeToChasingEnemyDirector : BaseDirector
     {
-        public ChangeToKamikazeDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
+        public ChangeToChasingEnemyDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
         }
 
@@ -37,11 +37,11 @@ namespace GameJam.Directors
 
         void HandleOutOfAmmo(OutOfAmmoEvent outOf)
         {
-            outOf.ShootingEnemyOOA.GetComponent<MovementComponent>().MovementVector = CVars.Get<float>("kamikaze_enemy_speed") * (new Microsoft.Xna.Framework.Vector2((float)Math.Cos(outOf.ShootingEnemyOOA.GetComponent<TransformComponent>().Rotation), (float)Math.Sin(outOf.ShootingEnemyOOA.GetComponent<TransformComponent>().Rotation)));
+            outOf.ShootingEnemyOOA.GetComponent<MovementComponent>().MovementVector = CVars.Get<float>("chasing_enemy_speed") * (new Microsoft.Xna.Framework.Vector2((float)Math.Cos(outOf.ShootingEnemyOOA.GetComponent<TransformComponent>().Rotation), (float)Math.Sin(outOf.ShootingEnemyOOA.GetComponent<TransformComponent>().Rotation)));
             outOf.ShootingEnemyOOA.GetComponent<ProjectileSpawningProcessComponent>().FiringProcess.Kill();
             outOf.ShootingEnemyOOA.RemoveComponent<ProjectileSpawningProcessComponent>();
             outOf.ShootingEnemyOOA.RemoveComponent<ShootingEnemyComponent>();
-            outOf.ShootingEnemyOOA.AddComponent(new KamikazeComponent());
+            outOf.ShootingEnemyOOA.AddComponent(new ChasingEnemyComponent());
         }
     }
 }

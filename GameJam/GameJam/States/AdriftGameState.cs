@@ -45,7 +45,7 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            ProcessManager.Attach(new KamikazeSpawner(SharedState.Engine));
+            ProcessManager.Attach(new ChasingEnemySpawner(SharedState.Engine));
             ProcessManager.Attach(new ShooterEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new GravityEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new LaserEnemySpawner(SharedState.Engine, ProcessManager));

@@ -99,7 +99,7 @@ namespace GameJam.States
             ProcessManager.Attach(new EnemyCollisionOnShieldDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
-            ProcessManager.Attach(new ChangeToKamikazeDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new ChangeToChasingEnemyDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new EnemyPushBackOnPlayerDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
