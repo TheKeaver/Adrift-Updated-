@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAOffButtonPressedEvent.cs" />
@@ -22,6 +23,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\RotateLeftSettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\ScreenSizeSettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\IncreasePlayerScoreEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\KeyboardKeyUpEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\GamePadButtonUpEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\KeyboardKeyDownEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\DifficultySettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SpeedSettingsButtonPressedEvent.cs" />
@@ -45,9 +48,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BounceDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\HazardCollisionOnEnemyDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyCollisionOnPlayerDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyPushBackOnPlayerDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SoundDirector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\ShipDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyCollisionWithShipDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\EdgeEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ProjectileEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ShootingEnemyEntity.cs" />
@@ -69,10 +72,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionDetectionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
@@ -113,7 +117,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShipComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\PlayerShieldComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerShieldSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\ShieldDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyCollisionOnShieldDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />

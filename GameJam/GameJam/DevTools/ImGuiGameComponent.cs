@@ -79,7 +79,7 @@ namespace GameJam.DevTools
             KeyboardKeyDownEvent keyboardKeyDownEvent = evt as KeyboardKeyDownEvent;
             if (keyboardKeyDownEvent != null)
             {
-                switch (keyboardKeyDownEvent.Key)
+                switch (keyboardKeyDownEvent._key)
                 {
                     case Keys.F1:
                         CVars.Get<bool>("debug_show_cvar_viewer") = !CVars.Get<bool>("debug_show_cvar_viewer");

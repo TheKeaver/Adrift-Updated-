@@ -78,7 +78,7 @@ namespace GameJam.States
             _systems = new BaseSystem[]
             {
                 new InputSystem(Engine), // Input system must go first so snapshots are accurate
-                new CollisionSystem(Engine),
+                new CollisionDetectionSystem(Engine),
                 new PlayerShieldSystem(Engine),
                 new MovementSystem(Engine),
                 new EnemyRotationSystem(Engine),
@@ -95,15 +95,17 @@ namespace GameJam.States
         }
         private void InitDirectors()
         {
-            ProcessManager.Attach(new ShipDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new ShieldDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
-            ProcessManager.Attach(new ChangeToKamikazeDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new EnemyCollisionOnPlayerDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new EnemyCollisionWithShipDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new EnemyCollisionOnShieldDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
+            ProcessManager.Attach(new ChangeToKamikazeDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new EnemyPushBackOnPlayerDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new LaserBeamCleanupDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new PauseDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new PlayerShipCollidingWithEdgeDirector(Engine, Content, ProcessManager));
         }
 
         private void LoadContent()

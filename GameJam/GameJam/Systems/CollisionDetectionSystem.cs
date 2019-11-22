@@ -37,12 +37,12 @@ namespace GameJam.Systems
      *    the polygons must be intersecting.
      **/
 
-    public class CollisionSystem : BaseSystem
+    public class CollisionDetectionSystem : BaseSystem
     {
         readonly Family _collisionFamily = Family.All(typeof(CollisionComponent), typeof(TransformComponent)).Get();
         readonly ImmutableList<Entity> _collisionEntities;
 
-        public CollisionSystem(Engine engine) : base(engine)
+        public CollisionDetectionSystem(Engine engine) : base(engine)
         {
             _collisionEntities = engine.GetEntitiesFor(_collisionFamily);
         }

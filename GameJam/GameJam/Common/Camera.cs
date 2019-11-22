@@ -20,14 +20,14 @@ namespace GameJam.Common
         {
             get
             {
-                return Matrix.CreateScale(Zoom * _compensationZoom)
-                             * Matrix.CreateRotationZ(Rotation)
-                             * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
-                                                                    _bounds.Height * 0.5f,
-                                                                   0))
-                             * Matrix.CreateTranslation(new Vector3(Position.X * -1,
-                                                            Position.Y,
-                                                            0));
+                return Matrix.CreateTranslation(new Vector3(Position.X * -1,
+                        Position.Y,
+                        0))
+                    * Matrix.CreateRotationZ(Rotation)
+                    * Matrix.CreateScale(Zoom * _compensationZoom / _compensationZoom)
+                    * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
+                        _bounds.Height * 0.5f,
+                        0));
             }
         }
 

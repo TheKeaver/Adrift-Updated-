@@ -87,12 +87,12 @@ namespace GameJam
             _gamePadListener = new GamePadListener();
             _inputListenerManager.Listeners.Add(_gamePadListener);
             _gamePadListener.ButtonDown += GamePad_ButtonDown;
-            //_gamePadListener.ButtonUp += GamePad_ButtonUp;
+            _gamePadListener.ButtonUp += GamePad_ButtonUp;
 
             _keyboardListener = new KeyboardListener();
             _inputListenerManager.Listeners.Add(_keyboardListener);
             _keyboardListener.KeyPressed += Keyboard_KeyDown;
-            //_keyboardListener.KeyReleased += Keyboard_KeyUp;
+            _keyboardListener.KeyReleased += Keyboard_KeyUp;
 
             GamePadListener.CheckControllerConnections = true;
             GamePadListener.ControllerConnectionChanged += GamePad_ConnectionChanged;
@@ -300,7 +300,10 @@ namespace GameJam
             EventManager.Instance.QueueEvent(new GamePadButtonDownEvent(e.PlayerIndex, e.Button));
         }
 
-        // GamePad_ControllerButtonUp
+        private void GamePad_ButtonUp(object sender, GamePadEventArgs e)
+        {
+            EventManager.Instance.QueueEvent(new GamePadButtonUpEvent(e.PlayerIndex, e.Button));
+        }
 
         void Keyboard_KeyDown(object sender, KeyboardEventArgs e)
         {
@@ -321,7 +324,10 @@ namespace GameJam
             }
         }
 
-        // Keyboard_KeyUp
+        private void Keyboard_KeyUp(object sender, KeyboardEventArgs e)
+        {
+            EventManager.Instance.QueueEvent(new KeyboardKeyUpEvent(e.Key));
+        }
 
         public bool Handle(IEvent evt)
         {

@@ -55,6 +55,7 @@ namespace GameJam.States
             ProcessManager.Attach(new GravityEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new LaserEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new PauseDirector(SharedState.Engine, Content, ProcessManager));
+            ProcessManager.Attach(new CameraProcess(SharedState.Camera, SharedState.Engine));
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
 
@@ -119,26 +120,42 @@ namespace GameJam.States
         void CreateEntities()
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2(-25 + (25 * (Players.Length % 2)), 0));
+                new Vector2((-25 * (PlayerArray.Length / 2)) + (25 * (PlayerArray.Length / 4)), 25 * (PlayerArray.Length / 3)));
             Entity playerShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                 playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
             playerShieldEntity.AddComponent(new PlayerComponent(Players[0]));
 
-            if (Players.Length == 2)
+            if (PlayerArray.Length >= 2)
             {
                 Entity playerTwoShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2(25, 0));
+                new Vector2(25, 25 * (PlayerArray.Length / 3)));
                 Entity playerTwoShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                     playerTwoShipEntity);
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerTwoShieldEntity;
                 playerTwoShieldEntity.AddComponent(new PlayerComponent(Players[1]));
             }
 
-            EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("screen_height") / 2), new Vector2(CVars.Get<float>("screen_width"), 5), new Vector2(0, -1));
-            EdgeEntity.Create(SharedState.Engine, new Vector2(-CVars.Get<float>("screen_width") / 2, 0), new Vector2(5, CVars.Get<float>("screen_height")), new Vector2(1, 0));
-            EdgeEntity.Create(SharedState.Engine, new Vector2(0, -CVars.Get<float>("screen_height") / 2), new Vector2(CVars.Get<float>("screen_width"), 5), new Vector2(0, 1));
-            EdgeEntity.Create(SharedState.Engine, new Vector2(CVars.Get<float>("screen_width") / 2, 0), new Vector2(5, CVars.Get<float>("screen_height")), new Vector2(-1, 0));
+            if( PlayerArray.Length >= 3)
+            {
+                Entity playerThreeShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(-25, -25));
+                Entity playerThreeShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity);
+                playerThreeShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerThreeShieldEntity;
+                playerThreeShieldEntity.AddComponent(new PlayerComponent(PlayerArray[2]));
+            }
+
+            if( PlayerArray.Length == 4)
+            {
+                Entity playerFourShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25));
+                Entity playerFourShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity);
+                playerFourShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerFourShieldEntity;
+                playerFourShieldEntity.AddComponent(new PlayerComponent(PlayerArray[3]));
+            }
+
+            EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("play_field_height") / 2), new Vector2(CVars.Get<float>("play_field_width"), 5), new Vector2(0, -1));
+            EdgeEntity.Create(SharedState.Engine, new Vector2(-CVars.Get<float>("play_field_width") / 2, 0), new Vector2(5, CVars.Get<float>("play_field_height")), new Vector2(1, 0));
+            EdgeEntity.Create(SharedState.Engine, new Vector2(0, -CVars.Get<float>("play_field_height") / 2), new Vector2(CVars.Get<float>("play_field_width"), 5), new Vector2(0, 1));
+            EdgeEntity.Create(SharedState.Engine, new Vector2(CVars.Get<float>("play_field_width") / 2, 0), new Vector2(5, CVars.Get<float>("play_field_height")), new Vector2(-1, 0));
         }
 
         public bool Handle(IEvent evt)

@@ -18,7 +18,7 @@ namespace GameJam.Directors
             KeyboardKeyDownEvent keyboardKeyDownEvent = evt as KeyboardKeyDownEvent;
             if(keyboardKeyDownEvent != null)
             {
-                if(keyboardKeyDownEvent.Key == (Keys)CVars.Get<int>("input_keyboard_pause"))
+                if(keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_pause"))
                 {
                     EventManager.Instance.QueueEvent(new TogglePauseGameEvent());
                     return true;

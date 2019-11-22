@@ -11,11 +11,11 @@ using System;
 
 namespace GameJam.Directors
 {
-    public class ShieldDirector : BaseDirector
+    public class EnemyCollisionOnShieldDirector : BaseDirector
     {
         readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Exclude(typeof(ProjectileComponent), typeof(LaserBeamComponent)).Get();
         readonly Family playerShieldFamily = Family.All(typeof(PlayerShieldComponent), typeof(TransformComponent)).Get();
-        public ShieldDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
+        public EnemyCollisionOnShieldDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
         {
         }
 
