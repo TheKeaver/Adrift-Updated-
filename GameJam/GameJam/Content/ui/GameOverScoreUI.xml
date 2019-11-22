@@ -1,0 +1,150 @@
+<UI>
+    <Widgets>
+        <Panel
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="100%"
+            height="100%"
+
+            class="main_fade_in"
+            >
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="0"
+                vertical="-30%"
+                width="70%"
+                height="25%"
+
+                content="Game Over"
+                font="font_title"
+                />
+
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="-12.5%"
+                vertical="-5%"
+                width="100%"
+                height="7.5%"
+
+                content="Player 1"
+                font="font_hyperspace"
+
+                id="player_0_name"
+
+                hidden="true"
+                />
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="12.5%"
+                vertical="-5%"
+                width="100%"
+                height="7.5%"
+
+                content="150"
+                font="font_hyperspace"
+
+                id="player_0_score"
+
+                hidden="true"
+                />
+
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="-12.5%"
+                vertical="2.5%"
+                width="100%"
+                height="7.5%"
+
+                content="Player 2"
+                font="font_hyperspace"
+
+                id="player_1_name"
+
+                hidden="true"
+                />
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="12.5%"
+                vertical="2.5%"
+                width="100%"
+                height="7.5%"
+
+                content="150"
+                font="font_hyperspace"
+
+                id="player_1_score"
+
+                hidden="true"
+                />
+
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="-12.5%"
+                vertical="10%"
+                width="100%"
+                height="7.5%"
+
+                content="Player 3"
+                font="font_hyperspace"
+
+                id="player_2_name"
+
+                hidden="true"
+                />
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="12.5%"
+                vertical="10%"
+                width="100%"
+                height="7.5%"
+
+                content="150"
+                font="font_hyperspace"
+
+                id="player_2_score"
+
+                hidden="true"
+                />
+
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="-12.5%"
+                vertical="17.5%"
+                width="100%"
+                height="7.5%"
+
+                content="Player 4"
+                font="font_hyperspace"
+
+                id="player_3_name"
+
+                hidden="true"
+                />
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="12.5%"
+                vertical="17.5%"
+                width="100%"
+                height="7.5%"
+
+                content="150"
+                font="font_hyperspace"
+
+                id="player_3_score"
+
+                hidden="true"
+                />
+        </Panel>
+    </Widgets>
+</UI>

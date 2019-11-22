@@ -76,5 +76,15 @@ namespace GameJam.Directors
                 ((Label)_root.FindWidgetByID(string.Format("player_{0}_score_label", sc.Index))).Content = string.Format(sc.OriginalContent, sc.Score);
             }
         }
+
+        public int[] GetScores()
+        {
+            int[] scores = new int[_playersDict.Keys.Count];
+            foreach (Player player in _playersDict.Keys)
+            {
+                scores[_playersDict[player].Index] = _playersDict[player].Score;
+            }
+            return scores;
+        }
     }
 }

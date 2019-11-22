@@ -1,14 +1,68 @@
-﻿namespace GameJam.States
+﻿using System.Collections.Generic;
+using GameJam.Processes.Animations;
+using GameJam.UI;
+using GameJam.UI.Widgets;
+using Microsoft.Xna.Framework.Graphics;
+using UI.Content.Pipeline;
+
+namespace GameJam.States
 {
     public class GameOverGameState : CommonGameState
     {
-        public GameOverGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
+        public SpriteBatch SpriteBatch
         {
+            get;
+            private set;
+        }
+
+        public Root Root
+        {
+            get;
+            private set;
+        }
+
+        public Player[] Players
+        {
+            get;
+            private set;
+        }
+        public int[] Score
+        {
+            get;
+            private set;
+        }
+
+        public GameOverGameState(GameManager gameManager,
+            SharedGameState sharedState,
+            Player[] players,
+            int[] score) : base(gameManager, sharedState)
+        {
+            Players = players;
+            Score = score;
         }
 
         protected override void OnInitialize()
         {
+            SpriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            Root = new Root(GameManager.GraphicsDevice.Viewport.Width,
+                GameManager.GraphicsDevice.Viewport.Height);
+
+            LoadContent();
+
+            Root.FindWidgetsByClass("main_fade_in").ForEach((Widget widget) =>
+            {
+                widget.Alpha = 0;
+            });
+            ProcessManager.Attach(new WidgetClassFadeAnimation(Root, "main_fade_in", 0, 1, CVars.Get<float>("game_over_ui_fade_in_duration"), Easings.Functions.SineEaseOut));
+
+            UpdateScores();
+
             base.OnInitialize();
+        }
+
+        private void LoadContent()
+        {
+            Root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_game_over"));
         }
 
         protected override void OnKill()
@@ -18,17 +72,37 @@
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+            SpriteBatch.Begin();
+            Root.Draw(SpriteBatch);
+            SpriteBatch.End();
+
             base.OnRender(dt, betweenFrameAlpha);
         }
 
         protected override void RegisterListeners()
         {
+            Root.RegisterListeners();
+
             base.RegisterListeners();
         }
 
         protected override void UnregisterListeners()
         {
+            Root.UnregisterListeners();
+
             base.UnregisterListeners();
+        }
+
+        private void UpdateScores()
+        {
+            for(int i = 0; i < Players.Length; i++)
+            {
+                Root.FindWidgetByID(string.Format("player_{0}_name", i)).Hidden = false;
+                ((Label)Root.FindWidgetByID(string.Format("player_{0}_name", i))).Content = Players[i].Name;
+
+                Root.FindWidgetByID(string.Format("player_{0}_score", i)).Hidden = false;
+                ((Label)Root.FindWidgetByID(string.Format("player_{0}_score", i))).Content = Score[i].ToString();
+            }
         }
     }
 }

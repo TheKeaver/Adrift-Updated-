@@ -42,6 +42,8 @@ namespace GameJam.States
             private set;
         }
 
+        private PlayerScoreDirector playerScoreDirector;
+
         public AdriftGameState(GameManager gameManager,
             SharedGameState sharedState,
             Player[] players)
@@ -64,7 +66,8 @@ namespace GameJam.States
 
             LoadContent();
 
-            ProcessManager.Attach(new PlayerScoreDirector(Players, _root, SharedState.Engine, Content, ProcessManager));
+            playerScoreDirector = new PlayerScoreDirector(Players, _root, SharedState.Engine, Content, ProcessManager);
+            ProcessManager.Attach(playerScoreDirector);
 
             CreateEntities();
 
@@ -253,7 +256,7 @@ namespace GameJam.States
                 SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Easings.Functions.CubicEaseOut));
             })).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity)).SetNext(new DelegateProcess(() =>
             {
-                ChangeState(new GameOverGameState(GameManager, SharedState));
+                ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
             }));
         }
 

@@ -207,6 +207,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\AnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\CameraPositionZoomResetProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\WidgetClassFadeAnimation.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
