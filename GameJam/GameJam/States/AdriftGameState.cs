@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
+using System;
 using System.Collections.Generic;
 using UI.Content.Pipeline;
 
@@ -32,6 +33,8 @@ namespace GameJam.States
         Root _root;
 
         public int score;
+
+        private bool _entitiesCleanedUp = false;
 
         public Player[] Players
         {
@@ -65,8 +68,6 @@ namespace GameJam.States
 
             CreateEntities();
 
-            SharedState.Camera.Zoom = 2;
-
             base.OnInitialize();
         }
 
@@ -99,7 +100,10 @@ namespace GameJam.States
 
         protected override void OnKill()
         {
-            CleanDestroyAllEntities();
+            if (!_entitiesCleanedUp)
+            {
+                CleanDestroyAllEntities();
+            }
 
             base.OnKill();
         }
@@ -122,36 +126,36 @@ namespace GameJam.States
         void CreateEntities()
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2((-25 * (PlayerArray.Length / 2)) + (25 * (PlayerArray.Length / 4)), 25 * (PlayerArray.Length / 3)));
+                new Vector2((-25 * (Players.Length / 2)) + (25 * (Players.Length / 4)), 25 * (Players.Length / 3)));
             Entity playerShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                 playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
             playerShieldEntity.AddComponent(new PlayerComponent(Players[0]));
 
-            if (PlayerArray.Length >= 2)
+            if (Players.Length >= 2)
             {
                 Entity playerTwoShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2(25, 25 * (PlayerArray.Length / 3)));
+                new Vector2(25, 25 * (Players.Length / 3)));
                 Entity playerTwoShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                     playerTwoShipEntity);
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerTwoShieldEntity;
                 playerTwoShieldEntity.AddComponent(new PlayerComponent(Players[1]));
             }
 
-            if( PlayerArray.Length >= 3)
+            if( Players.Length >= 3)
             {
                 Entity playerThreeShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(-25, -25));
                 Entity playerThreeShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity);
                 playerThreeShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerThreeShieldEntity;
-                playerThreeShieldEntity.AddComponent(new PlayerComponent(PlayerArray[2]));
+                playerThreeShieldEntity.AddComponent(new PlayerComponent(Players[2]));
             }
 
-            if( PlayerArray.Length == 4)
+            if( Players.Length == 4)
             {
                 Entity playerFourShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25));
                 Entity playerFourShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity);
                 playerFourShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerFourShieldEntity;
-                playerFourShieldEntity.AddComponent(new PlayerComponent(PlayerArray[3]));
+                playerFourShieldEntity.AddComponent(new PlayerComponent(Players[3]));
             }
 
             EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("play_field_height") / 2), new Vector2(CVars.Get<float>("play_field_width"), 5), new Vector2(0, -1));
@@ -182,8 +186,7 @@ namespace GameJam.States
                 .All(typeof(TransformComponent), typeof(ColoredExplosionComponent))
                 .One(typeof(PlayerShipComponent),
                     typeof(PlayerShieldComponent),
-                    typeof(EnemyComponent),
-                    typeof(EdgeComponent))
+                    typeof(EnemyComponent))
                 .Exclude(typeof(DontDestroyForGameOverComponent))
                 .Get());
             foreach (Entity entity in explosionEntities)
@@ -225,7 +228,9 @@ namespace GameJam.States
                     responsibleEntity.RemoveComponent(components[i].GetType());
                 }
             }
+
             CleanDestroyAllEntities(false);
+            _entitiesCleanedUp = true;
 
             ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") / 2))
                 .SetNext(new DelegateProcess(() =>

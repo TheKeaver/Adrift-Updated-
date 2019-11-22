@@ -117,6 +117,10 @@ namespace GameJam.Directors
             foreach (Entity entity in Engine.GetEntitiesFor(laserEnemyFamily))
             {
                 LaserEnemyComponent laserEnemyComponent = entity.GetComponent<LaserEnemyComponent>();
+                if(laserEnemyComponent == null)
+                {
+                    continue;
+                }
                 if(laserEnemyComponent.LaserBeamEntity == laserBeamEntity)
                 {
                     return entity;
