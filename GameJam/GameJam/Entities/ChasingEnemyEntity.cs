@@ -1,6 +1,7 @@
 ﻿using Audrey;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Entities
 {
@@ -26,13 +27,14 @@ namespace GameJam.Entities
             return entity;
         }
 
-        public static Entity Create(Engine engine, Vector2 position)
+        public static Entity Create(Engine engine, Vector2 position, float angle)
         {
             Entity entity = CreateSpriteOnly(engine);
 
             entity.GetComponent<TransformComponent>().SetPosition(position);
+            entity.GetComponent<TransformComponent>().SetRotation(angle);
             entity.AddComponent(new RotationComponent(CVars.Get<float>("chasing_enemy_rotational_speed")));
-            entity.AddComponent(new MovementComponent(new Vector2(0,1), CVars.Get<float>("chasing_enemy_speed")));
+            entity.AddComponent(new MovementComponent(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)), CVars.Get<float>("chasing_enemy_speed")));
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new ChasingEnemyComponent());
 

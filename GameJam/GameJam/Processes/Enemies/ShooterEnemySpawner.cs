@@ -3,6 +3,7 @@ using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Processes.Enemies
 {
@@ -39,7 +40,8 @@ namespace GameJam.Processes.Enemies
                     spawnPosition.Y = random.NextSingle(-CVars.Get<float>("screen_height") / 2 * 0.9f, CVars.Get<float>("screen_height") / 2 * 0.9f);
                 } while (IsTooCloseToPlayer(spawnPosition));
 
-                ShootingEnemyEntity.Create(Engine, spawnPosition, ProcessManager);
+                float facingNearestPlayer = AngleFacingNearestPlayerShip(spawnPosition);
+                ShootingEnemyEntity.Create(Engine, spawnPosition, ProcessManager, facingNearestPlayer);
             }
 
             Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_shooting_enemy_period_multiplier"), CVars.Get<float>("spawner_shooting_enemy_period_min"));
@@ -60,6 +62,25 @@ namespace GameJam.Processes.Enemies
             }
 
             return minDistanceToPlayer <= CVars.Get<float>("spawner_min_distance_away_from_player");
+        }
+
+        float AngleFacingNearestPlayerShip(Vector2 position)
+        {
+            float minDistanceToPlayer = float.MaxValue;
+            Vector2 closestPlayerShip = new Vector2(0, 0);
+
+            foreach (Entity playerShip in _playerShipEntities)
+            {
+                TransformComponent transformComponent = playerShip.GetComponent<TransformComponent>();
+                Vector2 toPlayer = transformComponent.Position - position;
+                if (toPlayer.Length() < minDistanceToPlayer)
+                {
+                    minDistanceToPlayer = toPlayer.Length();
+                    closestPlayerShip = toPlayer;
+                }
+            }
+
+            return (float)Math.Atan2(closestPlayerShip.Y, closestPlayerShip.X);
         }
     }
 }
