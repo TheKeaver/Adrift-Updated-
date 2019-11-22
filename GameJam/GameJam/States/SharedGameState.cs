@@ -78,7 +78,7 @@ namespace GameJam.States
             _systems = new BaseSystem[]
             {
                 new InputSystem(Engine), // Input system must go first so snapshots are accurate
-                new CollisionSystem(Engine),
+                new CollisionDetectionSystem(Engine),
                 new PlayerShieldSystem(Engine),
                 new MovementSystem(Engine),
                 new EnemyRotationSystem(Engine),
