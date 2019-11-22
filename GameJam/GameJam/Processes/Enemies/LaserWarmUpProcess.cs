@@ -57,7 +57,10 @@ namespace GameJam.Processes.Enemies
 
         protected override void OnKill()
         {
-            EventManager.Instance.QueueEvent(new LaserBeamWarmUpEnd(LaserEnemyEntity.GetComponent<LaserEnemyComponent>().LaserBeamEntity));
+            if (Engine.GetEntities().Contains(LaserEnemyEntity) && LaserEnemyEntity.HasComponent<LaserEnemyComponent>())
+            {
+                EventManager.Instance.QueueEvent(new LaserBeamWarmUpEnd(LaserEnemyEntity.GetComponent<LaserEnemyComponent>().LaserBeamEntity));
+            }
         }
 
         protected override void OnTogglePause()

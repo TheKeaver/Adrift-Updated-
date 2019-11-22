@@ -113,14 +113,10 @@ namespace GameJam.Directors
 
         private Entity FindLaserBeamOwner(Entity laserBeamEntity)
         {
-            Family laserEnemyFamily = Family.All(typeof(LaserBeamComponent)).Get();
+            Family laserEnemyFamily = Family.All(typeof(LaserEnemyComponent)).Get();
             foreach (Entity entity in Engine.GetEntitiesFor(laserEnemyFamily))
             {
                 LaserEnemyComponent laserEnemyComponent = entity.GetComponent<LaserEnemyComponent>();
-                if(laserEnemyComponent == null)
-                {
-                    continue;
-                }
                 if(laserEnemyComponent.LaserBeamEntity == laserBeamEntity)
                 {
                     return entity;
