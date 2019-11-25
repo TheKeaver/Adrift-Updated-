@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\GameJam\GameJam.projitems" Label="Shared" Condition="Exists('..\GameJam\GameJam.projitems')" />
+  <Import Project="..\Audrey\Audrey.projitems" Label="Shared" />
+  <Import Project="..\Events\Events.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -143,14 +145,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Audrey\Audrey.csproj">
-      <Project>{c72322bb-8fc2-46a4-9fbd-a6d3012c4a16}</Project>
-      <Name>Audrey</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Events\Events.csproj">
-      <Project>{e549b0dc-2e18-4704-8bc7-641f26625b31}</Project>
-      <Name>Events</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UI.Content.Pipeline\UI.Content.Pipeline.csproj">
       <Project>{1319747C-2EAC-4D6F-9C34-A975BBD218E2}</Project>
       <Name>UI.Content.Pipeline</Name>
