@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Content;
+#if PIPELINE
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
+#endif
 
-namespace UI.Content.Pipeline
+namespace Adrift.Content.Common.UI
 {
     [Serializable]
     [XmlRoot("UI")]
@@ -71,6 +73,7 @@ namespace UI.Content.Pipeline
         public List<WidgetPrototype> Children;
 
         /* Update self first, then base */
+#if PIPELINE
         public virtual void WriteToOutput(ContentWriter output)
         {
             output.Write(Halign);
@@ -92,6 +95,7 @@ namespace UI.Content.Pipeline
                 widget.WriteToOutput(output);
             }
         }
+#endif
         public virtual void ReadFromInput(ContentReader input)
         {
             Halign = input.ReadString();
@@ -110,7 +114,16 @@ namespace UI.Content.Pipeline
             Children = new List<WidgetPrototype>();
             for (int i = 0; i < count; i++)
             {
-                WidgetPrototype widget = (WidgetPrototype)Activator.CreateInstance(Type.GetType(input.ReadString()));
+                // Hack: content is built in a different project (Adrift.Content.Pipeline). The assembly qualified name
+                // is different when writing than when loading. We aren't necessarily worried about what project
+                // the class was from, we want to know how to instantiate it.
+                // The alternative to this would be to make Adrift.Content.Common a library instead of a shared project,
+                // however this is not ideal since we want that project to be able to be referenced by both .NET Framework
+                // and .NET Core projects.
+                string assemblyName = GetType().Assembly.FullName.Split(',')[0];
+                string className = input.ReadString().Split(',')[0];
+                string assemblyQualifiedName = string.Format("{0}, {1}", className, assemblyName);
+                WidgetPrototype widget = (WidgetPrototype)Activator.CreateInstance(Type.GetType(assemblyQualifiedName));
                 widget.ReadFromInput(input);
                 Children.Add(widget);
             }
@@ -124,12 +137,14 @@ namespace UI.Content.Pipeline
         public string Source;
 
         /* Update self first, then base */
+#if PIPELINE
         public override void WriteToOutput(ContentWriter output)
         {
             output.Write(Source);
 
             base.WriteToOutput(output);
         }
+#endif
         public override void ReadFromInput(ContentReader input)
         {
             Source = input.ReadString();
@@ -146,6 +161,7 @@ namespace UI.Content.Pipeline
         [XmlAttribute("font")]
         public string Font;
 
+#if PIPELINE
         public override void WriteToOutput(ContentWriter output)
         {
             output.Write(Content.Replace("\\n", "\n"));
@@ -153,6 +169,7 @@ namespace UI.Content.Pipeline
 
             base.WriteToOutput(output);
         }
+#endif
         public override void ReadFromInput(ContentReader input)
         {
             Content = input.ReadString();
@@ -168,12 +185,14 @@ namespace UI.Content.Pipeline
         [XmlAttribute("image")]
         public string Image;
 
+#if PIPELINE
         public override void WriteToOutput(ContentWriter output)
         {
             output.Write(Image);
 
             base.WriteToOutput(output);
         }
+#endif
         public override void ReadFromInput(ContentReader input)
         {
             Image = input.ReadString();
@@ -191,6 +210,7 @@ namespace UI.Content.Pipeline
         [XmlAttribute("thickness")]
         public string Thickness;
 
+#if PIPELINE
         public override void WriteToOutput(ContentWriter output)
         {
             output.Write(Image);
@@ -198,6 +218,7 @@ namespace UI.Content.Pipeline
 
             base.WriteToOutput(output);
         }
+#endif
         public override void ReadFromInput(ContentReader input)
         {
             Image = input.ReadString();
@@ -210,10 +231,12 @@ namespace UI.Content.Pipeline
     [Serializable]
     public class PanelWidgetPrototype : WidgetPrototype
     {
+#if PIPELINE
         public override void WriteToOutput(ContentWriter output)
         {
             base.WriteToOutput(output);
         }
+#endif
         public override void ReadFromInput(ContentReader input)
         {
             base.ReadFromInput(input);
@@ -254,6 +277,7 @@ namespace UI.Content.Pipeline
         [XmlAttribute("defaultSelected")]
         public bool IsSelected = false;
 
+#if PIPELINE
         public override void WriteToOutput(ContentWriter output)
         {
             output.Write(ReleasedImage);
@@ -273,6 +297,7 @@ namespace UI.Content.Pipeline
 
             base.WriteToOutput(output);
         }
+#endif
         public override void ReadFromInput(ContentReader input)
         {
             ReleasedImage = input.ReadString();
@@ -333,6 +358,7 @@ namespace UI.Content.Pipeline
         [XmlAttribute("defaultSelected")]
         public bool IsSelected = false;
 
+#if PIPELINE
         public override void WriteToOutput(ContentWriter output)
         {
             output.Write(ReleasedImage);
@@ -355,6 +381,7 @@ namespace UI.Content.Pipeline
 
             base.WriteToOutput(output);
         }
+#endif
         public override void ReadFromInput(ContentReader input)
         {
             ReleasedImage = input.ReadString();
@@ -397,6 +424,7 @@ namespace UI.Content.Pipeline
         [XmlElement("Slider", typeof(SliderWidgetPrototype))]
         public List<WidgetPrototype> Children;
 
+#if PIPELINE
         public void WriteToOutput(ContentWriter output)
         {
             output.Write(Width);
@@ -409,6 +437,7 @@ namespace UI.Content.Pipeline
                 widget.WriteToOutput(output);
             }
         }
+#endif
         public void ReadFromInput(ContentReader input)
         {
             Width = input.ReadString();
@@ -460,6 +489,7 @@ namespace UI.Content.Pipeline
         [XmlElement("Contents", IsNullable = false)]
         public DropDownPanelContentsInfo ContentsInfo;
 
+#if PIPELINE
         public override void WriteToOutput(ContentWriter output)
         {
             output.Write(ReleasedImage);
@@ -482,6 +512,7 @@ namespace UI.Content.Pipeline
 
             base.WriteToOutput(output);
         }
+#endif
         public override void ReadFromInput(ContentReader input)
         {
             ReleasedImage = input.ReadString();

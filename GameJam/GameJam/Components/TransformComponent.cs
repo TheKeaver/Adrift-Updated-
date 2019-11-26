@@ -1,5 +1,4 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using Microsoft.Xna.Framework;
 
 namespace GameJam.Components

@@ -1,5 +1,4 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using Events;
 
 namespace GameJam.Events.EnemyActions

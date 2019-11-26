@@ -1,7 +1,6 @@
 ﻿using Audrey;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
-using System;
 
 namespace GameJam.Systems
 {
