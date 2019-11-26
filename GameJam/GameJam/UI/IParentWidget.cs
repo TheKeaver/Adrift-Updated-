@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Adrift.Content.Common.UI;
 using Microsoft.Xna.Framework.Content;
-using UI.Content.Pipeline;
 
 namespace GameJam.UI
 {

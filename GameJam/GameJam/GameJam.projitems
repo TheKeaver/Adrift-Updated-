@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
@@ -44,7 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\MovementComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CVars.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CVarsDefaults.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToKamikazeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ChangeToChasingEnemyDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\BounceDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\HazardCollisionOnEnemyDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\ExplosionDirector.cs" />
@@ -54,7 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\EdgeEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ProjectileEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ShootingEnemyEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Entities\KamikazeEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ChasingEnemyEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\GameOverEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\ProjectileFiredEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\OutOfAmmoEvent.cs" />
@@ -120,7 +121,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Directors\EnemyCollisionOnShieldDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\AnimationComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Components\KamikazeComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ChasingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
@@ -147,7 +148,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\LaserEnemySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\LaserBeamComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\FireProjectileProcess.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\KamikazeSpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\ChasingEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\ShooterEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\GameOverAnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserWarmUpProcess.cs" />
@@ -163,7 +164,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireEnd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\DropDownPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\TestButtonPressed2Event.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DevTools\ImGuiGameComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\DevTools\StepGameUpdateEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DevTools\StatisticsProfiler.cs" />
@@ -211,19 +211,5 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Events\EnemyActions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Particles\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Enemies\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\" />
-    <Folder Include="$(MSBuildThisFileDirectory)DevTools\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Events\DevTools\" />
-    <Folder Include="$(MSBuildThisFileDirectory)States\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Entities\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Menu\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Events\UI\Pause\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\" />
   </ItemGroup>
 </Project>

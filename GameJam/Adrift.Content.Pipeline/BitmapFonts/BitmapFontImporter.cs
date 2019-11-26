@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System.IO;
 using System.Xml.Serialization;
+using Adrift.Content.Common.BitmapFonts;
 using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace Adrift.Content.Pipeline.BitmapFonts

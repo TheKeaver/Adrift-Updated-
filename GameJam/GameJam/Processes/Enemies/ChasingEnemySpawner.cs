@@ -3,10 +3,11 @@ using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Processes.Enemies
 {
-    public class KamikazeSpawner : IntervalProcess
+    public class ChasingEnemySpawner : IntervalProcess
     {
         readonly Engine Engine;
         readonly MTRandom random = new MTRandom();
@@ -17,7 +18,7 @@ namespace GameJam.Processes.Enemies
         readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
         readonly ImmutableList<Entity> _enemyEntities;
 
-        public KamikazeSpawner(Engine engine) : base(CVars.Get<float>("spawner_kamikaze_enemy_initial_period"))
+        public ChasingEnemySpawner(Engine engine) : base(CVars.Get<float>("spawner_chasing_enemy_initial_period"))
         {
             Engine = engine;
 
@@ -36,11 +37,12 @@ namespace GameJam.Processes.Enemies
                     spawnPosition.Y = random.NextSingle(-CVars.Get<float>("screen_height") / 2 * 0.9f, CVars.Get<float>("screen_height") / 2 * 0.9f);
                 } while (IsTooCloseToPlayer(spawnPosition));
 
-                KamikazeEntity.Create(Engine, spawnPosition);
+                float facingNearestPlayer = AngleFacingNearestPlayerShip(spawnPosition);
+                ChasingEnemyEntity.Create(Engine, spawnPosition, facingNearestPlayer);
             }
 
-            Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_kamikaze_enemy_period_multiplier"),
-                CVars.Get<float>("spawner_kamikaze_enemy_period_min"));
+            Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_chasing_enemy_period_multiplier"),
+                CVars.Get<float>("spawner_chasing_enemy_period_min"));
         }
 
         bool IsTooCloseToPlayer(Vector2 position)
@@ -58,6 +60,25 @@ namespace GameJam.Processes.Enemies
             }
 
             return minDistanceToPlayer <= CVars.Get<float>("spawner_min_distance_away_from_player");
+        }
+
+        float AngleFacingNearestPlayerShip(Vector2 position)
+        {
+            float minDistanceToPlayer = float.MaxValue;
+            Vector2 closestPlayerShip = new Vector2(0,0);
+
+            foreach (Entity playerShip in _playerShipEntities)
+            {
+                TransformComponent transformComponent = playerShip.GetComponent<TransformComponent>();
+                Vector2 toPlayer = transformComponent.Position - position;
+                if (toPlayer.Length() < minDistanceToPlayer)
+                {
+                    minDistanceToPlayer = toPlayer.Length();
+                    closestPlayerShip = toPlayer;
+                }
+            }
+
+            return (float)Math.Atan2(closestPlayerShip.Y, closestPlayerShip.X);
         }
     }
 }

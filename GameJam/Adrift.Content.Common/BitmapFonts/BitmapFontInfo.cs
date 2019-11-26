@@ -26,42 +26,48 @@ SOFTWARE.
 
 using System.Xml.Serialization;
 
-namespace Adrift.Content.Pipeline.BitmapFonts
+namespace Adrift.Content.Common.BitmapFonts
 {
     // ---- AngelCode BmFont XML serializer ----------------------
     // ---- By DeadlyDan @ deadlydan@gmail.com -------------------
     // ---- There's no license restrictions, use as you will. ----
     // ---- Credits to http://www.angelcode.com/ -----------------	
-    public class BitmapFontChar
+    public class BitmapFontInfo
     {
-        [XmlAttribute("id")]
-        public int Id { get; set; }
+        [XmlAttribute("face")]
+        public string Face { get; set; }
 
-        [XmlAttribute("x")]
-        public int X { get; set; }
+        [XmlAttribute("size")]
+        public int Size { get; set; }
 
-        [XmlAttribute("y")]
-        public int Y { get; set; }
+        [XmlAttribute("bold")]
+        public int Bold { get; set; }
 
-        [XmlAttribute("width")]
-        public int Width { get; set; }
+        [XmlAttribute("italic")]
+        public int Italic { get; set; }
 
-        [XmlAttribute("height")]
-        public int Height { get; set; }
+        [XmlAttribute("charset")]
+        public string CharSet { get; set; }
 
-        [XmlAttribute("xoffset")]
-        public int XOffset { get; set; }
+        [XmlAttribute("unicode")]
+        public int Unicode { get; set; }
 
-        [XmlAttribute("yoffset")]
-        public int YOffset { get; set; }
+        [XmlAttribute("stretchH")]
+        public int StretchHeight { get; set; }
 
-        [XmlAttribute("xadvance")]
-        public int XAdvance { get; set; }
+        [XmlAttribute("smooth")]
+        public int Smooth { get; set; }
 
-        [XmlAttribute("page")]
-        public int Page { get; set; }
+        [XmlAttribute("aa")]
+        public int SuperSampling { get; set; }
 
-        [XmlAttribute("chnl")]
-        public int Channel { get; set; }
+        [XmlAttribute("padding")]
+        public string Padding { get; set; }
+
+        [XmlAttribute("spacing")]
+        public string Spacing { get; set; }
+
+        [XmlAttribute("outline")]
+        public int OutLine { get; set; }
     }
 }

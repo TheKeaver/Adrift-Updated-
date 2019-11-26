@@ -1,5 +1,4 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using GameJam.Components;
 
 namespace GameJam.Processes.Enemies

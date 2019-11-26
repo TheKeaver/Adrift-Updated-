@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Adrift.Content.Common.UI;
 using Events;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameJam.Content.BitmapFonts;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.TextureAtlases;
-using UI.Content.Pipeline;
 
 namespace GameJam.UI
 {

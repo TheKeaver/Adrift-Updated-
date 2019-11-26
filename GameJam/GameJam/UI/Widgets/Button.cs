@@ -8,7 +8,7 @@ using GameJam.Events.InputHandling;
 using System.Collections;
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
-using UI.Content.Pipeline;
+using Adrift.Content.Common.UI;
 
 namespace GameJam.UI.Widgets
 {

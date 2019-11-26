@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>089da567-add4-4c73-aebb-6126442bd5f1</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Audrey</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Engine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ComponentAddedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ComponentRemovedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EntityCreatedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EntityDestroyedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ComponentAlreadyExistsException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ComponentNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\TypeNotComponentException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Family.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImmutableList.cs" />
+  </ItemGroup>
+</Project>

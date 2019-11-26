@@ -2,6 +2,7 @@
 using GameJam.Components;
 using GameJam.Processes.Enemies;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Entities
 {
@@ -33,13 +34,14 @@ namespace GameJam.Entities
             return entity;
         }
 
-        public static Entity Create(Engine engine, ProcessManager processManager, Vector2 position)
+        public static Entity Create(Engine engine, ProcessManager processManager, Vector2 position, float angle)
         {
             Entity entity = CreateSpriteOnly(engine);
 
             entity.GetComponent<TransformComponent>().SetPosition(position);
+            entity.GetComponent<TransformComponent>().SetRotation(angle);
             entity.AddComponent(new RotationComponent(CVars.Get<float>("laser_enemy_rotational_speed")));
-            entity.AddComponent(new MovementComponent(new Vector2(0, 1), 0));
+            entity.AddComponent(new MovementComponent(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)), 0));
             entity.AddComponent(new LaserEnemyComponent());
             entity.AddComponent(new EnemyComponent());
 

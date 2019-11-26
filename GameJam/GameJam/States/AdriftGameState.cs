@@ -1,3 +1,4 @@
+using Adrift.Content.Common.UI;
 using Audrey;
 using Events;
 using GameJam.Components;
@@ -6,7 +7,6 @@ using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
-using GameJam.Events.UI.Pause;
 using GameJam.Processes;
 using GameJam.Processes.Animation;
 using GameJam.Processes.Animations;
@@ -20,7 +20,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
-using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
@@ -55,7 +54,7 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            ProcessManager.Attach(new KamikazeSpawner(SharedState.Engine));
+            ProcessManager.Attach(new ChasingEnemySpawner(SharedState.Engine));
             ProcessManager.Attach(new ShooterEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new GravityEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new LaserEnemySpawner(SharedState.Engine, ProcessManager));

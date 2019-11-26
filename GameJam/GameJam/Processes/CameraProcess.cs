@@ -1,9 +1,6 @@
 ﻿using GameJam.Common;
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using System.Text;
-using GameJam.Entities;
 using Audrey;
 using GameJam.Components;
 

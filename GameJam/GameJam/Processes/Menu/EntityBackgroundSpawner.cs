@@ -26,7 +26,7 @@ namespace GameJam.Processes.Menu
             _random = new MTRandom();
 
             _entityCreationFunctions = new Func<Engine, Entity>[] {
-                KamikazeEntity.CreateSpriteOnly,
+                ChasingEnemyEntity.CreateSpriteOnly,
                 LaserEnemyEntity.CreateSpriteOnly,
                 ShootingEnemyEntity.CreateSpriteOnly
             };
