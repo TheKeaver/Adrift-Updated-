@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using Adrift.Content.Common.UI;
 using Microsoft.Xna.Framework.Content.Pipeline;
 
-namespace UI.Content.Pipeline
+namespace Adrift.Content.Pipeline
 {
     [ContentImporter(".xml", DefaultProcessor = "UIWidgetsProcessor",
         DisplayName = "UI Widgets - Adrift")]

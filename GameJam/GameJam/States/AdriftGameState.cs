@@ -1,3 +1,4 @@
+using Adrift.Content.Common.UI;
 using Audrey;
 using Events;
 using GameJam.Components;
@@ -6,7 +7,6 @@ using GameJam.Entities;
 using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
-using GameJam.Events.UI.Pause;
 using GameJam.Processes;
 using GameJam.Processes.Animation;
 using GameJam.Processes.Enemies;
@@ -18,7 +18,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System.Collections.Generic;
-using UI.Content.Pipeline;
 
 namespace GameJam.States
 {

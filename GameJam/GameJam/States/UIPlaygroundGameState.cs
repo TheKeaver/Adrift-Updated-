@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Adrift.Content.Common.UI;
 using Events;
 using GameJam.Events.UI;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Content.Pipeline;
 
 namespace GameJam.States
 {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Audrey;
+﻿using Audrey;
 using Events;
-using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework.Audio;

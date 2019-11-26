@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Adrift.Content.Common.UI;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
-namespace UI.Content.Pipeline
+namespace Adrift.Content.Pipeline
 {
     [ContentTypeWriter]
     public class UIWidgetsWriter : ContentTypeWriter<List<WidgetPrototype>>
     {
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "UI.Content.Pipeline.UIWidgetsReader, UI.Content.Pipeline";
+            return "Adrift.Content.Common.UI.UIWidgetsReader, GameJam";
         }
 
         public override string GetRuntimeType(TargetPlatform targetPlatform)

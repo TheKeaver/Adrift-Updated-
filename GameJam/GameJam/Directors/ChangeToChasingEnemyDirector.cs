@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Audrey;
 using Events;
 using GameJam.Components;
-using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using Microsoft.Xna.Framework.Content;
 

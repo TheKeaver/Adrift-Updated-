@@ -26,42 +26,42 @@ SOFTWARE.
 
 using System.Xml.Serialization;
 
-namespace Adrift.Content.Pipeline.BitmapFonts
+namespace Adrift.Content.Common.BitmapFonts
 {
     // ---- AngelCode BmFont XML serializer ----------------------
     // ---- By DeadlyDan @ deadlydan@gmail.com -------------------
     // ---- There's no license restrictions, use as you will. ----
-    // ---- Credits to http://www.angelcode.com/ -----------------		
-    public class BitmapFontCommon
+    // ---- Credits to http://www.angelcode.com/ -----------------	
+    public class BitmapFontChar
     {
-        [XmlAttribute("lineHeight")]
-        public int LineHeight { get; set; }
+        [XmlAttribute("id")]
+        public int Id { get; set; }
 
-        [XmlAttribute("base")]
-        public int Base { get; set; }
+        [XmlAttribute("x")]
+        public int X { get; set; }
 
-        [XmlAttribute("scaleW")]
-        public int ScaleW { get; set; }
+        [XmlAttribute("y")]
+        public int Y { get; set; }
 
-        [XmlAttribute("scaleH")]
-        public int ScaleH { get; set; }
+        [XmlAttribute("width")]
+        public int Width { get; set; }
 
-        [XmlAttribute("pages")]
-        public int Pages { get; set; }
+        [XmlAttribute("height")]
+        public int Height { get; set; }
 
-        [XmlAttribute("packed")]
-        public int Packed { get; set; }
+        [XmlAttribute("xoffset")]
+        public int XOffset { get; set; }
 
-        [XmlAttribute("alphaChnl")]
-        public int AlphaChannel { get; set; }
+        [XmlAttribute("yoffset")]
+        public int YOffset { get; set; }
 
-        [XmlAttribute("redChnl")]
-        public int RedChannel { get; set; }
+        [XmlAttribute("xadvance")]
+        public int XAdvance { get; set; }
 
-        [XmlAttribute("greenChnl")]
-        public int GreenChannel { get; set; }
+        [XmlAttribute("page")]
+        public int Page { get; set; }
 
-        [XmlAttribute("blueChnl")]
-        public int BlueChannel { get; set; }
+        [XmlAttribute("chnl")]
+        public int Channel { get; set; }
     }
 }

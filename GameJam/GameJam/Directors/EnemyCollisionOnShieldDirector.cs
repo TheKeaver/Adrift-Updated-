@@ -1,12 +1,10 @@
 ﻿using Audrey;
 using Events;
 using GameJam.Components;
-using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using System;
 
 namespace GameJam.Directors
 {
