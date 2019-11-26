@@ -1,4 +1,5 @@
 using System;
+using Adrift.Content.Common.UI;
 using Events;
 using GameJam.DevTools;
 using GameJam.Directors;
@@ -61,6 +62,8 @@ namespace GameJam
 #if DEBUG
             _statisticsProfiler = new StatisticsProfiler();
 #endif
+
+            Console.WriteLine(typeof(UIWidgetsReader).AssemblyQualifiedName);
         }
         
         protected override void Initialize()

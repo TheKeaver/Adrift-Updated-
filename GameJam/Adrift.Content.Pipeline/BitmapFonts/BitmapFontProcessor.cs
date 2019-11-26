@@ -26,6 +26,7 @@ SOFTWARE.
 
 using System;
 using System.IO;
+using Adrift.Content.Common.BitmapFonts;
 using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace Adrift.Content.Pipeline.BitmapFonts

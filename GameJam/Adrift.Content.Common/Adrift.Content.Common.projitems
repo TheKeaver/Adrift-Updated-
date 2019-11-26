@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a3664560-eb77-40fb-92a1-7f9f80842738</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Adrift.Content.Common</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BitmapFonts\BitmapFontChar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BitmapFonts\BitmapFontCommon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BitmapFonts\BitmapFontFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BitmapFonts\BitmapFontInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BitmapFonts\BitmapFontKerning.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BitmapFonts\BitmapFontPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\UIWidgetsFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\UIWidgetsReader.cs" />
+  </ItemGroup>
+</Project>

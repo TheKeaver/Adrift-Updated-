@@ -26,21 +26,18 @@ SOFTWARE.
 
 using System.Xml.Serialization;
 
-namespace Adrift.Content.Pipeline.BitmapFonts
+namespace Adrift.Content.Common.BitmapFonts
 {
     // ---- AngelCode BmFont XML serializer ----------------------
     // ---- By DeadlyDan @ deadlydan@gmail.com -------------------
     // ---- There's no license restrictions, use as you will. ----
     // ---- Credits to http://www.angelcode.com/ -----------------	
-    public class BitmapFontKerning
+    public class BitmapFontPage
     {
-        [XmlAttribute("first")]
-        public int First { get; set; }
+        [XmlAttribute("id")]
+        public int Id { get; set; }
 
-        [XmlAttribute("second")]
-        public int Second { get; set; }
-
-        [XmlAttribute("amount")]
-        public int Amount { get; set; }
+        [XmlAttribute("file")]
+        public string File { get; set; }
     }
 }

@@ -10,7 +10,6 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:../../UI.Content.Pipeline/bin/Debug/UI.Content.Pipeline.dll
 /reference:../../Adrift.Content.Pipeline/bin/Debug/Adrift.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#

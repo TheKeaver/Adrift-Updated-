@@ -76,7 +76,7 @@
       <Version>3.7.0.9</Version>
     </PackageReference>
     <PackageReference Include="MonoGame.Extended">
-      <Version>1.1.0</Version>
+      <Version>3.7.0</Version>
     </PackageReference>
     <PackageReference Include="MonoGame.Extended.Animations">
       <Version>1.1.0</Version>
@@ -100,19 +100,10 @@
       <Version>12.0.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Adrift.Content.Pipeline\Adrift.Content.Pipeline.csproj">
-      <Project>{9af31c3a-28ff-48ad-a54b-236e31aff987}</Project>
-      <Name>Adrift.Content.Pipeline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UI.Content.Pipeline\UI.Content.Pipeline.csproj">
-      <Project>{1319747c-2eac-4d6f-9c34-a975bbd218e2}</Project>
-      <Name>UI.Content.Pipeline</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="..\GameJam\GameJam.projitems" Label="Shared" />
   <Import Project="..\Events\Events.projitems" Label="Shared" />
   <Import Project="..\Audrey\Audrey.projitems" Label="Shared" />
+  <Import Project="..\Adrift.Content.Common\Adrift.Content.Common.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

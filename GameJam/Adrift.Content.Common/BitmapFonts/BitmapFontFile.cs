@@ -24,50 +24,34 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **/
 
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Adrift.Content.Pipeline.BitmapFonts
+namespace Adrift.Content.Common.BitmapFonts
 {
     // ---- AngelCode BmFont XML serializer ----------------------
     // ---- By DeadlyDan @ deadlydan@gmail.com -------------------
     // ---- There's no license restrictions, use as you will. ----
-    // ---- Credits to http://www.angelcode.com/ -----------------	
-    public class BitmapFontInfo
+    // ---- Credits to http://www.angelcode.com/ -----------------
+    [XmlRoot("font")]
+    public class BitmapFontFile
     {
-        [XmlAttribute("face")]
-        public string Face { get; set; }
+        [XmlElement("info")]
+        public BitmapFontInfo Info { get; set; }
 
-        [XmlAttribute("size")]
-        public int Size { get; set; }
+        [XmlElement("common")]
+        public BitmapFontCommon Common { get; set; }
 
-        [XmlAttribute("bold")]
-        public int Bold { get; set; }
+        [XmlArray("pages")]
+        [XmlArrayItem("page")]
+        public List<BitmapFontPage> Pages { get; set; }
 
-        [XmlAttribute("italic")]
-        public int Italic { get; set; }
+        [XmlArray("chars")]
+        [XmlArrayItem("char")]
+        public List<BitmapFontChar> Chars { get; set; }
 
-        [XmlAttribute("charset")]
-        public string CharSet { get; set; }
-
-        [XmlAttribute("unicode")]
-        public int Unicode { get; set; }
-
-        [XmlAttribute("stretchH")]
-        public int StretchHeight { get; set; }
-
-        [XmlAttribute("smooth")]
-        public int Smooth { get; set; }
-
-        [XmlAttribute("aa")]
-        public int SuperSampling { get; set; }
-
-        [XmlAttribute("padding")]
-        public string Padding { get; set; }
-
-        [XmlAttribute("spacing")]
-        public string Spacing { get; set; }
-
-        [XmlAttribute("outline")]
-        public int OutLine { get; set; }
+        [XmlArray("kernings")]
+        [XmlArrayItem("kerning")]
+        public List<BitmapFontKerning> Kernings { get; set; }
     }
 }

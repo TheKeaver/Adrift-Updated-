@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Adrift.Content.Common.UI;
 using Audrey;
 using Events;
 using GameJam.Components;
@@ -13,7 +13,6 @@ using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using UI.Content.Pipeline;
 
 namespace GameJam.States
 {

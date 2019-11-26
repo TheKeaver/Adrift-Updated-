@@ -6,22 +6,25 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GameJam", "GameJam\GameJam.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameJam.Desktop", "GameJam.Desktop\GameJam.Desktop.csproj", "{39F2BE48-D216-4B62-BE97-AF0368500692}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Content.Pipeline", "UI.Content.Pipeline\UI.Content.Pipeline.csproj", "{1319747C-2EAC-4D6F-9C34-A975BBD218E2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adrift.Content.Pipeline", "Adrift.Content.Pipeline\Adrift.Content.Pipeline.csproj", "{9AF31C3A-28FF-48AD-A54B-236E31AFF987}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Audrey", "Audrey\Audrey.shproj", "{089DA567-ADD4-4C73-AEBB-6126442BD5F1}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Events", "Events\Events.shproj", "{9EBEE4BA-CE43-46C2-A8C7-240345F599D8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Adrift.Content.Common", "Adrift.Content.Common\Adrift.Content.Common.shproj", "{A3664560-EB77-40FB-92A1-7F9F80842738}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adrift.Content.Pipeline", "Adrift.Content.Pipeline\Adrift.Content.Pipeline.csproj", "{B160A6B3-ED42-40E7-B9BF-A994B2C23984}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Audrey\Audrey.projitems*{089da567-add4-4c73-aebb-6126442bd5f1}*SharedItemsImports = 13
 		GameJam\GameJam.projitems*{1295c273-6c15-4df3-9875-3bd26d4ff774}*SharedItemsImports = 13
+		Adrift.Content.Common\Adrift.Content.Common.projitems*{39f2be48-d216-4b62-be97-af0368500692}*SharedItemsImports = 4
 		Audrey\Audrey.projitems*{39f2be48-d216-4b62-be97-af0368500692}*SharedItemsImports = 4
 		Events\Events.projitems*{39f2be48-d216-4b62-be97-af0368500692}*SharedItemsImports = 4
 		GameJam\GameJam.projitems*{39f2be48-d216-4b62-be97-af0368500692}*SharedItemsImports = 4
 		Events\Events.projitems*{9ebee4ba-ce43-46c2-a8c7-240345f599d8}*SharedItemsImports = 13
+		Adrift.Content.Common\Adrift.Content.Common.projitems*{a3664560-eb77-40fb-92a1-7f9f80842738}*SharedItemsImports = 13
+		Adrift.Content.Common\Adrift.Content.Common.projitems*{b160a6b3-ed42-40e7-b9bf-a994b2c23984}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,14 +35,10 @@ Global
 		{39F2BE48-D216-4B62-BE97-AF0368500692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39F2BE48-D216-4B62-BE97-AF0368500692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39F2BE48-D216-4B62-BE97-AF0368500692}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1319747C-2EAC-4D6F-9C34-A975BBD218E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1319747C-2EAC-4D6F-9C34-A975BBD218E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1319747C-2EAC-4D6F-9C34-A975BBD218E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1319747C-2EAC-4D6F-9C34-A975BBD218E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AF31C3A-28FF-48AD-A54B-236E31AFF987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AF31C3A-28FF-48AD-A54B-236E31AFF987}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AF31C3A-28FF-48AD-A54B-236E31AFF987}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AF31C3A-28FF-48AD-A54B-236E31AFF987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B160A6B3-ED42-40E7-B9BF-A994B2C23984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B160A6B3-ED42-40E7-B9BF-A994B2C23984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B160A6B3-ED42-40E7-B9BF-A994B2C23984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B160A6B3-ED42-40E7-B9BF-A994B2C23984}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

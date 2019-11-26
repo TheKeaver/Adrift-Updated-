@@ -1,5 +1,4 @@
-﻿using System;
-using Events;
+﻿using Events;
 
 namespace GameJam.Events.Settings
 {

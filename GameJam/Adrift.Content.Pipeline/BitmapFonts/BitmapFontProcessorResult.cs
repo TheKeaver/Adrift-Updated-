@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **/
 
+using Adrift.Content.Common.BitmapFonts;
 using System.Collections.Generic;
 
 namespace Adrift.Content.Pipeline.BitmapFonts

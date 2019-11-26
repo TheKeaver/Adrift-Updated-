@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
@@ -163,7 +164,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\EnemyActions\LaserBeamFireEnd.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widgets\DropDownPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\TestButtonPressed2Event.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DevTools\ImGuiGameComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\DevTools\StepGameUpdateEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DevTools\StatisticsProfiler.cs" />
@@ -203,19 +203,5 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Events\EnemyActions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Particles\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Enemies\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\" />
-    <Folder Include="$(MSBuildThisFileDirectory)DevTools\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Events\DevTools\" />
-    <Folder Include="$(MSBuildThisFileDirectory)States\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Entities\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Menu\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Events\UI\Pause\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\" />
   </ItemGroup>
 </Project>
