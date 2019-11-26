@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Content;
 #if PIPELINE
@@ -120,7 +121,7 @@ namespace Adrift.Content.Common.UI
                 // The alternative to this would be to make Adrift.Content.Common a library instead of a shared project,
                 // however this is not ideal since we want that project to be able to be referenced by both .NET Framework
                 // and .NET Core projects.
-                string assemblyName = GetType().Assembly.FullName.Split(',')[0];
+                string assemblyName = GetType().GetTypeInfo().Assembly.FullName.Split(',')[0];
                 string className = input.ReadString().Split(',')[0];
                 string assemblyQualifiedName = string.Format("{0}, {1}", className, assemblyName);
                 WidgetPrototype widget = (WidgetPrototype)Activator.CreateInstance(Type.GetType(assemblyQualifiedName));
@@ -535,18 +536,6 @@ namespace Adrift.Content.Common.UI
             ContentsInfo.ReadFromInput(input);
 
             base.ReadFromInput(input);
-        }
-    }
-
-    public class UIWidgetsFileLoader
-    {
-        public static UIWidgetsFile Load(string filename)
-        {
-            XmlSerializer deserializer = new XmlSerializer(typeof(UIWidgetsFile));
-            TextReader textReader = new StreamReader(filename);
-            UIWidgetsFile file = (UIWidgetsFile)deserializer.Deserialize(textReader);
-            textReader.Close();
-            return file;
         }
     }
 }

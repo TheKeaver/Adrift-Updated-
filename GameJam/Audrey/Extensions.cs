@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Audrey
 {
@@ -14,7 +15,7 @@ namespace Audrey
         /// <param name="type">Type to check.</param>
         public static bool IsComponent(this Type type)
         {
-            return typeof(IComponent).IsAssignableFrom(type);
+            return typeof(IComponent).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo());
         }
 
         /// <summary>

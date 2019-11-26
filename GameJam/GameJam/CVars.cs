@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
+#if WINDOWS_UWP
+using Windows.Storage;
+#endif
 
 namespace GameJam
 {
@@ -227,6 +230,7 @@ namespace GameJam
 
         private static bool Load(bool live)
         {
+#if DESKTOP
             string path = GetSavePath();
             if(File.Exists(path))
             {
@@ -238,9 +242,25 @@ namespace GameJam
             }
 
             return false;
+#endif
+#if WINDOWS_UWP
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if(!localSettings.Values.ContainsKey("cvars"))
+            {
+                return false;
+            }
+            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["cvars"];
+            string cvarsIni = string.Empty;
+            foreach(string name in composite.Keys)
+            {
+                cvarsIni += string.Format("{0} = {1}\n", name, composite[name]);
+            }
+            return DeserializeAll(cvarsIni, live);
+#endif
         }
         public static void Save()
         {
+#if DESKTOP
             string path = GetSavePath();
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             using (Stream stream = File.Open(path, FileMode.Create))
@@ -249,6 +269,23 @@ namespace GameJam
                 writer.Write(SerializeAll());
                 writer.Flush();
             }
+#endif
+#if WINDOWS_UWP
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            ApplicationDataCompositeValue composite = new ApplicationDataCompositeValue();
+            string serializedCVars = SerializeAll();
+            string[] iniLines = serializedCVars.Split(new char[] { '\n', '\r' });
+            for(int i = 0; i < iniLines.Length; i++)
+            {
+                if(iniLines[i].Trim().Length == 0)
+                {
+                    continue;
+                }
+                string[] parts = iniLines[i].Trim().Split('=');
+                composite[parts[0].Trim()] = parts[1].Trim();
+            }
+            localSettings.Values["cvars"] = composite;
+#endif
         }
 
         public static void SynchronizeFromFile()
@@ -263,6 +300,7 @@ namespace GameJam
             }
         }
 
+#if DESKTOP
         private static string GetSavePath()
         {
             OperatingSystem os = Environment.OSVersion;
@@ -326,5 +364,6 @@ namespace GameJam
 
         [DllImport("libc")]
         static extern int uname(IntPtr buf);
+#endif
     }
 }

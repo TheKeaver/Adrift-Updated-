@@ -53,8 +53,13 @@ namespace GameJam
             Graphics.PreferMultiSampling = false;
             Content.RootDirectory = "Content";
 
+#if !WINDOWS_UWP
+            // Doesn't work on UWP because PreferredBackBuffer doesn't
+            // change the window size. The buffer in windowed mode is
+            // whatever the window happens to be.
             Graphics.PreferredBackBufferWidth = CVars.Get<int>("initial_window_width");
             Graphics.PreferredBackBufferHeight = CVars.Get<int>("initial_window_height");
+#endif
 
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
@@ -100,8 +105,10 @@ namespace GameJam
             GamePadListener.CheckControllerConnections = true;
             GamePadListener.ControllerConnectionChanged += GamePad_ConnectionChanged;
 
+#if !WINDOWS_UWP
 #if DEBUG
             Components.Add(new ImGuiGameComponent(this, _statisticsProfiler));
+#endif
 #endif
 
             ReloadDisplayOptions();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Graphics
 {
@@ -86,7 +87,11 @@ namespace GameJam.Graphics
 
         public FXAA(PostProcessor postProcessor, ContentManager content) : base(postProcessor)
         {
+#if WINDOWS_UWP
+            throw new Exception("FXAA not supported on UWP.");
+#else
             _fxaaEffect = content.Load<Effect>("effect_fxaa");
+#endif
         }
 
         public override void Dispose()

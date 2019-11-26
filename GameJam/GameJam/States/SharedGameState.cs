@@ -95,14 +95,22 @@ namespace GameJam.States
         }
         private void InitDirectors()
         {
-            ProcessManager.Attach(new EnemyCollisionWithShipDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new EnemyCollisionOnShieldDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
-            ProcessManager.Attach(new ChangeToChasingEnemyDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new EnemyPushBackOnPlayerDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new EnemyCollisionWithShipDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new EnemyCollisionOnShieldDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
+
+            ProcessManager.Attach(new ChangeToChasingEnemyDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new EnemyPushBackOnPlayerDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
+
             ProcessManager.Attach(new LaserBeamCleanupDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new PauseDirector(Engine, Content, ProcessManager));
             ProcessManager.Attach(new PlayerShipCollidingWithEdgeDirector(Engine, Content, ProcessManager));
@@ -134,8 +142,10 @@ namespace GameJam.States
             bloom.Radius = 1.5f;
             PostProcessor.Effects.Add(bloom);
 
+#if !WINDOWS_UWP
             _fxaaPPE = new FXAA(PostProcessor, Content);
             PostProcessor.Effects.Add(_fxaaPPE);
+#endif
         }
 
         private void CreateEntities()
@@ -179,7 +189,9 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+#if !WINDOWS_UWP
             _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
+#endif
 
             GameManager.GraphicsDevice.Clear(Color.Black);
 

@@ -78,7 +78,7 @@ technique Standard
 {
     pass Pass1
     {
-        PixelShader = compile ps_3_0 PixelShaderFunction_Standard();
+        PixelShader = compile PS_SHADERMODEL PixelShaderFunction_Standard();
     }
 }
 
@@ -86,6 +86,6 @@ technique FXAA
 {
     pass Pass1
     {
-        PixelShader = compile ps_3_0 PixelShaderFunction_FXAA();
+        PixelShader = compile PS_SHADERMODEL PixelShaderFunction_FXAA();
     }
 }

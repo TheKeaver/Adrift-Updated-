@@ -16,13 +16,15 @@ along with Super Pong.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
+using System.Reflection;
+
 namespace Events
 {
     public static class Extensions
     {
         public static bool IsEvent(this Type type)
         {
-            return typeof(IEvent).IsAssignableFrom(type);
+            return typeof(IEvent).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo());
         }
     }
 }

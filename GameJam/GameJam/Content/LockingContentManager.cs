@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Content
@@ -34,6 +35,8 @@ namespace GameJam.Content
             {
                 throw new ContentLockedException();
             }
+
+            string assem = GetType().GetTypeInfo().Assembly.FullName;
 
             return base.Load<T>(assetName);
         }
