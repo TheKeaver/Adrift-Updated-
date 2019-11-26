@@ -5,6 +5,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GameJam", "GameJam\GameJam.shproj", "{1295C273-6C15-4DF3-9875-3BD26D4FF774}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameJam.Desktop", "GameJam.Desktop\GameJam.Desktop.csproj", "{39F2BE48-D216-4B62-BE97-AF0368500692}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B160A6B3-ED42-40E7-B9BF-A994B2C23984} = {B160A6B3-ED42-40E7-B9BF-A994B2C23984}
+	EndProjectSection
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Audrey", "Audrey\Audrey.shproj", "{089DA567-ADD4-4C73-AEBB-6126442BD5F1}"
 EndProject
