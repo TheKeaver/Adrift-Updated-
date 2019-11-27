@@ -16,7 +16,7 @@ namespace GameJam.Processes.Enemies
 
         protected override void OnTrigger()
         {
-            if(!Engine.GetEntities().Contains(LaserEnemyEntity))
+            if(!Engine.GetEntities().Contains(LaserEnemyEntity) || !LaserEnemyEntity.HasComponent<RotationComponent>())
             {
                 return;
             }

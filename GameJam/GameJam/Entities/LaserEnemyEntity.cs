@@ -64,7 +64,7 @@ namespace GameJam.Entities
             Process loopProcess = null;
             if (loop)
             {
-                loopProcess = new DelegateCommand(() =>
+                loopProcess = new DelegateProcess(() =>
                 {
                     processManager.Attach(CreateLaserEnemyProcessChain(processManager, engine, entity, CVars.Get<float>("laser_enemy_successive_wait_period"), true));
                 });

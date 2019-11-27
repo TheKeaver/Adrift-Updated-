@@ -44,9 +44,21 @@ namespace GameJam.States
             }
         }
 
-        public UILobbyGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
+        public UILobbyGameState(GameManager gameManager,
+            SharedGameState sharedState,
+            Player[] players = null)
+            :base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+
+            if (players != null)
+            {
+                for (int i = 0; i < players.Length; i++)
+                {
+                    int idx = players[i].LobbySeatIndex > 0 && players[i].LobbySeatIndex < MAX_PLAYERS ? players[i].LobbySeatIndex : i;
+                    _playersSeated[idx] = players[i];
+                }
+            }
         }
 
         protected override void OnInitialize()
@@ -261,6 +273,7 @@ namespace GameJam.States
                     continue;
                 }
                 _playersSeated[i] = player;
+                player.LobbySeatIndex = i;
                 break;
             }
 

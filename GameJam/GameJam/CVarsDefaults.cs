@@ -137,6 +137,12 @@ namespace GameJam
             Create<float>("laser_enemy_spawn_wait_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("laser_enemy_successive_wait_period", 7, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            Create<int>("game_over_responsible_enemy_flash_count", 10, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("game_over_responsible_enemy_flash_period", 0.16f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("game_over_edge_fade_out_duration", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("game_over_camera_reset_duration", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("game_over_ui_fade_in_duration", 0.7f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
             /** MENU **/
             Create<float>("entity_background_spawner_min", 1f, CVarFlags.DEV_PRESERVE);
             Create<float>("entity_background_spawner_max", 2, CVarFlags.DEV_PRESERVE);
@@ -320,6 +326,8 @@ namespace GameJam
 
             Create<string>("ui_lobby_menu", "ui/Lobby/LobbyMenu", CVarFlags.PRESERVE);
             Create<string>("ui_lobby_menu_join_instructions", "ui/Lobby/JoinInstructions", CVarFlags.PRESERVE);
+
+            Create<string>("ui_game_over", "ui/GameOverScoreUI", CVarFlags.PRESERVE);
 
             Create<string>("ui_test", "ui/test", CVarFlags.PRESERVE);
             Create<string>("ui_test2", "ui/test2", CVarFlags.PRESERVE);

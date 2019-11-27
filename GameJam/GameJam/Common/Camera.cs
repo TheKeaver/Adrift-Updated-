@@ -24,7 +24,7 @@ namespace GameJam.Common
                         Position.Y,
                         0))
                     * Matrix.CreateRotationZ(Rotation)
-                    * Matrix.CreateScale(Zoom * _compensationZoom / _compensationZoom)
+                    * Matrix.CreateScale(Zoom * _compensationZoom)
                     * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
                         _bounds.Height * 0.5f,
                         0));

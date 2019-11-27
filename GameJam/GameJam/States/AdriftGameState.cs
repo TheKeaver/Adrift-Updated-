@@ -9,6 +9,7 @@ using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using GameJam.Processes;
 using GameJam.Processes.Animation;
+using GameJam.Processes.Animations;
 using GameJam.Processes.Enemies;
 using GameJam.Processes.Entities;
 using GameJam.UI;
@@ -17,6 +18,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
+using System;
 using System.Collections.Generic;
 
 namespace GameJam.States
@@ -31,14 +33,22 @@ namespace GameJam.States
 
         public int score;
 
-        Player[] PlayerArray;
+        private bool _entitiesCleanedUp = false;
+
+        public Player[] Players
+        {
+            get;
+            private set;
+        }
+
+        private PlayerScoreDirector playerScoreDirector;
 
         public AdriftGameState(GameManager gameManager,
             SharedGameState sharedState,
             Player[] players)
             : base(gameManager, sharedState)
         {
-            PlayerArray = players;
+            Players = players;
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
         }
 
@@ -55,6 +65,9 @@ namespace GameJam.States
             _root.AutoControlModeSwitching = false;
 
             LoadContent();
+
+            playerScoreDirector = new PlayerScoreDirector(Players, _root, SharedState.Engine, Content, ProcessManager);
+            ProcessManager.Attach(playerScoreDirector);
 
             CreateEntities();
 
@@ -90,7 +103,10 @@ namespace GameJam.States
 
         protected override void OnKill()
         {
-            CleanDestroyAllEntities();
+            if (!_entitiesCleanedUp)
+            {
+                CleanDestroyAllEntities();
+            }
 
             base.OnKill();
         }
@@ -99,7 +115,6 @@ namespace GameJam.States
         {
             _root.RegisterListeners();
 
-            EventManager.Instance.RegisterListener<IncreasePlayerScoreEvent>(this);
             EventManager.Instance.RegisterListener<GameOverEvent>(this);
             EventManager.Instance.RegisterListener<TogglePauseGameEvent>(this);
         }
@@ -114,36 +129,36 @@ namespace GameJam.States
         void CreateEntities()
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2((-25 * (PlayerArray.Length / 2)) + (25 * (PlayerArray.Length / 4)), 25 * (PlayerArray.Length / 3)));
+                new Vector2((-25 * (Players.Length / 2)) + (25 * (Players.Length / 4)), 25 * (Players.Length / 3)));
             Entity playerShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                 playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
-            playerShieldEntity.AddComponent(new PlayerComponent(PlayerArray[0]));
+            playerShieldEntity.AddComponent(new PlayerComponent(Players[0]));
 
-            if (PlayerArray.Length >= 2)
+            if (Players.Length >= 2)
             {
                 Entity playerTwoShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2(25, 25 * (PlayerArray.Length / 3)));
+                new Vector2(25, 25 * (Players.Length / 3)));
                 Entity playerTwoShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                     playerTwoShipEntity);
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerTwoShieldEntity;
-                playerTwoShieldEntity.AddComponent(new PlayerComponent(PlayerArray[1]));
+                playerTwoShieldEntity.AddComponent(new PlayerComponent(Players[1]));
             }
 
-            if( PlayerArray.Length >= 3)
+            if( Players.Length >= 3)
             {
                 Entity playerThreeShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(-25, -25));
                 Entity playerThreeShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity);
                 playerThreeShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerThreeShieldEntity;
-                playerThreeShieldEntity.AddComponent(new PlayerComponent(PlayerArray[2]));
+                playerThreeShieldEntity.AddComponent(new PlayerComponent(Players[2]));
             }
 
-            if( PlayerArray.Length == 4)
+            if( Players.Length == 4)
             {
                 Entity playerFourShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25));
                 Entity playerFourShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity);
                 playerFourShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerFourShieldEntity;
-                playerFourShieldEntity.AddComponent(new PlayerComponent(PlayerArray[3]));
+                playerFourShieldEntity.AddComponent(new PlayerComponent(Players[3]));
             }
 
             EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("play_field_height") / 2), new Vector2(CVars.Get<float>("play_field_width"), 5), new Vector2(0, -1));
@@ -158,10 +173,6 @@ namespace GameJam.States
             {
                 HandleGameOverEvent(evt as GameOverEvent);
             }
-            if (evt is IncreasePlayerScoreEvent)
-            {
-                HandleIncreasePlayerScoreEvent(evt as IncreasePlayerScoreEvent);
-            }
             if(evt is TogglePauseGameEvent)
             {
                 HandlePause();
@@ -171,15 +182,15 @@ namespace GameJam.States
             return false;
         }
 
-        private void CleanDestroyAllEntities()
+        private void CleanDestroyAllEntities(bool includeEdges = true)
         {
             // Explode all entities
             ImmutableList<Entity> explosionEntities = SharedState.Engine.GetEntitiesFor(Family
                 .All(typeof(TransformComponent), typeof(ColoredExplosionComponent))
                 .One(typeof(PlayerShipComponent),
                     typeof(PlayerShieldComponent),
-                    typeof(EnemyComponent),
-                    typeof(EdgeComponent))
+                    typeof(EnemyComponent))
+                .Exclude(typeof(DontDestroyForGameOverComponent))
                 .Get());
             foreach (Entity entity in explosionEntities)
             {
@@ -191,34 +202,62 @@ namespace GameJam.States
             }
 
             // Destroy all entities
-            SharedState.Engine.DestroyEntitiesFor(Family.One(typeof(PlayerShipComponent),
+            FamilyBuilder familyBuilder = Family.One(typeof(PlayerShipComponent),
                 typeof(PlayerShieldComponent),
-                typeof(EnemyComponent),
-                typeof(EdgeComponent)).Get());
+                typeof(EnemyComponent)).Exclude(typeof(DontDestroyForGameOverComponent));
+            if(includeEdges)
+            {
+                familyBuilder.One(typeof(EdgeComponent));
+            }
+            SharedState.Engine.DestroyEntitiesFor(familyBuilder.Get());
         }
 
         private void HandleGameOverEvent(GameOverEvent gameOverEvent)
         {
             ProcessManager.KillAll();
-
-            CleanDestroyAllEntities();
-
-            // TODO: Game Over Process
-            Entity gameOverText = SharedState.Engine.CreateEntity();
-            gameOverText.AddComponent(new TransformComponent(new Vector2(0, 1.25f * CVars.Get<float>("screen_height") / 2)));
-            gameOverText.AddComponent(new FontComponent(Content.Load<BitmapFont>("font_game_over"), "Game Over"));
-            ProcessManager.Attach(new GameOverAnimationProcess(gameOverText)).SetNext(new WaitProcess(3))
-                .SetNext(new EntityDestructionProcess(SharedState.Engine, gameOverText))
-                .SetNext(new DelegateCommand(() =>
+            Entity responsibleEntity = gameOverEvent.ResponsibleEntity;
+            responsibleEntity.AddComponent(new DontDestroyForGameOverComponent());
+            ImmutableList<IComponent> components = responsibleEntity.GetComponents();
+            if (responsibleEntity.HasComponent<ProjectileComponent>())
             {
-                ChangeState(new UILobbyGameState(GameManager, SharedState));
-            }));
-        }
+                responsibleEntity.AddComponent(new ColoredExplosionComponent(responsibleEntity.GetComponent<ProjectileComponent>().Color));
+            }
+            for (int i = components.Count - 1; i >= 0; i--)
+            {
+                if (!(components[i] is TransformComponent)
+                    && !(components[i] is VectorSpriteComponent)
+                    && !(components[i] is ColoredExplosionComponent))
+                {
+                    responsibleEntity.RemoveComponent(components[i].GetType());
+                }
+            }
 
-        private void HandleIncreasePlayerScoreEvent(IncreasePlayerScoreEvent increasePlayerScoreEvent)
-        {
-            score += increasePlayerScoreEvent.ScoreAddend;
-            ((Label)_root.FindWidgetByID("main_game_score_label")).Content = "Score: " + score;
+            CleanDestroyAllEntities(false);
+            _entitiesCleanedUp = true;
+
+            ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") / 2))
+                .SetNext(new DelegateProcess(() =>
+            {
+                // Explosion
+                TransformComponent transformComp = responsibleEntity.GetComponent<TransformComponent>();
+                ColoredExplosionComponent coloredExplosionComp = responsibleEntity.GetComponent<ColoredExplosionComponent>();
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(transformComp.Position,
+                    coloredExplosionComp.Color,
+                    false));
+
+                // Fade out edges (owned by shared state)
+                foreach (Entity edgeEntity in SharedState.Engine.GetEntitiesFor(Family.All(typeof(EdgeComponent), typeof(VectorSpriteComponent)).Get()))
+                {
+                    SharedState.ProcessManager.Attach(new SpriteEntityFadeOutProcess(SharedState.Engine, edgeEntity, CVars.Get<float>("game_over_edge_fade_out_duration"), Easings.Functions.QuadraticEaseOut))
+                        .SetNext(new EntityDestructionProcess(SharedState.Engine, edgeEntity));
+                }
+
+                // Move camera towards center of screen (owned by shared state)
+                SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Easings.Functions.CubicEaseOut));
+            })).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity)).SetNext(new DelegateProcess(() =>
+            {
+                ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
+            }));
         }
 
         private void HandlePause()
