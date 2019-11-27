@@ -34,8 +34,6 @@ namespace GameJam.Directors
 
         public override bool Handle(IEvent evt)
         {
-            return false;
-
             if (evt is ProjectileFiredEvent)
             {
                 HandleLaserFireEvent(evt as ProjectileFiredEvent);
