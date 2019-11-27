@@ -55,6 +55,8 @@ namespace GameJam.States
                 GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_lobby_menu"));
 
+            _root.AutoControlModeSwitching = false;
+
             _keyTextureMap = new KeyTextureMap();
             _keyTextureMap.CacheAll(Content);
             _gamePadTextureMap = new GamePadTextureMap();

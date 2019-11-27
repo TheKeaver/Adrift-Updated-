@@ -52,6 +52,7 @@ namespace GameJam.States
             ProcessManager.Attach(new CameraProcess(SharedState.Camera, SharedState.Engine));
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
+            _root.AutoControlModeSwitching = false;
 
             LoadContent();
 

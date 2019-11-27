@@ -34,7 +34,7 @@
         {
             get;
             protected set;
-        }
+        } = true;
 
         public Process Next
         {

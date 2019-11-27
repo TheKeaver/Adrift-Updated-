@@ -25,6 +25,8 @@ namespace GameJam.States
                 GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_test"));
 
+            _root.AutoControlModeSwitching = true;
+
             // ProcessManager.Attach(new IDBlinkingProcess(_root, "label_blink", 1));
 
             base.OnInitialize();

@@ -112,7 +112,7 @@ namespace GameJam.States
             ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
 
             ProcessManager.Attach(new LaserBeamCleanupDirector(Engine, Content, ProcessManager));
-            ProcessManager.Attach(new PauseDirector(Engine, Content, ProcessManager));
+
             ProcessManager.Attach(new PlayerShipCollidingWithEdgeDirector(Engine, Content, ProcessManager));
         }
 

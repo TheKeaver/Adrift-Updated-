@@ -505,6 +505,7 @@ namespace GameJam.States
         protected override void OnInitialize()
         {
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
+            _root.AutoControlModeSwitching = true;
 
             LoadContent();
 
