@@ -108,8 +108,8 @@ namespace GameJam.Directors
                 if (Vector2.Dot(shieldNormal, bouncerDirection) < 0)
                 {
                     bouncerDirection = getReflectionVector(bouncerDirection, shieldNormal);
-                    bouncer.GetComponent<MovementComponent>().MovementVector = bouncerDirection * (bouncer.GetComponent<MovementComponent>().MovementVector.Length() + playerShip.GetComponent<MovementComponent>().MovementVector.Length());
                 }
+                bouncer.GetComponent<MovementComponent>().MovementVector = bouncerDirection * (bouncer.GetComponent<MovementComponent>().MovementVector.Length() + playerShip.GetComponent<MovementComponent>().MovementVector.Length());
 
                 if(bouncer.HasComponent<ProjectileComponent>()
                     && reflector.HasComponent<PlayerComponent>())
