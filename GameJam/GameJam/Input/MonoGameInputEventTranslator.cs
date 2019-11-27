@@ -120,7 +120,7 @@ namespace GameJam.Input
                 PlayerIndex = playerIndex
             }));
             _inputListenerManager.Listeners.Add(_gamePadListeners[playerIndex]);
-            _gamePadListeners[playerIndex].ButtonUp += GamePad_ButtonDown;
+            _gamePadListeners[playerIndex].ButtonDown += GamePad_ButtonDown;
             _gamePadListeners[playerIndex].ButtonUp += GamePad_ButtonUp;
         }
         private void RemoveGamePadListener(PlayerIndex playerIndex)
