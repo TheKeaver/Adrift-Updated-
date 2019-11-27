@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Adrift.Content.Common.UI;
 using Events;
 using GameJam.DevTools;
@@ -23,7 +24,7 @@ namespace GameJam
     {
         InputListenerComponent _inputListenerManager;
         MouseListener _mouseListener;
-        GamePadListener _gamePadListener;
+        Dictionary<PlayerIndex, GamePadListener> _gamePadListeners = new Dictionary<PlayerIndex, GamePadListener>();
         KeyboardListener _keyboardListener;
 
         public ProcessManager ProcessManager
@@ -86,11 +87,6 @@ namespace GameJam
             _mouseListener.MouseMoved += Mouse_MouseMoved;
             _mouseListener.MouseDown += Mouse_MouseDownOrUp;
             _mouseListener.MouseUp += Mouse_MouseDownOrUp;
-
-            _gamePadListener = new GamePadListener();
-            _inputListenerManager.Listeners.Add(_gamePadListener);
-            _gamePadListener.ButtonDown += GamePad_ButtonDown;
-            _gamePadListener.ButtonUp += GamePad_ButtonUp;
 
             _keyboardListener = new KeyboardListener();
             _inputListenerManager.Listeners.Add(_keyboardListener);
@@ -181,6 +177,8 @@ namespace GameJam
             EventManager.Instance.RegisterListener<StepGameUpdateEvent>(this);
             EventManager.Instance.RegisterListener<GameShutdownEvent>(this);
             EventManager.Instance.RegisterListener<ReloadDisplayOptionsEvent>(this);
+            EventManager.Instance.RegisterListener<GamePadConnectedEvent>(this);
+            EventManager.Instance.RegisterListener<GamePadDisconnectedEvent>(this);
         }
         private void UnregisterEvents()
         {
@@ -280,22 +278,45 @@ namespace GameJam
 
         void GamePad_ConnectionChanged(object sender, GamePadEventArgs e)
         {
-            // More than 2 controllers not supported
-            if ((int)e.PlayerIndex < 2)
+            switch(e.PlayerIndex)
             {
-                if (!e.PreviousState.IsConnected
-                   && e.CurrentState.IsConnected)
-                {
-                    // Controller connected
-                    EventManager.Instance.QueueEvent(new GamePadConnectedEvent(e.PlayerIndex));
-                }
-                if (e.PreviousState.IsConnected
-                   && !e.CurrentState.IsConnected)
-                {
-                    // Controller disconnected
-                    EventManager.Instance.QueueEvent(new GamePadDisconnectedEvent(e.PlayerIndex));
-                }
+                case PlayerIndex.One:
+                case PlayerIndex.Two:
+                case PlayerIndex.Three:
+                case PlayerIndex.Four:
+                    if (!e.PreviousState.IsConnected
+                       && e.CurrentState.IsConnected)
+                    {
+                        // Controller connected
+                        EventManager.Instance.QueueEvent(new GamePadConnectedEvent(e.PlayerIndex));
+                    }
+                    if (e.PreviousState.IsConnected
+                       && !e.CurrentState.IsConnected)
+                    {
+                        // Controller disconnected
+                        EventManager.Instance.QueueEvent(new GamePadDisconnectedEvent(e.PlayerIndex));
+                    }
+                    break;
+                default:
+                    Console.WriteLine(">4 gamepads not supported.");
+                    break;
             }
+        }
+
+        private void AddGamePadListener(PlayerIndex playerIndex)
+        {
+            _gamePadListeners.Add(playerIndex, new GamePadListener(new GamePadListenerSettings()
+            {
+                PlayerIndex = playerIndex
+            }));
+            _inputListenerManager.Listeners.Add(_gamePadListeners[playerIndex]);
+            _gamePadListeners[playerIndex].ButtonUp += GamePad_ButtonDown;
+            _gamePadListeners[playerIndex].ButtonUp += GamePad_ButtonUp;
+        }
+        private void RemoveGamePadListener(PlayerIndex playerIndex)
+        {
+            _inputListenerManager.Listeners.Remove(_gamePadListeners[playerIndex]);
+            _gamePadListeners.Remove(playerIndex);
         }
 
         void GamePad_ButtonDown(object sender, GamePadEventArgs e)
@@ -347,6 +368,15 @@ namespace GameJam
             if(evt is ReloadDisplayOptionsEvent)
             {
                 ReloadDisplayOptions();
+            }
+
+            if(evt is GamePadConnectedEvent)
+            {
+                AddGamePadListener(((GamePadConnectedEvent)evt).PlayerIndex);
+            }
+            if(evt is GamePadDisconnectedEvent)
+            {
+                RemoveGamePadListener(((GamePadDisconnectedEvent)evt).PlayerIndex);
             }
 
             return false;
