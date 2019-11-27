@@ -78,6 +78,14 @@ namespace GameJam.Directors
                 }
                 Engine.DestroyEntity(hazard);
             }
+            if(hazard.HasComponent<LaserBeamReflectionComponent>())
+            {
+                LaserBeamReflectionComponent laserBeamReflectionComp = hazard.GetComponent<LaserBeamReflectionComponent>();
+                if(laserBeamReflectionComp.ReflectedBy != null)
+                {
+                    EventManager.Instance.QueueEvent(new IncreasePlayerScoreEvent(laserBeamReflectionComp.ReflectedBy, CVars.Get<int>("score_base_destroy_enemy_with_laser")));
+                }
+            }
         }
     }
 }
