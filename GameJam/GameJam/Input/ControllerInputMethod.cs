@@ -10,33 +10,29 @@ namespace GameJam.Input
         public bool isRotatingCW;
         public bool isRotatingCCW;
         public readonly PlayerIndex PlayerIndex;
-        readonly GamePadCapabilities _capabilities;
 
         public ControllerInputMethod(PlayerIndex playerIndex)
         {
             PlayerIndex = playerIndex;
-            _capabilities = GamePad.GetCapabilities(PlayerIndex);
             isRotatingCCW = false;
             isRotatingCW = false;
 
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
             EventManager.Instance.RegisterListener<GamePadButtonUpEvent>(this);
+            EventManager.Instance.RegisterListener<GamePadDisconnectedEvent>(this);
         }
 
         public override void Update(float dt)
         {
-            if(_capabilities.IsConnected)
+            if(isRotatingCW)
             {
-                if(isRotatingCW)
-                {
-                    // Counter-Clockwise
-                    _snapshot.Angle -= CVars.Get<float>("input_shield_angular_speed") * dt;
-                }
-                if (isRotatingCCW)
-                {
-                    // Clockwise
-                    _snapshot.Angle += CVars.Get<float>("input_shield_angular_speed") * dt;
-                }
+                // Counter-Clockwise
+                _snapshot.Angle -= CVars.Get<float>("input_shield_angular_speed") * dt;
+            }
+            if (isRotatingCCW)
+            {
+                // Clockwise
+                _snapshot.Angle += CVars.Get<float>("input_shield_angular_speed") * dt;
             }
         }
 
@@ -47,11 +43,19 @@ namespace GameJam.Input
             if (evt is GamePadButtonUpEvent)
                 HandleGamePadRotationOff(evt as GamePadButtonUpEvent);
 
+            if (evt is GamePadDisconnectedEvent)
+                HandleGamePadDisconnected(evt as GamePadDisconnectedEvent);
+
             return false;
         }
 
         private void HandleGamePadRotationOn(GamePadButtonDownEvent gpbde)
         {
+            if(gpbde._playerIndex != PlayerIndex)
+            {
+                return;
+            }
+
             if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_left"))
             {
                 isRotatingCCW = true;
@@ -64,6 +68,11 @@ namespace GameJam.Input
 
         private void HandleGamePadRotationOff(GamePadButtonUpEvent gpbue)
         {
+            if(gpbue._playerIndex != PlayerIndex)
+            {
+                return;
+            }
+
             if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_left"))
             {
                 isRotatingCCW = false;
@@ -72,6 +81,11 @@ namespace GameJam.Input
             {
                 isRotatingCW = false;
             }
+        }
+
+        private void HandleGamePadDisconnected(GamePadDisconnectedEvent gpde)
+        {
+            isRotatingCCW = isRotatingCW = false;
         }
 
         ~ControllerInputMethod()

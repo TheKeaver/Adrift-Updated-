@@ -26,6 +26,8 @@ namespace GameJam.States
                 GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_main_menu"));
 
+            _root.AutoControlModeSwitching = true;
+
             ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
 
             base.OnInitialize();
