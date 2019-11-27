@@ -55,7 +55,8 @@ namespace GameJam.States
             {
                 for (int i = 0; i < players.Length; i++)
                 {
-                    _playersSeated[i] = players[i];
+                    int idx = players[i].LobbySeatIndex > 0 && players[i].LobbySeatIndex < MAX_PLAYERS ? players[i].LobbySeatIndex : i;
+                    _playersSeated[idx] = players[i];
                 }
             }
         }
@@ -272,6 +273,7 @@ namespace GameJam.States
                     continue;
                 }
                 _playersSeated[i] = player;
+                player.LobbySeatIndex = i;
                 break;
             }
 
