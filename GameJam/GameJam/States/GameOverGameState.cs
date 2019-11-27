@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using Adrift.Content.Common.UI;
+using Events;
+using GameJam.Events.UI.GameOver;
 using GameJam.Processes.Animations;
 using GameJam.UI;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Content.Pipeline;
 
 namespace GameJam.States
 {
-    public class GameOverGameState : CommonGameState
+    public class GameOverGameState : CommonGameState, IEventListener
     {
         public SpriteBatch SpriteBatch
         {
@@ -83,6 +85,9 @@ namespace GameJam.States
         {
             Root.RegisterListeners();
 
+            EventManager.Instance.RegisterListener<PlayAgainButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<ExitToLobbyButtonPressedEvent>(this);
+
             base.RegisterListeners();
         }
 
@@ -103,6 +108,30 @@ namespace GameJam.States
                 Root.FindWidgetByID(string.Format("player_{0}_score", i)).Hidden = false;
                 ((Label)Root.FindWidgetByID(string.Format("player_{0}_score", i))).Content = Score[i].ToString();
             }
+        }
+
+        public bool Handle(IEvent evt)
+        {
+            if(evt is PlayAgainButtonPressedEvent)
+            {
+                PlayAgain();
+            }
+            if(evt is ExitToLobbyButtonPressedEvent)
+            {
+                ExitToLobby();
+            }
+
+            return false;
+        }
+
+        private void PlayAgain()
+        {
+            ChangeState(new AdriftGameState(GameManager, SharedState, Players));
+        }
+
+        private void ExitToLobby()
+        {
+            ChangeState(new UILobbyGameState(GameManager, SharedState));
         }
     }
 }

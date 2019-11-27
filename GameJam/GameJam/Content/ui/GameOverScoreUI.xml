@@ -146,5 +146,67 @@
                 hidden="true"
                 />
         </Panel>
+        <Button
+            id="PlayAgain"
+            aboveID=""
+            leftID="ExitToLobby"
+            rightID="ExitToLobby"
+            belowID=""
+            defaultSelected="true"
+            halign="center"
+            valign="bottom"
+            horizontal="-20%"
+            vertical="10"
+            width="25%"
+            height="10%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:UI.GameOver.PlayAgainButtonPressedEvent">
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="90%"
+                height="50%"
+                content="Play Again"
+                font="font_hyperspace"
+                />
+        </Button>
+        <Button
+            id="ExitToLobby"
+            aboveID=""
+            leftID="PlayAgain"
+            rightID="PlayAgain"
+            belowID=""
+            defaultSelected="false"
+            halign="center"
+            valign="bottom"
+            horizontal="20%"
+            vertical="10"
+            width="25%"
+            height="10%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:UI.GameOver.ExitToLobbyButtonPressedEvent">
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="90%"
+                height="50%"
+                content="Exit to Lobby"
+                font="font_hyperspace"
+                />
+        </Button>
     </Widgets>
 </UI>
