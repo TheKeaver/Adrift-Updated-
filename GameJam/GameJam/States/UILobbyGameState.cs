@@ -44,9 +44,20 @@ namespace GameJam.States
             }
         }
 
-        public UILobbyGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
+        public UILobbyGameState(GameManager gameManager,
+            SharedGameState sharedState,
+            Player[] players = null)
+            :base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+
+            if (players != null)
+            {
+                for (int i = 0; i < players.Length; i++)
+                {
+                    _playersSeated[i] = players[i];
+                }
+            }
         }
 
         protected override void OnInitialize()

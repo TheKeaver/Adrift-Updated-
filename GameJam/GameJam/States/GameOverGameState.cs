@@ -131,7 +131,7 @@ namespace GameJam.States
 
         private void ExitToLobby()
         {
-            ChangeState(new UILobbyGameState(GameManager, SharedState));
+            ChangeState(new UILobbyGameState(GameManager, SharedState, Players));
         }
     }
 }
