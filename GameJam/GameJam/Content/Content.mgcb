@@ -1802,6 +1802,11 @@
 /processorParam:TextureFormat=Color
 /build:textures/ui/LobbyPanelBackground.png
 
+#begin ui/GameOverScoreUI.xml
+/importer:UIWidgetsImporter
+/processor:UIWidgetsProcessor
+/build:ui/GameOverScoreUI.xml
+
 #begin ui/Lobby/JoinInstructions.xml
 /importer:UIWidgetsImporter
 /processor:UIWidgetsProcessor

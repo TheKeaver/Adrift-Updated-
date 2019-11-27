@@ -75,6 +75,11 @@ namespace Audrey
             return foundComp;
         }
 
+        public ImmutableList<IComponent> GetComponents()
+        {
+            return new ImmutableList<IComponent>(_components);
+        }
+
         /// <summary>
         /// Add a component to this Entity.
         /// </summary>

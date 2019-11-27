@@ -5,11 +5,13 @@ namespace GameJam.Events.GameLogic
 {
     public class GameOverEvent : IEvent
     {
-        public Entity ShipShield;
+        public Player Player;
+        public Entity ResponsibleEntity;
 
-        public GameOverEvent(Entity shield)
+        public GameOverEvent(Player player, Entity responsibleEntity)
         {
-            ShipShield = shield;
+            Player = player;
+            ResponsibleEntity = responsibleEntity;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using Audrey.Events;
 using Events;
 using GameJam.Components;
 using GameJam.Events.EnemyActions;
@@ -19,7 +20,6 @@ namespace GameJam.Directors
         protected override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<CollisionStartEvent>(this);
-            EventManager.Instance.RegisterListener<GameOverEvent>(this);
         }
 
         protected override void UnregisterEvents()
@@ -32,10 +32,6 @@ namespace GameJam.Directors
             if (evt is CollisionStartEvent)
             {
                 OrderColliders(evt as CollisionStartEvent);
-            }
-            if (evt is GameOverEvent)
-            {
-                HandleGameOver(evt as GameOverEvent);
             }
             return false;
         }
@@ -59,13 +55,8 @@ namespace GameJam.Directors
                 color = enemy.GetComponent<ColoredExplosionComponent>().Color;
             }
             EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemy.GetComponent<TransformComponent>().Position, color));
-            EventManager.Instance.QueueEvent(new IncreasePlayerScoreEvent(1));
+            EventManager.Instance.QueueEvent(new IncreasePlayerScoreEvent(playerShield.GetComponent<PlayerComponent>().Player, CVars.Get<int>("score_base_destroy_enemy")));
             Engine.DestroyEntity(enemy);
-        }
-
-        void HandleGameOver(GameOverEvent evt)
-        {
-            Engine.DestroyEntity(evt.ShipShield);
         }
     }
 }
