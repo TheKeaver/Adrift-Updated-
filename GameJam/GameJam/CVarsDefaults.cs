@@ -299,6 +299,10 @@ namespace GameJam
             Create<string>("texture_input_gamepad_stick_right", "textures/input/XboxOne/XboxOne_Right_Stick", CVarFlags.PRESERVE);
             /** END GAMEPAD INPUT TEXTURES **/
 
+            Create<float>("sound_master_volume", 1.0f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("sound_music_volume", 1.0f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("sound_effect_volume", 1.0f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+
             Create<string>("sound_explosion", "sounds/Explosion_Sound", CVarFlags.PRESERVE);
             Create<string>("sound_projectile_fired", "sounds/Laser_Shot", CVarFlags.PRESERVE);
             Create<string>("sound_projectile_bounce", "sounds/Proj_Bounce", CVarFlags.PRESERVE);

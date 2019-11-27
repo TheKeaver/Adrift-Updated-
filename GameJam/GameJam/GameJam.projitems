@@ -9,11 +9,16 @@
     <Import_RootNamespace>GameJam</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Audio\AudioManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PlaySoundEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\StopAllSoundsEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\ResumeAllSoundsEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PauseAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAOffButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAFXAASettingsButtonPressedEvent.cs" />
