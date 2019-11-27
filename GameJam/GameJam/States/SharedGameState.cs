@@ -88,7 +88,8 @@ namespace GameJam.States
                 new PulseSystem(Engine),
                 new ParallaxBackgroundSystem(Engine, Camera),
                 new PassiveRotationSystem(Engine),
-                new MenuBackgroundDestructionSystem(Engine)
+                new MenuBackgroundDestructionSystem(Engine),
+                new ChasingSpeedIncreaseSystem(Engine)
             };
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);

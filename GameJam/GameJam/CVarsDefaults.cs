@@ -84,10 +84,12 @@ namespace GameJam
 
             Create<bool>("god", false, CVarFlags.DEV_PRESERVE);
 
+            Create<float>("enemy_pushback_force", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
             Create<float>("chasing_enemy_speed", 100.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("chasing_enemy_rotational_speed", 1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("chasing_enemy_size", 3, CVarFlags.DEV_PRESERVE);
-            Create<float>("enemy_pushback_force", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("chasing_enemy_acceleration", 13f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("shooting_enemy_size", 4, CVarFlags.DEV_PRESERVE);
             Create<float>("shooting_enemy_speed", 0, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -142,6 +144,10 @@ namespace GameJam
             Create<float>("game_over_edge_fade_out_duration", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("game_over_camera_reset_duration", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("game_over_ui_fade_in_duration", 0.7f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
+            Create<int>("score_base_destroy_enemy", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("score_base_destroy_enemy_with_projectile", 10, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("score_base_destroy_enemy_with_laser", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             /** MENU **/
             Create<float>("entity_background_spawner_min", 1f, CVarFlags.DEV_PRESERVE);

@@ -10,7 +10,7 @@ namespace GameJam.Directors
     public class EnemyPushBackOnPlayerDirector : BaseDirector
     {
         readonly Family playerFamily = Family.One(typeof(PlayerShieldComponent), typeof(PlayerShipComponent)).Get();
-        readonly Family enemyShipFamily = Family.One(typeof(ChasingEnemyComponent), typeof(ShootingEnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
+        readonly Family enemyShipFamily = Family.One(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent), typeof(LaserBeamComponent), typeof(LaserBeamReflectionComponent)).Get();
         public EnemyPushBackOnPlayerDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
         }
