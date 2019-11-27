@@ -7,6 +7,7 @@ namespace GameJam.Components
     {
         public int BouncesLeft;
         public Color Color;
+        public Player LastBouncedBy = null;
         
         public ProjectileComponent(int totalBounces, Color color)
         {

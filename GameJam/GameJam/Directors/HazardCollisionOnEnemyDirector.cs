@@ -71,6 +71,11 @@ namespace GameJam.Directors
             Engine.DestroyEntity(enemy);
             if (hazard.HasComponent<ProjectileComponent>())
             {
+                ProjectileComponent projectileComp = hazard.GetComponent<ProjectileComponent>();
+                if (projectileComp.LastBouncedBy != null)
+                {
+                    EventManager.Instance.QueueEvent(new IncreasePlayerScoreEvent(projectileComp.LastBouncedBy, CVars.Get<int>("score_base_destroy_enemy_with_projectile")));
+                }
                 Engine.DestroyEntity(hazard);
             }
         }
