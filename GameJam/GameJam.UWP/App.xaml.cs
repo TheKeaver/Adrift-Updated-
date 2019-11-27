@@ -31,8 +31,10 @@ namespace GameJam.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
+
 #if DEBUG
-            if(System.Diagnostics.Debugger.IsAttached)
+            if (System.Diagnostics.Debugger.IsAttached)
             {
                 DebugSettings.EnableFrameRateCounter = true;
             }

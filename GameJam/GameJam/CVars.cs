@@ -244,6 +244,11 @@ namespace GameJam
             return false;
 #endif
 #if WINDOWS_UWP
+#if DEBUG
+            // We can't delete CVars on Xbox easily, just use the defaults if we are in
+            // debug mode.
+            return false;
+#else
             ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             if(!localSettings.Values.ContainsKey("cvars"))
             {
@@ -256,6 +261,7 @@ namespace GameJam
                 cvarsIni += string.Format("{0} = {1}\n", name, composite[name]);
             }
             return DeserializeAll(cvarsIni, live);
+#endif
 #endif
         }
         public static void Save()

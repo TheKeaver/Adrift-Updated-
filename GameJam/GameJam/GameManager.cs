@@ -41,6 +41,11 @@ namespace GameJam
         {
             CVars.Initialize();
 
+#if WINDOWS_UWP
+            CVars.Get<bool>("display_borderless") = true;
+            CVars.Get<bool>("display_fullscreen") = false;
+#endif
+
             ProcessManager = new ProcessManager();
 
             Graphics = new GraphicsDeviceManager(this);
