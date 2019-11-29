@@ -81,6 +81,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionDetectionSystem.cs" />
@@ -212,7 +213,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Entities\SpriteEntityFadeOutProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\AnimationProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\CameraPositionZoomResetProcess.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\WidgetClassFadeAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\PlayAgainButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\ExitToLobbyButtonPressedEvent.cs" />
