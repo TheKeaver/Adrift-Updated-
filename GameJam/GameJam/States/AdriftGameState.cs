@@ -5,6 +5,7 @@ using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
+using GameJam.Events.Audio;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using GameJam.Processes;
@@ -223,6 +224,7 @@ namespace GameJam.States
         private void HandlePause()
         {
             GameManager.ProcessManager.TogglePauseAll();
+            EventManager.Instance.QueueEvent(new PauseAllSoundsEvent());
             GameManager.ProcessManager.Attach(new PauseGameState(GameManager, SharedState, this));
         }
     }

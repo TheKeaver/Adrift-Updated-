@@ -1,5 +1,6 @@
 ﻿using Audrey;
 using Events;
+using GameJam.Content;
 using GameJam.Events.Audio;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -18,7 +19,7 @@ namespace GameJam.Audio
     public class AudioManager : Process, IEventListener
     {
         private List<SoundEffectInstance> _soundEffects = new List<SoundEffectInstance>();
-        ContentManager content;
+        LockingContentManager content;
 
         public SoundEffectInstance[] CurrentSounds
         {
@@ -28,7 +29,7 @@ namespace GameJam.Audio
             }
         }
 
-        public AudioManager(Engine sharedEngine, ContentManager content)
+        public AudioManager(LockingContentManager content)
         {
             IsPausable = false;
             this.content = content;
@@ -65,7 +66,7 @@ namespace GameJam.Audio
         
         private void PlaySound(string cvarName, float eventVolume, float pan, float pitch, SoundType type)
         {
-            SoundEffect sound = content.Load<SoundEffect>(CVars.Get<string>(cvarName));
+            SoundEffect sound = content.Load<SoundEffect>(cvarName);
             SoundEffectInstance instance = sound.CreateInstance();
 
             if ((int)type == 0)
@@ -80,6 +81,7 @@ namespace GameJam.Audio
             instance.Pan = pan;
             instance.Pitch = pitch;
             instance.Play();
+            Console.WriteLine("Playing Sound " + cvarName);
         }
 
         protected override void OnInitialize()
@@ -105,7 +107,10 @@ namespace GameJam.Audio
             foreach (SoundEffectInstance sound in _soundEffects)
             {
                 if (sound.IsDisposed)
+                {
                     _soundEffects.Remove(sound);
+                    sound.Dispose();
+                }
             }
         }
 

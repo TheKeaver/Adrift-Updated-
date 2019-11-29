@@ -1,6 +1,8 @@
 using System;
 using Adrift.Content.Common.UI;
 using Events;
+using GameJam.Audio;
+using GameJam.Content;
 using GameJam.DevTools;
 using GameJam.Directors;
 using GameJam.Events;
@@ -193,6 +195,11 @@ namespace GameJam
 
             SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
             ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+
+            LockingContentManager lcm = new LockingContentManager(Services);
+            lcm.Locked = false;
+            lcm.RootDirectory = "Content";
+            ProcessManager.Attach(new AudioManager(lcm));
         }
         
         protected override void Update(GameTime gameTime)

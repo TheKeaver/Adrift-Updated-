@@ -3,6 +3,7 @@ using Adrift.Content.Common.UI;
 using Events;
 using GameJam.Directors;
 using GameJam.Events;
+using GameJam.Events.Audio;
 using GameJam.Events.UI.Pause;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,6 +28,8 @@ namespace GameJam.States
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_pause_menu"));
 
             ProcessManager.Attach(new PauseDirector(null, Content, ProcessManager));
+
+            EventManager.Instance.QueueEvent(new PauseAllSoundsEvent());
 
             base.OnInitialize();
         }
@@ -57,6 +60,7 @@ namespace GameJam.States
 
         protected override void OnKill()
         {
+            EventManager.Instance.QueueEvent(new ResumeAllSoundsEvent());
             base.OnKill();
         }
 
