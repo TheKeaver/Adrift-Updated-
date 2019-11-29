@@ -44,9 +44,21 @@ namespace GameJam.States
             }
         }
 
-        public UILobbyGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
+        public UILobbyGameState(GameManager gameManager,
+            SharedGameState sharedState,
+            Player[] players = null)
+            :base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+
+            if (players != null)
+            {
+                for (int i = 0; i < players.Length; i++)
+                {
+                    int idx = players[i].LobbySeatIndex > 0 && players[i].LobbySeatIndex < MAX_PLAYERS ? players[i].LobbySeatIndex : i;
+                    _playersSeated[idx] = players[i];
+                }
+            }
         }
 
         protected override void OnInitialize()
@@ -54,6 +66,8 @@ namespace GameJam.States
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_lobby_menu"));
+
+            _root.AutoControlModeSwitching = false;
 
             _keyTextureMap = new KeyTextureMap();
             _keyTextureMap.CacheAll(Content);
@@ -259,6 +273,7 @@ namespace GameJam.States
                     continue;
                 }
                 _playersSeated[i] = player;
+                player.LobbySeatIndex = i;
                 break;
             }
 

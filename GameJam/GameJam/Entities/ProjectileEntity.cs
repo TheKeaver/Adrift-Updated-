@@ -11,7 +11,7 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent(position));
-            entity.AddComponent(new ProjectileComponent(CVars.Get<int>("shooting_enemy_projectile_bounces")));
+            entity.AddComponent(new ProjectileComponent(CVars.Get<int>("shooting_enemy_projectile_bounces"), CVars.Get<Color>("color_projectile")));
             entity.AddComponent(new BounceComponent());
             entity.AddComponent(new MovementComponent(direction, CVars.Get<float>("shooting_enemy_projectile_speed")));
             entity.AddComponent(new EnemyComponent());

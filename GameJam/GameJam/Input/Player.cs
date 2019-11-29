@@ -19,6 +19,12 @@ namespace GameJam
             private set;
         }
 
+        public int LobbySeatIndex
+        {
+            get;
+            set;
+        } = -1;
+
         public Player(string name) : this(name, null)
         {
         }

@@ -62,6 +62,10 @@ namespace GameJam.Systems
                             {
                                 laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero, laserBeamEntity.HasComponent<CollisionComponent>());
                                 laserBeamComp.ReflectionBeamEntity.AddComponent(new LaserBeamReflectionComponent());
+                                if (laserHit.Other.HasComponent<PlayerComponent>()) {
+                                    laserBeamComp.ReflectionBeamEntity.GetComponent<LaserBeamReflectionComponent>().ReflectedBy
+                                        = laserHit.Other.GetComponent<PlayerComponent>().Player;
+                                }
                             }
 
                             Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;

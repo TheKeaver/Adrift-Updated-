@@ -27,6 +27,8 @@ namespace GameJam.States
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_pause_menu"));
 
+            _root.AutoControlModeSwitching = true;
+
             ProcessManager.Attach(new PauseDirector(null, Content, ProcessManager));
 
             EventManager.Instance.QueueEvent(new PauseAllSoundsEvent());
@@ -60,6 +62,8 @@ namespace GameJam.States
 
         protected override void OnKill()
         {
+            _root.AutoControlModeSwitching = false;
+
             EventManager.Instance.QueueEvent(new ResumeAllSoundsEvent());
             base.OnKill();
         }

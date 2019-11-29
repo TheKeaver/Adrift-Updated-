@@ -8,9 +8,48 @@
             widgth="10%"
             height="5%"
             
-            content="Score: 0"
+            content="Player 1 Score: {0}"
             font="font_hyperspace"
-            id="main_game_score_label"
+            id="player_0_score_label"
+        />
+        <Label
+            halign="right"
+            valign="top"
+            horizontal="10"
+            vertical="10"
+            widgth="10%"
+            height="5%"
+            hidden="true"
+            
+            content="Player 2 Score: {0}"
+            font="font_hyperspace"
+            id="player_1_score_label"
+        />
+        <Label
+            halign="left"
+            valign="bottom"
+            horizontal="10"
+            vertical="10"
+            widgth="10%"
+            height="5%"
+            hidden="true"
+            
+            content="Player 3 Score: {0}"
+            font="font_hyperspace"
+            id="player_2_score_label"
+        />
+        <Label
+            halign="right"
+            valign="bottom"
+            horizontal="10"
+            vertical="10"
+            widgth="10%"
+            height="5%"
+            hidden="true"
+            
+            content="Player 4 Score: {0}"
+            font="font_hyperspace"
+            id="player_3_score_label"
         />
     </Widgets>
 </UI>
