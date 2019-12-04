@@ -447,7 +447,10 @@ namespace Adrift.Content.Common.UI
             Children = new List<WidgetPrototype>();
             for (int i = 0; i < count; i++)
             {
-                WidgetPrototype widget = (WidgetPrototype)Activator.CreateInstance(Type.GetType(input.ReadString()));
+                string assemblyName = GetType().Assembly.FullName.Split(',')[0];
+                string className = input.ReadString().Split(',')[0];
+                string assemblyQualifiedName = string.Format("{0}, {1}", className, assemblyName);
+                WidgetPrototype widget = (WidgetPrototype)Activator.CreateInstance(Type.GetType(assemblyQualifiedName));
                 widget.ReadFromInput(input);
                 Children.Add(widget);
             }
