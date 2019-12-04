@@ -43,6 +43,7 @@ namespace GameJam.Entities
                 new Vector2(-4, 3),
                 new Vector2(-4, -3)
             })));
+            entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
 
             return entity;
         }

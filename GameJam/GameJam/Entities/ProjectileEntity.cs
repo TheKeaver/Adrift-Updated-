@@ -30,6 +30,7 @@ namespace GameJam.Entities
                 new Vector2(-3, 1),
                 new Vector2(-3, -1)
             })));
+            entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
 
             return entity;
         }

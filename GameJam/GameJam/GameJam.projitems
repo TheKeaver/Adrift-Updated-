@@ -217,6 +217,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\PlayAgainButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\ExitToLobbyButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\ChasingSpeedIncreaseSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Collision.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

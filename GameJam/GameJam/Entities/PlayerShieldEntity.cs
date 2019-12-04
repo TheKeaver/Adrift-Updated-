@@ -29,6 +29,8 @@ namespace GameJam.Entities
                 new Vector2(-6, 1),
                 new Vector2(-6, -1)
             })));
+            entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_PLAYER;
+            entity.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.GROUP_MASK_ALL & ~Constants.Collision.COLLISION_GROUP_PLAYER);
 
             return entity;
         }
