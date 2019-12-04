@@ -346,6 +346,9 @@ namespace Adrift.Content.Common.UI
         [XmlAttribute("divisions")]
         public int divisions;
 
+        [XmlAttribute("cvar")]
+        public string cvar = "";
+
         [XmlAttribute("aboveID")]
         public string AboveID = "";
         [XmlAttribute("leftID")]
@@ -379,6 +382,8 @@ namespace Adrift.Content.Common.UI
 
             output.Write(divisions);
 
+            output.Write(cvar);
+
             base.WriteToOutput(output);
         }
 #endif
@@ -402,6 +407,8 @@ namespace Adrift.Content.Common.UI
             isVertical = input.ReadBoolean();
 
             divisions = input.ReadInt32();
+
+            cvar = input.ReadString();
 
             base.ReadFromInput(input);
         }

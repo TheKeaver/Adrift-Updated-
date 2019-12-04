@@ -81,6 +81,7 @@ namespace GameJam.UI.Widgets
             private set;
         } = SliderState.Released;
 
+        public string cvar { get; set; } = "";
         public string aboveID { get; set; } = "";
         public string leftID { get; set; } = "";
         public string rightID { get; set; } = "";
@@ -110,7 +111,8 @@ namespace GameJam.UI.Widgets
             AbstractValue height,
             bool isVertical,
             bool isHorizontal,
-            int divisions) : base(hAlign, horizontal, vAlign, vertical, width, height)
+            int divisions,
+            string cvar) : base(hAlign, horizontal, vAlign, vertical, width, height)
         {
             _releasedNinePatch = releasedNinePatch;
             _hoverNinePatch = hoverNinePatch;
@@ -119,6 +121,7 @@ namespace GameJam.UI.Widgets
             this.isVertical = isVertical;
             this.isHorizontal = isHorizontal;
             this.divisions = divisions;
+            this.cvar = cvar;
 
             SliderButton = new Button(_releasedNinePatch,
                 _hoverNinePatch,
@@ -275,11 +278,17 @@ namespace GameJam.UI.Widgets
                     }
                 }
             }
-            horizontalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.X, BottomRight.X, (SliderButton.Horizontal + distanceToCenterOfButtonX)) * divisions, 0, divisions)));
-            //Console.WriteLine(horizontalValue);
 
+            horizontalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.X, BottomRight.X, (SliderButton.Horizontal + distanceToCenterOfButtonX)) * divisions, 0, divisions)));
             verticalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.Y, BottomRight.Y, (SliderButton.Vertical + distanceToCenterOfButtonY)) * divisions, 0, divisions)));
-            //Console.WriteLine(verticalValue);
+
+            Console.WriteLine("Horizontal Value = " + horizontalValue);
+            Console.WriteLine("Vertical Value = " + verticalValue);
+
+            if (isHorizontal)
+                CVars.Get<float>(cvar) = horizontalValue;
+            if (isVertical)
+                CVars.Get<float>(cvar) = verticalValue;
 
             return false;
         }

@@ -72,11 +72,13 @@ namespace GameJam.Audio
             if ((int)type == 0)
                 instance.Volume = CVars.Get<float>("sound_master_volume") *
                                   CVars.Get<float>("sound_effect_volume") *
-                                  eventVolume;
+                                  eventVolume *
+                                  0.01f;
             if ((int)type == 1)
                 instance.Volume = CVars.Get<float>("sound_master_volume") *
                                   CVars.Get<float>("sound_music_volume") *
-                                  eventVolume;
+                                  eventVolume *
+                                  0.01f;
 
             instance.Pan = pan;
             instance.Pitch = pitch;
