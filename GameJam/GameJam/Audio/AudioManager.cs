@@ -1,12 +1,9 @@
-﻿using Audrey;
-using Events;
+﻿using Events;
+using GameJam.Common;
 using GameJam.Content;
 using GameJam.Events.Audio;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Audio
 {
@@ -37,7 +34,7 @@ namespace GameJam.Audio
 
         public void PauseAll()
         {
-            foreach (SoundEffectInstance sound in _soundEffects )
+            foreach (SoundEffectInstance sound in _soundEffects)
             {
                 sound.Pause();
             }
@@ -69,21 +66,21 @@ namespace GameJam.Audio
             SoundEffect sound = content.Load<SoundEffect>(cvarName);
             SoundEffectInstance instance = sound.CreateInstance();
 
-            if ((int)type == 0)
-                instance.Volume = CVars.Get<float>("sound_master_volume") *
-                                  CVars.Get<float>("sound_effect_volume") *
-                                  eventVolume *
-                                  0.01f;
-            if ((int)type == 1)
-                instance.Volume = CVars.Get<float>("sound_master_volume") *
-                                  CVars.Get<float>("sound_music_volume") *
-                                  eventVolume *
-                                  0.01f;
+            float volume = CVars.Get<float>("sound_master_volume") * eventVolume;
+            if (type == SoundType.SoundEffect)
+            {
+                volume *= CVars.Get<float>("sound_effect_volume");
+            }
+            if (type == SoundType.Music)
+            {
+                volume *= CVars.Get<float>("sound_music_volume");
+            }
 
             instance.Pan = pan;
             instance.Pitch = pitch;
+            instance.Volume = volume;
             instance.Play();
-            Console.WriteLine("Playing Sound " + cvarName);
+            _soundEffects.Add(instance);
         }
 
         protected override void OnInitialize()
@@ -106,9 +103,11 @@ namespace GameJam.Audio
         protected override void OnUpdate(float dt)
         {
             // check all expired and remove completed
-            foreach (SoundEffectInstance sound in _soundEffects)
+            for (int i = _soundEffects.Count - 1; i >= 0; i--)
             {
-                if (sound.IsDisposed)
+                SoundEffectInstance sound = _soundEffects[i];
+
+                if(sound.State == SoundState.Stopped)
                 {
                     _soundEffects.Remove(sound);
                     sound.Dispose();
