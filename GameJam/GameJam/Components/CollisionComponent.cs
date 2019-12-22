@@ -192,8 +192,8 @@ namespace GameJam.Components
 
             float width = maxX - minX;
             float height = maxY - minY;
-            return new BoundingRect(transformedOffset.X - width / 2, transformedOffset.Y - height / 2,
-                width, height);
+            return new BoundingRect(new Vector2(minX, minY) + transformedOffset,
+                new Vector2(maxX, maxY) + transformedOffset);
         }
     }
 }

@@ -114,8 +114,6 @@ namespace GameJam.Systems
 
                             if (AABB_B.Intersects(AABB_A))
                             {
-                                Console.WriteLine("Possible intersection");
-
                                 // _May_ be intersecting
                                 Vector2 pA = transformCompA.Position +
                                     new Vector2(shapeA.Offset.X * cosA - shapeA.Offset.Y * sinA,
