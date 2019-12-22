@@ -43,6 +43,11 @@ namespace GameJam.States
             get;
             private set;
         }
+        public CollisionDebugRenderSystem CollisionDebugRenderSystem
+        {
+            get;
+            private set;
+        }
 
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
@@ -93,6 +98,7 @@ namespace GameJam.States
             };
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
+            CollisionDebugRenderSystem = new CollisionDebugRenderSystem(GameManager.GraphicsDevice, Engine);
         }
         private void InitDirectors()
         {
@@ -222,6 +228,8 @@ namespace GameJam.States
                 postProcessingResult.Bounds,
                 Color.White); // Post-processing results
             RenderSystem.SpriteBatch.End();
+
+            CollisionDebugRenderSystem.Draw(Camera.TransformMatrix, dt);
 
             base.OnRender(dt, betweenFrameAlpha);
         }

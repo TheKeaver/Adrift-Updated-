@@ -95,8 +95,8 @@ namespace GameJam.Components
 
         public override BoundingRect GetAABB(float cos, float sin, float scale)
         {
-            return new BoundingRect(Offset.X - Radius / 2, Offset.Y - Radius / 2,
-                Radius, Radius);
+            return new BoundingRect((Offset.X - Radius / 2) * scale, (Offset.Y - Radius / 2) * scale,
+                Radius * scale, Radius * scale);
         }
     }
 

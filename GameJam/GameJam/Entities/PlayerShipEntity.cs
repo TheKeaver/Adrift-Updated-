@@ -44,7 +44,8 @@ namespace GameJam.Entities
                 new Vector2(3, 0),
                 new Vector2(0, 3),
                 new Vector2(-3, 2),
-                new Vector2(-3, -2)
+                new Vector2(-3, -2),
+                new Vector2(0, -3)
             })));
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_PLAYER;
             entity.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.GROUP_MASK_ALL & ~Constants.Collision.COLLISION_GROUP_PLAYER);

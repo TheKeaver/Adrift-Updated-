@@ -39,9 +39,9 @@ namespace GameJam.Entities
             entity.AddComponent(new ChasingEnemyComponent());
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
-                new Vector2(5, 0),
-                new Vector2(-4, 3),
-                new Vector2(-4, -3)
+                new Vector2(3, 0),
+                new Vector2(-5, 3),
+                new Vector2(-5, -3)
             })));
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
 
