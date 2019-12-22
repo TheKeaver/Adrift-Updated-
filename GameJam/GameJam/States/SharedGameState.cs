@@ -43,11 +43,13 @@ namespace GameJam.States
             get;
             private set;
         }
+#if DEBUG
         public CollisionDebugRenderSystem CollisionDebugRenderSystem
         {
             get;
             private set;
         }
+#endif
 
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
@@ -98,7 +100,9 @@ namespace GameJam.States
             };
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
+#if DEBUG
             CollisionDebugRenderSystem = new CollisionDebugRenderSystem(GameManager.GraphicsDevice, Engine);
+#endif
         }
         private void InitDirectors()
         {
@@ -229,7 +233,12 @@ namespace GameJam.States
                 Color.White); // Post-processing results
             RenderSystem.SpriteBatch.End();
 
-            CollisionDebugRenderSystem.Draw(Camera.TransformMatrix, dt);
+#if DEBUG
+            if (CVars.Get<bool>("debug_show_collision_shapes"))
+            {
+                CollisionDebugRenderSystem.Draw(Camera.TransformMatrix, dt);
+            }
+#endif
 
             base.OnRender(dt, betweenFrameAlpha);
         }
