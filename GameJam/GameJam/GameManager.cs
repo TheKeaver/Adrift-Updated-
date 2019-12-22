@@ -7,7 +7,6 @@ using GameJam.DevTools;
 using GameJam.Directors;
 using GameJam.Events;
 using GameJam.Events.DevTools;
-using GameJam.Events.InputHandling;
 using GameJam.Input;
 using GameJam.Processes;
 using GameJam.States;
@@ -21,7 +20,7 @@ namespace GameJam
     /// Main manager for the game. Contains implementation of the
     /// MonoGame game loop.
     /// </summary>
-    public class GameManager : Game, IEventListener
+    public partial class GameManager : Game, IEventListener
     {
         public ProcessManager ProcessManager
         {
@@ -34,6 +33,12 @@ namespace GameJam
 #endif
 
         public GraphicsDeviceManager Graphics
+        {
+            get;
+            private set;
+        }
+
+        public LockingContentManager GlobalContent
         {
             get;
             private set;
@@ -169,10 +174,14 @@ namespace GameJam
             SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
             ProcessManager.Attach(new UIMenuGameState(this, sharedState));
 
-            LockingContentManager lcm = new LockingContentManager(Services);
-            lcm.Locked = false;
-            lcm.RootDirectory = "Content";
-            ProcessManager.Attach(new AudioManager(lcm));
+            GlobalContent = new LockingContentManager(Services);
+            GlobalContent.Locked = false;
+            GlobalContent.RootDirectory = "Content";
+
+            ProcessManager.Attach(new AudioManager(GlobalContent));
+
+            LoadGameContent(GlobalContent);
+            GlobalContent.Locked = true;
         }
         
         protected override void Update(GameTime gameTime)

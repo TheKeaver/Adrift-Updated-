@@ -48,6 +48,7 @@ namespace GameJam.Entities
                 new Vector2(2, -4),
                 new Vector2(-2, -5)
             })));
+            entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
 
             FireProjectileProcess fpp = new FireProjectileProcess(entity, engine);
             processManager.Attach(fpp);
