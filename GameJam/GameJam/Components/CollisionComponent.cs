@@ -160,8 +160,8 @@ namespace GameJam.Components
 
         public override BoundingRect GetAABB(float cos, float sin, float scale)
         {
-            float minX = float.PositiveInfinity, minY = float.PositiveInfinity,
-                maxX = float.NegativeInfinity, maxY = float.NegativeInfinity;
+            Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity),
+                max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
 
             Vector2 transformedOffset = new Vector2(Offset.X * cos - Offset.Y * sin,
                                         Offset.X * sin + Offset.Y * cos);
@@ -172,28 +172,26 @@ namespace GameJam.Components
                     _vertices[i].X * sin + _vertices[i].Y * cos)
                     + transformedOffset) * scale;
 
-                if(transformedVertex.X < minX)
+                if(transformedVertex.X < min.X)
                 {
-                    minX = transformedVertex.X;
+                    min.X = transformedVertex.X;
                 }
-                if (transformedVertex.X > maxX)
+                if (transformedVertex.X > max.X)
                 {
-                    maxX = transformedVertex.X;
+                    max.X = transformedVertex.X;
                 }
-                if (transformedVertex.Y < minY)
+                if (transformedVertex.Y < min.Y)
                 {
-                    minY = transformedVertex.Y;
+                    min.Y = transformedVertex.Y;
                 }
-                if (transformedVertex.Y > maxY)
+                if (transformedVertex.Y > max.Y)
                 {
-                    maxY = transformedVertex.Y;
+                    max.Y = transformedVertex.Y;
                 }
             }
 
-            float width = maxX - minX;
-            float height = maxY - minY;
-            return new BoundingRect(new Vector2(minX, minY) + transformedOffset,
-                new Vector2(maxX, maxY) + transformedOffset);
+            return new BoundingRect(min,
+                max);
         }
     }
 }
