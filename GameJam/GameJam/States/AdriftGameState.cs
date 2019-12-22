@@ -78,14 +78,6 @@ namespace GameJam.States
         private void LoadContent()
         {
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_adrift_game_ui"));
-
-            Content.Load<Texture2D>("texture_title_without_instructions");
-
-            Content.Load<SoundEffect>("sound_explosion");
-            Content.Load<SoundEffect>("sound_projectile_fired");
-            Content.Load<SoundEffect>("sound_projectile_bounce");
-
-            Content.Load<BitmapFont>("font_game_over");
         }
 
         protected override void OnUpdate(float dt)
