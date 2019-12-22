@@ -63,12 +63,6 @@ namespace GameJam.UI.Widgets
             }
         }
 
-        /*public Panel SubPanel
-        {
-            get;
-            private set;
-        }*/
-
         public Button SliderButton
         {
             get;
@@ -126,12 +120,11 @@ namespace GameJam.UI.Widgets
             SliderButton = new Button(_releasedNinePatch,
                 _hoverNinePatch,
                 _pressedNinePatch,
-                HorizontalAlignment.Center, new FixedValue(0),
-                VerticalAlignment.Center, new FixedValue(0),
+                HorizontalAlignment.Center, new FixedValue(0), // TODO: Make dependent on isVertical
+                VerticalAlignment.Center, new FixedValue(0), // TODO: Make dependent on isVertical
                 new RelativeValue(0.2f, () => { return Width; }),
                 new RelativeValue(0.3f, () => { return Height; }));
 
-            //SubPanel.Parent = this;
             SliderButton.Parent = this;
         }
 
@@ -282,8 +275,8 @@ namespace GameJam.UI.Widgets
             horizontalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.X, BottomRight.X, (SliderButton.Horizontal + distanceToCenterOfButtonX)) * divisions, 0, divisions)));
             verticalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.Y, BottomRight.Y, (SliderButton.Vertical + distanceToCenterOfButtonY)) * divisions, 0, divisions)));
 
-            Console.WriteLine("Horizontal Value = " + horizontalValue);
-            Console.WriteLine("Vertical Value = " + verticalValue);
+            //Console.WriteLine("Horizontal Value = " + horizontalValue);
+            //Console.WriteLine("Vertical Value = " + verticalValue);
 
             if (isHorizontal)
                 CVars.Get<float>(cvar) = horizontalValue;
@@ -296,6 +289,14 @@ namespace GameJam.UI.Widgets
         protected override void OnComputeProperties()
         {
             SliderButton.ComputeProperties();
+
+            float value = CVars.Get<float>(cvar);
+            float divisionWidth = this.Width / divisions;
+            Console.WriteLine(divisionWidth);
+
+            SliderButton.HorizontalValue = new FixedValue(-5*divisionWidth + value*divisionWidth);
+            //horizontalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.X, BottomRight.X, (SliderButton.Horizontal + distanceToCenterOfButtonX)) * divisions, 0, divisions)));
+            //verticalValue = ((int)Math.Round(MathHelper.Clamp(MathUtils.InverseLerp(TopLeft.Y, BottomRight.Y, (SliderButton.Vertical + distanceToCenterOfButtonY)) * divisions, 0, divisions)));
         }
     }
 }

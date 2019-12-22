@@ -545,6 +545,13 @@ namespace GameJam.States
             _gamePadTextureMap.CacheAll(Content);
 
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_options_menu"));
+
+            // Update all values from CVars
+        }
+
+        private void UpdateWidgetsFromCVars()
+        {
+            //((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content;
         }
 
         protected override void RegisterListeners()
