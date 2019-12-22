@@ -131,6 +131,18 @@
 /processorParam:TextureFormat=Color
 /build:textures/Explosion.png
 
+#begin textures/input/Keyboard/Blank_Black_Normal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/input/Keyboard/Blank_Black_Normal.png
+
 #begin textures/input/Keyboard/Keyboard_Black_0.png
 /importer:TextureImporter
 /processor:TextureProcessor

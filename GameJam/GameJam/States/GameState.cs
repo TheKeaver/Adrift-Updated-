@@ -17,8 +17,10 @@ namespace GameJam
         }
         public LockingContentManager Content
         {
-            get;
-            private set;
+            get
+            {
+                return GameManager.GlobalContent;
+            }
         }
 
         public ProcessManager ProcessManager
@@ -30,9 +32,6 @@ namespace GameJam
         public GameState(GameManager gameManager)
         {
             GameManager = gameManager;
-
-            Content = new LockingContentManager(gameManager.Services);
-            Content.RootDirectory = "Content";
 
             ProcessManager = new ProcessManager();
         }
@@ -77,13 +76,6 @@ namespace GameJam
         {
             ProcessManager.KillAll();
             UnregisterListeners();
-
-            UnloadContent();
-        }
-
-        private void UnloadContent()
-        {
-            Content.Unload();
         }
 
         protected override void OnTogglePause()

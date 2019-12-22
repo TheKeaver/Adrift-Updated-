@@ -7,7 +7,7 @@ namespace GameJam.Content
     /// </summary>
     public class ContentLockedException : Exception
     {
-        public ContentLockedException() : base("ContentManager is locked.")
+        public ContentLockedException() : base("ContentManager is locked. Did you remember to cache the content in `GameContent.cs`?")
         {
         }
     }
