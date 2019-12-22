@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace GameJam.Components
     {
         public List<CollisionShape> CollisionShapes;
         public List<Entity> CollidingWith = new List<Entity>();
+        public byte CollisionGroup = Constants.Collision.GROUP_ONE;
+        public byte CollisionMask = Constants.Collision.GROUP_MASK_ALL;
 
         public CollisionComponent(IEnumerable<CollisionShape> collisionShapes)
         {
@@ -27,12 +30,9 @@ namespace GameJam.Components
         {
             get;
         }
-        public float MaxRadius
+        public abstract float MaxRadius
         {
-            get
-            {
-                return (float)Math.Sqrt(MaxRadiusSquared);
-            }
+            get;
         }
 
         public Vector2 Offset
@@ -40,24 +40,36 @@ namespace GameJam.Components
             get;
             set;
         }
+
+        public abstract BoundingRect GetAABB(float cos, float sin, float scale);
     }
 
     public class CircleCollisionShape : CollisionShape
     {
+        private float _radiusSquared;
         public float RadiusSquared
         {
-            get;
-            set;
+            get
+            {
+                return _radiusSquared;
+            }
+            set
+            {
+                _radiusSquared = value;
+                _radius = (float)Math.Sqrt(value);
+            }
         }
+        private float _radius;
         public float Radius
         {
             get
             {
-                return (float)Math.Sqrt(RadiusSquared);
+                return _radius;
             }
             set
             {
-                RadiusSquared = value * value;
+                _radius = value;
+                _radiusSquared = value * value;
             }
         }
 
@@ -68,10 +80,23 @@ namespace GameJam.Components
                 return RadiusSquared;
             }
         }
+        public override float MaxRadius
+        {
+            get
+            {
+                return Radius;
+            }
+        }
 
         public CircleCollisionShape(float radius)
         {
             Radius = radius;
+        }
+
+        public override BoundingRect GetAABB(float cos, float sin, float scale)
+        {
+            return new BoundingRect((Offset.X - Radius / 2) * scale, (Offset.Y - Radius / 2) * scale,
+                Radius * scale, Radius * scale);
         }
     }
 
@@ -88,7 +113,7 @@ namespace GameJam.Components
             {
                 _vertices = value;
 
-                CalculateMaxRadiusSquared();
+                CalculateMaxRadii();
             }
         }
 
@@ -97,6 +122,14 @@ namespace GameJam.Components
             get
             {
                 return _maxRadiusSquared;
+            }
+        }
+        float _maxRadius;
+        public override float MaxRadius
+        {
+            get
+            {
+                return _maxRadius;
             }
         }
 
@@ -111,7 +144,7 @@ namespace GameJam.Components
             Vertices = vertices;
         }
 
-        private void CalculateMaxRadiusSquared()
+        private void CalculateMaxRadii()
         {
             _maxRadiusSquared = _vertices[0].LengthSquared();
             for(int i = 1; i < _vertices.Length; i++)
@@ -121,6 +154,44 @@ namespace GameJam.Components
                     _maxRadiusSquared = _vertices[i].LengthSquared();
                 }
             }
+
+            _maxRadius = (float)Math.Sqrt(_maxRadiusSquared);
+        }
+
+        public override BoundingRect GetAABB(float cos, float sin, float scale)
+        {
+            Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity),
+                max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+
+            Vector2 transformedOffset = new Vector2(Offset.X * cos - Offset.Y * sin,
+                                        Offset.X * sin + Offset.Y * cos);
+
+            for (int i = 0; i < _vertices.Length; i++)
+            {
+                Vector2 transformedVertex = (new Vector2(_vertices[i].X * cos - _vertices[i].Y * sin,
+                    _vertices[i].X * sin + _vertices[i].Y * cos)
+                    + transformedOffset) * scale;
+
+                if(transformedVertex.X < min.X)
+                {
+                    min.X = transformedVertex.X;
+                }
+                if (transformedVertex.X > max.X)
+                {
+                    max.X = transformedVertex.X;
+                }
+                if (transformedVertex.Y < min.Y)
+                {
+                    min.Y = transformedVertex.Y;
+                }
+                if (transformedVertex.Y > max.Y)
+                {
+                    max.Y = transformedVertex.Y;
+                }
+            }
+
+            return new BoundingRect(min,
+                max);
         }
     }
 }

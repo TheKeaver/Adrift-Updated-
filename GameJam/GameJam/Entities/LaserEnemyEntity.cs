@@ -52,6 +52,7 @@ namespace GameJam.Entities
                 new Vector2(-5, -1),
                 new Vector2(-3, -3)
             })));
+            entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
 
             processManager.Attach(CreateLaserEnemyProcessChain(processManager, engine, entity, CVars.Get<float>("laser_enemy_spawn_wait_period"), true));
 

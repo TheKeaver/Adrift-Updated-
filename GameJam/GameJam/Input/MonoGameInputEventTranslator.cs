@@ -148,7 +148,8 @@ namespace GameJam.Input
                 && (e.Key == Keys.OemTilde
                     || e.Key == Keys.F1
                     || e.Key == Keys.F2
-                    || e.Key == Keys.F3))
+                    || e.Key == Keys.F3
+                    || e.Key == Keys.F4))
             {
                 EventManager.Instance.TriggerEvent(new KeyboardKeyDownEvent(e.Key));
             }

@@ -86,8 +86,13 @@ namespace GameJam.Systems
                     // B-A might.
                     processedPairs[entityB].Add(entityA);
 
-                    TransformComponent transformCompB = entityB.GetComponent<TransformComponent>();
                     CollisionComponent collisionCompB = entityB.GetComponent<CollisionComponent>();
+                    if((collisionCompA.CollisionMask & collisionCompB.CollisionGroup) == 0
+                        && (collisionCompA.CollisionGroup & collisionCompB.CollisionMask) == 0)
+                    {
+                        continue;
+                    }
+                    TransformComponent transformCompB = entityB.GetComponent<TransformComponent>();
 
                     float cosB = (float)Math.Cos(transformCompB.Rotation),
                         sinB = (float)Math.Sin(transformCompB.Rotation);
@@ -97,24 +102,28 @@ namespace GameJam.Systems
                     bool intersecting = false;
                     foreach(CollisionShape shapeA in collisionCompA.CollisionShapes)
                     {
-                        Vector2 pA = transformCompA.Position +
-                            new Vector2(shapeA.Offset.X * cosA - shapeA.Offset.Y * sinA,
-                                shapeA.Offset.X * sinB + shapeA.Offset.Y * cosB)
-                                * transformCompA.Scale;
+                        BoundingRect AABB_A = shapeA.GetAABB(cosA, sinA, transformCompA.Scale);
+                        AABB_A.Min += transformCompA.Position;
+                        AABB_A.Max += transformCompA.Position;
 
                         foreach (CollisionShape shapeB in collisionCompB.CollisionShapes)
                         {
-                            Vector2 pB = transformCompB.Position +
+                            BoundingRect AABB_B = shapeB.GetAABB(cosB, sinB, transformCompB.Scale);
+                            AABB_B.Min += transformCompB.Position;
+                            AABB_B.Max += transformCompB.Position;
+
+                            if (AABB_B.Intersects(AABB_A))
+                            {
+                                // _May_ be intersecting
+                                Vector2 pA = transformCompA.Position +
+                                    new Vector2(shapeA.Offset.X * cosA - shapeA.Offset.Y * sinA,
+                                        shapeA.Offset.X * sinA + shapeA.Offset.Y * cosA)
+                                        * transformCompA.Scale;
+                                Vector2 pB = transformCompB.Position +
                                 new Vector2(shapeB.Offset.X * cosB - shapeB.Offset.Y * sinB,
                                     shapeB.Offset.X * sinB + shapeB.Offset.Y * cosB)
                                     * transformCompB.Scale;
-
-                            if ((pB - pA).LengthSquared()
-                                <= shapeA.MaxRadiusSquared * transformCompA.Scale * transformCompA.Scale
-                                    + shapeB.MaxRadiusSquared * transformCompB.Scale * transformCompB.Scale)
-                            {
-                                // _May_ be intersecting
-                                if(CheckShapeIntersection(pA, cosA, sinA, transformCompA.Scale, shapeA,
+                                if (CheckShapeIntersection(pA, cosA, sinA, transformCompA.Scale, shapeA,
                                     pB, cosB, sinB, transformCompB.Scale, shapeB))
                                 {
                                     intersecting = true;
@@ -190,13 +199,7 @@ namespace GameJam.Systems
         private bool CheckCircleCircleIntersection(Vector2 posA, CircleCollisionShape circleA,
             Vector2 posB, CircleCollisionShape circleB)
         {
-            // Special case. Initial check is done using circle collision, which
-            // for circle shapes is themselves. This means the check has already
-            // been performed and passed. The circles are intersecting.
-
-            // If the initial check is changed (say, to AABB) then this will no
-            // longer be true.
-            return true;
+            return (posB - posA).LengthSquared() < circleB.RadiusSquared + circleA.RadiusSquared;
         }
         private bool CheckPolygonCircleIntersection(Vector2 posA, float cosA, float sinA, float scaleA, PolygonCollisionShape polygonA,
             Vector2 posB, CircleCollisionShape circleB)

@@ -90,6 +90,9 @@ namespace GameJam.DevTools
                     case Keys.F3:
                         CVars.Get<bool>("debug_show_statistics") = !CVars.Get<bool>("debug_show_statistics");
                         return true;
+                    case Keys.F4:
+                        CVars.Get<bool>("debug_show_collision_shapes") = !CVars.Get<bool>("debug_show_collision_shapes");
+                        return true;
                     case Keys.OemTilde:
                         CVars.Get<bool>("debug_show_console") = !CVars.Get<bool>("debug_show_console");
                         return true;
