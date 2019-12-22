@@ -320,8 +320,8 @@ namespace GameJam.States
             if (aafxaaSBPE != null)
             {
                 ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: FXAA";
-                CVars.Get<bool>("graphics_fxaa") = false;
-                CVars.Get<bool>("graphics_feathering").Equals(false);
+                CVars.Get<bool>("graphics_fxaa") = true;
+                CVars.Get<bool>("graphics_feathering") = false;
                 EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
             AAFeatheringButtonPressedEvent aafeatherSBPE = evt as AAFeatheringButtonPressedEvent;
@@ -329,7 +329,7 @@ namespace GameJam.States
             {
                 ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Feathering";
                 CVars.Get<bool>("graphics_fxaa") = false;
-                CVars.Get<bool>("graphics_feathering").Equals(true);
+                CVars.Get<bool>("graphics_feathering") = true;
                 EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
             AAOffButtonPressedEvent aaoffSBPE = evt as AAOffButtonPressedEvent;
@@ -337,7 +337,7 @@ namespace GameJam.States
             {
                 ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Off";
                 CVars.Get<bool>("graphics_fxaa") = false;
-                CVars.Get<bool>("graphics_feathering").Equals(false);
+                CVars.Get<bool>("graphics_feathering") = false;
                 EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
 
@@ -547,11 +547,58 @@ namespace GameJam.States
             _root.BuildFromPrototypes(Content, Content.Load<List<WidgetPrototype>>("ui_options_menu"));
 
             // Update all values from CVars
+            UpdateWidgetsFromCVars();
         }
 
         private void UpdateWidgetsFromCVars()
         {
-            //((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content;
+            float speed = CVars.Get<float>("game_speed");
+            switch(speed)
+            {
+                case 0:
+                    ((Label)_root.FindWidgetByID("Speed_Dropdown_Label")).Content = "Speed: 0.5x";
+                    break;
+                case 1:
+                    ((Label)_root.FindWidgetByID("Speed_Dropdown_Label")).Content = "Speed: 1.0x";
+                    break;
+                case 2:
+                    ((Label)_root.FindWidgetByID("Speed_Dropdown_Label")).Content = "Speed: 2.0x";
+                    break;
+            }
+
+            float dif = CVars.Get<int>("game_difficulty");
+            switch(dif)
+            {
+                case 0:
+                    ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficutly: Easy";
+                    break;
+                case 1:
+                    ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficutly: Normal";
+                    break;
+                case 2:
+                    ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficutly: Hard";
+                    break;
+            }
+
+            bool fxaa = CVars.Get<bool>("graphics_fxaa");
+            bool feather = CVars.Get<bool>("graphics_feathering");
+
+            if(fxaa && !feather)
+                ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: FXAA";
+            else if(!fxaa && feather)
+                ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Feathering";
+            else
+                ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Off";
+
+            bool full = CVars.Get<bool>("display_fullscreen");
+            bool window = CVars.Get<bool>("display_windowed");
+
+            if(full)
+                ((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content = "Full Screen";
+            else if(window)
+                ((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content = "Windowed";
+            else
+                ((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content = "Borderless Window";
         }
 
         protected override void RegisterListeners()
