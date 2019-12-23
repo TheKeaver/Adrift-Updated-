@@ -62,6 +62,7 @@ namespace GameJam.Entities
             processManager.Attach(process)
                 .SetNext(new DelegateProcess(() => {
                     entity.GetComponent<GravityHoleEnemyComponent>().ScalingAnimation = false;
+                    entity.GetComponent<GravityHoleEnemyComponent>().PingAnimation = false;
                 }))
                 .SetNext(new EntityScaleProcess(engine, entity,
                     CVars.Get<float>("gravity_hole_animation_despawn_duration"),

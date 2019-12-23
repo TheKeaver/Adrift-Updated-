@@ -1,6 +1,7 @@
 ﻿using System;
 using Audrey;
 using GameJam.Components;
+using GameJam.Entities;
 using Microsoft.Xna.Framework;
 
 namespace GameJam.Systems
@@ -10,8 +11,16 @@ namespace GameJam.Systems
         private readonly Family _gravityHoleFamily = Family.All(typeof(GravityHoleEnemyComponent), typeof(TransformComponent)).Get();
         private readonly ImmutableList<Entity> _gravityHoleEntities;
 
-        public GravityHolePassiveAnimationSystem(Engine engine) : base(engine)
+        public ProcessManager ProcessManager
         {
+            get;
+            private set;
+        }
+
+        public GravityHolePassiveAnimationSystem(Engine engine, ProcessManager processManager) : base(engine)
+        {
+            ProcessManager = processManager;
+
             _gravityHoleEntities = Engine.GetEntitiesFor(_gravityHoleFamily);
         }
 
@@ -32,6 +41,18 @@ namespace GameJam.Systems
                     float alpha = (float)(0.5f * Math.Cos(2 * MathHelper.Pi / CVars.Get<float>("gravity_hole_animation_size_period") * gravityHoleEnemyComp.ElapsedAliveTime) + 0.5f);
                     float scale = MathHelper.Lerp(scaleMin, scaleMax, alpha);
                     transformComp.ChangeScale(scale);
+                }
+
+                if(gravityHoleEnemyComp.PingAnimation)
+                {
+                    gravityHoleEnemyComp.PingTimer.Update(dt);
+                    if(gravityHoleEnemyComp.PingTimer.HasElapsed())
+                    {
+                        gravityHoleEnemyComp.PingTimer.Reset();
+
+                        GravityHolePingEntity.Create(Engine, ProcessManager,
+                            transformComp.Position, gravityHoleEnemyComp.radius);
+                    }
                 }
             }
         }

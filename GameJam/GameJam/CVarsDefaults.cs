@@ -94,20 +94,22 @@ namespace GameJam
             Create<float>("shooting_enemy_size", 4, CVarFlags.DEV_PRESERVE);
             Create<float>("shooting_enemy_speed", 0, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("shooting_enemy_rotational_speed", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<float>("shooting_enemy_projectile_speed", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("shooting_enemy_projectile_speed", 160.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("shooting_enemy_projectile_bounces", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("shooting_enemy_projectile_ammo", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("gravity_enemy_size", 2, CVarFlags.DEV_PRESERVE);
-            Create<float>("gravity_hole_enemy_radius", 125.0f, CVarFlags.DEV_PRESERVE);
+            Create<float>("gravity_hole_enemy_radius", 150.0f, CVarFlags.DEV_PRESERVE);
             Create<int>("gravity_hole_enemy_lifespan", 15, CVarFlags.DEV_PRESERVE);
-            Create<float>("gravity_hole_enemy_force", 170.0f, CVarFlags.DEV_PRESERVE);
+            Create<float>("gravity_hole_enemy_force", 230.0f, CVarFlags.DEV_PRESERVE);
             Create<float>("gravity_hole_animation_rotation_speed", -0.8f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("gravity_hole_animation_size_multiplier_min", 0.8f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("gravity_hole_animation_size_multiplier_max", 1.2f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("gravity_hole_animation_size_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("gravity_hole_animation_spawn_duration", 1.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("gravity_hole_animation_despawn_duration", 0.9f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("gravity_hole_animation_ping_duration", 2f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("gravity_hole_animation_ping_period", 1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("projectile_size", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 

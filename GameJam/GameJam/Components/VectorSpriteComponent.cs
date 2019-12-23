@@ -228,6 +228,19 @@ namespace GameJam.Components
 
         readonly VertexPositionColor[] _verts;
 
+        public static PolyRenderShape GenerateCircleRenderShape(float thickness, float radius, Color color, int resolution)
+        {
+            Vector2[] points = new Vector2[resolution];
+
+            for(int i = 0; i < points.Length; i++)
+            {
+                float angle = (MathHelper.TwoPi / resolution) * i;
+                points[i] = new Vector2((float)(radius * Math.Cos(angle)), (float)(radius * Math.Sin(angle)));
+            }
+
+            return new PolyRenderShape(points, thickness, color, PolyCapStyle.None, true);
+        }
+
         public PolyRenderShape(Vector2[] points, float thickness, Color color, PolyCapStyle polyCapStyle = PolyCapStyle.None, bool closed = false)
         {
             bool feathering = CVars.Get<bool>("graphics_feathering");
