@@ -41,7 +41,7 @@ namespace GameJam.Entities
                     new Vector2(0,-3),
                     new Vector2(3,0),
                     new Vector2(0,3)
-                }, 0.3f, CVars.Get<Color>("color_gravity_hold_enemy"), PolyRenderShape.PolyCapStyle.Filled, false)
+                }, 0.3f, CVars.Get<Color>("color_gravity_hole_enemy"), PolyRenderShape.PolyCapStyle.Filled, false)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
 

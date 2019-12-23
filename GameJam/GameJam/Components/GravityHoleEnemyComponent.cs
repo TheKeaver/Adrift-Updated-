@@ -8,6 +8,8 @@ namespace GameJam.Components
         public float strength;
         public float radius;
 
+        public float ElapsedAliveTime = 0;
+
         public GravityHoleEnemyComponent(float radius, float strength, int lifespan)
         {
             this.radius = radius;

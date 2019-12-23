@@ -221,6 +221,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Primitives2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\GravityHolePassiveAnimationSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
