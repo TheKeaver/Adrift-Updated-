@@ -107,6 +107,7 @@ namespace GameJam
             Create<float>("gravity_hole_animation_size_multiplier_max", 1.2f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("gravity_hole_animation_size_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("gravity_hole_animation_spawn_duration", 1.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("gravity_hole_animation_despawn_duration", 0.9f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("projectile_size", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 

@@ -58,11 +58,16 @@ namespace GameJam.Entities
                     CVars.Get<float>("gravity_hole_enemy_force"),
                     CVars.Get<int>("gravity_hole_enemy_lifespan")));
 
-            WaitProcess wp = new WaitProcess(CVars.Get<int>("gravity_hole_enemy_lifespan"));
-            EntityDestructionProcess dp = new EntityDestructionProcess(engine, entity);
-            wp.SetNext(dp);
-            processManager.Attach(wp);
-            entity.AddComponent(new GravityHoleSpawningProcessComponent(wp));
+            Process process = new WaitProcess(CVars.Get<int>("gravity_hole_enemy_lifespan"));
+            processManager.Attach(process)
+                .SetNext(new DelegateProcess(() => {
+                    entity.GetComponent<GravityHoleEnemyComponent>().ScalingAnimation = false;
+                }))
+                .SetNext(new EntityScaleProcess(engine, entity,
+                    CVars.Get<float>("gravity_hole_animation_despawn_duration"),
+                    entity.GetComponent<TransformComponent>().Scale, 0, Easings.Functions.SineEaseIn))
+                .SetNext(new EntityDestructionProcess(engine, entity));
+            entity.AddComponent(new GravityHoleSpawningProcessComponent(process));
 
             return entity;
         }

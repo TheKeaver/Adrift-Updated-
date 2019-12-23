@@ -24,12 +24,15 @@ namespace GameJam.Systems
 
                 transformComp.Rotate(CVars.Get<float>("gravity_hole_animation_rotation_speed") * dt);
 
-                gravityHoleEnemyComp.ElapsedAliveTime += dt;
-                float scaleMin = CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_min");
-                float scaleMax = CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max");
-                float alpha = (float)(0.5f * Math.Cos(2 * MathHelper.Pi / CVars.Get<float>("gravity_hole_animation_size_period") * gravityHoleEnemyComp.ElapsedAliveTime) + 0.5f);
-                float scale = MathHelper.Lerp(scaleMin, scaleMax, alpha);
-                transformComp.ChangeScale(scale);
+                if (gravityHoleEnemyComp.ScalingAnimation)
+                {
+                    gravityHoleEnemyComp.ElapsedAliveTime += dt;
+                    float scaleMin = CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_min");
+                    float scaleMax = CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max");
+                    float alpha = (float)(0.5f * Math.Cos(2 * MathHelper.Pi / CVars.Get<float>("gravity_hole_animation_size_period") * gravityHoleEnemyComp.ElapsedAliveTime) + 0.5f);
+                    float scale = MathHelper.Lerp(scaleMin, scaleMax, alpha);
+                    transformComp.ChangeScale(scale);
+                }
             }
         }
     }
