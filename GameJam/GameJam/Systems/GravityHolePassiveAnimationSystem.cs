@@ -27,7 +27,8 @@ namespace GameJam.Systems
                 gravityHoleEnemyComp.ElapsedAliveTime += dt;
                 float scaleMin = CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_min");
                 float scaleMax = CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max");
-                float scale = (float)((scaleMax - scaleMin)*Math.Sin(2 * MathHelper.Pi / CVars.Get<float>("gravity_hole_animation_size_period") * gravityHoleEnemyComp.ElapsedAliveTime) + scaleMin);
+                float alpha = (float)(0.5f * Math.Cos(2 * MathHelper.Pi / CVars.Get<float>("gravity_hole_animation_size_period") * gravityHoleEnemyComp.ElapsedAliveTime) + 0.5f);
+                float scale = MathHelper.Lerp(scaleMin, scaleMax, alpha);
                 transformComp.ChangeScale(scale);
             }
         }

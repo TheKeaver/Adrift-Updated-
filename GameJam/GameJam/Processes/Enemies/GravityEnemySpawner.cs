@@ -3,6 +3,7 @@ using Audrey;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Entities;
+using GameJam.Processes.Entities;
 using Microsoft.Xna.Framework;
 
 namespace GameJam.Processes
@@ -40,10 +41,25 @@ namespace GameJam.Processes
                     spawnPosition.Y = random.NextSingle(-CVars.Get<float>("screen_height") / 2 * 0.9f, CVars.Get<float>("screen_height") / 2 * 0.9f);
                 } while (IsTooCloseToPlayer(spawnPosition));
 
-                GravityHoleEntity.Create(Engine, spawnPosition, ProcessManager);
+                CreateEntityAtPosition(spawnPosition);
             }
 
             Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_gravity_enemy_period_multiplier"), CVars.Get<float>("spawner_gravity_enemy_period_min"));
+        }
+
+        private void CreateEntityAtPosition(Vector2 position)
+        {
+            Entity gravityHoleEntity = GravityHoleEntity.CreateSpriteOnly(Engine, position);
+            // Use CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max")
+            // since the animation uses Cos
+            ProcessManager.Attach(new EntityScaleProcess(Engine, gravityHoleEntity, CVars.Get<float>("gravity_hole_animation_spawn_duration"),
+                0, CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max"), Easings.Functions.SineEaseOut))
+                .SetNext(new DelegateProcess(() =>
+                {
+                    GravityHoleEntity.AddBehavior(Engine, gravityHoleEntity, ProcessManager);
+                }));
+            ProcessManager.Attach(new EntityRotateProcess(Engine, gravityHoleEntity, CVars.Get<float>("gravity_hole_animation_spawn_duration"),
+                0, CVars.Get<float>("gravity_hole_animation_rotation_speed") * CVars.Get<float>("gravity_hole_animation_spawn_duration")));
         }
 
         bool IsTooCloseToPlayer(Vector2 position)
