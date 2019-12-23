@@ -69,11 +69,11 @@ namespace GameJam.Audio
             float volume = CVars.Get<float>("sound_master_volume") * eventVolume;
             if (type == SoundType.SoundEffect)
             {
-                volume *= CVars.Get<float>("sound_effect_volume");
+                volume *= CVars.Get<float>("sound_effect_volume") / 10;
             }
             if (type == SoundType.Music)
             {
-                volume *= CVars.Get<float>("sound_music_volume");
+                volume *= CVars.Get<float>("sound_music_volume") / 10;
             }
 
             instance.Pan = pan;
