@@ -81,7 +81,7 @@ namespace GameJam.Entities
 
         public static void Spawn(Engine engine, ProcessManager processManager, Vector2 position, float angle)
         {
-            LaserEnemyEntity.Create(engine, processManager, position, angle);
+            Create(engine, processManager, position, angle);
         }
     }
 }
