@@ -46,7 +46,7 @@ namespace GameJam.Processes.Enemies
                 } while (IsTooCloseToPlayer(spawnPosition));
 
                 float facingNearestPlayer = AngleFacingNearestPlayerShip(spawnPosition);
-                LaserEnemyEntity.Create(Engine, ProcessManager, spawnPosition, facingNearestPlayer);
+                LaserEnemyEntity.Spawn(Engine, ProcessManager, spawnPosition, facingNearestPlayer);
             }
 
             Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_laser_enemy_period_multiplier"), CVars.Get<float>("spawner_laser_enemy_period_min"));

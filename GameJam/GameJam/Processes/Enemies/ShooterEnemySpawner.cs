@@ -41,7 +41,7 @@ namespace GameJam.Processes.Enemies
                 } while (IsTooCloseToPlayer(spawnPosition));
 
                 float facingNearestPlayer = AngleFacingNearestPlayerShip(spawnPosition);
-                ShootingEnemyEntity.Create(Engine, spawnPosition, ProcessManager, facingNearestPlayer);
+                ShootingEnemyEntity.Spawn(Engine, ProcessManager, spawnPosition, facingNearestPlayer);
             }
 
             Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_shooting_enemy_period_multiplier"), CVars.Get<float>("spawner_shooting_enemy_period_min"));

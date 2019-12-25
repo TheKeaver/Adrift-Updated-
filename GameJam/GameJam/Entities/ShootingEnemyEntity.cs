@@ -56,5 +56,10 @@ namespace GameJam.Entities
 
             return entity;
         }
+
+        public static void Spawn(Engine engine, ProcessManager processManager, Vector2 position, float angle)
+        {
+            Create(engine, position, processManager, angle);
+        }
     }
 }

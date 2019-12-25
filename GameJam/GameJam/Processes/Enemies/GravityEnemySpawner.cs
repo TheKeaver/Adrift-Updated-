@@ -49,17 +49,7 @@ namespace GameJam.Processes
 
         private void CreateEntityAtPosition(Vector2 position)
         {
-            Entity gravityHoleEntity = GravityHoleEntity.CreateSpriteOnly(Engine, position);
-            // Use CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max")
-            // since the animation uses Cos
-            ProcessManager.Attach(new EntityScaleProcess(Engine, gravityHoleEntity, CVars.Get<float>("gravity_hole_animation_spawn_duration"),
-                0, CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max"), Easings.Functions.SineEaseOut))
-                .SetNext(new DelegateProcess(() =>
-                {
-                    GravityHoleEntity.AddBehavior(Engine, gravityHoleEntity, ProcessManager);
-                }));
-            ProcessManager.Attach(new EntityRotateProcess(Engine, gravityHoleEntity, CVars.Get<float>("gravity_hole_animation_spawn_duration"),
-                0, CVars.Get<float>("gravity_hole_animation_rotation_speed") * CVars.Get<float>("gravity_hole_animation_spawn_duration")));
+            GravityHoleEntity.Spawn(Engine, ProcessManager, position);
         }
 
         bool IsTooCloseToPlayer(Vector2 position)

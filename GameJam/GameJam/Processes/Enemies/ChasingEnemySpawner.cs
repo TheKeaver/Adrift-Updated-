@@ -12,15 +12,18 @@ namespace GameJam.Processes.Enemies
         readonly Engine Engine;
         readonly MTRandom random = new MTRandom();
 
+        readonly ProcessManager ProcessManager;
+
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> _playerShipEntities;
 
         readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
         readonly ImmutableList<Entity> _enemyEntities;
 
-        public ChasingEnemySpawner(Engine engine) : base(CVars.Get<float>("spawner_chasing_enemy_initial_period"))
+        public ChasingEnemySpawner(Engine engine, ProcessManager processManager) : base(CVars.Get<float>("spawner_chasing_enemy_initial_period"))
         {
             Engine = engine;
+            ProcessManager = processManager;
 
             _playerShipEntities = engine.GetEntitiesFor(_playerShipFamily);
             _enemyEntities = engine.GetEntitiesFor(_enemyFamily);
@@ -38,7 +41,7 @@ namespace GameJam.Processes.Enemies
                 } while (IsTooCloseToPlayer(spawnPosition));
 
                 float facingNearestPlayer = AngleFacingNearestPlayerShip(spawnPosition);
-                ChasingEnemyEntity.Create(Engine, spawnPosition, facingNearestPlayer);
+                ChasingEnemyEntity.Spawn(Engine, ProcessManager, spawnPosition, facingNearestPlayer);
             }
 
             Interval = MathHelper.Max(Interval * CVars.Get<float>("spawner_chasing_enemy_period_multiplier"),

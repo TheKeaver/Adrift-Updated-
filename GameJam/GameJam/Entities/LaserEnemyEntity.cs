@@ -78,5 +78,10 @@ namespace GameJam.Entities
                 .SetNext(loopProcess);
             return chain;
         }
+
+        public static void Spawn(Engine engine, ProcessManager processManager, Vector2 position, float angle)
+        {
+            LaserEnemyEntity.Create(engine, processManager, position, angle);
+        }
     }
 }
