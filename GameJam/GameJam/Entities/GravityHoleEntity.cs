@@ -89,7 +89,7 @@ namespace GameJam.Entities
                 0, CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max"), Easings.Functions.SineEaseOut))
                 .SetNext(new DelegateProcess(() =>
                 {
-                    GravityHoleEntity.AddBehavior(engine, gravityHoleEntity, processManager);
+                    AddBehavior(engine, gravityHoleEntity, processManager);
                 }));
             processManager.Attach(new EntityRotateProcess(engine, gravityHoleEntity, CVars.Get<float>("gravity_hole_animation_spawn_duration"),
                 0, CVars.Get<float>("gravity_hole_animation_rotation_speed") * CVars.Get<float>("gravity_hole_animation_spawn_duration")));
