@@ -180,9 +180,6 @@ namespace GameJam.States
             // Explode all entities
             ImmutableList<Entity> explosionEntities = SharedState.Engine.GetEntitiesFor(Family
                 .All(typeof(TransformComponent), typeof(ColoredExplosionComponent))
-                .One(typeof(PlayerShipComponent),
-                    typeof(PlayerShieldComponent),
-                    typeof(EnemyComponent))
                 .Exclude(typeof(DontDestroyForGameOverComponent))
                 .Get());
             foreach (Entity entity in explosionEntities)
@@ -195,12 +192,11 @@ namespace GameJam.States
             }
 
             // Destroy all entities
-            FamilyBuilder familyBuilder = Family.One(typeof(PlayerShipComponent),
-                typeof(PlayerShieldComponent),
-                typeof(EnemyComponent)).Exclude(typeof(DontDestroyForGameOverComponent));
-            if(includeEdges)
+            FamilyBuilder familyBuilder = Family.Exclude(typeof(DontDestroyForGameOverComponent),
+                typeof(ParallaxBackgroundComponent));
+            if (!includeEdges)
             {
-                familyBuilder.One(typeof(EdgeComponent));
+                familyBuilder.Exclude(typeof(EdgeComponent));
             }
             SharedState.Engine.DestroyEntitiesFor(familyBuilder.Get());
         }
@@ -219,7 +215,8 @@ namespace GameJam.States
             {
                 if (!(components[i] is TransformComponent)
                     && !(components[i] is VectorSpriteComponent)
-                    && !(components[i] is ColoredExplosionComponent))
+                    && !(components[i] is ColoredExplosionComponent)
+                    && !(components[i] is DontDestroyForGameOverComponent))
                 {
                     responsibleEntity.RemoveComponent(components[i].GetType());
                 }
