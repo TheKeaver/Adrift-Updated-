@@ -221,6 +221,8 @@ namespace GameJam.Systems
 
                 float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
+                Vector2 stretch = vectorSpriteComp.Stretch + (vectorSpriteComp.LastStretch - vectorSpriteComp.Stretch) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
                 float cos = (float)Math.Cos(rotation);
                 float sin = (float)Math.Sin(rotation);
 
@@ -230,8 +232,8 @@ namespace GameJam.Systems
                     for(int i = verts.Length - 1; i >= 0; i--)
                     {
                         VertexPositionColor vert = verts[i];
-                        _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * cos + vert.Position.Y * -1.0f * -sin) * transformScale + position.X,
-                            (vert.Position.X * sin + vert.Position.Y * -1.0f * cos) * transformScale + position.Y, 0), vert.Color * vectorSpriteComp.Alpha));
+                        _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,
+                            (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * -1.0f * cos) * transformScale + position.Y, 0), vert.Color * vectorSpriteComp.Alpha));
                     }
                 }
             }

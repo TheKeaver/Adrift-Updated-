@@ -157,6 +157,12 @@ namespace GameJam
             Create<int>("score_base_destroy_enemy_with_projectile", 10, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("score_base_destroy_enemy_with_laser", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            /** ANIMATION **/
+            Create<float>("animation_spawn_warp_time_scale", 0.85f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("animation_spawn_warp_distance", 450, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("animation_spawn_warp_phase_1_base_duration", 0.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<float>("animation_spawn_warp_phase_2_base_duration", 0.15f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+
             /** MENU **/
             Create<float>("entity_background_spawner_min", 1f, CVarFlags.DEV_PRESERVE);
             Create<float>("entity_background_spawner_max", 2, CVarFlags.DEV_PRESERVE);
@@ -197,6 +203,7 @@ namespace GameJam
             Create<int>("debug_statistics_average_update_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("debug_statistics_average_draw_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_collision_shapes", false, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_camera_zoom", 1, CVarFlags.LIVE_RELOAD);
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
