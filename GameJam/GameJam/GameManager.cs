@@ -138,7 +138,7 @@ namespace GameJam
                 Graphics.HardwareModeSwitch = false;
                 applyChanges = true;
 
-                CVars.Get<bool>("display_windowed") = false;
+                CVars.Get<bool>("display_windowed") = true;
                 CVars.Save();
             }
 

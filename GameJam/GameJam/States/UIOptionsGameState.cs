@@ -23,6 +23,9 @@ namespace GameJam.States
         KeyTextureMap _keyTextureMap;
         GamePadTextureMap _gamePadTextureMap;
 
+        List<string> supportedResolutions;
+        int resolutionIndex = 0;
+
         bool rotateLeftBindingMode = false;
         bool rotateRightBindingMode = false;
         bool bindingGamepad = false;
@@ -34,6 +37,16 @@ namespace GameJam.States
         public UIOptionsGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            supportedResolutions = new List<string>();
+
+            IEnumerator<DisplayMode> enumerator = GameManager.Graphics.GraphicsDevice.Adapter.SupportedDisplayModes.GetEnumerator();
+
+            while(enumerator.MoveNext())
+            {
+                supportedResolutions.Add(enumerator.Current.ToString());
+            }
+            /*for (int i = 0; i < supportedResolutions.Count; i++)
+                Console.WriteLine(supportedResolutions[i]);*/
         }
 
         public bool Handle(IEvent evt)
@@ -383,10 +396,37 @@ namespace GameJam.States
                 _root.AutoControlModeSwitching = false;
                 ((Button)_root.FindWidgetByID("Rotate_Right")).isSelected = false;
             }
+            if(evt is ResolutionButtonPressedEvent)
+            {
+                ((Label)_root.FindWidgetByID("Resolution_Button_Label")).Content = SetNextResolution();
+                EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
+            }
 
             return false;
         }
+        
+        private string SetNextResolution()
+        {
+            Console.WriteLine("Set Next Resolution Called");
+            resolutionIndex = (resolutionIndex == supportedResolutions.Count-1) ? 0 : resolutionIndex+1;
+            string returnString = supportedResolutions[resolutionIndex];
+            //{ Width: 1920 Height: 1080 Format: Color AspectRatio:1.777778}
+            string[] splitterList = { "{Width:", " Height:", "Format:" };
+            string[] resolutionList = returnString.Split(splitterList, StringSplitOptions.RemoveEmptyEntries);
 
+            foreach (string item in resolutionList)
+            {
+                Console.WriteLine(item);
+            }
+
+            Int32.TryParse(resolutionList[0], out int width);
+            Int32.TryParse(resolutionList[1], out int height);
+
+            CVars.Get<int>("display_fullscreen_width") = width;
+            CVars.Get<int>("display_fullscreen_height") = height;
+
+            return width + " x " + height;
+        }
         private bool HandleKeyboardKeyDownEvent(KeyboardKeyDownEvent keyboardKeyDownEvent)
         {
             if (rotateLeftBindingMode || rotateRightBindingMode)
@@ -619,6 +659,7 @@ namespace GameJam.States
             EventManager.Instance.RegisterListener<FullScreenSettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<WindowedSettingsButtonPressed>(this);
             EventManager.Instance.RegisterListener<BorderlessWindowButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<ResolutionButtonPressedEvent>(this);
 
             EventManager.Instance.RegisterListener<AAFXAASettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<AAFeatheringButtonPressedEvent>(this);

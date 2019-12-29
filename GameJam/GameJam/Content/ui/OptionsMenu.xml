@@ -125,6 +125,7 @@
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="5,5,5,5"
         close-on="Settings.FullScreenSettingsButtonPressedEvent,Settings.WindowedSettingsButtonPressed,Settings.BorderlessWindowButtonPressedEvent"
+        aboveID="Resolution_Button"
         belowID="FXAA_Settings_Dropdown"
         class="DropDown"
         >
@@ -160,7 +161,7 @@
           hover-thickness="5,5,5,5"
           pressed-image="texture_ui_button_pressed"
           pressed-thickness="5,5,5,5"
-          on-click="queue:Settings.FullScreenSettingsButtonPressedEvent">
+          onclick="queue:Settings.FullScreenSettingsButtonPressedEvent">
           <Label
               halign="center"
               valign="center"
@@ -189,7 +190,7 @@
           hover-thickness="5,5,5,5"
           pressed-image="texture_ui_button_pressed"
           pressed-thickness="5,5,5,5"
-          on-click="queue:Settings.WindowedSettingsButtonPressedEvent">
+          onclick="queue:Settings.WindowedSettingsButtonPressedEvent">
           <!-- hidden="true" -->
           <Label
               halign="center"
@@ -219,7 +220,7 @@
           hover-thickness="5,5,5,5"
           pressed-image="texture_ui_button_pressed"
           pressed-thickness="5,5,5,5"
-          on-click="queue:Settings.BorderlessWindowButtonPressedEvent">
+          onclick="queue:Settings.BorderlessWindowButtonPressedEvent">
           <!-- hidden="true" -->
           <Label
               halign="center"
@@ -252,6 +253,7 @@
         pressed-thickness="5,5,5,5"
         close-on="Settings.AAFXAASettingsButtonPressedEvent,Settings.AAFeatheringButtonPressedEvent,Settings.AAOffButtonPressedEvent"
         aboveID="Screen_Size_Settings_Dropdown"
+        belowID="Resolution_Button"
         class="DropDown"
         >
         <Label
@@ -285,7 +287,7 @@
             hover-thickness="5,5,5,5"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="5,5,5,5"
-            on-click="queue:Settings.AAFXAASettingsButtonPressedEvent">
+            onclick="queue:Settings.AAFXAASettingsButtonPressedEvent">
             <Label
                 halign="center"
                 valign="center"
@@ -314,7 +316,7 @@
             hover-thickness="5,5,5,5"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="5,5,5,5"
-            on-click="queue:Settings.AAFeatheringButtonPressedEvent">
+            onclick="queue:Settings.AAFeatheringButtonPressedEvent">
             <!-- hidden="true" -->
             <Label
                 halign="center"
@@ -344,7 +346,7 @@
             hover-thickness="5,5,5,5"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="5,5,5,5"
-            on-click="queue:Settings.AAOffButtonPressedEvent">
+            onclick="queue:Settings.AAOffButtonPressedEvent">
             <!--hidden="true"-->
             <Label
                 halign="center"
@@ -360,6 +362,35 @@
         </Contents>
       </DropDownPanel>
         <!-- End of Anti-Aliasing options sub menu (Off, FXAA, Feathering) -->
+      <Button
+        id="Resolution_Button"
+        aboveID="FXAA_Settings_Dropdown"
+        belowID="Screen_Size_Settings_Dropdown"
+        defaultSelected="false"
+        halign="center"
+        valign="top"
+        horizontal="0"
+        vertical="70%"
+        width="80%"
+        height="12%"
+        released-image="texture_ui_button_released"
+        released-thickness="5,5,5,5"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="5,5,5,5"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="5,5,5,5"
+        onclick="queue:Settings.ResolutionButtonPressedEvent">
+        <Label
+          id="Resolution_Button_Label"
+          halign="center"
+          valign="center"
+          horizontal="0"
+          vertical="0"
+          width="90%"
+          content="Resolution: 1920 x 1080"
+          font="font_hyperspace"
+          />
+      </Button>
     </Panel>
     <!-- End of Display right-hand side panel -->
      
