@@ -28,7 +28,8 @@ namespace GameJam.Processes.Enemies
 
         protected override void OnInitialize()
         {
-            if (!Engine.GetEntities().Contains(LaserEnemyEntity))
+            if (!Engine.GetEntities().Contains(LaserEnemyEntity)
+                || !LaserEnemyEntity.HasComponent<LaserEnemyComponent>())
             {
                 SetNext(null);
                 Kill();
