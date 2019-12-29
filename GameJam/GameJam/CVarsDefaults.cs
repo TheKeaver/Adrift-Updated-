@@ -203,6 +203,7 @@ namespace GameJam
             Create<int>("debug_statistics_average_update_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("debug_statistics_average_draw_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_collision_shapes", false, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_camera_zoom", 1, CVarFlags.LIVE_RELOAD);
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
