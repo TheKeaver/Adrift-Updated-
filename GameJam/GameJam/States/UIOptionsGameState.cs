@@ -399,6 +399,9 @@ namespace GameJam.States
             if(evt is ResolutionButtonPressedEvent)
             {
                 ((Label)_root.FindWidgetByID("Resolution_Button_Label")).Content = SetNextResolution();
+                GameManager.Graphics.IsFullScreen = false;
+                GameManager.Graphics.HardwareModeSwitch = true;
+                GameManager.Graphics.ApplyChanges();
                 EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
 
@@ -410,7 +413,7 @@ namespace GameJam.States
             Console.WriteLine("Set Next Resolution Called");
             resolutionIndex = (resolutionIndex == supportedResolutions.Count-1) ? 0 : resolutionIndex+1;
             string returnString = supportedResolutions[resolutionIndex];
-            //{ Width: 1920 Height: 1080 Format: Color AspectRatio:1.777778}
+            
             string[] splitterList = { "{Width:", " Height:", "Format:" };
             string[] resolutionList = returnString.Split(splitterList, StringSplitOptions.RemoveEmptyEntries);
 
