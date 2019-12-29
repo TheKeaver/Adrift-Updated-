@@ -153,6 +153,8 @@ namespace GameJam
             Create<float>("game_over_camera_reset_duration", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<float>("game_over_ui_fade_in_duration", 0.7f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            Create<float>("background_stars_scale", 1.2f, CVarFlags.DEV_PRESERVE);
+
             Create<int>("score_base_destroy_enemy", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("score_base_destroy_enemy_with_projectile", 10, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("score_base_destroy_enemy_with_laser", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
