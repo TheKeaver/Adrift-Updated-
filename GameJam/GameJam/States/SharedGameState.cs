@@ -82,7 +82,7 @@ namespace GameJam.States
         private void InitSystems()
         {
             // Order matters
-            _systems = new BaseSystem[]
+            /*_systems = new BaseSystem[]
             {
                 new InputSystem(Engine), // Input system must go first so snapshots are accurate
                 new CollisionDetectionSystem(Engine),
@@ -98,6 +98,25 @@ namespace GameJam.States
                 new MenuBackgroundDestructionSystem(Engine),
                 new ChasingSpeedIncreaseSystem(Engine),
                 new GravityHolePassiveAnimationSystem(Engine, ProcessManager)
+            };*/
+
+            _systems = new BaseSystem[]
+            {
+                new InputSystem(Engine), // Must go first to have accurate snapshots
+                new GravityHolePassiveAnimationSystem(Engine, ProcessManager),
+                new AnimationSystem(Engine),
+                new ParallaxBackgroundSystem(Engine, Camera),
+                new PulseSystem(Engine),
+                new PassiveRotationSystem(Engine),
+                new MenuBackgroundDestructionSystem(Engine),
+
+                new ChasingSpeedIncreaseSystem(Engine),
+                new EnemyRotationSystem(Engine),
+                new GravitySystem(Engine),
+                new MovementSystem(Engine),
+                new PlayerShieldSystem(Engine),
+
+                new CollisionDetectionSystem(Engine) // Must go last to have accurate collision detection
             };
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
