@@ -12,12 +12,13 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent(origin));
+            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("background_stars_scale"), true);
             entity.AddComponent(new SpriteComponent(texture,
                 new Vector2(texture.Width, texture.Height)));
             entity.GetComponent<SpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_STARS;
             if (pulsing)
             {
-                entity.AddComponent(new PulseComponent(15, 0.75f, 1));
+                entity.AddComponent(new PulseComponent(10, 0.75f, 1));
             }
             entity.AddComponent(new ParallaxBackgroundComponent(strength, origin));
 

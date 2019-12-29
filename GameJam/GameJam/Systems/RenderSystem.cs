@@ -73,7 +73,7 @@ namespace GameJam.Systems
         {
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                                BlendState.AlphaBlend,
-                               SamplerState.PointClamp,
+                               SamplerState.AnisotropicClamp,
                                null,
                                null,
                                null,
