@@ -102,7 +102,10 @@ namespace GameJam.States
 
             _systems = new BaseSystem[]
             {
-                new InputSystem(Engine), // Must go first to have accurate snapshots
+                // Input System must go first to have accurate snapshots
+                new InputSystem(Engine),
+
+                // Section below is not dependent on other systems
                 new GravityHolePassiveAnimationSystem(Engine, ProcessManager),
                 new AnimationSystem(Engine),
                 new ParallaxBackgroundSystem(Engine, Camera),
@@ -110,13 +113,16 @@ namespace GameJam.States
                 new PassiveRotationSystem(Engine),
                 new MenuBackgroundDestructionSystem(Engine),
 
+                // Section below is ordered based on dependency from Top (least dependent) to Bottom (most dependent)
                 new ChasingSpeedIncreaseSystem(Engine),
                 new EnemyRotationSystem(Engine),
+                new LaserEnemySystem(Engine),
                 new GravitySystem(Engine),
                 new MovementSystem(Engine),
                 new PlayerShieldSystem(Engine),
 
-                new CollisionDetectionSystem(Engine) // Must go last to have accurate collision detection
+                // Collision Detection must go last to have accurate collision detection
+                new CollisionDetectionSystem(Engine)
             };
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
