@@ -114,7 +114,7 @@
         id="Screen_Size_Settings_Dropdown"
         halign="center"
         valign="top"
-        vertical="5%"
+        vertical="0"
         width="80%"
         height="35%"
         aspect-ratio="20:4"
@@ -125,7 +125,7 @@
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="5,5,5,5"
         close-on="Settings.FullScreenSettingsButtonPressedEvent,Settings.WindowedSettingsButtonPressed,Settings.BorderlessWindowButtonPressedEvent"
-        aboveID="Resolution_Button"
+        aboveID="VSync_Button"
         belowID="FXAA_Settings_Dropdown"
         class="DropDown"
         >
@@ -241,7 +241,7 @@
         id="FXAA_Settings_Dropdown"
         halign="center"
         valign="top"
-        vertical="40%"
+        vertical="25%"
         width="80%"
         height="35%"
         aspect-ratio="20:4"
@@ -365,14 +365,14 @@
       <Button
         id="Resolution_Button"
         aboveID="FXAA_Settings_Dropdown"
-        belowID="Screen_Size_Settings_Dropdown"
+        belowID="VSync_Button"
         defaultSelected="false"
         halign="center"
         valign="top"
         horizontal="0"
-        vertical="70%"
+        vertical="50%"
         width="80%"
-        height="12%"
+        height="15%"
         released-image="texture_ui_button_released"
         released-thickness="5,5,5,5"
         hover-image="texture_ui_button_hover"
@@ -388,6 +388,35 @@
           vertical="0"
           width="90%"
           content="Resolution: 1920 x 1080"
+          font="font_hyperspace"
+          />
+      </Button>
+      <Button
+        id="VSync_Button"
+        aboveID="Resolution_Button"
+        belowID="Screen_Size_Settings_Dropdown"
+        defaultSelected="false"
+        halign="center"
+        valign="top"
+        horizontal="0"
+        vertical="75%"
+        width="80%"
+        height="15%"
+        released-image="texture_ui_button_released"
+        released-thickness="5,5,5,5"
+        hover-image="texture_ui_button_hover"
+        hover-thickness="5,5,5,5"
+        pressed-image="texture_ui_button_pressed"
+        pressed-thickness="5,5,5,5"
+        onclick="queue:Settings.VSyncButtonPressedEvent">
+        <Label
+          id="VSync_Button_Label"
+          halign="center"
+          valign="center"
+          horizontal="0"
+          vertical="0"
+          width="90%"
+          content="V-Sync: On"
           font="font_hyperspace"
           />
       </Button>
@@ -433,7 +462,7 @@
             <Label
                 halign="left"
                 valign="center"
-                horizontal="0"
+                horizontal="3%"
                 vertical="0"
                 width="75%"
                 height="75%"
@@ -444,7 +473,7 @@
             <Image
               halign="right"
               valign="center"
-              horizontal="5%"
+              horizontal="3%"
               vertical="0"
               width="100%"
               height="50%"
@@ -476,7 +505,7 @@
             <Label
                 halign="left"
                 valign="center"
-                horizontal="0"
+                horizontal="3%"
                 vertical="0"
                 width="75%"
                 height="75%"
@@ -487,7 +516,7 @@
             <Image
                 halign="right"
                 valign="center"
-                horizontal="5%"
+                horizontal="3%"
                 vertical="0"
                 width="100%"
                 height="50%"
@@ -524,7 +553,7 @@
             <Label
                 halign="left"
                 valign="center"
-                horizontal="0"
+                horizontal="3%"
                 vertical="0"
                 width="75%"
                 height="75%"
@@ -535,7 +564,7 @@
             <Image
               halign="right"
               valign="center"
-              horizontal="5%"
+              horizontal="3%"
               vertical="0"
               width="100%"
               height="50%"
@@ -565,7 +594,7 @@
             <Label
                 halign="left"
                 valign="center"
-                horizontal="0"
+                horizontal="3%"
                 vertical="0"
                 width="75%"
                 height="75%"
@@ -576,7 +605,7 @@
             <Image
                 halign="right"
                 valign="center"
-                horizontal="5%"
+                horizontal="3%"
                 vertical="0"
                 width="100%"
                 height="50%"

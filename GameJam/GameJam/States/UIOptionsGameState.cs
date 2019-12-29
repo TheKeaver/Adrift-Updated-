@@ -404,6 +404,15 @@ namespace GameJam.States
                 GameManager.Graphics.ApplyChanges();
                 EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
+            if(evt is VSyncButtonPressedEvent)
+            {
+                bool replacement = !(CVars.Get<bool>("display_vsync"));
+                CVars.Get<bool>("display_vsync") = replacement;
+                ((Label)_root.FindWidgetByID("VSync_Button_Label")).Content = 
+                    (replacement == true) ?
+                    "V-Sync: On" :
+                    "V-Sync: Off";
+            }
 
             return false;
         }
@@ -647,6 +656,11 @@ namespace GameJam.States
             int height = CVars.Get<int>("display_fullscreen_height");
 
             ((Label)_root.FindWidgetByID("Resolution_Button_Label")).Content = width + " X " + height;
+
+            ((Label)_root.FindWidgetByID("VSync_Button_Label")).Content =
+                (CVars.Get<bool>("display_vsync") == true) ?
+                "V-Sync: On" :
+                "V-Sync: Off";
         }
 
         protected override void RegisterListeners()
@@ -668,6 +682,7 @@ namespace GameJam.States
             EventManager.Instance.RegisterListener<WindowedSettingsButtonPressed>(this);
             EventManager.Instance.RegisterListener<BorderlessWindowButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<ResolutionButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<VSyncButtonPressedEvent>(this);
 
             EventManager.Instance.RegisterListener<AAFXAASettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<AAFeatheringButtonPressedEvent>(this);
