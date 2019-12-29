@@ -642,6 +642,11 @@ namespace GameJam.States
                 ((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content = "Windowed";
             else
                 ((Label)_root.FindWidgetByID("Screen_Size_Settings_Dropdown_Label")).Content = "Borderless Window";
+
+            int width = CVars.Get<int>("display_fullscreen_width");
+            int height = CVars.Get<int>("display_fullscreen_height");
+
+            ((Label)_root.FindWidgetByID("Resolution_Button_Label")).Content = width + " X " + height;
         }
 
         protected override void RegisterListeners()
