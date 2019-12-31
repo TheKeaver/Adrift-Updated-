@@ -4,6 +4,7 @@ using GameJam.Content;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam
 {
@@ -16,22 +17,22 @@ namespace GameJam
 
             content.Load<Texture2D>("texture_particle_velocity");
 
-            content.Load<Texture2D>("texture_background_stars_0");
-            content.Load<Texture2D>("texture_background_stars_1");
-            content.Load<Texture2D>("texture_background_stars_2");
-            content.Load<Texture2D>("texture_background_stars_3");
-            content.Load<Texture2D>("texture_background_stars_4");
-            content.Load<Texture2D>("texture_background_stars_5");
-            content.Load<Texture2D>("texture_background_stars_6");
-            content.Load<Texture2D>("texture_background_stars_7");
-            content.Load<Texture2D>("texture_background_stars_8");
-            content.Load<Texture2D>("texture_background_stars_9");
-            content.Load<Texture2D>("texture_background_stars_10");
-            content.Load<Texture2D>("texture_background_stars_11");
-            content.Load<Texture2D>("texture_background_stars_12");
-            content.Load<Texture2D>("texture_background_stars_13");
+            content.Load<TextureRegion2D>("texture_background_stars_0");
+            content.Load<TextureRegion2D>("texture_background_stars_1");
+            content.Load<TextureRegion2D>("texture_background_stars_2");
+            content.Load<TextureRegion2D>("texture_background_stars_3");
+            content.Load<TextureRegion2D>("texture_background_stars_4");
+            content.Load<TextureRegion2D>("texture_background_stars_5");
+            content.Load<TextureRegion2D>("texture_background_stars_6");
+            content.Load<TextureRegion2D>("texture_background_stars_7");
+            content.Load<TextureRegion2D>("texture_background_stars_8");
+            content.Load<TextureRegion2D>("texture_background_stars_9");
+            content.Load<TextureRegion2D>("texture_background_stars_10");
+            content.Load<TextureRegion2D>("texture_background_stars_11");
+            content.Load<TextureRegion2D>("texture_background_stars_12");
+            content.Load<TextureRegion2D>("texture_background_stars_13");
 
-            content.Load<Texture2D>("texture_background_parallax_test");
+            content.Load<TextureRegion2D>("texture_background_parallax_test");
 
             content.Load<Texture2D>("texture_ui_button_released");
             content.Load<Texture2D>("texture_ui_button_hover");
