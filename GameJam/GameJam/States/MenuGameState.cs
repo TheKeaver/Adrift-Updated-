@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using GameJam.Input;
 using GameJam.Common;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.States
 {
@@ -10,7 +11,7 @@ namespace GameJam.States
     {
         private SpriteBatch _spriteBatch;
 
-        private Texture2D[] _menuTextures;
+        private TextureRegion2D[] _menuTextures;
         private int _menuTextureIdx = 0;
         private int numberOfPlayers = 2;
         private Timer _menuChangeTimer;
@@ -24,8 +25,8 @@ namespace GameJam.States
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
 
             _menuTextures = new[]{
-                Content.Load<Texture2D>("texture_title_with_instructions"),
-                Content.Load<Texture2D>("texture_title_without_instructions")
+                Content.Load<TextureRegion2D>("texture_title_with_instructions"),
+                Content.Load<TextureRegion2D>("texture_title_without_instructions")
             };
 
             _menuChangeTimer = new Timer(0.8f);

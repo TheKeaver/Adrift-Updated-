@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Particles
 {
@@ -21,7 +22,7 @@ namespace GameJam.Particles
 			}
 		}
 
-		public ref T CreateParticle(Texture2D texture,
+		public ref T CreateParticle(TextureRegion2D texture,
             float x,
             float y,
             Color color,
@@ -83,7 +84,7 @@ namespace GameJam.Particles
 		public void Draw(SpriteBatch spriteBatch)
 		{
             Vector2 origin = Vector2.Zero;
-            Texture2D texture = null;
+            TextureRegion2D texture = null;
 			for (int i = 0; i < _particles.Count; i++)
 			{
 				Particle particle = _particles[i];
@@ -121,7 +122,7 @@ namespace GameJam.Particles
         #region NESTED CLASSES
         public class Particle
 		{
-			public Texture2D Texture = null;
+			public TextureRegion2D Texture = null;
 			public Vector2 Position = Vector2.Zero;
 			public float Rotation;
 

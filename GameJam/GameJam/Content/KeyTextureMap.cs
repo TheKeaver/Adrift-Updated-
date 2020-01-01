@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Content
 {
@@ -76,7 +77,7 @@ namespace GameJam.Content
         {
             foreach(Keys key in _dictionary.Keys)
             {
-                content.Load<Texture2D>(_dictionary[key]);
+                content.Load<TextureRegion2D>(_dictionary[key]);
             }
         }
 

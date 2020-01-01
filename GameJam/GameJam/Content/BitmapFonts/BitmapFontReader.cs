@@ -33,7 +33,7 @@ namespace GameJam.Content.BitmapFonts
             }
 
             var textures = assets
-                .Select(textureName => input.ContentManager.Load<Texture2D>(textureName))
+                .Select(textureName => input.ContentManager.Load<TextureRegion2D>(textureName))
                 .ToArray();
 
             var lineHeight = input.ReadInt32();

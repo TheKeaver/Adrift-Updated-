@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Graphics
 {
@@ -46,7 +47,7 @@ namespace GameJam.Graphics
 
 		private static readonly Dictionary<String, List<Vector2>> circleCache = new Dictionary<string, List<Vector2>>();
 		//private static readonly Dictionary<String, List<Vector2>> arcCache = new Dictionary<string, List<Vector2>>();
-		private static Texture2D pixel;
+		private static TextureRegion2D pixel;
 
 		#endregion
 
@@ -55,7 +56,7 @@ namespace GameJam.Graphics
 
 		private static void CreateThePixel(SpriteBatch spriteBatch)
 		{
-			pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			pixel = new TextureRegion2D(spriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			pixel.SetData(new[] { Color.White });
 		}
 

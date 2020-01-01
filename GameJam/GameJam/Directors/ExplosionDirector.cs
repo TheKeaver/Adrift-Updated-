@@ -7,6 +7,7 @@ using GameJam.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Directors
 {
@@ -14,7 +15,7 @@ namespace GameJam.Directors
     {
         private readonly ParticleManager<VelocityParticleInfo> _particleManager;
         private readonly MTRandom _random;
-        private readonly Texture2D _particleTexture;
+        private readonly TextureRegion2D _particleTexture;
 
         public ExplosionDirector(Engine engine, ContentManager content,
             ProcessManager processManager,
@@ -23,7 +24,7 @@ namespace GameJam.Directors
         {
             _particleManager = particleManager;
             _random = new MTRandom();
-            _particleTexture = content.Load<Texture2D>("texture_particle_velocity");
+            _particleTexture = content.Load<TextureRegion2D>("texture_particle_velocity");
         }
 
         protected override void RegisterEvents()

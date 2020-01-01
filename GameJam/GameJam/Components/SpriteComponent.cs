@@ -1,6 +1,7 @@
 ﻿using Audrey;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Components
 {
@@ -13,13 +14,13 @@ namespace GameJam.Components
         {
         }
 
-        public SpriteComponent(Texture2D texture, Vector2 bounds)
+        public SpriteComponent(TextureRegion2D texture, Vector2 bounds)
         {
             Texture = texture;
             Bounds = bounds;
         }
 
-        public Texture2D Texture;
+        public TextureRegion2D Texture;
         public Vector2 Bounds;
         public Color Color = Color.White;
         public float Alpha = 1;

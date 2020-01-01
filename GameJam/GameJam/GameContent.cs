@@ -15,7 +15,7 @@ namespace GameJam
             /// IMPORTANT: **ALWAYS** use `content` instead of `Content` in
             /// this method.
 
-            content.Load<Texture2D>("texture_particle_velocity");
+            content.Load<TextureRegion2D>("texture_particle_velocity");
 
             content.Load<TextureRegion2D>("texture_background_stars_0");
             content.Load<TextureRegion2D>("texture_background_stars_1");
@@ -34,97 +34,97 @@ namespace GameJam
 
             content.Load<TextureRegion2D>("texture_background_parallax_test");
 
-            content.Load<Texture2D>("texture_ui_button_released");
-            content.Load<Texture2D>("texture_ui_button_hover");
-            content.Load<Texture2D>("texture_ui_button_pressed");
-            content.Load<Texture2D>("texture_ui_lobby_panel_background");
-            content.Load<Texture2D>("texture_ui_dropdown_background");
+            content.Load<TextureRegion2D>("texture_ui_button_released");
+            content.Load<TextureRegion2D>("texture_ui_button_hover");
+            content.Load<TextureRegion2D>("texture_ui_button_pressed");
+            content.Load<TextureRegion2D>("texture_ui_lobby_panel_background");
+            content.Load<TextureRegion2D>("texture_ui_dropdown_background");
 
-            content.Load<Texture2D>("texture_input_keyboard_key_0");
-            content.Load<Texture2D>("texture_input_keyboard_key_1");
-            content.Load<Texture2D>("texture_input_keyboard_key_2");
-            content.Load<Texture2D>("texture_input_keyboard_key_3");
-            content.Load<Texture2D>("texture_input_keyboard_key_4");
-            content.Load<Texture2D>("texture_input_keyboard_key_5");
-            content.Load<Texture2D>("texture_input_keyboard_key_6");
-            content.Load<Texture2D>("texture_input_keyboard_key_7");
-            content.Load<Texture2D>("texture_input_keyboard_key_8");
-            content.Load<Texture2D>("texture_input_keyboard_key_9");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_0");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_1");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_2");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_3");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_4");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_5");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_6");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_7");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_8");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_9");
 
-            content.Load<Texture2D>("texture_input_keyboard_key_a");
-            content.Load<Texture2D>("texture_input_keyboard_key_b");
-            content.Load<Texture2D>("texture_input_keyboard_key_c");
-            content.Load<Texture2D>("texture_input_keyboard_key_d");
-            content.Load<Texture2D>("texture_input_keyboard_key_e");
-            content.Load<Texture2D>("texture_input_keyboard_key_f");
-            content.Load<Texture2D>("texture_input_keyboard_key_g");
-            content.Load<Texture2D>("texture_input_keyboard_key_h");
-            content.Load<Texture2D>("texture_input_keyboard_key_i");
-            content.Load<Texture2D>("texture_input_keyboard_key_j");
-            content.Load<Texture2D>("texture_input_keyboard_key_k");
-            content.Load<Texture2D>("texture_input_keyboard_key_l");
-            content.Load<Texture2D>("texture_input_keyboard_key_m");
-            content.Load<Texture2D>("texture_input_keyboard_key_n");
-            content.Load<Texture2D>("texture_input_keyboard_key_o");
-            content.Load<Texture2D>("texture_input_keyboard_key_p");
-            content.Load<Texture2D>("texture_input_keyboard_key_q");
-            content.Load<Texture2D>("texture_input_keyboard_key_r");
-            content.Load<Texture2D>("texture_input_keyboard_key_s");
-            content.Load<Texture2D>("texture_input_keyboard_key_t");
-            content.Load<Texture2D>("texture_input_keyboard_key_u");
-            content.Load<Texture2D>("texture_input_keyboard_key_v");
-            content.Load<Texture2D>("texture_input_keyboard_key_w");
-            content.Load<Texture2D>("texture_input_keyboard_key_x");
-            content.Load<Texture2D>("texture_input_keyboard_key_y");
-            content.Load<Texture2D>("texture_input_keyboard_key_z");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_a");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_b");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_c");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_d");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_e");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_f");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_g");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_h");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_i");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_j");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_k");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_l");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_m");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_n");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_o");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_p");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_q");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_r");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_s");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_t");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_u");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_v");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_w");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_x");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_y");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_z");
 
-            content.Load<Texture2D>("texture_input_keyboard_key_up");
-            content.Load<Texture2D>("texture_input_keyboard_key_down");
-            content.Load<Texture2D>("texture_input_keyboard_key_left");
-            content.Load<Texture2D>("texture_input_keyboard_key_right");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_up");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_down");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_left");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_right");
 
-            content.Load<Texture2D>("texture_input_keyboard_key_bracket_left");
-            content.Load<Texture2D>("texture_input_keyboard_key_bracket_right");
-            content.Load<Texture2D>("texture_input_keyboard_key_semicolon");
-            content.Load<Texture2D>("texture_input_keyboard_key_quote");
-            content.Load<Texture2D>("texture_input_keyboard_key_angle_left");
-            content.Load<Texture2D>("texture_input_keyboard_key_angle_right");
-            content.Load<Texture2D>("texture_input_keyboard_key_question");
-            content.Load<Texture2D>("texture_input_keyboard_key_slash");
-            content.Load<Texture2D>("texture_input_keyboard_key_minus");
-            content.Load<Texture2D>("texture_input_keyboard_key_plus");
-            content.Load<Texture2D>("texture_input_keyboard_key_space");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_bracket_left");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_bracket_right");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_semicolon");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_quote");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_angle_left");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_angle_right");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_question");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_slash");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_minus");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_plus");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_space");
 
-            content.Load<Texture2D>("texture_input_keyboard_key_blank");
+            content.Load<TextureRegion2D>("texture_input_keyboard_key_blank");
 
-            content.Load<Texture2D>("texture_input_gamepad_a");
-            content.Load<Texture2D>("texture_input_gamepad_b");
-            content.Load<Texture2D>("texture_input_gamepad_x");
-            content.Load<Texture2D>("texture_input_gamepad_y");
+            content.Load<TextureRegion2D>("texture_input_gamepad_a");
+            content.Load<TextureRegion2D>("texture_input_gamepad_b");
+            content.Load<TextureRegion2D>("texture_input_gamepad_x");
+            content.Load<TextureRegion2D>("texture_input_gamepad_y");
 
-            content.Load<Texture2D>("texture_input_gamepad_dpad_up");
-            content.Load<Texture2D>("texture_input_gamepad_dpad_down");
-            content.Load<Texture2D>("texture_input_gamepad_dpad_left");
-            content.Load<Texture2D>("texture_input_gamepad_dpad_right");
+            content.Load<TextureRegion2D>("texture_input_gamepad_dpad_up");
+            content.Load<TextureRegion2D>("texture_input_gamepad_dpad_down");
+            content.Load<TextureRegion2D>("texture_input_gamepad_dpad_left");
+            content.Load<TextureRegion2D>("texture_input_gamepad_dpad_right");
 
-            content.Load<Texture2D>("texture_input_gamepad_bumper_left");
-            content.Load<Texture2D>("texture_input_gamepad_bumper_right");
-            content.Load<Texture2D>("texture_input_gamepad_trigger_left");
-            content.Load<Texture2D>("texture_input_gamepad_trigger_right");
+            content.Load<TextureRegion2D>("texture_input_gamepad_bumper_left");
+            content.Load<TextureRegion2D>("texture_input_gamepad_bumper_right");
+            content.Load<TextureRegion2D>("texture_input_gamepad_trigger_left");
+            content.Load<TextureRegion2D>("texture_input_gamepad_trigger_right");
 
-            content.Load<Texture2D>("texture_input_gamepad_stick_left");
-            content.Load<Texture2D>("texture_input_gamepad_stick_right");
+            content.Load<TextureRegion2D>("texture_input_gamepad_stick_left");
+            content.Load<TextureRegion2D>("texture_input_gamepad_stick_right");
 
             content.Load<SoundEffect>("sound_explosion");
             content.Load<SoundEffect>("sound_projectile_fired");
             content.Load<SoundEffect>("sound_projectile_bounce");
 
             content.Load<BitmapFont>("font_game_over");
-            content.Load<Texture2D>("font_texture_game_over");
+            content.Load<TextureRegion2D>("font_texture_game_over");
             content.Load<BitmapFont>("font_hyperspace");
-            content.Load<Texture2D>("font_texture_hyperspace");
+            content.Load<TextureRegion2D>("font_texture_hyperspace");
             content.Load<BitmapFont>("font_title");
-            content.Load<Texture2D>("font_texture_title");
+            content.Load<TextureRegion2D>("font_texture_title");
 
             content.Load<Effect>("effect_blur");
             content.Load<Effect>("effect_fxaa");

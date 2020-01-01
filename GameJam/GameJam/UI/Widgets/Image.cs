@@ -1,14 +1,17 @@
 ﻿using Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
+using MonoGame.Extended.Sprites;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.UI.Widgets
 {
     public class Image : Widget
     {
-        private Texture2D _texture;
+        private TextureRegion2D _texture;
         private Vector2 _bounds;
-        public Texture2D Texture {
+        public TextureRegion2D Texture {
             get
             {
                 return _texture;
@@ -23,7 +26,7 @@ namespace GameJam.UI.Widgets
             }
         }
 
-        public Image(Texture2D texture,
+        public Image(TextureRegion2D texture,
 
             HorizontalAlignment hAlign,
             AbstractValue horizontal,
@@ -42,7 +45,7 @@ namespace GameJam.UI.Widgets
             if(!Hidden)
             {
                 Vector2 scale = (BottomRight - TopLeft) / _bounds;
-                spriteBatch.Draw(Texture,
+                /*spriteBatch.Draw(Texture,
                     TopLeft,
                     null,
                     TintColor,
@@ -50,7 +53,8 @@ namespace GameJam.UI.Widgets
                     Vector2.Zero,
                     scale,
                     SpriteEffects.None,
-                    0);
+                    0);*/
+                spriteBatch.Draw(Texture, TopLeft, TintColor, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             }
         }
 

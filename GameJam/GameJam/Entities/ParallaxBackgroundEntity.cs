@@ -2,12 +2,13 @@
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Entities
 {
     public static class ParallaxBackgroundEntity
     {
-        public static Entity Create(Engine engine, Texture2D texture, Vector2 origin, float strength, bool pulsing = false)
+        public static Entity Create(Engine engine, TextureRegion2D texture, Vector2 origin, float strength, bool pulsing = false)
         {
             Entity entity = engine.CreateEntity();
 
