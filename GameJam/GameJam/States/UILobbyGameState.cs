@@ -400,7 +400,7 @@ namespace GameJam.States
                 Image image = widget as Image;
                 if(image != null)
                 {
-                    image.Texture = Content.Load<TextureRegion2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")]);
+                    image.Texture = new TextureRegion2D(Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")]));
                 }
             });
             _root.FindWidgetsByClass("primary_keyboard_clockwise_texture").ForEach((Widget widget) =>
@@ -408,7 +408,7 @@ namespace GameJam.States
                 Image image = widget as Image;
                 if (image != null)
                 {
-                    image.Texture = Content.Load<TextureRegion2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_clockwise")]);
+                    image.Texture = new TextureRegion2D(Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_clockwise")]));
                 }
             });
 
@@ -417,7 +417,7 @@ namespace GameJam.States
                 Image image = widget as Image;
                 if (image != null)
                 {
-                    image.Texture = Content.Load<TextureRegion2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")]);
+                    image.Texture = new TextureRegion2D(Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")]));
                 }
             });
             _root.FindWidgetsByClass("secondary_keyboard_clockwise_texture").ForEach((Widget widget) =>
@@ -425,7 +425,7 @@ namespace GameJam.States
                 Image image = widget as Image;
                 if (image != null)
                 {
-                    image.Texture = Content.Load<TextureRegion2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_clockwise")]);
+                    image.Texture = new TextureRegion2D(Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_clockwise")]));
                 }
             });
         }

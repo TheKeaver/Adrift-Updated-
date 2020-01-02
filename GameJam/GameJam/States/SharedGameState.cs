@@ -82,25 +82,6 @@ namespace GameJam.States
 
         private void InitSystems()
         {
-            // Order matters
-            /*_systems = new BaseSystem[]
-            {
-                new InputSystem(Engine), // Input system must go first so snapshots are accurate
-                new CollisionDetectionSystem(Engine),
-                new PlayerShieldSystem(Engine),
-                new MovementSystem(Engine),
-                new EnemyRotationSystem(Engine),
-                new AnimationSystem(Engine),
-                new LaserEnemySystem(Engine),
-                new GravitySystem(Engine),
-                new PulseSystem(Engine),
-                new ParallaxBackgroundSystem(Engine, Camera),
-                new PassiveRotationSystem(Engine),
-                new MenuBackgroundDestructionSystem(Engine),
-                new ChasingSpeedIncreaseSystem(Engine),
-                new GravityHolePassiveAnimationSystem(Engine, ProcessManager)
-            };*/
-
             _systems = new BaseSystem[]
             {
                 // Input System must go first to have accurate snapshots
@@ -156,26 +137,6 @@ namespace GameJam.States
 
         private void LoadContent()
         {
-            Content.Load<TextureRegion2D>("texture_particle_velocity");
-
-            Content.Load<TextureRegion2D>("texture_background_stars_0");
-            Content.Load<TextureRegion2D>("texture_background_stars_1");
-            Content.Load<TextureRegion2D>("texture_background_stars_2");
-            Content.Load<TextureRegion2D>("texture_background_stars_3");
-            //Content.Load<TextureRegion2D>("texture_background_stars_4");
-            //Content.Load<TextureRegion2D>("texture_background_stars_5");
-            //Content.Load<TextureRegion2D>("texture_background_stars_6");
-            //Content.Load<TextureRegion2D>("texture_background_stars_7");
-            //Content.Load<TextureRegion2D>("texture_background_stars_8");
-            //Content.Load<TextureRegion2D>("texture_background_stars_9");
-            //Content.Load<TextureRegion2D>("texture_background_stars_10");
-            //Content.Load<TextureRegion2D>("texture_background_stars_11");
-            //Content.Load<TextureRegion2D>("texture_background_stars_12");
-            //Content.Load<TextureRegion2D>("texture_background_stars_13");
-
-            //Content.Load<TextureRegion2D>("texture_background_parallax_test");
-
-            Content.Load<Effect>("effect_blur");
             Bloom bloom = new Bloom(PostProcessor, GameManager.Content);
             bloom.Radius = 1.5f;
             PostProcessor.Effects.Add(bloom);
@@ -192,16 +153,16 @@ namespace GameJam.States
         void CreateParallaxBackground()
         {
             ParallaxBackgroundEntity.Create(Engine,
-                Content.Load<TextureRegion2D>("texture_background_stars_0"),
+                new TextureRegion2D(Content.Load<Texture2D>("texture_background_stars_0")),
                 Vector2.Zero, 0.15f, true);
             ParallaxBackgroundEntity.Create(Engine,
-                Content.Load<TextureRegion2D>("texture_background_stars_1"),
+                new TextureRegion2D(Content.Load<Texture2D>("texture_background_stars_1")),
                 Vector2.Zero, 0.25f);
             ParallaxBackgroundEntity.Create(Engine,
-                Content.Load<TextureRegion2D>("texture_background_stars_2"),
+                new TextureRegion2D(Content.Load<Texture2D>("texture_background_stars_2")),
                 Vector2.Zero, 0.35f);
             ParallaxBackgroundEntity.Create(Engine,
-                Content.Load<TextureRegion2D>("texture_background_stars_3"),
+                new TextureRegion2D(Content.Load<Texture2D>("texture_background_stars_3")),
                 Vector2.Zero, 0.55f);
             //ParallaxBackgroundEntity.Create(Engine,
             //    Content.Load<TextureRegion2D>("texture_background_parallax_test"),

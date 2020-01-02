@@ -66,13 +66,13 @@ namespace GameJam.UI
             }
             if(prototype is ImageWidgetPrototype)
             {
-                TextureRegion2D texture = content.Load<TextureRegion2D>(((ImageWidgetPrototype)prototype).Image);
+                TextureRegion2D texture = new TextureRegion2D(content.Load<Texture2D>(((ImageWidgetPrototype)prototype).Image));
 
                 widget = new Image(texture, halign, horizontal, valign, vertical, width, height);
             }
             if (prototype is NinePatchImageWidgetPrototype)
             {
-                TextureRegion2D texture = content.Load<TextureRegion2D>(((NinePatchImageWidgetPrototype)prototype).Image);
+                TextureRegion2D texture = new TextureRegion2D(content.Load<Texture2D>(((NinePatchImageWidgetPrototype)prototype).Image));
 
                 string[] rawThickness = ((NinePatchImageWidgetPrototype)prototype).Thickness.Trim().Split(',');
                 if(rawThickness.Length != 4)
@@ -93,21 +93,21 @@ namespace GameJam.UI
             }
             if (prototype is ButtonWidgetPrototype)
             {
-                TextureRegion2D releasedTexture = content.Load<TextureRegion2D>(((ButtonWidgetPrototype)prototype).ReleasedImage);
+                TextureRegion2D releasedTexture = new TextureRegion2D(content.Load<Texture2D>(((ButtonWidgetPrototype)prototype).ReleasedImage));
                 string[] releasedRawThickness = ((ButtonWidgetPrototype)prototype).ReleasedThickness.Trim().Split(',');
                 if (releasedRawThickness.Length != 4)
                 {
                     throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
                 }
 
-                TextureRegion2D hoverTexture = content.Load<TextureRegion2D>(((ButtonWidgetPrototype)prototype).HoverImage);
+                TextureRegion2D hoverTexture = new TextureRegion2D(content.Load<Texture2D>(((ButtonWidgetPrototype)prototype).HoverImage));
                 string[] hoverRawThickness = ((ButtonWidgetPrototype)prototype).HoverThickness.Trim().Split(',');
                 if (hoverRawThickness.Length != 4)
                 {
                     throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
                 }
 
-                TextureRegion2D pressedTexture = content.Load<TextureRegion2D>(((ButtonWidgetPrototype)prototype).PressedImage);
+                TextureRegion2D pressedTexture = new TextureRegion2D(content.Load<Texture2D>(((ButtonWidgetPrototype)prototype).PressedImage));
                 string[] pressedRawThickness = ((ButtonWidgetPrototype)prototype).PressedThickness.Trim().Split(',');
                 if (pressedRawThickness.Length != 4)
                 {
@@ -154,21 +154,21 @@ namespace GameJam.UI
             }
             if (prototype is SliderWidgetPrototype)
             {
-                TextureRegion2D releasedTexture = content.Load<TextureRegion2D>(((SliderWidgetPrototype)prototype).ReleasedImage);
+                TextureRegion2D releasedTexture = new TextureRegion2D(content.Load<Texture2D>(((SliderWidgetPrototype)prototype).ReleasedImage));
                 string[] releasedRawThickness = ((SliderWidgetPrototype)prototype).ReleasedThickness.Trim().Split(',');
                 if (releasedRawThickness.Length != 4)
                 {
                     throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
                 }
 
-                TextureRegion2D hoverTexture = content.Load<TextureRegion2D>(((SliderWidgetPrototype)prototype).HoverImage);
+                TextureRegion2D hoverTexture = new TextureRegion2D(content.Load<Texture2D>(((SliderWidgetPrototype)prototype).HoverImage));
                 string[] hoverRawThickness = ((SliderWidgetPrototype)prototype).HoverThickness.Trim().Split(',');
                 if (hoverRawThickness.Length != 4)
                 {
                     throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
                 }
 
-                TextureRegion2D pressedTexture = content.Load<TextureRegion2D>(((SliderWidgetPrototype)prototype).PressedImage);
+                TextureRegion2D pressedTexture = new TextureRegion2D(content.Load<Texture2D>(((SliderWidgetPrototype)prototype).PressedImage));
                 string[] pressedRawThickness = ((SliderWidgetPrototype)prototype).PressedThickness.Trim().Split(',');
                 if (pressedRawThickness.Length != 4)
                 {
@@ -199,21 +199,21 @@ namespace GameJam.UI
             }
             if (prototype is DropDownPanelWidgetPrototype)
             {
-                TextureRegion2D releasedTexture = content.Load<TextureRegion2D>(((DropDownPanelWidgetPrototype)prototype).ReleasedImage);
+                TextureRegion2D releasedTexture = new TextureRegion2D(content.Load<Texture2D>(((DropDownPanelWidgetPrototype)prototype).ReleasedImage));
                 string[] releasedRawThickness = ((DropDownPanelWidgetPrototype)prototype).ReleasedThickness.Trim().Split(',');
                 if (releasedRawThickness.Length != 4)
                 {
                     throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
                 }
 
-                TextureRegion2D hoverTexture = content.Load<TextureRegion2D>(((DropDownPanelWidgetPrototype)prototype).HoverImage);
+                TextureRegion2D hoverTexture = new TextureRegion2D(content.Load<Texture2D>(((DropDownPanelWidgetPrototype)prototype).HoverImage));
                 string[] hoverRawThickness = ((DropDownPanelWidgetPrototype)prototype).HoverThickness.Trim().Split(',');
                 if (hoverRawThickness.Length != 4)
                 {
                     throw new Exception("NinePatchImage thickness must be integers in the for `left,top,right,bottom`.");
                 }
 
-                TextureRegion2D pressedTexture = content.Load<TextureRegion2D>(((DropDownPanelWidgetPrototype)prototype).PressedImage);
+                TextureRegion2D pressedTexture = new TextureRegion2D(content.Load<Texture2D>(((DropDownPanelWidgetPrototype)prototype).PressedImage));
                 string[] pressedRawThickness = ((DropDownPanelWidgetPrototype)prototype).PressedThickness.Trim().Split(',');
                 if (pressedRawThickness.Length != 4)
                 {

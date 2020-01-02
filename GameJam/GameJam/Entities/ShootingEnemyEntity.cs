@@ -58,6 +58,7 @@ namespace GameJam.Entities
             float angle = entity.GetComponent<TransformComponent>().Rotation;
             entity.AddComponent(new MovementComponent(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)), CVars.Get<float>("shooting_enemy_speed")));
             entity.AddComponent(new EnemyComponent());
+            entity.AddComponent(new BounceComponent());
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(-2, 5),

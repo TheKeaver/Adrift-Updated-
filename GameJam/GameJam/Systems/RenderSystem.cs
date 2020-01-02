@@ -5,6 +5,8 @@ using MonoGame.Extended.BitmapFonts;
 using GameJam.Components;
 using System.Collections.Generic;
 using System;
+using MonoGame.Extended.Sprites;
+using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Systems
 {
@@ -128,14 +130,13 @@ namespace GameJam.Systems
                 else
                 {
                     SpriteBatch.Draw(spriteComp.Texture,
-                                      position * FlipY,
-                                      null,
-                                      spriteComp.Color * spriteComp.Alpha,
-                                      -rotation,
-                                      origin,
-                                      scale * transformScale,
-                                      SpriteEffects.None,
-                                      0);
+                                     position * FlipY,
+                                     spriteComp.Color * spriteComp.Alpha,
+                                     -rotation,
+                                     origin,
+                                     scale * transformScale,
+                                     SpriteEffects.None,
+                                     0);
                 }
             }
 

@@ -4,6 +4,7 @@ using GameJam.Components;
 using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using System;
 
 namespace GameJam.Directors
 {
@@ -65,6 +66,13 @@ namespace GameJam.Directors
                     if (bouncer.GetComponent<ProjectileComponent>().BouncesLeft <= 0)
                         Engine.DestroyEntity(bouncer);
                 }
+
+                if (bouncer.HasComponent<EnemyComponent>() && 
+                    !bouncer.HasComponent<ProjectileComponent>() &&
+                    !bouncer.HasComponent<PlayerComponent>() &&
+                    !bouncer.HasComponent<LaserBeamComponent>())
+                    Console.WriteLine("EnemyShip Collide with Edge");
+
                 if (bouncer != null && bouncer.HasComponent<MovementComponent>())
                 {
                     Vector2 bounceDirection = bouncer.GetComponent<MovementComponent>().MovementVector;

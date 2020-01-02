@@ -77,7 +77,7 @@ namespace GameJam.Content
         {
             foreach(Keys key in _dictionary.Keys)
             {
-                content.Load<TextureRegion2D>(_dictionary[key]);
+                content.Load<Texture2D>(_dictionary[key]);
             }
         }
 

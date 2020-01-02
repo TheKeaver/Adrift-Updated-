@@ -24,7 +24,7 @@ namespace GameJam.Directors
         {
             _particleManager = particleManager;
             _random = new MTRandom();
-            _particleTexture = content.Load<TextureRegion2D>("texture_particle_velocity");
+            _particleTexture = new TextureRegion2D(content.Load<Texture2D>("texture_particle_velocity"));
         }
 
         protected override void RegisterEvents()

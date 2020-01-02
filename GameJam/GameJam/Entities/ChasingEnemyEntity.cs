@@ -1,6 +1,5 @@
 ﻿using Audrey;
 using GameJam.Components;
-using GameJam.Processes.Animations.Warp;
 using GameJam.Processes.Entities;
 using Microsoft.Xna.Framework;
 using System;
@@ -55,6 +54,7 @@ namespace GameJam.Entities
             entity.AddComponent(new MovementComponent(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)), CVars.Get<float>("chasing_enemy_speed")));
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new ChasingEnemyComponent());
+            entity.AddComponent(new BounceComponent());
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(3, 0),

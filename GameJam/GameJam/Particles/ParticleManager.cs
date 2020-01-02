@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Particles
@@ -96,14 +97,13 @@ namespace GameJam.Particles
                 }
 
 				spriteBatch.Draw(particle.Texture,
-                    particle.Position,
-                    null,
-                    particle.Color,
-                    particle.Rotation,
-                    origin,
-                    particle.Scale,
-                    0,
-                    0);
+					particle.Position, 
+					particle.Color,
+					particle.Rotation,
+					origin,
+					particle.Scale,
+					SpriteEffects.None,
+					0);
 			}
 		}
 

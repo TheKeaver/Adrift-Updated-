@@ -48,7 +48,7 @@ namespace GameJam.Content
         {
             foreach (Buttons button in _dictionary.Keys)
             {
-                content.Load<TextureRegion2D>(_dictionary[button]);
+                content.Load<Texture2D>(_dictionary[button]);
             }
         }
 

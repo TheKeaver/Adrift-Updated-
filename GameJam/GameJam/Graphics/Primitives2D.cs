@@ -47,7 +47,7 @@ namespace GameJam.Graphics
 
 		private static readonly Dictionary<String, List<Vector2>> circleCache = new Dictionary<string, List<Vector2>>();
 		//private static readonly Dictionary<String, List<Vector2>> arcCache = new Dictionary<string, List<Vector2>>();
-		private static TextureRegion2D pixel;
+		private static Texture2D pixel;
 
 		#endregion
 
@@ -56,7 +56,7 @@ namespace GameJam.Graphics
 
 		private static void CreateThePixel(SpriteBatch spriteBatch)
 		{
-			pixel = new TextureRegion2D(spriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			pixel = new Texture2D(spriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			pixel.SetData(new[] { Color.White });
 		}
 
