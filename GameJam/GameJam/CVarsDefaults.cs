@@ -343,6 +343,7 @@ namespace GameJam
             Create<string>("font_texture_hyperspace", "fonts/Hyperspace_0", CVarFlags.PRESERVE);
             Create<string>("font_title", "fonts/Title", CVarFlags.PRESERVE);
             Create<string>("font_texture_title", "fonts/Title_0", CVarFlags.PRESERVE);
+            Create<string>("font_msdf_hyperspace", "fonts/Hyperspace/Hyperspace", CVarFlags.PRESERVE);
 
             Create<string>("effect_blur", "effects/Blur", CVarFlags.PRESERVE);
             Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE);

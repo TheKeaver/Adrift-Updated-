@@ -13,9 +13,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Audrey", "Audrey\Audrey.shp
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Events", "Events\Events.shproj", "{9EBEE4BA-CE43-46C2-A8C7-240345F599D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adrift.Content.Pipeline", "Adrift.Content.Pipeline\Adrift.Content.Pipeline.csproj", "{B160A6B3-ED42-40E7-B9BF-A994B2C23984}"
+EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Adrift.Content.Common", "Adrift.Content.Common\Adrift.Content.Common.shproj", "{A3664560-EB77-40FB-92A1-7F9F80842738}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adrift.Content.Pipeline", "Adrift.Content.Pipeline\Adrift.Content.Pipeline.csproj", "{B160A6B3-ED42-40E7-B9BF-A994B2C23984}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSDFFonts", "MSDFFonts\MSDFFonts.csproj", "{2355C924-25F9-499B-B7A0-593BE3A32FA3}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -42,6 +44,10 @@ Global
 		{B160A6B3-ED42-40E7-B9BF-A994B2C23984}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B160A6B3-ED42-40E7-B9BF-A994B2C23984}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B160A6B3-ED42-40E7-B9BF-A994B2C23984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2355C924-25F9-499B-B7A0-593BE3A32FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2355C924-25F9-499B-B7A0-593BE3A32FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2355C924-25F9-499B-B7A0-593BE3A32FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2355C924-25F9-499B-B7A0-593BE3A32FA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

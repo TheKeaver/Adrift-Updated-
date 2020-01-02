@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\Adrift.Content.Common\Adrift.Content.Common.projitems" Label="Shared" Condition="Exists('..\Adrift.Content.Common\Adrift.Content.Common.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -49,6 +50,8 @@
     <Compile Include="UI\UIWidgetsImporter.cs" />
     <Compile Include="UI\UIWidgetsProcessor.cs" />
     <Compile Include="UI\UIWidgetsWriter.cs" />
+    <Compile Include="MSDF\FieldFontImporter.cs" />
+    <Compile Include="MSDF\FieldFontProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.Content.Pipeline.Portable">
@@ -57,7 +60,18 @@
     <PackageReference Include="MonoGame.Framework.Portable">
       <Version>3.7.1.189</Version>
     </PackageReference>
+    <PackageReference Include="ini-parser">
+      <Version>2.5.2</Version>
+    </PackageReference>
+    <PackageReference Include="RoyT.TrueType">
+      <Version>0.1.1</Version>
+    </PackageReference>
   </ItemGroup>
-  <Import Project="..\Adrift.Content.Common\Adrift.Content.Common.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\MSDFFonts\MSDFFonts.csproj">
+      <Project>{2355C924-25F9-499B-B7A0-593BE3A32FA3}</Project>
+      <Name>MSDFFonts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

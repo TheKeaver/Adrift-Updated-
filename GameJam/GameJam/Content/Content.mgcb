@@ -25,6 +25,9 @@
 /processor:BitmapFontProcessor
 /build:fonts/Hyperspace.fnt
 
+#begin fonts/Hyperspace/Hyperspace.xnb
+/copy:fonts/Hyperspace/Hyperspace.xnb
+
 #begin fonts/Hyperspace_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
