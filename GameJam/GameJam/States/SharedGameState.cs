@@ -97,11 +97,13 @@ namespace GameJam.States
 
                 // Section below is ordered based on dependency from Top (least dependent) to Bottom (most dependent)
                 new ChasingSpeedIncreaseSystem(Engine),
-                new EnemyRotationSystem(Engine),
                 new LaserEnemySystem(Engine),
                 new GravitySystem(Engine),
                 new MovementSystem(Engine),
                 new PlayerShieldSystem(Engine),
+                
+                // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
+                new EnemyRotationSystem(Engine),
 
                 // Collision Detection must go last to have accurate collision detection
                 new CollisionDetectionSystem(Engine)

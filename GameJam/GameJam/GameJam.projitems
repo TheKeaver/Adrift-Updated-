@@ -81,6 +81,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpEntityPhase2Process.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
@@ -228,15 +230,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Entities\EntityRotateProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHolePingEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHolePingComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase2Process.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpEntityPhase2Process.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\" />
   </ItemGroup>
 </Project>
