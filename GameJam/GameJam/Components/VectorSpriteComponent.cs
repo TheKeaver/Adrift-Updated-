@@ -35,11 +35,23 @@ namespace GameJam.Components
                 LastStretch = Stretch;
             }
         }
+        public void ChangeColor(Color color)
+        {
+            foreach(RenderShape shape in RenderShapes)
+            {
+                shape.TintColor = color;
+            }
+        }
     }
 
     public abstract class RenderShape
     {
         public abstract VertexPositionColor[] ComputeVertices();
+        public Color TintColor
+        {
+            get;
+            set;
+        } = Color.White;
     }
 
     public class QuadRenderShape : RenderShape

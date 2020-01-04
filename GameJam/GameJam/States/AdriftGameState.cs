@@ -122,7 +122,7 @@ namespace GameJam.States
         void CreateEntities()
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2((-25 * (Players.Length / 2)) + (25 * (Players.Length / 4)), 25 * (Players.Length / 3)));
+                new Vector2((-25 * (Players.Length / 2)) + (25 * (Players.Length / 4)), 25 * (Players.Length / 3)), Color.White);
             Entity playerShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                 playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
@@ -131,7 +131,7 @@ namespace GameJam.States
             if (Players.Length >= 2)
             {
                 Entity playerTwoShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2(25, 25 * (Players.Length / 3)));
+                new Vector2(25, 25 * (Players.Length / 3)), Color.Blue);
                 Entity playerTwoShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                     playerTwoShipEntity);
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerTwoShieldEntity;
@@ -140,7 +140,7 @@ namespace GameJam.States
 
             if( Players.Length >= 3)
             {
-                Entity playerThreeShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(-25, -25));
+                Entity playerThreeShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(-25, -25), Color.Orange);
                 Entity playerThreeShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity);
                 playerThreeShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerThreeShieldEntity;
                 playerThreeShieldEntity.AddComponent(new PlayerComponent(Players[2]));
@@ -148,7 +148,7 @@ namespace GameJam.States
 
             if( Players.Length == 4)
             {
-                Entity playerFourShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25));
+                Entity playerFourShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25), Color.Magenta);
                 Entity playerFourShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity);
                 playerFourShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerFourShieldEntity;
                 playerFourShieldEntity.AddComponent(new PlayerComponent(Players[3]));

@@ -58,6 +58,7 @@ namespace GameJam.Directors
             if (!CVars.Get<bool>("god"))
             {
                 entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
+                ChangeShieldColor(entityA);
             }
             if(entityA.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
             {
@@ -99,6 +100,19 @@ namespace GameJam.Directors
                     EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position, color, false));
                 }
                 Engine.DestroyEntity(entityB);
+            }
+        }
+
+        private void ChangeShieldColor(Entity ship)
+        {
+            switch(ship.GetComponent<PlayerShipComponent>().LifeRemaining)
+            {
+                case 2:
+                    ship.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_middle"));
+                    break;
+                case 1:
+                    ship.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_low"));
+                    break;
             }
         }
 

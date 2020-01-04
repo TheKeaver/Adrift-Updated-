@@ -179,7 +179,9 @@ namespace GameJam
 
             /** COLORS **/
             Create<Color>("color_player_ship", Color.White, CVarFlags.DEV_PRESERVE);
-            Create<Color>("color_player_shield", Color.SpringGreen, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_player_shield_high", Color.SpringGreen, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_player_shield_middle", Color.Yellow, CVarFlags.DEV_PRESERVE);
+            Create<Color>("color_player_shield_low", Color.Red, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_chasing_enemy", Color.Violet, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_shooting_enemy", Color.Cyan, CVarFlags.DEV_PRESERVE);
             Create<Color>("color_laser_enemy", Color.Gold, CVarFlags.DEV_PRESERVE);
