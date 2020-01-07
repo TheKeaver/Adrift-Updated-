@@ -172,7 +172,8 @@ namespace GameJam
             // Global Content
 
             SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
-            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            //ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            ProcessManager.Attach(new MSDFFontTestGameState(this));
 
             GlobalContent = new LockingContentManager(Services);
             GlobalContent.Locked = false;

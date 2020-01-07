@@ -231,6 +231,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase2Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpEntityPhase2Process.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\Quad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\TextRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\GlyphRenderInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\MSDFFontTestGameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -238,5 +242,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Graphics\Text\" />
   </ItemGroup>
 </Project>

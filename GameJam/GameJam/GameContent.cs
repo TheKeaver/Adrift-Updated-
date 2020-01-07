@@ -125,10 +125,12 @@ namespace GameJam
             content.Load<Texture2D>("font_texture_hyperspace");
             content.Load<BitmapFont>("font_title");
             content.Load<Texture2D>("font_texture_title");
-            content.Load<FieldFont>("font_msdf_hyperspace");
 
             content.Load<Effect>("effect_blur");
             content.Load<Effect>("effect_fxaa");
+
+            content.Load<Effect>("effect_field_font");
+            content.Load<FieldFont>("font_msdf_hyperspace");
 
             content.Load<List<WidgetPrototype>>("ui_main_menu");
             content.Load<List<WidgetPrototype>>("ui_options_menu");

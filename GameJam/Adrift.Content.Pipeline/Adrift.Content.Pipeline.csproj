@@ -46,22 +46,22 @@
     <Compile Include="BitmapFonts\BitmapFontProcessor.cs" />
     <Compile Include="BitmapFonts\BitmapFontProcessorResult.cs" />
     <Compile Include="BitmapFonts\BitmapFontWriter.cs" />
+    <Compile Include="MSDF\FieldFontImporter.cs" />
+    <Compile Include="MSDF\FieldFontProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\UIWidgetsImporter.cs" />
     <Compile Include="UI\UIWidgetsProcessor.cs" />
     <Compile Include="UI\UIWidgetsWriter.cs" />
-    <Compile Include="MSDF\FieldFontImporter.cs" />
-    <Compile Include="MSDF\FieldFontProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ini-parser">
+      <Version>2.5.2</Version>
+    </PackageReference>
     <PackageReference Include="MonoGame.Framework.Content.Pipeline.Portable">
       <Version>3.7.1.189</Version>
     </PackageReference>
     <PackageReference Include="MonoGame.Framework.Portable">
       <Version>3.7.1.189</Version>
-    </PackageReference>
-    <PackageReference Include="ini-parser">
-      <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="RoyT.TrueType">
       <Version>0.1.1</Version>

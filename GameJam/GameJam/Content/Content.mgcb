@@ -17,6 +17,9 @@
 #begin effects/Blur.xnb
 /copy:effects/Blur.xnb
 
+#begin effects/FieldFontEffect.xnb
+/copy:effects/FieldFontEffect.xnb
+
 #begin effects/FXAA.xnb
 /copy:effects/FXAA.xnb
 
