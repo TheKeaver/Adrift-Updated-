@@ -238,6 +238,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\Enemies\SpawnPatterns\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\" />
   </ItemGroup>
 </Project>

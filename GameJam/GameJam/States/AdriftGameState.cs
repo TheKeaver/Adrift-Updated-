@@ -61,6 +61,7 @@ namespace GameJam.States
             ProcessManager.Attach(new LaserEnemySpawner(SharedState.Engine, ProcessManager));
             ProcessManager.Attach(new PauseDirector(SharedState.Engine, Content, ProcessManager));
             ProcessManager.Attach(new CameraProcess(SharedState.Camera, SharedState.Engine));
+            //ProcessManager.Attach(new SpawnPatternManager(SharedState.Engine, ProcessManager));
 
             _root = new Root(GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height);
             _root.AutoControlModeSwitching = false;
