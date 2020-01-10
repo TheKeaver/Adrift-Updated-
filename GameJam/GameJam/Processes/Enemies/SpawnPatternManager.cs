@@ -1,8 +1,10 @@
 ﻿using Audrey;
 using GameJam.Common;
+using GameJam.Components;
+using GameJam.Processes.SpawnPatterns;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Processes.Enemies
 {
@@ -15,15 +17,24 @@ namespace GameJam.Processes.Enemies
         Dictionary<int, List<Type>> allPatternsList; // This is a Dictionary of all created SpawnPatterns
         Dictionary<int,List<Type>> patternStaleList; // This is the current list of patterns that have been used recently
 
-        int maxDifficulty = 0; // This keeps track of the max difficulty in a genearted spawn pattern
+        //int maxDifficulty = 0; // This keeps track of the max difficulty in a genearted spawn pattern
         int difficultyCounter = 0; // This keeps track of how many times OnTick() has been called
 
         Process process = null;
+
+        readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
+        readonly ImmutableList<Entity> _playerShipEntities;
+
+        readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
+        readonly ImmutableList<Entity> _enemyEntities;
 
         public SpawnPatternManager(Engine engine, ProcessManager processManager) : base(2.0f)
         {
             Engine = engine;
             ProcessManager = processManager;
+
+            _playerShipEntities = Engine.GetEntitiesFor(_playerShipFamily);
+            _enemyEntities = Engine.GetEntitiesFor(_enemyFamily);
 
             allPatternsList = GenerateAllPatternsList();
             patternStaleList = new Dictionary<int, List<Type>>();
@@ -46,10 +57,12 @@ namespace GameJam.Processes.Enemies
             returnDict.Add(2, new List<Type>());
             returnDict.Add(3, new List<Type>());
             returnDict.Add(4, new List<Type>());
-            returnDict.Add(5, new List<Type>());
+            // '0' represents the 5th level of difficulty
+            returnDict.Add(0, new List<Type>());
+            //returnDict.Add(5, new List<Type>());
 
             // All level 1 spawn patterns
-            //returnDict[1].Add(typeof(SpawnChasingTriangle));
+            returnDict[1].Add(typeof(SpawnChasingTriangle));
             // All level 2 spawn patterns
             //returnDict[2].Add(typeof(SpawnShootingTrianlge));
             // All level 3 spawn patterns
@@ -66,75 +79,66 @@ namespace GameJam.Processes.Enemies
             int tempDif = difVal;
             while (tempDif > 0)
             {
-                switch (tempDif % 5)
-                {
-                    case 0:
-                        tempDif -= 5;
-                        GenerateLevel5Pattern();
-                        break;
-                    case 1:
-                        tempDif -= 1;
-                        GenerateLevel1Pattern();
-                        break;
-                    case 2:
-                        tempDif -= 2;
-                        GenerateLevel2Pattern();
-                        break;
-                    case 3:
-                        tempDif -= 3;
-                        GenerateLevel3Pattern();
-                        break;
-                    default:
-                        tempDif -= 4;
-                        GenerateLevel4Pattern();
-                        break;
-                }
+                tempDif -= (tempDif % 5);
+                GeneratePattern(tempDif);
             }
             // Attach the global process to the Processmanager
             ProcessManager.Attach(process);
         }
 
-        private void GenerateLevel1Pattern()
+        private void GeneratePattern(int val)
         {
-            if (allPatternsList[1].Count == 0)
+            if (allPatternsList[val-1].Count == 0)
             {
-                allPatternsList[1] = patternStaleList[1];
-                patternStaleList.Clear();
+                allPatternsList[val-1] = patternStaleList[1];
+                patternStaleList[val-1].Clear();
             }
 
-            int ran = random.Next(0, allPatternsList[1].Count);
+            int ran = random.Next(0, allPatternsList[val].Count);
 
-            if(process == null)
+            if (process == null)
             {
-                process = (Process)Activator.CreateInstance(allPatternsList[1][ran], new object[] {});
+                process = (Process)Activator.CreateInstance(allPatternsList[val-1][ran], new object[] { });
+                ProcessManager.Attach(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
             }
             else
             {
-                process.SetNext((Process)Activator.CreateInstance(allPatternsList[1][ran], new object[] { }));
+                process.SetNext((Process)Activator.CreateInstance(allPatternsList[val-1][ran], new object[] { }));
+                ProcessManager.Attach(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
             }
 
-            patternStaleList[1].Add(allPatternsList[1][ran]);
+            patternStaleList[1].Add(allPatternsList[val-1][ran]);
             allPatternsList[1].RemoveAt(ran);
         }
 
-        private void GenerateLevel2Pattern()
+        public Vector2 GenerateValidCenter(int radius)
         {
-            throw new NotImplementedException();
+            Vector2 spawnPosition = new Vector2(0, 0);
+
+            do
+            {
+                spawnPosition.X = random.NextSingle(-CVars.Get<float>("screen_width") / 2 + radius, CVars.Get<float>("screen_width") / 2 - radius);
+                spawnPosition.Y = random.NextSingle(-CVars.Get<float>("screen_height") / 2 + radius, CVars.Get<float>("screen_height") / 2 - radius);
+            } while (IsTooCloseToPlayer(spawnPosition, radius));
+
+            return spawnPosition;
         }
 
-        private void GenerateLevel3Pattern()
+        bool IsTooCloseToPlayer(Vector2 position, int radius)
         {
-            throw new NotImplementedException();
-        }
+            float minDistanceToPlayer = float.MaxValue;
 
-        private void GenerateLevel4Pattern()
-        {
-            throw new NotImplementedException();
-        }
+            foreach (Entity playerShip in _playerShipEntities)
+            {
+                TransformComponent transformComponent = playerShip.GetComponent<TransformComponent>();
+                Vector2 toPlayer = transformComponent.Position - position;
+                if (toPlayer.Length() < minDistanceToPlayer)
+                {
+                    minDistanceToPlayer = toPlayer.Length();
+                }
+            }
 
-        private void GenerateLevel5Pattern()
-        {
-            throw new NotImplementedException();
+            return minDistanceToPlayer <= radius;
         }
     }
 }

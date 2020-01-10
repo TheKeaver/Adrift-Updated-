@@ -84,8 +84,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpEntityPhase2Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\WaitForFamilyCountProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\SpawnPatternManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnChasingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
@@ -238,6 +240,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 4\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 5\" />
   </ItemGroup>
 </Project>
