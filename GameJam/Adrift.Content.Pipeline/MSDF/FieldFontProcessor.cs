@@ -33,7 +33,7 @@ namespace FontExtension
 
         public override FieldFont Process(FontDescription input, ContentProcessorContext context)
         {
-            var msdfgen = Path.Combine(Directory.GetCurrentDirectory(), this.ExternalPath);
+            var msdfgen = Path.Combine(Directory.GetCurrentDirectory(), ExternalPath);
             var objPath = Path.Combine(Directory.GetCurrentDirectory(), "obj");
 
             if (File.Exists(msdfgen))
@@ -51,7 +51,7 @@ namespace FontExtension
                     });
                 
                 var kerning = ReadKerningInformation(input.Path, input.Characters);                               
-                return new FieldFont(input.Path, glyphs, kerning, this.Range);
+                return new FieldFont(input.Path, glyphs, kerning, Range, Resolution);
             }
 
             throw new FileNotFoundException(
@@ -77,9 +77,9 @@ namespace FontExtension
             {
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                Arguments = $"-font \"{font.Path}\" {(int)c} -o \"{outputPath}\" -size {this.Resolution} {this.Resolution} -pxrange {this.Range} -autoframe -printmetrics"                
+                Arguments = $"-font \"{font.Path}\" {(int)c} -o \"{outputPath}\" -size {Resolution} {Resolution} -pxrange {Range} -autoframe -printmetrics"                
             };
-            Console.WriteLine($" -font \"{font.Path}\" {(int)c} -o \"{outputPath}\" -size {this.Resolution} {this.Resolution} -pxrange {this.Range} -autoframe -printmetrics");
+            Console.WriteLine($" -font \"{font.Path}\" {(int)c} -o \"{outputPath}\" -size {Resolution} {Resolution} -pxrange {Range} -autoframe -printmetrics");
           
             var process = System.Diagnostics.Process.Start(startInfo);
             if (process == null)

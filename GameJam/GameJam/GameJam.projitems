@@ -119,7 +119,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\ContentLockedException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\ContentReaderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\LockingContentManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Components\FontComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\BitmapFontComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\PrimaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\ControllerInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerShipEntity.cs" />
@@ -232,9 +232,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase2Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpEntityPhase2Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\Quad.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\TextRenderer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\GlyphRenderInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\FieldFontRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MSDFFontTestGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\FieldFontComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

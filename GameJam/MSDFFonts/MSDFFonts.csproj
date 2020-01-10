@@ -40,6 +40,8 @@
     <Compile Include="MSDF\FontDescription.cs" />
     <Compile Include="MSDF\Metrics.cs" />
     <Compile Include="MSDF\FieldFont.cs" />
+    <Compile Include="MSDF\GlyphInfo.cs" />
+    <Compile Include="MSDF\GlyphRenderInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

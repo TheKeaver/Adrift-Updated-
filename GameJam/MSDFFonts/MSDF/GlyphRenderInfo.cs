@@ -1,7 +1,6 @@
-﻿using FontExtension;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
-namespace GameJam.Graphics.Text
+namespace FontExtension
 {
     public sealed class GlyphRenderInfo
     {
@@ -11,9 +10,9 @@ namespace GameJam.Graphics.Text
 
         public GlyphRenderInfo(char character, Texture2D texture, Metrics metrics)
         {
-            this.Character = character;
-            this.Texture = texture;
-            this.Metrics = metrics;
+            Character = character;
+            Texture = texture;
+            Metrics = metrics;
         }
     }
 }

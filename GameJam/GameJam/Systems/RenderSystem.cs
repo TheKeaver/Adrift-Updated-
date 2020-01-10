@@ -20,7 +20,7 @@ namespace GameJam.Systems
         public static readonly Vector2 HalfHalf = new Vector2(0.5f, 0.5f);
 
         readonly Family _spriteFamily = Family.All(typeof(SpriteComponent), typeof(TransformComponent)).Get();
-        readonly Family _fontFamily = Family.All(typeof(FontComponent), typeof(TransformComponent)).Get();
+        readonly Family _fontFamily = Family.All(typeof(BitmapFontComponent), typeof(TransformComponent)).Get();
         readonly Family _vectorSpriteFamily = Family.All(typeof(VectorSpriteComponent), typeof(TransformComponent)).Get();
         readonly ImmutableList<Entity> _spriteEntities;
         readonly ImmutableList<Entity> _fontEntities;
@@ -141,7 +141,7 @@ namespace GameJam.Systems
 
             foreach (Entity entity in _fontEntities)
             {
-                FontComponent fontComp = entity.GetComponent<FontComponent>();
+                BitmapFontComponent fontComp = entity.GetComponent<BitmapFontComponent>();
                 if (fontComp.Hidden
                     || (fontComp.RenderGroup & groupMask) == 0)
                 {

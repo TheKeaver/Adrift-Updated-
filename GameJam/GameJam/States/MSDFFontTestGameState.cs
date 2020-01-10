@@ -1,5 +1,8 @@
 ﻿using System;
+using Audrey;
 using FontExtension;
+using GameJam.Common;
+using GameJam.Components;
 using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,8 +11,13 @@ namespace GameJam.States
 {
     public class MSDFFontTestGameState : GameState
     {
-        private TextRenderer _textRenderer;
+        private Engine Engine;
+        private FieldFontRenderer _textRenderer;
         private float _elapsed;
+
+        readonly Family fontFamily = Family.All(typeof(TransformComponent), typeof(FieldFontComponent)).Get();
+
+        private Camera Camera;
 
         public MSDFFontTestGameState(GameManager gameManager) : base(gameManager)
         {
@@ -17,10 +25,17 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            Effect fieldFontEffect = Content.Load<Effect>("effect_field_font");
-            FieldFont font = Content.Load<FieldFont>("font_msdf_hyperspace");
+            _textRenderer = new FieldFontRenderer(Content, GameManager.GraphicsDevice);
 
-            _textRenderer = new TextRenderer(fieldFontEffect, font, GameManager.GraphicsDevice);
+            Engine = new Engine();
+            Entity entity = Engine.CreateEntity();
+            entity.AddComponent(new FieldFontComponent(Content.Load<FieldFont>("font_msdf_hyperspace"), "The quick brown fox jumped over the lazy dog!?"));
+            entity.GetComponent<FieldFontComponent>().OptimizeForSmallText = true;
+            entity.AddComponent(new TransformComponent());
+            entity.GetComponent<TransformComponent>().ChangeScale(1);
+
+            Camera = new Camera(GameManager.GraphicsDevice.Viewport.Width,
+                GameManager.GraphicsDevice.Viewport.Height);
 
             base.OnInitialize();
         }
@@ -29,56 +44,74 @@ namespace GameJam.States
         {
             _elapsed += dt;
 
+            foreach (Entity entity in Engine.GetEntitiesFor(fontFamily))
+            {
+                entity.GetComponent<TransformComponent>().Move(new Vector2(200 * (float)Math.Cos(_elapsed), 200 * (float)Math.Sin(_elapsed)) - entity.GetComponent<TransformComponent>().Position);
+                entity.GetComponent<TransformComponent>().Rotate(-MathHelper.Pi / 4 * dt);
+            }
+
             base.OnFixedUpdate(dt);
         }
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            GameManager.GraphicsDevice.Clear(Color.Black);
+            //var world = Matrix.Identity;
+            //var view = Matrix.CreateLookAt(Vector3.Backward, Vector3.Forward, Vector3.Up);
+            //var projection = Matrix.CreatePerspectiveFieldOfView(
+            //    MathHelper.PiOver2,
+            //    GameManager.GraphicsDevice.Viewport.Width / (float)GameManager.GraphicsDevice.Viewport.Height,
+            //    0.01f,
+            //    1000.0f);
 
-            GameManager.GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            GameManager.GraphicsDevice.DepthStencilState = DepthStencilState.None;
-            GameManager.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            //var wvp = world * view * projection;
 
-            var viewport = GameManager.GraphicsDevice.Viewport;
+            /** Based on MonoGame SpriteBatch implementation!! **/
 
-            //var world = Matrix.CreateScale(0.01f) *  Matrix.CreateRotationY((float)gameTime.TotalGameTime.TotalSeconds);
-            var world = Matrix.CreateScale(0.01f) * Matrix.Identity;
-            var view = Matrix.CreateLookAt(Vector3.Backward, Vector3.Forward, Vector3.Up);
-            var projection = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver2,
-                viewport.Width / (float)viewport.Height,
-                0.01f,
-                1000.0f);
+            // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
+            // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
+            // --> We get the correct matrix with near plane 0 and far plane -1.
+            Matrix projection;
+            //Matrix.CreateOrthographicOffCenter(0, GameManager.GraphicsDevice.Viewport.Width, GameManager.GraphicsDevice.Viewport.Height,
+            //    0, 0, -1, out projection);
+            Matrix.CreateOrthographicOffCenter(0, GameManager.GraphicsDevice.Viewport.Width, 0,
+                GameManager.GraphicsDevice.Viewport.Height, -1, 1, out projection);
 
-            var wvp = world * view * projection;
-            _textRenderer.OptimizeForTinyText = true;
+            Matrix wvp = Camera.TransformMatrix * projection;
 
-            _textRenderer.Render("~:;!435&^%$", wvp);
+            int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
+            foreach (Entity entity in Engine.GetEntitiesFor(fontFamily))
+            {
+                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
 
-            world = Matrix.CreateScale(0.01f) * Matrix.CreateRotationY(_elapsed / 10) * Matrix.CreateRotationZ(MathHelper.PiOver4);
-            view = Matrix.CreateLookAt(Vector3.Backward, Vector3.Forward, Vector3.Up);
-            projection = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.PiOver2,
-                viewport.Width / (float)viewport.Height,
-                0.01f,
-                1000.0f);
+                Vector2 position = transformComp.Position
+                    + (transformComp.LastPosition - transformComp.Position)
+                        * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-            wvp = world * view * projection;
+                float rotation = transformComp.Rotation
+                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                rotation *= -1;
 
-            _textRenderer.Render("abcdefghijklmnopqrstuvwxyz", wvp);
+                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                _textRenderer.Render(wvp, entity.GetComponent<FieldFontComponent>(),
+                    position, rotation, transformScale);
+            }
 
             base.OnRender(dt, betweenFrameAlpha);
         }
 
         protected override void RegisterListeners()
         {
+            Camera.RegisterEvents();
+
             base.RegisterListeners();
         }
 
         protected override void UnregisterListeners()
         {
+            Camera.UnregisterEvents();
+
             base.UnregisterListeners();
         }
     }
