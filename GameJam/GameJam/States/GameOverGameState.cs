@@ -2,6 +2,7 @@
 using Adrift.Content.Common.UI;
 using Events;
 using GameJam.Events.UI.GameOver;
+using GameJam.Graphics.Text;
 using GameJam.Processes.Animations;
 using GameJam.UI;
 using GameJam.UI.Widgets;
@@ -16,6 +17,7 @@ namespace GameJam.States
             get;
             private set;
         }
+        private FieldFontRenderer _fieldFontRenderer;
 
         public Root Root
         {
@@ -46,6 +48,7 @@ namespace GameJam.States
         protected override void OnInitialize()
         {
             SpriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            _fieldFontRenderer = new FieldFontRenderer(Content, GameManager.GraphicsDevice);
             Root = new Root(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
 
@@ -75,7 +78,7 @@ namespace GameJam.States
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
             SpriteBatch.Begin();
-            Root.Draw(SpriteBatch);
+            Root.Draw(SpriteBatch, _fieldFontRenderer);
             SpriteBatch.End();
 
             base.OnRender(dt, betweenFrameAlpha);

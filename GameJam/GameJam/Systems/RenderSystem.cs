@@ -5,6 +5,8 @@ using MonoGame.Extended.BitmapFonts;
 using GameJam.Components;
 using System.Collections.Generic;
 using System;
+using GameJam.Graphics.Text;
+using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Systems
 {
@@ -21,12 +23,16 @@ namespace GameJam.Systems
 
         readonly Family _spriteFamily = Family.All(typeof(SpriteComponent), typeof(TransformComponent)).Get();
         readonly Family _fontFamily = Family.All(typeof(BitmapFontComponent), typeof(TransformComponent)).Get();
+        readonly Family _fieldFontFamily = Family.All(typeof(FieldFontComponent), typeof(TransformComponent)).Get();
         readonly Family _vectorSpriteFamily = Family.All(typeof(VectorSpriteComponent), typeof(TransformComponent)).Get();
         readonly ImmutableList<Entity> _spriteEntities;
         readonly ImmutableList<Entity> _fontEntities;
+        readonly ImmutableList<Entity> _fieldFontEntities;
         readonly ImmutableList<Entity> _vectorSpriteEntities;
 
         public SpriteBatch SpriteBatch { get; }
+        public FieldFontRenderer FieldFontRenderer { get; }
+        private Matrix _fieldFontRendererProjection;
         public GraphicsDevice GraphicsDevice
         {
             get;
@@ -36,14 +42,16 @@ namespace GameJam.Systems
         private BasicEffect _vectorSpriteEffect;
         private Viewport _lastViewport;
 
-        public RenderSystem(GraphicsDevice graphics, Engine engine)
+        public RenderSystem(GraphicsDevice graphics, ContentManager content, Engine engine)
         {
             Engine = engine;
             _spriteEntities = Engine.GetEntitiesFor(_spriteFamily);
             _fontEntities = Engine.GetEntitiesFor(_fontFamily);
+            _fieldFontEntities = Engine.GetEntitiesFor(_fieldFontFamily);
             _vectorSpriteEntities = Engine.GetEntitiesFor(_vectorSpriteFamily);
 
             SpriteBatch = new SpriteBatch(graphics);
+            FieldFontRenderer = new FieldFontRenderer(content, graphics);
             GraphicsDevice = graphics;
 
             _vectorSpriteEffect = new BasicEffect(GraphicsDevice);
@@ -67,6 +75,7 @@ namespace GameJam.Systems
         {
             DrawSpriteBatchEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
             DrawVectorEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
+            DrawFieldFontEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
         }
 
         private void DrawSpriteBatchEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
@@ -175,24 +184,46 @@ namespace GameJam.Systems
             SpriteBatch.End();
         }
 
-        private void SetupVectorDrawing()
+        private void DrawFieldFontEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
-            Viewport viewport = GraphicsDevice.Viewport;
-            if(viewport.Width != _lastViewport.Width || viewport.Height != _lastViewport.Height)
-            {
-                /** Based on MonoGame SpriteBatch implementation!! **/
+            int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
-                // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
-                // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
-                // --> We get the correct matrix with near plane 0 and far plane -1.
-                Matrix projection;
-                Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height,
-                    0, 0, -1, out projection);
-                _vectorSpriteEffect.Projection = projection;
+            if (_fieldFontEntities.Count > 0) {
+                CheckUpdateProjections();
+                Matrix wvp = transformMatrix * _fieldFontRendererProjection;
+                foreach (Entity entity in _fieldFontEntities)
+                {
+                    FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();
+                    if (fieldFontComp.Hidden || (fieldFontComp.RenderGroup & groupMask) == 0)
+                    {
+                        continue;
+                    }
 
-                _lastViewport = viewport;
+                    TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+
+                    Vector2 position = transformComp.Position
+                        + (transformComp.LastPosition - transformComp.Position)
+                            * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                    float rotation = transformComp.Rotation
+                        + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                    float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                    FieldFontRenderer.Render(_fieldFontRendererProjection,
+                        fieldFontComp.Font,
+                        fieldFontComp.Content,
+                        position,
+                        rotation,
+                        fieldFontComp.Color,
+                        transformScale,
+                        fieldFontComp.EnableKerning,
+                        fieldFontComp.OptimizeForSmallText);
+                }
             }
         }
+
+        
         private void DrawVectorEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
@@ -240,7 +271,7 @@ namespace GameJam.Systems
 
             if (_verts.Count > 0)
             {
-                SetupVectorDrawing();
+                CheckUpdateProjections();
                 _vectorSpriteEffect.View = transformMatrix;
                 GraphicsDevice.BlendState = BlendState.NonPremultiplied;
                 foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
@@ -252,5 +283,43 @@ namespace GameJam.Systems
                 }
             }
         }
+
+        #region PROJECTION_UPDATES
+        private void CheckUpdateProjections()
+        {
+            Viewport viewport = GraphicsDevice.Viewport;
+            if (viewport.Width != _lastViewport.Width || viewport.Height != _lastViewport.Height)
+            {
+                SetupFieldFontDrawing(viewport);
+                SetupVectorDrawing(viewport);
+
+                _lastViewport = viewport;
+            }
+        }
+        private void SetupFieldFontDrawing(Viewport viewport)
+        {
+            /** Based on MonoGame SpriteBatch implementation!! **/
+
+            // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
+            // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
+            // --> We get the correct matrix with near plane 0 and far plane -1.
+            Matrix.CreateOrthographicOffCenter(0, viewport.Width, 0,
+                viewport.Height, -1, 1, out _fieldFontRendererProjection);
+        }
+        private void SetupVectorDrawing(Viewport viewport)
+        {
+            /** Based on MonoGame SpriteBatch implementation!! **/
+
+            // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
+            // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
+            // --> We get the correct matrix with near plane 0 and far plane -1.
+            Matrix projection;
+            Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height,
+                0, 0, -1, out projection);
+            _vectorSpriteEffect.Projection = projection;
+
+            _lastViewport = viewport;
+        }
+        #endregion
     }
 }

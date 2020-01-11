@@ -125,7 +125,7 @@ namespace GameJam.States
                 new CollisionDetectionSystem(Engine)
             };
 
-            RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Engine);
+            RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Content, Engine);
 #if DEBUG
             CollisionDebugRenderSystem = new CollisionDebugRenderSystem(GameManager.GraphicsDevice, Engine);
 #endif

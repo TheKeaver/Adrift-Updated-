@@ -4,6 +4,7 @@ using Events;
 using GameJam.Events;
 using GameJam.Events.InputHandling;
 using GameJam.Events.UI;
+using GameJam.Graphics.Text;
 using GameJam.Processes.Menu;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,11 +14,13 @@ namespace GameJam.States
     class UIMenuGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
+        FieldFontRenderer _fieldFontRenderer;
         Root _root;
 
         public UIMenuGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            _fieldFontRenderer = new FieldFontRenderer(Content, GameManager.GraphicsDevice);
         }
 
         protected override void OnInitialize()
@@ -46,7 +49,7 @@ namespace GameJam.States
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
+            _root.Draw(_spriteBatch, _fieldFontRenderer);
             _spriteBatch.End();
 
             base.OnRender(dt, betweenFrameAlpha);

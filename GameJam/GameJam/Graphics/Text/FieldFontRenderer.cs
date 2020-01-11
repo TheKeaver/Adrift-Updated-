@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using FontExtension;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -24,27 +25,34 @@ namespace GameJam.Graphics.Text
             Quad = new Quad();
         }
 
-        public void Render(Matrix worldViewProjection, FieldFontComponent fieldFontComp, Vector2 position, float rotation, float scale = 1)
+        public void Render(Matrix worldViewProjection, FieldFont fieldFont,
+            string content, Vector2 position, float rotation)
         {
-            if (string.IsNullOrEmpty(fieldFontComp.Content))
+            Render(worldViewProjection, fieldFont, content, position, rotation);
+        }
+        public void Render(Matrix worldViewProjection, FieldFont font,
+            string content, Vector2 position, float rotation, Color color,
+            float scale = 1, bool enableKerning = true, bool optimizeForSmallText = true)
+        {
+            if (string.IsNullOrEmpty(content))
                 return;
 
-            var sequence = fieldFontComp.Content.Select((char c) => {
-                return fieldFontComp.Font.GetRenderInfo(Device, c);
+            var sequence = content.Select((char c) => {
+                return font.GetRenderInfo(Device, c);
             }).ToArray();
             var textureWidth = sequence[0].Texture.Width;
             var textureHeight = sequence[0].Texture.Height;
 
-            Matrix modelMatrix = Matrix.CreateTranslation(new Vector3(position - fieldFontComp.Font.MeasureString(fieldFontComp.Content, fieldFontComp.EnableKerning) / 2, 0))
+            Matrix modelMatrix = Matrix.CreateTranslation(new Vector3(position - font.MeasureString(content, enableKerning) / 2, 0))
                 * Matrix.CreateRotationZ(-rotation)
                 * Matrix.CreateScale(scale);
 
             Effect.Parameters["WorldViewProjection"].SetValue(modelMatrix * worldViewProjection);
-            Effect.Parameters["PxRange"].SetValue(fieldFontComp.Font.PxRange);
+            Effect.Parameters["PxRange"].SetValue(font.PxRange);
             Effect.Parameters["TextureSize"].SetValue(new Vector2(textureWidth, textureHeight));
-            Effect.Parameters["ForegroundColor"].SetValue(fieldFontComp.Color.ToVector4());
+            Effect.Parameters["ForegroundColor"].SetValue(color.ToVector4());
 
-            if (fieldFontComp.OptimizeForSmallText)
+            if (optimizeForSmallText)
             {
                 Effect.CurrentTechnique = Effect.Techniques[SmallTextTechnique];
             }
@@ -52,7 +60,6 @@ namespace GameJam.Graphics.Text
             {
                 Effect.CurrentTechnique = Effect.Techniques[LargeTextTechnique];
             }
-
 
             var pen = Vector2.Zero;
             for (var i = 0; i < sequence.Length; i++)
@@ -78,11 +85,11 @@ namespace GameJam.Graphics.Text
 
                 pen.X += current.Metrics.Advance;
 
-                if (fieldFontComp.EnableKerning && i < sequence.Length - 1)
+                if (enableKerning && i < sequence.Length - 1)
                 {
                     var next = sequence[i + 1];
 
-                    var pair = fieldFontComp.Font.KerningPairs.FirstOrDefault(
+                    var pair = font.KerningPairs.FirstOrDefault(
                         x => x.Left == current.Character && x.Right == next.Character);
 
                     if (pair != null)
@@ -90,7 +97,6 @@ namespace GameJam.Graphics.Text
 
                         pen.X += pair.Advance;
                     }
-
                 }
             }
         }

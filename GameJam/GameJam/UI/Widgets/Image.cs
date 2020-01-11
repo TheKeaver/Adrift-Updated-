@@ -1,4 +1,5 @@
 ﻿using Events;
+using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -37,7 +38,7 @@ namespace GameJam.UI.Widgets
             Texture = texture;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if(!Hidden)
             {

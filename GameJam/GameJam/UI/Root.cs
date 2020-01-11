@@ -5,6 +5,7 @@ using Adrift.Content.Common.UI;
 using Events;
 using GameJam.Events;
 using GameJam.Events.InputHandling;
+using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -154,18 +155,18 @@ namespace GameJam.UI
             return null;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {
                 for (int i = 0; i < _widgets.Count; i++)
                 {
-                    _widgets[i].Draw(spriteBatch);
+                    _widgets[i].Draw(spriteBatch, fieldFontRenderer);
                 }
 
                 for (int i = 0; i < _deferredDrawQueue.Count; i++)
                 {
-                    _deferredDrawQueue[i].Draw(spriteBatch);
+                    _deferredDrawQueue[i].Draw(spriteBatch, fieldFontRenderer);
                 }
                 _deferredDrawQueue.Clear();
             }

@@ -6,6 +6,7 @@ using GameJam.Components;
 using GameJam.Content;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.InputHandling;
+using GameJam.Graphics.Text;
 using GameJam.Input;
 using GameJam.Processes.Menu;
 using GameJam.UI;
@@ -19,6 +20,7 @@ namespace GameJam.States
     class UILobbyGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
+        FieldFontRenderer _fieldFontRenderer;
         Root _root;
 
         KeyTextureMap _keyTextureMap;
@@ -50,6 +52,7 @@ namespace GameJam.States
             :base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            _fieldFontRenderer = new FieldFontRenderer(Content, GameManager.GraphicsDevice);
 
             if (players != null)
             {
@@ -94,7 +97,7 @@ namespace GameJam.States
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
+            _root.Draw(_spriteBatch, _fieldFontRenderer);
             _spriteBatch.End();
 
             base.OnRender(dt, betweenFrameAlpha);

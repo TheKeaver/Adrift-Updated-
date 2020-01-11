@@ -83,6 +83,7 @@ namespace GameJam.States
             foreach (Entity entity in Engine.GetEntitiesFor(fontFamily))
             {
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();
 
                 Vector2 position = transformComp.Position
                     + (transformComp.LastPosition - transformComp.Position)
@@ -94,8 +95,9 @@ namespace GameJam.States
 
                 float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-                _textRenderer.Render(wvp, entity.GetComponent<FieldFontComponent>(),
-                    position, rotation, transformScale);
+                _textRenderer.Render(wvp, fieldFontComp.Font, fieldFontComp.Content,
+                    position, rotation, fieldFontComp.Color, transformScale,
+                    fieldFontComp.EnableKerning, fieldFontComp.OptimizeForSmallText);
             }
 
             base.OnRender(dt, betweenFrameAlpha);

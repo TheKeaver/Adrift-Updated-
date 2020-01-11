@@ -8,6 +8,7 @@ using GameJam.Events;
 using GameJam.Events.Audio;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
+using GameJam.Graphics.Text;
 using GameJam.Processes;
 using GameJam.Processes.Animation;
 using GameJam.Processes.Animations;
@@ -30,6 +31,7 @@ namespace GameJam.States
     public class AdriftGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
+        FieldFontRenderer _fieldFontRenderer;
         Root _root;
 
         public int score;
@@ -51,6 +53,7 @@ namespace GameJam.States
         {
             Players = players;
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            _fieldFontRenderer = new FieldFontRenderer(Content, GameManager.GraphicsDevice);
         }
 
         protected override void OnInitialize()
@@ -88,7 +91,7 @@ namespace GameJam.States
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch); // UI
+            _root.Draw(_spriteBatch, _fieldFontRenderer); // UI
             _spriteBatch.End();
 
             base.OnRender(dt, betweenFrameAlpha);

@@ -170,11 +170,6 @@ namespace GameJam
         protected override void LoadContent()
         {
             // Global Content
-
-            SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
-            //ProcessManager.Attach(new UIMenuGameState(this, sharedState));
-            ProcessManager.Attach(new MSDFFontTestGameState(this));
-
             GlobalContent = new LockingContentManager(Services);
             GlobalContent.Locked = false;
             GlobalContent.RootDirectory = "Content";
@@ -183,6 +178,11 @@ namespace GameJam
 
             LoadGameContent(GlobalContent);
             GlobalContent.Locked = true;
+
+            // Attach first game state last
+            SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
+            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            //ProcessManager.Attach(new MSDFFontTestGameState(this));
         }
         
         protected override void Update(GameTime gameTime)
