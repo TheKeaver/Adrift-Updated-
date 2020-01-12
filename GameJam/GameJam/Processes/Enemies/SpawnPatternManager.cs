@@ -36,10 +36,10 @@ namespace GameJam.Processes.Enemies
             _playerShipEntities = Engine.GetEntitiesFor(_playerShipFamily);
             _enemyEntities = Engine.GetEntitiesFor(_enemyFamily);
 
-            allPatternsList = GenerateAllPatternsList();
             patternStaleList = new Dictionary<int, List<Type>>();
+            allPatternsList = GenerateAllPatternsList();
 
-            Interval = 5;
+            Interval = 3;
         }
 
         protected override void OnTick(float interval)
@@ -71,44 +71,69 @@ namespace GameJam.Processes.Enemies
             //returnDict[4].Add(typeof(SpawnChasingCircle));
             // All level 5 spawn patterns
             //returnDict[5].Add(typeof(SpawnChasingBorder));
+
+            // Initialize the patternStaleList dictionary TODO: Move this somewhere else (optional)
+            patternStaleList.Add(0, new List<Type>());
+            patternStaleList.Add(1, new List<Type>());
+            patternStaleList.Add(2, new List<Type>());
+            patternStaleList.Add(3, new List<Type>());
+            patternStaleList.Add(4, new List<Type>());
+
             return returnDict;
         }
 
         private void GenerateSpawnPattern(int difVal)
         {
+            //Console.Write("Dif Val: " + difVal);
             int tempDif = difVal;
             while (tempDif > 0)
             {
-                tempDif -= (tempDif % 5);
-                GeneratePattern(tempDif);
+                int val = tempDif % 5;
+                tempDif -= val;
+                Console.WriteLine("Pass In Val " + val);
+                //GeneratePattern(val);
+                tempDif += GeneratePattern(val, 0);
             }
             // Attach the global process to the Processmanager
-            ProcessManager.Attach(process);
+            if(process != null)
+                ProcessManager.Attach(process);
+            process = null;
         }
 
-        private void GeneratePattern(int val)
+        //private void /*int*/ GeneratePattern(int val) //, int counter)
+        private int GeneratePattern(int val, int counter)
         {
-            if (allPatternsList[val-1].Count == 0)
+            Console.WriteLine("Val: " + val);
+            // If all patterns of 'val' level are stale, swap allPatternsList and patternStaleList
+            if (allPatternsList[val].Count == 0)
             {
-                allPatternsList[val-1] = patternStaleList[1];
-                patternStaleList[val-1].Clear();
+                allPatternsList[val] = patternStaleList[val];
+                patternStaleList[val].Clear();
+            }
+            // If all patterns of 'val' are still empty then they are not implemented, simply return
+            if (allPatternsList[val].Count == 0)
+            {
+                //return; 
+                return GeneratePattern(val-1, counter + 1);
             }
 
-            int ran = random.Next(0, allPatternsList[val].Count);
+            int ran = random.Next(0, allPatternsList[val].Count-1);
 
             if (process == null)
             {
-                process = (Process)Activator.CreateInstance(allPatternsList[val-1][ran], new object[] { });
-                ProcessManager.Attach(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
+                process = (Process)Activator.CreateInstance(allPatternsList[val][ran], new object[] {Engine, ProcessManager, this });
+                process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
             }
             else
             {
-                process.SetNext((Process)Activator.CreateInstance(allPatternsList[val-1][ran], new object[] { }));
-                ProcessManager.Attach(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
+                process.SetNext((Process)Activator.CreateInstance(allPatternsList[val][ran], new object[] {Engine, ProcessManager, this }));
+                process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
             }
 
-            patternStaleList[1].Add(allPatternsList[val-1][ran]);
-            allPatternsList[1].RemoveAt(ran);
+            patternStaleList[val].Add(allPatternsList[val][ran]);
+            allPatternsList[val].RemoveAt(ran);
+
+            return 0;
         }
 
         public Vector2 GenerateValidCenter(int radius)

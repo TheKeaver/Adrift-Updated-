@@ -92,7 +92,12 @@ namespace GameJam.Common
             int randomValue = Next();
             return randomValue % (max + 1);
         }
-
+        /// <summary>
+        /// This function returns a random value between min and max.
+        /// This function is inclusive on both extremes, meaning that min
+        /// and max are both possible return values.
+        /// </summary>
+        /// <returns> A random value from range [min, max] </returns>
         public int Next(int min, int max)
         {
             if (min > max)
