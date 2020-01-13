@@ -4,6 +4,7 @@ using GameJam.Components;
 using GameJam.Processes.SpawnPatterns;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace GameJam.Processes.Enemies
@@ -17,10 +18,10 @@ namespace GameJam.Processes.Enemies
         Dictionary<int, List<Type>> allPatternsList; // This is a Dictionary of all created SpawnPatterns
         Dictionary<int,List<Type>> patternStaleList; // This is the current list of patterns that have been used recently
 
-        //int maxDifficulty = 0; // This keeps track of the max difficulty in a genearted spawn pattern
         int difficultyCounter = 0; // This keeps track of how many times OnTick() has been called
 
         Process process = null;
+        int maxPatternDif = 5;
 
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> _playerShipEntities;
@@ -57,83 +58,114 @@ namespace GameJam.Processes.Enemies
             returnDict.Add(2, new List<Type>());
             returnDict.Add(3, new List<Type>());
             returnDict.Add(4, new List<Type>());
-            // '0' represents the 5th level of difficulty
-            returnDict.Add(0, new List<Type>());
-            //returnDict.Add(5, new List<Type>());
+            //'0' represents the 5th level of difficulty
+            //returnDict.Add(0, new List<Type>());
+            returnDict.Add(5, new List<Type>());
 
             // All level 1 spawn patterns
             returnDict[1].Add(typeof(SpawnChasingTriangle));
             // All level 2 spawn patterns
-            //returnDict[2].Add(typeof(SpawnShootingTrianlge));
+            returnDict[2].Add(typeof(SpawnShootingTriangle));
             // All level 3 spawn patterns
-            //returnDict[3].Add(typeof(SpawnLaserTriangle));
+            returnDict[3].Add(typeof(SpawnLaserTriangle));
             // All level 4 spawn patterns
-            //returnDict[4].Add(typeof(SpawnChasingCircle));
+            returnDict[4].Add(typeof(SpawnChasingCircle));
             // All level 5 spawn patterns
             //returnDict[5].Add(typeof(SpawnChasingBorder));
 
             // Initialize the patternStaleList dictionary TODO: Move this somewhere else (optional)
-            patternStaleList.Add(0, new List<Type>());
             patternStaleList.Add(1, new List<Type>());
             patternStaleList.Add(2, new List<Type>());
             patternStaleList.Add(3, new List<Type>());
             patternStaleList.Add(4, new List<Type>());
+            patternStaleList.Add(5, new List<Type>());
 
             return returnDict;
         }
 
         private void GenerateSpawnPattern(int difVal)
         {
-            //Console.Write("Dif Val: " + difVal);
             int tempDif = difVal;
             while (tempDif > 0)
             {
-                int val = tempDif % 5;
+                int val = (tempDif % maxPatternDif == 0) ? maxPatternDif : tempDif % maxPatternDif;
                 tempDif -= val;
-                Console.WriteLine("Pass In Val " + val);
-                //GeneratePattern(val);
-                tempDif += GeneratePattern(val, 0);
+                int[] randomArray = GenerateRandomArray(val);
+                Console.WriteLine(string.Join("", randomArray));
+                foreach (int num in randomArray)
+                {
+                    GeneratePattern(num);
+                }
             }
             // Attach the global process to the Processmanager
-            if(process != null)
+            if (process != null)
+            {
                 ProcessManager.Attach(process);
+            }
             process = null;
         }
 
-        //private void /*int*/ GeneratePattern(int val) //, int counter)
-        private int GeneratePattern(int val, int counter)
+        private int[] GenerateRandomArray(int val)
         {
-            Console.WriteLine("Val: " + val);
-            // If all patterns of 'val' level are stale, swap allPatternsList and patternStaleList
-            if (allPatternsList[val].Count == 0)
+            ArrayList returnList = new ArrayList();
+            while (val > 0)
             {
-                allPatternsList[val] = patternStaleList[val];
-                patternStaleList[val].Clear();
+                int random = this.random.Next(1, val);
+                returnList.Add(random);
+                val -= random;
             }
-            // If all patterns of 'val' are still empty then they are not implemented, simply return
-            if (allPatternsList[val].Count == 0)
+            return (int[])returnList.ToArray(typeof(int));
+        }
+
+        private void GeneratePattern(int num)
+        {
+            // If all patterns of 'val' level are stale, swap allPatternsList and patternStaleList
+            if (allPatternsList[num].Count == 0)
             {
-                //return; 
-                return GeneratePattern(val-1, counter + 1);
+                Console.WriteLine("allPatterns Count: " + allPatternsList[num].Count);
+                Console.WriteLine("patternStale Count: " + patternStaleList[num].Count);
+                allPatternsList[num].AddRange(patternStaleList[num]);
+                patternStaleList[num].Clear();
+            }
+            if (allPatternsList[num].Count == 0)
+            {
+                return;
             }
 
-            int ran = random.Next(0, allPatternsList[val].Count-1);
+            int ran = random.Next(0, allPatternsList[num].Count-1);
 
             if (process == null)
             {
-                process = (Process)Activator.CreateInstance(allPatternsList[val][ran], new object[] {Engine, ProcessManager, this });
+                process = (Process)Activator.CreateInstance(allPatternsList[num][ran], new object[] {Engine, ProcessManager, this });
                 process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
             }
             else
             {
-                process.SetNext((Process)Activator.CreateInstance(allPatternsList[val][ran], new object[] {Engine, ProcessManager, this }));
+                process.SetNext((Process)Activator.CreateInstance(allPatternsList[num][ran], new object[] {Engine, ProcessManager, this }));
                 process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
             }
 
-            patternStaleList[val].Add(allPatternsList[val][ran]);
-            allPatternsList[val].RemoveAt(ran);
+            patternStaleList[num].Add(allPatternsList[num][ran]);
+            allPatternsList[num].RemoveAt(ran);
+        }
 
-            return 0;
+        public float AngleFacingNearestPlayerShip(Vector2 position)
+        {
+            float minDistanceToPlayer = float.MaxValue;
+            Vector2 closestPlayerShip = new Vector2(0, 0);
+
+            foreach (Entity playerShip in _playerShipEntities)
+            {
+                TransformComponent transformComponent = playerShip.GetComponent<TransformComponent>();
+                Vector2 toPlayer = transformComponent.Position - position;
+                if (toPlayer.Length() < minDistanceToPlayer)
+                {
+                    minDistanceToPlayer = toPlayer.Length();
+                    closestPlayerShip = toPlayer;
+                }
+            }
+
+            return (float)Math.Atan2(closestPlayerShip.Y, closestPlayerShip.X);
         }
 
         public Vector2 GenerateValidCenter(int radius)
@@ -149,7 +181,7 @@ namespace GameJam.Processes.Enemies
             return spawnPosition;
         }
 
-        bool IsTooCloseToPlayer(Vector2 position, int radius)
+        private bool IsTooCloseToPlayer(Vector2 position, int radius)
         {
             float minDistanceToPlayer = float.MaxValue;
 
