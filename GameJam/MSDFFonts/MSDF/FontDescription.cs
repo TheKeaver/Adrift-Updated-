@@ -7,11 +7,11 @@ namespace FontExtension
     {
         public FontDescription(string path, params char[] characters)
         {
-            this.Path = path;            
-            this.Characters = characters.ToList().AsReadOnly();
+            Path = path;
+            Characters = characters.ToList().AsReadOnly();
         }
 
-        public string Path { get; }        
+        public string Path { get; }
         public IReadOnlyList<char> Characters { get; }
     }
 }

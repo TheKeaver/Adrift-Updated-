@@ -125,27 +125,35 @@ namespace FontExtension
             get;
             set;
         } = new Dictionary<char, GlyphRenderInfo>();
-        public GlyphRenderInfo GetRenderInfo(GraphicsDevice device, char c)
+        public GlyphRenderInfo GetRenderInfo(GraphicsDevice device, ContentManager content, char c)
         {
             if (Cache.TryGetValue(c, out var value))
             {
                 return value;
             }
 
-            var unit = LoadRenderInfo(device, c);
+            var unit = LoadRenderInfo(device, content, c);
             Cache.Add(c, unit);
             return unit;
         }
-        private GlyphRenderInfo LoadRenderInfo(GraphicsDevice device, char c)
+        private GlyphRenderInfo LoadRenderInfo(GraphicsDevice device, ContentManager content, char c)
         {
             var glyph = GetGlyph(c);
-            using (var stream = new MemoryStream(glyph.Bitmap))
+            Texture2D texture;
+            if (glyph.Bitmap == null)
             {
-                var texture = Texture2D.FromStream(device, stream);
-                var unit = new GlyphRenderInfo(c, texture, glyph.Metrics);
-
-                return unit;
+                texture = content.Load<Texture2D>(glyph.Path);
             }
+            else
+            {
+                using (var stream = new MemoryStream(glyph.Bitmap))
+                {
+                    texture = Texture2D.FromStream(device, stream);
+                }
+            }
+            var unit = new GlyphRenderInfo(c, texture, glyph.Metrics);
+
+            return unit;
         }
     }
 }

@@ -15,12 +15,14 @@ namespace GameJam.Graphics.Text
 
         private readonly Effect Effect;
         private readonly GraphicsDevice Device;
+        private readonly ContentManager Content;
         private readonly Quad Quad;
 
         public FieldFontRenderer(ContentManager content, GraphicsDevice device)
         {
             Effect = content.Load<Effect>("effect_field_font");
             Device = device;
+            Content = content;
 
             Quad = new Quad();
         }
@@ -38,7 +40,7 @@ namespace GameJam.Graphics.Text
                 return;
 
             var sequence = content.Select((char c) => {
-                return font.GetRenderInfo(Device, c);
+                return font.GetRenderInfo(Device, Content, c);
             }).ToArray();
             var textureWidth = sequence[0].Texture.Width;
             var textureHeight = sequence[0].Texture.Height;

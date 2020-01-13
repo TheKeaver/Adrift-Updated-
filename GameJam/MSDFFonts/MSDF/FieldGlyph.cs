@@ -6,6 +6,7 @@ namespace FontExtension
     {        
         [ContentSerializer] private readonly char CharacterBackend;
         [ContentSerializer] private readonly byte[] BitmapBackend;
+        [ContentSerializer] private readonly string BitmapContentPath;
         [ContentSerializer] private readonly Metrics MetricsBackend;
 
         public FieldGlyph()
@@ -15,9 +16,15 @@ namespace FontExtension
 
         public FieldGlyph(char character, byte[] bitmap, Metrics metrics)
         {
-            this.CharacterBackend = character;
-            this.BitmapBackend = bitmap;
-            this.MetricsBackend = metrics;
+            CharacterBackend = character;
+            BitmapBackend = bitmap;
+            MetricsBackend = metrics;
+        }
+        public FieldGlyph(char character, string bitmapContentPath, Metrics metrics)
+        {
+            CharacterBackend = character;
+            BitmapContentPath = bitmapContentPath;
+            MetricsBackend = metrics;
         }
         
         /// <summary>
@@ -25,9 +32,13 @@ namespace FontExtension
         /// </summary>
         public char Character => this.CharacterBackend;
         /// <summary>
-        /// Distance field for this character
+        /// Distance field for this character (if used)
         /// </summary>
-        public byte[] Bitmap => this.BitmapBackend;                
+        public byte[] Bitmap => this.BitmapBackend;
+        /// <summary>
+        /// Content path for this character (if used)
+        /// </summary>
+        public string Path => this.BitmapContentPath;
         /// <summary>
         /// Metrics for this character
         /// </summary>

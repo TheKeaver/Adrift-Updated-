@@ -30,25 +30,70 @@ namespace FontExtension
         [DefaultValue(4)]
         public virtual uint Range { get; set; } = 4;
 
+        [DisplayName("pack textures")]
+        [Description("Pack textures into the XNB file directly. Otherwise, textures are put within a folder next to the ini file.")]
+        [DefaultValue(true)]
+        public virtual bool PackTextures { get; set; } = true;
+
+        [DisplayName("texture folder")]
+        [Description("Folder name to place textures if `pack textures` is false. Otherwise, not used.")]
+        [DefaultValue("")]
+        public virtual string TextureFolder { get; set; } = "";
+
+        [DisplayName("use cvars")]
+        [Description("If true, CVar names are used (see `cvar prefix`). Otherwise, paths are used.")]
+        [DefaultValue(true)]
+        public virtual bool UseCVars { get; set; } = false;
+
+        [DisplayName("cvar prefix")]
+        [Description("If `use cvars` is true, textures are referenced using CVars, with a prefix to this value (for example, font_msdf_fontname_texture_)")]
+        [DefaultValue("")]
+        public virtual string CVarPrefix { get; set; } = "";
 
         public override FieldFont Process(FontDescription input, ContentProcessorContext context)
         {
-            var msdfgen = Path.Combine(Directory.GetCurrentDirectory(), ExternalPath);
-            var objPath = Path.Combine(Directory.GetCurrentDirectory(), "obj");
+            System.Diagnostics.Debugger.Break();
+
+        string msdfgen = Path.Combine(Directory.GetCurrentDirectory(), ExternalPath);
+            string objPath;
+            string simplePath = "";
+            if (PackTextures)
+            {
+                // Garbage
+                objPath = Path.Combine(Directory.GetCurrentDirectory(), "obj");
+            } else
+            {
+                // Store
+                objPath = Path.Combine(Path.GetDirectoryName(input.Path), TextureFolder);
+
+                Uri fullPath = new Uri(objPath, UriKind.Absolute);
+                Uri rootPath = new Uri(Directory.GetCurrentDirectory() + "/", UriKind.Absolute);
+                Uri relUri = rootPath.MakeRelativeUri(fullPath);
+                simplePath = relUri.ToString();
+            }
+
+            Console.WriteLine(objPath);
+            Console.WriteLine(simplePath);
+
 
             if (File.Exists(msdfgen))
             {
                 var glyphs = new FieldGlyph[input.Characters.Count];
 
                 // Generate a distance field for each character using msdfgen
-                Parallel.For(
+                /*Parallel.For(
                     0,
                     input.Characters.Count,
                     i =>
                     {
                         var c = input.Characters[i];
-                        glyphs[i] = CreateFieldGlyphForCharacter(c, input, msdfgen, objPath);                                               
-                    });
+                        glyphs[i] = CreateFieldGlyphForCharacter(c, input, msdfgen, objPath, simplePath);
+                    });*/
+                for(int i = 0; i < input.Characters.Count; i++)
+                {
+                    var c = input.Characters[i];
+                    glyphs[i] = CreateFieldGlyphForCharacter(c, input, msdfgen, objPath, simplePath);
+                }
                 
                 var kerning = ReadKerningInformation(input.Path, input.Characters);                               
                 return new FieldFont(input.Path, glyphs, kerning, Range, Resolution);
@@ -59,19 +104,31 @@ namespace FontExtension
                 msdfgen);
         }
 
-        private FieldGlyph CreateFieldGlyphForCharacter(char c, FontDescription input, string msdfgen, string objPath)
+        private FieldGlyph CreateFieldGlyphForCharacter(char c, FontDescription input, string msdfgen, string objPath, string simplePath)
         {
-            Console.WriteLine(objPath);
             var metrics = CreateDistanceFieldForCharacter(input, msdfgen, objPath, c);
             var path = GetOuputPath(objPath, input, c);
-            var bytes = File.ReadAllBytes(path);
-            var glyph = new FieldGlyph(c, bytes, metrics);
+            FieldGlyph glyph;
+            if (PackTextures)
+            {
+                glyph = new FieldGlyph(c, File.ReadAllBytes(path), metrics);
+            } else
+            {
+                string name = Path.GetFileNameWithoutExtension(input.Path);
+                string contentPath = Path.Combine(simplePath, $"{name}-{(int)c}");
+                if(UseCVars)
+                {
+                    contentPath = CVarPrefix + "character_" + (int)c;
+                }
+                glyph = new FieldGlyph(c, contentPath, metrics);
+            }
 
             return glyph;
         }    
 
         private Metrics CreateDistanceFieldForCharacter(FontDescription font, string msdfgen, string objPath, char c)
         {
+            Directory.CreateDirectory(objPath);
             var outputPath = GetOuputPath(objPath, font, c);
             var startInfo = new ProcessStartInfo(msdfgen)
             {
