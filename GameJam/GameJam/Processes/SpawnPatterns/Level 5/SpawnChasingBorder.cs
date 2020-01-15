@@ -52,7 +52,7 @@ namespace GameJam.Processes.SpawnPatterns
 
             if (spawnerDirection.X != 0)
             {
-                nextSpawnLocation.X += spawnerDirection.X + spacingInterval;
+                nextSpawnLocation.X += spawnerDirection.X * spacingInterval;
                 if( nextSpawnLocation.X > maxWidth / 2 || nextSpawnLocation.X < - maxWidth / 2)
                 {
                     nextSpawnLocation = new Vector2(spawnerDirection.X * maxWidth / 2 - (spawnerDirection.X * horizontalSpacing),
@@ -66,7 +66,7 @@ namespace GameJam.Processes.SpawnPatterns
                 if( nextSpawnLocation.Y > maxHeight / 2 || nextSpawnLocation.Y < - maxHeight / 2)
                 {
                     nextSpawnLocation = new Vector2(spawnerDirection.Y * -maxWidth / 2 + (spawnerDirection.Y * horizontalSpacing),
-                                                    spawnerDirection.Y * maxWidth / 2 + (spawnerDirection.Y * verticalSpacing));
+                                                    spawnerDirection.Y * maxHeight / 2 - (spawnerDirection.Y * verticalSpacing));
 
                     spawnerDirection = new Vector2(spawnerDirection.Y, 0);
                 }
