@@ -11,6 +11,11 @@ namespace GameJam.Processes.Enemies
 {
     public class SpawnPatternManager : IntervalProcess
     {
+        // This should always be false unless testing 1 specific Spawn Pattern
+        private bool killAfterOneProcessFlag = true;
+        // This should always be 1 unless testing specific Spawn Pattern
+        int difficultyModifier = 5;
+
         readonly Engine Engine;
         readonly MTRandom random = new MTRandom();
         readonly ProcessManager ProcessManager;
@@ -40,14 +45,14 @@ namespace GameJam.Processes.Enemies
             patternStaleList = new Dictionary<int, List<Type>>();
             allPatternsList = GenerateAllPatternsList();
 
-            Interval = 3;
+            Interval = 2;
         }
 
         protected override void OnTick(float interval)
         {
             // Organize spawn patterns based off of difficulty
             // Increase the difficutly counter every time OnTick is called
-            difficultyCounter += 1;
+            difficultyCounter += difficultyModifier;
             GenerateSpawnPattern(difficultyCounter);
         }
 
@@ -61,7 +66,7 @@ namespace GameJam.Processes.Enemies
             //'0' represents the 5th level of difficulty
             //returnDict.Add(0, new List<Type>());
             returnDict.Add(5, new List<Type>());
-
+            /*
             // All level 1 spawn patterns
             returnDict[1].Add(typeof(SpawnChasingTriangle));
             // All level 2 spawn patterns
@@ -69,9 +74,9 @@ namespace GameJam.Processes.Enemies
             // All level 3 spawn patterns
             returnDict[3].Add(typeof(SpawnLaserTriangle));
             // All level 4 spawn patterns
-            returnDict[4].Add(typeof(SpawnChasingCircle));
+            returnDict[4].Add(typeof(SpawnChasingCircle));*/
             // All level 5 spawn patterns
-            //returnDict[5].Add(typeof(SpawnChasingBorder));
+            returnDict[5].Add(typeof(SpawnChasingBorder));
 
             // Initialize the patternStaleList dictionary TODO: Move this somewhere else (optional)
             patternStaleList.Add(1, new List<Type>());
@@ -101,8 +106,11 @@ namespace GameJam.Processes.Enemies
             if (process != null)
             {
                 ProcessManager.Attach(process);
+                if (killAfterOneProcessFlag == true)
+                    this.Kill();
             }
             process = null;
+
         }
 
         private int[] GenerateRandomArray(int val)
