@@ -8,7 +8,7 @@
             width="75%"
             height="40%"
             content="Paused"
-            font="font_title"
+            font="font_msdf_hyperspace"
             />
         <Button
             id="Resume"
@@ -36,7 +36,7 @@
                 width="90%"
                 height="90%"
                 content="Resume"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
         </Button>
         <Button
@@ -66,7 +66,7 @@
                 width="90%"
                 height="90%"
                 content="Exit"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
         </Button>
     </Widgets>

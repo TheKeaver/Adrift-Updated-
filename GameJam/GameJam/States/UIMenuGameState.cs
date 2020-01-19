@@ -48,9 +48,12 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            _spriteBatch.Begin();
+            GameManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            _fieldFontRenderer.Begin();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront);
             _root.Draw(_spriteBatch, _fieldFontRenderer);
             _spriteBatch.End();
+            _fieldFontRenderer.End();
 
             base.OnRender(dt, betweenFrameAlpha);
         }

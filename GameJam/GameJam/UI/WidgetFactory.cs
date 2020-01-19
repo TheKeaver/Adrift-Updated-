@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Adrift.Content.Common.UI;
 using Events;
+using FontExtension;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.UI
@@ -59,7 +59,7 @@ namespace GameJam.UI
             /** WIDGET SPECIALIZATIONS **/
             if (prototype is LabelWidgetPrototype)
             {
-                BitmapFont font = content.Load<BitmapFont>(((LabelWidgetPrototype)prototype).Font);
+                FieldFont font = content.Load<FieldFont>(((LabelWidgetPrototype)prototype).Font);
                 string labelContent = ((LabelWidgetPrototype)prototype).Content;
 
                 widget = new Label(font, labelContent, halign, horizontal, valign, vertical, width, height);

@@ -34,6 +34,14 @@ namespace GameJam.Graphics.Text
             Quad = new Quad();
         }
 
+        public void Begin(bool optimizeForSmallText = false)
+        {
+            Matrix wvp;
+            Matrix.CreateOrthographicOffCenter(0, Device.Viewport.Width, 0,
+                Device.Viewport.Height, -10000, 10000, out wvp);
+            Begin(wvp, optimizeForSmallText);
+
+        }
         public void Begin(Matrix worldViewProjection, bool optimizeForSmallText = false)
         {
             if (_currentlyDrawing)
@@ -135,6 +143,10 @@ namespace GameJam.Graphics.Text
             for (int i = 0; i < sequence.Length; i++)
             {
                 GlyphRenderInfo current = sequence[i];
+                if(current == null)
+                {
+                    continue;
+                }
 
                 if(_currentTexture != null)
                 {
@@ -149,9 +161,6 @@ namespace GameJam.Graphics.Text
                 float glyphHeight = font.TxSize * (1.0f / current.Metrics.Scale);
                 float glyphWidth = font.TxSize * (1.0f / current.Metrics.Scale);
 
-                glyphWidth *= scale;
-                glyphHeight *= scale;
-
                 float left = pen.X - current.Metrics.Translation.X;
                 float bottom = pen.Y - current.Metrics.Translation.Y;
 
@@ -160,8 +169,8 @@ namespace GameJam.Graphics.Text
 
                 if (!char.IsWhiteSpace(current.Character))
                 {
-                    Vector2 bottomLeft = new Vector2(left, bottom);
-                    Vector2 topRight = new Vector2(right, top);
+                    Vector2 bottomLeft = new Vector2(left, bottom) * scale;
+                    Vector2 topRight = new Vector2(right, top) * scale;
 
                     bottomLeft += position;
                     topRight += position;
@@ -169,25 +178,25 @@ namespace GameJam.Graphics.Text
                     int verticesCount = _vertices.Count;
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), 0),
+                        Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), -10000),
                         Color = color,
                         TextureCoordinate = new Vector2(1, 1)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), 0),
+                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), -10000),
                         Color = color,
                         TextureCoordinate = new Vector2(0, 1)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), 0),
+                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), -10000),
                         Color = color,
                         TextureCoordinate = new Vector2(0, 0)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), 0),
+                        Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), -10000),
                         Color = color,
                         TextureCoordinate = new Vector2(1, 0)
                     });
@@ -205,13 +214,16 @@ namespace GameJam.Graphics.Text
                 if (enableKerning && i < sequence.Length - 1)
                 {
                     var next = sequence[i + 1];
-
-                    var pair = font.KerningPairs.FirstOrDefault(
-                        x => x.Left == current.Character && x.Right == next.Character);
-
-                    if (pair != null)
+                    if (next != null)
                     {
-                        pen.X += pair.Advance;
+
+                        var pair = font.KerningPairs.FirstOrDefault(
+                            x => x.Left == current.Character && x.Right == next.Character);
+
+                        if (pair != null)
+                        {
+                            pen.X += pair.Advance;
+                        }
                     }
                 }
             }

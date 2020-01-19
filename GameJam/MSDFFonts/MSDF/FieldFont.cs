@@ -66,6 +66,11 @@ namespace FontExtension
         /// </summary>        
         public FieldGlyph GetGlyph(char c)
         {
+            if (c == '\t' || c == '\n' || c == '\r')
+            {
+                return null;
+            }
+
             if (Glyphs.TryGetValue(c, out FieldGlyph glyph))
             {
                 return glyph;
@@ -76,6 +81,12 @@ namespace FontExtension
 
         private GlyphInfo GetInfo(char c)
         {
+            FieldGlyph glyph = GetGlyph(c);
+            if(glyph == null)
+            {
+                return null;
+            }
+
             return new GlyphInfo(c, GetGlyph(c).Metrics);
         }
         public Vector2 MeasureString(string str, bool enableKerning = true)
@@ -87,6 +98,10 @@ namespace FontExtension
             for(int i = 0; i < sequence.Length; i++)
             {
                 GlyphInfo info = sequence[i];
+                if(info == null)
+                {
+                    continue;
+                }
 
                 float glyphWidth = TxSize / info.Metrics.Scale;
                 float glyphHeight = TxSize / info.Metrics.Scale;
@@ -104,11 +119,14 @@ namespace FontExtension
                 if(enableKerning && i < sequence.Length - 1)
                 {
                     GlyphInfo next = sequence[i + 1];
-                    KerningPair pair = KerningPairs.FirstOrDefault(x => x.Left == info.Character && x.Right == next.Character);
-
-                    if(pair != null)
+                    if (next != null)
                     {
-                        pen.X += pair.Advance;
+                        KerningPair pair = KerningPairs.FirstOrDefault(x => x.Left == info.Character && x.Right == next.Character);
+
+                        if (pair != null)
+                        {
+                            pen.X += pair.Advance;
+                        }
                     }
                 }
             }
@@ -128,6 +146,11 @@ namespace FontExtension
         } = new Dictionary<char, GlyphRenderInfo>();
         public GlyphRenderInfo GetRenderInfo(GraphicsDevice device, ContentManager content, char c)
         {
+            if(c == '\t' || c == '\n' || c == '\r')
+            {
+                return null;
+            }
+
             if (Cache.TryGetValue(c, out var value))
             {
                 return value;
