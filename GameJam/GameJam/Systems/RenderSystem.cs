@@ -191,6 +191,7 @@ namespace GameJam.Systems
             if (_fieldFontEntities.Count > 0) {
                 CheckUpdateProjections();
                 Matrix wvp = transformMatrix * _fieldFontRendererProjection;
+                FieldFontRenderer.Begin(wvp);
                 foreach (Entity entity in _fieldFontEntities)
                 {
                     FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();
@@ -210,16 +211,15 @@ namespace GameJam.Systems
 
                     float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-                    FieldFontRenderer.Render(_fieldFontRendererProjection,
-                        fieldFontComp.Font,
+                    FieldFontRenderer.Draw(fieldFontComp.Font,
                         fieldFontComp.Content,
                         position,
                         rotation,
                         fieldFontComp.Color,
                         transformScale,
-                        fieldFontComp.EnableKerning,
-                        fieldFontComp.OptimizeForSmallText);
+                        fieldFontComp.EnableKerning);
                 }
+                FieldFontRenderer.End();
             }
         }
 

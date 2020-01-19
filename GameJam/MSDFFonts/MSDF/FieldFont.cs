@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 
 namespace FontExtension
 {
@@ -151,7 +152,8 @@ namespace FontExtension
                     texture = Texture2D.FromStream(device, stream);
                 }
             }
-            var unit = new GlyphRenderInfo(c, texture, glyph.Metrics);
+            // TODO: Support grabbing TextureRegion2D from texture atlas
+            var unit = new GlyphRenderInfo(c, new TextureRegion2D(texture), glyph.Metrics);
 
             return unit;
         }

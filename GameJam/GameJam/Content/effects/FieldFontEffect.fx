@@ -3,10 +3,8 @@
 
 // Mix of the enhanced shader from https://discourse.libcinder.org/t/cinder-sdftext-initial-release-wip/171/13 and the original msdf shader
 
-
 matrix WorldViewProjection;
 float2 TextureSize;
-float4 ForegroundColor;
 float PxRange;
 
 texture GlyphTexture;
@@ -24,12 +22,14 @@ struct VertexShaderInput
 {
 	float4 Position : POSITION0;
 	float2 TexCoord : TEXCOORD0;
+	float4 Color : COLOR0;
 };
 
 struct VertexShaderOutput
 {
 	float4 Position : POSITION0;
 	float2 TexCoord : TEXCOORD0;
+	float4 Color : COLOR0;
 };
 
 VertexShaderOutput MainVS(in VertexShaderInput input)
@@ -37,6 +37,7 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 	VertexShaderOutput output = (VertexShaderOutput)0;
 	output.Position = mul(input.Position, WorldViewProjection);	
 	output.TexCoord = input.TexCoord;
+	output.Color = input.Color;
 
 	return output;
 }
@@ -83,8 +84,8 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 	// Apply pre-multiplied alpha with gamma correction
 
 	float4 color;
-	color.a = pow(abs(ForegroundColor.a * opacity), 1.0f / 2.2f);
-	color.rgb = ForegroundColor.rgb * color.a;
+	color.a = pow(abs(input.Color.a * opacity), 1.0f / 2.2f);
+	color.rgb = input.Color.rgb * color.a;
 
 	return color;
 }
@@ -98,7 +99,7 @@ float4 AltPS(VertexShaderOutput input) : COLOR
 	sigDist = sigDist * dot(msdfUnit, 0.5f / fwidth(input.TexCoord));
 
 	float opacity = clamp(sigDist + 0.5f, 0.0f, 1.0f);
-	return ForegroundColor * opacity;
+	return opacity;
 }
 
 technique SmallText

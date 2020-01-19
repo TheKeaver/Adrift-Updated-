@@ -32,6 +32,7 @@ namespace GameJam.States
             entity.AddComponent(new FieldFontComponent(Content.Load<FieldFont>("font_msdf_hyperspace"), "The quick brown fox jumped over the lazy dog!?"));
             entity.GetComponent<FieldFontComponent>().OptimizeForSmallText = true;
             entity.AddComponent(new TransformComponent());
+            entity.GetComponent<TransformComponent>().SetPosition(new Vector2(0, 0));
             entity.GetComponent<TransformComponent>().ChangeScale(1);
 
             Camera = new Camera(GameManager.GraphicsDevice.Viewport.Width,
@@ -80,6 +81,7 @@ namespace GameJam.States
 
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
+            _textRenderer.Begin(wvp);
             foreach (Entity entity in Engine.GetEntitiesFor(fontFamily))
             {
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
@@ -95,10 +97,11 @@ namespace GameJam.States
 
                 float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-                _textRenderer.Render(wvp, fieldFontComp.Font, fieldFontComp.Content,
+                _textRenderer.Draw(fieldFontComp.Font, fieldFontComp.Content,
                     position, rotation, fieldFontComp.Color, transformScale,
-                    fieldFontComp.EnableKerning, fieldFontComp.OptimizeForSmallText);
+                    fieldFontComp.EnableKerning);
             }
+            _textRenderer.End();
 
             base.OnRender(dt, betweenFrameAlpha);
         }

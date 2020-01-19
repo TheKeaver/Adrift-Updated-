@@ -1,17 +1,17 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 
 namespace FontExtension
 {
     public sealed class GlyphRenderInfo
     {
         public char Character { get; }
-        public Texture2D Texture { get; }
+        public TextureRegion2D TextureRegion { get; }
         public Metrics Metrics { get; }
-
-        public GlyphRenderInfo(char character, Texture2D texture, Metrics metrics)
+        public GlyphRenderInfo(char character, TextureRegion2D textureRegion, Metrics metrics)
         {
             Character = character;
-            Texture = texture;
+            TextureRegion = textureRegion;
             Metrics = metrics;
         }
     }
