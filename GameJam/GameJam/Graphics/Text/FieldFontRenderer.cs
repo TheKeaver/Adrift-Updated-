@@ -102,6 +102,11 @@ namespace GameJam.Graphics.Text
         public void Draw(FieldFont font, string content, Vector2 position, float rotation,
             Color color, float scale = 1, bool enableKerning = true)
         {
+            if(!_currentlyDrawing)
+            {
+                throw new Exception("Not currently drawing. Call `Begin` first.");
+            }
+
             if(string.IsNullOrEmpty(content))
             {
                 return;
@@ -125,8 +130,6 @@ namespace GameJam.Graphics.Text
 
             float cos = (float)Math.Cos(rotation);
             float sin = (float)Math.Sin(rotation);
-
-            //Vector2 modPos = position - font.MeasureString(content, enableKerning) / 2;
 
             Vector2 pen = -font.MeasureString(content, enableKerning) / 2;
             for (int i = 0; i < sequence.Length; i++)
