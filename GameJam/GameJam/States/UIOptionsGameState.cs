@@ -7,6 +7,7 @@ using GameJam.Events;
 using GameJam.Events.InputHandling;
 using GameJam.Events.Settings;
 using GameJam.Events.UI;
+using GameJam.Graphics.Text;
 using GameJam.UI;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
@@ -19,6 +20,7 @@ namespace GameJam.States
     public class UIOptionsGameState : CommonGameState, IEventListener
     {
         SpriteBatch _spriteBatch;
+        FieldFontRenderer _fieldFontRenderer;
         Root _root;
 
         KeyTextureMap _keyTextureMap;
@@ -40,6 +42,7 @@ namespace GameJam.States
         public UIOptionsGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            _fieldFontRenderer = new FieldFontRenderer(Content, GameManager.GraphicsDevice);
             supportedResolutions = new List<string>();
 
             IEnumerator<DisplayMode> enumerator = GameManager.Graphics.GraphicsDevice.Adapter.SupportedDisplayModes.GetEnumerator();
@@ -709,9 +712,11 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+            _fieldFontRenderer.Begin();
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
+            _root.Draw(_spriteBatch, _fieldFontRenderer);
             _spriteBatch.End();
+            _fieldFontRenderer.End();
 
             base.OnRender(dt, betweenFrameAlpha);
         }

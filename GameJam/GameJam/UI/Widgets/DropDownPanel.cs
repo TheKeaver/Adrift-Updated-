@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Adrift.Content.Common.UI;
 using Events;
 using GameJam.Events.InputHandling;
+using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
@@ -157,7 +158,7 @@ namespace GameJam.UI.Widgets
             EventManager.Instance.UnregisterListener(this);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if(Hidden)
             {
@@ -166,7 +167,7 @@ namespace GameJam.UI.Widgets
             if(!Hidden)
             {
                 SubPanel.ForceShowAsPressed = ShowDropDown;
-                SubPanel.Draw(spriteBatch);
+                SubPanel.Draw(spriteBatch, fieldFontRenderer);
                 if (ShowDropDown)
                 {
                     Root.RequestDeferredDraw(ContentsPanel);

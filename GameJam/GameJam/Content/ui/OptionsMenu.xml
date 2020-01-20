@@ -35,7 +35,7 @@
             width="90%"
             height="90%"
             content="Display"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             />
       </Button>
       <Button
@@ -64,7 +64,7 @@
             width="90%"
             height="90%"
             content="Controls"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             />
       </Button>
       <Button
@@ -93,7 +93,7 @@
             width="90%"
             height="90%"
             content="Game Settings"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             />
       </Button>
     </Panel>
@@ -138,7 +138,7 @@
           width="75%"
           height="75%"
           content="Screen Size: Full Screen"
-          font="font_hyperspace"
+          font="font_msdf_hyperspace"
         />
         <Contents
           width="100%"
@@ -170,7 +170,7 @@
               width="100%"
               height="100%"
               content="Full Screen"
-              font="font_hyperspace"
+              font="font_msdf_hyperspace"
               />
         </Button>
         <Button
@@ -200,7 +200,7 @@
               width="100%"
               height="100%"
               content="Windowed"
-              font="font_hyperspace"
+              font="font_msdf_hyperspace"
                 />
         </Button>
         <Button
@@ -230,7 +230,7 @@
               width="100%"
               height="100%"
               content="Borderless Window"
-              font="font_hyperspace"
+              font="font_msdf_hyperspace"
                 />
          </Button>
        </Contents>
@@ -265,7 +265,7 @@
           width="75%"
           height="75%"
           content="Anti-Alias: FXAA"
-          font="font_hyperspace"
+          font="font_msdf_hyperspace"
         />
         <Contents
           width="100%"
@@ -296,7 +296,7 @@
                 width="100%"
                 height="100%"
                 content="FXAA"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
           </Button>
           <Button
@@ -326,7 +326,7 @@
                 width="100%"
                 height="100%"
                 content="Feathering"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                   />
           </Button>
           <Button
@@ -356,7 +356,7 @@
                 width="100%"
                 height="100%"
                 content="Off"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                   />
           </Button>
         </Contents>
@@ -388,7 +388,7 @@
           vertical="0"
           width="90%"
           content="Resolution: 1920 x 1080"
-          font="font_hyperspace"
+          font="font_msdf_hyperspace"
           />
       </Button>
       <Button
@@ -417,7 +417,7 @@
           vertical="0"
           width="90%"
           content="V-Sync: On"
-          font="font_hyperspace"
+          font="font_msdf_hyperspace"
           />
       </Button>
     </Panel>
@@ -467,7 +467,7 @@
                 width="75%"
                 height="75%"
                 content="Rotate Left:"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
             <!-- Image In button to allow for display of currently bound button -->
             <Image
@@ -510,7 +510,7 @@
                 width="75%"
                 height="75%"
                 content="Rotate Right:"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                   />
             <!-- Image In button to allow for display of currently bound button -->
             <Image
@@ -558,7 +558,7 @@
                 width="75%"
                 height="75%"
                 content="Secondary\nRotate Left:"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
             <!-- Image In button to allow for display of currently bound button -->
             <Image
@@ -599,7 +599,7 @@
                 width="75%"
                 height="75%"
                 content="Secondary\nRotate Right:"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                   />
             <!-- Image In button to allow for display of currently bound button -->
             <Image
@@ -656,7 +656,7 @@
           width="75%"
           height="75%"
           content="Speed: 1.0x"
-          font="font_hyperspace"
+          font="font_msdf_hyperspace"
           />
         <Contents
           width="100%"
@@ -696,7 +696,7 @@
                 width="100%"
                 height="100%"
                 content="0.5x"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                   />
           </Button>
           <Button
@@ -725,7 +725,7 @@
                 width="100%"
                 height="100%"
                 content="1.0x"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                   />
           </Button>
           <Button
@@ -754,7 +754,7 @@
                 width="100%"
                 height="100%"
                 content="1.5x"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                   />
           </Button>
           <Button
@@ -783,7 +783,7 @@
                 width="100%"
                 height="100%"
                 content="2.0x"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                   />
           </Button>
         </Contents>
@@ -815,7 +815,7 @@
           width="90%"
           height="100%"
           content="Difficulty: Normal"
-          font="font_hyperspace"
+          font="font_msdf_hyperspace"
           />
         <Contents
           width="100%"
@@ -856,7 +856,7 @@
                 width="100%"
                 height="100%"
                 content="Easy"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                     />
           </Button>
           <Button
@@ -886,7 +886,7 @@
                 width="100%"
                 height="100%"
                 content="Normal"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                     />
           </Button>
           <Button
@@ -916,7 +916,7 @@
                 width="100%"
                 height="100%"
                 content="Hard"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                     />
           </Button>
         </Contents>
@@ -938,7 +938,7 @@
           width="35%"
           height="100%"
           content="Master Volume:"
-          font="font_game_over"
+          font="font_msdf_hyperspace"
         />
         <Slider
           id="Master_Volume_Slider"
@@ -979,7 +979,7 @@
           width="35%"
           height="100%"
           content="Music Volume:"
-          font="font_game_over"
+          font="font_msdf_hyperspace"
         />
         <Slider
           id="Music_Volume_Slider"
@@ -1020,7 +1020,7 @@
           width="35%"
           height="100%"
           content="SoundFX Volume:"
-          font="font_game_over"
+          font="font_msdf_hyperspace"
         />
         <Slider
           id="SoundFX_Volume_Slider"

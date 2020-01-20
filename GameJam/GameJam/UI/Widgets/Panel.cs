@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Adrift.Content.Common.UI;
 using Events;
+using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -37,13 +38,13 @@ namespace GameJam.UI.Widgets
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {
                 for (int i = 0; i < _widgets.Count; i++)
                 {
-                    _widgets[i].Draw(spriteBatch);
+                    _widgets[i].Draw(spriteBatch, fieldFontRenderer);
                 }
             }
         }

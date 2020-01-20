@@ -61,7 +61,7 @@
                         vertical="25%"
                         width="75%"
                         height="10%"
-                        font="font_hyperspace"
+                        font="font_msdf_hyperspace"
                         content="Controls:"
                         />
                     <!-- Controller -->
@@ -184,7 +184,7 @@
                         vertical="25%"
                         width="75%"
                         height="10%"
-                        font="font_hyperspace"
+                        font="font_msdf_hyperspace"
                         content="Controls:"
                         />
                     <!-- Controller -->
@@ -307,7 +307,7 @@
                         vertical="25%"
                         width="75%"
                         height="10%"
-                        font="font_hyperspace"
+                        font="font_msdf_hyperspace"
                         content="Controls:"
                         />
                     <!-- Controller -->
@@ -430,7 +430,7 @@
                         vertical="25%"
                         width="75%"
                         height="10%"
-                        font="font_hyperspace"
+                        font="font_msdf_hyperspace"
                         content="Controls:"
                         />
                     <!-- Controller -->

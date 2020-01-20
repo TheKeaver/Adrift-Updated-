@@ -8,7 +8,7 @@
             width="75%"
             height="40%"
             content="Adrift"
-            font="font_title"
+            font="font_msdf_hyperspace"
             />
         <Button
             id="Play"
@@ -38,7 +38,7 @@
                 width="90%"
                 height="50%"
                 content="Play Game"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
         </Button>
         <Button
@@ -69,7 +69,7 @@
                 width="90%"
                 height="50%"
                 content="Options"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
         </Button>
         <Button
@@ -100,7 +100,7 @@
                 width="90%"
                 height="50%"
                 content="Quit Game"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
         </Button>
     </Widgets>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Events;
+using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -400,7 +401,7 @@ namespace GameJam.UI
             });
         }
 
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer);
 
         public void ComputeProperties()
         {

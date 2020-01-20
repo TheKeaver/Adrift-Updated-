@@ -9,6 +9,7 @@ using System.Collections;
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using Adrift.Content.Common.UI;
+using GameJam.Graphics.Text;
 
 namespace GameJam.UI.Widgets
 {
@@ -111,7 +112,7 @@ namespace GameJam.UI.Widgets
             SubPanel.Parent = this;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {
@@ -135,7 +136,7 @@ namespace GameJam.UI.Widgets
                         (int)Width,
                         (int)Height),
                         TintColor);
-                SubPanel.Draw(spriteBatch);
+                SubPanel.Draw(spriteBatch, fieldFontRenderer);
             }
         }
 

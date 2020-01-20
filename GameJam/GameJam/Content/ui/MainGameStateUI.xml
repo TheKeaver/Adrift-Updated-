@@ -9,7 +9,7 @@
             height="5%"
             
             content="Player 1 Score: {0}"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             id="player_0_score_label"
         />
         <Label
@@ -22,7 +22,7 @@
             hidden="true"
             
             content="Player 2 Score: {0}"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             id="player_1_score_label"
         />
         <Label
@@ -35,7 +35,7 @@
             hidden="true"
             
             content="Player 3 Score: {0}"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             id="player_2_score_label"
         />
         <Label
@@ -48,7 +48,7 @@
             hidden="true"
             
             content="Player 4 Score: {0}"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             id="player_3_score_label"
         />
     </Widgets>

@@ -7,7 +7,7 @@
             vertical="5%"
             width="90%"
             height="20%"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             content="Press"
             />
         
@@ -78,7 +78,7 @@
             vertical="5%"
             width="90%"
             height="20%"
-            font="font_hyperspace"
+            font="font_msdf_hyperspace"
             content="To Join"
             />
     </Widgets>

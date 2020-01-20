@@ -1,6 +1,7 @@
 using System;
 using Adrift.Content.Common.UI;
 using Events;
+using FontExtension;
 using GameJam.Audio;
 using GameJam.Content;
 using GameJam.DevTools;
@@ -170,10 +171,6 @@ namespace GameJam
         protected override void LoadContent()
         {
             // Global Content
-
-            SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
-            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
-
             GlobalContent = new LockingContentManager(Services);
             GlobalContent.Locked = false;
             GlobalContent.RootDirectory = "Content";
@@ -182,6 +179,12 @@ namespace GameJam
 
             LoadGameContent(GlobalContent);
             GlobalContent.Locked = true;
+
+            FieldFont font = GlobalContent.Load<FieldFont>("font_msdf_hyperspace");
+
+            // Attach first game state last
+            SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
+            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
         }
         
         protected override void Update(GameTime gameTime)

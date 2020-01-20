@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
 namespace Adrift.Content.Common.UI
 {
-    [Serializable]
+    [Serializable] 
     [XmlRoot("UI")]
     public class UIWidgetsFile
     {

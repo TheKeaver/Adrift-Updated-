@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 using GameJam.Events.InputHandling;
 using GameJam.Common;
+using GameJam.Graphics.Text;
 
 namespace GameJam.UI.Widgets
 {
@@ -128,7 +129,7 @@ namespace GameJam.UI.Widgets
             SliderButton.Parent = this;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {
@@ -153,7 +154,7 @@ namespace GameJam.UI.Widgets
                     (int)Height/10),
                     Color.Green);
 
-                SliderButton.Draw(spriteBatch);
+                SliderButton.Draw(spriteBatch, fieldFontRenderer);
             }
         }
 

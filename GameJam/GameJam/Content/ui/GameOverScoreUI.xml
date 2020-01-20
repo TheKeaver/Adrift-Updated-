@@ -19,7 +19,7 @@
                 height="25%"
 
                 content="Game Over"
-                font="font_title"
+                font="font_msdf_hyperspace"
                 />
 
             <Label
@@ -31,7 +31,7 @@
                 height="7.5%"
 
                 content="Player 1"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
 
                 id="player_0_name"
 
@@ -46,7 +46,7 @@
                 height="7.5%"
 
                 content="150"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
 
                 id="player_0_score"
 
@@ -62,7 +62,7 @@
                 height="7.5%"
 
                 content="Player 2"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
 
                 id="player_1_name"
 
@@ -77,7 +77,7 @@
                 height="7.5%"
 
                 content="150"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
 
                 id="player_1_score"
 
@@ -93,7 +93,7 @@
                 height="7.5%"
 
                 content="Player 3"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
 
                 id="player_2_name"
 
@@ -108,7 +108,7 @@
                 height="7.5%"
 
                 content="150"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
 
                 id="player_2_score"
 
@@ -124,7 +124,7 @@
                 height="7.5%"
 
                 content="Player 4"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
 
                 id="player_3_name"
 
@@ -139,7 +139,7 @@
                 height="7.5%"
 
                 content="150"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
 
                 id="player_3_score"
 
@@ -174,7 +174,7 @@
                 width="90%"
                 height="50%"
                 content="Play Again"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
         </Button>
         <Button
@@ -205,7 +205,7 @@
                 width="90%"
                 height="50%"
                 content="Exit to Lobby"
-                font="font_hyperspace"
+                font="font_msdf_hyperspace"
                 />
         </Button>
     </Widgets>

@@ -7,13 +7,13 @@ namespace GameJam.Components
     /// <summary>
     /// A component for renderable text.
     /// </summary>
-    public class FontComponent : IComponent
+    public class BitmapFontComponent : IComponent
     {
-        public FontComponent()
+        public BitmapFontComponent()
         {
         }
 
-        public FontComponent(BitmapFont font, string content)
+        public BitmapFontComponent(BitmapFont font, string content)
         {
             Font = font;
             Content = content;

@@ -1,4 +1,5 @@
 ﻿using Events;
+using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
@@ -27,7 +28,7 @@ namespace GameJam.UI.Widgets
             NinePatch = ninePatch;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {

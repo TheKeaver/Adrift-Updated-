@@ -5,6 +5,7 @@ using GameJam.Directors;
 using GameJam.Events;
 using GameJam.Events.Audio;
 using GameJam.Events.UI.Pause;
+using GameJam.Graphics.Text;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,12 +14,14 @@ namespace GameJam.States
     public class PauseGameState : CommonGameState, IEventListener
     {
         private SpriteBatch _spriteBatch;
+        private FieldFontRenderer _fieldFontRenderer;
         private Root _root;
         private readonly Process _gameProcess;
 
         public PauseGameState(GameManager gameManager, SharedGameState sharedState, Process gameProcess) : base(gameManager, sharedState)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            _fieldFontRenderer = new FieldFontRenderer(Content, GameManager.GraphicsDevice);
             _gameProcess = gameProcess;
         }
 
@@ -48,9 +51,11 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+            _fieldFontRenderer.Begin();
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
+            _root.Draw(_spriteBatch, _fieldFontRenderer);
             _spriteBatch.End();
+            _fieldFontRenderer.End();
 
             base.OnRender(dt, betweenFrameAlpha);
         }

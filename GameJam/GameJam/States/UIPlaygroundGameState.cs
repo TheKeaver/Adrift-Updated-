@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Adrift.Content.Common.UI;
 using Events;
 using GameJam.Events.UI;
+using GameJam.Graphics.Text;
 using GameJam.UI;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,12 +12,14 @@ namespace GameJam.States
     public class UIPlaygroundGameState : GameState, IEventListener
     {
         SpriteBatch _spriteBatch;
+        FieldFontRenderer _fieldFontRenderer;
 
         Root _root;
 
         public UIPlaygroundGameState(GameManager gameManager) : base(gameManager)
         {
             _spriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+            _fieldFontRenderer = new FieldFontRenderer(Content, GameManager.GraphicsDevice);
         }
 
         protected override void OnInitialize()
@@ -39,9 +42,11 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+            _fieldFontRenderer.Begin();
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch);
+            _root.Draw(_spriteBatch, _fieldFontRenderer);
             _spriteBatch.End();
+            _fieldFontRenderer.End();
 
             base.OnRender(dt, betweenFrameAlpha);
         }
