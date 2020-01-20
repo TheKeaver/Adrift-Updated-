@@ -17,7 +17,7 @@ namespace GameJam.Processes.SpawnPatterns
 
         public int spawnLimit = 36;
         public int spawnCount;
-        public bool spawnedLasers;
+        public bool spawnedUniqueEnemies;
 
         public SpawnCornerAssault(Engine engine, ProcessManager processManager, SpawnPatternManager spm) : base ( 1.0f )
         {
@@ -31,13 +31,17 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTick(float interval)
         {
-            if (!spawnedLasers)
+            if (!spawnedUniqueEnemies)
             {
-                LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + 50, maxHeight / 2 - 50), SPM.AngleFacingNearestPlayerShip(new Vector2 (-maxWidth / 2, maxHeight / 2)));
+                /*LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + 50, maxHeight / 2 - 50), SPM.AngleFacingNearestPlayerShip(new Vector2 (-maxWidth / 2, maxHeight / 2)));
                 LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - 50, maxHeight / 2 - 50), SPM.AngleFacingNearestPlayerShip(new Vector2 (-maxWidth / 2, maxHeight / 2)));
                 LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + 50, -maxHeight / 2 + 50), SPM.AngleFacingNearestPlayerShip(new Vector2 (-maxWidth / 2, maxHeight / 2)));
-                LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - 50, -maxHeight / 2 + 50), SPM.AngleFacingNearestPlayerShip(new Vector2 (-maxWidth / 2, maxHeight / 2)));
-                spawnedLasers = true;
+                LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - 50, -maxHeight / 2 + 50), SPM.AngleFacingNearestPlayerShip(new Vector2 (-maxWidth / 2, maxHeight / 2)));*/
+                ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + 50, maxHeight / 2 - 50), SPM.AngleFacingNearestPlayerShip(new Vector2(-maxWidth / 2, maxHeight / 2)));
+                ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - 50, maxHeight / 2 - 50), SPM.AngleFacingNearestPlayerShip(new Vector2(-maxWidth / 2, maxHeight / 2)));
+                ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + 50, -maxHeight / 2 + 50), SPM.AngleFacingNearestPlayerShip(new Vector2(-maxWidth / 2, maxHeight / 2)));
+                ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - 50, -maxHeight / 2 + 50), SPM.AngleFacingNearestPlayerShip(new Vector2(-maxWidth / 2, maxHeight / 2)));
+                spawnedUniqueEnemies = true;
                 spawnCount += 4;
             }
 

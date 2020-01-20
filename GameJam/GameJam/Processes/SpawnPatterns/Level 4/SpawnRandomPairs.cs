@@ -24,9 +24,11 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTrigger()
         {
-            Center = SPM.GenerateValidCenter(radius);
+            // If Gravity hole is re-implemented, make it so that the two gravity holes are either
+            // 1) randomly placed, or 2) Mirrored from each-other
+            /*Center = SPM.GenerateValidCenter(radius);
             GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 50, Center.Y));
-            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 50, Center.Y));
+            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 50, Center.Y));*/
 
             Center = SPM.GenerateValidCenter(radius);
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 50), SPM.AngleFacingNearestPlayerShip(Center));

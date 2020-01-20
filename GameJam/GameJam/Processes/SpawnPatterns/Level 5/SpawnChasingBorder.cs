@@ -42,8 +42,11 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTick(float interval)
         {
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, nextSpawnLocation, SPM.AngleFacingNearestPlayerShip(nextSpawnLocation));
-            spawnNumber += 1;
+            if (!SPM.IsTooCloseToPlayer(nextSpawnLocation, 150)) ;
+            {
+                ChasingEnemyEntity.Spawn(Engine, ProcessManager, nextSpawnLocation, SPM.AngleFacingNearestPlayerShip(nextSpawnLocation));
+                spawnNumber += 1;
+            }
 
             if (spawnNumber > 2 && (nextSpawnLocation == originalSpawnLocation))
             {

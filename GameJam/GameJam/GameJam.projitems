@@ -89,6 +89,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomShootingEnemies.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomLaserEnemies.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnShootingTriangle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\SpawnGravityConstellation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\SpawnLaserTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 4\SpawnChasingCirlce.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 4\SpawnRandomPairs.cs" />

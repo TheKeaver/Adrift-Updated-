@@ -23,7 +23,7 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTrigger()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 Vector2 spawnPosition = SPM.GenerateValidCenter(radius);
                 GravityHoleEntity.Spawn(Engine, ProcessManager, spawnPosition);

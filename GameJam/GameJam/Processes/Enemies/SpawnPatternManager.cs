@@ -14,7 +14,7 @@ namespace GameJam.Processes.Enemies
         // This should always be false unless testing 1 specific Spawn Pattern
         private bool killAfterOneProcessFlag = false;
         // This should always be 1 unless testing specific Spawn Pattern
-        int difficultyModifier = 5;
+        int difficultyModifier = 1;
 
         readonly Engine Engine;
         readonly MTRandom random = new MTRandom();
@@ -69,14 +69,15 @@ namespace GameJam.Processes.Enemies
             
             // All level 1 spawn patterns
             returnDict[1].Add(typeof(SpawnChasingTriangle));
-            returnDict[1].Add(typeof(SpawnRandomGravityHoles));
-            returnDict[1].Add(typeof(SpawnRandomShootingEnemies));
             returnDict[1].Add(typeof(SpawnRandomChasingEnemies));
             // All level 2 spawn patterns
-            returnDict[2].Add(typeof(SpawnShootingTriangle));
-            returnDict[2].Add(typeof(SpawnRandomLaserEnemies));
+            //returnDict[2].Add(typeof(SpawnShootingTriangle));
+            returnDict[1].Add(typeof(SpawnRandomGravityHoles));
+            returnDict[2].Add(typeof(SpawnRandomShootingEnemies));
             // All level 3 spawn patterns
-            returnDict[3].Add(typeof(SpawnLaserTriangle));
+            //returnDict[3].Add(typeof(SpawnLaserTriangle));
+            returnDict[3].Add(typeof(SpawnGravityConstellation));
+            returnDict[2].Add(typeof(SpawnRandomLaserEnemies));
             // All level 4 spawn patterns
             returnDict[4].Add(typeof(SpawnChasingCircle));
             returnDict[4].Add(typeof(SpawnRandomPairs));
@@ -195,7 +196,10 @@ namespace GameJam.Processes.Enemies
             return spawnPosition;
         }
 
-        private bool IsTooCloseToPlayer(Vector2 position, int radius)
+        // This funciton used to be private, changed to public to bed used in SpawnChasingBorder so that
+        // SpawnPatterns can check if a pre-determined location is too close to a player at the time of spawning
+        // So that the spawn can be skipped
+        public bool IsTooCloseToPlayer(Vector2 position, int radius)
         {
             float minDistanceToPlayer = float.MaxValue;
 
