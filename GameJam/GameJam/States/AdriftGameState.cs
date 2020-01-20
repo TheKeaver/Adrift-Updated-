@@ -133,6 +133,7 @@ namespace GameJam.States
                 playerShipEntity);
             playerShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerShieldEntity;
             playerShieldEntity.AddComponent(new PlayerComponent(Players[0]));
+            Players[0].InputMethod.GetSnapshot().Angle = 0;
 
             if (Players.Length >= 2)
             {
@@ -140,8 +141,10 @@ namespace GameJam.States
                 new Vector2(25, 25 * (Players.Length / 3)), Color.Blue);
                 Entity playerTwoShieldEntity = PlayerShieldEntity.Create(SharedState.Engine,
                     playerTwoShipEntity);
+                playerTwoShieldEntity.GetComponent<PlayerShieldComponent>().Angle = 0;
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerTwoShieldEntity;
                 playerTwoShieldEntity.AddComponent(new PlayerComponent(Players[1]));
+                Players[1].InputMethod.GetSnapshot().Angle = 0;
             }
 
             if( Players.Length >= 3)
@@ -149,15 +152,19 @@ namespace GameJam.States
                 Entity playerThreeShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(-25, -25), Color.Orange);
                 Entity playerThreeShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity);
                 playerThreeShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerThreeShieldEntity;
+                playerThreeShieldEntity.GetComponent<PlayerShieldComponent>().Angle = 0;
                 playerThreeShieldEntity.AddComponent(new PlayerComponent(Players[2]));
+                Players[2].InputMethod.GetSnapshot().Angle = 0;
             }
 
             if( Players.Length == 4)
             {
                 Entity playerFourShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25), Color.Magenta);
                 Entity playerFourShieldEntity = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity);
+                playerFourShieldEntity.GetComponent<PlayerShieldComponent>().Angle = 0;
                 playerFourShipEntity.GetComponent<PlayerShipComponent>().ShipShield = playerFourShieldEntity;
                 playerFourShieldEntity.AddComponent(new PlayerComponent(Players[3]));
+                Players[3].InputMethod.GetSnapshot().Angle = 0;
             }
 
             EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("play_field_height") / 2), new Vector2(CVars.Get<float>("play_field_width"), 5), new Vector2(0, -1));
