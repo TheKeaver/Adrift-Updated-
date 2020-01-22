@@ -52,6 +52,10 @@
     <Compile Include="UI\UIWidgetsImporter.cs" />
     <Compile Include="UI\UIWidgetsProcessor.cs" />
     <Compile Include="UI\UIWidgetsWriter.cs" />
+    <Compile Include="TextureAtlas\TexturePackerJsonImporter.cs" />
+    <Compile Include="TextureAtlas\TexturePackerProcessor.cs" />
+    <Compile Include="TextureAtlas\TexturePackerProcessorResult.cs" />
+    <Compile Include="TextureAtlas\TexturePackerWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ini-parser">
@@ -66,12 +70,18 @@
     <PackageReference Include="RoyT.TrueType">
       <Version>0.1.1</Version>
     </PackageReference>
+    <PackageReference Include="MonoGame.Extended">
+      <Version>3.7.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MSDFFonts\MSDFFonts.csproj">
       <Project>{2355C924-25F9-499B-B7A0-593BE3A32FA3}</Project>
       <Name>MSDFFonts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TextureAtlas\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
