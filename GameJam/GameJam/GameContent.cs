@@ -16,7 +16,7 @@ namespace GameJam
             /// IMPORTANT: **ALWAYS** use `content` instead of `Content` in
             /// this method.
 
-            content.Load<Texture2D>("texture_particle_velocity");
+            //content.Load<Texture2D>("texture_particle_velocity");
 
             content.Load<Texture2D>("texture_background_stars_0");
             content.Load<Texture2D>("texture_background_stars_1");
@@ -35,7 +35,7 @@ namespace GameJam
 
             content.Load<Texture2D>("texture_background_parallax_test");
 
-            content.Load<Texture2D>("texture_ui_button_released");
+            /*content.Load<Texture2D>("texture_ui_button_released");
             content.Load<Texture2D>("texture_ui_button_hover");
             content.Load<Texture2D>("texture_ui_button_pressed");
             content.Load<Texture2D>("texture_ui_lobby_panel_background");
@@ -114,7 +114,7 @@ namespace GameJam
             content.Load<Texture2D>("texture_input_gamepad_trigger_right");
 
             content.Load<Texture2D>("texture_input_gamepad_stick_left");
-            content.Load<Texture2D>("texture_input_gamepad_stick_right");
+            content.Load<Texture2D>("texture_input_gamepad_stick_right");*/
 
             content.Load<SoundEffect>("sound_explosion");
             content.Load<SoundEffect>("sound_projectile_fired");

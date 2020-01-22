@@ -1,0 +1,1724 @@
+{"frames": [
+
+{
+	"filename": "Blank_Black_Normal.png",
+	"frame": {"x":1301,"y":683,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "button_down_background.png",
+	"frame": {"x":1763,"y":989,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
+	"filename": "button_over_background.png",
+	"frame": {"x":1763,"y":1055,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
+	"filename": "button_up_background.png",
+	"frame": {"x":1763,"y":1121,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
+	"filename": "dropdown_contents_background.png",
+	"frame": {"x":213,"y":1260,"w":1,"h":1},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
+	"sourceSize": {"w":1,"h":1}
+},
+{
+	"filename": "Hyperspace-32.bmp",
+	"frame": {"x":391,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-33.bmp",
+	"frame": {"x":391,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-34.bmp",
+	"frame": {"x":391,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-35.bmp",
+	"frame": {"x":391,"y":391,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-36.bmp",
+	"frame": {"x":391,"y":521,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-37.bmp",
+	"frame": {"x":391,"y":651,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-38.bmp",
+	"frame": {"x":391,"y":781,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-39.bmp",
+	"frame": {"x":391,"y":911,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-40.bmp",
+	"frame": {"x":391,"y":1041,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-41.bmp",
+	"frame": {"x":521,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-42.bmp",
+	"frame": {"x":521,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-43.bmp",
+	"frame": {"x":521,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-44.bmp",
+	"frame": {"x":521,"y":391,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-45.bmp",
+	"frame": {"x":521,"y":521,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-46.bmp",
+	"frame": {"x":521,"y":651,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-47.bmp",
+	"frame": {"x":521,"y":781,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-48.bmp",
+	"frame": {"x":521,"y":911,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-49.bmp",
+	"frame": {"x":521,"y":1041,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-50.bmp",
+	"frame": {"x":651,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-51.bmp",
+	"frame": {"x":651,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-52.bmp",
+	"frame": {"x":651,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-53.bmp",
+	"frame": {"x":651,"y":391,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-54.bmp",
+	"frame": {"x":651,"y":521,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-55.bmp",
+	"frame": {"x":651,"y":651,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-56.bmp",
+	"frame": {"x":651,"y":781,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-57.bmp",
+	"frame": {"x":651,"y":911,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-58.bmp",
+	"frame": {"x":651,"y":1041,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-59.bmp",
+	"frame": {"x":781,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-60.bmp",
+	"frame": {"x":781,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-61.bmp",
+	"frame": {"x":781,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-62.bmp",
+	"frame": {"x":781,"y":391,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-63.bmp",
+	"frame": {"x":781,"y":521,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-64.bmp",
+	"frame": {"x":781,"y":651,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-65.bmp",
+	"frame": {"x":781,"y":781,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-66.bmp",
+	"frame": {"x":781,"y":911,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-67.bmp",
+	"frame": {"x":781,"y":1041,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-68.bmp",
+	"frame": {"x":989,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-69.bmp",
+	"frame": {"x":983,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-70.bmp",
+	"frame": {"x":983,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-71.bmp",
+	"frame": {"x":911,"y":481,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-72.bmp",
+	"frame": {"x":911,"y":611,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-73.bmp",
+	"frame": {"x":911,"y":741,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-74.bmp",
+	"frame": {"x":911,"y":871,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-75.bmp",
+	"frame": {"x":911,"y":1001,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-76.bmp",
+	"frame": {"x":989,"y":1131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-77.bmp",
+	"frame": {"x":1041,"y":473,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-78.bmp",
+	"frame": {"x":1113,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-79.bmp",
+	"frame": {"x":1119,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-80.bmp",
+	"frame": {"x":1113,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-81.bmp",
+	"frame": {"x":1041,"y":603,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-82.bmp",
+	"frame": {"x":1041,"y":733,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-83.bmp",
+	"frame": {"x":1041,"y":863,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-84.bmp",
+	"frame": {"x":1041,"y":993,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-85.bmp",
+	"frame": {"x":1119,"y":1123,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-86.bmp",
+	"frame": {"x":1171,"y":457,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-87.bmp",
+	"frame": {"x":1243,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-88.bmp",
+	"frame": {"x":1249,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-89.bmp",
+	"frame": {"x":1243,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-90.bmp",
+	"frame": {"x":1171,"y":587,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-91.bmp",
+	"frame": {"x":1171,"y":717,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-92.bmp",
+	"frame": {"x":1171,"y":847,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-93.bmp",
+	"frame": {"x":1171,"y":977,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-94.bmp",
+	"frame": {"x":1249,"y":1107,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-95.bmp",
+	"frame": {"x":1301,"y":457,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-96.bmp",
+	"frame": {"x":1373,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-97.bmp",
+	"frame": {"x":1379,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-98.bmp",
+	"frame": {"x":1373,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-99.bmp",
+	"frame": {"x":1503,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-100.bmp",
+	"frame": {"x":1,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-101.bmp",
+	"frame": {"x":1,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-102.bmp",
+	"frame": {"x":1,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-103.bmp",
+	"frame": {"x":1,"y":391,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-104.bmp",
+	"frame": {"x":1,"y":521,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-105.bmp",
+	"frame": {"x":1,"y":651,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-106.bmp",
+	"frame": {"x":1,"y":781,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-107.bmp",
+	"frame": {"x":1,"y":911,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-108.bmp",
+	"frame": {"x":1,"y":1041,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-109.bmp",
+	"frame": {"x":131,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-110.bmp",
+	"frame": {"x":131,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-111.bmp",
+	"frame": {"x":131,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-112.bmp",
+	"frame": {"x":131,"y":391,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-113.bmp",
+	"frame": {"x":131,"y":521,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-114.bmp",
+	"frame": {"x":131,"y":651,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-115.bmp",
+	"frame": {"x":131,"y":781,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-116.bmp",
+	"frame": {"x":131,"y":911,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-117.bmp",
+	"frame": {"x":131,"y":1041,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-118.bmp",
+	"frame": {"x":261,"y":1,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-119.bmp",
+	"frame": {"x":261,"y":131,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-120.bmp",
+	"frame": {"x":261,"y":261,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-121.bmp",
+	"frame": {"x":261,"y":391,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-122.bmp",
+	"frame": {"x":261,"y":521,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-123.bmp",
+	"frame": {"x":261,"y":651,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-124.bmp",
+	"frame": {"x":261,"y":781,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-125.bmp",
+	"frame": {"x":261,"y":911,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Hyperspace-126.bmp",
+	"frame": {"x":261,"y":1041,"w":128,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
+	"sourceSize": {"w":128,"h":128}
+},
+{
+	"filename": "Keyboard_Black_0.png",
+	"frame": {"x":1367,"y":587,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_1.png",
+	"frame": {"x":1431,"y":457,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_2.png",
+	"frame": {"x":1301,"y":1003,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_3.png",
+	"frame": {"x":1377,"y":667,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_4.png",
+	"frame": {"x":1443,"y":537,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_5.png",
+	"frame": {"x":1507,"y":457,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_6.png",
+	"frame": {"x":1523,"y":357,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_7.png",
+	"frame": {"x":1377,"y":747,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_8.png",
+	"frame": {"x":1377,"y":827,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_9.png",
+	"frame": {"x":1377,"y":907,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_10.png",
+	"frame": {"x":1301,"y":763,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_11.png",
+	"frame": {"x":1301,"y":843,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_12.png",
+	"frame": {"x":1301,"y":923,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_A.png",
+	"frame": {"x":1377,"y":987,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Alt.png",
+	"frame": {"x":911,"y":289,"w":94,"h":64},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":18,"w":94,"h":64},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Arrow_Down.png",
+	"frame": {"x":1379,"y":1067,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Arrow_Left.png",
+	"frame": {"x":1379,"y":1147,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Arrow_Right.png",
+	"frame": {"x":1453,"y":617,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Arrow_Up.png",
+	"frame": {"x":1519,"y":537,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Asterisk.png",
+	"frame": {"x":1583,"y":437,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_B.png",
+	"frame": {"x":1599,"y":261,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Backspace.png",
+	"frame": {"x":911,"y":385,"w":94,"h":64},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":18,"w":94,"h":64},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Backspace_Alt.png",
+	"frame": {"x":1139,"y":391,"w":94,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":18,"w":94,"h":64},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Bracket_Left.png",
+	"frame": {"x":1599,"y":341,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Bracket_Right.png",
+	"frame": {"x":1633,"y":97,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_C.png",
+	"frame": {"x":1633,"y":177,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Caps_Lock.png",
+	"frame": {"x":1235,"y":391,"w":94,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":18,"w":94,"h":64},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Command.png",
+	"frame": {"x":1453,"y":697,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Ctrl.png",
+	"frame": {"x":1331,"y":391,"w":94,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":18,"w":94,"h":64},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_D.png",
+	"frame": {"x":1453,"y":777,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Del.png",
+	"frame": {"x":1453,"y":857,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_E.png",
+	"frame": {"x":1453,"y":937,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_End.png",
+	"frame": {"x":1455,"y":1017,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Enter.png",
+	"frame": {"x":189,"y":1171,"w":94,"h":87},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":5,"w":94,"h":87},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Enter_Alt.png",
+	"frame": {"x":285,"y":1171,"w":94,"h":87},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":5,"w":94,"h":87},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Enter_Tall.png",
+	"frame": {"x":1861,"y":173,"w":56,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":2,"w":56,"h":96},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Esc.png",
+	"frame": {"x":1455,"y":1097,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F.png",
+	"frame": {"x":1455,"y":1177,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F1.png",
+	"frame": {"x":1529,"y":617,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F2.png",
+	"frame": {"x":1675,"y":337,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F3.png",
+	"frame": {"x":1709,"y":97,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F4.png",
+	"frame": {"x":1709,"y":177,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F5.png",
+	"frame": {"x":1529,"y":693,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F6.png",
+	"frame": {"x":1529,"y":773,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F7.png",
+	"frame": {"x":1529,"y":853,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F8.png",
+	"frame": {"x":1529,"y":933,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F9.png",
+	"frame": {"x":1531,"y":1013,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F10.png",
+	"frame": {"x":1595,"y":517,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F11.png",
+	"frame": {"x":1659,"y":421,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_F12.png",
+	"frame": {"x":1675,"y":257,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_G.png",
+	"frame": {"x":1531,"y":1093,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_H.png",
+	"frame": {"x":1531,"y":1173,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Home.png",
+	"frame": {"x":1605,"y":693,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_I.png",
+	"frame": {"x":1609,"y":597,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Insert.png",
+	"frame": {"x":1671,"y":501,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_J.png",
+	"frame": {"x":1735,"y":417,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_K.png",
+	"frame": {"x":1751,"y":257,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_L.png",
+	"frame": {"x":1751,"y":337,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_M.png",
+	"frame": {"x":1785,"y":97,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Mark_Left.png",
+	"frame": {"x":1785,"y":173,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Mark_Right.png",
+	"frame": {"x":1605,"y":773,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Minus.png",
+	"frame": {"x":1605,"y":853,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Mouse_Left.png",
+	"frame": {"x":893,"y":1171,"w":70,"h":94},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":3,"w":70,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Mouse_Middle.png",
+	"frame": {"x":911,"y":1,"w":70,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":3,"w":70,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Mouse_Right.png",
+	"frame": {"x":911,"y":97,"w":70,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":3,"w":70,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Mouse_Simple.png",
+	"frame": {"x":911,"y":193,"w":70,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":3,"w":70,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_N.png",
+	"frame": {"x":1605,"y":933,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Num_Lock.png",
+	"frame": {"x":1607,"y":1013,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_O.png",
+	"frame": {"x":1607,"y":1093,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_P.png",
+	"frame": {"x":1607,"y":1173,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Page_Down.png",
+	"frame": {"x":1681,"y":677,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Page_Up.png",
+	"frame": {"x":1685,"y":581,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Plus.png",
+	"frame": {"x":1747,"y":497,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Plus_Tall.png",
+	"frame": {"x":1827,"y":347,"w":56,"h":96},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":2,"w":56,"h":96},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Print_Screen.png",
+	"frame": {"x":1811,"y":417,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Q.png",
+	"frame": {"x":1827,"y":271,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Question.png",
+	"frame": {"x":1681,"y":753,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Quote.png",
+	"frame": {"x":1681,"y":829,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_R.png",
+	"frame": {"x":1681,"y":909,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_S.png",
+	"frame": {"x":1683,"y":989,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Semicolon.png",
+	"frame": {"x":1757,"y":829,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Shift.png",
+	"frame": {"x":1427,"y":391,"w":94,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":18,"w":94,"h":64},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Shift_Alt.png",
+	"frame": {"x":1761,"y":577,"w":98,"h":50},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":25,"w":98,"h":50},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Slash.png",
+	"frame": {"x":1757,"y":909,"w":78,"h":74},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Space.png",
+	"frame": {"x":1761,"y":677,"w":98,"h":50},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":25,"w":98,"h":50},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_T.png",
+	"frame": {"x":1823,"y":497,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Tab.png",
+	"frame": {"x":1301,"y":587,"w":94,"h":64},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":18,"w":94,"h":64},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Tilda.png",
+	"frame": {"x":1823,"y":573,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_U.png",
+	"frame": {"x":1813,"y":649,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_V.png",
+	"frame": {"x":1833,"y":842,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_W.png",
+	"frame": {"x":1833,"y":918,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Win.png",
+	"frame": {"x":1829,"y":994,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_X.png",
+	"frame": {"x":1683,"y":1065,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Y.png",
+	"frame": {"x":1829,"y":1070,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "Keyboard_Black_Z.png",
+	"frame": {"x":1683,"y":1141,"w":78,"h":74},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":13,"w":78,"h":74},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "LobbyPanelBackground.png",
+	"frame": {"x":1853,"y":776,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
+	"filename": "VelocityParticle.png",
+	"frame": {"x":189,"y":1260,"w":22,"h":2},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":2},
+	"sourceSize": {"w":22,"h":2}
+},
+{
+	"filename": "XboxOne_A.png",
+	"frame": {"x":549,"y":1171,"w":84,"h":84},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":8,"w":84,"h":84},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_B.png",
+	"frame": {"x":635,"y":1171,"w":84,"h":84},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":8,"w":84,"h":84},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Dpad.png",
+	"frame": {"x":1509,"y":1,"w":94,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":94,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Dpad_Down.png",
+	"frame": {"x":1605,"y":1,"w":94,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":94,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Dpad_Left.png",
+	"frame": {"x":1503,"y":261,"w":94,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":94,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Dpad_Right.png",
+	"frame": {"x":1701,"y":1,"w":94,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":94,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Dpad_Up.png",
+	"frame": {"x":1797,"y":1,"w":94,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":94,"h":94},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_LB.png",
+	"frame": {"x":1761,"y":777,"w":90,"h":49},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":26,"w":90,"h":49},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Left_Stick.png",
+	"frame": {"x":1,"y":1171,"w":92,"h":91},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":5,"w":92,"h":91},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_LT.png",
+	"frame": {"x":381,"y":1171,"w":82,"h":88},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":6,"w":82,"h":88},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Menu.png",
+	"frame": {"x":977,"y":391,"w":80,"h":79},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":11,"w":80,"h":79},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_RB.png",
+	"frame": {"x":1813,"y":725,"w":90,"h":49},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":26,"w":90,"h":49},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Right_Stick.png",
+	"frame": {"x":95,"y":1171,"w":92,"h":91},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":5,"w":92,"h":91},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_RT.png",
+	"frame": {"x":465,"y":1171,"w":82,"h":88},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":6,"w":82,"h":88},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Windows.png",
+	"frame": {"x":1058,"y":391,"w":80,"h":79},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":11,"w":80,"h":79},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_X.png",
+	"frame": {"x":721,"y":1171,"w":84,"h":84},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":8,"w":84,"h":84},
+	"sourceSize": {"w":100,"h":100}
+},
+{
+	"filename": "XboxOne_Y.png",
+	"frame": {"x":807,"y":1171,"w":84,"h":84},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":8,"w":84,"h":84},
+	"sourceSize": {"w":100,"h":100}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "CompleteTextureAtlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1924,"h":1263},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a3d894db7a9e4841d6c4bdb3056b4333:0a5b0ded76b489308de8106310e04abc:8fc83475323c979ddc0043882697576d$"
+}
+}

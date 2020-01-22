@@ -2873,6 +2873,11 @@
 /processorParam:TextureFormat=Color
 /build:textures/Stars/013.png
 
+#begin textures/texture_atlas/CompleteTextureAtlas.json
+/importer:TexturePackerJsonImporter
+/processor:TexturePackerProcessor
+/build:textures/texture_atlas/CompleteTextureAtlas.json
+
 #begin textures/TitleInstructions.png
 /importer:TextureImporter
 /processor:TextureProcessor
