@@ -35,6 +35,8 @@ namespace GameJam
 
             content.Load<Texture2D>("texture_background_parallax_test");
 
+            content.Load<TextureAtlas>("complete_texture_atlas");
+
             /*content.Load<Texture2D>("texture_ui_button_released");
             content.Load<Texture2D>("texture_ui_button_hover");
             content.Load<Texture2D>("texture_ui_button_pressed");

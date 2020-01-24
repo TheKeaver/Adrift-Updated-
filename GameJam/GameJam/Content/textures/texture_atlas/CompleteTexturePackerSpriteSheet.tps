@@ -78,7 +78,7 @@
         <key>webpQualityLevel</key>
         <uint>101</uint>
         <key>textureSubPath</key>
-        <string></string>
+        <string>textures/input</string>
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
@@ -151,9 +151,9 @@
         <key>autoAliasEnabled</key>
         <false/>
         <key>trimSpriteNames</key>
-        <false/>
+        <true/>
         <key>prependSmartFolderName</key>
-        <false/>
+        <true/>
         <key>autodetectAnimations</key>
         <true/>
         <key>globalSpriteSettings</key>

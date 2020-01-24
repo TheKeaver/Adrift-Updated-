@@ -217,6 +217,8 @@ namespace GameJam
             Create<float>("particle_explosion_variety_max", 1f, CVarFlags.DEV_PRESERVE);
 
             /** RESOURCES **/
+            Create<string>("complete_texture_atlas", "textures/texture_atlas/CompleteTextureAtlas");
+
             Create<string>("texture_player_ship", "textures/PlayerShip", CVarFlags.PRESERVE);
             Create<string>("texture_player_shield", "textures/shield", CVarFlags.PRESERVE);
             Create<string>("texture_explosion", "textures/Explosion", CVarFlags.PRESERVE);
