@@ -22,10 +22,7 @@ namespace Adrift.Content.Pipeline.TextureAtlas
 
             foreach (var region in data.Regions)
             {
-                var regionName = Path.ChangeExtension(region.Filename, null);
-                Debug.Assert(regionName != null, "regionName != null");
-
-                writer.Write(regionName);
+                writer.Write(region.Filename);
                 writer.Write(region.Frame.X);
                 writer.Write(region.Frame.Y);
                 writer.Write(region.Frame.Width);
@@ -40,7 +37,7 @@ namespace Adrift.Content.Pipeline.TextureAtlas
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "MonoGame.Extended.TextureAtlases.TextureAtlasReader, MonoGame.Extended";
+            return "GameJam.Content.TextureAtlases.TextureAtlasReader, GameJam";
         }
     }
 }

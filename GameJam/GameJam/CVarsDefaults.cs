@@ -218,6 +218,7 @@ namespace GameJam
 
             /** RESOURCES **/
             Create<string>("complete_texture_atlas", "textures/texture_atlas/CompleteTextureAtlas");
+            Create<string>("complete_texture_atlas_texture", "textures/texture_atlas/CompleteTextureAtlas_texture");
 
             Create<string>("texture_player_ship", "textures/PlayerShip", CVarFlags.PRESERVE);
             Create<string>("texture_player_shield", "textures/shield", CVarFlags.PRESERVE);

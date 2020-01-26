@@ -36,8 +36,10 @@ namespace GameJam
             content.Load<Texture2D>("texture_background_parallax_test");
 
             content.Load<TextureAtlas>("complete_texture_atlas");
+            content.Load<Texture2D>("complete_texture_atlas_texture");
 
-            /*content.Load<Texture2D>("texture_ui_button_released");
+            /** BEGIN CONTENT TO BE PUT INTO TEXTURE ATLAS **/
+            content.Load<Texture2D>("texture_ui_button_released");
             content.Load<Texture2D>("texture_ui_button_hover");
             content.Load<Texture2D>("texture_ui_button_pressed");
             content.Load<Texture2D>("texture_ui_lobby_panel_background");
@@ -116,7 +118,8 @@ namespace GameJam
             content.Load<Texture2D>("texture_input_gamepad_trigger_right");
 
             content.Load<Texture2D>("texture_input_gamepad_stick_left");
-            content.Load<Texture2D>("texture_input_gamepad_stick_right");*/
+            content.Load<Texture2D>("texture_input_gamepad_stick_right");
+            /** END CONTENT TO BE PUT INTO TEXTURE ATLAS **/
 
             content.Load<SoundEffect>("sound_explosion");
             content.Load<SoundEffect>("sound_projectile_fired");

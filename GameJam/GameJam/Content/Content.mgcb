@@ -2878,17 +2878,17 @@
 /processor:TexturePackerProcessor
 /build:textures/texture_atlas/CompleteTextureAtlas.json
 
-#begin textures/texture_atlas/CompleteTextureAtlas.png
+#begin textures/texture_atlas/CompleteTextureAtlas_texture.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
+/processorParam:ColorKeyEnabled=False
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:textures/texture_atlas/CompleteTextureAtlas.png
+/build:textures/texture_atlas/CompleteTextureAtlas_texture.png
 
 #begin textures/TitleInstructions.png
 /importer:TextureImporter
