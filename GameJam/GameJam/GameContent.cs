@@ -18,6 +18,9 @@ namespace GameJam
 
             //content.Load<Texture2D>("texture_particle_velocity");
 
+            content.Load<TextureAtlas>("complete_texture_atlas");
+            content.Load<Texture2D>("complete_texture_atlas_texture");
+
             content.Load<Texture2D>("texture_background_stars_0");
             content.Load<Texture2D>("texture_background_stars_1");
             content.Load<Texture2D>("texture_background_stars_2");
@@ -35,10 +38,8 @@ namespace GameJam
 
             content.Load<Texture2D>("texture_background_parallax_test");
 
-            content.Load<TextureAtlas>("complete_texture_atlas");
-            content.Load<Texture2D>("complete_texture_atlas_texture");
-
             /** BEGIN CONTENT TO BE PUT INTO TEXTURE ATLAS **/
+            ///*
             content.Load<Texture2D>("texture_ui_button_released");
             content.Load<Texture2D>("texture_ui_button_hover");
             content.Load<Texture2D>("texture_ui_button_pressed");
@@ -119,6 +120,7 @@ namespace GameJam
 
             content.Load<Texture2D>("texture_input_gamepad_stick_left");
             content.Load<Texture2D>("texture_input_gamepad_stick_right");
+            //*/
             /** END CONTENT TO BE PUT INTO TEXTURE ATLAS **/
 
             content.Load<SoundEffect>("sound_explosion");
@@ -137,6 +139,7 @@ namespace GameJam
 
             content.Load<Effect>("effect_field_font");
             content.Load<FieldFont>("font_msdf_hyperspace");
+            ///*
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_32");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_33");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_34");
@@ -232,6 +235,7 @@ namespace GameJam
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_124");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_125");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_126");
+            //*/
 
             content.Load<List<WidgetPrototype>>("ui_main_menu");
             content.Load<List<WidgetPrototype>>("ui_options_menu");

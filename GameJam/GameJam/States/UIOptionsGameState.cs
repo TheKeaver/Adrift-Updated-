@@ -728,8 +728,10 @@ namespace GameJam.States
 
         private void UpdateButtonBindingsForGamePad(PlayerIndex controllerIndex)
         {
-            ((Image)_root.FindWidgetByID("primary_counter_clockwise_button_texture")).Texture = new TextureRegion2D(Content.Load<Texture2D>(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_left", (int)controllerIndex))]));
-            ((Image)_root.FindWidgetByID("primary_clockwise_button_texture")).Texture = new TextureRegion2D(Content.Load<Texture2D>(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_right", (int)controllerIndex))]));
+            ((Image)_root.FindWidgetByID("primary_counter_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
+                .GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_left", (int)controllerIndex))]);
+            ((Image)_root.FindWidgetByID("primary_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
+                .GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_right", (int)controllerIndex))]);
 
             _root.FindWidgetByID("Secondary_Rotate_Left").Hidden = true;
             _root.FindWidgetByID("Secondary_Rotate_Right").Hidden = true;
@@ -737,11 +739,15 @@ namespace GameJam.States
 
         private void UpdateButtonBindingsForKeyboard()
         {
-            ((Image)_root.FindWidgetByID("primary_counter_clockwise_button_texture")).Texture = new TextureRegion2D(Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")]));
-            ((Image)_root.FindWidgetByID("primary_clockwise_button_texture")).Texture = new TextureRegion2D(Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_clockwise")]));
+            ((Image)_root.FindWidgetByID("primary_counter_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
+                .GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")]);
+            ((Image)_root.FindWidgetByID("primary_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
+                .GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_clockwise")]);
 
-            ((Image)_root.FindWidgetByID("secondary_counter_clockwise_button_texture")).Texture = new TextureRegion2D(Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")]));
-            ((Image)_root.FindWidgetByID("secondary_clockwise_button_texture")).Texture = new TextureRegion2D(Content.Load<Texture2D>(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_clockwise")]));
+            ((Image)_root.FindWidgetByID("secondary_counter_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").
+                GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")]);
+            ((Image)_root.FindWidgetByID("secondary_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
+                .GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_clockwise")]);
 
             _root.FindWidgetByID("Secondary_Rotate_Left").Hidden = false;
             _root.FindWidgetByID("Secondary_Rotate_Right").Hidden = false;

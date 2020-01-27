@@ -198,7 +198,7 @@ namespace GameJam.Processes.Enemies
 
         // This funciton used to be private, changed to public to bed used in SpawnChasingBorder so that
         // SpawnPatterns can check if a pre-determined location is too close to a player at the time of spawning
-        // So that the spawn can be skipped
+        // The spawn will be skipped in these scenarios
         public bool IsTooCloseToPlayer(Vector2 position, int radius)
         {
             float minDistanceToPlayer = float.MaxValue;
