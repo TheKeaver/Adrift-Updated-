@@ -147,7 +147,7 @@ namespace GameJam.Systems
                                      origin,
                                      scale * transformScale,
                                      SpriteEffects.None,
-                                     0);
+                                     spriteComp.Depth);
                 }
             }
 
@@ -181,7 +181,7 @@ namespace GameJam.Systems
                                         origin,
                                         transformScale,
                                         SpriteEffects.None,
-                                        0);
+                                        fontComp.Depth);
             }
 
             SpriteBatch.End();
@@ -220,7 +220,8 @@ namespace GameJam.Systems
                         rotation,
                         fieldFontComp.Color,
                         transformScale,
-                        fieldFontComp.EnableKerning);
+                        fieldFontComp.EnableKerning,
+                        fieldFontComp.Depth);
                 }
                 FieldFontRenderer.End();
             }
@@ -267,7 +268,8 @@ namespace GameJam.Systems
                     {
                         VertexPositionColor vert = verts[i];
                         _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,
-                            (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * -1.0f * cos) * transformScale + position.Y, 0), new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
+                            (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * -1.0f * cos) * transformScale + position.Y, vectorSpriteComp.Depth),
+                            new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
                     }
                 }
             }
@@ -307,7 +309,7 @@ namespace GameJam.Systems
             // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
             // --> We get the correct matrix with near plane 0 and far plane -1.
             Matrix.CreateOrthographicOffCenter(0, viewport.Width, 0,
-                viewport.Height, -10, 10, out _fieldFontRendererProjection);
+                viewport.Height, -100, 100, out _fieldFontRendererProjection);
         }
         private void SetupVectorDrawing(Viewport viewport)
         {
@@ -318,7 +320,7 @@ namespace GameJam.Systems
             // --> We get the correct matrix with near plane 0 and far plane -1.
             Matrix projection;
             Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height,
-                0, -10, 10, out projection);
+                0, -100, 100, out projection);
             _vectorSpriteEffect.Projection = projection;
 
             _lastViewport = viewport;

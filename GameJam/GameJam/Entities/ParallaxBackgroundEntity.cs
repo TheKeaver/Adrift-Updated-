@@ -17,6 +17,7 @@ namespace GameJam.Entities
             entity.AddComponent(new SpriteComponent(texture,
                 new Vector2(texture.Width, texture.Height)));
             entity.GetComponent<SpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_STARS;
+            entity.GetComponent<SpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_BACKGROUND;
             if (pulsing)
             {
                 entity.AddComponent(new PulseComponent(10, 0.75f, 1));

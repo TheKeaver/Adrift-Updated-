@@ -28,5 +28,7 @@ namespace GameJam.Components
         public byte RenderGroup = 0x1;
 
         public bool Hidden;
+
+        public float Depth = 0;
     }
 }

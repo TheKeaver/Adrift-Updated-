@@ -36,6 +36,7 @@ namespace GameJam.Entities
                 new PolyRenderShape(GetPoints(), 0.3f, CVars.Get<Color>("color_shooting_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("shooting_enemy_size"), true);
             entity.GetComponent<TransformComponent>().SetPosition(position);
             entity.GetComponent<TransformComponent>().SetRotation(angle);

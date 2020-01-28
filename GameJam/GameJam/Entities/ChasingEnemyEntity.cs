@@ -31,6 +31,7 @@ namespace GameJam.Entities
                 new PolyRenderShape(GetPoints(), 0.4f, CVars.Get<Color>("color_chasing_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_chasing_enemy")));
 
             entity.GetComponent<TransformComponent>().SetPosition(position);

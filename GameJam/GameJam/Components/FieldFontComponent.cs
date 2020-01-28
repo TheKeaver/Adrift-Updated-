@@ -28,5 +28,7 @@ namespace GameJam.Components
 
         public bool OptimizeForSmallText = false;
         public bool EnableKerning = true;
+
+        public float Depth = 0;
     }
 }

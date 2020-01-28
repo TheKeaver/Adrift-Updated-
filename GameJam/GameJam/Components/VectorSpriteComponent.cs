@@ -24,6 +24,8 @@ namespace GameJam.Components
 
         public bool Hidden;
 
+        public float Depth = 0;
+
         public Vector2 Stretch { get; private set; } = Vector2.One;
         public Vector2 LastStretch { get; private set; } = Vector2.One;
         public void ChangeStretch(Vector2 newStretch, bool reset = false)

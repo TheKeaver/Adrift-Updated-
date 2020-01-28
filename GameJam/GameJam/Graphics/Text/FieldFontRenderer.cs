@@ -38,7 +38,7 @@ namespace GameJam.Graphics.Text
         {
             Matrix wvp;
             Matrix.CreateOrthographicOffCenter(0, Device.Viewport.Width, 0,
-                Device.Viewport.Height, -10000, 10000, out wvp);
+                Device.Viewport.Height, -100, 100, out wvp);
             Begin(wvp, optimizeForSmallText);
 
         }
@@ -108,7 +108,7 @@ namespace GameJam.Graphics.Text
             Draw(font, content, position, rotation, Color.White);
         }
         public void Draw(FieldFont font, string content, Vector2 position, float rotation,
-            Color color, float scale = 1, bool enableKerning = true)
+            Color color, float scale = 1, bool enableKerning = true, float depth = 0)
         {
             if(!_currentlyDrawing)
             {
@@ -178,29 +178,30 @@ namespace GameJam.Graphics.Text
                     int verticesCount = _vertices.Count;
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), 10000),
+                        Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), depth),
                         Color = color,
                         TextureCoordinate = new Vector2(1, 1)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), 10000),
+                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), depth),
                         Color = color,
                         TextureCoordinate = new Vector2(0, 1)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), 10000),
+                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), depth),
                         Color = color,
                         TextureCoordinate = new Vector2(0, 0)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), 10000),
+                        Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), depth),
                         Color = color,
                         TextureCoordinate = new Vector2(1, 0)
                     });
 
+                    // ccw rotation
                     _indices.Add(verticesCount); // 0
                     _indices.Add(verticesCount + 1); // 1
                     _indices.Add(verticesCount + 2); // 2

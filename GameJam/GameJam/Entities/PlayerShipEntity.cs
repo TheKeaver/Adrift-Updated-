@@ -36,6 +36,7 @@ namespace GameJam.Entities
                     }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(color));
 
