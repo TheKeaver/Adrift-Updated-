@@ -64,8 +64,8 @@ namespace GameJam.Content
             _dictionary.Add(Keys.OemCloseBrackets, "texture_input_keyboard_key_bracket_right");
             _dictionary.Add(Keys.OemSemicolon, "texture_input_keyboard_key_semicolon");
             _dictionary.Add(Keys.OemQuotes, "texture_input_keyboard_key_quote");
-            _dictionary.Add(Keys.OemComma, "texture_input_keyboard_key_angle_left");
-            _dictionary.Add(Keys.OemPeriod, "texture_input_keyboard_key_angle_right");
+            _dictionary.Add(Keys.OemComma, "texture_input_keyboard_key_mark_left");
+            _dictionary.Add(Keys.OemPeriod, "texture_input_keyboard_key_mark_right");
             _dictionary.Add(Keys.OemQuestion, "texture_input_keyboard_key_question");
             _dictionary.Add(Keys.OemBackslash, "texture_input_keyboard_key_slash");
             _dictionary.Add(Keys.OemMinus, "texture_input_keyboard_key_minus");

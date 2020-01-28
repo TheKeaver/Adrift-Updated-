@@ -303,8 +303,8 @@ namespace GameJam
             Create<string>("texture_input_keyboard_key_bracket_right", "textures/input/Keyboard/Keyboard_Black_Bracket_Right", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_semicolon", "textures/input/Keyboard/Keyboard_Black_Semicolon", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_quote", "textures/input/Keyboard/Keyboard_Black_Quote", CVarFlags.PRESERVE);
-            Create<string>("texture_input_keyboard_key_angle_left", "textures/input/Keyboard/Keyboard_Black_Mark_Left", CVarFlags.PRESERVE);
-            Create<string>("texture_input_keyboard_key_angle_right", "textures/input/Keyboard/Keyboard_Black_Mark_Right", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_mark_left", "textures/input/Keyboard/Keyboard_Black_Mark_Left", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_mark_right", "textures/input/Keyboard/Keyboard_Black_Mark_Right", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_question", "textures/input/Keyboard/Keyboard_Black_Question", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_slash", "textures/input/Keyboard/Keyboard_Black_Slash", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_minus", "textures/input/Keyboard/Keyboard_Black_Minus", CVarFlags.PRESERVE);

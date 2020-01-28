@@ -39,7 +39,7 @@ namespace GameJam
             content.Load<Texture2D>("texture_background_parallax_test");
 
             /** BEGIN CONTENT TO BE PUT INTO TEXTURE ATLAS **/
-            ///*
+            /*
             content.Load<Texture2D>("texture_ui_button_released");
             content.Load<Texture2D>("texture_ui_button_hover");
             content.Load<Texture2D>("texture_ui_button_pressed");
@@ -93,8 +93,8 @@ namespace GameJam
             content.Load<Texture2D>("texture_input_keyboard_key_bracket_right");
             content.Load<Texture2D>("texture_input_keyboard_key_semicolon");
             content.Load<Texture2D>("texture_input_keyboard_key_quote");
-            content.Load<Texture2D>("texture_input_keyboard_key_angle_left");
-            content.Load<Texture2D>("texture_input_keyboard_key_angle_right");
+            content.Load<Texture2D>("texture_input_keyboard_key_mark_left");
+            content.Load<Texture2D>("texture_input_keyboard_key_mark_right");
             content.Load<Texture2D>("texture_input_keyboard_key_question");
             content.Load<Texture2D>("texture_input_keyboard_key_slash");
             content.Load<Texture2D>("texture_input_keyboard_key_minus");
@@ -120,7 +120,7 @@ namespace GameJam
 
             content.Load<Texture2D>("texture_input_gamepad_stick_left");
             content.Load<Texture2D>("texture_input_gamepad_stick_right");
-            //*/
+            */
             /** END CONTENT TO BE PUT INTO TEXTURE ATLAS **/
 
             content.Load<SoundEffect>("sound_explosion");
@@ -139,7 +139,7 @@ namespace GameJam
 
             content.Load<Effect>("effect_field_font");
             content.Load<FieldFont>("font_msdf_hyperspace");
-            ///*
+            /*
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_32");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_33");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_34");
@@ -235,7 +235,7 @@ namespace GameJam
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_124");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_125");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_126");
-            //*/
+            */
 
             content.Load<List<WidgetPrototype>>("ui_main_menu");
             content.Load<List<WidgetPrototype>>("ui_options_menu");

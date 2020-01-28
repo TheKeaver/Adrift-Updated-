@@ -889,7 +889,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_arrow_Down",
+	"filename": "texture_input_keyboard_key_down",
 	"frame": {"x":1500,"y":768,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -897,7 +897,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_arrow_Left",
+	"filename": "texture_input_keyboard_key_left",
 	"frame": {"x":1600,"y":768,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -905,7 +905,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_arrow_Right",
+	"filename": "texture_input_keyboard_key_right",
 	"frame": {"x":1700,"y":768,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -913,7 +913,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_arrow_Up",
+	"filename": "texture_input_keyboard_key_up",
 	"frame": {"x":1800,"y":768,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -945,7 +945,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_backspace_Alt",
+	"filename": "texture_input_keyboard_key_backspace_alt",
 	"frame": {"x":200,"y":868,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -953,7 +953,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_bracket_Left",
+	"filename": "texture_input_keyboard_key_bracket_left",
 	"frame": {"x":300,"y":868,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -961,7 +961,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_bracket_Right",
+	"filename": "texture_input_keyboard_key_bracket_right",
 	"frame": {"x":400,"y":868,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -977,7 +977,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_caps_Lock",
+	"filename": "texture_input_keyboard_key_caps_lock",
 	"frame": {"x":600,"y":868,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -1241,7 +1241,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_mark_Left",
+	"filename": "texture_input_keyboard_key_mark_left",
 	"frame": {"x":1900,"y":968,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
@@ -1249,7 +1249,7 @@
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_mark_Right",
+	"filename": "texture_input_keyboard_key_mark_right",
 	"frame": {"x":0,"y":1068,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
