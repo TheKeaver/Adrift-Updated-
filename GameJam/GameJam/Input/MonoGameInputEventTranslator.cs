@@ -2,6 +2,7 @@
 using GameJam.Events.InputHandling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Input;
 using MonoGame.Extended.Input.InputListeners;
 using System;
 using System.Collections.Generic;
