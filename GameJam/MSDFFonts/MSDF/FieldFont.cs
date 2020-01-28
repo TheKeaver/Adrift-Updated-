@@ -163,20 +163,21 @@ namespace FontExtension
         private GlyphRenderInfo LoadRenderInfo(GraphicsDevice device, ContentManager content, char c)
         {
             var glyph = GetGlyph(c);
-            Texture2D texture;
+            TextureRegion2D texture;
             if (glyph.Bitmap == null)
             {
-                texture = content.Load<Texture2D>(glyph.Path);
+                texture = content.Load<TextureAtlas>("complete_texture_atlas")
+                    .GetRegion((glyph.Path));
             }
             else
             {
                 using (var stream = new MemoryStream(glyph.Bitmap))
                 {
-                    texture = Texture2D.FromStream(device, stream);
+                    texture = new TextureRegion2D(Texture2D.FromStream(device, stream));
                 }
             }
             // TODO: Support grabbing TextureRegion2D from texture atlas
-            var unit = new GlyphRenderInfo(c, new TextureRegion2D(texture), glyph.Metrics);
+            var unit = new GlyphRenderInfo(c, texture, glyph.Metrics);
 
             return unit;
         }

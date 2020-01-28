@@ -249,6 +249,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\FieldFontRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MSDFFontTestGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\FieldFontComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\TextureAtlases\TextureAtlasReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -257,5 +258,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Events\UI\GameOver\" />
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\" />
     <Folder Include="$(MSBuildThisFileDirectory)Graphics\Text\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\TextureAtlases\" />
   </ItemGroup>
 </Project>

@@ -217,6 +217,9 @@ namespace GameJam
             Create<float>("particle_explosion_variety_max", 1f, CVarFlags.DEV_PRESERVE);
 
             /** RESOURCES **/
+            Create<string>("complete_texture_atlas", "textures/texture_atlas/CompleteTextureAtlas");
+            Create<string>("complete_texture_atlas_texture", "textures/texture_atlas/CompleteTextureAtlas_texture");
+
             Create<string>("texture_player_ship", "textures/PlayerShip", CVarFlags.PRESERVE);
             Create<string>("texture_player_shield", "textures/shield", CVarFlags.PRESERVE);
             Create<string>("texture_explosion", "textures/Explosion", CVarFlags.PRESERVE);
@@ -300,8 +303,8 @@ namespace GameJam
             Create<string>("texture_input_keyboard_key_bracket_right", "textures/input/Keyboard/Keyboard_Black_Bracket_Right", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_semicolon", "textures/input/Keyboard/Keyboard_Black_Semicolon", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_quote", "textures/input/Keyboard/Keyboard_Black_Quote", CVarFlags.PRESERVE);
-            Create<string>("texture_input_keyboard_key_angle_left", "textures/input/Keyboard/Keyboard_Black_Mark_Left", CVarFlags.PRESERVE);
-            Create<string>("texture_input_keyboard_key_angle_right", "textures/input/Keyboard/Keyboard_Black_Mark_Right", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_mark_left", "textures/input/Keyboard/Keyboard_Black_Mark_Left", CVarFlags.PRESERVE);
+            Create<string>("texture_input_keyboard_key_mark_right", "textures/input/Keyboard/Keyboard_Black_Mark_Right", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_question", "textures/input/Keyboard/Keyboard_Black_Question", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_slash", "textures/input/Keyboard/Keyboard_Black_Slash", CVarFlags.PRESERVE);
             Create<string>("texture_input_keyboard_key_minus", "textures/input/Keyboard/Keyboard_Black_Minus", CVarFlags.PRESERVE);
