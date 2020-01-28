@@ -178,25 +178,25 @@ namespace GameJam.Graphics.Text
                     int verticesCount = _vertices.Count;
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), -10000),
+                        Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), 10000),
                         Color = color,
                         TextureCoordinate = new Vector2(1, 1)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), -10000),
+                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), 10000),
                         Color = color,
                         TextureCoordinate = new Vector2(0, 1)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), -10000),
+                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), 10000),
                         Color = color,
                         TextureCoordinate = new Vector2(0, 0)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), -10000),
+                        Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), 10000),
                         Color = color,
                         TextureCoordinate = new Vector2(1, 0)
                     });

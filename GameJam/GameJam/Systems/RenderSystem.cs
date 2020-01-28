@@ -32,6 +32,7 @@ namespace GameJam.Systems
         readonly ImmutableList<Entity> _fieldFontEntities;
         readonly ImmutableList<Entity> _vectorSpriteEntities;
 
+        private DepthStencilState _spriteBatchDepthStencilState;
         public SpriteBatch SpriteBatch { get; }
         public FieldFontRenderer FieldFontRenderer { get; }
         private Matrix _fieldFontRendererProjection;
@@ -52,6 +53,7 @@ namespace GameJam.Systems
             _fieldFontEntities = Engine.GetEntitiesFor(_fieldFontFamily);
             _vectorSpriteEntities = Engine.GetEntitiesFor(_vectorSpriteFamily);
 
+            _spriteBatchDepthStencilState = DepthStencilState.Default;
             SpriteBatch = new SpriteBatch(graphics);
             FieldFontRenderer = new FieldFontRenderer(content, graphics);
             GraphicsDevice = graphics;
@@ -85,7 +87,7 @@ namespace GameJam.Systems
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                                BlendState.AlphaBlend,
                                SamplerState.AnisotropicClamp,
-                               null,
+                               _spriteBatchDepthStencilState,
                                null,
                                null,
                                transformMatrix);
@@ -305,7 +307,7 @@ namespace GameJam.Systems
             // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
             // --> We get the correct matrix with near plane 0 and far plane -1.
             Matrix.CreateOrthographicOffCenter(0, viewport.Width, 0,
-                viewport.Height, -1, 1, out _fieldFontRendererProjection);
+                viewport.Height, -10, 10, out _fieldFontRendererProjection);
         }
         private void SetupVectorDrawing(Viewport viewport)
         {
@@ -316,7 +318,7 @@ namespace GameJam.Systems
             // --> We get the correct matrix with near plane 0 and far plane -1.
             Matrix projection;
             Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height,
-                0, 0, -1, out projection);
+                0, -10, 10, out projection);
             _vectorSpriteEffect.Projection = projection;
 
             _lastViewport = viewport;
