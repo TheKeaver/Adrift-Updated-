@@ -130,7 +130,6 @@ namespace GameJam.Graphics.Text
             }
             _currentFont = font;
             Effect.Parameters["PxRange"].SetValue(font.PxRange);
-            Effect.Parameters["TextureSize"].SetValue(new Vector2(font.TxSize));
 
             GlyphRenderInfo[] sequence = content.Select((char c) => {
                 return font.GetRenderInfo(Device, Content, c);
@@ -157,6 +156,7 @@ namespace GameJam.Graphics.Text
                 }
                 _currentTexture = current.TextureRegion.Texture;
                 Effect.Parameters["GlyphTexture"].SetValue(current.TextureRegion.Texture);
+                Effect.Parameters["TextureSize"].SetValue(new Vector2(current.TextureRegion.Texture.Width, current.TextureRegion.Texture.Height));
 
                 float glyphHeight = font.TxSize * (1.0f / current.Metrics.Scale);
                 float glyphWidth = font.TxSize * (1.0f / current.Metrics.Scale);
@@ -175,30 +175,36 @@ namespace GameJam.Graphics.Text
                     bottomLeft += position;
                     topRight += position;
 
+                    Rectangle glyphSourceBounds = current.TextureRegion.Bounds;
+                    float umin = glyphSourceBounds.X / (float)current.TextureRegion.Texture.Width,
+                        vmin = glyphSourceBounds.Y / (float)current.TextureRegion.Texture.Height,
+                        umax = (glyphSourceBounds.X + glyphSourceBounds.Width) / (float)current.TextureRegion.Texture.Width,
+                        vmax = (glyphSourceBounds.Y + glyphSourceBounds.Height) / (float)current.TextureRegion.Texture.Height;
+
                     int verticesCount = _vertices.Count;
                     _vertices.Add(new VertexPositionColorTexture
                     {
                         Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), depth),
                         Color = color,
-                        TextureCoordinate = new Vector2(1, 1)
+                        TextureCoordinate = new Vector2(umax, vmax)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
                         Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), depth),
                         Color = color,
-                        TextureCoordinate = new Vector2(0, 1)
+                        TextureCoordinate = new Vector2(umin, vmax)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
                         Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), depth),
                         Color = color,
-                        TextureCoordinate = new Vector2(0, 0)
+                        TextureCoordinate = new Vector2(umin, vmin)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
                         Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), depth),
                         Color = color,
-                        TextureCoordinate = new Vector2(1, 0)
+                        TextureCoordinate = new Vector2(umax, vmin)
                     });
 
                     // ccw rotation
