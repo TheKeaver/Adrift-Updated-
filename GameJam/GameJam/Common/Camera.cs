@@ -9,19 +9,51 @@ namespace GameJam.Common
     /// </summary>
     public class Camera : IEventListener
     {
-        public float Zoom = 1;
-        public Vector2 Position;
+        private float _zoom;
+        public float Zoom
+        {
+            get
+            {
+                return _zoom;
+            }
+            set
+            {
+                _zoom = value;
+                // Enter code that changes boundingRect
+                boundingRect = new BoundingRect(_position.X, _position.Y,
+                    _bounds.Width * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"),
+                    _bounds.Height * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"));
+            }
+        }
+
+        private Vector2 _position;
+        public Vector2 Position
+        {
+            get
+            {
+                return _position;
+            }
+            set 
+            {
+                _position = value;
+                // Enter code that changes boundingRect
+                boundingRect = new BoundingRect(_position.X, _position.Y,
+                    _bounds.Width * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"),
+                    _bounds.Height * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"));
+            }
+        }
         public float Rotation;
 
         float _compensationZoom = 1;
         Rectangle _bounds;
+        public BoundingRect boundingRect;
 
         public Matrix TransformMatrix
         {
             get
             {
-                return Matrix.CreateTranslation(new Vector3(Position.X * -1,
-                        Position.Y,
+                return Matrix.CreateTranslation(new Vector3(_position.X * -1,
+                        _position.Y,
                         0))
                     * Matrix.CreateRotationZ(Rotation)
                     * Matrix.CreateScale(Zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"))
@@ -33,6 +65,7 @@ namespace GameJam.Common
 
         public Camera(float width, float height)
         {
+            boundingRect = new BoundingRect(_position.X, _position.Y, width, height);
             HandleResize((int)width, (int)height);
         }
 

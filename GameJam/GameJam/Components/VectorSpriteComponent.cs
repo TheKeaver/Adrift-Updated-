@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -47,6 +48,7 @@ namespace GameJam.Components
     public abstract class RenderShape
     {
         public abstract VertexPositionColor[] ComputeVertices();
+        public abstract BoundingRect GetAABB();
         public Color TintColor
         {
             get;
@@ -238,6 +240,11 @@ namespace GameJam.Components
                     new VertexPositionColor(new Vector3(_v4, 0), _color)
                 };
             }
+        }
+
+        public override BoundingRect GetAABB()
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -495,6 +502,11 @@ namespace GameJam.Components
         public override VertexPositionColor[] ComputeVertices()
         {
             return _verts;
+        }
+
+        public override BoundingRect GetAABB()
+        {
+            throw new NotImplementedException();
         }
     }
 }

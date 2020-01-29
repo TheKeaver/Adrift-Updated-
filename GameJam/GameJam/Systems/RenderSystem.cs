@@ -9,6 +9,7 @@ using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
+using GameJam.Common;
 
 namespace GameJam.Systems
 {
@@ -63,25 +64,21 @@ namespace GameJam.Systems
             _vectorSpriteEffect.VertexColorEnabled = true;
         }
 
-        public void DrawEntities(float dt, float betweenFrameAlpha)
+        public void DrawEntities(Camera camera, float dt, float betweenFrameAlpha)
         {
-            DrawEntities(Constants.Render.GROUP_MASK_ALL, dt, betweenFrameAlpha);
+            DrawEntities(camera, Constants.Render.GROUP_MASK_ALL, dt, betweenFrameAlpha);
         }
 
-        public void DrawEntities(byte groupMask, float dt, float betweenFrameAlpha)
+        public void DrawEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
         {
-            DrawEntities(Matrix.Identity, groupMask, dt, betweenFrameAlpha);
+            DrawSpriteBatchEntities(camera, groupMask, dt, betweenFrameAlpha);
+            DrawVectorEntities(camera, groupMask, dt, betweenFrameAlpha);
+            DrawFieldFontEntities(camera, groupMask, dt, betweenFrameAlpha);
         }
 
-        public void DrawEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+        private void DrawSpriteBatchEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
         {
-            DrawSpriteBatchEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
-            DrawVectorEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
-            DrawFieldFontEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
-        }
-
-        private void DrawSpriteBatchEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
-        {
+            Matrix transformMatrix = camera.TransformMatrix;
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                                BlendState.AlphaBlend,
                                SamplerState.AnisotropicClamp,
@@ -100,9 +97,15 @@ namespace GameJam.Systems
                 {
                     continue;
                 }
-
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                BoundingRect boundRect = new BoundingRect(transformComp.Position.X, transformComp.Position.Y,
+                                                            spriteComp.Bounds.X * transformComp.Scale,
+                                                            spriteComp.Bounds.Y * transformComp.Scale);
 
+                if (!boundRect.Intersects(camera.boundingRect))
+                {
+                    continue;
+                }
                 Vector2 position = transformComp.Position
                     + (transformComp.LastPosition - transformComp.Position)
                         * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
@@ -112,10 +115,10 @@ namespace GameJam.Systems
 
                 Vector2 scale = new Vector2(spriteComp.Bounds.X / spriteComp.Texture.Width,
                                             spriteComp.Bounds.Y / spriteComp.Texture.Height);
-				float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
                 Vector2 origin = new Vector2(spriteComp.Texture.Bounds.Width,
-                                             spriteComp.Texture.Bounds.Height) * HalfHalf;
+                                                spriteComp.Texture.Bounds.Height) * HalfHalf;
 
                 AnimationComponent animationComp = entity.GetComponent<AnimationComponent>();
                 if (animationComp != null && animationComp.ActiveAnimationIndex > -1)
@@ -124,28 +127,28 @@ namespace GameJam.Systems
                     scale = new Vector2(spriteComp.Bounds.X / sourceRectangle.Width,
                                             spriteComp.Bounds.Y / sourceRectangle.Height);
                     origin = new Vector2(sourceRectangle.Width,
-                                             sourceRectangle.Height) * HalfHalf;
+                                                sourceRectangle.Height) * HalfHalf;
 
                     SpriteBatch.Draw(animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Texture,
-                                      position * FlipY,
-                                      sourceRectangle,
-                                      spriteComp.Color * spriteComp.Alpha,
-                                      -rotation,
-                                      origin,
-                                      scale * transformScale,
-                                      SpriteEffects.None,
-                                      0);
+                                        position * FlipY,
+                                        sourceRectangle,
+                                        spriteComp.Color * spriteComp.Alpha,
+                                        -rotation,
+                                        origin,
+                                        scale * transformScale,
+                                        SpriteEffects.None,
+                                        0);
                 }
                 else
                 {
                     SpriteBatch.Draw(spriteComp.Texture,
-                                     position * FlipY,
-                                     spriteComp.Color * spriteComp.Alpha,
-                                     -rotation,
-                                     origin,
-                                     scale * transformScale,
-                                     SpriteEffects.None,
-                                     0);
+                                        position * FlipY,
+                                        spriteComp.Color * spriteComp.Alpha,
+                                        -rotation,
+                                        origin,
+                                        scale * transformScale,
+                                        SpriteEffects.None,
+                                        0);
                 }
             }
 
@@ -159,6 +162,14 @@ namespace GameJam.Systems
                 }
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                BoundingRect boundRect = new BoundingRect(transformComp.Position.X, transformComp.Position.Y,
+                                                            fontComp.Font.MeasureString(fontComp.Content).Width * transformComp.Scale,
+                                                            fontComp.Font.MeasureString(fontComp.Content).Height * transformComp.Scale);
+
+                if (!boundRect.Intersects(camera.boundingRect))
+                {
+                    continue;
+                }
 
                 Vector2 position = transformComp.Position
                     + (transformComp.LastPosition - transformComp.Position)
@@ -185,8 +196,9 @@ namespace GameJam.Systems
             SpriteBatch.End();
         }
 
-        private void DrawFieldFontEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+        private void DrawFieldFontEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
         {
+            Matrix transformMatrix = camera.TransformMatrix;
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
             if (_fieldFontEntities.Count > 0) {
@@ -202,6 +214,14 @@ namespace GameJam.Systems
                     }
 
                     TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                    BoundingRect boundRect = new BoundingRect(transformComp.Position.X, transformComp.Position.Y,
+                                                                fieldFontComp.Font.MeasureString(fieldFontComp.Content).X * transformComp.Scale,
+                                                                fieldFontComp.Font.MeasureString(fieldFontComp.Content).Y * transformComp.Scale);
+
+                    if (!boundRect.Intersects(camera.boundingRect))
+                    {
+                        continue;
+                    }
 
                     Vector2 position = transformComp.Position
                         + (transformComp.LastPosition - transformComp.Position)
@@ -225,8 +245,9 @@ namespace GameJam.Systems
         }
 
         
-        private void DrawVectorEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+        private void DrawVectorEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
         {
+            Matrix transformMatrix = camera.TransformMatrix;
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
             List<VertexPositionColor> _verts = new List<VertexPositionColor>();
@@ -241,6 +262,14 @@ namespace GameJam.Systems
                 }
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                BoundingRect boundRect = new BoundingRect(transformComp.Position.X, transformComp.Position.Y,
+                                                            vectorSpriteComp.Font.MeasureString(vectorSpriteComp.Content).X * transformComp.Scale,
+                                                            vectorSpriteComp.Font.MeasureString(vectorSpriteComp.Content).Y * transformComp.Scale);
+
+                if (!boundRect.Intersects(camera.boundingRect))
+                {
+                    continue;
+                }
 
                 Vector2 position = transformComp.Position
                     + (transformComp.LastPosition - transformComp.Position)

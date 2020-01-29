@@ -28,7 +28,7 @@ namespace GameJam.Processes.Animations
 
         protected override void OnInitialize()
         {
-            _initialPosition = Camera.Position;
+            _initialPosition = Camera._position;
             _initialZoom = Camera.Zoom;
         }
 
@@ -38,7 +38,7 @@ namespace GameJam.Processes.Animations
 
         protected override void OnUpdateAnimation()
         {
-            Camera.Position = Vector2.Lerp(_initialPosition, Vector2.Zero, Easings.Interpolate(ClampedAlpha, EasingFunction));
+            Camera._position = Vector2.Lerp(_initialPosition, Vector2.Zero, Easings.Interpolate(ClampedAlpha, EasingFunction));
             Camera.Zoom = MathHelper.Lerp(_initialZoom, 1, Easings.Interpolate(ClampedAlpha, EasingFunction));
         }
     }

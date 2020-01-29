@@ -1,6 +1,6 @@
 ﻿using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Components
