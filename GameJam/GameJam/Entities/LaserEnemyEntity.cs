@@ -127,6 +127,8 @@ namespace GameJam.Entities
                     PolyRenderShape.PolyCapStyle.None,
                     false)
                 }));
+                warpEntity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+                warpEntity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
                 warpEntity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("laser_enemy_size"), true);
                 Vector2 warpTo = position + transformedPoint;
                 processManager.Attach(new WarpPointPhase1Process(engine, warpEntity, warpTo, CVars.Get<float>("animation_spawn_warp_phase_1_base_duration") * timeScale))
