@@ -43,12 +43,23 @@ namespace GameJam.Components
                 shape.TintColor = color;
             }
         }
+        public BoundingRect GetAABB(float scale)
+        {
+            BoundingRect returnRect = RenderShapes[0].GetAABB(scale);
+
+            for(int i=1; i<RenderShapes.Count; i++)
+            {
+                BoundingRect temp = RenderShapes[i].GetAABB(scale);
+                returnRect = BoundingRect.Union(returnRect, temp);
+            }
+            return returnRect;
+        }
     }
 
     public abstract class RenderShape
     {
         public abstract VertexPositionColor[] ComputeVertices();
-        public abstract BoundingRect GetAABB();
+        public abstract BoundingRect GetAABB(float scale);
         public Color TintColor
         {
             get;
@@ -242,9 +253,35 @@ namespace GameJam.Components
             }
         }
 
-        public override BoundingRect GetAABB()
+        public override BoundingRect GetAABB(float scale)
         {
-            throw new NotImplementedException();
+            Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity),
+                max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+
+            for (int i = 0; i < _verts.Length; i++)
+            {
+                Vector2 transformedVertex = (new Vector2(_verts[i].Position.X - _verts[i].Position.Y,
+                    _verts[i].Position.X + _verts[i].Position.Y) * scale);
+
+                if (transformedVertex.X < min.X)
+                {
+                    min.X = transformedVertex.X;
+                }
+                if (transformedVertex.X > max.X)
+                {
+                    max.X = transformedVertex.X;
+                }
+                if (transformedVertex.Y < min.Y)
+                {
+                    min.Y = transformedVertex.Y;
+                }
+                if (transformedVertex.Y > max.Y)
+                {
+                    max.Y = transformedVertex.Y;
+                }
+            }
+
+            return new BoundingRect(min, max);
         }
     }
 
@@ -504,9 +541,35 @@ namespace GameJam.Components
             return _verts;
         }
 
-        public override BoundingRect GetAABB()
+        public override BoundingRect GetAABB(float scale)
         {
-            throw new NotImplementedException();
+            Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity),
+                max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+
+            for (int i=0; i < _verts.Length; i++)
+            {
+                Vector2 transformedVertex = (new Vector2(_verts[i].Position.X - _verts[i].Position.Y,
+                    _verts[i].Position.X + _verts[i].Position.Y) * scale);
+
+                if (transformedVertex.X < min.X)
+                {
+                    min.X = transformedVertex.X;
+                }
+                if (transformedVertex.X > max.X)
+                {
+                    max.X = transformedVertex.X;
+                }
+                if (transformedVertex.Y < min.Y)
+                {
+                    min.Y = transformedVertex.Y;
+                }
+                if (transformedVertex.Y > max.Y)
+                {
+                    max.Y = transformedVertex.Y;
+                }
+            }
+
+            return new BoundingRect(min, max);
         }
     }
 }

@@ -262,12 +262,13 @@ namespace GameJam.Systems
                 }
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
-                BoundingRect boundRect = new BoundingRect(transformComp.Position.X, transformComp.Position.Y,
-                                                            vectorSpriteComp.Font.MeasureString(vectorSpriteComp.Content).X * transformComp.Scale,
-                                                            vectorSpriteComp.Font.MeasureString(vectorSpriteComp.Content).Y * transformComp.Scale);
+                BoundingRect boundRect = vectorSpriteComp.GetAABB(transformComp.Scale);
+                boundRect.Min += transformComp.Position;
+                boundRect.Max += transformComp.Position;
 
                 if (!boundRect.Intersects(camera.boundingRect))
                 {
+                    Console.WriteLine("Render culled, object off screen");
                     continue;
                 }
 

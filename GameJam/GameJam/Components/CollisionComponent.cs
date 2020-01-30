@@ -190,8 +190,7 @@ namespace GameJam.Components
                 }
             }
 
-            return new BoundingRect(min,
-                max);
+            return new BoundingRect(min, max);
         }
     }
 }

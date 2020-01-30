@@ -20,9 +20,10 @@ namespace GameJam.Common
             {
                 _zoom = value;
                 // Enter code that changes boundingRect
-                boundingRect = new BoundingRect(_position.X, _position.Y,
-                    _bounds.Width * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"),
-                    _bounds.Height * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"));
+                boundingRect = new BoundingRect(_position.X - _bounds.Width * 1/_zoom * 1/_compensationZoom * 1/CVars.Get<float>("debug_camera_zoom")/2,
+                    -_position.Y - _bounds.Height * 1/_zoom * 1/_compensationZoom * 1/CVars.Get<float>("debug_camera_zoom")/2,
+                    _bounds.Width * 1/_zoom * 1/_compensationZoom * 1/CVars.Get<float>("debug_camera_zoom"),
+                    _bounds.Height * 1/_zoom * 1/_compensationZoom * 1/CVars.Get<float>("debug_camera_zoom"));
             }
         }
 
@@ -37,7 +38,7 @@ namespace GameJam.Common
             {
                 _position = value;
                 // Enter code that changes boundingRect
-                boundingRect = new BoundingRect(_position.X, _position.Y,
+                boundingRect = new BoundingRect(-_position.X, -_position.Y,
                     _bounds.Width * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"),
                     _bounds.Height * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"));
             }

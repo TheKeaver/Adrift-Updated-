@@ -32,7 +32,7 @@ namespace GameJam.Systems
                 TransformComponent transformComp = parallaxEntity.GetComponent<TransformComponent>();
 
                 Vector2 newPosition = Vector2.Lerp(parallaxComp.Origin,
-                    Camera._position,
+                    Camera.Position,
                     parallaxComp.Strength);
                 transformComp.Move(newPosition - transformComp.Position);
             }

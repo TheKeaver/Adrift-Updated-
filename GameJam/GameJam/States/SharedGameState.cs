@@ -51,6 +51,13 @@ namespace GameJam.States
             private set;
         }
 #endif
+//#if DEBUG
+        public RenderCullingDebugRenderSystem RenderCullingDebugRenderSystem
+        {
+            get;
+            private set;
+        }
+//#endif
 
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
@@ -113,6 +120,9 @@ namespace GameJam.States
 #if DEBUG
             CollisionDebugRenderSystem = new CollisionDebugRenderSystem(GameManager.GraphicsDevice, Engine);
 #endif
+//#if DEBUG
+            RenderCullingDebugRenderSystem = new RenderCullingDebugRenderSystem(GameManager.GraphicsDevice, Engine);
+//#endif
         }
         private void InitDirectors()
         {
@@ -194,7 +204,7 @@ namespace GameJam.States
 
             PostProcessor.Begin();
             {
-                RenderSystem.DrawEntities(Camera.TransformMatrix,
+                RenderSystem.DrawEntities(Camera,
                                             Constants.Render.RENDER_GROUP_GAME_ENTITIES,
                                             dt,
                                             betweenFrameAlpha);
@@ -213,7 +223,7 @@ namespace GameJam.States
             RenderTarget2D postProcessingResult = PostProcessor.End(false);
 
             // Stars
-            RenderSystem.DrawEntities(Camera.TransformMatrix,
+            RenderSystem.DrawEntities(Camera,
                                         Constants.Render.RENDER_GROUP_STARS,
                                         dt,
                                         betweenFrameAlpha); // Stars
@@ -229,6 +239,12 @@ namespace GameJam.States
                 CollisionDebugRenderSystem.Draw(Camera.TransformMatrix, dt);
             }
 #endif
+//#if DEBUG
+            if(CVars.Get<bool>("debug_show_render_culling"))
+            {
+                RenderCullingDebugRenderSystem.Draw(Camera, dt);
+            }
+//#endif
 
             base.OnRender(dt, betweenFrameAlpha);
         }
