@@ -14,6 +14,7 @@ namespace GameJam.Common
         public float Rotation;
 
         float _compensationZoom = 1;
+        public bool EnableCompensationZoom = true;
         Rectangle _bounds;
 
         public Matrix TransformMatrix
@@ -24,7 +25,7 @@ namespace GameJam.Common
                         Position.Y,
                         0))
                     * Matrix.CreateRotationZ(Rotation)
-                    * Matrix.CreateScale(Zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"))
+                    * Matrix.CreateScale(Zoom * (EnableCompensationZoom ? _compensationZoom : 1) * CVars.Get<float>("debug_camera_zoom"))
                     * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
                         _bounds.Height * 0.5f,
                         0));

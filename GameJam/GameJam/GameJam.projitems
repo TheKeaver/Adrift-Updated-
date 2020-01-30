@@ -250,6 +250,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\MSDFFontTestGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\FieldFontComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\TextureAtlases\TextureAtlasReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NUI\Widget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NUI\AbstractValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NUI\Root.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\NUITestGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NUI\Widgets\ImageWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
@@ -259,5 +264,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\" />
     <Folder Include="$(MSBuildThisFileDirectory)Graphics\Text\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\TextureAtlases\" />
+    <Folder Include="$(MSBuildThisFileDirectory)NUI\" />
+    <Folder Include="$(MSBuildThisFileDirectory)NUI\Widgets\" />
   </ItemGroup>
 </Project>

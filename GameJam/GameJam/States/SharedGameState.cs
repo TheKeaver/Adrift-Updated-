@@ -26,6 +26,11 @@ namespace GameJam.States
             get;
             private set;
         }
+        public Camera UICamera
+        {
+            get;
+            private set;
+        }
 
         public ParticleManager<VelocityParticleInfo> VelocityParticleManager
         {
@@ -65,6 +70,9 @@ namespace GameJam.States
 
             Camera = new Camera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
             Camera.RegisterEvents();
+            UICamera = new Camera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
+            UICamera.EnableCompensationZoom = false;
+            UICamera.RegisterEvents();
 
             VelocityParticleManager = new ParticleManager<VelocityParticleInfo>(1024 * 20, VelocityParticleInfo.UpdateParticle);
             ProcessManager.Attach(VelocityParticleManager);
@@ -224,6 +232,8 @@ namespace GameJam.States
                 Color.White); // Post-processing results
             RenderSystem.SpriteBatch.End();
 
+            RenderSystem.DrawEntities(UICamera.TransformMatrix, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
+
 #if DEBUG
             if (CVars.Get<bool>("debug_show_collision_shapes"))
             {
@@ -238,6 +248,7 @@ namespace GameJam.States
         {
             PostProcessor.UnregisterEvents();
             Camera.UnregisterEvents();
+            UICamera.UnregisterEvents();
 
             throw new Exception("This game state provides shared logic with all other game states and must not be killed.");
         }
