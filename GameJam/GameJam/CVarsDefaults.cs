@@ -208,8 +208,13 @@ namespace GameJam
             Create<int>("debug_statistics_average_draw_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_collision_shapes", false, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_render_culling", false, CVarFlags.LIVE_RELOAD);
-            Create<bool>("debug_camera_movement", true, CVarFlags.LIVE_RELOAD);
-            Create<float>("debug_camera_zoom", 1, CVarFlags.LIVE_RELOAD);
+            Create<bool>("debug_enable_camera_movement", true, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_gameplay_camera_zoom", 1, CVarFlags.LIVE_RELOAD);
+            Create<bool>("debug_force_debug_camera", false, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_debug_camera_zoom", 1, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_debug_camera_zoom_speed", 0.0001f, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_debug_camera_position_x", 0, CVarFlags.LIVE_RELOAD);
+            Create<float>("debug_debug_camera_position_y", 0, CVarFlags.LIVE_RELOAD);
 
             /** PARTICLES **/
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);

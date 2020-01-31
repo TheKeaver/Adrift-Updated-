@@ -26,6 +26,13 @@ namespace GameJam.States
             get;
             private set;
         }
+#if DEBUG
+        public Camera DebugCamera
+        {
+            get;
+            private set;
+        }
+#endif
 
         public ParticleManager<VelocityParticleInfo> VelocityParticleManager
         {
@@ -51,13 +58,13 @@ namespace GameJam.States
             private set;
         }
 #endif
-//#if DEBUG
+#if DEBUG
         public RenderCullingDebugRenderSystem RenderCullingDebugRenderSystem
         {
             get;
             private set;
         }
-//#endif
+#endif
 
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
@@ -72,6 +79,8 @@ namespace GameJam.States
 
             Camera = new Camera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
             Camera.RegisterEvents();
+            DebugCamera = new DebugCamera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
+            DebugCamera.RegisterEvents();
 
             VelocityParticleManager = new ParticleManager<VelocityParticleInfo>(1024 * 20, VelocityParticleInfo.UpdateParticle);
             ProcessManager.Attach(VelocityParticleManager);
@@ -120,9 +129,9 @@ namespace GameJam.States
 #if DEBUG
             CollisionDebugRenderSystem = new CollisionDebugRenderSystem(GameManager.GraphicsDevice, Engine);
 #endif
-//#if DEBUG
+#if DEBUG
             RenderCullingDebugRenderSystem = new RenderCullingDebugRenderSystem(GameManager.GraphicsDevice, Engine);
-//#endif
+#endif
         }
         private void InitDirectors()
         {
@@ -202,9 +211,17 @@ namespace GameJam.States
 
             GameManager.GraphicsDevice.Clear(Color.Black);
 
+            Camera camera = Camera;
+#if DEBUG
+            if(CVars.Get<bool>("debug_force_debug_camera"))
+            {
+                camera = DebugCamera;
+            }
+#endif
+
             PostProcessor.Begin();
             {
-                RenderSystem.DrawEntities(Camera,
+                RenderSystem.DrawEntities(camera,
                                             Constants.Render.RENDER_GROUP_GAME_ENTITIES,
                                             dt,
                                             betweenFrameAlpha);
@@ -214,7 +231,7 @@ namespace GameJam.States
                     null,
                     null,
                     null,
-                    Camera.TransformMatrix);
+                    camera.TransformMatrix);
                 VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
                 RenderSystem.SpriteBatch.End();
             }
@@ -223,7 +240,7 @@ namespace GameJam.States
             RenderTarget2D postProcessingResult = PostProcessor.End(false);
 
             // Stars
-            RenderSystem.DrawEntities(Camera,
+            RenderSystem.DrawEntities(camera,
                                         Constants.Render.RENDER_GROUP_STARS,
                                         dt,
                                         betweenFrameAlpha); // Stars
@@ -236,15 +253,16 @@ namespace GameJam.States
 #if DEBUG
             if (CVars.Get<bool>("debug_show_collision_shapes"))
             {
-                CollisionDebugRenderSystem.Draw(Camera.TransformMatrix, dt);
+                CollisionDebugRenderSystem.Draw(camera.TransformMatrix, dt);
             }
 #endif
-//#if DEBUG
-            if(CVars.Get<bool>("debug_show_render_culling"))
+#if DEBUG
+            if (CVars.Get<bool>("debug_show_render_culling"))
             {
-                RenderCullingDebugRenderSystem.Draw(Camera, dt);
+                Camera debugCamera = CVars.Get<bool>("debug_force_debug_camera") ? DebugCamera : null;
+                RenderCullingDebugRenderSystem.Draw(Camera, dt, debugCamera);
             }
-//#endif
+#endif
 
             base.OnRender(dt, betweenFrameAlpha);
         }

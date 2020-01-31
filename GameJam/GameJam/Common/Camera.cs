@@ -56,7 +56,7 @@ namespace GameJam.Common
                         _position.Y,
                         0))
                     * Matrix.CreateRotationZ(Rotation)
-                    * Matrix.CreateScale(Zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"))
+                    * Matrix.CreateScale(Zoom * _compensationZoom * CVars.Get<float>("debug_gameplay_camera_zoom"))
                     * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
                         _bounds.Height * 0.5f,
                         0));
@@ -69,11 +69,11 @@ namespace GameJam.Common
             HandleResize((int)width, (int)height);
         }
 
-        public void RegisterEvents()
+        public virtual void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<ResizeEvent>(this);
         }
-        public void UnregisterEvents()
+        public virtual void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener<ResizeEvent>(this);
         }
@@ -88,7 +88,7 @@ namespace GameJam.Common
             return Vector2.Transform(position, TransformMatrix);
         }
 
-        public bool Handle(IEvent evt)
+        public virtual bool Handle(IEvent evt)
         {
             ResizeEvent resizeEvt = evt as ResizeEvent;
 

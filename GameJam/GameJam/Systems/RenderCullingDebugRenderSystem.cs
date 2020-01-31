@@ -38,17 +38,18 @@ namespace GameJam.Systems
             GraphicsDevice = graphics;
         }
 
-        /*public void Draw(float dt)
+        public void Draw(Camera camera, float dt, Camera debugCamera = null)
         {
-            Draw(Matrix.Identity, dt);
-        }*/
+            Camera drawCamera = camera;
+            if (debugCamera != null)
+            {
+                drawCamera = debugCamera;
+            }
 
-        public void Draw(Camera camera, float dt)
-        {
-            Matrix transformMatrix = camera.TransformMatrix;
+            Matrix transformMatrix = drawCamera.TransformMatrix;
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                 BlendState.Opaque,
-                SamplerState.PointClamp,
+                SamplerState.AnisotropicClamp,
                 null,
                 null,
                 null,
@@ -60,7 +61,7 @@ namespace GameJam.Systems
                 (int)cameraRect.Width,
                 (int)cameraRect.Height),
                 Color.Orange,
-                1);
+                3);
 
             foreach (Entity entity in _collisionEntities)
             {
@@ -84,7 +85,7 @@ namespace GameJam.Systems
                         (int)AABB.Width,
                         (int)AABB.Height),
                         Color.BlueViolet,
-                        1);
+                        3);
                 }
 
             }

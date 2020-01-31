@@ -31,6 +31,7 @@ namespace GameJam.Input
             _mouseListener.MouseMoved += Mouse_MouseMoved;
             _mouseListener.MouseDown += Mouse_MouseDownOrUp;
             _mouseListener.MouseUp += Mouse_MouseDownOrUp;
+            _mouseListener.MouseWheelMoved += Mouse_MouseScroll;
 
             _keyboardListener = new KeyboardListener();
             _inputListenerManager.Listeners.Add(_keyboardListener);
@@ -85,6 +86,11 @@ namespace GameJam.Input
                                                                       new Vector2(e.Position.X,
                                                                                   e.Position.Y)));
             }
+        }
+        void Mouse_MouseScroll(object sender, MouseEventArgs e)
+        {
+            //e.ScrollWheelDelta
+            EventManager.Instance.QueueEvent(new MouseScrollEvent(e.ScrollWheelValue, e.ScrollWheelDelta));
         }
 
         void GamePad_ConnectionChanged(object sender, GamePadEventArgs e)
@@ -150,7 +156,9 @@ namespace GameJam.Input
                     || e.Key == Keys.F1
                     || e.Key == Keys.F2
                     || e.Key == Keys.F3
-                    || e.Key == Keys.F4))
+                    || e.Key == Keys.F4
+                    || e.Key == Keys.F5
+                    || e.Key == Keys.F6))
             {
                 EventManager.Instance.TriggerEvent(new KeyboardKeyDownEvent(e.Key));
             }

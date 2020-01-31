@@ -55,6 +55,7 @@ namespace GameJam.DevTools
             DrawPlaybackControls();
             DrawConsole();
             DrawStatistics();
+            DrawDebugCameraInfo();
 
             _renderer.EndLayout();
 
@@ -92,6 +93,12 @@ namespace GameJam.DevTools
                         return true;
                     case Keys.F4:
                         CVars.Get<bool>("debug_show_collision_shapes") = !CVars.Get<bool>("debug_show_collision_shapes");
+                        return true;
+                    case Keys.F5:
+                        CVars.Get<bool>("debug_show_render_culling") = !CVars.Get<bool>("debug_show_render_culling");
+                        return true;
+                    case Keys.F6:
+                        CVars.Get<bool>("debug_force_debug_camera") = !CVars.Get<bool>("debug_force_debug_camera");
                         return true;
                     case Keys.OemTilde:
                         CVars.Get<bool>("debug_show_console") = !CVars.Get<bool>("debug_show_console");
@@ -377,6 +384,20 @@ namespace GameJam.DevTools
 
                 ImGui.Text(string.Format("Draw time (ms): {0}", _statisticsProfiler.DrawTime * 1000));
                 ImGui.Text(string.Format("Draw time [average] (ms): {0}", _statisticsProfiler.AverageDrawTime * 1000));
+
+                ImGui.End();
+            }
+        }
+
+        private void DrawDebugCameraInfo()
+        {
+            if (CVars.Get<bool>("debug_force_debug_camera"))
+            {
+                ImGui.SetNextWindowSize(new System.Numerics.Vector2(200, 75));
+                ImGui.Begin("Debug Camera", ref CVars.Get<bool>("debug_force_debug_camera"));
+
+                ImGui.Text(string.Format("Zoom: {0}", CVars.Get<float>("debug_debug_camera_zoom")));
+                ImGui.Text(string.Format("Position: ({0}, {1})", CVars.Get<float>("debug_debug_camera_position_x"), CVars.Get<float>("debug_debug_camera_position_y")));
 
                 ImGui.End();
             }

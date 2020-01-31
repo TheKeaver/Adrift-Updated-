@@ -33,7 +33,7 @@ namespace GameJam.Processes
 
         protected override void OnUpdate(float dt)
         {
-            if (CVars.Get<bool>("debug_camera_movement"))
+            if (CVars.Get<bool>("debug_enable_camera_movement"))
             {
                 float camPad = CVars.Get<float>("camera_padding");
                 float averageX = 0;
