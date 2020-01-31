@@ -20,10 +20,7 @@ namespace GameJam.Common
             {
                 _zoom = value;
                 // Enter code that changes boundingRect
-                boundingRect = new BoundingRect(_position.X - _bounds.Width * 1/_zoom * 1/_compensationZoom * 1/CVars.Get<float>("debug_camera_zoom")/2,
-                    -_position.Y - _bounds.Height * 1/_zoom * 1/_compensationZoom * 1/CVars.Get<float>("debug_camera_zoom")/2,
-                    _bounds.Width * 1/_zoom * 1/_compensationZoom * 1/CVars.Get<float>("debug_camera_zoom"),
-                    _bounds.Height * 1/_zoom * 1/_compensationZoom * 1/CVars.Get<float>("debug_camera_zoom"));
+                CalculateBoundingRect();
             }
         }
 
@@ -38,9 +35,7 @@ namespace GameJam.Common
             {
                 _position = value;
                 // Enter code that changes boundingRect
-                boundingRect = new BoundingRect(-_position.X, -_position.Y,
-                    _bounds.Width * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"),
-                    _bounds.Height * _zoom * _compensationZoom * CVars.Get<float>("debug_camera_zoom"));
+                CalculateBoundingRect();
             }
         }
         public float Rotation;
@@ -116,6 +111,15 @@ namespace GameJam.Common
             {
                 _compensationZoom = (float)_bounds.Height / CVars.Get<float>("screen_height");
             }
+            CalculateBoundingRect();
+        }
+
+        void CalculateBoundingRect()
+        {
+            boundingRect = new BoundingRect(-_position.X - (_bounds.Width / _zoom / _compensationZoom) / 2,
+                    -_position.Y - (_bounds.Height / _zoom / _compensationZoom) / 2,
+                    _bounds.Width / _zoom / _compensationZoom,
+                    _bounds.Height / _zoom / _compensationZoom);
         }
     }
 }

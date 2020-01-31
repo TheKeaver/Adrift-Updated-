@@ -266,7 +266,7 @@ namespace GameJam.Systems
                 boundRect.Min += transformComp.Position;
                 boundRect.Max += transformComp.Position;
 
-                if (!boundRect.Intersects(camera.boundingRect))
+                if (!boundRect.Intersects(camera.boundingRect) && CVars.Get<bool>("debug_show_render_culling"))
                 {
                     Console.WriteLine("Render culled, object off screen");
                     continue;
