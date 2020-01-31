@@ -9,7 +9,7 @@ namespace GameJam.Common
     /// </summary>
     public class Camera : IEventListener
     {
-        private float _zoom;
+        private float _zoom = 1;
         public float Zoom
         {
             get
@@ -24,7 +24,7 @@ namespace GameJam.Common
             }
         }
 
-        private Vector2 _position;
+        private Vector2 _position = Vector2.Zero;
         public Vector2 Position
         {
             get
@@ -42,7 +42,11 @@ namespace GameJam.Common
 
         float _compensationZoom = 1;
         Rectangle _bounds;
-        public BoundingRect boundingRect;
+        public BoundingRect BoundingRect
+        {
+            get;
+            private set;
+        }
 
         public Matrix TransformMatrix
         {
@@ -61,7 +65,7 @@ namespace GameJam.Common
 
         public Camera(float width, float height)
         {
-            boundingRect = new BoundingRect(_position.X, _position.Y, width, height);
+            BoundingRect = new BoundingRect(_position.X, _position.Y, width, height);
             HandleResize((int)width, (int)height);
         }
 
@@ -116,7 +120,7 @@ namespace GameJam.Common
 
         void CalculateBoundingRect()
         {
-            boundingRect = new BoundingRect(-_position.X - (_bounds.Width / _zoom / _compensationZoom) / 2,
+            BoundingRect = new BoundingRect(-_position.X - (_bounds.Width / _zoom / _compensationZoom) / 2,
                     -_position.Y - (_bounds.Height / _zoom / _compensationZoom) / 2,
                     _bounds.Width / _zoom / _compensationZoom,
                     _bounds.Height / _zoom / _compensationZoom);

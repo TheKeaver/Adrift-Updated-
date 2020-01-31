@@ -54,9 +54,9 @@ namespace GameJam.Systems
                 null,
                 transformMatrix);
 
-            BoundingRect cameraRect = camera.boundingRect;
-            SpriteBatch.DrawRectangle(new Rectangle((int)cameraRect.Left,
-                (int)cameraRect.Bottom,
+            BoundingRect cameraRect = camera.BoundingRect;
+            SpriteBatch.DrawRectangle(new Rectangle((int)cameraRect.Min.X,
+                (int)cameraRect.Min.Y,
                 (int)cameraRect.Width,
                 (int)cameraRect.Height),
                 Color.Orange,

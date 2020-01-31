@@ -102,7 +102,7 @@ namespace GameJam.Systems
                                                             spriteComp.Bounds.X * transformComp.Scale,
                                                             spriteComp.Bounds.Y * transformComp.Scale);
 
-                if (!boundRect.Intersects(camera.boundingRect))
+                if (!boundRect.Intersects(camera.BoundingRect))
                 {
                     continue;
                 }
@@ -166,7 +166,7 @@ namespace GameJam.Systems
                                                             fontComp.Font.MeasureString(fontComp.Content).Width * transformComp.Scale,
                                                             fontComp.Font.MeasureString(fontComp.Content).Height * transformComp.Scale);
 
-                if (!boundRect.Intersects(camera.boundingRect))
+                if (!boundRect.Intersects(camera.BoundingRect))
                 {
                     continue;
                 }
@@ -201,7 +201,8 @@ namespace GameJam.Systems
             Matrix transformMatrix = camera.TransformMatrix;
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
-            if (_fieldFontEntities.Count > 0) {
+            if (_fieldFontEntities.Count > 0)
+            {
                 CheckUpdateProjections();
                 Matrix wvp = transformMatrix * _fieldFontRendererProjection;
                 FieldFontRenderer.Begin(wvp);
@@ -218,7 +219,7 @@ namespace GameJam.Systems
                                                                 fieldFontComp.Font.MeasureString(fieldFontComp.Content).X * transformComp.Scale,
                                                                 fieldFontComp.Font.MeasureString(fieldFontComp.Content).Y * transformComp.Scale);
 
-                    if (!boundRect.Intersects(camera.boundingRect))
+                    if (!boundRect.Intersects(camera.BoundingRect))
                     {
                         continue;
                     }
@@ -244,7 +245,7 @@ namespace GameJam.Systems
             }
         }
 
-        
+
         private void DrawVectorEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
         {
             Matrix transformMatrix = camera.TransformMatrix;
@@ -255,7 +256,7 @@ namespace GameJam.Systems
             foreach (Entity entity in _vectorSpriteEntities)
             {
                 VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
-                if(vectorSpriteComp.Hidden
+                if (vectorSpriteComp.Hidden
                     || (vectorSpriteComp.RenderGroup & groupMask) == 0)
                 {
                     continue;
@@ -266,7 +267,7 @@ namespace GameJam.Systems
                 boundRect.Min += transformComp.Position;
                 boundRect.Max += transformComp.Position;
 
-                if (!boundRect.Intersects(camera.boundingRect) && CVars.Get<bool>("debug_show_render_culling"))
+                if (!boundRect.Intersects(camera.BoundingRect) && CVars.Get<bool>("debug_show_render_culling"))
                 {
                     Console.WriteLine("Render culled, object off screen");
                     continue;
@@ -291,7 +292,7 @@ namespace GameJam.Systems
                 foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
                 {
                     VertexPositionColor[] verts = renderShape.ComputeVertices();
-                    for(int i = verts.Length - 1; i >= 0; i--)
+                    for (int i = verts.Length - 1; i >= 0; i--)
                     {
                         VertexPositionColor vert = verts[i];
                         _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,

@@ -85,7 +85,6 @@ namespace GameJam.Processes
                     _camera.Zoom = MathHelper.Lerp(_camera.Zoom, targetZoom, 0.01f);
                 }
             }
-            //Console.WriteLine(string.Format("Most extreme pos: ({0}, {1}), camera bounds (expected): <{2}, {3}>", mostExtremeX, mostExtremeY, tempZX * 1280/2f, tempZY * 720/2f));
         }
     }
 }
