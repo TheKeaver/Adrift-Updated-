@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
 using GameJam.Common;
+using GameJam.Graphics;
 
 namespace GameJam.Systems
 {
@@ -64,21 +65,21 @@ namespace GameJam.Systems
             _vectorSpriteEffect.VertexColorEnabled = true;
         }
 
-        public void DrawEntities(Camera camera, float dt, float betweenFrameAlpha)
+        public void DrawEntities(Camera camera, float dt, float betweenFrameAlpha, Camera debugCamera = null)
         {
-            DrawEntities(camera, Constants.Render.GROUP_MASK_ALL, dt, betweenFrameAlpha);
+            DrawEntities(camera, Constants.Render.GROUP_MASK_ALL, dt, betweenFrameAlpha, debugCamera);
         }
 
-        public void DrawEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
+        public void DrawEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera = null)
         {
-            DrawSpriteBatchEntities(camera, groupMask, dt, betweenFrameAlpha);
-            DrawVectorEntities(camera, groupMask, dt, betweenFrameAlpha);
-            DrawFieldFontEntities(camera, groupMask, dt, betweenFrameAlpha);
+            DrawSpriteBatchEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
+            DrawVectorEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
+            DrawFieldFontEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
         }
 
-        private void DrawSpriteBatchEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
+        private void DrawSpriteBatchEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            Matrix transformMatrix = camera.TransformMatrix;
+            Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                                BlendState.AlphaBlend,
                                SamplerState.AnisotropicClamp,
@@ -102,7 +103,7 @@ namespace GameJam.Systems
                                                             spriteComp.Bounds.X * transformComp.Scale,
                                                             spriteComp.Bounds.Y * transformComp.Scale);
 
-                if (!boundRect.Intersects(camera.BoundingRect))
+                if (!boundRect.Intersects(camera.BoundingRect) && CVars.Get<bool>("debug_show_render_culling"))
                 {
                     continue;
                 }
@@ -196,9 +197,9 @@ namespace GameJam.Systems
             SpriteBatch.End();
         }
 
-        private void DrawFieldFontEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
+        private void DrawFieldFontEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            Matrix transformMatrix = camera.TransformMatrix;
+            Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
             if (_fieldFontEntities.Count > 0)
@@ -246,9 +247,9 @@ namespace GameJam.Systems
         }
 
 
-        private void DrawVectorEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha)
+        private void DrawVectorEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            Matrix transformMatrix = camera.TransformMatrix;
+            Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
             List<VertexPositionColor> _verts = new List<VertexPositionColor>();

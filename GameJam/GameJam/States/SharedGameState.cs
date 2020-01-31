@@ -221,10 +221,11 @@ namespace GameJam.States
 
             PostProcessor.Begin();
             {
-                RenderSystem.DrawEntities(camera,
+                RenderSystem.DrawEntities(Camera,
                                             Constants.Render.RENDER_GROUP_GAME_ENTITIES,
                                             dt,
-                                            betweenFrameAlpha);
+                                            betweenFrameAlpha,
+                                            camera);
                 RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
                     null,
                     null,
@@ -240,10 +241,10 @@ namespace GameJam.States
             RenderTarget2D postProcessingResult = PostProcessor.End(false);
 
             // Stars
-            RenderSystem.DrawEntities(camera,
+            RenderSystem.DrawEntities(Camera,
                                         Constants.Render.RENDER_GROUP_STARS,
                                         dt,
-                                        betweenFrameAlpha); // Stars
+                                        betweenFrameAlpha, camera); // Stars
             RenderSystem.SpriteBatch.Begin();
             RenderSystem.SpriteBatch.Draw(postProcessingResult,
                 postProcessingResult.Bounds,
