@@ -120,8 +120,8 @@ namespace GameJam.Common
 
         void CalculateBoundingRect()
         {
-            BoundingRect = new BoundingRect(-_position.X - (_bounds.Width / _zoom / _compensationZoom) / 2,
-                    -_position.Y - (_bounds.Height / _zoom / _compensationZoom) / 2,
+            BoundingRect = new BoundingRect(_position.X - (_bounds.Width / _zoom / _compensationZoom) / 2,
+                    _position.Y - (_bounds.Height / _zoom / _compensationZoom) / 2,
                     _bounds.Width / _zoom / _compensationZoom,
                     _bounds.Height / _zoom / _compensationZoom);
         }
