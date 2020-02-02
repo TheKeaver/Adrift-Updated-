@@ -23,6 +23,8 @@ namespace GameJam
 
             Create<float>("camera_padding", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            Create<int>("quad_tree_max_references", 4, CVarFlags.DEV_PRESERVE);
+
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);

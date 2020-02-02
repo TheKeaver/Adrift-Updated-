@@ -1,0 +1,16 @@
+﻿using Audrey;
+using GameJam.Common;
+using System.Collections.Generic;
+
+namespace GameJam.Components
+{
+    public class QuadTreeReferenceComponent : IComponent
+    {
+        QuadTreeNode node;
+
+        public QuadTreeReferenceComponent(QuadTreeNode n)
+        {
+            node = n;
+        }
+    }
+}
