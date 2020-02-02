@@ -53,212 +53,183 @@ namespace GameJam.NUI
             }
         }
 
-        private HorizontalAlignment _horizontalAlignment = HorizontalAlignment.Center;
-        public HorizontalAlignment HorizontalAlignment
+        public WidgetProperties Properties
+        {
+            get;
+            private set;
+        }
+
+        public WidgetProperty<HorizontalAlignment> HAlign
         {
             get
             {
-                return _horizontalAlignment;
+                return Properties.GetProperty<HorizontalAlignment>("halign");
             }
             set
             {
-                _horizontalAlignment = value;
-                ComputeProperties();
+                Properties.SetProperty("halign", value);
             }
         }
-        private VerticalAlignment _verticalAlignment = VerticalAlignment.Center;
-        public VerticalAlignment VerticalAlignment
+        public WidgetProperty<VerticalAlignment> VAlign
         {
             get
             {
-                return _verticalAlignment;
+                return Properties.GetProperty<VerticalAlignment>("valign");
             }
             set
             {
-                _verticalAlignment = value;
-                ComputeProperties();
+                Properties.SetProperty("valign", value);
             }
         }
 
-        private AbstractValue _marginLeft = new FixedValue(0);
-        public AbstractValue MarginLeft
+        public WidgetProperty<float> MarginLeft
         {
             get
             {
-                return _marginLeft;
+                return Properties.GetProperty<float>("margin-left");
             }
             set
             {
-                _marginLeft = value;
-                ComputeProperties();
+                Properties.SetProperty("margin-left", value);
             }
         }
-        private AbstractValue _marginRight = new FixedValue(0);
-        public AbstractValue MarginRight
+        public WidgetProperty<float> MarginRight
         {
             get
             {
-                return _marginRight;
+                return Properties.GetProperty<float>("margin-right");
             }
             set
             {
-                _marginRight = value;
-                ComputeProperties();
+                Properties.SetProperty("margin-right", value);
             }
         }
-        private AbstractValue _marginTop = new FixedValue(0);
-        public AbstractValue MarginTop
+        public WidgetProperty<float> MarginTop
         {
             get
             {
-                return _marginTop;
+                return Properties.GetProperty<float>("margin-top");
             }
             set
             {
-                _marginTop = value;
-                ComputeProperties();
+                Properties.SetProperty("margin-top", value);
             }
         }
-        private AbstractValue _marginBottom = new FixedValue(0);
-        public AbstractValue MarginBottom
+        public WidgetProperty<float> MarginBottom
         {
             get
             {
-                return _marginBottom;
+                return Properties.GetProperty<float>("margin-bottom");
             }
             set
             {
-                _marginBottom = value;
-                ComputeProperties();
+                Properties.SetProperty("margin-bottom", value);
             }
         }
-        public AbstractValue Margin
+        public WidgetProperty<float> Margin
         {
             set
             {
-                _marginLeft = value;
-                _marginRight = value;
-                _marginTop = value;
-                _marginBottom = value;
-                ComputeProperties();
+                Properties.SetProperty("margin", value);
             }
         }
 
-        private AbstractValue _paddingLeft = new FixedValue(0);
-        public AbstractValue PaddingLeft
+        public WidgetProperty<float> PaddingLeft
         {
             get
             {
-                return _paddingLeft;
+                return Properties.GetProperty<float>("padding-left");
             }
             set
             {
-                _paddingLeft = value;
-                ComputeProperties();
+                Properties.SetProperty("padding-left", value);
             }
         }
-        private AbstractValue _paddingRight = new FixedValue(0);
-        public AbstractValue PaddingRight
+        public WidgetProperty<float> PaddingRight
         {
             get
             {
-                return _paddingRight;
+                return Properties.GetProperty<float>("padding-right");
             }
             set
             {
-                _paddingRight = value;
-                ComputeProperties();
+                Properties.SetProperty("padding-right", value);
             }
         }
-        private AbstractValue _paddingTop = new FixedValue(0);
-        public AbstractValue PaddingTop
+        public WidgetProperty<float> PaddingTop
         {
             get
             {
-                return _paddingTop;
+                return Properties.GetProperty<float>("padding-top");
             }
             set
             {
-                _paddingTop = value;
-                ComputeProperties();
+                Properties.SetProperty("padding-top", value);
             }
         }
-        private AbstractValue _paddingBottom = new FixedValue(0);
-        public AbstractValue PaddingBottom
+        public WidgetProperty<float> PaddingBottom
         {
             get
             {
-                return _paddingBottom;
+                return Properties.GetProperty<float>("padding-bottom");
             }
             set
             {
-                _paddingBottom = value;
-                ComputeProperties();
+                Properties.SetProperty("padding-bottom", value);
             }
         }
-        public AbstractValue Padding
+        public WidgetProperty<float> Padding
         {
             set
             {
-                _paddingLeft = value;
-                _paddingRight = value;
-                _paddingTop = value;
-                _paddingBottom = value;
-                ComputeProperties();
+                Properties.SetProperty("padding", value);
             }
         }
 
-        private AbstractValue _width = new FixedValue(0);
-        public AbstractValue Width
+        public WidgetProperty<float> Width
         {
             get
             {
-                return _width;
+                return Properties.GetProperty<float>("width");
             }
             set
             {
-                _width = value;
-                ComputeProperties();
+                Properties.SetProperty("width", value);
             }
         }
-        private AbstractValue _height = new FixedValue(0);
-        public AbstractValue Height
+        public WidgetProperty<float> Height
         {
             get
             {
-                return _height;
+                return Properties.GetProperty<float>("height");
             }
             set
             {
-                _height = value;
-                ComputeProperties();
+                Properties.SetProperty("height", value);
             }
         }
 
-        private AbstractValue _alpha = new FixedValue(1);
-        public AbstractValue Alpha
+        public WidgetProperty<float> Alpha
         {
             get
             {
-                return _alpha;
+                return Properties.GetProperty<float>("alpha");
             }
             set
             {
-                _alpha = value;
-                ComputeProperties();
+                Properties.SetProperty("alpha", value);
             }
         }
 
-        private Color _tint = Color.White;
-        public Color Tint
+        public WidgetProperty<Color> Tint
         {
             get
             {
-                return _tint;
+                return Properties.GetProperty<Color>("tint");
             }
             set
             {
-                _tint = value;
+                Properties.SetProperty("tint", value);
             }
         }
 
@@ -312,13 +283,42 @@ namespace GameJam.NUI
 
             Entity = Engine.CreateEntity();
             Entity.AddComponent(new TransformComponent());
-            
 
+            PopulateProperties();
             Initialize(Entity);
+            Properties.Lock();
         }
         ~Widget()
         {
             Engine.DestroyEntity(Entity);
+        }
+
+        private void PopulateProperties()
+        {
+            Properties = new WidgetProperties(ComputeProperties);
+
+            Properties.SetProperty("halign", new FixedValue<HorizontalAlignment>(HorizontalAlignment.Center));
+            Properties.SetProperty("valign", new FixedValue<VerticalAlignment>(VerticalAlignment.Center));
+
+            Properties.SetProperty("margin-left", new FixedValue<float>(0));
+            Properties.SetProperty("margin-right", new FixedValue<float>(0));
+            Properties.SetProperty("margin-top", new FixedValue<float>(0));
+            Properties.SetProperty("margin-bottom", new FixedValue<float>(0));
+            Properties.SetPropertyAsProxy("margin", new [] { "margin-left", "margin-right", "margin-top", "margin-bottom" });
+
+            Properties.SetProperty("padding-left", new FixedValue<float>(0));
+            Properties.SetProperty("padding-right", new FixedValue<float>(0));
+            Properties.SetProperty("padding-top", new FixedValue<float>(0));
+            Properties.SetProperty("padding-bottom", new FixedValue<float>(0));
+            Properties.SetPropertyAsProxy("padding", new[] { "padding-left", "padding-right", "padding-top", "padding-bottom" });
+
+            Properties.SetProperty("width", new FixedValue<float>(0));
+            Properties.SetProperty("height", new FixedValue<float>(0));
+
+            Properties.SetProperty("alpha", new FixedValue<float>(1));
+            Properties.SetProperty("tint", new FixedValue<Color>(Color.White));
+
+            Properties.SetProperty("hidden", new FixedValue<bool>(false));
         }
 
         protected abstract void Initialize(Entity entity);
@@ -338,7 +338,7 @@ namespace GameJam.NUI
             } else
             {
                 float x;
-                switch(HorizontalAlignment)
+                switch(HAlign.Value)
                 {
                     case HorizontalAlignment.Left:
                         x = Parent.BottomLeft.X + Parent.PaddingLeft.Value + MarginLeft.Value + Width.Value / 2;
@@ -352,7 +352,7 @@ namespace GameJam.NUI
                         break;
                 }
                 float y;
-                switch (VerticalAlignment)
+                switch (VAlign.Value)
                 {
                     case VerticalAlignment.Top:
                         y = Parent.TopRight.Y - Parent.PaddingTop.Value - MarginTop.Value - Height.Value / 2;

@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace GameJam.NUI
+{
+    interface IWidgetProperty
+    {
+        bool IsCorrectType(Type type);
+    }
+
+    public abstract class WidgetProperty<T> : IWidgetProperty
+    {
+        public abstract T Value
+        {
+            get;
+        }
+
+        public bool IsCorrectType(Type type)
+        {
+            return type.IsEquivalentTo(typeof(T));
+        }
+    }
+
+    public class FixedValue<T> : WidgetProperty<T>
+    {
+        public FixedValue(T value)
+        {
+            _value = value;
+        }
+
+        private T _value;
+        public override T Value => _value;
+    }
+
+    public class WidgetProperties
+    {
+        private Dictionary<string, IWidgetProperty> _properties = new Dictionary<string, IWidgetProperty>();
+        private Dictionary<string, string[]> _proxyProperties = new Dictionary<string, string[]>();
+        public bool Locked
+        {
+            get;
+            private set;
+        } = false;
+
+        public Action ComputePropertiesDelegate
+        {
+            get;
+            private set;
+        }
+
+        public WidgetProperties(Action computePropertiesDelegate = null)
+        {
+            ComputePropertiesDelegate = computePropertiesDelegate;
+        }
+
+        public WidgetProperty<T> GetProperty<T>(string key)
+        {
+            if(!_properties[key].IsCorrectType(typeof(T)))
+            {
+                throw new Exception("Attempted to access property with incorrect type.");
+            }
+            return (WidgetProperty<T>)_properties[key];
+        }
+        public void SetProperty<T>(string key, WidgetProperty<T> prop)
+        {
+            if(_proxyProperties.ContainsKey(key))
+            {
+                SetPropertiesThroughProxy(key, prop);
+                return;
+            }
+
+            if (_properties.ContainsKey(key) && !_properties[key].IsCorrectType(typeof(T)))
+            {
+                throw new Exception("Attempted to set property with incorrect type.");
+            }
+            if(Locked && !_properties.ContainsKey(key))
+            {
+                throw new Exception("Attempted to add new property of locked widget properties.");
+            }
+            _properties[key] = prop;
+
+            ComputePropertiesDelegate?.Invoke();
+        }
+
+        public void SetPropertyAsProxy(string key, string[] props)
+        {
+            if(Locked)
+            {
+                throw new Exception("Attempted to add new property of locked widget properties.");
+            }
+            _proxyProperties.Add(key, props);
+        }
+        private void SetPropertiesThroughProxy<T>(string proxyKey, WidgetProperty<T> prop)
+        {
+            foreach(string key in _proxyProperties[proxyKey])
+            {
+                SetProperty(key, prop);
+            }
+        }
+
+        internal void Lock()
+        {
+            Locked = true;
+        }
+    }
+}

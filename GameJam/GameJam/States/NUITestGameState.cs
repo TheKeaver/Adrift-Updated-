@@ -22,9 +22,9 @@ namespace GameJam.States
 
             {
                 ImageWidget image = new ImageWidget(SharedState.Engine);
-                image.Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_input_keyboard_key_0");
-                image.Width = new FixedValue(100);
-                image.Height = new FixedValue(100);
+                image.Image = new FixedValue<TextureRegion2D>(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_input_keyboard_key_0"));
+                image.Width = new FixedValue<float>(100);
+                image.Height = new FixedValue<float>(100);
 
                 Root.Add(image);
             }

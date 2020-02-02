@@ -39,8 +39,8 @@ namespace GameJam.NUI
 
         private void OnResize(float width, float height)
         {
-            Width = new FixedValue(width);
-            Height = new FixedValue(height);
+            Width = new FixedValue<float>(width);
+            Height = new FixedValue<float>(height);
         }
 
         public void Add(Widget widget)

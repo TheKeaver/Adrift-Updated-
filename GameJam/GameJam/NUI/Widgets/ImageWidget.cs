@@ -1,5 +1,4 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.TextureAtlases;
@@ -8,16 +7,15 @@ namespace GameJam.NUI.Widgets
 {
     public class ImageWidget : Widget
     {
-        public TextureRegion2D Texture
+        public WidgetProperty<TextureRegion2D> Image
         {
             get
             {
-                return Entity.GetComponent<SpriteComponent>().Texture;
+                return Properties.GetProperty<TextureRegion2D>("image");
             }
             set
             {
-                Entity.GetComponent<SpriteComponent>().Texture = value;
-                ComputeProperties();
+                Properties.SetProperty("image", value);
             }
         }
 
@@ -27,6 +25,8 @@ namespace GameJam.NUI.Widgets
 
         protected override void Initialize(Entity entity)
         {
+            Properties.SetProperty("image", new FixedValue<TextureRegion2D>(null));
+
             entity.AddComponent(new SpriteComponent());
             entity.GetComponent<SpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_UI;
         }
@@ -34,9 +34,10 @@ namespace GameJam.NUI.Widgets
         protected override void OnComputeProperties(Entity entity)
         {
             SpriteComponent spriteComp = Entity.GetComponent<SpriteComponent>();
+            spriteComp.Texture = Image.Value;
             spriteComp.Bounds = new Vector2(Width.Value, Height.Value);
             spriteComp.Alpha = Alpha.Value;
-            spriteComp.Color = Tint;
+            spriteComp.Color = Tint.Value;
         }
     }
 }
