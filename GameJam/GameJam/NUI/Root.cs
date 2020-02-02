@@ -41,6 +41,7 @@ namespace GameJam.NUI
         {
             Width = new FixedValue<float>(width);
             Height = new FixedValue<float>(height);
+            ComputeProperties(); // TODO: Not needed
         }
 
         public void Add(Widget widget)

@@ -287,6 +287,7 @@ namespace GameJam.NUI
             PopulateProperties();
             Initialize(Entity);
             Properties.Lock();
+            Properties.ComputePropertiesOnSet = true;
         }
         ~Widget()
         {
@@ -296,6 +297,7 @@ namespace GameJam.NUI
         private void PopulateProperties()
         {
             Properties = new WidgetProperties(ComputeProperties);
+            Properties.ComputePropertiesOnSet = false;
 
             Properties.SetProperty("halign", new FixedValue<HorizontalAlignment>(HorizontalAlignment.Center));
             Properties.SetProperty("valign", new FixedValue<VerticalAlignment>(VerticalAlignment.Center));
@@ -333,8 +335,8 @@ namespace GameJam.NUI
             if (this is Root)
             {
                 // Root; only sets based on offset width and height
-                TopRight = new Vector2(CVars.Get<float>("screen_width") / 2, CVars.Get<float>("screen_height") / 2);
-                BottomLeft = new Vector2(-CVars.Get<float>("screen_width") / 2, -CVars.Get<float>("screen_height") / 2);
+                TopRight = new Vector2(Width.Value / 2, Height.Value / 2);
+                BottomLeft = new Vector2(-Width.Value / 2, -Height.Value / 2);
             } else
             {
                 float x;
@@ -368,9 +370,9 @@ namespace GameJam.NUI
 
                 BottomLeft = new Vector2(x - Width.Value / 2, y - Height.Value / 2);
                 TopRight = new Vector2(x + Width.Value / 2, y + Height.Value / 2);
-
-                Entity.GetComponent<TransformComponent>().Move(WorldPosition - Entity.GetComponent<TransformComponent>().Position);
             }
+
+            Entity.GetComponent<TransformComponent>().Move(WorldPosition - Entity.GetComponent<TransformComponent>().Position);
 
             OnComputeProperties(Entity);
         }

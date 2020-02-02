@@ -21,12 +21,18 @@ namespace GameJam.States
             Root = new Root(SharedState.Engine);
 
             {
+                ContainerWidget container = new ContainerWidget(SharedState.Engine);
+                container.HAlign = new FixedValue<HorizontalAlignment>(HorizontalAlignment.Left);
+                container.Width = new RelativeValue<float>(Root, "width", 0.5f);
+                container.Height = new RelativeValue<float>(Root, "height", 1.0f);
+                Root.Add(container);
+
                 ImageWidget image = new ImageWidget(SharedState.Engine);
                 image.Image = new FixedValue<TextureRegion2D>(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_input_keyboard_key_0"));
                 image.Width = new FixedValue<float>(100);
                 image.Height = new FixedValue<float>(100);
 
-                Root.Add(image);
+                container.Add(image);
             }
 
             base.OnInitialize();

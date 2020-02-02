@@ -255,6 +255,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\NUITestGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NUI\Widgets\ImageWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NUI\WidgetProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NUI\Widgets\ContainerWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
