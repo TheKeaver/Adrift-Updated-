@@ -20,6 +20,11 @@ namespace GameJam.Components
             Bounds = bounds;
         }
 
+        public BoundingRect GetAABB(float scale)
+        {
+            return new BoundingRect(-Bounds.X/2, -Bounds.Y/2, Bounds.X, Bounds.Y) * 2;
+        }
+
         public TextureRegion2D Texture;
         public Vector2 Bounds;
         public Color Color = Color.White;

@@ -255,5 +255,10 @@ namespace GameJam.Common
 
             return false;
         }
+
+        public static BoundingRect operator *(BoundingRect br, float num)
+        {
+            return new BoundingRect(br.Center.X * num, br.Center.Y * num, br.Width * num, br.Height * num);
+        }
     }
 }
