@@ -116,6 +116,7 @@ namespace GameJam.States
                 new LaserEnemySystem(Engine),
                 new GravitySystem(Engine),
                 new MovementSystem(Engine),
+                //new QuadTreeSystem(Engine),
                 new PlayerShieldSystem(Engine),
                 
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls

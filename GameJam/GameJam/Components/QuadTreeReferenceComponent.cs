@@ -6,7 +6,7 @@ namespace GameJam.Components
 {
     public class QuadTreeReferenceComponent : IComponent
     {
-        QuadTreeNode node;
+        public QuadTreeNode node;
 
         public QuadTreeReferenceComponent(QuadTreeNode n)
         {
