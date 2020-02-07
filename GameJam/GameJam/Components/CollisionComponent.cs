@@ -22,6 +22,17 @@ namespace GameJam.Components
             CollisionShapes = new List<CollisionShape>();
             CollisionShapes.Add(collisionShape);
         }
+        public BoundingRect GetAABB(float cos, float sin, float scale)
+        {
+            BoundingRect returnRect = CollisionShapes[0].GetAABB(cos, sin, scale);
+
+            for(int i=1; i<CollisionShapes.Count; i++)
+            {
+                BoundingRect temp = CollisionShapes[i].GetAABB(cos, sin, scale);
+                returnRect = BoundingRect.Union(returnRect, temp);
+            }
+            return returnRect;
+        }
     }
 
     public abstract class CollisionShape

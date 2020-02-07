@@ -38,7 +38,7 @@ namespace GameJam.Systems
 
     public class CollisionDetectionSystem : BaseSystem
     {
-        readonly Family _collisionFamily = Family.All(typeof(CollisionComponent), typeof(TransformComponent)).Get();
+        readonly Family _collisionFamily = Family.All(typeof(CollisionComponent), typeof(QuadTreeReferenceComponent), typeof(TransformComponent)).Get();
         readonly ImmutableList<Entity> _collisionEntities;
 
         public CollisionDetectionSystem(Engine engine) : base(engine)
@@ -64,101 +64,112 @@ namespace GameJam.Systems
 
                 TransformComponent transformCompA = entityA.GetComponent<TransformComponent>();
                 CollisionComponent collisionCompA = entityA.GetComponent<CollisionComponent>();
+                QuadTreeReferenceComponent qaudTreeCompA = entityA.GetComponent<QuadTreeReferenceComponent>();
 
                 float cosA = (float)Math.Cos(transformCompA.Rotation),
                     sinA = (float)Math.Sin(transformCompA.Rotation);
 
-                foreach (Entity entityB in _collisionEntities)
+                RecursiveUpwardTreeCollisionCheck(entityA, transformCompA, collisionCompA, cosA, sinA, processedPairs, entityA.GetComponent<QuadTreeReferenceComponent>().node);
+            }
+        }
+
+        private void RecursiveUpwardTreeCollisionCheck(Entity entityA, TransformComponent transformCompA, CollisionComponent collisionCompA, float cosA, float sinA, Dictionary<Entity, List<Entity>> processedPairs, QuadTreeNode node)
+        {
+            if (node == null)
+                return;
+
+            foreach (Entity entityB in node.leaves)
+            {
+                if (entityA == entityB)
                 {
-                    if (entityA == entityB)
-                    {
-                        continue;
-                    }
-                    if (processedPairs[entityA].Contains(entityB))
-                    {
-                        continue;
-                    }
-                    if (!processedPairs.ContainsKey(entityB))
-                    {
-                        processedPairs.Add(entityB, new List<Entity>());
-                    }
-                    // Add it to entityB's list because A-B won't occur again.
-                    // B-A might.
-                    processedPairs[entityB].Add(entityA);
+                    continue;
+                }
+                if (processedPairs[entityA].Contains(entityB))
+                {
+                    continue;
+                }
+                if (!processedPairs.ContainsKey(entityB))
+                {
+                    processedPairs.Add(entityB, new List<Entity>());
+                }
+                // Add it to entityB's list because A-B won't occur again.
+                // B-A might.
+                processedPairs[entityB].Add(entityA);
 
-                    CollisionComponent collisionCompB = entityB.GetComponent<CollisionComponent>();
-                    if((collisionCompA.CollisionMask & collisionCompB.CollisionGroup) == 0
-                        && (collisionCompA.CollisionGroup & collisionCompB.CollisionMask) == 0)
-                    {
-                        continue;
-                    }
-                    TransformComponent transformCompB = entityB.GetComponent<TransformComponent>();
+                CollisionComponent collisionCompB = entityB.GetComponent<CollisionComponent>();
+                if ((collisionCompA.CollisionMask & collisionCompB.CollisionGroup) == 0
+                    && (collisionCompA.CollisionGroup & collisionCompB.CollisionMask) == 0)
+                {
+                    continue;
+                }
+                TransformComponent transformCompB = entityB.GetComponent<TransformComponent>();
 
-                    float cosB = (float)Math.Cos(transformCompB.Rotation),
-                        sinB = (float)Math.Sin(transformCompB.Rotation);
+                float cosB = (float)Math.Cos(transformCompB.Rotation),
+                    sinB = (float)Math.Sin(transformCompB.Rotation);
 
 
-                    bool resolved = false; // If true, _any_ of the shapes have intersected
-                    bool intersecting = false;
-                    foreach(CollisionShape shapeA in collisionCompA.CollisionShapes)
-                    {
-                        BoundingRect AABB_A = shapeA.GetAABB(cosA, sinA, transformCompA.Scale);
-                        AABB_A.Min += transformCompA.Position;
-                        AABB_A.Max += transformCompA.Position;
+                bool resolved = false; // If true, _any_ of the shapes have intersected
+                bool intersecting = false;
+                foreach (CollisionShape shapeA in collisionCompA.CollisionShapes)
+                {
+                    BoundingRect AABB_A = shapeA.GetAABB(cosA, sinA, transformCompA.Scale);
+                    AABB_A.Min += transformCompA.Position;
+                    AABB_A.Max += transformCompA.Position;
 
-                        foreach (CollisionShape shapeB in collisionCompB.CollisionShapes)
+                    foreach (CollisionShape shapeB in collisionCompB.CollisionShapes)
+                    {
+                        BoundingRect AABB_B = shapeB.GetAABB(cosB, sinB, transformCompB.Scale);
+                        AABB_B.Min += transformCompB.Position;
+                        AABB_B.Max += transformCompB.Position;
+
+                        if (AABB_B.Intersects(AABB_A))
                         {
-                            BoundingRect AABB_B = shapeB.GetAABB(cosB, sinB, transformCompB.Scale);
-                            AABB_B.Min += transformCompB.Position;
-                            AABB_B.Max += transformCompB.Position;
-
-                            if (AABB_B.Intersects(AABB_A))
+                            // _May_ be intersecting
+                            Vector2 pA = transformCompA.Position +
+                                new Vector2(shapeA.Offset.X * cosA - shapeA.Offset.Y * sinA,
+                                    shapeA.Offset.X * sinA + shapeA.Offset.Y * cosA)
+                                    * transformCompA.Scale;
+                            Vector2 pB = transformCompB.Position +
+                            new Vector2(shapeB.Offset.X * cosB - shapeB.Offset.Y * sinB,
+                                shapeB.Offset.X * sinB + shapeB.Offset.Y * cosB)
+                                * transformCompB.Scale;
+                            if (CheckShapeIntersection(pA, cosA, sinA, transformCompA.Scale, shapeA,
+                                pB, cosB, sinB, transformCompB.Scale, shapeB))
                             {
-                                // _May_ be intersecting
-                                Vector2 pA = transformCompA.Position +
-                                    new Vector2(shapeA.Offset.X * cosA - shapeA.Offset.Y * sinA,
-                                        shapeA.Offset.X * sinA + shapeA.Offset.Y * cosA)
-                                        * transformCompA.Scale;
-                                Vector2 pB = transformCompB.Position +
-                                new Vector2(shapeB.Offset.X * cosB - shapeB.Offset.Y * sinB,
-                                    shapeB.Offset.X * sinB + shapeB.Offset.Y * cosB)
-                                    * transformCompB.Scale;
-                                if (CheckShapeIntersection(pA, cosA, sinA, transformCompA.Scale, shapeA,
-                                    pB, cosB, sinB, transformCompB.Scale, shapeB))
-                                {
-                                    intersecting = true;
-                                    resolved = true;
-                                    break;
-                                }
-                            } else
-                            {
-                                // Guarenteed to not be intersecting
-                                continue;
+                                intersecting = true;
+                                resolved = true;
+                                break;
                             }
                         }
-
-                        if(resolved)
+                        else
                         {
-                            break;
+                            // Guarenteed to not be intersecting
+                            continue;
                         }
                     }
 
-                    bool previouslyIntersecting = collisionCompA.CollidingWith.Contains(entityB)
-                        || collisionCompB.CollidingWith.Contains(entityA);
-                    if(!previouslyIntersecting && intersecting)
+                    if (resolved)
                     {
-                        EventManager.Instance.QueueEvent(new CollisionStartEvent(entityA, entityB));
-                        collisionCompA.CollidingWith.Add(entityB);
-                        collisionCompB.CollidingWith.Add(entityA);
-                    }
-                    if(previouslyIntersecting && !intersecting)
-                    {
-                        EventManager.Instance.QueueEvent(new CollisionEndEvent(entityA, entityB));
-                        collisionCompA.CollidingWith.Remove(entityB);
-                        collisionCompB.CollidingWith.Remove(entityA);
+                        break;
                     }
                 }
+
+                bool previouslyIntersecting = collisionCompA.CollidingWith.Contains(entityB)
+                    || collisionCompB.CollidingWith.Contains(entityA);
+                if (!previouslyIntersecting && intersecting)
+                {
+                    EventManager.Instance.QueueEvent(new CollisionStartEvent(entityA, entityB));
+                    collisionCompA.CollidingWith.Add(entityB);
+                    collisionCompB.CollidingWith.Add(entityA);
+                }
+                if (previouslyIntersecting && !intersecting)
+                {
+                    EventManager.Instance.QueueEvent(new CollisionEndEvent(entityA, entityB));
+                    collisionCompA.CollidingWith.Remove(entityB);
+                    collisionCompB.CollidingWith.Remove(entityA);
+                }
             }
+            RecursiveUpwardTreeCollisionCheck(entityA, transformCompA, collisionCompA, cosA, sinA, processedPairs, node.parent);
         }
 
         private bool CheckShapeIntersection(Vector2 posA, float cosA, float sinA, float scaleA, CollisionShape shapeA,
@@ -176,7 +187,7 @@ namespace GameJam.Systems
                     posB, circleB);
             }
 
-            if (circleA != null && polygonB != null)
+            if (circleB != null && polygonA != null)
             {
                 return CheckPolygonCircleIntersection(posA, cosA, sinA, scaleA, polygonA,
                     posB, circleB);

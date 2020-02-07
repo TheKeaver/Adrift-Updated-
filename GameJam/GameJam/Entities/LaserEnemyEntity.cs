@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using GameJam.Processes.Animations.Warp;
 using GameJam.Processes.Enemies;
@@ -59,6 +60,7 @@ namespace GameJam.Entities
             entity.AddComponent(new MovementComponent(new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)), 0));
             entity.AddComponent(new LaserEnemyComponent());
             entity.AddComponent(new EnemyComponent());
+            entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(4, 0),
