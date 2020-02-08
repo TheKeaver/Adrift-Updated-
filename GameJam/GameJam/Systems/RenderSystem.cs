@@ -1,13 +1,11 @@
 ﻿using Audrey;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
 using GameJam.Components;
 using System.Collections.Generic;
 using System;
 using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework.Content;
-using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Systems
@@ -32,8 +30,10 @@ namespace GameJam.Systems
         readonly ImmutableList<Entity> _fieldFontEntities;
         readonly ImmutableList<Entity> _vectorSpriteEntities;
 
-        private DepthStencilState _spriteBatchDepthStencilState;
-        public SpriteBatch SpriteBatch { get; }
+        private List<VertexPositionColorTexture> _spriteBuffer = new List<VertexPositionColorTexture>();
+        private DepthStencilState _spriteDepthStencilState;
+        private BlendState _spriteBlendState;
+        private SamplerState _spriteSamplerState;
         public FieldFontRenderer FieldFontRenderer { get; }
         private Matrix _fieldFontRendererProjection;
         public GraphicsDevice GraphicsDevice
@@ -42,6 +42,8 @@ namespace GameJam.Systems
             private set;
         }
 
+
+        private BasicEffect _spriteEffect;
         private BasicEffect _vectorSpriteEffect;
         private Viewport _lastViewport;
 
@@ -53,10 +55,17 @@ namespace GameJam.Systems
             _fieldFontEntities = Engine.GetEntitiesFor(_fieldFontFamily);
             _vectorSpriteEntities = Engine.GetEntitiesFor(_vectorSpriteFamily);
 
-            _spriteBatchDepthStencilState = DepthStencilState.Default;
-            SpriteBatch = new SpriteBatch(graphics);
+            _spriteDepthStencilState = DepthStencilState.Default;
+            _spriteBlendState = BlendState.AlphaBlend;
+            _spriteSamplerState = SamplerState.AnisotropicClamp;
             FieldFontRenderer = new FieldFontRenderer(content, graphics);
             GraphicsDevice = graphics;
+
+            _spriteEffect = new BasicEffect(GraphicsDevice);
+            _spriteEffect.AmbientLightColor = new Vector3(1, 1, 1);
+            _spriteEffect.World = Matrix.Identity;
+            _spriteEffect.TextureEnabled = true;
+            _spriteEffect.VertexColorEnabled = true;
 
             _vectorSpriteEffect = new BasicEffect(GraphicsDevice);
             _vectorSpriteEffect.AmbientLightColor = new Vector3(1, 1, 1);
@@ -84,15 +93,30 @@ namespace GameJam.Systems
 
         private void DrawSpriteBatchEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
-            SpriteBatch.Begin(SpriteSortMode.Deferred,
-                               BlendState.AlphaBlend,
-                               SamplerState.AnisotropicClamp,
-                               _spriteBatchDepthStencilState,
-                               null,
-                               null,
-                               transformMatrix);
+            if (_spriteEntities.Count == 0 && _fontEntities.Count == 0)
+            {
+                return;
+            }
+            if (_spriteEntities.Count > 0 || _fontEntities.Count > 0)
+            {
+                CheckUpdateProjections();
+            }
+
+            //SpriteBatch.Begin(SpriteSortMode.Deferred,
+            //                   BlendState.AlphaBlend,
+            //                   SamplerState.AnisotropicClamp,
+            //                   _spriteBatchDepthStencilState,
+            //                   null,
+            //                   _spriteEffect,
+            //                   transformMatrix);
+            GraphicsDevice.DepthStencilState = _spriteDepthStencilState;
+            GraphicsDevice.BlendState = _spriteBlendState;
+            GraphicsDevice.SamplerStates[0] = _spriteSamplerState;
+            _spriteEffect.View = transformMatrix;
 
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
+
+            Texture2D currentTexture = null;
 
             foreach (Entity entity in _spriteEntities)
             {
@@ -112,43 +136,67 @@ namespace GameJam.Systems
                 float rotation = transformComp.Rotation
                     + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-                Vector2 scale = new Vector2(spriteComp.Bounds.X / spriteComp.Texture.Width,
-                                            spriteComp.Bounds.Y / spriteComp.Texture.Height);
-				float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-                Vector2 origin = new Vector2(spriteComp.Texture.Bounds.Width,
-                                             spriteComp.Texture.Bounds.Height) * HalfHalf;
+                float cos = (float)Math.Cos(rotation),
+                    sin = (float)Math.Sin(rotation);
+
+                TextureRegion2D textureRegion = spriteComp.Texture;
 
                 AnimationComponent animationComp = entity.GetComponent<AnimationComponent>();
                 if (animationComp != null && animationComp.ActiveAnimationIndex > -1)
                 {
-                    Rectangle sourceRectangle = animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Bounds;
-                    scale = new Vector2(spriteComp.Bounds.X / sourceRectangle.Width,
-                                            spriteComp.Bounds.Y / sourceRectangle.Height);
-                    origin = new Vector2(sourceRectangle.Width,
-                                             sourceRectangle.Height) * HalfHalf;
+                    textureRegion = animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion;
+                }
 
-                    SpriteBatch.Draw(animationComp.Animations[animationComp.ActiveAnimationIndex].TextureRegion.Texture,
-                                      position * FlipY,
-                                      sourceRectangle,
-                                      spriteComp.Color * spriteComp.Alpha,
-                                      -rotation,
-                                      origin,
-                                      scale * transformScale,
-                                      SpriteEffects.None,
-                                      0);
-                }
-                else
+                if(currentTexture == null)
                 {
-                    SpriteBatch.Draw(spriteComp.Texture,
-                                     position * FlipY,
-                                     spriteComp.Color * spriteComp.Alpha,
-                                     -rotation,
-                                     origin,
-                                     scale * transformScale,
-                                     SpriteEffects.None,
-                                     spriteComp.Depth);
+                    currentTexture = textureRegion.Texture;
                 }
+                if(currentTexture != textureRegion.Texture)
+                {
+                    FlushSpriteArray(currentTexture);
+                    currentTexture = textureRegion.Texture;
+                }
+
+                Rectangle texRegionSourceBounds = textureRegion.Bounds;
+                float umin = texRegionSourceBounds.X / (float)textureRegion.Texture.Width,
+                    vmin = texRegionSourceBounds.Y / (float)textureRegion.Texture.Height,
+                    umax = (texRegionSourceBounds.X + texRegionSourceBounds.Width) / (float)textureRegion.Texture.Width,
+                    vmax = (texRegionSourceBounds.Y + texRegionSourceBounds.Height) / (float)textureRegion.Texture.Height;
+
+                VertexPositionColorTexture v1 = new VertexPositionColorTexture()
+                {
+                    Position = new Vector3(RotateVector(new Vector2(position.X + spriteComp.Bounds.X * transformScale / 2, position.Y - spriteComp.Bounds.Y * transformScale / 2), cos, sin), spriteComp.Depth),
+                    Color = spriteComp.Color,
+                    TextureCoordinate = new Vector2(umax, vmax)
+                };
+                VertexPositionColorTexture v2 = new VertexPositionColorTexture()
+                {
+                    Position = new Vector3(RotateVector(new Vector2(position.X - spriteComp.Bounds.X * transformScale / 2, position.Y - spriteComp.Bounds.Y * transformScale / 2), cos, sin), spriteComp.Depth),
+                    Color = spriteComp.Color,
+                    TextureCoordinate = new Vector2(umin, vmax)
+                };
+                VertexPositionColorTexture v3 = new VertexPositionColorTexture()
+                {
+                    Position = new Vector3(RotateVector(new Vector2(position.X - spriteComp.Bounds.X * transformScale / 2, position.Y + spriteComp.Bounds.Y * transformScale / 2), cos, sin), spriteComp.Depth),
+                    Color = spriteComp.Color,
+                    TextureCoordinate = new Vector2(umin, vmin)
+                };
+                VertexPositionColorTexture v4 = new VertexPositionColorTexture()
+                {
+                    Position = new Vector3(RotateVector(new Vector2(position.X + spriteComp.Bounds.X * transformScale / 2, position.Y + spriteComp.Bounds.Y * transformScale / 2), cos, sin), spriteComp.Depth),
+                    Color = spriteComp.Color,
+                    TextureCoordinate = new Vector2(umax, vmin)
+                };
+
+                _spriteBuffer.Add(v1);
+                _spriteBuffer.Add(v2);
+                _spriteBuffer.Add(v3);
+
+                _spriteBuffer.Add(v3);
+                _spriteBuffer.Add(v4);
+                _spriteBuffer.Add(v1);
             }
 
             foreach (Entity entity in _fontEntities)
@@ -168,23 +216,96 @@ namespace GameJam.Systems
 
                 float rotation = transformComp.Rotation
                     + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                float cos = (float)Math.Cos(rotation),
+                    sin = (float)Math.Sin(rotation);
 
                 float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-                Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
+                Vector2 bounds = fontComp.Font.MeasureString(fontComp.Content);
 
-                SpriteBatch.DrawString(fontComp.Font,
-                                        fontComp.Content,
-                                        position * FlipY,
-                                        fontComp.Color,
-                                        -rotation,
-                                        origin,
-                                        transformScale,
-                                        SpriteEffects.None,
-                                        fontComp.Depth);
+                var glyphs = fontComp.Font.GetGlyphs(fontComp.Content);
+                foreach(var glyph in glyphs)
+                {
+                    if(glyph.FontRegion == null)
+                    {
+                        continue;
+                    }
+
+                    TextureRegion2D texture = glyph.FontRegion.TextureRegion;
+
+                    if (currentTexture == null)
+                    {
+                        currentTexture = texture.Texture;
+                    }
+                    if (currentTexture != texture.Texture)
+                    {
+                        FlushSpriteArray(currentTexture);
+                        currentTexture = texture.Texture;
+                    }
+
+                    Rectangle texRegionSourceBounds = texture.Bounds;
+                    float umin = texRegionSourceBounds.X / (float)texture.Texture.Width,
+                        vmin = texRegionSourceBounds.Y / (float)texture.Texture.Height,
+                        umax = (texRegionSourceBounds.X + texRegionSourceBounds.Width) / (float)texture.Texture.Width,
+                        vmax = (texRegionSourceBounds.Y + texRegionSourceBounds.Height) / (float)texture.Texture.Height;
+
+                    Vector2 characterOrigin = position - bounds * transformScale / 2 - glyph.Position * transformScale; // TODO
+
+                    VertexPositionColorTexture v1 = new VertexPositionColorTexture()
+                    {
+                        Position = new Vector3(RotateVector(new Vector2(characterOrigin.X + texture.Bounds.X * transformScale / 2, characterOrigin.Y - texture.Bounds.Y * transformScale / 2), cos, sin), fontComp.Depth),
+                        Color = fontComp.Color,
+                        TextureCoordinate = new Vector2(umax, vmax)
+                    };
+                    VertexPositionColorTexture v2 = new VertexPositionColorTexture()
+                    {
+                        Position = new Vector3(RotateVector(new Vector2(characterOrigin.X - texture.Bounds.X * transformScale / 2, characterOrigin.Y - texture.Bounds.Y * transformScale / 2), cos, sin), fontComp.Depth),
+                        Color = fontComp.Color,
+                        TextureCoordinate = new Vector2(umin, vmax)
+                    };
+                    VertexPositionColorTexture v3 = new VertexPositionColorTexture()
+                    {
+                        Position = new Vector3(RotateVector(new Vector2(characterOrigin.X - texture.Bounds.X * transformScale / 2, characterOrigin.Y + texture.Bounds.Y * transformScale / 2), cos, sin), fontComp.Depth),
+                        Color = fontComp.Color,
+                        TextureCoordinate = new Vector2(umin, vmin)
+                    };
+                    VertexPositionColorTexture v4 = new VertexPositionColorTexture()
+                    {
+                        Position = new Vector3(RotateVector(new Vector2(characterOrigin.X + texture.Bounds.X * transformScale / 2, characterOrigin.Y + texture.Bounds.Y * transformScale / 2), cos, sin), fontComp.Depth),
+                        Color = fontComp.Color,
+                        TextureCoordinate = new Vector2(umax, vmin)
+                    };
+
+                    _spriteBuffer.Add(v1);
+                    _spriteBuffer.Add(v2);
+                    _spriteBuffer.Add(v3);
+
+                    _spriteBuffer.Add(v3);
+                    _spriteBuffer.Add(v4);
+                    _spriteBuffer.Add(v1);
+                }
             }
 
-            SpriteBatch.End();
+            FlushSpriteArray(currentTexture);
+        }
+        private void FlushSpriteArray(Texture2D currentTexture)
+        {
+            if(_spriteBuffer.Count == 0)
+            {
+                return;
+            }
+            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            _spriteEffect.Texture = currentTexture;
+            foreach(EffectPass pass in _spriteEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+                GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,
+                    _spriteBuffer.ToArray(),
+                    0,
+                    _spriteBuffer.Count / 3);
+            }
+            _spriteBuffer.Clear();
         }
 
         private void DrawFieldFontEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
@@ -195,6 +316,7 @@ namespace GameJam.Systems
                 CheckUpdateProjections();
                 Matrix wvp = transformMatrix * _fieldFontRendererProjection;
                 FieldFontRenderer.Begin(wvp);
+                GraphicsDevice.DepthStencilState = _spriteDepthStencilState;
                 foreach (Entity entity in _fieldFontEntities)
                 {
                     FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();
@@ -218,7 +340,7 @@ namespace GameJam.Systems
                         fieldFontComp.Content,
                         position,
                         rotation,
-                        fieldFontComp.Color,
+                        fieldFontComp.Color * fieldFontComp.Alpha,
                         transformScale,
                         fieldFontComp.EnableKerning,
                         fieldFontComp.Depth);
@@ -234,6 +356,7 @@ namespace GameJam.Systems
 
             List<VertexPositionColor> _verts = new List<VertexPositionColor>();
 
+            GraphicsDevice.DepthStencilState = _spriteDepthStencilState;
             foreach (Entity entity in _vectorSpriteEntities)
             {
                 VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
@@ -296,35 +419,32 @@ namespace GameJam.Systems
             if (viewport.Width != _lastViewport.Width || viewport.Height != _lastViewport.Height)
             {
                 SetupFieldFontDrawing(viewport);
-                SetupVectorDrawing(viewport);
+                SetupVectorAndSpriteDrawing(viewport);
 
                 _lastViewport = viewport;
             }
         }
         private void SetupFieldFontDrawing(Viewport viewport)
         {
-            /** Based on MonoGame SpriteBatch implementation!! **/
-
-            // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
-            // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
-            // --> We get the correct matrix with near plane 0 and far plane -1.
             Matrix.CreateOrthographicOffCenter(0, viewport.Width, 0,
-                viewport.Height, -100, 100, out _fieldFontRendererProjection);
+                viewport.Height, -float.MaxValue, float.MaxValue, out _fieldFontRendererProjection);
         }
-        private void SetupVectorDrawing(Viewport viewport)
+        private void SetupVectorAndSpriteDrawing(Viewport viewport)
         {
-            /** Based on MonoGame SpriteBatch implementation!! **/
-
-            // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
-            // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
-            // --> We get the correct matrix with near plane 0 and far plane -1.
             Matrix projection;
             Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height,
-                0, -100, 100, out projection);
+                0, -float.MaxValue, float.MaxValue, out projection);
             _vectorSpriteEffect.Projection = projection;
+            _spriteEffect.Projection = projection;
 
             _lastViewport = viewport;
         }
         #endregion
+
+        private Vector2 RotateVector(Vector2 vector, float cos, float sin)
+        {
+            return new Vector2(vector.X * cos - vector.Y * sin,
+                vector.X * sin + vector.Y * cos);
+        }
     }
 }

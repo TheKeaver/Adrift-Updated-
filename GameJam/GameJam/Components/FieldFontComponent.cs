@@ -21,6 +21,7 @@ namespace GameJam.Components
         public FieldFont Font;
         public string Content;
         public Color Color = Color.White;
+        public float Alpha = 1;
 
         public byte RenderGroup = Constants.Render.GROUP_ONE;
 

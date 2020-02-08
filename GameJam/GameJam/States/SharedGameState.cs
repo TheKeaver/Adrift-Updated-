@@ -44,6 +44,11 @@ namespace GameJam.States
             private set;
         }
         BaseSystem[] _systems;
+        public SpriteBatch SpriteBatch
+        {
+            get;
+            private set;
+        }
         public RenderSystem RenderSystem
         {
             get;
@@ -63,6 +68,8 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
+            SpriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+
             PostProcessor = new PostProcessor(GameManager.GraphicsDevice,
                 CVars.Get<float>("screen_width"),
                 CVars.Get<float>("screen_height"));
@@ -207,15 +214,15 @@ namespace GameJam.States
                                             Constants.Render.RENDER_GROUP_GAME_ENTITIES,
                                             dt,
                                             betweenFrameAlpha);
-                RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
+                SpriteBatch.Begin(SpriteSortMode.Deferred,
                     null,
                     null,
                     null,
                     null,
                     null,
                     Camera.TransformMatrix);
-                VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
-                RenderSystem.SpriteBatch.End();
+                VelocityParticleManager.Draw(SpriteBatch);
+                SpriteBatch.End();
             }
             // We have to defer drawing the post-processor results
             // because of unexpected behavior within MonoGame.
@@ -226,11 +233,11 @@ namespace GameJam.States
                                         Constants.Render.RENDER_GROUP_STARS,
                                         dt,
                                         betweenFrameAlpha); // Stars
-            RenderSystem.SpriteBatch.Begin();
-            RenderSystem.SpriteBatch.Draw(postProcessingResult,
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(postProcessingResult,
                 postProcessingResult.Bounds,
                 Color.White); // Post-processing results
-            RenderSystem.SpriteBatch.End();
+            SpriteBatch.End();
 
             RenderSystem.DrawEntities(UICamera.TransformMatrix, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
 
