@@ -29,6 +29,7 @@ namespace GameJam.NUI.Widgets
 
             entity.AddComponent(new SpriteComponent());
             entity.GetComponent<SpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_UI;
+            entity.GetComponent<SpriteComponent>().Depth = Depth;
         }
 
         protected override void OnComputeProperties(Entity entity)

@@ -1,4 +1,5 @@
-﻿using GameJam.NUI;
+﻿using FontExtension;
+using GameJam.NUI;
 using GameJam.NUI.Widgets;
 using MonoGame.Extended.TextureAtlases;
 
@@ -33,6 +34,14 @@ namespace GameJam.States
                 image.Height = new FixedValue<float>(100);
 
                 container.Add(image);
+
+                TextWidget text = new TextWidget(SharedState.Engine);
+                text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
+                text.Content = new FixedValue<string>("Hello World!");
+                text.Height = new FixedValue<float>(100);
+                //text.VAlign = new FixedValue<VerticalAlignment>(VerticalAlignment.Top);
+
+                Root.Add(text);
             }
 
             base.OnInitialize();

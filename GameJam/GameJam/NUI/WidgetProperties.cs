@@ -70,10 +70,25 @@ namespace GameJam.NUI
         public override T Value => ComputeRelativeValue();
     }
 
+    public class AspectRatioValue<T> : RelativeValue<T> where T : IComparable<T>
+    {
+        public enum ComputeThisFromOther
+        {
+            Width,
+            Height
+        }
+
+        public AspectRatioValue(Widget widget, float aspect, ComputeThisFromOther computeFromOther) // aspect = w/h
+            : base(widget, computeFromOther == ComputeThisFromOther.Height ? "width" : "height", computeFromOther == ComputeThisFromOther.Height ? 1 / aspect : aspect)
+        {
+        }
+    }
+
     public class WidgetProperties
     {
         private Dictionary<string, IWidgetProperty> _properties = new Dictionary<string, IWidgetProperty>();
         private Dictionary<string, string[]> _proxyProperties = new Dictionary<string, string[]>();
+        private Dictionary<string, Action> _propertyReactions = new Dictionary<string, Action>();
         public bool Locked
         {
             get;
@@ -142,6 +157,15 @@ namespace GameJam.NUI
             {
                 SetProperty(key, prop);
             }
+        }
+
+        public void SetPropertyReaction(string key, Action action)
+        {
+            if(!_properties.ContainsKey(key))
+            {
+                throw new Exception("Attempted to add new reaction to property that doesn't exist.");
+            }
+            _propertyReactions[key] = action;
         }
 
         internal void Lock()

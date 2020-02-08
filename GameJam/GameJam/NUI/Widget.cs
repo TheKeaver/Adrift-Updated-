@@ -265,6 +265,45 @@ namespace GameJam.NUI
             }
         }
 
+        public bool BeginNewLayer
+        {
+            get;
+            set;
+        }
+        public virtual int UiLayer
+        {
+            get
+            {
+                if(Parent == null)
+                {
+                    return 0;
+                }
+                return Parent.UiLayer + (BeginNewLayer ? 1 : 0);
+            }
+        }
+        public virtual int LayerIndex
+        {
+            get
+            {
+                if(Parent == null)
+                {
+                    return 0;
+                }
+                if(BeginNewLayer)
+                {
+                    return 0;
+                }
+                return Parent.LayerIndex + 1;
+            }
+        }
+        public float Depth
+        {
+            get
+            {
+                return Constants.Render.GetUIRenderDepth(UiLayer, LayerIndex);
+            }
+        }
+
         public Engine Engine
         {
             get;

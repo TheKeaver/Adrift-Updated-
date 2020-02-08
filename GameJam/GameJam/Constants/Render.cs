@@ -24,14 +24,14 @@
 
         //////////////
         public static readonly float RENDER_DEPTH_LAYER_SPRITES = 1;
-        public static readonly float RENDER_DEPTH_LAYER_SPRITES_BACKGROUND = RENDER_DEPTH_LAYER_SPRITES / 100.0f;
-        public static readonly float RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY = RENDER_DEPTH_LAYER_SPRITES / 10.0f;
+        public static readonly float RENDER_DEPTH_LAYER_SPRITES_BACKGROUND = RENDER_DEPTH_LAYER_SPRITES;
+        public static readonly float RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY = RENDER_DEPTH_LAYER_SPRITES_BACKGROUND + 1;
 
-        public static readonly float RENDER_DEPTH_LAYER_UI = 2;
+        public static readonly float RENDER_DEPTH_LAYER_UI = RENDER_DEPTH_LAYER_SPRITES * 10000000000;
         public static readonly float RENDER_DEPTH_LAYER_UI_LAYER_DIVIDER = 100;
         public static float GetUIRenderDepth(int uiLayer, int layerIndex)
         {
-            return layerIndex / (RENDER_DEPTH_LAYER_UI_LAYER_DIVIDER * uiLayer) + RENDER_DEPTH_LAYER_UI;
+            return RENDER_DEPTH_LAYER_UI + uiLayer * RENDER_DEPTH_LAYER_UI_LAYER_DIVIDER + layerIndex;
         }
     }
 }
