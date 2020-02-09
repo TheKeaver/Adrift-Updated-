@@ -218,8 +218,8 @@ namespace GameJam.Systems
                 float cos = (float)Math.Cos(rotation),
                     sin = (float)Math.Sin(rotation);
 
-                Rectangle[] destinationPatches = ninePatchComp.NinePatch.CreatePatches(new Rectangle((int)position.X - (int)(ninePatchComp.Bounds.X * transformScale / 2),
-                    (int)position.Y - (int)(ninePatchComp.Bounds.X * transformScale / 2),
+                Rectangle[] destinationPatches = ninePatchComp.NinePatch.CreatePatches(new Rectangle((int)position.X,
+                    (int)position.Y,
                     (int)(ninePatchComp.Bounds.X * transformScale),
                     (int)(ninePatchComp.Bounds.Y * transformScale)));
                 Rectangle[] sourcePatches = ninePatchComp.NinePatch.SourcePatches;
@@ -246,25 +246,25 @@ namespace GameJam.Systems
 
                     VertexPositionColorTexture v1 = new VertexPositionColorTexture()
                     {
-                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X + destinationPatches[i].Width * transformScale / 2, patchPosition.Y - destinationPatches[i].Height * transformScale / 2), cos, sin), ninePatchComp.Depth),
+                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X + destinationPatches[i].Width * transformScale, patchPosition.Y), cos, sin), ninePatchComp.Depth),
                         Color = ninePatchComp.Color * ninePatchComp.Alpha,
                         TextureCoordinate = new Vector2(umax, vmax)
                     };
                     VertexPositionColorTexture v2 = new VertexPositionColorTexture()
                     {
-                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X - destinationPatches[i].Width * transformScale / 2, patchPosition.Y - destinationPatches[i].Height * transformScale / 2), cos, sin), ninePatchComp.Depth),
+                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X, patchPosition.Y), cos, sin), ninePatchComp.Depth),
                         Color = ninePatchComp.Color * ninePatchComp.Alpha,
                         TextureCoordinate = new Vector2(umin, vmax)
                     };
                     VertexPositionColorTexture v3 = new VertexPositionColorTexture()
                     {
-                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X - destinationPatches[i].Width * transformScale / 2, patchPosition.Y + destinationPatches[i].Height * transformScale / 2), cos, sin), ninePatchComp.Depth),
+                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X, patchPosition.Y + destinationPatches[i].Height * transformScale / 1), cos, sin), ninePatchComp.Depth),
                         Color = ninePatchComp.Color * ninePatchComp.Alpha,
                         TextureCoordinate = new Vector2(umin, vmin)
                     };
                     VertexPositionColorTexture v4 = new VertexPositionColorTexture()
                     {
-                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X + destinationPatches[i].Width * transformScale / 2, patchPosition.Y + destinationPatches[i].Height * transformScale / 2), cos, sin), ninePatchComp.Depth),
+                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X + destinationPatches[i].Width * transformScale, patchPosition.Y + destinationPatches[i].Height * transformScale / 1), cos, sin), ninePatchComp.Depth),
                         Color = ninePatchComp.Color * ninePatchComp.Alpha,
                         TextureCoordinate = new Vector2(umax, vmin)
                     };
