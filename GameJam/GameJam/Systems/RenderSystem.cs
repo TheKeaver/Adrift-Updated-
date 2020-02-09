@@ -1,4 +1,4 @@
-﻿using Audrey;
+using Audrey;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameJam.Components;
@@ -22,10 +22,12 @@ namespace GameJam.Systems
         public static readonly Vector2 HalfHalf = new Vector2(0.5f, 0.5f);
 
         readonly Family _spriteFamily = Family.All(typeof(SpriteComponent), typeof(TransformComponent)).Get();
+        readonly Family _ninePatchFamily = Family.All(typeof(NinePatchComponent), typeof(TransformComponent)).Get();
         readonly Family _fontFamily = Family.All(typeof(BitmapFontComponent), typeof(TransformComponent)).Get();
         readonly Family _fieldFontFamily = Family.All(typeof(FieldFontComponent), typeof(TransformComponent)).Get();
         readonly Family _vectorSpriteFamily = Family.All(typeof(VectorSpriteComponent), typeof(TransformComponent)).Get();
         readonly ImmutableList<Entity> _spriteEntities;
+        readonly ImmutableList<Entity> _ninePatchEntities;
         readonly ImmutableList<Entity> _fontEntities;
         readonly ImmutableList<Entity> _fieldFontEntities;
         readonly ImmutableList<Entity> _vectorSpriteEntities;
@@ -51,6 +53,7 @@ namespace GameJam.Systems
         {
             Engine = engine;
             _spriteEntities = Engine.GetEntitiesFor(_spriteFamily);
+            _ninePatchEntities = Engine.GetEntitiesFor(_ninePatchFamily);
             _fontEntities = Engine.GetEntitiesFor(_fontFamily);
             _fieldFontEntities = Engine.GetEntitiesFor(_fieldFontFamily);
             _vectorSpriteEntities = Engine.GetEntitiesFor(_vectorSpriteFamily);
@@ -93,22 +96,15 @@ namespace GameJam.Systems
 
         private void DrawSpriteBatchEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
         {
-            if (_spriteEntities.Count == 0 && _fontEntities.Count == 0)
+            if (_spriteEntities.Count == 0 && _fontEntities.Count == 0 && _ninePatchEntities.Count == 0)
             {
                 return;
             }
-            if (_spriteEntities.Count > 0 || _fontEntities.Count > 0)
+            if (_spriteEntities.Count > 0 || _fontEntities.Count > 0 || _ninePatchEntities.Count > 0)
             {
                 CheckUpdateProjections();
             }
 
-            //SpriteBatch.Begin(SpriteSortMode.Deferred,
-            //                   BlendState.AlphaBlend,
-            //                   SamplerState.AnisotropicClamp,
-            //                   _spriteBatchDepthStencilState,
-            //                   null,
-            //                   _spriteEffect,
-            //                   transformMatrix);
             GraphicsDevice.DepthStencilState = _spriteDepthStencilState;
             GraphicsDevice.BlendState = _spriteBlendState;
             GraphicsDevice.SamplerStates[0] = _spriteSamplerState;
@@ -168,25 +164,25 @@ namespace GameJam.Systems
                 VertexPositionColorTexture v1 = new VertexPositionColorTexture()
                 {
                     Position = new Vector3(RotateVector(new Vector2(position.X + spriteComp.Bounds.X * transformScale / 2, position.Y - spriteComp.Bounds.Y * transformScale / 2), cos, sin), spriteComp.Depth),
-                    Color = spriteComp.Color,
+                    Color = spriteComp.Color * spriteComp.Alpha,
                     TextureCoordinate = new Vector2(umax, vmax)
                 };
                 VertexPositionColorTexture v2 = new VertexPositionColorTexture()
                 {
                     Position = new Vector3(RotateVector(new Vector2(position.X - spriteComp.Bounds.X * transformScale / 2, position.Y - spriteComp.Bounds.Y * transformScale / 2), cos, sin), spriteComp.Depth),
-                    Color = spriteComp.Color,
+                    Color = spriteComp.Color * spriteComp.Alpha,
                     TextureCoordinate = new Vector2(umin, vmax)
                 };
                 VertexPositionColorTexture v3 = new VertexPositionColorTexture()
                 {
                     Position = new Vector3(RotateVector(new Vector2(position.X - spriteComp.Bounds.X * transformScale / 2, position.Y + spriteComp.Bounds.Y * transformScale / 2), cos, sin), spriteComp.Depth),
-                    Color = spriteComp.Color,
+                    Color = spriteComp.Color * spriteComp.Alpha,
                     TextureCoordinate = new Vector2(umin, vmin)
                 };
                 VertexPositionColorTexture v4 = new VertexPositionColorTexture()
                 {
                     Position = new Vector3(RotateVector(new Vector2(position.X + spriteComp.Bounds.X * transformScale / 2, position.Y + spriteComp.Bounds.Y * transformScale / 2), cos, sin), spriteComp.Depth),
-                    Color = spriteComp.Color,
+                    Color = spriteComp.Color * spriteComp.Alpha,
                     TextureCoordinate = new Vector2(umax, vmin)
                 };
 
@@ -197,6 +193,90 @@ namespace GameJam.Systems
                 _spriteBuffer.Add(v3);
                 _spriteBuffer.Add(v4);
                 _spriteBuffer.Add(v1);
+            }
+
+            foreach (Entity entity in _ninePatchEntities)
+            {
+                NinePatchComponent ninePatchComp = entity.GetComponent<NinePatchComponent>();
+                if (ninePatchComp.Hidden
+                    || (ninePatchComp.RenderGroup & groupMask) == 0)
+                {
+                    continue;
+                }
+
+                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+
+                Vector2 position = transformComp.Position
+                    + (transformComp.LastPosition - transformComp.Position)
+                        * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                // TODO: NinePatch's can't be rotated
+                float rotation = 0;
+
+                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+
+                float cos = (float)Math.Cos(rotation),
+                    sin = (float)Math.Sin(rotation);
+
+                Rectangle[] destinationPatches = ninePatchComp.NinePatch.CreatePatches(new Rectangle((int)position.X - (int)(ninePatchComp.Bounds.X * transformScale / 2),
+                    (int)position.Y - (int)(ninePatchComp.Bounds.X * transformScale / 2),
+                    (int)(ninePatchComp.Bounds.X * transformScale),
+                    (int)(ninePatchComp.Bounds.Y * transformScale)));
+                Rectangle[] sourcePatches = ninePatchComp.NinePatch.SourcePatches;
+
+                if (currentTexture == null)
+                {
+                    currentTexture = ninePatchComp.NinePatch.Texture;
+                }
+                if (currentTexture != ninePatchComp.NinePatch.Texture)
+                {
+                    FlushSpriteArray(currentTexture);
+                    currentTexture = ninePatchComp.NinePatch.Texture;
+                }
+
+                for (int i = 0; i < sourcePatches.Length; i++)
+                {
+                    Rectangle texRegionSourceBounds = sourcePatches[i];
+                    float umin = texRegionSourceBounds.X / (float)ninePatchComp.NinePatch.Texture.Width,
+                        vmin = texRegionSourceBounds.Y / (float)ninePatchComp.NinePatch.Texture.Height,
+                        umax = (texRegionSourceBounds.X + texRegionSourceBounds.Width) / (float)ninePatchComp.NinePatch.Texture.Width,
+                        vmax = (texRegionSourceBounds.Y + texRegionSourceBounds.Height) / (float)ninePatchComp.NinePatch.Texture.Height;
+
+                    Vector2 patchPosition = position - ninePatchComp.Bounds / 2 + new Vector2(destinationPatches[i].X, destinationPatches[i].Y);
+
+                    VertexPositionColorTexture v1 = new VertexPositionColorTexture()
+                    {
+                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X + destinationPatches[i].Width * transformScale / 2, patchPosition.Y - destinationPatches[i].Height * transformScale / 2), cos, sin), ninePatchComp.Depth),
+                        Color = ninePatchComp.Color * ninePatchComp.Alpha,
+                        TextureCoordinate = new Vector2(umax, vmax)
+                    };
+                    VertexPositionColorTexture v2 = new VertexPositionColorTexture()
+                    {
+                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X - destinationPatches[i].Width * transformScale / 2, patchPosition.Y - destinationPatches[i].Height * transformScale / 2), cos, sin), ninePatchComp.Depth),
+                        Color = ninePatchComp.Color * ninePatchComp.Alpha,
+                        TextureCoordinate = new Vector2(umin, vmax)
+                    };
+                    VertexPositionColorTexture v3 = new VertexPositionColorTexture()
+                    {
+                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X - destinationPatches[i].Width * transformScale / 2, patchPosition.Y + destinationPatches[i].Height * transformScale / 2), cos, sin), ninePatchComp.Depth),
+                        Color = ninePatchComp.Color * ninePatchComp.Alpha,
+                        TextureCoordinate = new Vector2(umin, vmin)
+                    };
+                    VertexPositionColorTexture v4 = new VertexPositionColorTexture()
+                    {
+                        Position = new Vector3(RotateVector(new Vector2(patchPosition.X + destinationPatches[i].Width * transformScale / 2, patchPosition.Y + destinationPatches[i].Height * transformScale / 2), cos, sin), ninePatchComp.Depth),
+                        Color = ninePatchComp.Color * ninePatchComp.Alpha,
+                        TextureCoordinate = new Vector2(umax, vmin)
+                    };
+
+                    _spriteBuffer.Add(v1);
+                    _spriteBuffer.Add(v2);
+                    _spriteBuffer.Add(v3);
+
+                    _spriteBuffer.Add(v3);
+                    _spriteBuffer.Add(v4);
+                    _spriteBuffer.Add(v1);
+                }
             }
 
             foreach (Entity entity in _fontEntities)
