@@ -108,6 +108,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderCullingDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />

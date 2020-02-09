@@ -13,26 +13,29 @@ namespace GameJam.Common
 
         public bool allNodes = false;
         public List<Entity> leaves;
+        public int maxLeavesBeforeSubTrees;
         public List<QuadTreeNode> subNodes;
 
         public QuadTreeNode(BoundingRect bounds)
         {
             parent = null;
             boundingRect = bounds;
-            leaves = new List<Entity>(CVars.Get<int>("quad_tree_max_references"));
+            leaves = new List<Entity>();
+            maxLeavesBeforeSubTrees = CVars.Get<int>("quad_tree_max_references");
             subNodes = new List<QuadTreeNode>(4);
         }
         public QuadTreeNode(BoundingRect bounds, QuadTreeNode parent)
         {
             this.parent = parent;
             boundingRect = bounds;
-            leaves = new List<Entity>(CVars.Get<int>("quad_tree_max_references"));
+            leaves = new List<Entity>();
+            maxLeavesBeforeSubTrees = CVars.Get<int>("quad_tree_max_references");
             subNodes = new List<QuadTreeNode>(4);
         }
 
         public void AddReference(Entity entity)
         {
-            if (!allNodes && leaves.Count < leaves.Capacity)
+            if (!allNodes && leaves.Count < maxLeavesBeforeSubTrees)
             {
                 leaves.Add(entity);
                 entity.GetComponent<QuadTreeReferenceComponent>().node = this;
@@ -46,28 +49,29 @@ namespace GameJam.Common
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),
                                                                     this));
-                    subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X + boundingRect.Width / 2,
+                    subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X,
                                                                     boundingRect.Center.Y - boundingRect.Height / 2,
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),
                                                                     this));
                     subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X - boundingRect.Width / 2,
-                                                                    boundingRect.Center.Y + boundingRect.Height / 2,
+                                                                    boundingRect.Center.Y,
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),
                                                                     this));
-                    subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X + boundingRect.Width / 2,
-                                                                    boundingRect.Center.Y + boundingRect.Height / 2,
+                    subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X,
+                                                                    boundingRect.Center.Y,
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),
                                                                     this));
                     allNodes = true;
                     AddReference(entity);
-                    foreach(Entity e in leaves)
+                    List<Entity> temp = leaves;
+                    leaves.Clear();
+                    foreach (Entity e in temp)
                     {
                         AddReference(e);
                     }
-                    leaves.Clear();
                 }
                 else
                 {
@@ -80,12 +84,14 @@ namespace GameJam.Common
                                                         (float)Math.Sin(xfrom.Rotation),
                                                         xfrom.Scale)));
                         {
-                            AddReference(entity);
+                            qtn.AddReference(entity);
                             noIntersect = false;
                         }
                     }
-                    if (!noIntersect)
+                    if (noIntersect)
+                    {
                         leaves.Add(entity);
+                    }
                 }
             }
         }

@@ -64,12 +64,12 @@ namespace GameJam.Systems
 
                 TransformComponent transformCompA = entityA.GetComponent<TransformComponent>();
                 CollisionComponent collisionCompA = entityA.GetComponent<CollisionComponent>();
-                QuadTreeReferenceComponent qaudTreeCompA = entityA.GetComponent<QuadTreeReferenceComponent>();
+                QuadTreeReferenceComponent qaudTreeRefCompA = entityA.GetComponent<QuadTreeReferenceComponent>();
 
                 float cosA = (float)Math.Cos(transformCompA.Rotation),
                     sinA = (float)Math.Sin(transformCompA.Rotation);
 
-                RecursiveUpwardTreeCollisionCheck(entityA, transformCompA, collisionCompA, cosA, sinA, processedPairs, entityA.GetComponent<QuadTreeReferenceComponent>().node);
+                RecursiveUpwardTreeCollisionCheck(entityA, transformCompA, collisionCompA, cosA, sinA, processedPairs, qaudTreeRefCompA.node);
             }
         }
 
