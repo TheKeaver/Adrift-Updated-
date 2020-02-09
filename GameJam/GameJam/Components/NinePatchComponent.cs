@@ -11,16 +11,14 @@ namespace GameJam.Components
         {
         }
 
-        public NinePatchComponent(NinePatchRegion2D ninePatch, Vector2 bounds, float thickness)
+        public NinePatchComponent(NinePatchRegion2D ninePatch, Vector2 bounds)
         {
             NinePatch = ninePatch;
             Bounds = bounds;
-            Thickness = thickness;
         }
 
         public NinePatchRegion2D NinePatch;
         public Vector2 Bounds;
-        public float Thickness;
         public Color Color = Color.White;
         public float Alpha = 1;
 

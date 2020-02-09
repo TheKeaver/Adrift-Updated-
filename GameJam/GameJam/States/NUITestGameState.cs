@@ -32,8 +32,13 @@ namespace GameJam.States
                 image.Image = new FixedValue<TextureRegion2D>(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_input_keyboard_key_0"));
                 image.Width = new FixedValue<float>(100);
                 image.Height = new FixedValue<float>(100);
-
                 container.Add(image);
+
+                NinePatchImageWidget ninePatch = new NinePatchImageWidget(SharedState.Engine);
+                ninePatch.Image = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_lobby_panel_background"), 5));
+                ninePatch.Width = new FixedValue<float>(100);
+                ninePatch.Height = new FixedValue<float>(100);
+                Root.Add(ninePatch);
 
                 TextWidget text = new TextWidget(SharedState.Engine);
                 text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));

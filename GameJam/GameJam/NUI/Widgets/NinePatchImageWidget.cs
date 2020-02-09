@@ -19,17 +19,6 @@ namespace GameJam.NUI.Widgets
                 Properties.SetProperty("image", value);
             }
         }
-        public WidgetProperty<float> Thickness
-        {
-            get
-            {
-                return Properties.GetProperty<float>("thickness");
-            }
-            set
-            {
-                Properties.SetProperty("thickness", value);
-            }
-        }
 
         public NinePatchImageWidget(Engine engine) : base(engine)
         {
@@ -41,7 +30,7 @@ namespace GameJam.NUI.Widgets
 
             entity.AddComponent(new NinePatchComponent());
             entity.GetComponent<NinePatchComponent>().RenderGroup = Constants.Render.RENDER_GROUP_UI;
-            entity.GetComponent<SpriteComponent>().Depth = Depth;
+            entity.GetComponent<NinePatchComponent>().Depth = Depth;
         }
 
         protected override void OnComputeProperties(Entity entity)
@@ -49,7 +38,6 @@ namespace GameJam.NUI.Widgets
             NinePatchComponent ninePatchComp = Entity.GetComponent<NinePatchComponent>();
             ninePatchComp.NinePatch = Image.Value;
             ninePatchComp.Bounds = new Vector2(Width.Value, Height.Value);
-            ninePatchComp.Thickness = Thickness.Value;
             ninePatchComp.Alpha = Alpha.Value;
             ninePatchComp.Color = Tint.Value;
         }
