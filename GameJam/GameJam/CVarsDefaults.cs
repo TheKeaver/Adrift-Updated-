@@ -210,8 +210,8 @@ namespace GameJam
             Create<int>("debug_statistics_average_draw_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_collision_shapes", false, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_render_culling", false, CVarFlags.LIVE_RELOAD);
-            Create<bool>("debug_show_quad_trees", true, CVarFlags.LIVE_RELOAD);
-            Create<bool>("debug_enable_camera_movement", false, CVarFlags.LIVE_RELOAD);
+            Create<bool>("debug_show_quad_trees", false, CVarFlags.LIVE_RELOAD);
+            Create<bool>("debug_enable_camera_movement", true, CVarFlags.LIVE_RELOAD);
             Create<float>("debug_gameplay_camera_zoom", 1, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_force_debug_camera", false, CVarFlags.LIVE_RELOAD);
             Create<float>("debug_debug_camera_zoom", 1, CVarFlags.LIVE_RELOAD);
