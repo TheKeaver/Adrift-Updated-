@@ -4,9 +4,9 @@ namespace GameJam.Common
 {
     /// <summary>
     /// Axis-Aligned Bounding Box (AABB) based on floats.
-    /// Furthermore, the Bounding Box coordinates are based on Top Left.
+    /// Furthermore, the Bounding Box coordinates are based on Bottom Left.
     /// This means that if you want a Bounding Box centered in the middle you must:
-    /// new BoudningRect(-(width/2), -(height/2), width, height);
+    /// new BoundingRect(-(width/2), -(height/2), width, height);
     /// </summary>
     public struct BoundingRect
     {

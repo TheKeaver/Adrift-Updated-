@@ -1,15 +1,12 @@
 ﻿using Audrey;
 using GameJam.Common;
 using GameJam.Components;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Systems
 {
     public class QuadTreeSystem : BaseSystem
     {
-        readonly Family _quadTreeFamily = Family.All(typeof(QuadTreeReferenceComponent)).Get();
+        readonly Family _quadTreeFamily = Family.All(typeof(QuadTreeReferenceComponent), typeof(TransformComponent), typeof(CollisionComponent)).Get();
         readonly ImmutableList<Entity> _quadTreeEntities;
 
         public QuadTreeSystem(Engine engine) : base(engine)
@@ -26,7 +23,7 @@ namespace GameJam.Systems
         {
             float width = CVars.Get<float>("play_field_width");
             float height = CVars.Get<float>("play_field_height");
-            QuadTreeNode qt = new QuadTreeNode(new BoundingRect(-width/2, -height/2, width, height), null);
+            QuadTreeNode qt = new QuadTreeNode(new BoundingRect(-width / 2, -height / 2, width, height), null);
 
             foreach (Entity e in _quadTreeEntities)
             {

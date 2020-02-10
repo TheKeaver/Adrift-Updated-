@@ -2,7 +2,6 @@
 using GameJam.Components;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Common
 {
@@ -45,12 +44,12 @@ namespace GameJam.Common
                 if(!allNodes)
                 {
                     subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Left,
-                                                                    boundingRect.Top,
+                                                                    boundingRect.Bottom,
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),
                                                                     this));
                     subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X,
-                                                                    boundingRect.Top,
+                                                                    boundingRect.Bottom,
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),
                                                                     this));
@@ -65,9 +64,11 @@ namespace GameJam.Common
                                                                     boundingRect.Height / 2),
                                                                     this));
                     allNodes = true;
-                    AddReference(entity);
-                    List<Entity> temp = leaves;
+
+                    List<Entity> temp = new List<Entity>();
+                    temp.AddRange(leaves);
                     leaves.Clear();
+                    AddReference(entity);
                     foreach (Entity e in temp)
                     {
                         AddReference(e);
@@ -79,18 +80,23 @@ namespace GameJam.Common
                     bool noIntersect = true;
                     foreach (QuadTreeNode qtn in subNodes)
                     {
-                        if (qtn.boundingRect.Contains(entity.GetComponent<CollisionComponent>()
+                        BoundingRect entityAABB = entity.GetComponent<CollisionComponent>()
                                                         .GetAABB((float)Math.Cos(xfrom.Rotation),
                                                         (float)Math.Sin(xfrom.Rotation),
-                                                        xfrom.Scale)));
+                                                        xfrom.Scale);
+                        entityAABB.Min += xfrom.Position;
+                        entityAABB.Max += xfrom.Position;
+                        if (qtn.boundingRect.Contains(entityAABB))
                         {
                             qtn.AddReference(entity);
                             noIntersect = false;
+                            break;
                         }
                     }
                     if (noIntersect)
                     {
                         leaves.Add(entity);
+                        entity.GetComponent<QuadTreeReferenceComponent>().node = this;
                     }
                 }
             }

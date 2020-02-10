@@ -68,13 +68,17 @@ namespace GameJam.Systems
         private void RecursiveDrawHelper(QuadTreeNode node,  List<QuadTreeNode> drawnNodes)
         {
             if (node == null || drawnNodes.Contains(node))
+            {
                 return;
+            }
 
             SpriteBatch.DrawRectangle(new Rectangle((int)node.boundingRect.Left,
-                                                    (int)node.boundingRect.Bottom,
+                                                    -(int)node.boundingRect.Bottom,
                                                     (int)node.boundingRect.Width,
-                                                    (int)node.boundingRect.Height),
-                                                    Color.DarkSlateGray);
+                                                    -(int)node.boundingRect.Height),
+                                                    Color.DarkSlateGray,
+                                                    5);
+
             drawnNodes.Add(node);
             RecursiveDrawHelper(node.parent, drawnNodes);
         }
