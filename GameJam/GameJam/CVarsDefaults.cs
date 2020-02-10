@@ -220,6 +220,7 @@ namespace GameJam
             Create<float>("debug_debug_camera_position_y", 0, CVarFlags.LIVE_RELOAD);
 
             /** PARTICLES **/
+            Create<bool>("particle_enable", true, CVarFlags.DEV_PRESERVE);
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_strength", 750, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_decay_multiplier", 0.96f, CVarFlags.DEV_PRESERVE);
