@@ -44,17 +44,17 @@ namespace GameJam.Common
             {
                 if(!allNodes)
                 {
-                    subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X - boundingRect.Width / 2,
-                                                                    boundingRect.Center.Y - boundingRect.Height / 2,
+                    subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Left,
+                                                                    boundingRect.Top,
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),
                                                                     this));
                     subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X,
-                                                                    boundingRect.Center.Y - boundingRect.Height / 2,
+                                                                    boundingRect.Top,
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),
                                                                     this));
-                    subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Center.X - boundingRect.Width / 2,
+                    subNodes.Add(new QuadTreeNode(new BoundingRect(boundingRect.Left,
                                                                     boundingRect.Center.Y,
                                                                     boundingRect.Width / 2,
                                                                     boundingRect.Height / 2),

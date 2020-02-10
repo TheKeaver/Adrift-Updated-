@@ -55,16 +55,8 @@ namespace GameJam.Systems
                     null,
                     null,
                     transformMatrix);
-
-            BoundingRect cameraRect = camera.BoundingRect;
-            SpriteBatch.DrawRectangle(new Rectangle((int)cameraRect.Min.X,
-                -(int)cameraRect.Min.Y,
-                (int)cameraRect.Width,
-                -(int)cameraRect.Height),
-                Color.Orange,
-                3);
-
-           List<QuadTreeNode> drawnNodes = new List<QuadTreeNode>();
+            
+            List<QuadTreeNode> drawnNodes = new List<QuadTreeNode>();
 
             foreach (Entity entity in _quadTreeEntities)
             {
@@ -82,8 +74,8 @@ namespace GameJam.Systems
                                                     (int)node.boundingRect.Bottom,
                                                     (int)node.boundingRect.Width,
                                                     (int)node.boundingRect.Height),
-                                                    Color.Cornsilk);
-
+                                                    Color.DarkSlateGray);
+            drawnNodes.Add(node);
             RecursiveDrawHelper(node.parent, drawnNodes);
         }
     }
