@@ -23,6 +23,8 @@ namespace GameJam
 
             Create<float>("camera_padding", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
+            Create<int>("quad_tree_max_references", 4, CVarFlags.DEV_PRESERVE);
+
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
@@ -208,6 +210,7 @@ namespace GameJam
             Create<int>("debug_statistics_average_draw_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_collision_shapes", false, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_render_culling", false, CVarFlags.LIVE_RELOAD);
+            Create<bool>("debug_show_quad_trees", false, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_enable_camera_movement", true, CVarFlags.LIVE_RELOAD);
             Create<float>("debug_gameplay_camera_zoom", 1, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_force_debug_camera", false, CVarFlags.LIVE_RELOAD);
@@ -217,6 +220,7 @@ namespace GameJam
             Create<float>("debug_debug_camera_position_y", 0, CVarFlags.LIVE_RELOAD);
 
             /** PARTICLES **/
+            Create<bool>("particle_enable", true, CVarFlags.DEV_PRESERVE);
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_strength", 750, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_decay_multiplier", 0.96f, CVarFlags.DEV_PRESERVE);

@@ -65,6 +65,13 @@ namespace GameJam.States
             private set;
         }
 #endif
+#if DEBUG
+        public QuadTreeDebugRenderSystem QuadTreeDebugRenderSystem
+        {
+            get;
+            private set;
+        }
+#endif
 
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
@@ -117,6 +124,7 @@ namespace GameJam.States
                 new GravitySystem(Engine),
                 new MovementSystem(Engine),
                 new PlayerShieldSystem(Engine),
+                new QuadTreeSystem(Engine),
                 
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
                 new EnemyRotationSystem(Engine),
@@ -131,6 +139,9 @@ namespace GameJam.States
 #endif
 #if DEBUG
             RenderCullingDebugRenderSystem = new RenderCullingDebugRenderSystem(GameManager.GraphicsDevice, Engine);
+#endif
+#if DEBUG
+            QuadTreeDebugRenderSystem = new QuadTreeDebugRenderSystem(GameManager.GraphicsDevice, Engine);
 #endif
         }
         private void InitDirectors()
@@ -262,6 +273,13 @@ namespace GameJam.States
             {
                 Camera debugCamera = CVars.Get<bool>("debug_force_debug_camera") ? DebugCamera : null;
                 RenderCullingDebugRenderSystem.Draw(Camera, dt, debugCamera);
+            }
+#endif
+#if DEBUG
+            if (CVars.Get<bool>("debug_show_quad_trees"))
+            {
+                Camera debugCamera = CVars.Get<bool>("debug_force_debug_camera") ? DebugCamera : null;
+                QuadTreeDebugRenderSystem.Draw(Camera, dt, debugCamera);
             }
 #endif
 

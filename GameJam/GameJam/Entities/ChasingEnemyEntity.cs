@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using GameJam.Processes.Entities;
 using Microsoft.Xna.Framework;
@@ -55,6 +56,7 @@ namespace GameJam.Entities
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new ChasingEnemyComponent());
             entity.AddComponent(new BounceComponent());
+            entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(3, 0),

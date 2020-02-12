@@ -10,8 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Audio\AudioManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\QuadTreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
@@ -106,6 +108,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeDebugRenderSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderCullingDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\DelegateProcess.cs" />

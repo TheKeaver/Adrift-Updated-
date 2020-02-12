@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 
@@ -22,6 +23,7 @@ namespace GameJam.Entities
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_EDGES;
             entity.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.GROUP_MASK_ALL & ~Constants.Collision.COLLISION_GROUP_EDGES);
             entity.AddComponent(new EdgeComponent(normal));
+            entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
 
             RenderShape[] temp = new RenderShape[1];
             temp[0] = new QuadRenderShape(new Vector2(hw, hh), new Vector2(-hw, hh), new Vector2(-hw, -hh), new Vector2(hw, -hh), CVars.Get<Color>("color_playfield"));
