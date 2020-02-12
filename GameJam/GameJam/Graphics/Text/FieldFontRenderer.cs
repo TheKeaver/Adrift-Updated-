@@ -38,7 +38,7 @@ namespace GameJam.Graphics.Text
         {
             Matrix wvp;
             Matrix.CreateOrthographicOffCenter(0, Device.Viewport.Width, 0,
-                Device.Viewport.Height, -10000, 10000, out wvp);
+                Device.Viewport.Height, -100, 100, out wvp);
             Begin(wvp, optimizeForSmallText);
 
         }
@@ -108,19 +108,19 @@ namespace GameJam.Graphics.Text
             Draw(font, content, position, rotation, Color.White);
         }
         public void Draw(FieldFont font, string content, Vector2 position, float rotation,
-            Color color, float scale = 1, bool enableKerning = true)
+            Color color, float scale = 1, bool enableKerning = true, float depth = 0)
         {
-            if(!_currentlyDrawing)
+            if (!_currentlyDrawing)
             {
                 throw new Exception("Not currently drawing. Call `Begin` first.");
             }
 
-            if(string.IsNullOrEmpty(content))
+            if (string.IsNullOrEmpty(content))
             {
                 return;
             }
 
-            if(_currentFont != null)
+            if (_currentFont != null)
             {
                 if (_currentFont.PxRange != font.PxRange || _currentFont.TxSize != font.TxSize)
                 {
@@ -130,7 +130,6 @@ namespace GameJam.Graphics.Text
             }
             _currentFont = font;
             Effect.Parameters["PxRange"].SetValue(font.PxRange);
-            Effect.Parameters["TextureSize"].SetValue(new Vector2(font.TxSize));
 
             GlyphRenderInfo[] sequence = content.Select((char c) => {
                 return font.GetRenderInfo(Device, Content, c);
@@ -143,20 +142,21 @@ namespace GameJam.Graphics.Text
             for (int i = 0; i < sequence.Length; i++)
             {
                 GlyphRenderInfo current = sequence[i];
-                if(current == null)
+                if (current == null)
                 {
                     continue;
                 }
 
-                if(_currentTexture != null)
+                if (_currentTexture != null)
                 {
-                    if(_currentTexture != current.TextureRegion.Texture)
+                    if (_currentTexture != current.TextureRegion.Texture)
                     {
                         Flush();
                     }
                 }
                 _currentTexture = current.TextureRegion.Texture;
                 Effect.Parameters["GlyphTexture"].SetValue(current.TextureRegion.Texture);
+                Effect.Parameters["TextureSize"].SetValue(new Vector2(current.TextureRegion.Texture.Width, current.TextureRegion.Texture.Height));
 
                 float glyphHeight = font.TxSize * (1.0f / current.Metrics.Scale);
                 float glyphWidth = font.TxSize * (1.0f / current.Metrics.Scale);
@@ -184,29 +184,30 @@ namespace GameJam.Graphics.Text
                     int verticesCount = _vertices.Count;
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), -10000),
+                        Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), depth),
                         Color = color,
                         TextureCoordinate = new Vector2(umax, vmax)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), -10000),
+                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), depth),
                         Color = color,
                         TextureCoordinate = new Vector2(umin, vmax)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), -10000),
+                        Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), depth),
                         Color = color,
                         TextureCoordinate = new Vector2(umin, vmin)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
-                        Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), -10000),
+                        Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), depth),
                         Color = color,
                         TextureCoordinate = new Vector2(umax, vmin)
                     });
 
+                    // ccw rotation
                     _indices.Add(verticesCount); // 0
                     _indices.Add(verticesCount + 1); // 1
                     _indices.Add(verticesCount + 2); // 2
