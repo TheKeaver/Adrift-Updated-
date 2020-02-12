@@ -38,6 +38,8 @@ namespace GameJam
 
             content.Load<Texture2D>("texture_background_parallax_test");
 
+            content.Load<Texture2D>("texture_gravity_hole_circle");
+
             /** BEGIN CONTENT TO BE PUT INTO TEXTURE ATLAS **/
             /*
             content.Load<Texture2D>("texture_ui_button_released");

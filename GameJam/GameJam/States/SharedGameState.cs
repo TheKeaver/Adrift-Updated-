@@ -111,7 +111,7 @@ namespace GameJam.States
                 new InputSystem(Engine),
 
                 // Section below is not dependent on other systems
-                new GravityHolePassiveAnimationSystem(Engine, ProcessManager),
+                new GravityHolePassiveAnimationSystem(Engine, ProcessManager, Content),
                 new AnimationSystem(Engine),
                 new ParallaxBackgroundSystem(Engine, Camera),
                 new PulseSystem(Engine),

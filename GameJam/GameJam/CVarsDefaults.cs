@@ -260,6 +260,9 @@ namespace GameJam
 
             Create<string>("texture_background_parallax_test", "textures/ParalaxTestBackground", CVarFlags.PRESERVE);
 
+            Create<float>("texture_gravity_hole_radius", 45, CVarFlags.LIVE_RELOAD);
+            Create<string>("texture_gravity_hole_circle", "textures/GravityHoleCircle", CVarFlags.PRESERVE);
+
             Create<string>("texture_ui_button_released", "textures/ui/button_up_background", CVarFlags.PRESERVE);
             Create<string>("texture_ui_button_hover", "textures/ui/button_over_background", CVarFlags.PRESERVE);
             Create<string>("texture_ui_button_pressed", "textures/ui/button_down_background", CVarFlags.PRESERVE);
