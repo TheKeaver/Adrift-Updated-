@@ -208,6 +208,7 @@ namespace GameJam
             Create<int>("debug_statistics_average_between_frames_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("debug_statistics_average_update_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("debug_statistics_average_draw_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("debug_statistics_average_particle_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_collision_shapes", false, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_render_culling", false, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_quad_trees", false, CVarFlags.LIVE_RELOAD);

@@ -30,7 +30,10 @@ namespace GameJam
         }
 
 #if DEBUG
-        StatisticsProfiler _statisticsProfiler;
+        public static StatisticsProfiler StatisticsProfiler {
+            get;
+            private set;
+        }
 #endif
 
         public GraphicsDeviceManager Graphics
@@ -63,7 +66,7 @@ namespace GameJam
             Window.ClientSizeChanged += Window_ClientSizeChanged;
 
 #if DEBUG
-            _statisticsProfiler = new StatisticsProfiler();
+            StatisticsProfiler = new StatisticsProfiler();
 #endif
 
             Console.WriteLine(typeof(UIWidgetsReader).AssemblyQualifiedName);
@@ -82,7 +85,7 @@ namespace GameJam
 
             Components.Add(new MonoGameInputEventTranslator(this));
 #if DEBUG
-            Components.Add(new ImGuiGameComponent(this, _statisticsProfiler));
+            Components.Add(new ImGuiGameComponent(this, StatisticsProfiler));
 #endif
 
             ReloadDisplayOptions();
@@ -184,13 +187,14 @@ namespace GameJam
 
             // Attach first game state last
             SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
-            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            //ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            ProcessManager.Attach(new ParticleTestGameState(this, sharedState));
         }
         
         protected override void Update(GameTime gameTime)
         {
 #if DEBUG
-            _statisticsProfiler.BeginUpdate(gameTime);
+            StatisticsProfiler.BeginUpdate(gameTime);
 #endif
 
             if(!CVars.Get<bool>("debug_pause_game_updates"))
@@ -199,7 +203,7 @@ namespace GameJam
             }
 
 #if DEBUG
-            _statisticsProfiler.EndUpdate();
+            StatisticsProfiler.EndUpdate();
 #endif
 
             base.Update(gameTime);
@@ -215,7 +219,7 @@ namespace GameJam
         protected override void Draw(GameTime gameTime)
         {
 #if DEBUG
-            _statisticsProfiler.BeginDraw(gameTime);
+            StatisticsProfiler.BeginDraw(gameTime);
 #endif
 
             Graphics.GraphicsDevice.Clear(Color.Black);
@@ -234,7 +238,7 @@ namespace GameJam
             }
 
 #if DEBUG
-            _statisticsProfiler.EndDraw();
+            StatisticsProfiler.EndDraw();
 #endif
 
             base.Draw(gameTime);

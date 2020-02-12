@@ -257,6 +257,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\TextureAtlases\TextureAtlasReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\DebugCamera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\MouseScrollEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\ParticleTestGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\HSLColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
