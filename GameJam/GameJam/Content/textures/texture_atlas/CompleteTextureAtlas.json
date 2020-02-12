@@ -2,7 +2,7 @@
 
 {
 	"filename": "font_msdf_hyperspace_texture_character_32",
-	"frame": {"x":0,"y":0,"w":128,"h":128},
+	"frame": {"x":2,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -10,7 +10,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_33",
-	"frame": {"x":128,"y":0,"w":128,"h":128},
+	"frame": {"x":132,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -18,7 +18,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_34",
-	"frame": {"x":256,"y":0,"w":128,"h":128},
+	"frame": {"x":262,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -26,7 +26,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_35",
-	"frame": {"x":384,"y":0,"w":128,"h":128},
+	"frame": {"x":392,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -34,7 +34,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_36",
-	"frame": {"x":512,"y":0,"w":128,"h":128},
+	"frame": {"x":522,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -42,7 +42,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_37",
-	"frame": {"x":640,"y":0,"w":128,"h":128},
+	"frame": {"x":652,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -50,7 +50,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_38",
-	"frame": {"x":768,"y":0,"w":128,"h":128},
+	"frame": {"x":782,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -58,7 +58,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_39",
-	"frame": {"x":896,"y":0,"w":128,"h":128},
+	"frame": {"x":912,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -66,7 +66,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_40",
-	"frame": {"x":1024,"y":0,"w":128,"h":128},
+	"frame": {"x":1042,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_41",
-	"frame": {"x":1152,"y":0,"w":128,"h":128},
+	"frame": {"x":1172,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -82,7 +82,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_42",
-	"frame": {"x":1280,"y":0,"w":128,"h":128},
+	"frame": {"x":1302,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -90,7 +90,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_43",
-	"frame": {"x":1408,"y":0,"w":128,"h":128},
+	"frame": {"x":1432,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -98,7 +98,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_44",
-	"frame": {"x":1536,"y":0,"w":128,"h":128},
+	"frame": {"x":1562,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -106,7 +106,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_45",
-	"frame": {"x":1664,"y":0,"w":128,"h":128},
+	"frame": {"x":1692,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -114,7 +114,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_46",
-	"frame": {"x":1792,"y":0,"w":128,"h":128},
+	"frame": {"x":1822,"y":2,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -122,7 +122,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_47",
-	"frame": {"x":1920,"y":0,"w":128,"h":128},
+	"frame": {"x":2,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -130,7 +130,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_48",
-	"frame": {"x":0,"y":128,"w":128,"h":128},
+	"frame": {"x":132,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -138,7 +138,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_49",
-	"frame": {"x":128,"y":128,"w":128,"h":128},
+	"frame": {"x":262,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_50",
-	"frame": {"x":256,"y":128,"w":128,"h":128},
+	"frame": {"x":392,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -154,7 +154,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_51",
-	"frame": {"x":384,"y":128,"w":128,"h":128},
+	"frame": {"x":522,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -162,7 +162,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_52",
-	"frame": {"x":512,"y":128,"w":128,"h":128},
+	"frame": {"x":652,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -170,7 +170,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_53",
-	"frame": {"x":640,"y":128,"w":128,"h":128},
+	"frame": {"x":782,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -178,7 +178,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_54",
-	"frame": {"x":768,"y":128,"w":128,"h":128},
+	"frame": {"x":912,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -186,7 +186,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_55",
-	"frame": {"x":896,"y":128,"w":128,"h":128},
+	"frame": {"x":1042,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -194,7 +194,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_56",
-	"frame": {"x":1024,"y":128,"w":128,"h":128},
+	"frame": {"x":1172,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -202,7 +202,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_57",
-	"frame": {"x":1152,"y":128,"w":128,"h":128},
+	"frame": {"x":1302,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -210,7 +210,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_58",
-	"frame": {"x":1280,"y":128,"w":128,"h":128},
+	"frame": {"x":1432,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -218,7 +218,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_59",
-	"frame": {"x":1408,"y":128,"w":128,"h":128},
+	"frame": {"x":1562,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -226,7 +226,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_60",
-	"frame": {"x":1536,"y":128,"w":128,"h":128},
+	"frame": {"x":1692,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -234,7 +234,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_61",
-	"frame": {"x":1664,"y":128,"w":128,"h":128},
+	"frame": {"x":1822,"y":132,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -242,7 +242,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_62",
-	"frame": {"x":1792,"y":128,"w":128,"h":128},
+	"frame": {"x":2,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -250,7 +250,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_63",
-	"frame": {"x":1920,"y":128,"w":128,"h":128},
+	"frame": {"x":132,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -258,7 +258,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_64",
-	"frame": {"x":0,"y":256,"w":128,"h":128},
+	"frame": {"x":262,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -266,7 +266,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_65",
-	"frame": {"x":128,"y":256,"w":128,"h":128},
+	"frame": {"x":392,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -274,7 +274,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_66",
-	"frame": {"x":256,"y":256,"w":128,"h":128},
+	"frame": {"x":522,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -282,7 +282,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_67",
-	"frame": {"x":384,"y":256,"w":128,"h":128},
+	"frame": {"x":652,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -290,7 +290,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_68",
-	"frame": {"x":512,"y":256,"w":128,"h":128},
+	"frame": {"x":782,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -298,7 +298,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_69",
-	"frame": {"x":640,"y":256,"w":128,"h":128},
+	"frame": {"x":912,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -306,7 +306,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_70",
-	"frame": {"x":768,"y":256,"w":128,"h":128},
+	"frame": {"x":1042,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -314,7 +314,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_71",
-	"frame": {"x":896,"y":256,"w":128,"h":128},
+	"frame": {"x":1172,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -322,7 +322,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_72",
-	"frame": {"x":1024,"y":256,"w":128,"h":128},
+	"frame": {"x":1302,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -330,7 +330,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_73",
-	"frame": {"x":1152,"y":256,"w":128,"h":128},
+	"frame": {"x":1432,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -338,7 +338,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_74",
-	"frame": {"x":1280,"y":256,"w":128,"h":128},
+	"frame": {"x":1562,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -346,7 +346,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_75",
-	"frame": {"x":1408,"y":256,"w":128,"h":128},
+	"frame": {"x":1692,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -354,7 +354,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_76",
-	"frame": {"x":1536,"y":256,"w":128,"h":128},
+	"frame": {"x":1822,"y":262,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -362,7 +362,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_77",
-	"frame": {"x":1664,"y":256,"w":128,"h":128},
+	"frame": {"x":2,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -370,7 +370,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_78",
-	"frame": {"x":1792,"y":256,"w":128,"h":128},
+	"frame": {"x":132,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -378,7 +378,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_79",
-	"frame": {"x":1920,"y":256,"w":128,"h":128},
+	"frame": {"x":262,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -386,7 +386,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_80",
-	"frame": {"x":0,"y":384,"w":128,"h":128},
+	"frame": {"x":392,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -394,7 +394,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_81",
-	"frame": {"x":128,"y":384,"w":128,"h":128},
+	"frame": {"x":522,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -402,7 +402,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_82",
-	"frame": {"x":256,"y":384,"w":128,"h":128},
+	"frame": {"x":652,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -410,7 +410,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_83",
-	"frame": {"x":384,"y":384,"w":128,"h":128},
+	"frame": {"x":782,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -418,7 +418,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_84",
-	"frame": {"x":512,"y":384,"w":128,"h":128},
+	"frame": {"x":912,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -426,7 +426,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_85",
-	"frame": {"x":640,"y":384,"w":128,"h":128},
+	"frame": {"x":1042,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -434,7 +434,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_86",
-	"frame": {"x":768,"y":384,"w":128,"h":128},
+	"frame": {"x":1172,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -442,7 +442,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_87",
-	"frame": {"x":896,"y":384,"w":128,"h":128},
+	"frame": {"x":1302,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -450,7 +450,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_88",
-	"frame": {"x":1024,"y":384,"w":128,"h":128},
+	"frame": {"x":1432,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -458,7 +458,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_89",
-	"frame": {"x":1152,"y":384,"w":128,"h":128},
+	"frame": {"x":1562,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -466,7 +466,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_90",
-	"frame": {"x":1280,"y":384,"w":128,"h":128},
+	"frame": {"x":1692,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -474,7 +474,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_91",
-	"frame": {"x":1408,"y":384,"w":128,"h":128},
+	"frame": {"x":1822,"y":392,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -482,7 +482,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_92",
-	"frame": {"x":1536,"y":384,"w":128,"h":128},
+	"frame": {"x":2,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -490,7 +490,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_93",
-	"frame": {"x":1664,"y":384,"w":128,"h":128},
+	"frame": {"x":132,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -498,7 +498,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_94",
-	"frame": {"x":1792,"y":384,"w":128,"h":128},
+	"frame": {"x":262,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -506,7 +506,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_95",
-	"frame": {"x":1920,"y":384,"w":128,"h":128},
+	"frame": {"x":392,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -514,7 +514,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_96",
-	"frame": {"x":0,"y":512,"w":128,"h":128},
+	"frame": {"x":522,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -522,7 +522,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_97",
-	"frame": {"x":128,"y":512,"w":128,"h":128},
+	"frame": {"x":652,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -530,7 +530,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_98",
-	"frame": {"x":256,"y":512,"w":128,"h":128},
+	"frame": {"x":782,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -538,7 +538,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_99",
-	"frame": {"x":384,"y":512,"w":128,"h":128},
+	"frame": {"x":912,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -546,7 +546,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_100",
-	"frame": {"x":512,"y":512,"w":128,"h":128},
+	"frame": {"x":1042,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -554,7 +554,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_101",
-	"frame": {"x":640,"y":512,"w":128,"h":128},
+	"frame": {"x":1172,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -562,7 +562,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_102",
-	"frame": {"x":768,"y":512,"w":128,"h":128},
+	"frame": {"x":1302,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -570,7 +570,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_103",
-	"frame": {"x":896,"y":512,"w":128,"h":128},
+	"frame": {"x":1432,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -578,7 +578,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_104",
-	"frame": {"x":1024,"y":512,"w":128,"h":128},
+	"frame": {"x":1562,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -586,7 +586,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_105",
-	"frame": {"x":1152,"y":512,"w":128,"h":128},
+	"frame": {"x":1692,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -594,7 +594,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_106",
-	"frame": {"x":1280,"y":512,"w":128,"h":128},
+	"frame": {"x":1822,"y":522,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -602,7 +602,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_107",
-	"frame": {"x":1408,"y":512,"w":128,"h":128},
+	"frame": {"x":2,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -610,7 +610,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_108",
-	"frame": {"x":1536,"y":512,"w":128,"h":128},
+	"frame": {"x":132,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -618,7 +618,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_109",
-	"frame": {"x":1664,"y":512,"w":128,"h":128},
+	"frame": {"x":262,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -626,7 +626,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_110",
-	"frame": {"x":1792,"y":512,"w":128,"h":128},
+	"frame": {"x":392,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -634,7 +634,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_111",
-	"frame": {"x":1920,"y":512,"w":128,"h":128},
+	"frame": {"x":522,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -642,7 +642,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_112",
-	"frame": {"x":0,"y":640,"w":128,"h":128},
+	"frame": {"x":652,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -650,7 +650,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_113",
-	"frame": {"x":128,"y":640,"w":128,"h":128},
+	"frame": {"x":782,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -658,7 +658,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_114",
-	"frame": {"x":256,"y":640,"w":128,"h":128},
+	"frame": {"x":912,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -666,7 +666,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_115",
-	"frame": {"x":384,"y":640,"w":128,"h":128},
+	"frame": {"x":1042,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -674,7 +674,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_116",
-	"frame": {"x":512,"y":640,"w":128,"h":128},
+	"frame": {"x":1172,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -682,7 +682,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_117",
-	"frame": {"x":640,"y":640,"w":128,"h":128},
+	"frame": {"x":1302,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -690,7 +690,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_118",
-	"frame": {"x":768,"y":640,"w":128,"h":128},
+	"frame": {"x":1432,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -698,7 +698,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_119",
-	"frame": {"x":896,"y":640,"w":128,"h":128},
+	"frame": {"x":1562,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -706,7 +706,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_120",
-	"frame": {"x":1024,"y":640,"w":128,"h":128},
+	"frame": {"x":1692,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -714,7 +714,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_121",
-	"frame": {"x":1152,"y":640,"w":128,"h":128},
+	"frame": {"x":1822,"y":652,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -722,7 +722,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_122",
-	"frame": {"x":1280,"y":640,"w":128,"h":128},
+	"frame": {"x":2,"y":782,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -730,7 +730,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_123",
-	"frame": {"x":1408,"y":640,"w":128,"h":128},
+	"frame": {"x":132,"y":782,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -738,7 +738,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_124",
-	"frame": {"x":1536,"y":640,"w":128,"h":128},
+	"frame": {"x":262,"y":782,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -746,7 +746,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_125",
-	"frame": {"x":1664,"y":640,"w":128,"h":128},
+	"frame": {"x":392,"y":782,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -754,7 +754,7 @@
 },
 {
 	"filename": "font_msdf_hyperspace_texture_character_126",
-	"frame": {"x":1792,"y":640,"w":128,"h":128},
+	"frame": {"x":522,"y":782,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -762,7 +762,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_blank",
-	"frame": {"x":1920,"y":640,"w":100,"h":100},
+	"frame": {"x":652,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -770,7 +770,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_0",
-	"frame": {"x":0,"y":768,"w":100,"h":100},
+	"frame": {"x":754,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -778,7 +778,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_1",
-	"frame": {"x":100,"y":768,"w":100,"h":100},
+	"frame": {"x":856,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -786,7 +786,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_2",
-	"frame": {"x":200,"y":768,"w":100,"h":100},
+	"frame": {"x":958,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -794,7 +794,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_3",
-	"frame": {"x":300,"y":768,"w":100,"h":100},
+	"frame": {"x":1060,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -802,7 +802,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_4",
-	"frame": {"x":400,"y":768,"w":100,"h":100},
+	"frame": {"x":1162,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -810,7 +810,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_5",
-	"frame": {"x":500,"y":768,"w":100,"h":100},
+	"frame": {"x":1264,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -818,7 +818,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_6",
-	"frame": {"x":600,"y":768,"w":100,"h":100},
+	"frame": {"x":1366,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -826,7 +826,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_7",
-	"frame": {"x":700,"y":768,"w":100,"h":100},
+	"frame": {"x":1468,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -834,7 +834,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_8",
-	"frame": {"x":800,"y":768,"w":100,"h":100},
+	"frame": {"x":1570,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -842,31 +842,31 @@
 },
 {
 	"filename": "texture_input_keyboard_key_9",
-	"frame": {"x":900,"y":768,"w":100,"h":100},
+	"frame": {"x":1672,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_10",
-	"frame": {"x":1000,"y":768,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_10",
+	"frame": {"x":1774,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_11",
-	"frame": {"x":1100,"y":768,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_11",
+	"frame": {"x":1876,"y":782,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_12",
-	"frame": {"x":1200,"y":768,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_12",
+	"frame": {"x":2,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -874,15 +874,15 @@
 },
 {
 	"filename": "texture_input_keyboard_key_a",
-	"frame": {"x":1300,"y":768,"w":100,"h":100},
+	"frame": {"x":104,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_alt",
-	"frame": {"x":1400,"y":768,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Alt",
+	"frame": {"x":206,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -890,7 +890,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_down",
-	"frame": {"x":1500,"y":768,"w":100,"h":100},
+	"frame": {"x":308,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -898,7 +898,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_left",
-	"frame": {"x":1600,"y":768,"w":100,"h":100},
+	"frame": {"x":410,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -906,7 +906,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_right",
-	"frame": {"x":1700,"y":768,"w":100,"h":100},
+	"frame": {"x":512,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -914,15 +914,15 @@
 },
 {
 	"filename": "texture_input_keyboard_key_up",
-	"frame": {"x":1800,"y":768,"w":100,"h":100},
+	"frame": {"x":614,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_asterisk",
-	"frame": {"x":1900,"y":768,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Asterisk",
+	"frame": {"x":716,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -930,23 +930,23 @@
 },
 {
 	"filename": "texture_input_keyboard_key_b",
-	"frame": {"x":0,"y":868,"w":100,"h":100},
+	"frame": {"x":818,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_backspace",
-	"frame": {"x":100,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Backspace",
+	"frame": {"x":920,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_backspace_alt",
-	"frame": {"x":200,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Backspace_Alt",
+	"frame": {"x":1022,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -954,7 +954,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_bracket_left",
-	"frame": {"x":300,"y":868,"w":100,"h":100},
+	"frame": {"x":1124,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -962,7 +962,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_bracket_right",
-	"frame": {"x":400,"y":868,"w":100,"h":100},
+	"frame": {"x":1226,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -970,31 +970,31 @@
 },
 {
 	"filename": "texture_input_keyboard_key_c",
-	"frame": {"x":500,"y":868,"w":100,"h":100},
+	"frame": {"x":1328,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_caps_lock",
-	"frame": {"x":600,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Caps_Lock",
+	"frame": {"x":1430,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_command",
-	"frame": {"x":700,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Command",
+	"frame": {"x":1532,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_ctrl",
-	"frame": {"x":800,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Ctrl",
+	"frame": {"x":1634,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1002,15 +1002,15 @@
 },
 {
 	"filename": "texture_input_keyboard_key_d",
-	"frame": {"x":900,"y":868,"w":100,"h":100},
+	"frame": {"x":1736,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_del",
-	"frame": {"x":1000,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Del",
+	"frame": {"x":1838,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1018,47 +1018,47 @@
 },
 {
 	"filename": "texture_input_keyboard_key_e",
-	"frame": {"x":1100,"y":868,"w":100,"h":100},
+	"frame": {"x":1940,"y":912,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_end",
-	"frame": {"x":1200,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_End",
+	"frame": {"x":2,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_enter",
-	"frame": {"x":1300,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Enter",
+	"frame": {"x":104,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_enter_Alt",
-	"frame": {"x":1400,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Enter_Alt",
+	"frame": {"x":206,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_enter_Tall",
-	"frame": {"x":1500,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Enter_Tall",
+	"frame": {"x":308,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_esc",
-	"frame": {"x":1600,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Esc",
+	"frame": {"x":410,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1066,103 +1066,103 @@
 },
 {
 	"filename": "texture_input_keyboard_key_f",
-	"frame": {"x":1700,"y":868,"w":100,"h":100},
+	"frame": {"x":512,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f1",
-	"frame": {"x":1800,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F1",
+	"frame": {"x":614,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f2",
-	"frame": {"x":1900,"y":868,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F2",
+	"frame": {"x":716,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f3",
-	"frame": {"x":0,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F3",
+	"frame": {"x":818,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f4",
-	"frame": {"x":100,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F4",
+	"frame": {"x":920,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f5",
-	"frame": {"x":200,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F5",
+	"frame": {"x":1022,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f6",
-	"frame": {"x":300,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F6",
+	"frame": {"x":1124,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f7",
-	"frame": {"x":400,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F7",
+	"frame": {"x":1226,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f8",
-	"frame": {"x":500,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F8",
+	"frame": {"x":1328,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f9",
-	"frame": {"x":600,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F9",
+	"frame": {"x":1430,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f10",
-	"frame": {"x":700,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F10",
+	"frame": {"x":1532,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f11",
-	"frame": {"x":800,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F11",
+	"frame": {"x":1634,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_f12",
-	"frame": {"x":900,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_F12",
+	"frame": {"x":1736,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1170,7 +1170,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_g",
-	"frame": {"x":1000,"y":968,"w":100,"h":100},
+	"frame": {"x":1838,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1178,15 +1178,15 @@
 },
 {
 	"filename": "texture_input_keyboard_key_h",
-	"frame": {"x":1100,"y":968,"w":100,"h":100},
+	"frame": {"x":1940,"y":1014,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_home",
-	"frame": {"x":1200,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Home",
+	"frame": {"x":2,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1194,15 +1194,15 @@
 },
 {
 	"filename": "texture_input_keyboard_key_i",
-	"frame": {"x":1300,"y":968,"w":100,"h":100},
+	"frame": {"x":104,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_insert",
-	"frame": {"x":1400,"y":968,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Insert",
+	"frame": {"x":206,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1210,7 +1210,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_j",
-	"frame": {"x":1500,"y":968,"w":100,"h":100},
+	"frame": {"x":308,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1218,7 +1218,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_k",
-	"frame": {"x":1600,"y":968,"w":100,"h":100},
+	"frame": {"x":410,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1226,7 +1226,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_l",
-	"frame": {"x":1700,"y":968,"w":100,"h":100},
+	"frame": {"x":512,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1234,7 +1234,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_m",
-	"frame": {"x":1800,"y":968,"w":100,"h":100},
+	"frame": {"x":614,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1242,7 +1242,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_mark_left",
-	"frame": {"x":1900,"y":968,"w":100,"h":100},
+	"frame": {"x":716,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1250,7 +1250,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_mark_right",
-	"frame": {"x":0,"y":1068,"w":100,"h":100},
+	"frame": {"x":818,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1258,39 +1258,39 @@
 },
 {
 	"filename": "texture_input_keyboard_key_minus",
-	"frame": {"x":100,"y":1068,"w":100,"h":100},
+	"frame": {"x":920,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_mouse_Left",
-	"frame": {"x":200,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Mouse_Left",
+	"frame": {"x":1022,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_mouse_Middle",
-	"frame": {"x":300,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Mouse_Middle",
+	"frame": {"x":1124,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_mouse_Right",
-	"frame": {"x":400,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Mouse_Right",
+	"frame": {"x":1226,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_mouse_Simple",
-	"frame": {"x":500,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Mouse_Simple",
+	"frame": {"x":1328,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1298,15 +1298,15 @@
 },
 {
 	"filename": "texture_input_keyboard_key_n",
-	"frame": {"x":600,"y":1068,"w":100,"h":100},
+	"frame": {"x":1430,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_num_Lock",
-	"frame": {"x":700,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Num_Lock",
+	"frame": {"x":1532,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1314,7 +1314,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_o",
-	"frame": {"x":800,"y":1068,"w":100,"h":100},
+	"frame": {"x":1634,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1322,23 +1322,23 @@
 },
 {
 	"filename": "texture_input_keyboard_key_p",
-	"frame": {"x":900,"y":1068,"w":100,"h":100},
+	"frame": {"x":1736,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_page_Down",
-	"frame": {"x":1000,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Page_Down",
+	"frame": {"x":1838,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_page_Up",
-	"frame": {"x":1100,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Page_Up",
+	"frame": {"x":1940,"y":1116,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1346,23 +1346,23 @@
 },
 {
 	"filename": "texture_input_keyboard_key_plus",
-	"frame": {"x":1200,"y":1068,"w":100,"h":100},
+	"frame": {"x":2,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_plus_Tall",
-	"frame": {"x":1300,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Plus_Tall",
+	"frame": {"x":104,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_print_Screen",
-	"frame": {"x":1400,"y":1068,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Print_Screen",
+	"frame": {"x":206,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1370,7 +1370,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_q",
-	"frame": {"x":1500,"y":1068,"w":100,"h":100},
+	"frame": {"x":308,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1378,7 +1378,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_question",
-	"frame": {"x":1600,"y":1068,"w":100,"h":100},
+	"frame": {"x":410,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1386,7 +1386,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_quote",
-	"frame": {"x":1700,"y":1068,"w":100,"h":100},
+	"frame": {"x":512,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1394,7 +1394,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_r",
-	"frame": {"x":1800,"y":1068,"w":100,"h":100},
+	"frame": {"x":614,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1402,7 +1402,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_s",
-	"frame": {"x":1900,"y":1068,"w":100,"h":100},
+	"frame": {"x":716,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1410,23 +1410,23 @@
 },
 {
 	"filename": "texture_input_keyboard_key_semicolon",
-	"frame": {"x":0,"y":1168,"w":100,"h":100},
+	"frame": {"x":818,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_shift",
-	"frame": {"x":100,"y":1168,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Shift",
+	"frame": {"x":920,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_shift_Alt",
-	"frame": {"x":200,"y":1168,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Shift_Alt",
+	"frame": {"x":1022,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1434,7 +1434,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_slash",
-	"frame": {"x":300,"y":1168,"w":100,"h":100},
+	"frame": {"x":1124,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1442,7 +1442,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_space",
-	"frame": {"x":400,"y":1168,"w":100,"h":100},
+	"frame": {"x":1226,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1450,23 +1450,23 @@
 },
 {
 	"filename": "texture_input_keyboard_key_t",
-	"frame": {"x":500,"y":1168,"w":100,"h":100},
+	"frame": {"x":1328,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_tab",
-	"frame": {"x":600,"y":1168,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Tab",
+	"frame": {"x":1430,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_tilda",
-	"frame": {"x":700,"y":1168,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Tilda",
+	"frame": {"x":1532,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1474,7 +1474,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_u",
-	"frame": {"x":800,"y":1168,"w":100,"h":100},
+	"frame": {"x":1634,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1482,7 +1482,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_v",
-	"frame": {"x":900,"y":1168,"w":100,"h":100},
+	"frame": {"x":1736,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1490,15 +1490,15 @@
 },
 {
 	"filename": "texture_input_keyboard_key_w",
-	"frame": {"x":1000,"y":1168,"w":100,"h":100},
+	"frame": {"x":1838,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
 {
-	"filename": "texture_input_keyboard_key_win",
-	"frame": {"x":1100,"y":1168,"w":100,"h":100},
+	"filename": "Keyboard/Keyboard_Black_Win",
+	"frame": {"x":1940,"y":1218,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1506,7 +1506,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_x",
-	"frame": {"x":1200,"y":1168,"w":100,"h":100},
+	"frame": {"x":2,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1514,7 +1514,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_y",
-	"frame": {"x":1300,"y":1168,"w":100,"h":100},
+	"frame": {"x":104,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1522,7 +1522,7 @@
 },
 {
 	"filename": "texture_input_keyboard_key_z",
-	"frame": {"x":1400,"y":1168,"w":100,"h":100},
+	"frame": {"x":206,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1530,7 +1530,7 @@
 },
 {
 	"filename": "texture_particle_velocity",
-	"frame": {"x":1500,"y":1168,"w":22,"h":2},
+	"frame": {"x":308,"y":1320,"w":22,"h":2},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":2},
@@ -1538,7 +1538,7 @@
 },
 {
 	"filename": "texture_ui_button_pressed",
-	"frame": {"x":1522,"y":1168,"w":64,"h":64},
+	"frame": {"x":332,"y":1320,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1546,7 +1546,7 @@
 },
 {
 	"filename": "texture_ui_button_hover",
-	"frame": {"x":1586,"y":1168,"w":64,"h":64},
+	"frame": {"x":398,"y":1320,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1554,7 +1554,7 @@
 },
 {
 	"filename": "texture_ui_button_released",
-	"frame": {"x":1650,"y":1168,"w":64,"h":64},
+	"frame": {"x":464,"y":1320,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1562,7 +1562,7 @@
 },
 {
 	"filename": "texture_ui_dropdown_background",
-	"frame": {"x":1714,"y":1168,"w":1,"h":1},
+	"frame": {"x":530,"y":1320,"w":1,"h":1},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":1},
@@ -1570,7 +1570,7 @@
 },
 {
 	"filename": "texture_ui_lobby_panel_background",
-	"frame": {"x":1715,"y":1168,"w":64,"h":64},
+	"frame": {"x":533,"y":1320,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -1578,7 +1578,7 @@
 },
 {
 	"filename": "texture_input_gamepad_a",
-	"frame": {"x":1779,"y":1168,"w":100,"h":100},
+	"frame": {"x":599,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1586,7 +1586,7 @@
 },
 {
 	"filename": "texture_input_gamepad_b",
-	"frame": {"x":1879,"y":1168,"w":100,"h":100},
+	"frame": {"x":701,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1594,7 +1594,7 @@
 },
 {
 	"filename": "texture_input_gamepad_dpad",
-	"frame": {"x":0,"y":1268,"w":100,"h":100},
+	"frame": {"x":803,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1602,7 +1602,7 @@
 },
 {
 	"filename": "texture_input_gamepad_dpad_down",
-	"frame": {"x":100,"y":1268,"w":100,"h":100},
+	"frame": {"x":905,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1610,7 +1610,7 @@
 },
 {
 	"filename": "texture_input_gamepad_dpad_left",
-	"frame": {"x":200,"y":1268,"w":100,"h":100},
+	"frame": {"x":1007,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1618,7 +1618,7 @@
 },
 {
 	"filename": "texture_input_gamepad_dpad_right",
-	"frame": {"x":300,"y":1268,"w":100,"h":100},
+	"frame": {"x":1109,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1626,7 +1626,7 @@
 },
 {
 	"filename": "texture_input_gamepad_dpad_up",
-	"frame": {"x":400,"y":1268,"w":100,"h":100},
+	"frame": {"x":1211,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1634,7 +1634,7 @@
 },
 {
 	"filename": "texture_input_gamepad_bumper_left",
-	"frame": {"x":500,"y":1268,"w":100,"h":100},
+	"frame": {"x":1313,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1642,7 +1642,7 @@
 },
 {
 	"filename": "texture_input_gamepad_stick_left",
-	"frame": {"x":600,"y":1268,"w":100,"h":100},
+	"frame": {"x":1415,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1650,7 +1650,7 @@
 },
 {
 	"filename": "texture_input_gamepad_trigger_left",
-	"frame": {"x":700,"y":1268,"w":100,"h":100},
+	"frame": {"x":1517,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1658,7 +1658,7 @@
 },
 {
 	"filename": "texture_input_gamepad_menu",
-	"frame": {"x":800,"y":1268,"w":100,"h":100},
+	"frame": {"x":1619,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1666,7 +1666,7 @@
 },
 {
 	"filename": "texture_input_gamepad_bumper_right",
-	"frame": {"x":900,"y":1268,"w":100,"h":100},
+	"frame": {"x":1721,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1674,7 +1674,7 @@
 },
 {
 	"filename": "texture_input_gamepad_stick_right",
-	"frame": {"x":1000,"y":1268,"w":100,"h":100},
+	"frame": {"x":1823,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1682,7 +1682,7 @@
 },
 {
 	"filename": "texture_input_gamepad_trigger_right",
-	"frame": {"x":1100,"y":1268,"w":100,"h":100},
+	"frame": {"x":1925,"y":1320,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1690,7 +1690,7 @@
 },
 {
 	"filename": "texture_input_gamepad_windows",
-	"frame": {"x":1200,"y":1268,"w":100,"h":100},
+	"frame": {"x":2,"y":1422,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1698,7 +1698,7 @@
 },
 {
 	"filename": "texture_input_gamepad_x",
-	"frame": {"x":1300,"y":1268,"w":100,"h":100},
+	"frame": {"x":104,"y":1422,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1706,7 +1706,7 @@
 },
 {
 	"filename": "texture_input_gamepad_y",
-	"frame": {"x":1400,"y":1268,"w":100,"h":100},
+	"frame": {"x":206,"y":1422,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -1717,8 +1717,8 @@
 	"version": "1.0",
 	"image": "complete_texture_atlas_texture",
 	"format": "RGBA8888",
-	"size": {"w":2048,"h":1368},
+	"size": {"w":2048,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b028df1092bbec29bd89250a32691661:b4827bdd11cabb54583e30cf820b6d23:505041d8940214c12e5e1f3993537432$"
+	"smartupdate": "$TexturePacker:SmartUpdate:89966086d84ae9b15cd243a5e7607f76:4c899f4990eff9afed68d37038905afc:505041d8940214c12e5e1f3993537432$"
 }
 }
