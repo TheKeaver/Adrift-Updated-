@@ -15,7 +15,7 @@ for(let i = 0; i < csvLines.length; i++) {
 	let oldFind = lineParts[0];
 	let newReplace = lineParts[1];
 	console.log(`Replacing ${oldFind} with ${newReplace}`);
-	contents = contents.split(oldFind).join(newReplace);
+	contents = contents.split(`"${oldFind}"`).join(`"${newReplace}"`);
 }
 
 // Rewrite
