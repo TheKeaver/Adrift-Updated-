@@ -175,30 +175,36 @@ namespace GameJam.Graphics.Text
                     bottomLeft += position;
                     topRight += position;
 
+                    Rectangle glyphSourceBounds = current.TextureRegion.Bounds;
+                    float umin = glyphSourceBounds.X / (float)current.TextureRegion.Texture.Width,
+                        vmin = glyphSourceBounds.Y / (float)current.TextureRegion.Texture.Height,
+                        umax = (glyphSourceBounds.X + glyphSourceBounds.Width) / (float)current.TextureRegion.Texture.Width,
+                        vmax = (glyphSourceBounds.Y + glyphSourceBounds.Height) / (float)current.TextureRegion.Texture.Height;
+
                     int verticesCount = _vertices.Count;
                     _vertices.Add(new VertexPositionColorTexture
                     {
                         Position = new Vector3(RotateVector(new Vector2(topRight.X, bottomLeft.Y), cos, sin), -10000),
                         Color = color,
-                        TextureCoordinate = new Vector2(1, 1)
+                        TextureCoordinate = new Vector2(umax, vmax)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
                         Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, bottomLeft.Y), cos, sin), -10000),
                         Color = color,
-                        TextureCoordinate = new Vector2(0, 1)
+                        TextureCoordinate = new Vector2(umin, vmax)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
                         Position = new Vector3(RotateVector(new Vector2(bottomLeft.X, topRight.Y), cos, sin), -10000),
                         Color = color,
-                        TextureCoordinate = new Vector2(0, 0)
+                        TextureCoordinate = new Vector2(umin, vmin)
                     });
                     _vertices.Add(new VertexPositionColorTexture
                     {
                         Position = new Vector3(RotateVector(new Vector2(topRight.X, topRight.Y), cos, sin), -10000),
                         Color = color,
-                        TextureCoordinate = new Vector2(1, 0)
+                        TextureCoordinate = new Vector2(umax, vmin)
                     });
 
                     _indices.Add(verticesCount); // 0
