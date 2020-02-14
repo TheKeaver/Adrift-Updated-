@@ -250,7 +250,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHolePingComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase2Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpEntityPhase2Process.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\Quad.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\FieldFontRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MSDFFontTestGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\FieldFontComponent.cs" />
@@ -259,6 +258,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\MouseScrollEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\ParticleTestGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\HSLColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Particles\GPUParticleManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Quad.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

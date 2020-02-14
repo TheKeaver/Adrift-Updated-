@@ -14,6 +14,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../../../../Documents/MGWorkaround/bin/ParticleDrawEffect.xnb
+/copy:../../../../../../Documents/MGWorkaround/bin/ParticleDrawEffect.xnb;effects/ParticleDrawEffect.xnb
+
+#begin ../../../../../../Documents/MGWorkaround/bin/ParticleUpdateEffect.xnb
+/copy:../../../../../../Documents/MGWorkaround/bin/ParticleUpdateEffect.xnb;effects/ParticleUpdateEffect.xnb
+
 #begin effects/Blur.xnb
 /copy:effects/Blur.xnb
 

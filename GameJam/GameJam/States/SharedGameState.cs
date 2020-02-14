@@ -184,6 +184,7 @@ namespace GameJam.States
 
         void CreateParallaxBackground()
         {
+            return;
             ParallaxBackgroundEntity.Create(Engine,
                 new TextureRegion2D(Content.Load<Texture2D>("texture_background_stars_0")),
                 Vector2.Zero, 0.15f, true);

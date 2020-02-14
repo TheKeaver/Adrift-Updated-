@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameJam.Graphics.Text
+namespace GameJam.Graphics
 {
     public sealed class Quad
     {
