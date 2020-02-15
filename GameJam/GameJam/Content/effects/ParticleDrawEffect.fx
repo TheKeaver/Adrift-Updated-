@@ -3,13 +3,13 @@
 #define VS_SHADERMODEL vs_3_0
 #define PS_SHADERMODEL ps_3_0
 #else
-#define VS_SHADERMODEL vs_4_0_level_9_1
-#define PS_SHADERMODEL ps_4_0_level_9_1
+#define VS_SHADERMODEL vs_4_0
+#define PS_SHADERMODEL ps_4_0
 #endif
 
 matrix WorldViewProjection;
 
-texture PositionSizeLife;
+Texture2D PositionSizeLife;
 sampler2D PositionSizeLifeSampler = sampler_state
 {
 	Texture = <PositionSizeLife>;
@@ -17,8 +17,8 @@ sampler2D PositionSizeLifeSampler = sampler_state
 
 struct VertexShaderInput
 {
-    uint ID : SAMPLE0;
-    uint VertexID : SAMPLE1;
+    uint ID : TEXCOORD0;
+    uint VertexID : TEXCOORD1;
 };
 
 struct VertexShaderOutput
@@ -27,41 +27,41 @@ struct VertexShaderOutput
     float4 Color : COLOR0;
 };
 
-int positionSizeLifeWidth;
-int positionSizeLifeHeight;
+int Size;
 
 VertexShaderOutput MainVS(in VertexShaderInput input)
 {
     VertexShaderOutput output = (VertexShaderOutput)0;
 
-    //output.Position = mul(float4(input.Position.x, input.Position.y, 0, 1), WorldViewProjection);
-    //switch(VertexID) {
+    int lookupX = input.ID % Size;
+    int lookupY = (input.ID - lookupX) / Size;
 
-    //}
+    float4 positionSizeLifeValue = tex2Dlod(PositionSizeLifeSampler, float4((lookupX) / float(Size), lookupY / float(Size), 0, 0));
+    float2 position = positionSizeLifeValue.xy;
+    float size = positionSizeLifeValue.z;
+    float other = positionSizeLifeValue.w;
 
-    //float4 positionSizeLifeValue = tex2Dlod(PositionSizeLifeSampler, float4(0, 0, 0, 0));
-
-    float2 localPos = float2(positionSizeLifeWidth, positionSizeLifeHeight);
+    float2 localPos = float2(0, 0);
     switch(input.VertexID) {
     case 0:
-        localPos = float2(0.5f, 0.5f);
-        output.Color = float4(0, 0, 1, 1);
+        localPos = float2(1, 1) * size;
+        output.Color = float4(other, 0, 1, 1);
         break;
     case 1:
-        localPos = float2(0.5f, -0.5f);
-        output.Color = float4(0, 1, 1, 1);
+        localPos = float2(1, -1) * size;
+        output.Color = float4(other, 0, 1, 1);
         break;
     case 2:
-        localPos = float2(-0.5f, -0.5f);
-        output.Color = float4(1, 0, 0, 1);
+        localPos = float2(-1, -1) * size;
+        output.Color = float4(other, 0, 1, 1);
         break;
     case 3:
-        localPos = float2(-0.5f, 0.5f);
-        output.Color = float4(0, 1, 0, 1);
+        localPos = float2(-1, 1) * size;
+        output.Color = float4(other, 0, 1, 1);
         break;
     }
 
-    output.Position = float4(localPos.x, localPos.y, 0, 1);
+    output.Position = float4(localPos + position / (input.ID + 1), 0, 1);
 
     return output;
 }

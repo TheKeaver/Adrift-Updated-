@@ -3,33 +3,49 @@
 #define VS_SHADERMODEL vs_3_0
 #define PS_SHADERMODEL ps_3_0
 #else
-#define VS_SHADERMODEL vs_4_0_level_9_1
-#define PS_SHADERMODEL ps_4_0_level_9_1
+#define VS_SHADERMODEL vs_4_0
+#define PS_SHADERMODEL ps_4_0
 #endif
 
-Texture2D SpriteTexture;
-
-sampler2D SpriteTextureSampler = sampler_state
+texture PositionSizeLife;
+sampler2D PositionSizeLifeSampler = sampler_state
 {
-	Texture = <SpriteTexture>;
+	Texture = <PositionSizeLife>;
 };
 
+struct VertexShaderInput
+{
+	float3 Position : SV_POSITION0;
+	float2 TexCoord : TEXCOORD0;
+};
 struct VertexShaderOutput
 {
-	float4 Position : SV_POSITION;
+	float4 Position : SV_POSITION0;
     float2 TexCoord : TEXCOORD0;
-	float4 Color : COLOR0;
 };
 
-float4 MainPS(VertexShaderOutput input) : COLOR
+float ElapsedTime;
+
+VertexShaderOutput MainVS(in VertexShaderInput input) {
+	VertexShaderOutput output = (VertexShaderOutput)0;
+	output.Position = float4(input.Position.xyz, 1);
+	output.TexCoord = input.TexCoord;
+	return output;
+}
+
+float4 MainPS(in VertexShaderOutput input) : COLOR
 {
-    return float4(0, 0, 100, 0); // This is a test, (0, 0)@size of 100
+	float4 positionSizeLifeValue = tex2D(PositionSizeLifeSampler, input.TexCoord);
+	float2 position = positionSizeLifeValue.xy;
+	float size = positionSizeLifeValue.z;
+    return float4(position.x, position.y, /*abs(0.01f * cos(ElapsedTime))*/size, positionSizeLifeValue.w); // This is a test, (0, 0)@size of 100
 }
 
 technique SpriteDrawing
 {
 	pass P0
 	{
+		VertexShader = compile VS_SHADERMODEL MainVS();
 		PixelShader = compile PS_SHADERMODEL MainPS();
 	}
 };

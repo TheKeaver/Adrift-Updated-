@@ -142,6 +142,7 @@ namespace GameJam
 
             content.Load<Effect>("effect_particle_update");
             content.Load<Effect>("effect_particle_draw");
+            content.Load<Effect>("effect_particle_create");
             /*
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_32");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_33");

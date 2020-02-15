@@ -243,6 +243,7 @@ namespace GameJam
             Create<string>("texture_title_without_instructions", "textures/TitleNoInstructions", CVarFlags.PRESERVE);
 
             Create<string>("texture_particle_velocity", "textures/particles/VelocityParticle", CVarFlags.PRESERVE);
+            Create<string>("effect_particle_create", "effects/ParticleCreateEffect", CVarFlags.PRESERVE);
             Create<string>("effect_particle_update", "effects/ParticleUpdateEffect", CVarFlags.PRESERVE);
             Create<string>("effect_particle_draw", "effects/ParticleDrawEffect", CVarFlags.PRESERVE);
 

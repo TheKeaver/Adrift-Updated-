@@ -25,6 +25,7 @@ namespace GameJam.States
         {
             _gpuParticleManager = new GPUParticleManager(GameManager.GraphicsDevice,
                 Content,
+                "effect_particle_create",
                 "effect_particle_update",
                 "effect_particle_draw");
 
@@ -50,7 +51,7 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            _gpuParticleManager.UpdateAndDraw();
+            _gpuParticleManager.UpdateAndDraw(dt);
 
             base.OnRender(dt, betweenFrameAlpha);
         }
