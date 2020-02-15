@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSDFFonts", "MSDFFonts\MSDF
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Adrift.Content.Common", "Adrift.Content.Common\Adrift.Content.Common.shproj", "{A3664560-EB77-40FB-92A1-7F9F80842738}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MonoGame.ImGui", "MonoGame.ImGui\MonoGame.ImGui.shproj", "{D1868489-3964-4F53-8FAD-DE7297F4C5F0}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Audrey\Audrey.projitems*{089da567-add4-4c73-aebb-6126442bd5f1}*SharedItemsImports = 13
