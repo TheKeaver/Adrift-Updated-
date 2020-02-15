@@ -14,12 +14,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../../../../Documents/MGWorkaround/bin/ParticleDrawEffect.xnb
-/copy:../../../../../../Documents/MGWorkaround/bin/ParticleDrawEffect.xnb;effects/ParticleDrawEffect.xnb
-
-#begin ../../../../../../Documents/MGWorkaround/bin/ParticleUpdateEffect.xnb
-/copy:../../../../../../Documents/MGWorkaround/bin/ParticleUpdateEffect.xnb;effects/ParticleUpdateEffect.xnb
-
 #begin effects/Blur.xnb
 /copy:effects/Blur.xnb
 
@@ -28,6 +22,18 @@
 
 #begin effects/FXAA.xnb
 /copy:effects/FXAA.xnb
+
+#begin effects/ParticleDrawEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/ParticleDrawEffect.fx
+
+#begin effects/ParticleUpdateEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/ParticleUpdateEffect.fx
 
 #begin fonts/Hyperspace.fnt
 /importer:BitmapFontImporter

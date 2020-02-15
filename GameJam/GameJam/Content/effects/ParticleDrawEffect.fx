@@ -39,9 +39,9 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
     //}
 
-    float4 positionSizeLifeValue = tex2Dlod(PositionSizeLifeSampler, float4(0, 0, 0, 0));
+    //float4 positionSizeLifeValue = tex2Dlod(PositionSizeLifeSampler, float4(0, 0, 0, 0));
 
-    float2 localPos = float2(positionSizeLifeWidth * positionSizeLifeValue.x, positionSizeLifeHeight);
+    float2 localPos = float2(positionSizeLifeWidth, positionSizeLifeHeight);
     switch(input.VertexID) {
     case 0:
         localPos = float2(0.5f, 0.5f);
