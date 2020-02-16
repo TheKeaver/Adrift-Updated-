@@ -20,8 +20,44 @@
 #begin effects/FieldFontEffect.xnb
 /copy:effects/FieldFontEffect.xnb
 
+#begin effects/FXAA.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/FXAA.fx
+
 #begin effects/FXAA.xnb
 /copy:effects/FXAA.xnb
+
+#begin effects/Negative.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/Negative.fx
+
+#begin effects/SMAA_HIGH.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/SMAA_HIGH.fx
+
+#begin effects/SMAA_LOW.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/SMAA_LOW.fx
+
+#begin effects/SMAA_MEDIUM.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/SMAA_MEDIUM.fx
+
+#begin effects/SMAA_ULTRA.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/SMAA_ULTRA.fx
 
 #begin fonts/Hyperspace.fnt
 /importer:BitmapFontImporter

@@ -25,7 +25,7 @@ namespace GameJam.Graphics
 
         public Bloom(PostProcessor postProcessor, ContentManager content) : base(postProcessor)
         {
-            _blurEffect = content.Load<Effect>(CVars.Get<string>("effect_blur"));
+            _blurEffect = content.Load<Effect>("effect_blur");
         }
 
         public override void Dispose()

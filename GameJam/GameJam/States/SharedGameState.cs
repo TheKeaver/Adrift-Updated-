@@ -169,12 +169,18 @@ namespace GameJam.States
 
         private void LoadContent()
         {
-            Bloom bloom = new Bloom(PostProcessor, GameManager.Content);
+            Bloom bloom = new Bloom(PostProcessor, Content);
             bloom.Radius = 1.5f;
-            PostProcessor.Effects.Add(bloom);
+            //PostProcessor.Effects.Add(bloom);
 
             _fxaaPPE = new FXAA(PostProcessor, Content);
-            PostProcessor.Effects.Add(_fxaaPPE);
+            //PostProcessor.Effects.Add(_fxaaPPE);
+
+            Negative negative = new Negative(PostProcessor, Content);
+            //PostProcessor.Effects.Add(negative);
+
+            SMAA smaa = new SMAA(PostProcessor, Content);
+            PostProcessor.Effects.Add(smaa);
         }
 
         private void CreateEntities()

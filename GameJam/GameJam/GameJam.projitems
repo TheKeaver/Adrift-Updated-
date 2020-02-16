@@ -79,6 +79,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Bloom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Negative.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Quad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\SMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\MonoGameInputEventTranslator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />

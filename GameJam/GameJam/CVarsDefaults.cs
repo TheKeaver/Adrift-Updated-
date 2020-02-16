@@ -27,6 +27,7 @@ namespace GameJam
 
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<bool>("graphics_smaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_feathering", true, CVarFlags.PRESERVE);
             Create<float>("graphics_feathering_width", 0.2f, CVarFlags.PRESERVE);
@@ -365,6 +366,8 @@ namespace GameJam
 
             Create<string>("effect_blur", "effects/Blur", CVarFlags.PRESERVE);
             Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE);
+            Create<string>("effect_smaa", "effects/SMAA_ULTRA", CVarFlags.PRESERVE);
+            Create<string>("effect_negative", "effects/Negative", CVarFlags.PRESERVE);
 
             Create<string>("effect_field_font", "effects/FieldFontEffect", CVarFlags.PRESERVE);
             Create<string>("font_msdf_hyperspace", "fonts/Hyperspace/Hyperspace", CVarFlags.PRESERVE);
