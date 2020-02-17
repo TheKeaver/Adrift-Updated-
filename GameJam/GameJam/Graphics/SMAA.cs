@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameJam.Content;
 
 namespace GameJam.Graphics
 {
@@ -12,8 +13,8 @@ namespace GameJam.Graphics
         RenderTarget2D _smaaTarget = null;
         Quad quad;
 
-        Texture2D areaTex;
-        Texture2D searchTex;
+        Texture2D _areaTex;
+        Texture2D _searchTex;
         public SMAA(PostProcessor postProcessor, ContentManager content) : base(postProcessor)
         {
             _smaaEffect = content.Load<Effect>("effect_smaa");
@@ -27,12 +28,39 @@ namespace GameJam.Graphics
             if (_smaaTarget == null)
             {
                 Resize(PostProcessor.Bounds.Width, PostProcessor.Bounds.Height);
+
+                _areaTex = AreaTextureSMAA.GetAreaTexture(PostProcessor.GraphicsDevice);
+                _searchTex = SearchTextureSMAA.GetSearchTexture(PostProcessor.GraphicsDevice);
             }
-            
-            PostProcessor.GraphicsDevice.SetRenderTarget(_edgesTex);
 
+            PostProcessor.GraphicsDevice.SamplerStates[0] = SamplerState.LinearClamp;
+
+            // Input > SMAA_Color_EdgeDecection > EdgesTex
             _smaaEffect.Parameters["colorTex2D"].SetValue(inTarget);
+            PostProcessor.GraphicsDevice.SetRenderTarget(_edgesTex);
+            _smaaEffect.CurrentTechnique = _smaaEffect.Techniques["ColorEdgeDetection"];
+            foreach(EffectPass pass in _smaaEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                quad.Render(this.PostProcessor.GraphicsDevice);
+            }
 
+            // EdgesTex > SMAABlendingWeightCalculation > BlendTex
+            _smaaEffect.Parameters["edgesTex2D"].SetValue(_edgesTex);
+            _smaaEffect.Parameters["areaTex2D"].SetValue(_areaTex);
+            _smaaEffect.Parameters["searchTex2D"].SetValue(_searchTex);
+            PostProcessor.GraphicsDevice.SetRenderTarget(_blendTex);
+            _smaaEffect.CurrentTechnique = _smaaEffect.Techniques["BlendWeightCalculation"];
+            foreach(EffectPass pass in _smaaEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                quad.Render(this.PostProcessor.GraphicsDevice);
+            }
+
+            // BlendTex > SMAANeighborhoodBlending > Output
+            _smaaEffect.Parameters["blendTex2D"].SetValue(_blendTex);
+            PostProcessor.GraphicsDevice.SetRenderTarget(_smaaTarget);
+            _smaaEffect.CurrentTechnique = _smaaEffect.Techniques["NeighborhoodBlending"];
             foreach(EffectPass pass in _smaaEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
