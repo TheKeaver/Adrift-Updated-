@@ -25,9 +25,7 @@ namespace GameJam.States
         {
             _gpuParticleManager = new GPUParticleManager(GameManager.GraphicsDevice,
                 Content,
-                "effect_particle_create",
-                "effect_particle_update",
-                "effect_particle_draw");
+                "effect_gpu_particle_velocity");
 
             base.OnInitialize();
         }

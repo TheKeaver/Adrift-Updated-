@@ -32,23 +32,11 @@
 /processorParam:DebugMode=Auto
 /build:effects/FXAA.fx
 
-#begin effects/ParticleCreateEffect.fx
+#begin effects/VelocityGPUParticleEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Debug
-/build:effects/ParticleCreateEffect.fx
-
-#begin effects/ParticleDrawEffect.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Debug
-/build:effects/ParticleDrawEffect.fx
-
-#begin effects/ParticleUpdateEffect.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Debug
-/build:effects/ParticleUpdateEffect.fx
+/build:effects/VelocityGPUParticleEffect.fx
 
 #begin fonts/Hyperspace.fnt
 /importer:BitmapFontImporter
