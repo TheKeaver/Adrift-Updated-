@@ -369,6 +369,10 @@ namespace GameJam
             Create<string>("effect_smaa", "effects/SMAA_ULTRA", CVarFlags.PRESERVE);
             Create<string>("effect_negative", "effects/Negative", CVarFlags.PRESERVE);
 
+            Create<string>("texture_smaa_area_tex_dx9", "textures/smaa_textures/AreaTextDX9");
+            Create<string>("texture_smaa_area_tex_dx10", "textures/smaa_textures/AreaTextDX10");
+            Create<string>("texture_smaa_search_tex", "textures/smaa_textures/SearchTex");
+
             Create<string>("effect_field_font", "effects/FieldFontEffect", CVarFlags.PRESERVE);
             Create<string>("font_msdf_hyperspace", "fonts/Hyperspace/Hyperspace", CVarFlags.PRESERVE);
             Create<string>("font_msdf_hyperspace_texture_character_32", "fonts/Hyperspace/Hyperspace_MSDF/Hyperspace-32", CVarFlags.PRESERVE);

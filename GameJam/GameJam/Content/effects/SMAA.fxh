@@ -171,40 +171,32 @@ void DX9_SMAANeighborhoodBlendingVS(inout float4 position : POSITION,
 
 float4 DX9_SMAALumaEdgeDetectionPS(float4 position : SV_POSITION,
                                    float2 texcoord : TEXCOORD0,
-                                   float4 offset[3] : TEXCOORD1,
-                                   uniform SMAATexture2D colorGammaTex) : COLOR {
-    return SMAALumaEdgeDetectionPS(texcoord, offset, colorGammaTex);
+                                   float4 offset[3] : TEXCOORD1) : COLOR {
+    return SMAALumaEdgeDetectionPS(texcoord, offset, colorTexG);
 }
 
 float4 DX9_SMAAColorEdgeDetectionPS(float4 position : SV_POSITION,
                                     float2 texcoord : TEXCOORD0,
-                                    float4 offset[3] : TEXCOORD1,
-                                    uniform SMAATexture2D colorGammaTex) : COLOR {
-    return SMAAColorEdgeDetectionPS(texcoord, offset, colorGammaTex);
+                                    float4 offset[3] : TEXCOORD1) : COLOR {
+    return SMAAColorEdgeDetectionPS(texcoord, offset, colorTexG);
 }
 
 float4 DX9_SMAADepthEdgeDetectionPS(float4 position : SV_POSITION,
                                     float2 texcoord : TEXCOORD0,
-                                    float4 offset[3] : TEXCOORD1,
-                                    uniform SMAATexture2D depthTex) : COLOR {
+                                    float4 offset[3] : TEXCOORD1) : COLOR {
     return SMAADepthEdgeDetectionPS(texcoord, offset, depthTex);
 }
 
 float4 DX9_SMAABlendingWeightCalculationPS(float4 position : SV_POSITION,
                                            float2 texcoord : TEXCOORD0,
                                            float2 pixcoord : TEXCOORD1,
-                                           float4 offset[3] : TEXCOORD2,
-                                           uniform SMAATexture2D edgesTex, 
-                                           uniform SMAATexture2D areaTex, 
-                                           uniform SMAATexture2D searchTex) : COLOR {
+                                           float4 offset[3] : TEXCOORD2) : COLOR {
     return SMAABlendingWeightCalculationPS(texcoord, pixcoord, offset, edgesTex, areaTex, searchTex, 0);
 }
 
 float4 DX9_SMAANeighborhoodBlendingPS(float4 position : SV_POSITION,
                                       float2 texcoord : TEXCOORD0,
-                                      float4 offset[2] : TEXCOORD1,
-                                      uniform SMAATexture2D colorTex,
-                                      uniform SMAATexture2D blendTex) : COLOR {
+                                      float4 offset[2] : TEXCOORD1) : COLOR {
     return SMAANeighborhoodBlendingPS(texcoord, offset, colorTex, blendTex);
 }
 
@@ -212,6 +204,26 @@ float4 DX9_SMAANeighborhoodBlendingPS(float4 position : SV_POSITION,
 /**
  * Time for some techniques!
  */
+technique LumaEdgeDetection {
+    pass LumaEdgeDetection {
+        VertexShader = compile vs_3_0 DX9_SMAAEdgeDetectionVS();
+        PixelShader = compile ps_3_0 DX9_SMAALumaEdgeDetectionPS();
+        ZEnable = false;        
+#ifndef XNA_HAVE_NO_SRGBWRITEENABLE
+        SRGBWriteEnable = false;
+#endif
+        AlphaBlendEnable = false;
+
+#ifndef XNA_HAVE_NO_ALPHATESTENABLE
+        AlphaTestEnable = false;
+#endif
+
+        // We will be creating the stencil buffer for later usage.
+        StencilEnable = true;
+        StencilPass = REPLACE;
+        StencilRef = 1;
+    }
+}
 
 technique ColorEdgeDetection {
     pass ColorEdgeDetection {
@@ -235,5 +247,75 @@ technique ColorEdgeDetection {
 #else
 		StencilEnable = false;
 #endif
+    }
+}
+
+technique DepthEdgeDetection {
+    pass DepthEdgeDetection {
+        VertexShader = compile vs_3_0 DX9_SMAAEdgeDetectionVS();
+        PixelShader = compile ps_3_0 DX9_SMAADepthEdgeDetectionPS();
+        ZEnable = false;        
+#ifndef XNA_HAVE_NO_SRGBWRITEENABLE
+        SRGBWriteEnable = false;
+#endif
+        AlphaBlendEnable = false;
+
+#ifndef XNA_HAVE_NO_ALPHATESTENABLE
+        AlphaTestEnable = false;
+#endif
+
+#ifndef XNA_NO_STENCIL
+        // We will be creating the stencil buffer for later usage.
+        StencilEnable = true;
+        StencilPass = REPLACE;
+        StencilRef = 1;
+#else
+		StencilEnable = false;
+#endif
+    }
+}
+
+technique BlendWeightCalculation {
+    pass BlendWeightCalculation {
+        VertexShader = compile vs_3_0 DX9_SMAABlendingWeightCalculationVS();
+        PixelShader = compile ps_3_0 DX9_SMAABlendingWeightCalculationPS();
+        ZEnable = false;
+#ifndef XNA_HAVE_NO_SRGBWRITEENABLE
+        SRGBWriteEnable = false;
+#endif
+        AlphaBlendEnable = false;
+
+#ifndef XNA_HAVE_NO_ALPHATESTENABLE
+        AlphaTestEnable = false;
+#endif
+
+#ifndef XNA_NO_STENCIL
+        // Here we want to process only marked pixels.
+        StencilEnable = true;
+        StencilPass = KEEP;
+        StencilFunc = EQUAL;
+        StencilRef = 1;
+#else
+		StencilEnable = false;
+#endif
+    }
+}
+
+technique NeighborhoodBlending {
+    pass NeighborhoodBlending {
+        VertexShader = compile vs_3_0 DX9_SMAANeighborhoodBlendingVS();
+        PixelShader = compile ps_3_0 DX9_SMAANeighborhoodBlendingPS();
+        ZEnable = false;
+#ifndef XNA_HAVE_NO_SRGBWRITEENABLE
+        SRGBWriteEnable = true;
+#endif
+        AlphaBlendEnable = false;
+
+#ifndef XNA_HAVE_NO_ALPHATESTENABLE
+        AlphaTestEnable = false;
+#endif
+
+        // Here we want to process all the pixels.
+        StencilEnable = false;
     }
 }

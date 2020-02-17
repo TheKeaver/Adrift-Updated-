@@ -141,6 +141,10 @@ namespace GameJam
             content.Load<Effect>("effect_smaa");
             content.Load<Effect>("effect_negative");
 
+            content.Load<Texture2D>("texture_smaa_area_tex_dx9");
+            content.Load<Texture2D>("texture_smaa_area_tex_dx10");
+            content.Load<Texture2D>("texture_smaa_search_tex");
+
             content.Load<Effect>("effect_field_font");
             content.Load<FieldFont>("font_msdf_hyperspace");
             /*

@@ -7,9 +7,13 @@ namespace GameJam.Graphics
     public class SMAA : PostProcessorEffect
     {
         readonly Effect _smaaEffect;
+        RenderTarget2D _edgesTex = null;
+        RenderTarget2D _blendTex = null;
         RenderTarget2D _smaaTarget = null;
         Quad quad;
 
+        Texture2D areaTex;
+        Texture2D searchTex;
         public SMAA(PostProcessor postProcessor, ContentManager content) : base(postProcessor)
         {
             _smaaEffect = content.Load<Effect>("effect_smaa");
@@ -24,16 +28,22 @@ namespace GameJam.Graphics
             {
                 Resize(PostProcessor.Bounds.Width, PostProcessor.Bounds.Height);
             }
+            
+            PostProcessor.GraphicsDevice.SetRenderTarget(_edgesTex);
 
-            PostProcessor.GraphicsDevice.SetRenderTarget(_smaaTarget);
             _smaaEffect.Parameters["colorTex2D"].SetValue(inTarget);
+
             foreach(EffectPass pass in _smaaEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 quad.Render(this.PostProcessor.GraphicsDevice);
             }
 
-            PostProcessor.GraphicsDevice.SetRenderTarget(null);
+            PostProcessor.GraphicsDevice.SetRenderTarget(_edgesTex);
+            PostProcessor.GraphicsDevice.Clear(Color.TransparentBlack);
+            PostProcessor.GraphicsDevice.SetRenderTarget(_blendTex);
+            PostProcessor.GraphicsDevice.Clear(Color.TransparentBlack);
+
             outTarget = _smaaTarget;
         }
 

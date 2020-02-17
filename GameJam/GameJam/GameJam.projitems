@@ -14,7 +14,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\AreaTextureSMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\SearchTextureSMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PlaySoundEvent.cs" />
