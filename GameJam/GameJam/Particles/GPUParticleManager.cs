@@ -59,16 +59,18 @@ namespace GameJam.Particles
         private Matrix _projectionMatrix;
 
         private Quad _screenQuad;
-        private RenderTarget2D[] _positionSizeLifeTargets;
-        private int _currentPositionSizeLifeTarget;
+        private RenderTarget2D[] _positionVelocityTargets;
+        private int _currentPositionVelocityTarget;
 
         private Effect _particleEffect;
 
         private VertexBuffer _particleDrawVertices;
         private IndexBuffer _particleDrawIndices;
+        private BlendState _particleDrawBlendState;
+        private BlendState _particleCreateBlendState;
 
         private Texture2D _particleCreateTarget;
-        private HalfVector4[] _particleCreateBuffer;
+        private Vector4[] _particleCreateBuffer;
         private Texture2D _particleCreateMaskTarget;
         private byte[] _particleCreateMaskBuffer;
         private int _lastParticleCreateID = 0;
@@ -96,25 +98,25 @@ namespace GameJam.Particles
             GraphicsDevice = graphicsDevice;
 
             _screenQuad = new Quad();
-            _positionSizeLifeTargets = new RenderTarget2D[2];
-            _positionSizeLifeTargets[0] = new RenderTarget2D(graphicsDevice,
+            _positionVelocityTargets = new RenderTarget2D[2];
+            _positionVelocityTargets[0] = new RenderTarget2D(graphicsDevice,
                 ParticleBufferSize,
                 ParticleBufferSize,
                 false,
-                SurfaceFormat.HalfVector4,
+                SurfaceFormat.Vector4,
                 DepthFormat.None,
                 0,
                 RenderTargetUsage.PreserveContents);
-            ClearTarget(_positionSizeLifeTargets[0]);
-            _positionSizeLifeTargets[1] = new RenderTarget2D(graphicsDevice,
+            ClearTarget(_positionVelocityTargets[0]);
+            _positionVelocityTargets[1] = new RenderTarget2D(graphicsDevice,
                 ParticleBufferSize,
                 ParticleBufferSize,
                 false,
-                SurfaceFormat.HalfVector4,
+                SurfaceFormat.Vector4,
                 DepthFormat.None,
                 0,
                 RenderTargetUsage.PreserveContents);
-            ClearTarget(_positionSizeLifeTargets[1]);
+            ClearTarget(_positionVelocityTargets[1]);
 
             _particleEffect = content.Load<Effect>(particleEffect);
 
@@ -128,16 +130,27 @@ namespace GameJam.Particles
                 ParticleCount * 6,
                 BufferUsage.WriteOnly);
             UploadParticleDrawIndices();
+            _particleDrawBlendState = new BlendState
+            {
+                AlphaBlendFunction = BlendFunction.Max,
+                AlphaSourceBlend = Blend.One,
+                AlphaDestinationBlend = Blend.Zero,
+
+                ColorBlendFunction = BlendFunction.Max,
+                ColorSourceBlend = Blend.One,
+                ColorDestinationBlend = Blend.Zero,
+            };
+            _particleCreateBlendState = _particleDrawBlendState;
 
             _particleCreateTarget = new Texture2D(GraphicsDevice,
                 ParticleBufferSize,
                 ParticleBufferSize,
                 false,
-                SurfaceFormat.HalfVector4);
-            _particleCreateBuffer = new HalfVector4[ParticleBufferSize * ParticleBufferSize];
+                SurfaceFormat.Vector4);
+            _particleCreateBuffer = new Vector4[ParticleBufferSize * ParticleBufferSize];
             for (int i = 0; i < _particleCreateBuffer.Length; i++)
             {
-                _particleCreateBuffer[i] = new HalfVector4();
+                _particleCreateBuffer[i] = new Vector4();
             }
             _particleCreateMaskTarget = new Texture2D(GraphicsDevice,
                 ParticleBufferSize,
@@ -156,9 +169,9 @@ namespace GameJam.Particles
             EventManager.Instance.UnregisterListener(this);
         }
 
-        public void CreateParticle(Vector2 position)
+        public void CreateParticle(float x, float y, float velX, float velY)
         {
-            _particleCreateBuffer[_nextParticleCreateID] = new HalfVector4(position.X, position.Y, 0.1f, 0);
+            _particleCreateBuffer[_nextParticleCreateID] = new Vector4(x, y, velX, velY);
             _particleCreateMaskBuffer[_nextParticleCreateID] = 0xFF;
             _nextParticleCreateID = (_nextParticleCreateID + 1) % ParticleCount;
 
@@ -218,8 +231,9 @@ namespace GameJam.Particles
                 _particleCreateMaskTarget.SetData(_particleCreateMaskBuffer);
 
                 // Position, etc.
-                GraphicsDevice.SetRenderTarget(_positionSizeLifeTargets[_currentPositionSizeLifeTarget]);
-                _particleEffect.Parameters["PositionSizeRotation"].SetValue(_particleCreateTarget);
+                GraphicsDevice.SetRenderTarget(_positionVelocityTargets[_currentPositionVelocityTarget]);
+                GraphicsDevice.BlendState = _particleCreateBlendState;
+                _particleEffect.Parameters["PositionVelocity"].SetValue(_particleCreateTarget);
                 _particleEffect.Parameters["CreateMask"].SetValue(_particleCreateMaskTarget);
                 foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
                 {
@@ -234,7 +248,7 @@ namespace GameJam.Particles
                 {
                     int id = (_lastParticleCreateID + i) % ParticleCount;
 
-                    _particleCreateBuffer[id].PackedValue = 0;
+                    // Create buffer doesn't need to be cleared b/c the mask won't create it
                     _particleCreateMaskBuffer[id] = 0;
                 }
 
@@ -246,19 +260,20 @@ namespace GameJam.Particles
         {
             _particleEffect.CurrentTechnique = _particleEffect.Techniques["Update"];
 
-            int currentPositionSizeLifeTarget = _currentPositionSizeLifeTarget;
-            int nextPositionSizeLifeTarget = (_currentPositionSizeLifeTarget + 1) % _positionSizeLifeTargets.Length;
+            int currentPositionSizeLifeTarget = _currentPositionVelocityTarget;
+            int nextPositionSizeLifeTarget = (_currentPositionVelocityTarget + 1) % _positionVelocityTargets.Length;
 
-            GraphicsDevice.SetRenderTarget(_positionSizeLifeTargets[nextPositionSizeLifeTarget]);
+            GraphicsDevice.SetRenderTarget(_positionVelocityTargets[nextPositionSizeLifeTarget]);
+            GraphicsDevice.Clear(Color.TransparentBlack);
             _particleEffect.Parameters["Dt"].SetValue(dt);
-            _particleEffect.Parameters["PositionSizeRotation"].SetValue(_positionSizeLifeTargets[currentPositionSizeLifeTarget]);
+            _particleEffect.Parameters["PositionVelocity"].SetValue(_positionVelocityTargets[currentPositionSizeLifeTarget]);
             foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
 
                 _screenQuad.Render(GraphicsDevice);
             }
-            _currentPositionSizeLifeTarget = nextPositionSizeLifeTarget;
+            _currentPositionVelocityTarget = nextPositionSizeLifeTarget;
             GraphicsDevice.SetRenderTarget(null);
         }
 
@@ -268,7 +283,10 @@ namespace GameJam.Particles
 
             GraphicsDevice.SetVertexBuffer(_particleDrawVertices);
             GraphicsDevice.Indices = _particleDrawIndices;
-            _particleEffect.Parameters["PositionSizeRotation"].SetValue(_positionSizeLifeTargets[_currentPositionSizeLifeTarget]);
+            GraphicsDevice.BlendState = _particleDrawBlendState;
+            _particleEffect.Parameters["PositionVelocity"].SetValue(_positionVelocityTargets[_currentPositionVelocityTarget]);
+            _particleEffect.Parameters["ScaleX"].SetValue(CVars.Get<float>("particle_explosion_scale_x"));
+            _particleEffect.Parameters["ScaleY"].SetValue(CVars.Get<float>("particle_explosion_scale_y"));
             foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();

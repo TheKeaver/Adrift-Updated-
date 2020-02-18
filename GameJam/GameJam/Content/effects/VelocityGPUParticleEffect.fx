@@ -4,10 +4,10 @@
 /***
 UNIFORMS
 ***/
-texture PositionSizeRotation;
-sampler2D PositionSizeRotationSampler = sampler_state
+texture PositionVelocity;
+sampler2D PositionVelocitySampler = sampler_state
 {
-	Texture = <PositionSizeRotation>;
+	Texture = <PositionVelocity>;
 	MipFilter = NONE;
 	MinFilter = NONE;
 	MagFilter = NONE;
@@ -26,6 +26,11 @@ float ElapsedTime;
 float Dt;
 int Size;
 matrix WorldViewProjection;
+
+float ScaleX;
+float ScaleY;
+
+float VelocityDecayMultiplier;
 
 /***
 Structs
@@ -70,8 +75,8 @@ float4 CreatePS(in PassThroughVSOutput input) : COLOR
 	if (tex2D(CreateMaskSampler, input.TexCoord).a < 0.5) {
 		discard;
 	}
-	float4 dat = tex2D(PositionSizeRotationSampler, input.TexCoord);
-	return float4(dat.x, dat.y, dat.z, dat.w);
+	float4 dat = tex2D(PositionVelocitySampler, input.TexCoord);
+	return tex2D(PositionVelocitySampler, input.TexCoord);
 }
 
 /***
@@ -79,14 +84,17 @@ UPDATE
 ***/
 float4 UpdatePS(in PassThroughVSOutput input) : COLOR
 {
-	float4 positionSizeRotationValue = tex2D(PositionSizeRotationSampler, input.TexCoord);
-	float2 position = positionSizeRotationValue.xy;
-	float angleAroundOrigin = atan2(position.y, position.x);
+	//float4 positionVelocityValue = tex2D(PositionVelocitySampler, input.TexCoord);
+	//float2 position = float2(positionVelocityValue.w, positionVelocityValue.z);
+	//float2 velocity = positionVelocityValue.xy;
+	/*float angleAroundOrigin = atan2(position.y, position.x);
 	angleAroundOrigin = angleAroundOrigin + 0.005f;
 	float mag = length(position);
-	position = float2(mag * cos(angleAroundOrigin), mag * sin(angleAroundOrigin));
-	float size = positionSizeRotationValue.z;
-    return float4(position.x, position.y, 0.1, positionSizeRotationValue.w);
+	position = float2(mag * cos(angleAroundOrigin), mag * sin(angleAroundOrigin));*/
+	//position = position + velocity * Dt;
+
+    //return float4(position.x, velocity.y, position.y, position.x);
+	return tex2D(PositionVelocitySampler, input.TexCoord);
 }
 
 /***
@@ -100,30 +108,38 @@ DrawVSOutput DrawVS(in DrawVSInput input) {
 	int lookupX = id % Size;
 	int lookupY = (id - lookupX) / Size;
 
-	float4 positionSizeLifeRotationValue = tex2Dlod(PositionSizeRotationSampler, float4(lookupX / float(Size), lookupY / float(Size), 0, 0));
-	float2 position = positionSizeLifeRotationValue.xy;
-	float size = positionSizeLifeRotationValue.z;
-	float other = positionSizeLifeRotationValue.w;
+	float4 positionVelocityValue = tex2Dlod(PositionVelocitySampler, float4(lookupX / float(Size), lookupY / float(Size), 0, 0));
+	//float2 position = float2(positionVelocityValue.w, positionVelocityValue.z);
+	//float2 velocity = positionVelocityValue.xy;
+	float2 position = positionVelocityValue.rg;
+	float2 velocity = float2(positionVelocityValue.b, positionVelocityValue.a);
+	//float2 velocity = positionVelocityValue.ba;
 
-	output.Color = float4(abs(position.x), abs(position.y), abs(size) / 0.003f, 1);
+	output.Color = float4(1, 1, 1, 1);
 
 	float2 localPos = float2(0, 0);
 	switch (input.VertexID) {
 	case 0:
-		localPos = float2(1, 1) * size;
+		localPos = float2(ScaleX / 2, ScaleY / 2);
 		break;
 	case 1:
-		localPos = float2(1, -1) * size;
+		localPos = float2(ScaleX / 2, -ScaleY / 2);
 		break;
 	case 2:
-		localPos = float2(-1, -1) * size;
+		localPos = float2(-ScaleX / 2, -ScaleY / 2);
 		break;
 	case 3:
-		localPos = float2(-1, 1) * size;
+		localPos = float2(-ScaleX / 2, ScaleY / 2);
 		break;
 	}
 
-	output.Position = mul(float4(localPos + position, 0, 1), WorldViewProjection);
+	float rotation = atan2(velocity.y, velocity.x);
+	float rotCos = cos(rotation);
+	float rotSin = sin(rotation);
+	float2 rotatedPos = float2(localPos.x * rotCos - localPos.y * rotSin,
+		localPos.x * rotSin + localPos.y * rotCos);
+
+	output.Position = mul(float4(rotatedPos + position, 0, 1), WorldViewProjection);
 
 	return output;
 }

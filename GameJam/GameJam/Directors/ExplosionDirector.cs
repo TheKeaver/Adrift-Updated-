@@ -13,17 +13,20 @@ namespace GameJam.Directors
 {
     public class ExplosionDirector : BaseDirector
     {
-        private readonly ParticleManager<VelocityParticleInfo> _particleManager;
-        private readonly MTRandom _random;
+        private readonly ParticleManager<VelocityParticleInfo> _CPUParticleManager;
+        private readonly GPUParticleManager _gpuParticleManager;
+        private readonly Random _random;
         private readonly TextureRegion2D _particleTexture;
 
         public ExplosionDirector(Engine engine, ContentManager content,
             ProcessManager processManager,
-            ParticleManager<VelocityParticleInfo> particleManager)
+            ParticleManager<VelocityParticleInfo> cpuParticleManager,
+            GPUParticleManager gpuParticleManager)
             :base(engine, content, processManager)
         {
-            _particleManager = particleManager;
-            _random = new MTRandom();
+            _CPUParticleManager = cpuParticleManager;
+            _gpuParticleManager = gpuParticleManager;
+            _random = new Random();
             _particleTexture = content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_particle_velocity");
         }
 
@@ -42,20 +45,32 @@ namespace GameJam.Directors
             if(evt is CreateExplosionEvent)
             {
                 CreateExplosionEvent createExplosionEvent = evt as CreateExplosionEvent;
-                CreateExplosionEvent(createExplosionEvent.ExplosionLocation, createExplosionEvent.Color);
+                if (CVars.Get<bool>("particle_gpu_accelerated"))
+                {
+                    CreateGPUExplosion(createExplosionEvent.ExplosionLocation, createExplosionEvent.Color);
+                }
+                else
+                {
+                    CreateCPUExplosion(createExplosionEvent.ExplosionLocation, createExplosionEvent.Color);
+                }
             }
             return false;
         }
 
-        private void CreateExplosionEvent(Vector2 explosionLocation, Color color)
+        private float NextRandomSingle(float min, float max)
+        {
+            return MathHelper.Lerp(min, max, (float) _random.NextDouble());
+        }
+
+        private void CreateCPUExplosion(Vector2 explosionLocation, Color color)
         {
             for (int i = 0; i < CVars.Get<int>("particle_explosion_count"); i++)
             {
                 float speed = CVars.Get<float>("particle_explosion_strength")
-                    * _random.NextSingle(CVars.Get<float>("particle_explosion_variety_min"), CVars.Get<float>("particle_explosion_variety_max"));
-                float dir = _random.NextSingle(0, MathHelper.TwoPi);
+                    * NextRandomSingle(CVars.Get<float>("particle_explosion_variety_min"), CVars.Get<float>("particle_explosion_variety_max"));
+                float dir = NextRandomSingle(0, MathHelper.TwoPi);
 
-                ref VelocityParticleInfo info = ref _particleManager.CreateParticle(_particleTexture,
+                ref VelocityParticleInfo info = ref _CPUParticleManager.CreateParticle(_particleTexture,
                                                         explosionLocation.X,
                                                         -explosionLocation.Y, // For various reasons, ParticleManager is flipped
                                                         color,
@@ -65,6 +80,21 @@ namespace GameJam.Directors
                 info.Velocity.X = (float)(speed * Math.Cos(dir));
                 info.Velocity.Y = (float)(speed * Math.Sin(dir));
                 info.LengthMultiplier = 1f;
+            }
+        }
+
+        private void CreateGPUExplosion(Vector2 explosionLocation, Color color)
+        {
+            for (int i = 0; i < CVars.Get<int>("particle_explosion_count"); i++)
+            {
+                float speed = CVars.Get<float>("particle_explosion_strength")
+                    * NextRandomSingle(CVars.Get<float>("particle_explosion_variety_min"), CVars.Get<float>("particle_explosion_variety_max"));
+                float dir = NextRandomSingle(0, MathHelper.TwoPi);
+
+                _gpuParticleManager.CreateParticle(explosionLocation.X,
+                    explosionLocation.Y,
+                    (float)(speed * Math.Cos(dir)),
+                    (float)(speed * Math.Sin(dir)));
             }
         }
     }

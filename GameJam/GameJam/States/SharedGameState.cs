@@ -160,7 +160,7 @@ namespace GameJam.States
 
             ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
 
-            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
+            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager, GPUParticleManager));
 
             ProcessManager.Attach(new ChangeToChasingEnemyDirector(Engine, Content, ProcessManager));
 

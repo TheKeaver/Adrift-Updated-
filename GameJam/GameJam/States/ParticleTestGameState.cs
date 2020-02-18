@@ -11,8 +11,6 @@ namespace GameJam.States
         private Timer _timer;
         private MTRandom _random;
 
-        private bool _gpuParticles = true;
-
         public ParticleTestGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
         {
             _timer = new Timer(0);
@@ -30,12 +28,10 @@ namespace GameJam.States
             if(_timer.HasElapsed())
             {
                 Color randomColor = new HSLColor(_random.NextSingle(0, 240), 240, 120);
-                if (!_gpuParticles)
-                {
-                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(new Vector2(_random.NextSingle(-CVars.Get<float>("screen_width") / 2, CVars.Get<float>("screen_width") / 2),
-                        _random.NextSingle(-CVars.Get<float>("screen_height") / 2, CVars.Get<float>("screen_height") / 2)), randomColor, false));
-                    _timer.Reset(_random.NextSingle(0.04f, 0.1f));
-                }
+                EventManager.Instance.QueueEvent(new CreateExplosionEvent(new Vector2(_random.NextSingle(-CVars.Get<float>("screen_width") / 2, CVars.Get<float>("screen_width") / 2),
+                    _random.NextSingle(-CVars.Get<float>("screen_height") / 2, CVars.Get<float>("screen_height") / 2)), randomColor, false));
+                _timer.Reset(_random.NextSingle(0.04f, 0.1f));
+                //_timer.Reset(1000);
             }
 
             base.OnUpdate(dt);
