@@ -60,6 +60,7 @@ namespace GameJam.Particles
 
         private Quad _screenQuad;
         private RenderTarget2D[] _positionVelocityTargets;
+        private RenderTarget2D _staticInfoTarget;
         private int _currentPositionVelocityTarget;
 
         private Effect _particleEffect;
@@ -118,6 +119,15 @@ namespace GameJam.Particles
                 0,
                 RenderTargetUsage.PreserveContents);
             ClearTarget(_positionVelocityTargets[1]);
+            _staticInfoTarget = new RenderTarget2D(graphicsDevice,
+                ParticleBufferSize,
+                ParticleBufferSize,
+                false,
+                SurfaceFormat.Color,
+                DepthFormat.None,
+                0,
+                RenderTargetUsage.PreserveContents);
+            ClearTarget(_staticInfoTarget);
 
             _particleEffect = content.Load<Effect>(particleEffect);
 
@@ -269,6 +279,7 @@ namespace GameJam.Particles
             GraphicsDevice.BlendState = _particleUpdateBlendState;
             _particleEffect.Parameters["Dt"].SetValue(dt);
             _particleEffect.Parameters["PositionVelocity"].SetValue(_positionVelocityTargets[currentPositionSizeLifeTarget]);
+            _particleEffect.Parameters["StaticInfo"].SetValue(_staticInfoTarget);
             _particleEffect.Parameters["VelocityDecayMultiplier"].SetValue(CVars.Get<float>("particle_explosion_decay_multiplier"));
             foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
             {
@@ -288,6 +299,7 @@ namespace GameJam.Particles
             GraphicsDevice.Indices = _particleDrawIndices;
             GraphicsDevice.BlendState = _particleDrawBlendState;
             _particleEffect.Parameters["PositionVelocity"].SetValue(_positionVelocityTargets[_currentPositionVelocityTarget]);
+            _particleEffect.Parameters["StaticInfo"].SetValue(_staticInfoTarget);
             _particleEffect.Parameters["ScaleX"].SetValue(CVars.Get<float>("particle_explosion_scale_x"));
             _particleEffect.Parameters["ScaleY"].SetValue(CVars.Get<float>("particle_explosion_scale_y"));
             foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
@@ -303,8 +315,12 @@ namespace GameJam.Particles
 
         private void ClearTarget(RenderTarget2D target)
         {
+            ClearTarget(target, Color.Black);
+        }
+        private void ClearTarget(RenderTarget2D target, Color color)
+        {
             GraphicsDevice.SetRenderTarget(target);
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(color);
             GraphicsDevice.SetRenderTarget(null);
         }
 

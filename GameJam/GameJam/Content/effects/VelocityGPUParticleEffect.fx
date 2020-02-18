@@ -12,6 +12,14 @@ sampler2D PositionVelocitySampler = sampler_state
 	MinFilter = NONE;
 	MagFilter = NONE;
 };
+texture StaticInfo;
+sampler2D StaticInfoSampler = sampler_state
+{
+	Texture = <StaticInfo>;
+	MipFilter = NONE;
+	MinFilter = NONE;
+	MagFilter = NONE;
+};
 
 texture CreateMask;
 sampler2D CreateMaskSampler = sampler_state
@@ -111,11 +119,14 @@ DrawVSOutput DrawVS(in DrawVSInput input) {
 	float2 position = positionVelocityValue.xy;
 	float2 velocity = positionVelocityValue.zw;
 
+	float4 staticInfoValue = tex2Dlod(StaticInfoSampler, float4(lookupX / float(Size), lookupY / float(Size), 0, 0));
+	float3 color = staticInfoValue.rgb;
+
 	float Speed = length(velocity);
 
 	float Alpha = min(1, Speed);
 	Alpha = Alpha * Alpha;
-	output.Color = float4(1, 1, 1, Alpha);
+	output.Color = float4(color, Alpha);
 
 	float Stretch = Speed * 0.003;
 
