@@ -172,10 +172,13 @@ namespace GameJam.Particles
                 false,
                 SurfaceFormat.Color);
             _particleCreateStaticBuffer = new Color[ParticleBufferSize * ParticleBufferSize];
+            MTRandom _random = new MTRandom();
             for(int i = 0; i < _particleCreateStaticBuffer.Length; i++)
             {
-                _particleCreateStaticBuffer[i] = new Color();
+                //_particleCreateStaticBuffer[i] = new Color(255, 0, 255, 0);
+                _particleCreateStaticBuffer[i] = new HSLColor(_random.NextSingle(0, 240), 240, 120);
             }
+            _staticInfoTarget.SetData(_particleCreateStaticBuffer);
             _particleCreateMaskTarget = new Texture2D(GraphicsDevice,
                 ParticleBufferSize,
                 ParticleBufferSize,
@@ -256,7 +259,7 @@ namespace GameJam.Particles
                 // Create target: position, size, rotation data
                 _particleCreateTarget.SetData(_particleCreateBuffer);
                 // Create static target: static info (color)
-                _particleCreateStaticTarget.SetData(_particleCreateStaticBuffer);
+                //_particleCreateStaticTarget.SetData(_particleCreateStaticBuffer);
                 // Create mask target: filters whether a particle is overwritten
                 _particleCreateMaskTarget.SetData(_particleCreateMaskBuffer);
 
@@ -274,17 +277,17 @@ namespace GameJam.Particles
                 }
 
                 // Static info
-                GraphicsDevice.SetRenderTarget(_staticInfoTarget);
-                GraphicsDevice.BlendState = _particleCreateBlendState;
-                _particleEffect.CurrentTechnique = _particleEffect.Techniques["StaticInsert"];
-                _particleEffect.Parameters["StaticInfo"].SetValue(_particleCreateStaticTarget);
-                _particleEffect.Parameters["CreateMask"].SetValue(_particleCreateMaskTarget);
-                foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
+                //GraphicsDevice.SetRenderTarget(_staticInfoTarget);
+                //GraphicsDevice.BlendState = _particleCreateBlendState;
+                //_particleEffect.CurrentTechnique = _particleEffect.Techniques["StaticInsert"];
+                //_particleEffect.Parameters["StaticInfo"].SetValue(_particleCreateStaticTarget);
+                //_particleEffect.Parameters["CreateMask"].SetValue(_particleCreateMaskTarget);
+                //foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
+                //{
+                //    pass.Apply();
 
-                    _screenQuad.Render(GraphicsDevice);
-                }
+                //    _screenQuad.Render(GraphicsDevice);
+                //}
 
                 // Done
                 GraphicsDevice.SetRenderTarget(null);
