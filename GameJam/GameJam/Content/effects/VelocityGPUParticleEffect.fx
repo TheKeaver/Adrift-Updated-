@@ -86,7 +86,7 @@ float4 UpdatePS(in PassThroughVSOutput input) : COLOR
 	float mag = length(position);
 	position = float2(mag * cos(angleAroundOrigin), mag * sin(angleAroundOrigin));
 	float size = positionSizeRotationValue.z;
-    return float4(position.x, position.y, 0.001, positionSizeRotationValue.w);
+    return float4(position.x, position.y, 0.1, positionSizeRotationValue.w);
 }
 
 /***
@@ -123,8 +123,7 @@ DrawVSOutput DrawVS(in DrawVSInput input) {
 		break;
 	}
 
-	//output.Position = mul(float4(localPos + position, 0, 1), WorldViewProjection);
-	output.Position = float4(localPos + position, 0, 1);
+	output.Position = mul(float4(localPos + position, 0, 1), WorldViewProjection);
 
 	return output;
 }

@@ -1,4 +1,6 @@
-﻿using GameJam.Common;
+﻿using Events;
+using GameJam.Common;
+using GameJam.Events;
 using GameJam.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -46,13 +48,15 @@ namespace GameJam.Particles
         }
     }
 
-    public class GPUParticleManager
+    public class GPUParticleManager : IEventListener
     {
         public GraphicsDevice GraphicsDevice
         {
             get;
             private set;
         }
+
+        private Matrix _projectionMatrix;
 
         private Quad _screenQuad;
         private RenderTarget2D[] _positionSizeLifeTargets;
@@ -141,14 +145,15 @@ namespace GameJam.Particles
                 false,
                 SurfaceFormat.Alpha8);
             _particleCreateMaskBuffer = new byte[ParticleBufferSize * ParticleBufferSize];
+        }
 
-            {
-                Random random = new Random();
-                for (int i = 0; i < ParticleCount; i++)
-                {
-                    CreateParticle(new Vector2((float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1)));
-                }
-            }
+        public void RegisterListeners()
+        {
+            EventManager.Instance.RegisterListener<ResizeEvent>(this);
+        }
+        public void UnregisterListeners()
+        {
+            EventManager.Instance.UnregisterListener(this);
         }
 
         public void CreateParticle(Vector2 position)
@@ -197,7 +202,7 @@ namespace GameJam.Particles
             _particleEffect.Parameters["Size"].SetValue(ParticleBufferSize);
             Create();
             Update(dt);
-            _particleEffect.Parameters["WorldViewProjection"].SetValue(Matrix.Identity);
+            _particleEffect.Parameters["WorldViewProjection"].SetValue(transformMatrix * _projectionMatrix);
             Draw();
         }
 
@@ -280,6 +285,31 @@ namespace GameJam.Particles
             GraphicsDevice.SetRenderTarget(target);
             GraphicsDevice.Clear(Color.Black);
             GraphicsDevice.SetRenderTarget(null);
+        }
+
+        public bool Handle(IEvent evt)
+        {
+            ResizeEvent resizeEvent = evt as ResizeEvent;
+            if(resizeEvent != null)
+            {
+                HandleResizeEvent(resizeEvent);
+            }
+
+            return false;
+        }
+
+        private void HandleResizeEvent(ResizeEvent evt)
+        {
+            UpdateProjectionMatrix(evt.Width, evt.Height);
+        }
+
+        private void UpdateProjectionMatrix(int width, int height)
+        {
+            // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
+            // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
+            // --> We get the correct matrix with near plane 0 and far plane -1.
+            Matrix.CreateOrthographicOffCenter(0, width, 0,
+                height, -1, 1, out _projectionMatrix);
         }
     }
 }

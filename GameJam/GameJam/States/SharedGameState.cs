@@ -98,6 +98,7 @@ namespace GameJam.States
             GPUParticleManager = new GPUParticleManager(GameManager.GraphicsDevice,
                 Content,
                 "effect_gpu_particle_velocity");
+            GPUParticleManager.RegisterListeners();
 
             Engine = new Engine();
             InitSystems();
@@ -306,6 +307,7 @@ namespace GameJam.States
         {
             PostProcessor.UnregisterEvents();
             Camera.UnregisterEvents();
+            GPUParticleManager.UnregisterListeners();
 
             throw new Exception("This game state provides shared logic with all other game states and must not be killed.");
         }
