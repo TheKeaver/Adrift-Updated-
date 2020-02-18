@@ -94,7 +94,10 @@ namespace GameJam.Directors
                 _gpuParticleManager.CreateParticle(explosionLocation.X,
                     explosionLocation.Y,
                     (float)(speed * Math.Cos(dir)),
-                    (float)(speed * Math.Sin(dir)));
+                    (float)(speed * Math.Sin(dir)),
+                    color.R,
+                    color.G,
+                    color.B);
             }
         }
     }

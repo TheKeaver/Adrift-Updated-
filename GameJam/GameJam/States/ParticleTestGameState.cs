@@ -31,7 +31,6 @@ namespace GameJam.States
                 EventManager.Instance.QueueEvent(new CreateExplosionEvent(new Vector2(_random.NextSingle(-CVars.Get<float>("screen_width") / 2, CVars.Get<float>("screen_width") / 2),
                     _random.NextSingle(-CVars.Get<float>("screen_height") / 2, CVars.Get<float>("screen_height") / 2)), randomColor, false));
                 _timer.Reset(_random.NextSingle(0.04f, 0.1f));
-                //_timer.Reset(1000);
             }
 
             base.OnUpdate(dt);

@@ -73,6 +73,8 @@ namespace GameJam.Particles
 
         private Texture2D _particleCreateTarget;
         private Vector4[] _particleCreateBuffer;
+        private Texture2D _particleCreateStaticTarget;
+        private Color[] _particleCreateStaticBuffer;
         private Texture2D _particleCreateMaskTarget;
         private byte[] _particleCreateMaskBuffer;
         private int _lastParticleCreateID = 0;
@@ -164,6 +166,16 @@ namespace GameJam.Particles
             {
                 _particleCreateBuffer[i] = new Vector4();
             }
+            _particleCreateStaticTarget = new Texture2D(GraphicsDevice,
+                ParticleBufferSize,
+                ParticleBufferSize,
+                false,
+                SurfaceFormat.Color);
+            _particleCreateStaticBuffer = new Color[ParticleBufferSize * ParticleBufferSize];
+            for(int i = 0; i < _particleCreateStaticBuffer.Length; i++)
+            {
+                _particleCreateStaticBuffer[i] = new Color();
+            }
             _particleCreateMaskTarget = new Texture2D(GraphicsDevice,
                 ParticleBufferSize,
                 ParticleBufferSize,
@@ -181,9 +193,15 @@ namespace GameJam.Particles
             EventManager.Instance.UnregisterListener(this);
         }
 
-        public void CreateParticle(float x, float y, float velX, float velY)
+        public void CreateParticle(float x, float y, float velX, float velY, byte r, byte g, byte b)
         {
-            _particleCreateBuffer[_nextParticleCreateID] = new Vector4(x, y, velX, velY);
+            _particleCreateBuffer[_nextParticleCreateID].X = x;
+            _particleCreateBuffer[_nextParticleCreateID].Y = y;
+            _particleCreateBuffer[_nextParticleCreateID].Z = velX;
+            _particleCreateBuffer[_nextParticleCreateID].W = velY;
+            _particleCreateStaticBuffer[_nextParticleCreateID].R = r;
+            _particleCreateStaticBuffer[_nextParticleCreateID].G = g;
+            _particleCreateStaticBuffer[_nextParticleCreateID].B = b;
             _particleCreateMaskBuffer[_nextParticleCreateID] = 0xFF;
             _nextParticleCreateID = (_nextParticleCreateID + 1) % ParticleCount;
 
@@ -235,16 +253,17 @@ namespace GameJam.Particles
         {
             if(_particlesCreated > 0)
             {
-                _particleEffect.CurrentTechnique = _particleEffect.Techniques["Create"];
-
                 // Create target: position, size, rotation data
                 _particleCreateTarget.SetData(_particleCreateBuffer);
+                // Create static target: static info (color)
+                _particleCreateStaticTarget.SetData(_particleCreateStaticBuffer);
                 // Create mask target: filters whether a particle is overwritten
                 _particleCreateMaskTarget.SetData(_particleCreateMaskBuffer);
 
                 // Position, etc.
                 GraphicsDevice.SetRenderTarget(_positionVelocityTargets[_currentPositionVelocityTarget]);
                 GraphicsDevice.BlendState = _particleCreateBlendState;
+                _particleEffect.CurrentTechnique = _particleEffect.Techniques["Create"];
                 _particleEffect.Parameters["PositionVelocity"].SetValue(_particleCreateTarget);
                 _particleEffect.Parameters["CreateMask"].SetValue(_particleCreateMaskTarget);
                 foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
@@ -253,6 +272,21 @@ namespace GameJam.Particles
 
                     _screenQuad.Render(GraphicsDevice);
                 }
+
+                // Static info
+                GraphicsDevice.SetRenderTarget(_staticInfoTarget);
+                GraphicsDevice.BlendState = _particleCreateBlendState;
+                _particleEffect.CurrentTechnique = _particleEffect.Techniques["StaticInsert"];
+                _particleEffect.Parameters["StaticInfo"].SetValue(_particleCreateStaticTarget);
+                _particleEffect.Parameters["CreateMask"].SetValue(_particleCreateMaskTarget);
+                foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+
+                    _screenQuad.Render(GraphicsDevice);
+                }
+
+                // Done
                 GraphicsDevice.SetRenderTarget(null);
 
                 // Clear buffers to prepare for future particle creation

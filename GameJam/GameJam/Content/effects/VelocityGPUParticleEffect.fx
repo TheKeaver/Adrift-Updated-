@@ -90,6 +90,20 @@ float4 CreatePS(in PassThroughVSOutput input) : COLOR
 }
 
 /***
+STATIC INSERT
+***/
+float4 StaticInsertPS(in PassThroughVSOutput input) : COLOR
+{
+	// Mask texture is a byte, 0 is don't create particle,
+	// 0xFF is create particle. tex2D treats this (8-bits)
+	// as a float. Test the middle.
+	if (tex2D(CreateMaskSampler, input.TexCoord).a < 0.5) {
+		discard;
+	}
+	return tex2D(StaticInfoSampler, input.TexCoord);
+}
+
+/***
 UPDATE
 ***/
 float4 UpdatePS(in PassThroughVSOutput input) : COLOR
@@ -167,6 +181,15 @@ technique Create
 	{
 		VertexShader = compile VS_SHADERMODEL PassThroughVS();
 		PixelShader = compile PS_SHADERMODEL CreatePS();
+	}
+};
+
+technique StaticInsert
+{
+	pass P0
+	{
+		VertexShader = compile VS_SHADERMODEL PassThroughVS();
+		PixelShader = compile PS_SHADERMODEL StaticInsertPS();
 	}
 };
 
