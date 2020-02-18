@@ -65,12 +65,26 @@ namespace GameJam.Particles
 
         private Texture2D _particleCreateTarget;
         private HalfVector4[] _particleCreateBuffer;
+        private Texture2D _particleCreateMaskTarget;
+        private byte[] _particleCreateMaskBuffer;
         private bool _recreate = true;
 
         private float _elapsedTime;
 
-        private int _particleCount = 100000;
-        private int _particleBufferSize = 1024;
+        public int ParticleBufferSize
+        {
+            get
+            {
+                return CVars.Get<int>("particle_gpu_buffer_size");
+            }
+        }
+        public int ParticleCount
+        {
+            get
+            {
+                return ParticleBufferSize * ParticleBufferSize;
+            }
+        }
 
         private int _nextParticleID = 0;
 
@@ -81,8 +95,8 @@ namespace GameJam.Particles
             _screenQuad = new Quad();
             _positionSizeLifeTargets = new RenderTarget2D[2];
             _positionSizeLifeTargets[0] = new RenderTarget2D(graphicsDevice,
-                _particleBufferSize,
-                _particleBufferSize,
+                ParticleBufferSize,
+                ParticleBufferSize,
                 false,
                 SurfaceFormat.HalfVector4,
                 DepthFormat.None,
@@ -90,8 +104,8 @@ namespace GameJam.Particles
                 RenderTargetUsage.PreserveContents);
             ClearTarget(_positionSizeLifeTargets[0]);
             _positionSizeLifeTargets[1] = new RenderTarget2D(graphicsDevice,
-                _particleBufferSize,
-                _particleBufferSize,
+                ParticleBufferSize,
+                ParticleBufferSize,
                 false,
                 SurfaceFormat.HalfVector4,
                 DepthFormat.None,
@@ -103,42 +117,31 @@ namespace GameJam.Particles
 
             _particleDrawVertices = new VertexBuffer(GraphicsDevice,
                 typeof(VertexIDVertexID),
-                4 * _particleCount,
+                4 * ParticleCount,
                 BufferUsage.WriteOnly);
             UploadParticleDrawVertices();
             _particleDrawIndices = new IndexBuffer(GraphicsDevice,
                 typeof(int),
-                _particleCount * 6,
+                ParticleCount * 6,
                 BufferUsage.WriteOnly);
             UploadParticleDrawIndices();
 
             _particleCreateTarget = new Texture2D(GraphicsDevice,
-                _particleBufferSize,
-                _particleBufferSize,
+            ParticleBufferSize,
+                ParticleBufferSize,
                 false,
                 SurfaceFormat.HalfVector4);
-            _particleCreateBuffer = new HalfVector4[_particleBufferSize * _particleBufferSize];
-            for(int i = 0; i < _particleCreateBuffer.Length; i++)
+            _particleCreateBuffer = new HalfVector4[ParticleBufferSize * ParticleBufferSize];
+            for (int i = 0; i < _particleCreateBuffer.Length; i++)
             {
                 _particleCreateBuffer[i] = new HalfVector4();
             }
 
             {
-                //Random random = new Random();
-                //for(int i = 0; i < _particleCount; i++)
-                //{
-                //    CreateParticle(new Vector2((float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1)));
-                //}
-                Vector2 currentPos = new Vector2(-1, -1);
-                for (int i = 0; i < _particleCount; i++)
+                Random random = new Random();
+                for (int i = 0; i < ParticleCount; i++)
                 {
-                    currentPos.X += 0.01f;
-                    if(currentPos.X > 1)
-                    {
-                        currentPos.X = -1;
-                        currentPos.Y += 0.01f;
-                    }
-                    CreateParticle(new Vector2(currentPos.X, currentPos.Y));
+                    CreateParticle(new Vector2((float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1)));
                 }
             }
         }
@@ -146,14 +149,14 @@ namespace GameJam.Particles
         public void CreateParticle(Vector2 position)
         {
             _particleCreateBuffer[_nextParticleID] = new HalfVector4(position.X, position.Y, 0.1f, 0);
-            _nextParticleID = (_nextParticleID + 1) % _particleCount;
+            _nextParticleID = (_nextParticleID + 1) % ParticleCount;
         }
         
         private void UploadParticleDrawVertices()
         {
-            VertexIDVertexID[] verts = new VertexIDVertexID[4 * _particleCount];
+            VertexIDVertexID[] verts = new VertexIDVertexID[4 * ParticleCount];
             int i = 0;
-            for(int j = 0; j < _particleCount; j++)
+            for(int j = 0; j < ParticleCount; j++)
             {
                 verts[i++] = new VertexIDVertexID(j, 0);
                 verts[i++] = new VertexIDVertexID(j, 1);
@@ -164,9 +167,9 @@ namespace GameJam.Particles
         }
         private void UploadParticleDrawIndices()
         {
-            int[] idxs = new int[6 * _particleCount];
+            int[] idxs = new int[6 * ParticleCount];
             int i = 0;
-            for (int j = 0; j < _particleCount; j++)
+            for (int j = 0; j < ParticleCount; j++)
             {
                 idxs[i++] = j * 4;
                 idxs[i++] = j * 4 + 1;
@@ -183,7 +186,7 @@ namespace GameJam.Particles
         {
             _elapsedTime += dt;
 
-            _particleEffect.Parameters["Size"].SetValue(_particleBufferSize);
+            _particleEffect.Parameters["Size"].SetValue(ParticleBufferSize);
             Create();
             Update(dt);
             Draw();
@@ -239,7 +242,7 @@ namespace GameJam.Particles
             GraphicsDevice.SetVertexBuffer(_particleDrawVertices);
             GraphicsDevice.Indices = _particleDrawIndices;
             _particleEffect.Parameters["PositionSizeRotation"].SetValue(_positionSizeLifeTargets[_currentPositionSizeLifeTarget]);
-                HalfVector4[] dat = new HalfVector4[_particleBufferSize * _particleBufferSize];
+                HalfVector4[] dat = new HalfVector4[ParticleBufferSize * ParticleBufferSize];
                 for(int i = 0; i < dat.Length; i++)
                 {
                     dat[i] = new HalfVector4();
@@ -252,7 +255,7 @@ namespace GameJam.Particles
                 GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList,
                     0,
                     0,
-                    _particleCount * 2);
+                    ParticleCount * 2);
             }
         }
 
