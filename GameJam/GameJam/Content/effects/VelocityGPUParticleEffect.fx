@@ -13,6 +13,15 @@ sampler2D PositionSizeRotationSampler = sampler_state
 	MagFilter = NONE;
 };
 
+texture CreateMask;
+sampler2D CreateMaskSampler = sampler_state
+{
+	Texture = <CreateMask>;
+	MipFilter = NONE;
+	MinFilter = NONE;
+	MagFilter = NONE;
+};
+
 float ElapsedTime;
 float Dt;
 int Size;
@@ -58,6 +67,9 @@ CREATE
 ***/
 float4 CreatePS(in PassThroughVSOutput input) : COLOR
 {
+	if (tex2D(CreateMaskSampler, input.TexCoord).a < 0.5) {
+		discard;
+	}
 	float4 dat = tex2D(PositionSizeRotationSampler, input.TexCoord);
 	return float4(dat.x, dat.y, dat.z, dat.w);
 }
