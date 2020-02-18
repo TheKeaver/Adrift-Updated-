@@ -31,7 +31,7 @@ namespace GameJam.Particles
 
             particle.Scale.X = particle.UserInfo.LengthMultiplier * Math.Min(Math.Min(1, 0.2f * speed * dt + 0.1f), alpha);
 
-            velocity *= CVars.Get<float>("particle_explosion_decay_multiplier");
+            velocity *= (float)(Math.Pow(CVars.Get<float>("particle_explosion_decay_multiplier"), dt * 144));  // Decay multiplier was determined at 144Hz, this fixes the issue of explosion size being different on different refresh rates
 
             particle.UserInfo.Velocity = velocity;
         }

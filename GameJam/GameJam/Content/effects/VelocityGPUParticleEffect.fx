@@ -72,10 +72,12 @@ CREATE
 ***/
 float4 CreatePS(in PassThroughVSOutput input) : COLOR
 {
+	// Mask texture is a byte, 0 is don't create particle,
+	// 0xFF is create particle. tex2D treats this (8-bits)
+	// as a float. Test the middle.
 	if (tex2D(CreateMaskSampler, input.TexCoord).a < 0.5) {
 		discard;
 	}
-	float4 dat = tex2D(PositionVelocitySampler, input.TexCoord);
 	return tex2D(PositionVelocitySampler, input.TexCoord);
 }
 
@@ -84,17 +86,14 @@ UPDATE
 ***/
 float4 UpdatePS(in PassThroughVSOutput input) : COLOR
 {
-	//float4 positionVelocityValue = tex2D(PositionVelocitySampler, input.TexCoord);
-	//float2 position = float2(positionVelocityValue.w, positionVelocityValue.z);
-	//float2 velocity = positionVelocityValue.xy;
-	/*float angleAroundOrigin = atan2(position.y, position.x);
-	angleAroundOrigin = angleAroundOrigin + 0.005f;
-	float mag = length(position);
-	position = float2(mag * cos(angleAroundOrigin), mag * sin(angleAroundOrigin));*/
-	//position = position + velocity * Dt;
+	float4 positionVelocityValue = tex2D(PositionVelocitySampler, input.TexCoord);
+	float2 position = positionVelocityValue.xy;
+	float2 velocity = positionVelocityValue.zw;
 
-    //return float4(position.x, velocity.y, position.y, position.x);
-	return tex2D(PositionVelocitySampler, input.TexCoord);
+	position = position + velocity * Dt;
+	velocity = velocity * pow(VelocityDecayMultiplier, Dt * 144); // Decay multiplier was determined at 144Hz, this fixes the issue of explosion size being different on different refresh rates
+
+    return float4(position.x, position.y, velocity.x, velocity.y);
 }
 
 /***
@@ -109,27 +108,30 @@ DrawVSOutput DrawVS(in DrawVSInput input) {
 	int lookupY = (id - lookupX) / Size;
 
 	float4 positionVelocityValue = tex2Dlod(PositionVelocitySampler, float4(lookupX / float(Size), lookupY / float(Size), 0, 0));
-	//float2 position = float2(positionVelocityValue.w, positionVelocityValue.z);
-	//float2 velocity = positionVelocityValue.xy;
-	float2 position = positionVelocityValue.rg;
-	float2 velocity = float2(positionVelocityValue.b, positionVelocityValue.a);
-	//float2 velocity = positionVelocityValue.ba;
+	float2 position = positionVelocityValue.xy;
+	float2 velocity = positionVelocityValue.zw;
 
-	output.Color = float4(1, 1, 1, 1);
+	float Speed = length(velocity);
+
+	float Alpha = min(1, Speed);
+	Alpha = Alpha * Alpha;
+	output.Color = float4(1, 1, 1, Alpha);
+
+	float Stretch = Speed * 0.003;
 
 	float2 localPos = float2(0, 0);
 	switch (input.VertexID) {
 	case 0:
-		localPos = float2(ScaleX / 2, ScaleY / 2);
+		localPos = float2(ScaleX / 2 * Stretch, ScaleY / 2);
 		break;
 	case 1:
-		localPos = float2(ScaleX / 2, -ScaleY / 2);
+		localPos = float2(ScaleX / 2 * Stretch, -ScaleY / 2);
 		break;
 	case 2:
-		localPos = float2(-ScaleX / 2, -ScaleY / 2);
+		localPos = float2(-ScaleX / 2 * Stretch, -ScaleY / 2);
 		break;
 	case 3:
-		localPos = float2(-ScaleX / 2, ScaleY / 2);
+		localPos = float2(-ScaleX / 2 * Stretch, ScaleY / 2);
 		break;
 	}
 

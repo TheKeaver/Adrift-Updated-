@@ -66,8 +66,9 @@ namespace GameJam.Particles
 
         private VertexBuffer _particleDrawVertices;
         private IndexBuffer _particleDrawIndices;
-        private BlendState _particleDrawBlendState;
         private BlendState _particleCreateBlendState;
+        private BlendState _particleUpdateBlendState;
+        private BlendState _particleDrawBlendState;
 
         private Texture2D _particleCreateTarget;
         private Vector4[] _particleCreateBuffer;
@@ -130,7 +131,7 @@ namespace GameJam.Particles
                 ParticleCount * 6,
                 BufferUsage.WriteOnly);
             UploadParticleDrawIndices();
-            _particleDrawBlendState = new BlendState
+            _particleUpdateBlendState = new BlendState
             {
                 AlphaBlendFunction = BlendFunction.Max,
                 AlphaSourceBlend = Blend.One,
@@ -140,7 +141,8 @@ namespace GameJam.Particles
                 ColorSourceBlend = Blend.One,
                 ColorDestinationBlend = Blend.Zero,
             };
-            _particleCreateBlendState = _particleDrawBlendState;
+            _particleCreateBlendState = _particleUpdateBlendState;
+            _particleDrawBlendState = BlendState.NonPremultiplied;
 
             _particleCreateTarget = new Texture2D(GraphicsDevice,
                 ParticleBufferSize,
@@ -264,9 +266,10 @@ namespace GameJam.Particles
             int nextPositionSizeLifeTarget = (_currentPositionVelocityTarget + 1) % _positionVelocityTargets.Length;
 
             GraphicsDevice.SetRenderTarget(_positionVelocityTargets[nextPositionSizeLifeTarget]);
-            GraphicsDevice.Clear(Color.TransparentBlack);
+            GraphicsDevice.BlendState = _particleUpdateBlendState;
             _particleEffect.Parameters["Dt"].SetValue(dt);
             _particleEffect.Parameters["PositionVelocity"].SetValue(_positionVelocityTargets[currentPositionSizeLifeTarget]);
+            _particleEffect.Parameters["VelocityDecayMultiplier"].SetValue(CVars.Get<float>("particle_explosion_decay_multiplier"));
             foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();

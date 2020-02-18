@@ -225,7 +225,7 @@ namespace GameJam
             Create<bool>("particle_gpu_accelerated", true, CVarFlags.DEV_PRESERVE);
             Create<int>("particle_gpu_buffer_size", 1024, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_scale_x", 22, CVarFlags.DEV_PRESERVE);
-            Create<float>("particle_explosion_scale_y", 2, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_scale_y", 1, CVarFlags.DEV_PRESERVE);
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_strength", 750, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_decay_multiplier", 0.96f, CVarFlags.DEV_PRESERVE);
