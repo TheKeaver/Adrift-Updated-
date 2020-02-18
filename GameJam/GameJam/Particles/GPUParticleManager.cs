@@ -142,13 +142,13 @@ namespace GameJam.Particles
                 SurfaceFormat.Alpha8);
             _particleCreateMaskBuffer = new byte[ParticleBufferSize * ParticleBufferSize];
 
-            //{
-            //    Random random = new Random();
-            //    for (int i = 0; i < ParticleCount; i++)
-            //    {
-            //        CreateParticle(new Vector2((float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1)));
-            //    }
-            //}
+            {
+                Random random = new Random();
+                for (int i = 0; i < ParticleCount; i++)
+                {
+                    CreateParticle(new Vector2((float)(random.NextDouble() * 2 - 1), (float)(random.NextDouble() * 2 - 1)));
+                }
+            }
         }
 
         public void CreateParticle(Vector2 position)
@@ -190,11 +190,14 @@ namespace GameJam.Particles
             _particleDrawIndices.SetData<int>(idxs);
         }
 
-        public void UpdateAndDraw(float dt)
+        public void UpdateAndDraw(Camera camera, float dt, Camera debugCamera = null)
         {
+            Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
+
             _particleEffect.Parameters["Size"].SetValue(ParticleBufferSize);
             Create();
             Update(dt);
+            _particleEffect.Parameters["WorldViewProjection"].SetValue(Matrix.Identity);
             Draw();
         }
 

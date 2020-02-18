@@ -222,6 +222,7 @@ namespace GameJam
 
             /** PARTICLES **/
             Create<bool>("particle_enable", true, CVarFlags.DEV_PRESERVE);
+            Create<bool>("particle_gpu_accelerated", true, CVarFlags.DEV_PRESERVE);
             Create<int>("particle_gpu_buffer_size", 1024, CVarFlags.DEV_PRESERVE);
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_strength", 750, CVarFlags.DEV_PRESERVE);

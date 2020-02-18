@@ -11,8 +11,6 @@ namespace GameJam.States
         private Timer _timer;
         private MTRandom _random;
 
-        private GPUParticleManager _gpuParticleManager;
-
         private bool _gpuParticles = true;
 
         public ParticleTestGameState(GameManager gameManager, SharedGameState sharedState) : base(gameManager, sharedState)
@@ -23,10 +21,6 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
-            _gpuParticleManager = new GPUParticleManager(GameManager.GraphicsDevice,
-                Content,
-                "effect_gpu_particle_velocity");
-
             base.OnInitialize();
         }
 
@@ -49,8 +43,6 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            _gpuParticleManager.UpdateAndDraw(dt);
-
             base.OnRender(dt, betweenFrameAlpha);
         }
     }

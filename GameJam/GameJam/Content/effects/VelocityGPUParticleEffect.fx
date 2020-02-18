@@ -81,12 +81,12 @@ float4 UpdatePS(in PassThroughVSOutput input) : COLOR
 {
 	float4 positionSizeRotationValue = tex2D(PositionSizeRotationSampler, input.TexCoord);
 	float2 position = positionSizeRotationValue.xy;
-	//float angleAroundOrigin = atan2(position.y, position.x);
-	//angleAroundOrigin = angleAroundOrigin + 0.005f;
-	//float mag = length(position);
-	//position = float2(mag * cos(angleAroundOrigin), mag * sin(angleAroundOrigin));
+	float angleAroundOrigin = atan2(position.y, position.x);
+	angleAroundOrigin = angleAroundOrigin + 0.005f;
+	float mag = length(position);
+	position = float2(mag * cos(angleAroundOrigin), mag * sin(angleAroundOrigin));
 	float size = positionSizeRotationValue.z;
-    return float4(position.x, position.y, abs(0.003f * cos(ElapsedTime)), positionSizeRotationValue.w);
+    return float4(position.x, position.y, 0.001, positionSizeRotationValue.w);
 }
 
 /***
@@ -123,6 +123,7 @@ DrawVSOutput DrawVS(in DrawVSInput input) {
 		break;
 	}
 
+	//output.Position = mul(float4(localPos + position, 0, 1), WorldViewProjection);
 	output.Position = float4(localPos + position, 0, 1);
 
 	return output;

@@ -39,6 +39,10 @@ namespace GameJam.States
             get;
             private set;
         }
+        public GPUParticleManager GPUParticleManager {
+            get;
+            private set;
+        }
 
         public Engine Engine
         {
@@ -91,6 +95,9 @@ namespace GameJam.States
 
             VelocityParticleManager = new ParticleManager<VelocityParticleInfo>(1024 * 20, VelocityParticleInfo.UpdateParticle);
             ProcessManager.Attach(VelocityParticleManager);
+            GPUParticleManager = new GPUParticleManager(GameManager.GraphicsDevice,
+                Content,
+                "effect_gpu_particle_velocity");
 
             Engine = new Engine();
             InitSystems();
@@ -245,7 +252,14 @@ namespace GameJam.States
                     null,
                     null,
                     camera.TransformMatrix);
-                VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
+                if (!CVars.Get<bool>("particle_gpu_accelerated"))
+                {
+                    VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
+                }
+                if (CVars.Get<bool>("particle_gpu_accelerated"))
+                {
+                    // TODO
+                }
                 RenderSystem.SpriteBatch.End();
             }
             // We have to defer drawing the post-processor results
@@ -263,6 +277,7 @@ namespace GameJam.States
                 Color.White); // Post-processing results
             RenderSystem.SpriteBatch.End();
 
+            GPUParticleManager.UpdateAndDraw(Camera, dt, camera);
 #if DEBUG
             if (CVars.Get<bool>("debug_show_collision_shapes"))
             {
