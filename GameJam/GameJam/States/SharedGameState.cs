@@ -20,6 +20,7 @@ namespace GameJam.States
             private set;
         }
         private FXAA _fxaaPPE;
+        private SMAA _smaaPPE;
 
         public Camera Camera
         {
@@ -171,16 +172,16 @@ namespace GameJam.States
         {
             Bloom bloom = new Bloom(PostProcessor, Content);
             bloom.Radius = 1.5f;
-            //PostProcessor.Effects.Add(bloom);
+            PostProcessor.Effects.Add(bloom);
 
             _fxaaPPE = new FXAA(PostProcessor, Content);
-            //PostProcessor.Effects.Add(_fxaaPPE);
+            PostProcessor.Effects.Add(_fxaaPPE);
 
-            Negative negative = new Negative(PostProcessor, Content);
+            //Negative negative = new Negative(PostProcessor, Content);
             //PostProcessor.Effects.Add(negative);
 
-            SMAA smaa = new SMAA(PostProcessor, Content);
-            PostProcessor.Effects.Add(smaa);
+            _smaaPPE = new SMAA(PostProcessor, Content);
+            PostProcessor.Effects.Add(_smaaPPE);
         }
 
         private void CreateEntities()
@@ -225,6 +226,7 @@ namespace GameJam.States
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
             _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
+            _smaaPPE.Enabled = CVars.Get<bool>("graphics_smaa");
 
             GameManager.GraphicsDevice.Clear(Color.Black);
 

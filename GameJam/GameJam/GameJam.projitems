@@ -24,9 +24,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\ResumeAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PauseAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAOffButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAFXAASettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAOffButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAFeatheringButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AASMAASettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\BorderlessWindowButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\VSyncButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\ResolutionButtonPressedEvent.cs" />
