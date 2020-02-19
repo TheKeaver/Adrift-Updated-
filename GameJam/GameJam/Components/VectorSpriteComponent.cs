@@ -298,6 +298,7 @@ namespace GameJam.Components
 
         public static PolyRenderShape GenerateCircleRenderShape(float thickness, float radius, Color color, int resolution)
         {
+            thickness = (CVars.Get<bool>("graphics_feathering")) ? thickness : 1.5f * thickness;
             Vector2[] points = new Vector2[resolution];
 
             for(int i = 0; i < points.Length; i++)
@@ -311,6 +312,7 @@ namespace GameJam.Components
 
         public PolyRenderShape(Vector2[] points, float thickness, Color color, PolyCapStyle polyCapStyle = PolyCapStyle.None, bool closed = false)
         {
+            thickness = (CVars.Get<bool>("graphics_feathering")) ? thickness : 1.5f * thickness;
             Color[] colors = new Color[points.Length];
             for(int i = 0; i < colors.Length; i++)
             {
@@ -322,9 +324,12 @@ namespace GameJam.Components
         {
             Init(points, thickness, colors, polyCapStyle, closed);
         }
-        private void Init(Vector2[] points, float thickness, Color[] colors, PolyCapStyle polyCapStyle = PolyCapStyle.None, bool closed = false) {
+        private void Init(Vector2[] points, float thickness, Color[] colors, PolyCapStyle polyCapStyle = PolyCapStyle.None, bool closed = false)
+        {
             bool feathering = CVars.Get<bool>("graphics_feathering");
             float feather = CVars.Get<float>("graphics_feathering_width");
+
+            thickness = feathering ? thickness : 1.5f * thickness;
 
             int count = points.Length;
             if(closed)

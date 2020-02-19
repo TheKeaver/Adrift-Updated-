@@ -238,6 +238,7 @@ namespace GameJam.States
             CleanDestroyAllEntities(false);
             _entitiesCleanedUp = true;
 
+            ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 0.6f, Easings.Functions.CubicEaseOut));
             ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") / 2))
                 .SetNext(new DelegateProcess(() =>
             {
@@ -256,7 +257,7 @@ namespace GameJam.States
                 }
 
                 // Move camera towards center of screen (owned by shared state)
-                SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Easings.Functions.CubicEaseOut));
+                SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 1, Easings.Functions.CubicEaseOut));
             })).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity)).SetNext(new DelegateProcess(() =>
             {
                 ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));

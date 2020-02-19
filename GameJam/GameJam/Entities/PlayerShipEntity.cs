@@ -34,7 +34,7 @@ namespace GameJam.Entities
                     new Vector2(-3, -2),
                     new Vector2(-3, 2),
                     new Vector2(0, -3)
-                    }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled)
+                    }, 0.125f, color, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);

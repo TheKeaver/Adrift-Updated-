@@ -14,14 +14,19 @@ namespace GameJam.Processes.Animations
         private Vector2 _initialPosition;
         private float _initialZoom;
 
+        private Vector2 _endPosition;
+        private float _endZoom;
+
         public Easings.Functions EasingFunction
         {
             get;
             private set;
         }
 
-        public CameraPositionZoomResetProcess(Camera camera, float duration, Easings.Functions easingFunction = Easings.Functions.Linear) : base(duration)
+        public CameraPositionZoomResetProcess(Camera camera, float duration, Vector2 position, float zoom, Easings.Functions easingFunction = Easings.Functions.Linear) : base(duration)
         {
+            _endPosition = position;
+            _endZoom = zoom;
             Camera = camera;
             EasingFunction = easingFunction;
         }
@@ -38,8 +43,8 @@ namespace GameJam.Processes.Animations
 
         protected override void OnUpdateAnimation()
         {
-            Camera.Position = Vector2.Lerp(_initialPosition, Vector2.Zero, Easings.Interpolate(ClampedAlpha, EasingFunction));
-            Camera.Zoom = MathHelper.Lerp(_initialZoom, 1, Easings.Interpolate(ClampedAlpha, EasingFunction));
+            Camera.Position = Vector2.Lerp(_initialPosition, _endPosition, Easings.Interpolate(ClampedAlpha, EasingFunction));
+            Camera.Zoom = MathHelper.Lerp(_initialZoom, _endZoom, Easings.Interpolate(ClampedAlpha, EasingFunction));
         }
     }
 }

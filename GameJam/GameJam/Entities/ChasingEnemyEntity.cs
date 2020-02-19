@@ -29,7 +29,7 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
             entity.AddComponent(new TransformComponent());
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
-                new PolyRenderShape(GetPoints(), 0.4f, CVars.Get<Color>("color_chasing_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
+                new PolyRenderShape(GetPoints(), 0.2f, CVars.Get<Color>("color_chasing_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_chasing_enemy")));
