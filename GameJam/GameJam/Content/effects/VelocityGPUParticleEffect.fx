@@ -54,6 +54,20 @@ struct PassThroughVSOutput
     float2 TexCoord : TEXCOORD0;
 };
 
+struct CreateVSInput {
+	float ID : TEXCOORD0;
+	int VertexID : TEXCOORD1;
+	float2 Position : POSITION0;
+	float2 Velocity : TEXCOORD2;
+	float4 Color : COLOR0;
+};
+struct CreateVSOutput {
+	float4 Position : SV_POSITION;
+	float2 ParticlePosition : POSITION1;
+	float2 Velocity : TEXCOORD0;
+	float4 Color : COLOR0;
+};
+
 struct DrawVSInput
 {
 	float ID : TEXCOORD0;
@@ -66,7 +80,7 @@ struct DrawVSOutput
 };
 
 /***
-PASS THROUGH (create & update)
+PASS THROUGH (update)
 ***/
 PassThroughVSOutput PassThroughVS(in PassThroughVSInput input) {
 	PassThroughVSOutput output = (PassThroughVSOutput)0;
@@ -78,29 +92,54 @@ PassThroughVSOutput PassThroughVS(in PassThroughVSInput input) {
 /***
 CREATE
 ***/
-float4 CreatePS(in PassThroughVSOutput input) : COLOR
-{
-	// Mask texture is a byte, 0 is don't create particle,
-	// 0xFF is create particle. tex2D treats this (8-bits)
-	// as a float. Test the middle.
-	if (tex2D(CreateMaskSampler, input.TexCoord).a < 0.5) {
-		discard;
-	}
-	return tex2D(PositionVelocitySampler, input.TexCoord);
-}
+CreateVSOutput CreateVS(in CreateVSInput input) {
+	CreateVSOutput output = (CreateVSOutput)0;
 
-/***
-STATIC INSERT
-***/
-float4 StaticInsertPS(in PassThroughVSOutput input) : COLOR
-{
-	// Mask texture is a byte, 0 is don't create particle,
-	// 0xFF is create particle. tex2D treats this (8-bits)
-	// as a float. Test the middle.
-	if (tex2D(CreateMaskSampler, input.TexCoord).a < 0.5) {
-		discard;
+	int id = input.ID;
+
+	int lookupX = id % Size;
+	int lookupY = (id - lookupX) / Size;
+
+	float2 pixelPos = float2(0, 0);
+
+	float testSize = 2.0f / Size;
+
+	float2 localPos = float2(0, 0);
+	switch (input.VertexID) {
+	case 0:
+		localPos = float2(1.0f / Size, 1.0f / Size);
+		break;
+	case 1:
+		localPos = float2(1.0f / Size, -1.0f / Size);
+		break;
+	case 2:
+		localPos = float2(-1.0f / Size, -1.0f / Size);
+		break;
+	case 3:
+		localPos = float2(-1.0f / Size, 1.0f / Size);
+		break;
 	}
-	return tex2D(StaticInfoSampler, input.TexCoord);
+
+	float halfSize = 1 / Size / 2;
+	float2 pixelPosition = float2(lookupX / halfSize - 1, lookupY / halfSize - 1);
+	//output.Position = float4(pixelPosition + localPos * size - float2(1 / size / 2, 1 / size / 2), 0, 1); OLD
+	//output.Position = float4(pixelPosition + localPos * halfSize * 10, 0, 1);
+	output.Position = float4(float2(testSize * lookupX + testSize / 2 - 1, 1 - testSize * lookupY - testSize / 2) + localPos, 0, 1);
+
+	// Pass through
+	output.ParticlePosition = input.Position;
+	output.Velocity = input.Velocity;
+	output.Color = input.Color;
+
+	return output;
+}
+float4 CreatePS(in CreateVSOutput input) : COLOR
+{
+	return float4(input.ParticlePosition.x, input.ParticlePosition.y, input.Velocity.x, input.Velocity.y);
+}
+float4 CreateStaticPS(in CreateVSOutput input) : COLOR
+{
+	return float4(input.Color.rgb, 1);
 }
 
 /***
@@ -179,17 +218,17 @@ technique Create
 {
 	pass P0
 	{
-		VertexShader = compile VS_SHADERMODEL PassThroughVS();
+		VertexShader = compile VS_SHADERMODEL CreateVS();
 		PixelShader = compile PS_SHADERMODEL CreatePS();
 	}
 };
 
-technique StaticInsert
+technique CreateStatic
 {
 	pass P0
 	{
-		VertexShader = compile VS_SHADERMODEL PassThroughVS();
-		PixelShader = compile PS_SHADERMODEL StaticInsertPS();
+		VertexShader = compile VS_SHADERMODEL CreateVS();
+		PixelShader = compile PS_SHADERMODEL CreateStaticPS();
 	}
 };
 

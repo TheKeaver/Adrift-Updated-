@@ -10,17 +10,12 @@ using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using GameJam.Graphics.Text;
 using GameJam.Processes;
-using GameJam.Processes.Animation;
 using GameJam.Processes.Animations;
 using GameJam.Processes.Enemies;
 using GameJam.Processes.Entities;
 using GameJam.UI;
-using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
-using System;
 using System.Collections.Generic;
 
 namespace GameJam.States

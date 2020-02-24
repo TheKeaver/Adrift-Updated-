@@ -30,7 +30,8 @@ namespace GameJam.States
                 Color randomColor = new HSLColor(_random.NextSingle(0, 240), 240, 120);
                 EventManager.Instance.QueueEvent(new CreateExplosionEvent(new Vector2(_random.NextSingle(-CVars.Get<float>("screen_width") / 2, CVars.Get<float>("screen_width") / 2),
                     _random.NextSingle(-CVars.Get<float>("screen_height") / 2, CVars.Get<float>("screen_height") / 2)), randomColor, false));
-                _timer.Reset(_random.NextSingle(0.04f, 0.1f));
+                _timer.Reset(_random.NextSingle(0.01f, 0.05f));
+                //_timer.Reset(5);
             }
 
             base.OnUpdate(dt);

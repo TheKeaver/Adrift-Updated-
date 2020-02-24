@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System;
+using System.Collections.Generic;
 
 namespace GameJam.Particles
 {
@@ -17,7 +18,7 @@ namespace GameJam.Particles
 
         public readonly static VertexDeclaration VertexDeclaration = new VertexDeclaration(
             new VertexElement(0, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 0),
-            new VertexElement(sizeof(byte) * 4, VertexElementFormat.Byte4, VertexElementUsage.TextureCoordinate, 1));
+            new VertexElement(sizeof(float), VertexElementFormat.Byte4, VertexElementUsage.TextureCoordinate, 1));
 
         VertexDeclaration IVertexType.VertexDeclaration => VertexDeclaration;
 
@@ -27,24 +28,30 @@ namespace GameJam.Particles
             VertexID = vertexID;
         }
     }
-    struct VertexIDVertexIDPosition : IVertexType
+    struct VertexIDVertexIDPositionVelocityColor : IVertexType
     {
-        public int ID;
+        public float ID;
         public int VertexID;
         public Vector2 Position;
+        public Vector2 Velocity;
+        public Color Color;
 
         public readonly static VertexDeclaration VertexDeclaration = new VertexDeclaration(
-            new VertexElement(0, VertexElementFormat.Byte4, VertexElementUsage.TextureCoordinate, 0),
-            new VertexElement(sizeof(byte) * 4, VertexElementFormat.Byte4, VertexElementUsage.TextureCoordinate, 1),
-            new VertexElement(sizeof(byte) * 8, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 2)
+            new VertexElement(0, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 0),
+            new VertexElement(sizeof(float), VertexElementFormat.Byte4, VertexElementUsage.TextureCoordinate, 1),
+            new VertexElement(sizeof(float) + sizeof(byte) * 4, VertexElementFormat.Vector2, VertexElementUsage.Position, 0),
+            new VertexElement(sizeof(float) + sizeof(byte) * 4 + sizeof(float) * 2, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 2),
+            new VertexElement(sizeof(float) + sizeof(byte) * 4 + sizeof(float) * 2 + sizeof(float) * 2, VertexElementFormat.Color, VertexElementUsage.Color, 0)
             );
         VertexDeclaration IVertexType.VertexDeclaration => VertexDeclaration;
 
-        public VertexIDVertexIDPosition(int id, int vertexID, Vector2 position)
+        public VertexIDVertexIDPositionVelocityColor(float id, int vertexID, Vector2 position, Vector2 velocity, Color color)
         {
             ID = id;
             VertexID = vertexID;
             Position = position;
+            Velocity = velocity;
+            Color = color;
         }
     }
 
@@ -71,12 +78,8 @@ namespace GameJam.Particles
         private BlendState _particleUpdateBlendState;
         private BlendState _particleDrawBlendState;
 
-        private Texture2D _particleCreateTarget;
-        private Vector4[] _particleCreateBuffer;
-        private Texture2D _particleCreateStaticTarget;
-        private Color[] _particleCreateStaticBuffer;
-        private Texture2D _particleCreateMaskTarget;
-        private byte[] _particleCreateMaskBuffer;
+        private List<VertexIDVertexIDPositionVelocityColor> _particleCreateVertices = new List<VertexIDVertexIDPositionVelocityColor>();
+        private List<int> _particleCreateIndices = new List<int>();
         private int _lastParticleCreateID = 0;
         private int _particlesCreated = 0;
         private int _nextParticleCreateID = 0;
@@ -155,36 +158,6 @@ namespace GameJam.Particles
             };
             _particleCreateBlendState = _particleUpdateBlendState;
             _particleDrawBlendState = BlendState.NonPremultiplied;
-
-            _particleCreateTarget = new Texture2D(GraphicsDevice,
-                ParticleBufferSize,
-                ParticleBufferSize,
-                false,
-                SurfaceFormat.Vector4);
-            _particleCreateBuffer = new Vector4[ParticleBufferSize * ParticleBufferSize];
-            for (int i = 0; i < _particleCreateBuffer.Length; i++)
-            {
-                _particleCreateBuffer[i] = new Vector4();
-            }
-            _particleCreateStaticTarget = new Texture2D(GraphicsDevice,
-                ParticleBufferSize,
-                ParticleBufferSize,
-                false,
-                SurfaceFormat.Color);
-            _particleCreateStaticBuffer = new Color[ParticleBufferSize * ParticleBufferSize];
-            MTRandom _random = new MTRandom();
-            for(int i = 0; i < _particleCreateStaticBuffer.Length; i++)
-            {
-                //_particleCreateStaticBuffer[i] = new Color(255, 0, 255, 0);
-                _particleCreateStaticBuffer[i] = new HSLColor(_random.NextSingle(0, 240), 240, 120);
-            }
-            _staticInfoTarget.SetData(_particleCreateStaticBuffer);
-            _particleCreateMaskTarget = new Texture2D(GraphicsDevice,
-                ParticleBufferSize,
-                ParticleBufferSize,
-                false,
-                SurfaceFormat.Alpha8);
-            _particleCreateMaskBuffer = new byte[ParticleBufferSize * ParticleBufferSize];
         }
 
         public void RegisterListeners()
@@ -198,14 +171,49 @@ namespace GameJam.Particles
 
         public void CreateParticle(float x, float y, float velX, float velY, byte r, byte g, byte b)
         {
-            _particleCreateBuffer[_nextParticleCreateID].X = x;
-            _particleCreateBuffer[_nextParticleCreateID].Y = y;
-            _particleCreateBuffer[_nextParticleCreateID].Z = velX;
-            _particleCreateBuffer[_nextParticleCreateID].W = velY;
-            _particleCreateStaticBuffer[_nextParticleCreateID].R = r;
-            _particleCreateStaticBuffer[_nextParticleCreateID].G = g;
-            _particleCreateStaticBuffer[_nextParticleCreateID].B = b;
-            _particleCreateMaskBuffer[_nextParticleCreateID] = 0xFF;
+            int startI = _particleCreateVertices.Count;
+
+            _particleCreateVertices.Add(new VertexIDVertexIDPositionVelocityColor()
+            {
+                ID = _nextParticleCreateID,
+                VertexID = 0,
+                Position = new Vector2(x, y),
+                Velocity = new Vector2(velX, velY),
+                Color = new Color(r, g, b)
+            });
+            _particleCreateVertices.Add(new VertexIDVertexIDPositionVelocityColor()
+            {
+                ID = _nextParticleCreateID,
+                VertexID = 1,
+                Position = new Vector2(x, y),
+                Velocity = new Vector2(velX, velY),
+                Color = new Color(r, g, b)
+            });
+            _particleCreateVertices.Add(new VertexIDVertexIDPositionVelocityColor()
+            {
+                ID = _nextParticleCreateID,
+                VertexID = 2,
+                Position = new Vector2(x, y),
+                Velocity = new Vector2(velX, velY),
+                Color = new Color(r, g, b)
+            });
+            _particleCreateVertices.Add(new VertexIDVertexIDPositionVelocityColor()
+            {
+                ID = _nextParticleCreateID,
+                VertexID = 3,
+                Position = new Vector2(x, y),
+                Velocity = new Vector2(velX, velY),
+                Color = new Color(r, g, b)
+            });
+
+            _particleCreateIndices.Add(startI);
+            _particleCreateIndices.Add(startI + 1);
+            _particleCreateIndices.Add(startI + 2);
+
+            _particleCreateIndices.Add(startI);
+            _particleCreateIndices.Add(startI + 2);
+            _particleCreateIndices.Add(startI + 3);
+
             _nextParticleCreateID = (_nextParticleCreateID + 1) % ParticleCount;
 
             _particlesCreated++;
@@ -256,53 +264,48 @@ namespace GameJam.Particles
         {
             if(_particlesCreated > 0)
             {
-                // Create target: position, size, rotation data
-                _particleCreateTarget.SetData(_particleCreateBuffer);
-                // Create static target: static info (color)
-                //_particleCreateStaticTarget.SetData(_particleCreateStaticBuffer);
-                // Create mask target: filters whether a particle is overwritten
-                _particleCreateMaskTarget.SetData(_particleCreateMaskBuffer);
+                GraphicsDevice.BlendState = _particleCreateBlendState;
 
                 // Position, etc.
                 GraphicsDevice.SetRenderTarget(_positionVelocityTargets[_currentPositionVelocityTarget]);
-                GraphicsDevice.BlendState = _particleCreateBlendState;
                 _particleEffect.CurrentTechnique = _particleEffect.Techniques["Create"];
-                _particleEffect.Parameters["PositionVelocity"].SetValue(_particleCreateTarget);
-                _particleEffect.Parameters["CreateMask"].SetValue(_particleCreateMaskTarget);
                 foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
 
-                    _screenQuad.Render(GraphicsDevice);
+                    GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList,
+                        _particleCreateVertices.ToArray(),
+                        0,
+                        _particleCreateVertices.Count,
+                        _particleCreateIndices.ToArray(),
+                        0,
+                        _particleCreateIndices.Count / 3);
                 }
 
-                // Static info
-                //GraphicsDevice.SetRenderTarget(_staticInfoTarget);
-                //GraphicsDevice.BlendState = _particleCreateBlendState;
-                //_particleEffect.CurrentTechnique = _particleEffect.Techniques["StaticInsert"];
-                //_particleEffect.Parameters["StaticInfo"].SetValue(_particleCreateStaticTarget);
-                //_particleEffect.Parameters["CreateMask"].SetValue(_particleCreateMaskTarget);
-                //foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
-                //{
-                //    pass.Apply();
+                GraphicsDevice.SetRenderTarget(_staticInfoTarget);
+                _particleEffect.CurrentTechnique = _particleEffect.Techniques["CreateStatic"];
+                foreach (EffectPass pass in _particleEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
 
-                //    _screenQuad.Render(GraphicsDevice);
-                //}
+                    GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList,
+                        _particleCreateVertices.ToArray(),
+                        0,
+                        _particleCreateVertices.Count,
+                        _particleCreateIndices.ToArray(),
+                        0,
+                        _particleCreateIndices.Count / 3);
+                }
+
 
                 // Done
                 GraphicsDevice.SetRenderTarget(null);
 
-                // Clear buffers to prepare for future particle creation
-                for(int i = 0; i < _particlesCreated; i++)
-                {
-                    int id = (_lastParticleCreateID + i) % ParticleCount;
-
-                    // Create buffer doesn't need to be cleared b/c the mask won't create it
-                    _particleCreateMaskBuffer[id] = 0;
-                }
-
                 _lastParticleCreateID = _nextParticleCreateID;
                 _particlesCreated = 0;
+
+                _particleCreateVertices.Clear();
+                _particleCreateIndices.Clear();
             }
         }
         private void Update(float dt)
@@ -326,6 +329,11 @@ namespace GameJam.Particles
             }
             _currentPositionVelocityTarget = nextPositionSizeLifeTarget;
             GraphicsDevice.SetRenderTarget(null);
+
+            if (CVars.Get<bool>("particle_gpu_accelerated"))
+			{
+				GameManager.StatisticsProfiler.PushParticleCount(ParticleCount);
+			}
         }
 
         private void Draw()

@@ -109,6 +109,7 @@ namespace GameJam.DevTools
 
         public void PushParticleCount(int count)
         {
+            Particles = count;
             _particles.Add(count);
             EnforceMaxListSize(_particles, CVars.Get<int>("debug_statistics_average_particle_sample"));
             AverageParticles = ComputeAverage(_particles);
