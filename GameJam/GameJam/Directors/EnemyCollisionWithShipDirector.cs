@@ -76,7 +76,7 @@ namespace GameJam.Directors
                 {
                     responsibleEntity = FindLaserBeamOwner(responsibleEntity);
                 }
-                EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<PlayerComponent>().Player,
+                EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShields[0].GetComponent<PlayerComponent>().Player,
                     responsibleEntity));
                 return;
             } else
@@ -108,17 +108,26 @@ namespace GameJam.Directors
             switch(ship.GetComponent<PlayerShipComponent>().LifeRemaining)
             {
                 case 2:
-                    ship.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_middle"));
+                    foreach(Entity shield in ship.GetComponent<PlayerShipComponent>().ShipShields)
+                    {
+                        shield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_middle"));
+                    }
                     break;
                 case 1:
-                    ship.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_low"));
+                    foreach (Entity shield in ship.GetComponent<PlayerShipComponent>().ShipShields)
+                    {
+                        shield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_low"));
+                    }
                     break;
             }
         }
 
         private void HandleShipComponentRemovedEvent(ComponentRemovedEvent<PlayerShipComponent> shipComponentRemovedEvent)
         {
-            Engine.DestroyEntity(shipComponentRemovedEvent.Component.ShipShield);
+            foreach (Entity shield in shipComponentRemovedEvent.Component.ShipShields)
+            {
+                Engine.DestroyEntity(shield);
+            }
         }
 
         private Entity FindLaserBeamOwner(Entity laserBeamEntity)

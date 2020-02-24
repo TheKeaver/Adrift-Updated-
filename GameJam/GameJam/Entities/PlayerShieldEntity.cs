@@ -7,12 +7,12 @@ namespace GameJam.Entities
 {
     public static class PlayerShieldEntity
     {
-        public static Entity Create(Engine engine, Entity shipEntity)
+        public static Entity Create(Engine engine, Entity shipEntity, float angle, bool isActive)
         {
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent());
-            entity.AddComponent(new PlayerShieldComponent(shipEntity));
+            entity.AddComponent(new PlayerShieldComponent(shipEntity, angle, CVars.Get<float>("player_shield_radius")));
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new QuadRenderShape(new Vector2(6, -1),
@@ -22,6 +22,7 @@ namespace GameJam.Entities
                     Color.White)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+
             entity.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_high"));
             entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_shield_size"), true);
             entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
@@ -32,8 +33,11 @@ namespace GameJam.Entities
                 new Vector2(-6, 1),
                 new Vector2(-6, -1)
             })));
-            entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_PLAYER;
-            entity.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.GROUP_MASK_ALL & ~Constants.Collision.COLLISION_GROUP_PLAYER);
+            entity.GetComponent<CollisionComponent>().CollisionGroup = 
+                (isActive) ? Constants.Collision.COLLISION_GROUP_PLAYER : Constants.Collision.GROUP_MASK_NONE;
+            entity.GetComponent<CollisionComponent>().CollisionMask = 
+                (isActive) ? (byte)(Constants.Collision.GROUP_MASK_ALL & ~Constants.Collision.COLLISION_GROUP_PLAYER) :
+                             (byte)(Constants.Collision.GROUP_MASK_NONE);
 
             return entity;
         }
