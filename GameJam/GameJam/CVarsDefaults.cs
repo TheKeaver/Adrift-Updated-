@@ -27,9 +27,9 @@ namespace GameJam
 
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<bool>("graphics_smaa", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<bool>("graphics_smaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
-            Create<bool>("graphics_feathering", false, CVarFlags.PRESERVE);
+            Create<bool>("graphics_feathering", true, CVarFlags.PRESERVE);
             Create<float>("graphics_feathering_width", 0.2f, CVarFlags.PRESERVE);
             /**
              * If more than one are true; priority in order of highest
