@@ -192,7 +192,6 @@ namespace GameJam.States
 
         void CreateParallaxBackground()
         {
-            return;
             ParallaxBackgroundEntity.Create(Engine,
                 new TextureRegion2D(Content.Load<Texture2D>("texture_background_stars_0")),
                 Vector2.Zero, 0.15f, true);
@@ -257,11 +256,11 @@ namespace GameJam.States
                 {
                     VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
                 }
+                RenderSystem.SpriteBatch.End();
                 if (CVars.Get<bool>("particle_gpu_accelerated"))
                 {
-                    // TODO
+                    GPUParticleManager.UpdateAndDraw(Camera, dt, camera);
                 }
-                RenderSystem.SpriteBatch.End();
             }
             // We have to defer drawing the post-processor results
             // because of unexpected behavior within MonoGame.
@@ -277,8 +276,6 @@ namespace GameJam.States
                 postProcessingResult.Bounds,
                 Color.White); // Post-processing results
             RenderSystem.SpriteBatch.End();
-
-            GPUParticleManager.UpdateAndDraw(Camera, dt, camera);
 #if DEBUG
             if (CVars.Get<bool>("debug_show_collision_shapes"))
             {

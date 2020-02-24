@@ -253,11 +253,17 @@ namespace GameJam.Particles
         {
             Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
 
+            BlendState prevBlendState = GraphicsDevice.BlendState;
+            RenderTarget2D prevTarget = GraphicsDevice.RenderTargetCount > 0 ? (RenderTarget2D)GraphicsDevice.GetRenderTargets()[0].RenderTarget : null;
+
             _particleEffect.Parameters["Size"].SetValue(ParticleBufferSize);
             Create();
             Update(dt);
             _particleEffect.Parameters["WorldViewProjection"].SetValue(transformMatrix * _projectionMatrix);
+            GraphicsDevice.SetRenderTarget(prevTarget);
             Draw();
+
+            GraphicsDevice.BlendState = prevBlendState;
         }
 
         private void Create()
@@ -298,9 +304,7 @@ namespace GameJam.Particles
                 }
 
 
-                // Done
-                GraphicsDevice.SetRenderTarget(null);
-
+                //// Done
                 _lastParticleCreateID = _nextParticleCreateID;
                 _particlesCreated = 0;
 
@@ -328,7 +332,6 @@ namespace GameJam.Particles
                 _screenQuad.Render(GraphicsDevice);
             }
             _currentPositionVelocityTarget = nextPositionSizeLifeTarget;
-            GraphicsDevice.SetRenderTarget(null);
 
             if (CVars.Get<bool>("particle_gpu_accelerated"))
 			{
