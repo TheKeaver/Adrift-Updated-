@@ -9,6 +9,7 @@ namespace GameJam
             /** CVar template Create<>("", , CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD); **/
             /** GENERAL **/
             Create<float>("tick_frequency", 120, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<bool>("update_xna_fixed", false, CVarFlags.PRESERVE);
 
             Create<int>("initial_window_width", 1280, CVarFlags.PRESERVE);
             Create<int>("initial_window_height", 720, CVarFlags.PRESERVE);
