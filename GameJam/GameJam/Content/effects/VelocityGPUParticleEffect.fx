@@ -186,16 +186,16 @@ DrawVSOutput DrawVS(in DrawVSInput input) {
 	float2 localPos = float2(0, 0);
 	switch (input.VertexID) {
 	case 0:
-		localPos = float2(ScaleX / 2 * Stretch, ScaleY / 2);
+		localPos = float2(-ScaleX / 2 * Stretch, ScaleY / 2);
 		break;
 	case 1:
-		localPos = float2(ScaleX / 2 * Stretch, -ScaleY / 2);
-		break;
-	case 2:
 		localPos = float2(-ScaleX / 2 * Stretch, -ScaleY / 2);
 		break;
+	case 2:
+		localPos = float2(ScaleX / 2 * Stretch, -ScaleY / 2);
+		break;
 	case 3:
-		localPos = float2(-ScaleX / 2 * Stretch, ScaleY / 2);
+		localPos = float2(ScaleX / 2 * Stretch, ScaleY / 2);
 		break;
 	}
 

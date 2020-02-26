@@ -393,8 +393,8 @@ namespace GameJam.Particles
             // Normal 3D cameras look into the -z direction (z = 1 is in front of z = 0). The
             // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
             // --> We get the correct matrix with near plane 0 and far plane -1.
-            Matrix.CreateOrthographicOffCenter(0, width, 0,
-                height, -1, 1, out _projectionMatrix);
+            Matrix.CreateOrthographicOffCenter(0, width, height,
+                0, -1, 1, out _projectionMatrix);
         }
     }
 }

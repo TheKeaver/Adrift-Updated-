@@ -276,6 +276,7 @@ namespace GameJam.States
                 postProcessingResult.Bounds,
                 Color.White); // Post-processing results
             RenderSystem.SpriteBatch.End();
+
 #if DEBUG
             if (CVars.Get<bool>("debug_show_collision_shapes"))
             {
