@@ -65,6 +65,8 @@ namespace GameJam
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
 
+            IsFixedTimeStep = CVars.Get<bool>("update_xna_fixed");
+
 #if DEBUG
             StatisticsProfiler = new StatisticsProfiler();
 #endif
