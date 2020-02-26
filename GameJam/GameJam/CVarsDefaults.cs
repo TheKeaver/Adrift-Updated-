@@ -364,13 +364,6 @@ namespace GameJam
             Create<string>("sound_projectile_fired", "sounds/Laser_Shot", CVarFlags.PRESERVE);
             Create<string>("sound_projectile_bounce", "sounds/Proj_Bounce", CVarFlags.PRESERVE);
 
-            Create<string>("font_game_over", "fonts/Intro", CVarFlags.PRESERVE);
-            Create<string>("font_texture_game_over", "fonts/Intro_0", CVarFlags.PRESERVE);
-            Create<string>("font_hyperspace", "fonts/Hyperspace", CVarFlags.PRESERVE);
-            Create<string>("font_texture_hyperspace", "fonts/Hyperspace_0", CVarFlags.PRESERVE);
-            Create<string>("font_title", "fonts/Title", CVarFlags.PRESERVE);
-            Create<string>("font_texture_title", "fonts/Title_0", CVarFlags.PRESERVE);
-
             Create<string>("effect_blur", "effects/Blur", CVarFlags.PRESERVE);
             Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE);
             Create<string>("effect_smaa", "effects/SMAA_ULTRA", CVarFlags.PRESERVE);

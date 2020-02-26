@@ -32,12 +32,6 @@
 /processorParam:DebugMode=Auto
 /build:effects/FXAA.fx
 
-#begin effects/VelocityGPUParticleEffect.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Debug
-/build:effects/VelocityGPUParticleEffect.fx
-
 #begin effects/Negative.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -68,10 +62,11 @@
 /processorParam:DebugMode=Auto
 /build:effects/SMAA_ULTRA.fx
 
-#begin fonts/Hyperspace.fnt
-/importer:BitmapFontImporter
-/processor:BitmapFontProcessor
-/build:fonts/Hyperspace.fnt
+#begin effects/VelocityGPUParticleEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Debug
+/build:effects/VelocityGPUParticleEffect.fx
 
 #begin fonts/Hyperspace/Hyperspace.xnb
 /copy:fonts/Hyperspace/Hyperspace.xnb
@@ -1215,52 +1210,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:fonts/Hyperspace/Hyperspace_MSDF/Hyperspace-99.bmp
-
-#begin fonts/Hyperspace_0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:fonts/Hyperspace_0.png
-
-#begin fonts/Intro.fnt
-/importer:BitmapFontImporter
-/processor:BitmapFontProcessor
-/build:fonts/Intro.fnt
-
-#begin fonts/Intro_0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:fonts/Intro_0.png
-
-#begin fonts/Title.fnt
-/importer:BitmapFontImporter
-/processor:BitmapFontProcessor
-/build:fonts/Title.fnt
-
-#begin fonts/Title_0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:fonts/Title_0.png
 
 #begin sounds/Alien_Ship_Sound
 /importer:WavImporter
