@@ -11,6 +11,12 @@
             internal set;
         }
 
+        public bool SuperShield
+        {
+            get;
+            internal set;
+        }
+
         public InputSnapshot() : this(0)
         {
         }

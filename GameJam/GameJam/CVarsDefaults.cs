@@ -80,6 +80,7 @@ namespace GameJam
             Create<float>("game_speed", 1.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("game_difficulty", 1, CVarFlags.PRESERVE);
 
+            Create<float>("player_super_shield_max", 10, CVarFlags.LIVE_RELOAD);
             Create<float>("player_shield_radius", 30.0f, CVarFlags.DEV_PRESERVE);
             Create<float>("player_shield_size", 3, CVarFlags.DEV_PRESERVE);
             Create<float>("player_ship_size", 5, CVarFlags.DEV_PRESERVE);

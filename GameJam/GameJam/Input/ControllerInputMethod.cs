@@ -9,6 +9,7 @@ namespace GameJam.Input
     {
         public bool isRotatingCW;
         public bool isRotatingCCW;
+        public bool isSuperShieldOn;
         public readonly PlayerIndex PlayerIndex;
 
         public ControllerInputMethod(PlayerIndex playerIndex)
@@ -39,9 +40,15 @@ namespace GameJam.Input
         public bool Handle(IEvent evt)
         {
             if (evt is GamePadButtonDownEvent)
+            {
                 HandleGamePadRotationOn(evt as GamePadButtonDownEvent);
+                HandleGamePadSuperShieldOn(evt as GamePadButtonDownEvent);
+            }
             if (evt is GamePadButtonUpEvent)
+            {
                 HandleGamePadRotationOff(evt as GamePadButtonUpEvent);
+                HandleGamePadSuperShieldOff(evt as GamePadButtonUpEvent);
+            }
 
             if (evt is GamePadDisconnectedEvent)
                 HandleGamePadDisconnected(evt as GamePadDisconnectedEvent);
@@ -66,6 +73,19 @@ namespace GameJam.Input
             }
         }
 
+        private void HandleGamePadSuperShieldOn(GamePadButtonDownEvent gpbde)
+        {
+            if (gpbde._playerIndex != PlayerIndex)
+            {
+                return;
+            }
+
+            if((int)gpbde._playerIndex == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_super_shield"))
+            {
+                isSuperShieldOn = true;
+            }
+        }
+
         private void HandleGamePadRotationOff(GamePadButtonUpEvent gpbue)
         {
             if(gpbue._playerIndex != PlayerIndex)
@@ -80,6 +100,19 @@ namespace GameJam.Input
             if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_right"))
             {
                 isRotatingCW = false;
+            }
+        }
+
+        private void HandleGamePadSuperShieldOff(GamePadButtonUpEvent gpbue)
+        {
+            if (gpbue._playerIndex != PlayerIndex)
+            {
+                return;
+            }
+
+            if ((int)gpbue._playerIndex == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_super_shield"))
+            {
+                isSuperShieldOn = false;
             }
         }
 

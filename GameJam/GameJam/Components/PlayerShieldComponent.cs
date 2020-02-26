@@ -13,10 +13,12 @@ namespace GameJam.Components
             ShipEntity = shipEntity;
             Radius = radius;
             Angle = angle;
+            Offset = angle;
         }
 
         public Entity ShipEntity;
         public float Radius;
         public float Angle;
+        public float Offset;
     }
 }
