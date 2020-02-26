@@ -275,4 +275,9 @@
     <Folder Include="$(MSBuildThisFileDirectory)Graphics\Text\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\TextureAtlases\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\Font License %28Hyperspace, Pixel Sagas%29.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
