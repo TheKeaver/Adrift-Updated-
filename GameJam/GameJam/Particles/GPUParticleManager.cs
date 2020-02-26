@@ -171,6 +171,9 @@ namespace GameJam.Particles
 
         public void CreateParticle(float x, float y, float velX, float velY, byte r, byte g, byte b)
         {
+            y = -y;
+            velY = -velY;
+
             int startI = _particleCreateVertices.Count;
 
             _particleCreateVertices.Add(new VertexIDVertexIDPositionVelocityColor()
