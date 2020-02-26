@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSDFFonts", "MSDFFonts\MSDF
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Adrift.Content.Common", "Adrift.Content.Common\Adrift.Content.Common.shproj", "{A3664560-EB77-40FB-92A1-7F9F80842738}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MonoGame.ImGui", "MonoGame.ImGui\MonoGame.ImGui.shproj", "{D1868489-3964-4F53-8FAD-DE7297F4C5F0}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Audrey\Audrey.projitems*{089da567-add4-4c73-aebb-6126442bd5f1}*SharedItemsImports = 13
@@ -27,9 +29,11 @@ Global
 		Audrey\Audrey.projitems*{39f2be48-d216-4b62-be97-af0368500692}*SharedItemsImports = 4
 		Events\Events.projitems*{39f2be48-d216-4b62-be97-af0368500692}*SharedItemsImports = 4
 		GameJam\GameJam.projitems*{39f2be48-d216-4b62-be97-af0368500692}*SharedItemsImports = 4
+		MonoGame.ImGui\MonoGame.ImGui.projitems*{39f2be48-d216-4b62-be97-af0368500692}*SharedItemsImports = 4
 		Events\Events.projitems*{9ebee4ba-ce43-46c2-a8c7-240345f599d8}*SharedItemsImports = 13
 		Adrift.Content.Common\Adrift.Content.Common.projitems*{a3664560-eb77-40fb-92a1-7f9f80842738}*SharedItemsImports = 13
 		Adrift.Content.Common\Adrift.Content.Common.projitems*{b160a6b3-ed42-40e7-b9bf-a994b2c23984}*SharedItemsImports = 4
+		MonoGame.ImGui\MonoGame.ImGui.projitems*{d1868489-3964-4f53-8fad-de7297f4c5f0}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

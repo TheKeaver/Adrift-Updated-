@@ -16,7 +16,6 @@ namespace GameJam.Graphics.Text
         private readonly Effect Effect;
         private readonly GraphicsDevice Device;
         private readonly ContentManager Content;
-        private readonly Quad Quad;
 
         private FieldFont _currentFont;
         private Texture2D _currentTexture;
@@ -30,8 +29,6 @@ namespace GameJam.Graphics.Text
             Effect = content.Load<Effect>("effect_field_font");
             Device = device;
             Content = content;
-
-            Quad = new Quad();
         }
 
         public void Begin(bool optimizeForSmallText = false)

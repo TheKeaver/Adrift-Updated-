@@ -143,6 +143,8 @@ namespace GameJam
 
             content.Load<Effect>("effect_field_font");
             content.Load<FieldFont>("font_msdf_hyperspace");
+
+            content.Load<Effect>("effect_gpu_particle_velocity");
             /*
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_32");
             content.Load<Texture2D>("font_msdf_hyperspace_texture_character_33");

@@ -17,6 +17,7 @@ namespace GameJam.DevTools
     {
         private readonly StatisticsProfiler _statisticsProfiler;
 
+
         private ImGUIRenderer _renderer;
 
         private string _cvarEditing = "";
@@ -387,6 +388,9 @@ namespace GameJam.DevTools
 
                 ImGui.Text(string.Format("Draw time (ms): {0}", _statisticsProfiler.DrawTime * 1000));
                 ImGui.Text(string.Format("Draw time [average] (ms): {0}", _statisticsProfiler.AverageDrawTime * 1000));
+
+                ImGui.Text(string.Format("Particle count: {0}", _statisticsProfiler.Particles));
+                ImGui.Text(string.Format("Particle count [average]: {0}", _statisticsProfiler.AverageParticles));
 
                 ImGui.End();
             }

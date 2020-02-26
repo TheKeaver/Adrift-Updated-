@@ -3,7 +3,7 @@
 
 /outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
-/platform:DesktopGL
+/platform:Windows
 /config:
 /profile:HiDef
 /compress:False
@@ -14,11 +14,17 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin effects/Blur.xnb
-/copy:effects/Blur.xnb
+#begin effects/Blur.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/Blur.fx
 
-#begin effects/FieldFontEffect.xnb
-/copy:effects/FieldFontEffect.xnb
+#begin effects/FieldFontEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/FieldFontEffect.fx
 
 #begin effects/FXAA.fx
 /importer:EffectImporter
@@ -26,8 +32,11 @@
 /processorParam:DebugMode=Auto
 /build:effects/FXAA.fx
 
-#begin effects/FXAA.xnb
-/copy:effects/FXAA.xnb
+#begin effects/VelocityGPUParticleEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Debug
+/build:effects/VelocityGPUParticleEffect.fx
 
 #begin effects/Negative.fx
 /importer:EffectImporter

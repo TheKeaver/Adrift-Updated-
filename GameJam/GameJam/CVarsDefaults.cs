@@ -209,6 +209,7 @@ namespace GameJam
             Create<int>("debug_statistics_average_between_frames_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("debug_statistics_average_update_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("debug_statistics_average_draw_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("debug_statistics_average_particle_sample", 30, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_collision_shapes", false, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_render_culling", false, CVarFlags.LIVE_RELOAD);
             Create<bool>("debug_show_quad_trees", false, CVarFlags.LIVE_RELOAD);
@@ -222,6 +223,10 @@ namespace GameJam
 
             /** PARTICLES **/
             Create<bool>("particle_enable", true, CVarFlags.DEV_PRESERVE);
+            Create<bool>("particle_gpu_accelerated", true, CVarFlags.DEV_PRESERVE);
+            Create<int>("particle_gpu_buffer_size", 1024, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_scale_x", 22, CVarFlags.DEV_PRESERVE);
+            Create<float>("particle_explosion_scale_y", 1, CVarFlags.DEV_PRESERVE);
             Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_strength", 750, CVarFlags.DEV_PRESERVE);
             Create<float>("particle_explosion_decay_multiplier", 0.96f, CVarFlags.DEV_PRESERVE);
@@ -243,6 +248,7 @@ namespace GameJam
             Create<string>("texture_title_without_instructions", "textures/TitleNoInstructions", CVarFlags.PRESERVE);
 
             Create<string>("texture_particle_velocity", "textures/particles/VelocityParticle", CVarFlags.PRESERVE);
+            Create<string>("effect_gpu_particle_velocity", "effects/VelocityGPUParticleEffect", CVarFlags.PRESERVE);
 
             Create<string>("texture_background_stars_0", "textures/Stars/000", CVarFlags.PRESERVE);
             Create<string>("texture_background_stars_1", "textures/Stars/001", CVarFlags.PRESERVE);

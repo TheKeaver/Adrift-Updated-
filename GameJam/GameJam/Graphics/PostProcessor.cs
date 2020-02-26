@@ -31,7 +31,9 @@ namespace GameJam.Graphics
                                              value.Height,
                                              false,
                                              SurfaceFormat.Color,
-                                             DepthFormat.None);
+                                             DepthFormat.None,
+                                             0,
+                                             RenderTargetUsage.PreserveContents);
 
                 for (int i = 0; i < Effects.Count; i++)
                 {

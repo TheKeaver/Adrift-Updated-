@@ -40,6 +40,10 @@ namespace GameJam.States
             get;
             private set;
         }
+        public GPUParticleManager GPUParticleManager {
+            get;
+            private set;
+        }
 
         public Engine Engine
         {
@@ -92,6 +96,10 @@ namespace GameJam.States
 
             VelocityParticleManager = new ParticleManager<VelocityParticleInfo>(1024 * 20, VelocityParticleInfo.UpdateParticle);
             ProcessManager.Attach(VelocityParticleManager);
+            GPUParticleManager = new GPUParticleManager(GameManager.GraphicsDevice,
+                Content,
+                "effect_gpu_particle_velocity");
+            GPUParticleManager.RegisterListeners();
 
             Engine = new Engine();
             InitSystems();
@@ -153,7 +161,7 @@ namespace GameJam.States
 
             ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
 
-            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
+            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager, GPUParticleManager));
 
             ProcessManager.Attach(new ChangeToChasingEnemyDirector(Engine, Content, ProcessManager));
 
@@ -252,8 +260,15 @@ namespace GameJam.States
                     null,
                     null,
                     camera.TransformMatrix);
-                VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
+                if (!CVars.Get<bool>("particle_gpu_accelerated"))
+                {
+                    VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
+                }
                 RenderSystem.SpriteBatch.End();
+                if (CVars.Get<bool>("particle_gpu_accelerated"))
+                {
+                    GPUParticleManager.UpdateAndDraw(Camera, dt, camera);
+                }
             }
             // We have to defer drawing the post-processor results
             // because of unexpected behavior within MonoGame.
@@ -298,6 +313,7 @@ namespace GameJam.States
         {
             PostProcessor.UnregisterEvents();
             Camera.UnregisterEvents();
+            GPUParticleManager.UnregisterListeners();
 
             throw new Exception("This game state provides shared logic with all other game states and must not be killed.");
         }

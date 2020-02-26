@@ -85,6 +85,11 @@ namespace GameJam.Particles
 				}
 			}
 			_particles.Count -= removalCount;
+
+			if (!CVars.Get<bool>("particle_gpu_accelerated"))
+			{
+				GameManager.StatisticsProfiler.PushParticleCount(_particles.Count);
+			}
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
