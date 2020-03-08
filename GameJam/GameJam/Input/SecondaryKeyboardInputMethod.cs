@@ -1,6 +1,7 @@
 ﻿using Events;
 using GameJam.Events.InputHandling;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace GameJam.Input
 {
@@ -38,6 +39,10 @@ namespace GameJam.Input
             {
                 isRotatingCW = false;
             }
+            if ((int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_secondary_super_shield"))
+            {
+                _snapshot.SuperShield = false;
+            }
         }
 
         private void HandleKeyboardRotationOn(KeyboardKeyDownEvent keyboardKeyDownEvent)
@@ -49,6 +54,10 @@ namespace GameJam.Input
             if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_secondary_clockwise"))
             {
                 isRotatingCW = true;
+            }
+            if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_secondary_super_shield"))
+            {
+                _snapshot.SuperShield = true;
             }
         }
 

@@ -55,24 +55,31 @@ namespace GameJam
             // P1
             Create<int>("controller_0_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("controller_0_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_0_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             // P2
             Create<int>("controller_1_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("controller_1_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_1_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             // P3
             Create<int>("controller_2_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("controller_2_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_2_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             // P4
             Create<int>("controller_3_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("controller_3_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("controller_3_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+
             Create<int>("input_controller_pause", 16, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<float>("input_shield_angular_speed", 5.026f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<int>("input_keyboard_primary_counter_clockwise", 65, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("input_keyboard_primary_clockwise", 68, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_keyboard_primary_super_shield", 83, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<int>("input_keyboard_secondary_counter_clockwise", 37, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
             Create<int>("input_keyboard_secondary_clockwise", 39, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
+            Create<int>("input_keyboard_secondary_super_shield", 40, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 
             Create<int>("input_keyboard_pause", 27, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD);
 

@@ -19,7 +19,7 @@ namespace GameJam.Entities
             entity.AddComponent(new TransformComponent(position));
 
             entity.AddComponent(new MovementComponent());
-            entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health")));
+            entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health"), CVars.Get<float>("player_super_shield_max")));
             entity.AddComponent(new BounceComponent());
 
             entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = false;

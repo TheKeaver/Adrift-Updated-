@@ -8,14 +8,16 @@ namespace GameJam.Components
         public int LifeRemaining;
         public List<Entity> ShipShields;
         public bool IsCollidingWithWall;
+        public bool SuperShieldAvailable;
         public float SuperShieldMeter;
 
-        public PlayerShipComponent(int maxLife)
+        public PlayerShipComponent(int maxLife, float maxMeter)
         {
             ShipShields = new List<Entity>();
             LifeRemaining = maxLife;
             IsCollidingWithWall = false;
-            SuperShieldMeter = CVars.Get<float>("max_super_shield");
+            SuperShieldAvailable = true;
+            SuperShieldMeter = maxMeter;
         }
 
         public bool AddShield(Entity shield)
