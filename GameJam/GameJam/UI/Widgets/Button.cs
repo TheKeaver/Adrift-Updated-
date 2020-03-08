@@ -112,7 +112,7 @@ namespace GameJam.UI.Widgets
             SubPanel.Parent = this;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
+        public override void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {
@@ -136,7 +136,7 @@ namespace GameJam.UI.Widgets
                         (int)Width,
                         (int)Height),
                         TintColor);
-                SubPanel.Draw(spriteBatch, fieldFontRenderer);
+                SubPanel.Render(spriteBatch, fieldFontRenderer);
             }
         }
 
