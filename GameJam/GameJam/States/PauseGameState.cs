@@ -51,11 +51,7 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            _fieldFontRenderer.Begin();
-            _spriteBatch.Begin();
             _root.Render(_spriteBatch, _fieldFontRenderer);
-            _spriteBatch.End();
-            _fieldFontRenderer.End();
 
             base.OnRender(dt, betweenFrameAlpha);
         }

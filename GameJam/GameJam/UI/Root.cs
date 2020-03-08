@@ -159,15 +159,23 @@ namespace GameJam.UI
         {
             if (!Hidden)
             {
+                fieldFontRenderer.Begin();
+                spriteBatch.Begin();
                 for (int i = 0; i < _widgets.Count; i++)
                 {
                     _widgets[i].Render(spriteBatch, fieldFontRenderer);
                 }
+                spriteBatch.End();
+                fieldFontRenderer.End();
 
+                fieldFontRenderer.Begin();
+                spriteBatch.Begin();
                 for (int i = 0; i < _deferredDrawQueue.Count; i++)
                 {
                     _deferredDrawQueue[i].Render(spriteBatch, fieldFontRenderer);
                 }
+                spriteBatch.End();
+                fieldFontRenderer.End();
                 _deferredDrawQueue.Clear();
             }
         }
