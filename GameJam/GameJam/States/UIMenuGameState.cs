@@ -51,7 +51,7 @@ namespace GameJam.States
             GameManager.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             _fieldFontRenderer.Begin();
             _spriteBatch.Begin(SpriteSortMode.BackToFront);
-            _root.Draw(_spriteBatch, _fieldFontRenderer);
+            _root.Render(_spriteBatch, _fieldFontRenderer);
             _spriteBatch.End();
             _fieldFontRenderer.End();
 

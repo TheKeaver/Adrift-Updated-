@@ -88,7 +88,7 @@ namespace GameJam.States
         {
             _fieldFontRenderer.Begin();
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch, _fieldFontRenderer); // UI
+            _root.Render(_spriteBatch, _fieldFontRenderer); // UI
             _spriteBatch.End();
             _fieldFontRenderer.End();
 

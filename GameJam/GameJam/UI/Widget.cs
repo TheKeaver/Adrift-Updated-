@@ -401,7 +401,7 @@ namespace GameJam.UI
             });
         }
 
-        public abstract void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer);
+        public abstract void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer);
 
         public void ComputeProperties()
         {

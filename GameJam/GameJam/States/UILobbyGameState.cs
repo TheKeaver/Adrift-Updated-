@@ -99,7 +99,7 @@ namespace GameJam.States
         {
             _fieldFontRenderer.Begin();
             _spriteBatch.Begin();
-            _root.Draw(_spriteBatch, _fieldFontRenderer);
+            _root.Render(_spriteBatch, _fieldFontRenderer);
             _spriteBatch.End();
             _fieldFontRenderer.End();
 
