@@ -28,6 +28,8 @@ namespace GameJam.Processes.Enemies
         Process process = null;
         int maxPatternDif = 5;
 
+        private bool _spawnedFirstStaticPattern = false;
+
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> _playerShipEntities;
 
@@ -44,12 +46,19 @@ namespace GameJam.Processes.Enemies
 
             patternStaleList = new Dictionary<int, List<Type>>();
             allPatternsList = GenerateAllPatternsList();
-
-            Interval = 5;
         }
 
         protected override void OnTick(float interval)
         {
+            Interval = 5; // First interval is 2 seconds, then change to every 5 seconds
+
+            if(!_spawnedFirstStaticPattern)
+            {
+                _spawnedFirstStaticPattern = true;
+                SpawnFirstStaticPattern();
+                return;
+            }
+
             // Organize spawn patterns based off of difficulty
             // Increase the difficutly counter every time OnTick is called
             difficultyCounter += difficultyModifier;
@@ -93,6 +102,21 @@ namespace GameJam.Processes.Enemies
             patternStaleList.Add(5, new List<Type>());
 
             return returnDict;
+        }
+
+        private void SpawnFirstStaticPattern()
+        {
+            process = new SpawnRandomChasingEnemies(Engine, ProcessManager, this, 1);
+            process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
+
+            // Attach the global process to the Processmanager
+            if (process != null)
+            {
+                ProcessManager.Attach(process);
+                if (killAfterOneProcessFlag == true)
+                    this.Kill();
+            }
+            process = null;
         }
 
         private void GenerateSpawnPattern(int difVal)

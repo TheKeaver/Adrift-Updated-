@@ -14,16 +14,28 @@ namespace GameJam.Processes.SpawnPatterns
         readonly ProcessManager ProcessManager;
         readonly SpawnPatternManager SPM;
 
+        public int Count
+        {
+            get;
+            private set;
+        }
+
         public SpawnRandomChasingEnemies(Engine engine, ProcessManager processManager, SpawnPatternManager spm)
+            : this(engine, processManager, spm, 3)
+        {
+        }
+        public SpawnRandomChasingEnemies(Engine engine, ProcessManager processManager, SpawnPatternManager spm, int count)
         {
             Engine = engine;
             ProcessManager = processManager;
             SPM = spm;
+
+            Count = count;
         }
 
         protected override void OnTrigger()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < Count; i++)
             {
                 Vector2 spawnPosition = SPM.GenerateValidCenter(radius);
                 float angle = SPM.AngleFacingNearestPlayerShip(spawnPosition);
