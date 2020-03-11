@@ -159,7 +159,7 @@ namespace GameJam.States
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerTwoShieldEntity180);
                 playerTwoShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerTwoShieldEntity270);
 
-                playerShipEntity.AddComponent(new PlayerComponent(Players[1]));
+                playerTwoShipEntity.AddComponent(new PlayerComponent(Players[1]));
 
                 Players[1].InputMethod.GetSnapshot().Angle = 0;
             }
@@ -178,7 +178,7 @@ namespace GameJam.States
                 playerThreeShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerThreeShieldEntity180);
                 playerThreeShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerThreeShieldEntity270);
 
-                playerShipEntity.AddComponent(new PlayerComponent(Players[2]));
+                playerThreeShipEntity.AddComponent(new PlayerComponent(Players[2]));
 
                 Players[2].InputMethod.GetSnapshot().Angle = 0;
             }
@@ -197,7 +197,7 @@ namespace GameJam.States
                 playerFourShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerFourShieldEntity180);
                 playerFourShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerFourShieldEntity270);
 
-                playerShipEntity.AddComponent(new PlayerComponent(Players[3]));
+                playerFourShipEntity.AddComponent(new PlayerComponent(Players[3]));
 
                 Players[3].InputMethod.GetSnapshot().Angle = 0;
             }

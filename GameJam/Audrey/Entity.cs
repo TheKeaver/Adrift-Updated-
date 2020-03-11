@@ -88,6 +88,7 @@ namespace Audrey
         {
             if (HasComponent(component.GetType()))
             {
+                
                 throw new ComponentAlreadyExistsException();
             }
 

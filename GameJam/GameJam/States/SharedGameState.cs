@@ -126,6 +126,7 @@ namespace GameJam.States
                 new MovementSystem(Engine),
                 new PlayerShieldSystem(Engine),
                 new QuadTreeSystem(Engine),
+                new SuperShieldSystem(Engine),
                 
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
                 new EnemyRotationSystem(Engine),
