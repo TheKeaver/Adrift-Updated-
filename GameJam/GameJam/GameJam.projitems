@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\SearchTextureSMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SuperShieldDisplayEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PlaySoundEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\StopAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\ResumeAllSoundsEvent.cs" />

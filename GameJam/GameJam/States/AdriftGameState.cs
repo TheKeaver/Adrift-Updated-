@@ -129,6 +129,7 @@ namespace GameJam.States
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine,
                 new Vector2((-25 * (Players.Length / 2)) + (25 * (Players.Length / 4)), 25 * (Players.Length / 3)), Color.White);
+            Entity playerOneShieldMeterEntity = SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
 
             Entity playerShieldEntityDefault = PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(0.0f), true);
             Entity playerShieldEntity90 = PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(90.0f), false);
@@ -146,8 +147,8 @@ namespace GameJam.States
 
             if (Players.Length >= 2)
             {
-                Entity playerTwoShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2(25, 25 * (Players.Length / 3)), Color.Blue);
+                Entity playerTwoShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, 25 * (Players.Length / 3)), Color.Blue);
+                Entity playerTwoShieldMeterEntity = SuperShieldDisplayEntity.Create(SharedState.Engine, playerTwoShipEntity);
 
                 Entity playerTwoShieldEntityDefault = PlayerShieldEntity.Create(SharedState.Engine, playerTwoShipEntity, MathHelper.ToRadians(0.0f), true);
                 Entity playerTwoShieldEntity90 = PlayerShieldEntity.Create(SharedState.Engine, playerTwoShipEntity, MathHelper.ToRadians(90.0f), false);
@@ -167,6 +168,7 @@ namespace GameJam.States
             if( Players.Length >= 3)
             {
                 Entity playerThreeShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(-25, -25), Color.Orange);
+                Entity playerThreeShieldMeterEntity = SuperShieldDisplayEntity.Create(SharedState.Engine, playerThreeShipEntity);
 
                 Entity playerThreeShieldEntityDefault = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity, MathHelper.ToRadians(0.0f), true);
                 Entity playerThreeShieldEntity90 = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity, MathHelper.ToRadians(90.0f), false);
@@ -186,6 +188,7 @@ namespace GameJam.States
             if( Players.Length == 4)
             {
                 Entity playerFourShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25), Color.Magenta);
+                Entity playerFourShieldMeterEntity = SuperShieldDisplayEntity.Create(SharedState.Engine, playerFourShipEntity);
 
                 Entity playerFourShieldEntityDefault = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity, MathHelper.ToRadians(0.0f), true);
                 Entity playerFourShieldEntity90 = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity, MathHelper.ToRadians(90.0f), false);

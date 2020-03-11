@@ -38,6 +38,7 @@ namespace GameJam.Systems
                     shield.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_PLAYER;
                 }
                 ship.SuperShieldMeter = Math.Max(ship.SuperShieldMeter - CVars.Get<float>("player_super_shield_spend_rate")*dt, 0);
+                //Console.WriteLine("Super shield meter at " + ship.SuperShieldMeter);
             }
             else
             {
@@ -50,14 +51,16 @@ namespace GameJam.Systems
                     }
                 }
                 ship.SuperShieldMeter = MathHelper.Min(ship.SuperShieldMeter + CVars.Get<float>("player_super_shield_regen_rate") * dt, CVars.Get<float>("player_super_shield_max"));
-
+                //Console.WriteLine("Super shield at " + ship.SuperShieldMeter);
                 if(ship.SuperShieldMeter == CVars.Get<float>("player_super_shield_max"))
                 {
+                    //Console.WriteLine("Super shield resource replenished");
                     ship.SuperShieldAvailable = true;
                 }
                 else
                 {
                     ship.SuperShieldAvailable = false;
+                    //Console.WriteLine("Player super shield out of resource");
                 }
             }
         }

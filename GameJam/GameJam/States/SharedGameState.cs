@@ -271,6 +271,11 @@ namespace GameJam.States
                 Color.White); // Post-processing results
             RenderSystem.SpriteBatch.End();
 
+            // Shield Resource
+            RenderSystem.DrawEntities(Camera,
+                                      Constants.Render.RENDER_GROUP_NO_GLOW,
+                                      dt,
+                                      betweenFrameAlpha, camera);
 #if DEBUG
             if (CVars.Get<bool>("debug_show_collision_shapes"))
             {

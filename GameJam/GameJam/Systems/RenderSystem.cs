@@ -185,14 +185,14 @@ namespace GameJam.Systems
                 Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
 
                 SpriteBatch.DrawString(fontComp.Font,
-                                        fontComp.Content,
-                                        position * FlipY,
-                                        fontComp.Color,
-                                        -rotation,
-                                        origin,
-                                        transformScale,
-                                        SpriteEffects.None,
-                                        0);
+                                       fontComp.Content,
+                                       position * FlipY,
+                                       fontComp.Color,
+                                       -rotation,
+                                       origin,
+                                       transformScale,
+                                       SpriteEffects.None,
+                                       0);
             }
 
             SpriteBatch.End();

@@ -9,8 +9,8 @@ namespace GameJam.Systems
     public class LaserEnemySystem : BaseSystem
     {
         private readonly Family _laserEnemyFamily = Family.All(typeof(LaserEnemyComponent), typeof(TransformComponent)).Get();
-        private readonly Family _raycastFamily = Family.All(typeof(TransformComponent), typeof(EdgeComponent)).Get();
-        private readonly Family _raycastWithShieldFamily = Family.All(typeof(TransformComponent)).One(typeof(EdgeComponent), typeof(PlayerShieldComponent)).Get();
+        private readonly Family _raycastFamily = Family.All(typeof(TransformComponent), typeof(EdgeComponent), typeof(CollisionComponent)).Get();
+        private readonly Family _raycastWithShieldFamily = Family.All(typeof(TransformComponent), typeof(CollisionComponent)).One(typeof(EdgeComponent), typeof(PlayerShieldComponent)).Get();
 
         private ImmutableList<Entity> _laserEnemyEntities;
         private ImmutableList<Entity> _raycastEntities;
