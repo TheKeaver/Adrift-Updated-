@@ -12,9 +12,13 @@ namespace GameJam.Systems
         readonly Family playerFamily = Family.All(typeof(PlayerComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> playerEntities;
 
+        readonly Family superShieldFamiliy = Family.All(typeof(SuperShieldComponent), typeof(VectorSpriteComponent), typeof(TransformComponent)).Get();
+        readonly ImmutableList<Entity> superShields;
+
         public SuperShieldSystem(Engine engine) : base(engine)
         {
             playerEntities = engine.GetEntitiesFor(playerFamily);
+            superShields = engine.GetEntitiesFor(superShieldFamiliy);
         }
 
         public override void Update(float dt)
@@ -23,6 +27,18 @@ namespace GameJam.Systems
             {
                 UpdateSuperShieldFromInput(player, dt);
             }
+            foreach(Entity superShield in superShields)
+            {
+                UpdateLocationInfo(superShield);
+            }
+        }
+
+        private void UpdateLocationInfo(Entity shield)
+        {
+            SuperShieldComponent ssc = shield.GetComponent<SuperShieldComponent>();
+
+            shield.GetComponent<TransformComponent>().SetPosition(ssc.ship.GetComponent<TransformComponent>().Position);
+            shield.GetComponent<VectorSpriteComponent>().Alpha = ssc.ship.GetComponent<PlayerShipComponent>().SuperShieldMeter / CVars.Get<float>("player_super_shield_max");
         }
 
         private void UpdateSuperShieldFromInput(Entity player, float dt)
