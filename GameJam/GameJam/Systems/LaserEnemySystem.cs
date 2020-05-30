@@ -53,7 +53,7 @@ namespace GameJam.Systems
                     // Simple raycast to find edge/shield this laser touches
                     RaycastHit laserHit = Raycast(laserBeamComp.InteractWithShield ? _raycastWithShieldEntities : _raycastEntities, laserEnemyTip, laserEnemyDirection);
 
-                    if (laserHit.Other.HasComponent<PlayerShieldComponent>() && laserHit.Other.GetComponent<PlayerShieldComponent>().LaserReflectionActive == true && laserBeamComp.ComputeReflection)
+                    if (laserHit.Other.HasComponent<PlayerShieldComponent>() /*&& laserHit.Other.GetComponent<PlayerShieldComponent>().LaserReflectionActive == true*/ && laserBeamComp.ComputeReflection)
                     {
                         Vector2 shieldNormal = laserHit.Position - laserHit.Other.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<TransformComponent>().Position;
                         if (Vector2.Dot(shieldNormal, laserHit.Normal) > 0)

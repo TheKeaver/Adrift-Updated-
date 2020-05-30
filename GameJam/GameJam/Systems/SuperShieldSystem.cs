@@ -50,7 +50,7 @@ namespace GameJam.Systems
             {
                 foreach (Entity shield in ship.ShipShields)
                 {
-                    shield.GetComponent<PlayerShieldComponent>().LaserReflectionActive = true;
+                    //shield.GetComponent<PlayerShieldComponent>().LaserReflectionActive = true;
                     shield.GetComponent<VectorSpriteComponent>().Hidden = false;
                     shield.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.COLLISION_GROUP_PLAYER + Constants.Collision.COLLISION_GROUP_RAYCAST);
                 }
@@ -63,7 +63,7 @@ namespace GameJam.Systems
                 {
                     for (int i = 1; i < 4; i++)
                     {
-                        ship.ShipShields[i].GetComponent<PlayerShieldComponent>().LaserReflectionActive = false;
+                        //ship.ShipShields[i].GetComponent<PlayerShieldComponent>().LaserReflectionActive = false;
                         ship.ShipShields[i].GetComponent<VectorSpriteComponent>().Hidden = true;
                         ship.ShipShields[i].GetComponent<CollisionComponent>().CollisionMask = Constants.Collision.GROUP_MASK_NONE;
                     }
