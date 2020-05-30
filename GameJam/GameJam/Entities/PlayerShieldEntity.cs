@@ -12,7 +12,7 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent());
-            entity.AddComponent(new PlayerShieldComponent(shipEntity, angle, CVars.Get<float>("player_shield_radius")));
+            entity.AddComponent(new PlayerShieldComponent(shipEntity, angle, CVars.Get<float>("player_shield_radius"), isActive));
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new QuadRenderShape(new Vector2(6, -1),

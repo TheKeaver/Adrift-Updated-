@@ -67,23 +67,23 @@ namespace GameJam.Processes.Enemies
             //returnDict.Add(0, new List<Type>());
             returnDict.Add(5, new List<Type>());
             
-            // All level 1 spawn patterns
-            returnDict[1].Add(typeof(SpawnChasingTriangle));
-            returnDict[1].Add(typeof(SpawnRandomChasingEnemies));
-            // All level 2 spawn patterns
-            //returnDict[2].Add(typeof(SpawnShootingTriangle));
-            returnDict[1].Add(typeof(SpawnRandomGravityHoles));
-            returnDict[2].Add(typeof(SpawnRandomShootingEnemies));
-            // All level 3 spawn patterns
-            //returnDict[3].Add(typeof(SpawnLaserTriangle));
-            returnDict[3].Add(typeof(SpawnGravityConstellation));
-            returnDict[2].Add(typeof(SpawnRandomLaserEnemies));
-            // All level 4 spawn patterns
-            returnDict[4].Add(typeof(SpawnChasingCircle));
-            returnDict[4].Add(typeof(SpawnRandomPairs));
-            // All level 5 spawn patterns
-            returnDict[5].Add(typeof(SpawnChasingBorder));
-            returnDict[5].Add(typeof(SpawnCornerAssault));
+           //// All level 1 spawn patterns
+           //returnDict[1].Add(typeof(SpawnChasingTriangle));
+           //returnDict[1].Add(typeof(SpawnRandomChasingEnemies));
+           //// All level 2 spawn patterns
+           //returnDict[2].Add(typeof(SpawnShootingTriangle));
+           //returnDict[1].Add(typeof(SpawnRandomGravityHoles));
+           //returnDict[2].Add(typeof(SpawnRandomShootingEnemies));
+           //// All level 3 spawn patterns
+           //returnDict[3].Add(typeof(SpawnLaserTriangle));
+           //returnDict[3].Add(typeof(SpawnGravityConstellation));
+           returnDict[2].Add(typeof(SpawnRandomLaserEnemies));
+           //// All level 4 spawn patterns
+           //returnDict[4].Add(typeof(SpawnChasingCircle));
+           //returnDict[4].Add(typeof(SpawnRandomPairs));
+           //// All level 5 spawn patterns
+           //returnDict[5].Add(typeof(SpawnChasingBorder));
+           //returnDict[5].Add(typeof(SpawnCornerAssault));
 
             // Initialize the patternStaleList dictionary TODO: Move this somewhere else (optional)
             patternStaleList.Add(1, new List<Type>());

@@ -105,7 +105,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 5\SpawnChasingBorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 5\SpawnCornerAssault.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\WaitForFamilyCountProcess.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\SpawnPatternManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\SpawnPatternManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnChasingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />

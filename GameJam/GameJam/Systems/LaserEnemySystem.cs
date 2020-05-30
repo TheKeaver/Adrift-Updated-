@@ -53,7 +53,7 @@ namespace GameJam.Systems
                     // Simple raycast to find edge/shield this laser touches
                     RaycastHit laserHit = Raycast(laserBeamComp.InteractWithShield ? _raycastWithShieldEntities : _raycastEntities, laserEnemyTip, laserEnemyDirection);
 
-                    if (laserHit.Other.HasComponent<PlayerShieldComponent>() && laserBeamComp.ComputeReflection)
+                    if (laserHit.Other.HasComponent<PlayerShieldComponent>() && laserHit.Other.GetComponent<PlayerShieldComponent>().LaserReflectionActive == true && laserBeamComp.ComputeReflection)
                     {
                         Vector2 shieldNormal = laserHit.Position - laserHit.Other.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<TransformComponent>().Position;
                         if (Vector2.Dot(shieldNormal, laserHit.Normal) > 0)
@@ -142,56 +142,68 @@ namespace GameJam.Systems
             // Only raycasts against polygons (not circles)
             foreach (Entity raycastEntity in raycastEntities)
             {
+                bool performRayCast = true;
+
                 TransformComponent raycastTransformComp = raycastEntity.GetComponent<TransformComponent>();
                 CollisionComponent raycastCollisionComp = raycastEntity.GetComponent<CollisionComponent>();
 
-                float cos = (float)Math.Cos(raycastTransformComp.Rotation),
-                    sin = (float)Math.Sin(raycastTransformComp.Rotation);
-
-                foreach (CollisionShape collisionShape in raycastCollisionComp.CollisionShapes)
+                if((raycastCollisionComp.CollisionMask & Constants.Collision.COLLISION_GROUP_RAYCAST) == 0)
                 {
-                    PolygonCollisionShape polygonShape = collisionShape as PolygonCollisionShape;
-                    if(polygonShape != null)
+                    performRayCast = false;
+                }
+
+                // Make or find a raycast collision group
+
+                if (performRayCast)
+                {
+                    float cos = (float)Math.Cos(raycastTransformComp.Rotation),
+                        sin = (float)Math.Sin(raycastTransformComp.Rotation);
+
+                    foreach (CollisionShape collisionShape in raycastCollisionComp.CollisionShapes)
                     {
-                        for(int i = 0; i < polygonShape.Vertices.Length; i++)
+                        PolygonCollisionShape polygonShape = collisionShape as PolygonCollisionShape;
+                        if (polygonShape != null)
                         {
-                            int j = (i + 1) % polygonShape.Vertices.Length;
-
-                            Vector2 a = polygonShape.Vertices[i] + polygonShape.Offset;
-                            a *= raycastTransformComp.Scale;
-                            a = new Vector2(cos * a.X - sin * a.Y, sin * a.X + cos * a.Y);
-                            a += raycastTransformComp.Position;
-
-                            Vector2 b = polygonShape.Vertices[j] + polygonShape.Offset;
-                            b *= raycastTransformComp.Scale;
-                            b = new Vector2(cos * b.X - sin * b.Y, sin * b.X + cos * b.Y);
-                            b += raycastTransformComp.Position;
-
-                            Vector2 v2 = a - b;
-                            Vector2 v3 = a - origin;
-                            Vector2 v4 = new Vector2(a.Y - b.Y, b.X - a.X);
-
-                            double det = 1 / Vector2.Dot(v1, v2);
-                            double t1 = det * Vector2.Dot(v3, v4);
-                            double t2 = det * Vector2.Dot(v1, v3);
-
-                            if(t2 >= 0 && t2 <= 1
-                                && t1 >= 0)
+                            for (int i = 0; i < polygonShape.Vertices.Length; i++)
                             {
-                                // Hit
-                                Vector2 newHit = (b - a) * (float)t2 + a;
-                                float newLengthSquared = (newHit - origin).LengthSquared();
-                                if (newLengthSquared < hit.LengthSquared)
+                                int j = (i + 1) % polygonShape.Vertices.Length;
+
+                                Vector2 a = polygonShape.Vertices[i] + polygonShape.Offset;
+                                a *= raycastTransformComp.Scale;
+                                a = new Vector2(cos * a.X - sin * a.Y, sin * a.X + cos * a.Y);
+                                a += raycastTransformComp.Position;
+
+                                Vector2 b = polygonShape.Vertices[j] + polygonShape.Offset;
+                                b *= raycastTransformComp.Scale;
+                                b = new Vector2(cos * b.X - sin * b.Y, sin * b.X + cos * b.Y);
+                                b += raycastTransformComp.Position;
+
+                                Vector2 v2 = a - b;
+                                Vector2 v3 = a - origin;
+                                Vector2 v4 = new Vector2(a.Y - b.Y, b.X - a.X);
+
+                                double det = 1 / Vector2.Dot(v1, v2);
+                                double t1 = det * Vector2.Dot(v3, v4);
+                                double t2 = det * Vector2.Dot(v1, v3);
+
+                                if (t2 >= 0 && t2 <= 1
+                                    && t1 >= 0)
                                 {
-                                    hit.Position = newHit;
-                                    hit.Normal = new Vector2(-v2.Y, v2.X);
-                                    if(Vector2.Dot(direction, hit.Normal) > 0)
+                                    // Hit
+                                    Vector2 newHit = (b - a) * (float)t2 + a;
+                                    float newLengthSquared = (newHit - origin).LengthSquared();
+                                    if (newLengthSquared < hit.LengthSquared)
                                     {
-                                        hit.Normal *= -1;
+                                        hit.Position = newHit;
+                                        hit.Normal = new Vector2(-v2.Y, v2.X);
+                                        if (Vector2.Dot(direction, hit.Normal) > 0)
+                                        {
+                                            hit.Normal *= -1;
+                                        }
+                                        hit.Normal.Normalize();
+                                        hit.LengthSquared = newLengthSquared;
+                                        hit.Other = raycastEntity;
                                     }
-                                    hit.Normal.Normalize();
-                                    hit.LengthSquared = newLengthSquared;
-                                    hit.Other = raycastEntity;
                                 }
                             }
                         }

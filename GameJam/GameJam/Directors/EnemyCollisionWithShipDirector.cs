@@ -6,6 +6,7 @@ using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using System;
 
 namespace GameJam.Directors
 {
@@ -76,8 +77,8 @@ namespace GameJam.Directors
                 {
                     responsibleEntity = FindLaserBeamOwner(responsibleEntity);
                 }
-                EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShields[0].GetComponent<PlayerComponent>().Player,
-                    responsibleEntity));
+                EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShields[0].GetComponent<PlayerComponent>().Player, responsibleEntity));
+                //Engine.DestroyEntity(entityA);
                 return;
             } else
             {

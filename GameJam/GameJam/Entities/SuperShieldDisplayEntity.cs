@@ -18,7 +18,7 @@ namespace GameJam.Entities
                 {
                     new QuadRenderShape(new Vector2(3,0),
                         new Vector2(0,3),
-                        new Vector2(-3,0),
+                        new Vector2(-1.6f,0),
                         new Vector2(0,-3),
                         shipEntity.GetComponent<ColoredExplosionComponent>().Color)
                 }));
