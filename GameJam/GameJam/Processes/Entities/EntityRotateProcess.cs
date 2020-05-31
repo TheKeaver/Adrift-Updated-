@@ -49,7 +49,14 @@ namespace GameJam.Processes.Entities
 
         protected override void OnInitialize()
         {
-            
+            if (!Engine.GetEntities().Contains(Entity) && IsAlive)
+            {
+                Kill();
+                return;
+            }
+
+            TransformComponent transformComp = Entity.GetComponent<TransformComponent>();
+            transformComp.SetRotation(StartAngle, true);
         }
 
         protected override void OnTogglePause()

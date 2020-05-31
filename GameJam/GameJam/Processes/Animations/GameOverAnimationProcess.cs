@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 
 namespace GameJam.Processes.Animation
 {
+    /// <summary>
+    /// Deprecated. Do not use.
+    /// </summary>
     public class GameOverAnimationProcess : Process
     {
         private Entity entity;
