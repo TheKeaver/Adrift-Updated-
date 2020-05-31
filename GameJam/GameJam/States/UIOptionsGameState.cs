@@ -8,6 +8,7 @@ using GameJam.Events.InputHandling;
 using GameJam.Events.Settings;
 using GameJam.Events.UI;
 using GameJam.Graphics.Text;
+using GameJam.Processes.Menu;
 using GameJam.UI;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
@@ -600,6 +601,8 @@ namespace GameJam.States
             {
                 UpdateButtonBindingsForGamePad((PlayerIndex)CVars.Get<int>("ui_gamepad_mode_current_operator"));
             }
+
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine, SharedState.Camera));
 
             base.OnInitialize();
         }
