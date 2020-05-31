@@ -41,8 +41,8 @@ namespace GameJam.Processes.Enemies
             Entity projectile = ProjectileEntity.Create(Engine, Vector2.Zero, shootingEnemyDirection);
             TransformComponent projectileTransformComp = projectile.GetComponent<TransformComponent>();
             Vector2 projectilePosition = shootingEnemyDirection * (_shootingEnemyTip * transformComp.Scale + _projectileLength * projectileTransformComp.Scale + _errorBuffer) + transformComp.Position;
-            projectileTransformComp.SetPosition(projectilePosition);
-            projectileTransformComp.SetRotation(transformComp.Rotation);
+            projectileTransformComp.SetPosition(projectilePosition, true);
+            projectileTransformComp.SetRotation(transformComp.Rotation, true);
 
             EventManager.Instance.QueueEvent(new ProjectileFiredEvent());
             ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft -= 1;

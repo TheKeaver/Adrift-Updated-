@@ -48,7 +48,7 @@ namespace GameJam.Systems
                     float scaleMax = CVars.Get<float>("gravity_enemy_size") * CVars.Get<float>("gravity_hole_animation_size_multiplier_max");
                     float alpha = (float)(0.5f * Math.Cos(2 * MathHelper.Pi / CVars.Get<float>("gravity_hole_animation_size_period") * gravityHoleEnemyComp.ElapsedAliveTime) + 0.5f);
                     float scale = MathHelper.Lerp(scaleMin, scaleMax, alpha);
-                    transformComp.ChangeScale(scale);
+                    transformComp.SetScale(scale);
                 }
 
                 if(gravityHoleEnemyComp.PingAnimation)

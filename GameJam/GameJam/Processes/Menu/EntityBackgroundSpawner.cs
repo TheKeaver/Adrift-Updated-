@@ -45,8 +45,8 @@ namespace GameJam.Processes.Menu
             TransformComponent transformComp = entity.GetComponent<TransformComponent>();
             transformComp.SetPosition(CVars.Get<float>("entity_background_spawner_x"),
                 _random.NextSingle(CVars.Get<float>("entity_background_spawner_y_min"),
-                    CVars.Get<float>("entity_background_spawner_y_max")));
-            transformComp.SetRotation((float)(_random.NextSingle() * Math.PI * 2));
+                    CVars.Get<float>("entity_background_spawner_y_max")), true);
+            transformComp.SetRotation((float)(_random.NextSingle() * Math.PI * 2), true);
             entity.AddComponent(new MovementComponent(new Vector2(-1, 0),
                 _random.NextSingle(CVars.Get<float>("entity_background_entity_speed_min"),
                     CVars.Get<float>("entity_background_entity_speed_max"))));

@@ -44,7 +44,7 @@ namespace GameJam.Entities
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
 
-            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("gravity_enemy_size"), true);
+            entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("gravity_enemy_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_gravity_hole_enemy")));
 
             return entity;

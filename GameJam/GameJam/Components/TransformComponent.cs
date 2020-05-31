@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
 using System;
 
@@ -74,7 +75,7 @@ namespace GameJam.Components
         }
         public void SetPosition(Vector2 position, bool reset = false)
         {
-            SetPosition(position.X, position.Y);
+            SetPosition(position.X, position.Y, reset);
         }
 
         public void SetPosition(float x, float y, bool reset = false)
@@ -102,9 +103,8 @@ namespace GameJam.Components
             }
         }
 
-        public void ChangeScale(float scale, bool reset = false)
+        public void SetScale(float scale, bool reset = false)
         {
-            LastScale = Scale;
             Scale = scale;
             if(reset)
             {
@@ -115,7 +115,7 @@ namespace GameJam.Components
         public void Interpolate(float alpha, out Vector2 position, out float rotation, out float scale)
         {
             position = Vector2.Lerp(LastPosition, Position, alpha);
-            rotation = MathHelper.Lerp(LastRotation, Rotation, alpha);
+            rotation = MathUtils.LerpAngle(LastRotation, Rotation, alpha);
             scale = MathHelper.Lerp(LastScale, Scale, alpha);
         }
 

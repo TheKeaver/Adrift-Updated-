@@ -64,7 +64,7 @@ namespace GameJam.Processes.Entities
             }
 
             TransformComponent transformComp = Entity.GetComponent<TransformComponent>();
-            transformComp.ChangeScale(MathHelper.Lerp(StartScale, EndScale, Easings.Interpolate(ClampedAlpha, EasingFunction)));
+            transformComp.SetScale(MathHelper.Lerp(StartScale, EndScale, Easings.Interpolate(ClampedAlpha, EasingFunction)));
         }
     }
 }

@@ -32,8 +32,8 @@ namespace GameJam.States
             entity.AddComponent(new FieldFontComponent(Content.Load<FieldFont>("font_msdf_hyperspace"), "The quick brown fox jumped over the lazy dog!?"));
             entity.GetComponent<FieldFontComponent>().OptimizeForSmallText = true;
             entity.AddComponent(new TransformComponent());
-            entity.GetComponent<TransformComponent>().SetPosition(new Vector2(0, 0));
-            entity.GetComponent<TransformComponent>().ChangeScale(1);
+            entity.GetComponent<TransformComponent>().SetPosition(new Vector2(0, 0), true);
+            entity.GetComponent<TransformComponent>().SetScale(1, true);
 
             Camera = new Camera(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
