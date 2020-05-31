@@ -225,6 +225,9 @@ namespace GameJam.States
 
         protected override void OnFixedUpdate(float dt)
         {
+            Camera.ResetAll();
+            DebugCamera.ResetAll();
+
             for (int i = 0; i < _systems.Length; i++)
             {
                 _systems[i].Update(dt);
@@ -235,6 +238,9 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+            int enableFrameSmoothing = CVars.Get<bool>("graphics_frame_smoothing") ? 1 : 0;
+            betweenFrameAlpha = betweenFrameAlpha * enableFrameSmoothing + (1 - enableFrameSmoothing);
+
             _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
             _smaaPPE.Enabled = CVars.Get<bool>("graphics_smaa");
 
@@ -261,7 +267,7 @@ namespace GameJam.States
                     null,
                     null,
                     null,
-                    camera.TransformMatrix);
+                    camera.GetInterpolatedTransformMatrix(betweenFrameAlpha));
                 if (!CVars.Get<bool>("particle_gpu_accelerated"))
                 {
                     VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
@@ -269,7 +275,7 @@ namespace GameJam.States
                 RenderSystem.SpriteBatch.End();
                 if (CVars.Get<bool>("particle_gpu_accelerated"))
                 {
-                    GPUParticleManager.UpdateAndDraw(Camera, dt, camera);
+                    GPUParticleManager.UpdateAndDraw(Camera, dt, betweenFrameAlpha, camera);
                 }
             }
             // We have to defer drawing the post-processor results
@@ -290,7 +296,7 @@ namespace GameJam.States
 #if DEBUG
             if (CVars.Get<bool>("debug_show_collision_shapes"))
             {
-                CollisionDebugRenderSystem.Draw(camera.TransformMatrix, dt);
+                CollisionDebugRenderSystem.Draw(camera.GetInterpolatedTransformMatrix(betweenFrameAlpha), dt);
             }
 #endif
 #if DEBUG

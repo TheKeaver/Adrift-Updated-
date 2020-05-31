@@ -252,9 +252,9 @@ namespace GameJam.Particles
             _particleDrawIndices.SetData<int>(idxs);
         }
 
-        public void UpdateAndDraw(Camera camera, float dt, Camera debugCamera = null)
+        public void UpdateAndDraw(Camera camera, float dt, float betweenFrameAlpha, Camera debugCamera = null)
         {
-            Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
+            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
             BlendState prevBlendState = GraphicsDevice.BlendState;
             RenderTarget2D prevTarget = GraphicsDevice.RenderTargetCount > 0 ? (RenderTarget2D)GraphicsDevice.GetRenderTargets()[0].RenderTarget : null;

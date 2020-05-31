@@ -72,16 +72,17 @@ namespace GameJam.Systems
 
         public void DrawEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera = null)
         {
-            int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 1 : 0;
+            int enableFrameSmoothing = CVars.Get<bool>("graphics_frame_smoothing") ? 1 : 0;
+            betweenFrameAlpha = betweenFrameAlpha * enableFrameSmoothing + (1 - enableFrameSmoothing);
 
-            DrawSpriteBatchEntities(camera, groupMask, dt, betweenFrameAlpha * enableFrameSmoothingFlag, debugCamera);
-            DrawVectorEntities(camera, groupMask, dt, betweenFrameAlpha * enableFrameSmoothingFlag, debugCamera);
-            DrawFieldFontEntities(camera, groupMask, dt, betweenFrameAlpha * enableFrameSmoothingFlag, debugCamera);
+            DrawSpriteBatchEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
+            DrawVectorEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
+            DrawFieldFontEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
         }
 
         private void DrawSpriteBatchEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
+            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                                BlendState.AlphaBlend,
                                SamplerState.AnisotropicClamp,
@@ -194,7 +195,7 @@ namespace GameJam.Systems
 
         private void DrawFieldFontEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
+            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
             if (_fieldFontEntities.Count > 0)
             {
@@ -240,7 +241,7 @@ namespace GameJam.Systems
 
         private void DrawVectorEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            Matrix transformMatrix = debugCamera == null ? camera.TransformMatrix : debugCamera.TransformMatrix;
+            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
             List<VertexPositionColor> _verts = new List<VertexPositionColor>();
 

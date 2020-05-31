@@ -77,7 +77,7 @@ namespace GameJam.States
             Matrix.CreateOrthographicOffCenter(0, GameManager.GraphicsDevice.Viewport.Width, 0,
                 GameManager.GraphicsDevice.Viewport.Height, -1, 1, out projection);
 
-            Matrix wvp = Camera.TransformMatrix * projection;
+            Matrix wvp = Camera.GetInterpolatedTransformMatrix(1) * projection;
 
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 
