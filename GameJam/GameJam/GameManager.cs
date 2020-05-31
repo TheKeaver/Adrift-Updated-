@@ -227,7 +227,7 @@ namespace GameJam
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
-            foreach(Process process in ProcessManager.Processes)
+            foreach (Process process in ProcessManager.Processes)
             {
                 RenderProcess renderProcess = process as RenderProcess;
                 if(renderProcess != null)

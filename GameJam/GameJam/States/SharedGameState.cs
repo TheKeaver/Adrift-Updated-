@@ -118,6 +118,8 @@ namespace GameJam.States
             {
                 // Input System must go first to have accurate snapshots
                 new InputSystem(Engine),
+                // TransformResetSystem must go before any system that changes the transform of entities
+                new TransformResetSystem(Engine),
 
                 // Section below is not dependent on other systems
                 new GravityHolePassiveAnimationSystem(Engine, ProcessManager, Content),
