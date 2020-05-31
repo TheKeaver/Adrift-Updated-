@@ -78,7 +78,7 @@ namespace GameJam.States
             _gamePadTextureMap = new GamePadTextureMap();
             _gamePadTextureMap.CacheAll(Content);
 
-            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine, SharedState.Camera));
 
             UpdateUI();
 

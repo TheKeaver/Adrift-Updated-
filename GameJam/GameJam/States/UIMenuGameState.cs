@@ -31,7 +31,7 @@ namespace GameJam.States
 
             _root.AutoControlModeSwitching = true;
 
-            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine, SharedState.Camera));
 
             base.OnInitialize();
         }

@@ -29,6 +29,14 @@ namespace GameJam.Common
             }
         }
 
+        public float TotalZoom
+        {
+            get
+            {
+                return Zoom * _compensationZoom;
+            }
+        }
+
         public Vector2 LastPosition
         {
             get;

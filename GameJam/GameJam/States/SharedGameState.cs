@@ -127,7 +127,7 @@ namespace GameJam.States
                 new ParallaxBackgroundSystem(Engine, Camera),
                 new PulseSystem(Engine),
                 new PassiveRotationSystem(Engine),
-                new MenuBackgroundDestructionSystem(Engine),
+                new MenuBackgroundDestructionSystem(Engine, Camera),
 
                 // Section below is ordered based on dependency from Top (least dependent) to Bottom (most dependent)
                 new ChasingSpeedIncreaseSystem(Engine),
