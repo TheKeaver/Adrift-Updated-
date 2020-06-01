@@ -322,29 +322,49 @@ namespace GameJam.DevTools
         private void ExecuteCommand(string rawCmd)
         {
             string[] parts = rawCmd.Split(' ');
-            string cvar = parts[0];
-            if (Array.IndexOf(CVars.GetNames(), cvar) > -1) {
-                string value = rawCmd.Substring(cvar.Length).Trim();
+            string cvarOrCmd = parts[0].ToLower();
+            if (Array.IndexOf(CVars.GetNames(), cvarOrCmd) > -1) {
+                string value = rawCmd.Substring(cvarOrCmd.Length).Trim();
                 if (value.Length > 0)
                 {
-                    string oldValue = CVars.RawGet(cvar).Serialize();
-                    CVars.RawGet(cvar).Deserialize(value);
+                    string oldValue = CVars.RawGet(cvarOrCmd).Serialize();
+                    CVars.RawGet(cvarOrCmd).Deserialize(value);
                     Console.WriteLine("Updated `{0}` from '{1}' to '{2}'.",
-                        cvar, oldValue, value);
+                        cvarOrCmd, oldValue, value);
                 } else
                 {
-                    CVar<bool> boolCVar = CVars.RawGet(cvar) as CVar<bool>;
-                    if(boolCVar != null)
+                    CVar<bool> boolCVar = CVars.RawGet(cvarOrCmd) as CVar<bool>;
+                    if (boolCVar != null)
                     {
                         bool oldValue = boolCVar.Value;
                         boolCVar.Value = !oldValue;
                         Console.WriteLine("Updated `{0}` from '{1}' to '{2}'.",
-                            cvar, oldValue, boolCVar.Value);
+                            cvarOrCmd, oldValue, boolCVar.Value);
                     }
+                }
+            } else if (cvarOrCmd == "clear") {
+                _consoleItems.Clear();
+            } else if (cvarOrCmd == "help") {
+                if(parts.Length > 1)
+                {
+                    if (Array.IndexOf(CVars.GetNames(), parts[1].ToLower()) > -1)
+                    {
+                        ICVar rawCVar = CVars.RawGet(parts[1].ToLower());
+                        Console.WriteLine("`{0}`: {1}", parts[1].ToLower(), rawCVar.GetDescription());
+                        Console.WriteLine("\tDefault value: {0}", rawCVar.SerializeDefault());
+                        Console.WriteLine("\tCurrent value: {0}", rawCVar.Serialize());
+                    } else
+                    {
+                        Console.WriteLine("`{0}` is not a valid CVar.", parts[1]);
+                    }
+                } else
+                {
+                    Console.WriteLine("Prints the description of a CVar.");
+                    Console.WriteLine("Format: `help <cvar name>`");
                 }
             } else
             {
-                Console.WriteLine("CVar `{0}` not found.", cvar);
+                Console.WriteLine("CVar `{0}` not found.", cvarOrCmd);
             }
         }
 
