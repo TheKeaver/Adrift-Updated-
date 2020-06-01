@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 
@@ -19,6 +20,8 @@ namespace GameJam
         string Serialize();
         string SerializeDefault();
         bool Deserialize(string val);
+
+        string GetDescription();
 
         void Reset();
 
@@ -42,6 +45,7 @@ namespace GameJam
         }
         public T Value;
         public readonly T DefaultValue;
+        public readonly string Description;
 
         public int Flags
         {
@@ -57,12 +61,13 @@ namespace GameJam
             }
         }
 
-        public CVar(string name, T val, int flags = 0)
+        public CVar(string name, T val, int flags, string description)
         {
             Name = name;
             Value = val;
             DefaultValue = val;
             Flags = flags;
+            Description = description;
         }
 
         public bool Deserialize(string value)
@@ -118,6 +123,11 @@ namespace GameJam
         public void Reset()
         {
             Value = DefaultValue;
+        }
+
+        public string GetDescription()
+        {
+            return Description;
         }
     }
 
@@ -249,9 +259,9 @@ namespace GameJam
             return _cvars.Keys.ToArray();
         }
 
-        private static void Create<T>(string name, T value, int flags = 0)
+        private static void Create<T>(string name, T value, int flags, string description)
         {
-            _cvars.Add(name, new CVar<T>(name, value, flags));
+            _cvars.Add(name, new CVar<T>(name, value, flags, description));
         }
         
         public static void Initialize()
