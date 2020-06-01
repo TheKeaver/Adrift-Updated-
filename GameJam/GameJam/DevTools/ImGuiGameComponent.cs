@@ -133,13 +133,15 @@ namespace GameJam.DevTools
                 string[] names = CVars.GetNames();
                 Array.Sort(names);
 
-                ImGui.Columns(3);
+                ImGui.Columns(4);
 
                 ImGui.Text("CVar");
                 ImGui.NextColumn();
                 ImGui.Text("Value");
                 ImGui.NextColumn();
                 ImGui.Text("Default");
+                ImGui.NextColumn();
+                ImGui.Text("Description");
                 ImGui.NextColumn();
 
                 ImGui.Separator();
@@ -217,6 +219,10 @@ namespace GameJam.DevTools
                     {
                         cvar.Reset();
                     }
+
+                    ImGui.NextColumn();
+
+                    ImGui.TextWrapped(cvar.GetDescription());
 
                     ImGui.NextColumn();
                 }
