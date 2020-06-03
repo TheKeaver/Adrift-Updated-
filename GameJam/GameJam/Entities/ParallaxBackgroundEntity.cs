@@ -13,7 +13,7 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
 
             entity.AddComponent(new TransformComponent(origin));
-            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("background_stars_scale"), true);
+            entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("background_stars_scale"), true);
             entity.AddComponent(new SpriteComponent(texture,
                 new Vector2(texture.Width, texture.Height)));
             entity.GetComponent<SpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_STARS;

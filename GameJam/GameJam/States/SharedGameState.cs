@@ -40,6 +40,10 @@ namespace GameJam.States
             get;
             private set;
         }
+        public GPUParticleManager GPUParticleManager {
+            get;
+            private set;
+        }
 
         public Engine Engine
         {
@@ -92,6 +96,10 @@ namespace GameJam.States
 
             VelocityParticleManager = new ParticleManager<VelocityParticleInfo>(1024 * 20, VelocityParticleInfo.UpdateParticle);
             ProcessManager.Attach(VelocityParticleManager);
+            GPUParticleManager = new GPUParticleManager(GameManager.GraphicsDevice,
+                Content,
+                "effect_gpu_particle_velocity");
+            GPUParticleManager.RegisterListeners();
 
             Engine = new Engine();
             InitSystems();
@@ -110,6 +118,8 @@ namespace GameJam.States
             {
                 // Input System must go first to have accurate snapshots
                 new InputSystem(Engine),
+                // TransformResetSystem must go before any system that changes the transform of entities
+                new TransformResetSystem(Engine),
 
                 // Section below is not dependent on other systems
                 new GravityHolePassiveAnimationSystem(Engine, ProcessManager, Content),
@@ -117,7 +127,7 @@ namespace GameJam.States
                 new ParallaxBackgroundSystem(Engine, Camera),
                 new PulseSystem(Engine),
                 new PassiveRotationSystem(Engine),
-                new MenuBackgroundDestructionSystem(Engine),
+                new MenuBackgroundDestructionSystem(Engine, Camera),
 
                 // Section below is ordered based on dependency from Top (least dependent) to Bottom (most dependent)
                 new ChasingSpeedIncreaseSystem(Engine),
@@ -154,7 +164,7 @@ namespace GameJam.States
 
             ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
 
-            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager));
+            ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager, GPUParticleManager));
 
             ProcessManager.Attach(new ChangeToChasingEnemyDirector(Engine, Content, ProcessManager));
 
@@ -216,6 +226,9 @@ namespace GameJam.States
 
         protected override void OnFixedUpdate(float dt)
         {
+            Camera.ResetAll();
+            DebugCamera.ResetAll();
+
             for (int i = 0; i < _systems.Length; i++)
             {
                 _systems[i].Update(dt);
@@ -226,6 +239,9 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+            int enableFrameSmoothing = CVars.Get<bool>("graphics_frame_smoothing") ? 1 : 0;
+            betweenFrameAlpha = betweenFrameAlpha * enableFrameSmoothing + (1 - enableFrameSmoothing);
+
             _fxaaPPE.Enabled = CVars.Get<bool>("graphics_fxaa");
             _smaaPPE.Enabled = CVars.Get<bool>("graphics_smaa");
 
@@ -252,9 +268,16 @@ namespace GameJam.States
                     null,
                     null,
                     null,
-                    camera.TransformMatrix);
-                VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
+                    camera.GetInterpolatedTransformMatrix(betweenFrameAlpha));
+                if (!CVars.Get<bool>("particle_gpu_accelerated"))
+                {
+                    VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
+                }
                 RenderSystem.SpriteBatch.End();
+                if (CVars.Get<bool>("particle_gpu_accelerated"))
+                {
+                    GPUParticleManager.UpdateAndDraw(Camera, dt, betweenFrameAlpha, camera);
+                }
             }
             // We have to defer drawing the post-processor results
             // because of unexpected behavior within MonoGame.
@@ -269,17 +292,18 @@ namespace GameJam.States
             RenderSystem.SpriteBatch.Draw(postProcessingResult,
                 postProcessingResult.Bounds,
                 Color.White); // Post-processing results
-            RenderSystem.SpriteBatch.End();
 
             // Shield Resource
             RenderSystem.DrawEntities(Camera,
                                       Constants.Render.RENDER_GROUP_NO_GLOW,
                                       dt,
                                       betweenFrameAlpha, camera);
+            RenderSystem.SpriteBatch.End();
+
 #if DEBUG
             if (CVars.Get<bool>("debug_show_collision_shapes"))
             {
-                CollisionDebugRenderSystem.Draw(camera.TransformMatrix, dt);
+                CollisionDebugRenderSystem.Draw(camera.GetInterpolatedTransformMatrix(betweenFrameAlpha), dt);
             }
 #endif
 #if DEBUG
@@ -304,6 +328,7 @@ namespace GameJam.States
         {
             PostProcessor.UnregisterEvents();
             Camera.UnregisterEvents();
+            GPUParticleManager.UnregisterListeners();
 
             throw new Exception("This game state provides shared logic with all other game states and must not be killed.");
         }

@@ -78,7 +78,7 @@ namespace GameJam.States
             _gamePadTextureMap = new GamePadTextureMap();
             _gamePadTextureMap.CacheAll(Content);
 
-            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine));
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine, SharedState.Camera));
 
             UpdateUI();
 
@@ -97,11 +97,7 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            _fieldFontRenderer.Begin();
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch, _fieldFontRenderer);
-            _spriteBatch.End();
-            _fieldFontRenderer.End();
+            _root.Render(_spriteBatch, _fieldFontRenderer);
 
             base.OnRender(dt, betweenFrameAlpha);
         }

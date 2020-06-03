@@ -9,6 +9,11 @@ namespace GameJam.Common
     /// </summary>
     public class Camera : IEventListener
     {
+        public float LastZoom
+        {
+            get;
+            private set;
+        } = 1;
         private float _zoom = 1;
         public float Zoom
         {
@@ -24,6 +29,19 @@ namespace GameJam.Common
             }
         }
 
+        public float TotalZoom
+        {
+            get
+            {
+                return Zoom * _compensationZoom;
+            }
+        }
+
+        public Vector2 LastPosition
+        {
+            get;
+            private set;
+        }
         private Vector2 _position = Vector2.Zero;
         public Vector2 Position
         {
@@ -38,6 +56,11 @@ namespace GameJam.Common
                 CalculateBoundingRect();
             }
         }
+        public float LastRotation
+        {
+            get;
+            private set;
+        }
         public float Rotation;
 
         float _compensationZoom = 1;
@@ -48,18 +71,24 @@ namespace GameJam.Common
             private set;
         }
 
-        public Matrix TransformMatrix
+        public Matrix GetInterpolatedTransformMatrix(float alpha)
         {
-            get
-            {
-                return Matrix.CreateTranslation(new Vector3(_position.X * -1,
-                        _position.Y,
+            Vector2 position = Vector2.Lerp(LastPosition, Position, alpha);
+
+            return Matrix.CreateTranslation(new Vector3(position.X * -1,
+                        position.Y,
                         0))
-                    * Matrix.CreateRotationZ(Rotation)
-                    * Matrix.CreateScale(Zoom * _compensationZoom * CVars.Get<float>("debug_gameplay_camera_zoom"))
+                    * Matrix.CreateRotationZ(MathUtils.LerpAngle(LastRotation, Rotation, alpha))
+                    * Matrix.CreateScale(MathHelper.Lerp(LastZoom, Zoom, alpha) * _compensationZoom * CVars.Get<float>("debug_gameplay_camera_zoom"))
                     * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
                         _bounds.Height * 0.5f,
                         0));
+        }
+        private Matrix TransformMatrix
+        {
+            get
+            {
+                return GetInterpolatedTransformMatrix(0);
             }
         }
 
@@ -124,6 +153,13 @@ namespace GameJam.Common
                     _position.Y - (_bounds.Height / _zoom / _compensationZoom) / 2,
                     _bounds.Width / _zoom / _compensationZoom,
                     _bounds.Height / _zoom / _compensationZoom);
+        }
+
+        public void ResetAll()
+        {
+            LastZoom = Zoom;
+            LastPosition = Position;
+            LastRotation = Rotation;
         }
     }
 }

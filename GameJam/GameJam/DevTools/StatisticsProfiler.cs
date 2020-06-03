@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
@@ -48,10 +49,22 @@ namespace GameJam.DevTools
             private set;
         }
 
+        public int Particles
+        {
+            get;
+            private set;
+        }
+        public float AverageParticles
+        {
+            get;
+            private set;
+        }
+
         private List<float> _betweenTickTimes = new List<float>();
         private List<float> _updateTimes = new List<float>();
         private List<float> _betweenFrameTimes = new List<float>();
         private List<float> _drawTimes = new List<float>();
+        private List<int> _particles = new List<int>();
 
         private Stopwatch _updateStopwatch = new Stopwatch();
         private Stopwatch _drawStopwatch = new Stopwatch();
@@ -94,7 +107,15 @@ namespace GameJam.DevTools
             AverageDrawTime = ComputeAverage(_drawTimes);
         }
 
-        private void EnforceMaxListSize(List<float> list, int max)
+        public void PushParticleCount(int count)
+        {
+            Particles = count;
+            _particles.Add(count);
+            EnforceMaxListSize(_particles, CVars.Get<int>("debug_statistics_average_particle_sample"));
+            AverageParticles = ComputeAverage(_particles);
+        }
+
+        private void EnforceMaxListSize<T>(List<T> list, int max)
         {
             if(list.Count > max)
             {
@@ -105,6 +126,15 @@ namespace GameJam.DevTools
         {
             float sum = 0;
             for(int i = 0; i < list.Count; i++)
+            {
+                sum += list[i];
+            }
+            return sum / list.Count;
+        }
+        private float ComputeAverage(List<int> list)
+        {
+            float sum = 0;
+            for (int i = 0; i < list.Count; i++)
             {
                 sum += list[i];
             }

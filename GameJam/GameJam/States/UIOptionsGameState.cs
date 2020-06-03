@@ -8,6 +8,7 @@ using GameJam.Events.InputHandling;
 using GameJam.Events.Settings;
 using GameJam.Events.UI;
 using GameJam.Graphics.Text;
+using GameJam.Processes.Menu;
 using GameJam.UI;
 using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
@@ -464,7 +465,7 @@ namespace GameJam.States
             AASMAASettingsButtonPressedEvent aasmaaSBPE = evt as AASMAASettingsButtonPressedEvent;
             if (aasmaaSBPE != null)
             {
-                ((Label)_root.FindWidgetByID("SMAA_Settings_Dropdown_Label")).Content = "Anti-Alias: SMAA";
+                ((Label)_root.FindWidgetByID("AA_Settings_Dropdown_Label")).Content = "Anti-Alias: SMAA";
                 CVars.Get<bool>("graphics_smaa") = true;
                 CVars.Get<bool>("graphics_feathering") = false;
                 EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
@@ -472,16 +473,16 @@ namespace GameJam.States
             AAFeatheringButtonPressedEvent aafeatherSBPE = evt as AAFeatheringButtonPressedEvent;
             if (aafeatherSBPE != null)
             {
-                ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Feathering";
-                CVars.Get<bool>("graphics_fxaa") = false;
+                ((Label)_root.FindWidgetByID("AA_Settings_Dropdown_Label")).Content = "Anti-Alias: Feathering";
+                CVars.Get<bool>("graphics_smaa") = false;
                 CVars.Get<bool>("graphics_feathering") = true;
                 EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
             AAOffButtonPressedEvent aaoffSBPE = evt as AAOffButtonPressedEvent;
             if (aaoffSBPE != null)
             {
-                ((Label)_root.FindWidgetByID("FXAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Off";
-                CVars.Get<bool>("graphics_fxaa") = false;
+                ((Label)_root.FindWidgetByID("AA_Settings_Dropdown_Label")).Content = "Anti-Alias: Off";
+                CVars.Get<bool>("graphics_smaa") = false;
                 CVars.Get<bool>("graphics_feathering") = false;
                 EventManager.Instance.QueueEvent(new ReloadDisplayOptionsEvent());
             }
@@ -722,7 +723,7 @@ namespace GameJam.States
             ((Button)_root.FindWidgetByID("Normal")).Action = () => { CVars.Get<int>("game_difficulty") = 1; EventManager.Instance.QueueEvent(new DifficultySettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficulty: Normal"; };
             ((Button)_root.FindWidgetByID("Hard")).Action = () => { CVars.Get<int>("game_difficulty") = 2; EventManager.Instance.QueueEvent(new DifficultySettingsButtonPressedEvent()); ((Label)_root.FindWidgetByID("Difficulty_Dropdown_Label")).Content = "Difficulty: Hard"; };
 
-            ((Button)_root.FindWidgetByID("SMAA")).Action = () => { EventManager.Instance.QueueEvent(new AAFXAASettingsButtonPressedEvent()); };
+            ((Button)_root.FindWidgetByID("SMAA")).Action = () => { EventManager.Instance.QueueEvent(new AASMAASettingsButtonPressedEvent()); };
             ((Button)_root.FindWidgetByID("Feathering")).Action = () => { EventManager.Instance.QueueEvent(new AAFeatheringButtonPressedEvent()); };
             ((Button)_root.FindWidgetByID("Off")).Action = () => { EventManager.Instance.QueueEvent(new AAOffButtonPressedEvent()); };
 
@@ -737,6 +738,8 @@ namespace GameJam.States
             {
                 UpdateButtonBindingsForGamePad((PlayerIndex)CVars.Get<int>("ui_gamepad_mode_current_operator"));
             }
+
+            ProcessManager.Attach(new EntityBackgroundSpawner(SharedState.Engine, SharedState.Camera));
 
             base.OnInitialize();
         }
@@ -788,11 +791,11 @@ namespace GameJam.States
             bool feather = CVars.Get<bool>("graphics_feathering");
 
             if(fxaa && !feather)
-                ((Label)_root.FindWidgetByID("SMAA_Settings_Dropdown_Label")).Content = "Anti-Alias: FXAA";
+                ((Label)_root.FindWidgetByID("AA_Settings_Dropdown_Label")).Content = "Anti-Alias: FXAA";
             else if(!fxaa && feather)
-                ((Label)_root.FindWidgetByID("SMAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Feathering";
+                ((Label)_root.FindWidgetByID("AA_Settings_Dropdown_Label")).Content = "Anti-Alias: Feathering";
             else
-                ((Label)_root.FindWidgetByID("SMAA_Settings_Dropdown_Label")).Content = "Anti-Alias: Off";
+                ((Label)_root.FindWidgetByID("AA_Settings_Dropdown_Label")).Content = "Anti-Alias: Off";
 
             bool full = CVars.Get<bool>("display_fullscreen");
             bool window = CVars.Get<bool>("display_windowed");
@@ -836,7 +839,7 @@ namespace GameJam.States
             EventManager.Instance.RegisterListener<ResolutionButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<VSyncButtonPressedEvent>(this);
 
-            EventManager.Instance.RegisterListener<AAFXAASettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<AASMAASettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<AAFeatheringButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<AAOffButtonPressedEvent>(this);
 
@@ -860,11 +863,7 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            _fieldFontRenderer.Begin();
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch, _fieldFontRenderer);
-            _spriteBatch.End();
-            _fieldFontRenderer.End();
+            _root.Render(_spriteBatch, _fieldFontRenderer);
 
             base.OnRender(dt, betweenFrameAlpha);
         }

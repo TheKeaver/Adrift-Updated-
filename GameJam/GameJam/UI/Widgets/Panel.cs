@@ -38,13 +38,13 @@ namespace GameJam.UI.Widgets
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
+        public override void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {
                 for (int i = 0; i < _widgets.Count; i++)
                 {
-                    _widgets[i].Draw(spriteBatch, fieldFontRenderer);
+                    _widgets[i].Render(spriteBatch, fieldFontRenderer);
                 }
             }
         }

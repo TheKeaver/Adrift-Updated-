@@ -47,7 +47,14 @@ namespace GameJam.Processes.Entities
 
         protected override void OnInitialize()
         {
-            
+            if (!Engine.GetEntities().Contains(Entity) && IsAlive)
+            {
+                Kill();
+                return;
+            }
+
+            TransformComponent transformComp = Entity.GetComponent<TransformComponent>();
+            transformComp.SetScale(StartScale, true);
         }
 
         protected override void OnTogglePause()
@@ -64,7 +71,7 @@ namespace GameJam.Processes.Entities
             }
 
             TransformComponent transformComp = Entity.GetComponent<TransformComponent>();
-            transformComp.ChangeScale(MathHelper.Lerp(StartScale, EndScale, Easings.Interpolate(ClampedAlpha, EasingFunction)));
+            transformComp.SetScale(MathHelper.Lerp(StartScale, EndScale, Easings.Interpolate(ClampedAlpha, EasingFunction)));
         }
     }
 }

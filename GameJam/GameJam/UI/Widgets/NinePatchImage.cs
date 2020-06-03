@@ -28,7 +28,7 @@ namespace GameJam.UI.Widgets
             NinePatch = ninePatch;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
+        public override void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {

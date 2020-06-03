@@ -47,7 +47,7 @@ namespace GameJam.Systems
                 drawCamera = debugCamera;
             }
 
-            Matrix transformMatrix = drawCamera.TransformMatrix;
+            Matrix transformMatrix = drawCamera.GetInterpolatedTransformMatrix(1);
             SpriteBatch.Begin(SpriteSortMode.Deferred,
                     BlendState.Opaque,
                     SamplerState.AnisotropicClamp,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 
@@ -19,6 +20,8 @@ namespace GameJam
         string Serialize();
         string SerializeDefault();
         bool Deserialize(string val);
+
+        string GetDescription();
 
         void Reset();
 
@@ -42,6 +45,7 @@ namespace GameJam
         }
         public T Value;
         public readonly T DefaultValue;
+        public readonly string Description;
 
         public int Flags
         {
@@ -57,12 +61,13 @@ namespace GameJam
             }
         }
 
-        public CVar(string name, T val, int flags = 0)
+        public CVar(string name, T val, int flags, string description)
         {
             Name = name;
             Value = val;
             DefaultValue = val;
             Flags = flags;
+            Description = description;
         }
 
         public bool Deserialize(string value)
@@ -119,6 +124,11 @@ namespace GameJam
         {
             Value = DefaultValue;
         }
+
+        public string GetDescription()
+        {
+            return Description;
+        }
     }
 
     static partial class CVars
@@ -144,7 +154,7 @@ namespace GameJam
 
             return ini;
         }
-        private static bool DeserializeAll(string iniSet, bool live)
+        private static bool DeserializeAll(string iniSet, bool live, string[] dontChange)
         {
             string[] lines = iniSet.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             List<string> updatedCVars = new List<string>();
@@ -160,6 +170,11 @@ namespace GameJam
                 if(!_cvars.ContainsKey(name))
                 {
                     Console.WriteLine("'{0}' is not a valid CVar name. Does it exist?", name);
+                    continue;
+                }
+
+                if(dontChange.Contains(name))
+                {
                     continue;
                 }
 
@@ -184,6 +199,36 @@ namespace GameJam
             }
 
             return updatedCVars.Count == _cvars.Count;
+        }
+
+        private static string[] GetDontChangeNames(string defaultsIniSet)
+        {
+            string[] lines = defaultsIniSet.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            List<string> dontChange = new List<string>();
+
+            foreach (string line in lines)
+            {
+                if (line.Trim().Length == 0)
+                {
+                    continue;
+                }
+                string[] s = line.Split('=');
+                string name = s[0].Trim();
+                string value = s[1].Trim();
+                if (!_cvars.ContainsKey(name))
+                {
+                    Console.WriteLine("'{0}' is not a valid CVar name. Does it exist?", name);
+                    continue;
+                }
+
+                string cvarValue = CVars.RawGet(name).Serialize();
+                if(cvarValue != value)
+                {
+                    dontChange.Add(name);
+                }
+            }
+
+            return dontChange.ToArray();
         }
 
         public static ref T Get<T>(string name)
@@ -214,26 +259,41 @@ namespace GameJam
             return _cvars.Keys.ToArray();
         }
 
-        private static void Create<T>(string name, T value, int flags = 0)
+        private static void Create<T>(string name, T value, int flags, string description)
         {
-            _cvars.Add(name, new CVar<T>(name, value, flags));
+            _cvars.Add(name, new CVar<T>(name, value, flags, description));
         }
         
         public static void Initialize()
         {
             CreateDefaultCVars();
-            SynchronizeFromFile(false);
+            SynchronizeFromFile(false, true);
         }
 
-        private static bool Load(bool live)
+        private static bool Load(bool live, bool initial)
         {
             string path = GetSavePath();
+
+            string defaultIniSet = "";
+            if (initial)
+            {
+                if (File.Exists(GetDefaultsSavePath()))
+                {
+                    using (Stream stream = File.Open(GetDefaultsSavePath(), FileMode.Open))
+                    {
+                        StreamReader reader = new StreamReader(stream);
+                        defaultIniSet = reader.ReadToEnd();
+                    }
+                }
+                SaveDefaults();
+            }
+
             if(File.Exists(path))
             {
                 using (Stream stream = File.Open(path, FileMode.Open))
                 {
                     StreamReader reader = new StreamReader(stream);
-                    return DeserializeAll(reader.ReadToEnd(), live);
+                    return DeserializeAll(reader.ReadToEnd(), live, GetDontChangeNames(defaultIniSet));
                 }
             }
 
@@ -251,13 +311,25 @@ namespace GameJam
             }
         }
 
+        public static void SaveDefaults()
+        {
+            string path = GetDefaultsSavePath();
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            using (Stream stream = File.Open(path, FileMode.Create))
+            {
+                StreamWriter writer = new StreamWriter(stream);
+                writer.Write(SerializeAll());
+                writer.Flush();
+            }
+        }
+
         public static void SynchronizeFromFile()
         {
-            SynchronizeFromFile(true);
+            SynchronizeFromFile(true, false);
         }
-        private static void SynchronizeFromFile(bool live)
+        private static void SynchronizeFromFile(bool live, bool initial)
         {
-            if(!Load(live))
+            if(!Load(live, initial))
             {
                 Save();
             }
@@ -320,6 +392,66 @@ namespace GameJam
                     break;
             }
             path = Path.Combine(path, "cvars.ini");
+
+            return path;
+        }
+        private static string GetDefaultsSavePath()
+        {
+            OperatingSystem os = Environment.OSVersion;
+            PlatformID pid = os.Platform;
+            string path;
+            switch (pid)
+            {
+                case PlatformID.WinCE:
+                case PlatformID.Win32S:
+                case PlatformID.Win32NT:
+                case PlatformID.Win32Windows:
+                    path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                                       "AdriftGame");
+                    break;
+                case PlatformID.MacOSX:
+                case PlatformID.Unix:
+                    {
+                        IntPtr buf = IntPtr.Zero;
+                        try
+                        {
+                            buf = Marshal.AllocHGlobal(8192);
+                            if (uname(buf) == 0)
+                            {
+                                string un = Marshal.PtrToStringAnsi(buf);
+                                if (un == "Darwin")
+                                {
+                                    path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                                       "Library", "Application Support", "com.teamequinox.adrift");
+                                }
+                                else
+                                {
+                                    path = Directory.GetCurrentDirectory();
+                                }
+                            }
+                            else
+                            {
+                                path = Directory.GetCurrentDirectory();
+                            }
+                        }
+                        catch
+                        {
+                            path = Directory.GetCurrentDirectory();
+                        }
+                        finally
+                        {
+                            if (buf != IntPtr.Zero)
+                            {
+                                Marshal.FreeHGlobal(buf);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    path = Directory.GetCurrentDirectory();
+                    break;
+            }
+            path = Path.Combine(path, "defaults.ini");
 
             return path;
         }

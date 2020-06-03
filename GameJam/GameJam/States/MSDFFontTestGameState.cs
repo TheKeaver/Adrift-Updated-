@@ -32,8 +32,8 @@ namespace GameJam.States
             entity.AddComponent(new FieldFontComponent(Content.Load<FieldFont>("font_msdf_hyperspace"), "The quick brown fox jumped over the lazy dog!?"));
             entity.GetComponent<FieldFontComponent>().OptimizeForSmallText = true;
             entity.AddComponent(new TransformComponent());
-            entity.GetComponent<TransformComponent>().SetPosition(new Vector2(0, 0));
-            entity.GetComponent<TransformComponent>().ChangeScale(1);
+            entity.GetComponent<TransformComponent>().SetPosition(new Vector2(0, 0), true);
+            entity.GetComponent<TransformComponent>().SetScale(1, true);
 
             Camera = new Camera(GameManager.GraphicsDevice.Viewport.Width,
                 GameManager.GraphicsDevice.Viewport.Height);
@@ -77,7 +77,7 @@ namespace GameJam.States
             Matrix.CreateOrthographicOffCenter(0, GameManager.GraphicsDevice.Viewport.Width, 0,
                 GameManager.GraphicsDevice.Viewport.Height, -1, 1, out projection);
 
-            Matrix wvp = Camera.TransformMatrix * projection;
+            Matrix wvp = Camera.GetInterpolatedTransformMatrix(1) * projection;
 
             int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
 

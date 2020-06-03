@@ -206,8 +206,8 @@ float4 DX9_SMAANeighborhoodBlendingPS(float4 position : SV_POSITION,
  */
 technique LumaEdgeDetection {
     pass LumaEdgeDetection {
-        VertexShader = compile vs_3_0 DX9_SMAAEdgeDetectionVS();
-        PixelShader = compile ps_3_0 DX9_SMAALumaEdgeDetectionPS();
+        VertexShader = compile vs_4_0 DX9_SMAAEdgeDetectionVS();
+        PixelShader = compile ps_4_0 DX9_SMAALumaEdgeDetectionPS();
         ZEnable = false;        
 #ifndef XNA_HAVE_NO_SRGBWRITEENABLE
         SRGBWriteEnable = false;
@@ -227,8 +227,8 @@ technique LumaEdgeDetection {
 
 technique ColorEdgeDetection {
     pass ColorEdgeDetection {
-        VertexShader = compile vs_3_0 DX9_SMAAEdgeDetectionVS();
-        PixelShader = compile ps_3_0 DX9_SMAAColorEdgeDetectionPS();
+        VertexShader = compile vs_4_0 DX9_SMAAEdgeDetectionVS();
+        PixelShader = compile ps_4_0 DX9_SMAAColorEdgeDetectionPS();
         ZEnable = false;        
 #ifndef XNA_HAVE_NO_SRGBWRITEENABLE
         SRGBWriteEnable = false;
@@ -252,8 +252,8 @@ technique ColorEdgeDetection {
 
 technique DepthEdgeDetection {
     pass DepthEdgeDetection {
-        VertexShader = compile vs_3_0 DX9_SMAAEdgeDetectionVS();
-        PixelShader = compile ps_3_0 DX9_SMAADepthEdgeDetectionPS();
+        VertexShader = compile vs_4_0 DX9_SMAAEdgeDetectionVS();
+        PixelShader = compile ps_4_0 DX9_SMAADepthEdgeDetectionPS();
         ZEnable = false;        
 #ifndef XNA_HAVE_NO_SRGBWRITEENABLE
         SRGBWriteEnable = false;
@@ -277,8 +277,8 @@ technique DepthEdgeDetection {
 
 technique BlendWeightCalculation {
     pass BlendWeightCalculation {
-        VertexShader = compile vs_3_0 DX9_SMAABlendingWeightCalculationVS();
-        PixelShader = compile ps_3_0 DX9_SMAABlendingWeightCalculationPS();
+        VertexShader = compile vs_4_0 DX9_SMAABlendingWeightCalculationVS();
+        PixelShader = compile ps_4_0 DX9_SMAABlendingWeightCalculationPS();
         ZEnable = false;
 #ifndef XNA_HAVE_NO_SRGBWRITEENABLE
         SRGBWriteEnable = false;
@@ -303,8 +303,8 @@ technique BlendWeightCalculation {
 
 technique NeighborhoodBlending {
     pass NeighborhoodBlending {
-        VertexShader = compile vs_3_0 DX9_SMAANeighborhoodBlendingVS();
-        PixelShader = compile ps_3_0 DX9_SMAANeighborhoodBlendingPS();
+        VertexShader = compile vs_4_0 DX9_SMAANeighborhoodBlendingVS();
+        PixelShader = compile ps_4_0 DX9_SMAANeighborhoodBlendingPS();
         ZEnable = false;
 #ifndef XNA_HAVE_NO_SRGBWRITEENABLE
         SRGBWriteEnable = true;

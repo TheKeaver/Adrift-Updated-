@@ -34,9 +34,9 @@ namespace GameJam.Entities
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_chasing_enemy")));
 
-            entity.GetComponent<TransformComponent>().SetPosition(position);
-            entity.GetComponent<TransformComponent>().SetRotation(angle);
-            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("chasing_enemy_size"), true);
+            entity.GetComponent<TransformComponent>().SetPosition(position, true);
+            entity.GetComponent<TransformComponent>().SetRotation(angle, true);
+            entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("chasing_enemy_size"), true);
 
             return entity;
         }

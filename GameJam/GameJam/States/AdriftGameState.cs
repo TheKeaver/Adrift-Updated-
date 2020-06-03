@@ -1,6 +1,7 @@
 using Adrift.Content.Common.UI;
 using Audrey;
 using Events;
+using GameJam.Common;
 using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Entities;
@@ -10,17 +11,12 @@ using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using GameJam.Graphics.Text;
 using GameJam.Processes;
-using GameJam.Processes.Animation;
 using GameJam.Processes.Animations;
 using GameJam.Processes.Enemies;
 using GameJam.Processes.Entities;
 using GameJam.UI;
-using GameJam.UI.Widgets;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
-using System;
 using System.Collections.Generic;
 
 namespace GameJam.States
@@ -91,11 +87,7 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            _fieldFontRenderer.Begin();
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch, _fieldFontRenderer); // UI
-            _spriteBatch.End();
-            _fieldFontRenderer.End();
+            _root.Render(_spriteBatch, _fieldFontRenderer); // UI
 
             base.OnRender(dt, betweenFrameAlpha);
         }
@@ -276,7 +268,29 @@ namespace GameJam.States
             CleanDestroyAllEntities(false);
             _entitiesCleanedUp = true;
 
-            ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 0.6f, Easings.Functions.CubicEaseOut));
+            {
+                // Zoom out if the enemy is outside the camera (laser enemies)
+                TransformComponent transformComp = responsibleEntity.GetComponent<TransformComponent>();
+                BoundingRect boundRect = new BoundingRect();
+                bool assumeOutside = false;
+                if (responsibleEntity.HasComponent<VectorSpriteComponent>())
+                {
+                    boundRect = responsibleEntity.GetComponent<VectorSpriteComponent>().GetAABB(transformComp.Scale);
+                } else if (responsibleEntity.HasComponent<SpriteComponent>())
+                {
+                    boundRect = responsibleEntity.GetComponent<SpriteComponent>().GetAABB(transformComp.Scale);
+                } else
+                {
+                    assumeOutside = true;
+                }
+                boundRect.Min += transformComp.Position;
+                boundRect.Max += transformComp.Position;
+
+                if (!boundRect.Intersects(SharedState.Camera.BoundingRect) || assumeOutside)
+                {
+                    ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 0.6f, Easings.Functions.CubicEaseOut));
+                }
+            }
             ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") / 2))
                 .SetNext(new DelegateProcess(() =>
             {

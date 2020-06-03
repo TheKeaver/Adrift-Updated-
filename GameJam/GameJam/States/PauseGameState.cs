@@ -6,7 +6,9 @@ using GameJam.Events;
 using GameJam.Events.Audio;
 using GameJam.Events.UI.Pause;
 using GameJam.Graphics.Text;
+using GameJam.Processes.Animations;
 using GameJam.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.States
@@ -51,11 +53,7 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
-            _fieldFontRenderer.Begin();
-            _spriteBatch.Begin();
-            _root.Draw(_spriteBatch, _fieldFontRenderer);
-            _spriteBatch.End();
-            _fieldFontRenderer.End();
+            _root.Render(_spriteBatch, _fieldFontRenderer);
 
             base.OnRender(dt, betweenFrameAlpha);
         }
@@ -118,6 +116,7 @@ namespace GameJam.States
         {
             GameManager.ProcessManager.TogglePauseAll();
             _gameProcess.Kill();
+            SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 1, Easings.Functions.CubicEaseOut));
             ChangeState(new UILobbyGameState(GameManager, SharedState));
         }
     }

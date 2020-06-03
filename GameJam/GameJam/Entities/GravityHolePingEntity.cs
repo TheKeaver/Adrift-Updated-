@@ -29,7 +29,7 @@ namespace GameJam.Entities
                                 new Vector2(2*CVars.Get<float>("gravity_hole_enemy_radius"), 2*CVars.Get<float>("gravity_hole_enemy_radius"))));
             entity.GetComponent<SpriteComponent>().Color = CVars.Get<Color>("color_gravity_hole_enemy");
 
-            entity.GetComponent<TransformComponent>().ChangeScale(radius, true);
+            entity.GetComponent<TransformComponent>().SetScale(radius, true);
 
             entity.AddComponent(new GravityHolePingComponent(owner));
 
