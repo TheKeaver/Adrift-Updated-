@@ -24,7 +24,7 @@ namespace GameJam.Entities
                 }));
 
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_NO_GLOW;
-            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
+            entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("player_ship_size"), true);
 
             return entity;
         }
