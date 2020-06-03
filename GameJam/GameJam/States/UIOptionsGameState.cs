@@ -33,6 +33,7 @@ namespace GameJam.States
 
         bool rotateLeftBindingMode = false;
         bool rotateRightBindingMode = false;
+        bool superShieldBindingMode = false;
         bool bindingGamepad = false;
         bool secondaryBindingMode = false;
 
@@ -73,7 +74,7 @@ namespace GameJam.States
             GamePadButtonDownEvent gpbde = evt as GamePadButtonDownEvent;
             if( gpbde != null )
             {
-                if ( rotateLeftBindingMode == false && rotateRightBindingMode == false && gpbde._pressedButton == Buttons.B )
+                if ( rotateLeftBindingMode == false && rotateRightBindingMode == false && superShieldBindingMode == false && gpbde._pressedButton == Buttons.B )
                 {
                     _root.FindSelectedWidget().isSelected = false;
                     if (isOnLeftSide == true)
@@ -142,12 +143,20 @@ namespace GameJam.States
                                     {
                                         CVars.Get<int>("controller_0_rotate_right") = CVars.Get<int>("controller_0_rotate_left");
                                     }
+                                    if (CVars.Get<int>("controller_0_super_shield") == ((int)gpbde._pressedButton))
+                                    {
+                                        CVars.Get<int>("controller_0_super_shield") = CVars.Get<int>("controller_0_rotate_left");
+                                    }
                                     CVars.Get<int>("controller_0_rotate_left") = ((int)gpbde._pressedButton);
                                     break;
                                 case PlayerIndex.Two:
                                     if (CVars.Get<int>("controller_1_rotate_right") == ((int)gpbde._pressedButton))
                                     {
                                         CVars.Get<int>("controller_1_rotate_right") = CVars.Get<int>("controller_1_rotate_left");
+                                    }
+                                    if (CVars.Get<int>("controller_1_super_shield") == ((int)gpbde._pressedButton))
+                                    {
+                                        CVars.Get<int>("controller_1_super_shield") = CVars.Get<int>("controller_1_rotate_left");
                                     }
                                     CVars.Get<int>("controller_1_rotate_left") = ((int)gpbde._pressedButton);
                                     break;
@@ -156,12 +165,20 @@ namespace GameJam.States
                                     {
                                         CVars.Get<int>("controller_2_rotate_right") = CVars.Get<int>("controller_2_rotate_left");
                                     }
+                                    if (CVars.Get<int>("controller_2_super_shield") == ((int)gpbde._pressedButton))
+                                    {
+                                        CVars.Get<int>("controller_2_super_shield") = CVars.Get<int>("controller_2_rotate_left");
+                                    }
                                     CVars.Get<int>("controller_2_rotate_left") = ((int)gpbde._pressedButton);
                                     break;
                                 case PlayerIndex.Four:
                                     if (CVars.Get<int>("controller_3_rotate_right") == ((int)gpbde._pressedButton))
                                     {
                                         CVars.Get<int>("controller_3_rotate_right") = CVars.Get<int>("controller_3_rotate_left");
+                                    }
+                                    if (CVars.Get<int>("controller_3_super_shield") == ((int)gpbde._pressedButton))
+                                    {
+                                        CVars.Get<int>("controller_3_super_shield") = CVars.Get<int>("controller_3_rotate_left");
                                     }
                                     CVars.Get<int>("controller_3_rotate_left") = ((int)gpbde._pressedButton);
                                     break;
@@ -210,12 +227,20 @@ namespace GameJam.States
                                     {
                                         CVars.Get<int>("controller_0_rotate_left") = CVars.Get<int>("controller_0_rotate_right");
                                     }
+                                    if (CVars.Get<int>("controller_0_super_shield") == ((int)gpbde._pressedButton))
+                                    {
+                                        CVars.Get<int>("controller_0_super_shield") = CVars.Get<int>("controller_0_rotate_right");
+                                    }
                                     CVars.Get<int>("controller_0_rotate_right") = ((int)gpbde._pressedButton);
                                     break;
                                 case PlayerIndex.Two:
                                     if (CVars.Get<int>("controller_1_rotate_left") == ((int)gpbde._pressedButton))
                                     {
                                         CVars.Get<int>("controller_1_rotate_left") = CVars.Get<int>("controller_1_rotate_right");
+                                    }
+                                    if (CVars.Get<int>("controller_1_super_shield") == ((int)gpbde._pressedButton))
+                                    {
+                                        CVars.Get<int>("controller_1_super_shield") = CVars.Get<int>("controller_1_rotate_right");
                                     }
                                     CVars.Get<int>("controller_1_rotate_right") = ((int)gpbde._pressedButton);
                                     break;
@@ -224,12 +249,20 @@ namespace GameJam.States
                                     {
                                         CVars.Get<int>("controller_2_rotate_left") = CVars.Get<int>("controller_2_rotate_right");
                                     }
+                                    if (CVars.Get<int>("controller_2_super_shield") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_2_super_shield") = CVars.Get<int>("controller_2_rotate_right");
+                                    }
                                     CVars.Get<int>("controller_2_rotate_right") = ((int)gpbde._pressedButton);
                                     break;
                                 case PlayerIndex.Four:
                                     if (CVars.Get<int>("controller_3_rotate_left") == CVars.Get<int>("controller_3_rotate_right"))
                                     {
                                         CVars.Get<int>("controller_3_rotate_left") = CVars.Get<int>("controller_3_rotate_right");
+                                    }
+                                    if (CVars.Get<int>("controller_3_super_shield") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_3_super_shield") = CVars.Get<int>("controller_3_rotate_right");
                                     }
                                     CVars.Get<int>("controller_3_rotate_right") = ((int)gpbde._pressedButton);
                                     break;
@@ -241,6 +274,90 @@ namespace GameJam.States
                     CVars.Save();
                     UpdateButtonBindingsForGamePad(gpbde._playerIndex);
                     this.rotateRightBindingMode = false;
+                    ((Button)_root.FindWidgetByID("Rotate_Right")).isSelected = true;
+                    _root.AutoControlModeSwitching = true;
+                    return true;
+                }
+                if (this.superShieldBindingMode == true && bindingGamepad)
+                {
+                    switch (gpbde._pressedButton)
+                    {
+                        case Buttons.A:
+                        case Buttons.B:
+                        case Buttons.X:
+                        case Buttons.Y:
+                        case Buttons.LeftTrigger:
+                        case Buttons.LeftShoulder:
+                        case Buttons.LeftStick:
+                        case Buttons.RightTrigger:
+                        case Buttons.RightShoulder:
+                        case Buttons.RightStick:
+                        case Buttons.DPadUp:
+                        case Buttons.DPadDown:
+                        case Buttons.DPadLeft:
+                        case Buttons.DPadRight:
+                        case Buttons.LeftThumbstickUp:
+                        case Buttons.LeftThumbstickDown:
+                        case Buttons.LeftThumbstickLeft:
+                        case Buttons.LeftThumbstickRight:
+                        case Buttons.RightThumbstickUp:
+                        case Buttons.RightThumbstickDown:
+                        case Buttons.RightThumbstickLeft:
+                        case Buttons.RightThumbstickRight:
+                            switch (gpbde._playerIndex)
+                            {
+                                case PlayerIndex.One:
+                                    if (CVars.Get<int>("controller_0_rotate_left") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_0_rotate_left") = CVars.Get<int>("controller_0_super_shield");
+                                    }                              
+                                    if (CVars.Get<int>("controller_0_rotate_right") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_0_rotate_right") = CVars.Get<int>("controller_0_super_shield");
+                                    }
+                                    CVars.Get<int>("controller_0_super_shield") = ((int)gpbde._pressedButton);
+                                    break;
+                                case PlayerIndex.Two:
+                                    if (CVars.Get<int>("controller_1_rotate_left") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_1_rotate_left") = CVars.Get<int>("controller_1_super_shield");
+                                    }                              
+                                    if (CVars.Get<int>("controller_1_rotate_right") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_1_rotate_right") = CVars.Get<int>("controller_1_super_shield");
+                                    }
+                                    CVars.Get<int>("controller_1_super_shield") = ((int)gpbde._pressedButton);
+                                    break;
+                                case PlayerIndex.Three:
+                                    if (CVars.Get<int>("controller_2_rotate_left") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_2_rotate_left") = CVars.Get<int>("controller_2_super_shield");
+                                    }                              
+                                    if (CVars.Get<int>("controller_2_rotate_right") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_2_rotate_right") = CVars.Get<int>("controller_2_super_shield");
+                                    }
+                                    CVars.Get<int>("controller_2_super_shield") = ((int)gpbde._pressedButton);
+                                    break;
+                                case PlayerIndex.Four:
+                                    if (CVars.Get<int>("controller_3_rotate_left") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_3_rotate_left") = CVars.Get<int>("controller_3_super_shield");
+                                    }                              
+                                    if (CVars.Get<int>("controller_3_rotate_right") == ((int)gpbde._pressedButton))
+                                    {                              
+                                        CVars.Get<int>("controller_3_rotate_right") = CVars.Get<int>("controller_3_super_shield");
+                                    }
+                                    CVars.Get<int>("controller_3_super_shield") = ((int)gpbde._pressedButton);
+                                    break;
+                            }
+                            break;
+                        default:
+                            return true;
+                    }
+                    CVars.Save();
+                    UpdateButtonBindingsForGamePad(gpbde._playerIndex);
+                    this.superShieldBindingMode = false;
                     ((Button)_root.FindWidgetByID("Rotate_Right")).isSelected = true;
                     _root.AutoControlModeSwitching = true;
                     return true;
@@ -391,6 +508,15 @@ namespace GameJam.States
                 _root.AutoControlModeSwitching = false;
                 ((Button)_root.FindWidgetByID("Rotate_Right")).isSelected = false;
             }
+            if (evt is SuperShieldSettingsButtonPressedEvent)
+            {
+                Console.WriteLine("Super Shield Pressed");
+                superShieldBindingMode = true;
+                secondaryBindingMode = false;
+                bindingGamepad = !_root.MouseMode;
+                _root.AutoControlModeSwitching = false;
+                ((Button)_root.FindWidgetByID("Super_Shield")).isSelected = false;
+            }
             if (evt is SecondaryRotateLeftSettingsButtonPressedEvent)
             {
                 Console.WriteLine("secondary_rlSBPE");
@@ -399,7 +525,7 @@ namespace GameJam.States
                 secondaryBindingMode = true;
                 bindingGamepad = !_root.MouseMode;
                 _root.AutoControlModeSwitching = false;
-                ((Button)_root.FindWidgetByID("Rotate_Left")).isSelected = false;
+                ((Button)_root.FindWidgetByID("Secondary_Rotate_Left")).isSelected = false;
             }
             if (evt is SecondaryRotateRightSettingsButtonPressedEvent)
             {
@@ -409,9 +535,18 @@ namespace GameJam.States
                 secondaryBindingMode = true;
                 bindingGamepad = !_root.MouseMode;
                 _root.AutoControlModeSwitching = false;
-                ((Button)_root.FindWidgetByID("Rotate_Right")).isSelected = false;
+                ((Button)_root.FindWidgetByID("Secondary_Rotate_Right")).isSelected = false;
             }
-            if(evt is ResolutionButtonPressedEvent)
+            if (evt is SecondarySuperShieldSettingsButtonPressedEvent)
+            {
+                Console.WriteLine("Super Shield Pressed");
+                superShieldBindingMode = true;
+                secondaryBindingMode = true;
+                bindingGamepad = !_root.MouseMode;
+                _root.AutoControlModeSwitching = false;
+                ((Button)_root.FindWidgetByID("Secondary_Super_Shield")).isSelected = false;
+            }
+            if (evt is ResolutionButtonPressedEvent)
             {
                 ((Label)_root.FindWidgetByID("Resolution_Button_Label")).Content = SetNextResolution();
                 GameManager.Graphics.IsFullScreen = false;
@@ -456,7 +591,7 @@ namespace GameJam.States
         }
         private bool HandleKeyboardKeyDownEvent(KeyboardKeyDownEvent keyboardKeyDownEvent)
         {
-            if (rotateLeftBindingMode || rotateRightBindingMode)
+            if (rotateLeftBindingMode || rotateRightBindingMode || superShieldBindingMode)
             {
                 if(!bindingGamepad)
                 {
@@ -516,11 +651,13 @@ namespace GameJam.States
                         case Keys.OemMinus:
                         case Keys.OemPlus:
                         case Keys.Space:
+                            // TO DO: Fix this auto format because it cannot handle Super Shield binding
                             CVars.Get<int>(string.Format("input_keyboard_{0}{1}_clockwise", secondaryBindingMode ? "secondary" : "primary", rotateLeftBindingMode ? "_counter" : "")) = (int)keyboardKeyDownEvent._key;
                             CVars.Save();
                             UpdateButtonBindingsForKeyboard();
                             this.rotateLeftBindingMode = false;
                             this.rotateRightBindingMode = false;
+                            this.superShieldBindingMode = false;
                             ((Button)_root.FindWidgetByID("Rotate_Left")).isSelected = true;
                             _root.AutoControlModeSwitching = true;
                             return true;
@@ -707,6 +844,8 @@ namespace GameJam.States
             EventManager.Instance.RegisterListener<RotateRightSettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<SecondaryRotateLeftSettingsButtonPressedEvent>(this);
             EventManager.Instance.RegisterListener<SecondaryRotateRightSettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<SuperShieldSettingsButtonPressedEvent>(this);
+            EventManager.Instance.RegisterListener<SecondarySuperShieldSettingsButtonPressedEvent>(this);
 
             base.RegisterListeners();
         }
@@ -752,11 +891,15 @@ namespace GameJam.States
                 .GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")]);
             ((Image)_root.FindWidgetByID("primary_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
                 .GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_clockwise")]);
+            ((Image)_root.FindWidgetByID("primary_super_shield_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
+                .GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_super_shield")]);
 
             ((Image)_root.FindWidgetByID("secondary_counter_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").
                 GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")]);
             ((Image)_root.FindWidgetByID("secondary_clockwise_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
                 .GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_clockwise")]);
+            ((Image)_root.FindWidgetByID("secondary_super_shield_button_texture")).Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
+                .GetRegion(_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_super_shield")]);
 
             _root.FindWidgetByID("Secondary_Rotate_Left").Hidden = false;
             _root.FindWidgetByID("Secondary_Rotate_Right").Hidden = false;

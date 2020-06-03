@@ -433,6 +433,7 @@
         height="75%"
         id="controls_options_menu_right_panel"
         hidden="true">
+        <!-- Beginning of Left half of Button Binding Panel (Primary Settings) -->
         <Panel
           halign="left"
           valign="center"
@@ -443,7 +444,7 @@
           <!-- Primary/Controller Rotate Left Button -->
           <Button
             id="Rotate_Left"
-            aboveID="Rotate_Right"
+            aboveID="Super_Shield"
             belowID="Rotate_Right"
             defaultSelected="false"
             halign="center"
@@ -486,7 +487,7 @@
           <Button
             id="Rotate_Right"
             aboveID="Rotate_Left"
-            belowID="Rotate_Left"
+            belowID="Super_Shield"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -525,7 +526,51 @@
                 id="primary_clockwise_button_texture"
                 />
           </Button>
+          <Button
+            id="Super_Shield"
+            aboveID="Rotate_Right"
+            belowID="Rotate_Left"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="65%"
+            width="80%"
+            height="15%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:Settings.SuperShieldSettingsButtonPressedEvent">
+            <!--hidden="true"-->
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="3%"
+                vertical="0"
+                width="75%"
+                height="75%"
+                content="Super Shield:"
+                font="font_msdf_hyperspace"
+                  />
+            <!-- Image In button to allow for display of currently bound button -->
+            <Image
+                halign="right"
+                valign="center"
+                horizontal="3%"
+                vertical="0"
+                width="100%"
+                height="50%"
+                aspect-ratio="1:1"
+                image="texture_input_gamepad_bumper_left"
+                id="primary_super_shield_button_texture"
+                />
+          </Button>
         </Panel>
+        <!-- End of Left half of Button Binding Panel (Primary Settings) -->
+        <!-- Beginning of Right half of Button Binding Panel (Secondary Settings) -->
         <Panel
           halign="right"
           valign="center"
@@ -536,6 +581,8 @@
           <!-- Secondary/Controller Rotate Left Button -->
           <Button
             id="Secondary_Rotate_Left"
+            aboveID="Secondary_Super_Shield"
+            belowID="Secondary_Rotate_Right"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -557,7 +604,7 @@
                 vertical="0"
                 width="75%"
                 height="75%"
-                content="Secondary\nRotate Left:"
+                content="2nd Rotate Left:"
                 font="font_msdf_hyperspace"
                 />
             <!-- Image In button to allow for display of currently bound button -->
@@ -576,6 +623,8 @@
           <!-- Secondary/Controller Rotate Right Button -->
           <Button
             id="Secondary_Rotate_Right"
+            aboveID="Secondary_Rotate_Left"
+            belowID="Secondary_Super_Shield"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -598,7 +647,7 @@
                 vertical="0"
                 width="75%"
                 height="75%"
-                content="Secondary\nRotate Right:"
+                content="2nd Rotate Right:"
                 font="font_msdf_hyperspace"
                   />
             <!-- Image In button to allow for display of currently bound button -->
@@ -615,7 +664,51 @@
                 />
           </Button>
           <!-- Future Buttons can add other controls as necessary starting here -->
+          <!-- Super Shield Button Binding -->
+          <Button
+            id="Secondary_Super_Shield"
+            aboveID="Secondary_Super_Right"
+            belowID="Secondary_Rotate_Left"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="65%"
+            width="80%"
+            height="15%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:Settings.SecondarySuperShieldSettingsButtonPressedEvent">
+            <!--hidden="true"-->
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="3%"
+                vertical="0"
+                width="75%"
+                height="75%"
+                content="2nd Super Shield:"
+                font="font_msdf_hyperspace"
+                  />
+            <!-- Image In button to allow for display of currently bound button -->
+            <Image
+                halign="right"
+                valign="center"
+                horizontal="3%"
+                vertical="0"
+                width="100%"
+                height="50%"
+                aspect-ratio="1:1"
+                image="texture_input_gamepad_bumper_left"
+                id="secondary_super_shield_button_texture"
+                />
+          </Button>
         </Panel>
+        <!-- End of Right half of Button Binding Panel (Secondary Settings) -->
     </Panel>
     <!-- End of Controls Right Side Panel -->
     
