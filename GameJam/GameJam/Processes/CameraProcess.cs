@@ -54,7 +54,7 @@ namespace GameJam.Processes
                 averageY /= _playerShipList.Count + 1;
 
                 Vector2 targetPosition = new Vector2(averageX, averageY);
-                _camera.Position = Vector2.Lerp(_camera.Position, targetPosition, 0.01f);
+                _camera.Position = Vector2.Lerp(_camera.Position, targetPosition, dt * 144 * CVars.Get<float>("camera_tracking_speed"));
 
 
                 for (int i = 0; i < _playerShipList.Count; i++)
