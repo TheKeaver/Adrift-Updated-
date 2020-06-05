@@ -250,10 +250,6 @@ namespace GameJam.States
             Entity responsibleEntity = gameOverEvent.ResponsibleEntity;
             responsibleEntity.AddComponent(new DontDestroyForGameOverComponent());
             ImmutableList<IComponent> components = responsibleEntity.GetComponents();
-            if (responsibleEntity.HasComponent<ProjectileComponent>())
-            {
-                responsibleEntity.AddComponent(new ColoredExplosionComponent(responsibleEntity.GetComponent<ProjectileComponent>().Color));
-            }
             for (int i = components.Count - 1; i >= 0; i--)
             {
                 if (!(components[i] is TransformComponent)

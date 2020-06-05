@@ -34,6 +34,8 @@ namespace GameJam.Entities
             })));
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
 
+            entity.AddComponent(new ColoredExplosionComponent(entity.GetComponent<ProjectileComponent>().Color));
+
             return entity;
         }
     }

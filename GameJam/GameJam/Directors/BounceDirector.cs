@@ -1,6 +1,7 @@
 ﻿using Audrey;
 using Events;
 using GameJam.Components;
+using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -64,7 +65,15 @@ namespace GameJam.Directors
                     bouncer.GetComponent<ProjectileComponent>().BouncesLeft -= 1;
 
                     if (bouncer.GetComponent<ProjectileComponent>().BouncesLeft <= 0)
+                    {
+                        Color color = Color.White;
+                        if (bouncer.HasComponent<ColoredExplosionComponent>())
+                        {
+                            color = bouncer.GetComponent<ColoredExplosionComponent>().Color;
+                        }
+                        EventManager.Instance.QueueEvent(new CreateExplosionEvent(bouncer.GetComponent<TransformComponent>().Position, color, false));
                         Engine.DestroyEntity(bouncer);
+                    }
                 }
 
                 if (bouncer != null && bouncer.HasComponent<MovementComponent>())
