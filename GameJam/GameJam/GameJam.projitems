@@ -162,8 +162,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ChasingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformResetSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\SuperShieldSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformResetSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
