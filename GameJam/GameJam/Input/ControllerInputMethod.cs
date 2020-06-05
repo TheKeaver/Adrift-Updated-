@@ -80,9 +80,9 @@ namespace GameJam.Input
                 return;
             }
 
-            if((int)gpbde._playerIndex == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_super_shield"))
+            if((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_super_shield"))
             {
-                isSuperShieldOn = true;
+                _snapshot.SuperShield = true;
             }
         }
 
@@ -110,9 +110,9 @@ namespace GameJam.Input
                 return;
             }
 
-            if ((int)gpbue._playerIndex == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_super_shield"))
+            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_super_shield"))
             {
-                isSuperShieldOn = false;
+                _snapshot.SuperShield = false;
             }
         }
 
