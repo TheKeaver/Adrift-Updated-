@@ -89,6 +89,8 @@ namespace GameJam
             {
                 RegisterListeners();
             }
+
+            base.OnTogglePause();
         }
 
         protected void ChangeState(GameState gameState)

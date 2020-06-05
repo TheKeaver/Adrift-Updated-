@@ -314,6 +314,7 @@ namespace GameJam.States
 
         private void HandlePause()
         {
+            // TODO Why are these here instead of the PauseGameState? Something to note when moving them, TogglePauseAll will affect the PauseGameState so it needs to be unpausable (otherwise it will pause itself)
             GameManager.ProcessManager.TogglePauseAll();
             EventManager.Instance.QueueEvent(new PauseAllSoundsEvent());
             GameManager.ProcessManager.Attach(new PauseGameState(GameManager, SharedState, this));
