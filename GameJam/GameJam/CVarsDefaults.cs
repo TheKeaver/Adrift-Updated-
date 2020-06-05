@@ -237,8 +237,8 @@ namespace GameJam
             Create<int>("particle_gpu_buffer_size", 1024, CVarFlags.DEV_PRESERVE, "Square root of GPU particle buffer size.");
             Create<float>("particle_explosion_scale_x", 22, CVarFlags.DEV_PRESERVE, "Explosion particle x scale.");
             Create<float>("particle_explosion_scale_y", 1, CVarFlags.DEV_PRESERVE, "Explosion particle y scale.");
-            Create<int>("particle_explosion_count", 150, CVarFlags.DEV_PRESERVE, "Explosion particle count per explosion.");
-            Create<float>("particle_explosion_strength", 750, CVarFlags.DEV_PRESERVE, "Strength of explosion particles.");
+            Create<int>("particle_explosion_count", 200, CVarFlags.DEV_PRESERVE, "Explosion particle count per explosion.");
+            Create<float>("particle_explosion_strength", 1400.0f, CVarFlags.DEV_PRESERVE, "Strength of explosion particles.");
             Create<float>("particle_explosion_decay_multiplier", 0.96f, CVarFlags.DEV_PRESERVE, "Decay of explosion particles.");
             Create<float>("particle_explosion_variety_min", 0.1f, CVarFlags.DEV_PRESERVE, "Minimum variety in properties of explosion particles.");
             Create<float>("particle_explosion_variety_max", 1f, CVarFlags.DEV_PRESERVE, "Maximum variety in properties of explosion particles.");
