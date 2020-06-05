@@ -128,6 +128,7 @@ namespace GameJam.States
                 new PulseSystem(Engine),
                 new PassiveRotationSystem(Engine),
                 new MenuBackgroundDestructionSystem(Engine, Camera),
+                new ProjectileColorSyncSystem(Engine),
 
                 // Section below is ordered based on dependency from Top (least dependent) to Bottom (most dependent)
                 new ChasingSpeedIncreaseSystem(Engine),
