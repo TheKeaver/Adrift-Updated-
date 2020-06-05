@@ -201,6 +201,7 @@ namespace GameJam
             Create<Color>("color_gravity_hole_enemy", new Color(164, 4, 255), CVarFlags.DEV_PRESERVE, "Color of gravity hole enemies.");
 
             Create<Color>("color_projectile", Color.Red, CVarFlags.DEV_PRESERVE, "Color of enemy projectiles.");
+            Create<Color>("color_projectile_friendly", new Color(10, 252, 87, 255), CVarFlags.DEV_PRESERVE, "Color of friendly projectiles.");
             Create<Color>("color_laser_beam", Color.Red, CVarFlags.DEV_PRESERVE, "Color of laser beams.");
 
             Create<Color>("color_playfield", Color.Green, CVarFlags.DEV_PRESERVE, "Color of playfield border.");
