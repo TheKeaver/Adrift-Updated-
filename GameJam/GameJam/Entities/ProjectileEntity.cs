@@ -42,6 +42,8 @@ namespace GameJam.Entities
         public static Entity ConvertToEnemyProjectile(Entity entity)
         {
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
+            // Only collide with things that are not enemies
+            entity.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.GROUP_MASK_ALL & (~Constants.Collision.COLLISION_GROUP_ENEMIES));
             entity.GetComponent<ProjectileComponent>().Color = CVars.Get<Color>("color_projectile");
 
             return entity;
@@ -49,6 +51,8 @@ namespace GameJam.Entities
         public static Entity ConvertToFriendlyProjectile(Entity entity)
         {
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_PLAYER;
+            // Collide with everything except enemies
+            entity.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.GROUP_MASK_ALL & (~Constants.Collision.COLLISION_GROUP_PLAYER));
             entity.GetComponent<ProjectileComponent>().Color = CVars.Get<Color>("color_projectile_friendly");
 
             return entity;
