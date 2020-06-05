@@ -28,8 +28,15 @@ namespace GameJam.Processes
         {
             ElapsedRenderTime += dt;
 
-            float betweenFrameAlpha = MathUtils.InverseLerp(ElapsedUpdateTime, ElapsedUpdateTime + FixedDeltaTime,
-                ElapsedRenderTime);
+            float betweenFrameAlpha;
+            if(IsPaused)
+            {
+                betweenFrameAlpha = 0;
+            } else
+            {
+                betweenFrameAlpha = MathUtils.InverseLerp(ElapsedUpdateTime, ElapsedUpdateTime + FixedDeltaTime,
+                    ElapsedRenderTime);
+            }
             OnRender(dt, betweenFrameAlpha);
         }
 
@@ -48,5 +55,16 @@ namespace GameJam.Processes
         protected abstract void OnFixedUpdate(float dt);
 
         protected abstract void OnRender(float dt, float betweenFrameAlpha);
+
+        protected override void OnTogglePause()
+        {
+            if(!IsPaused)
+            {
+                // Reset ElapsedUpdateTime and ElapsedRenderTime, otherwise they'll be
+                // out of sync and will cause some weird extrapolation issues.
+                ElapsedUpdateTime = 0;
+                ElapsedRenderTime = 0;
+            }
+        }
     }
 }
