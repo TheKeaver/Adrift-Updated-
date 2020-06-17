@@ -11,32 +11,17 @@ namespace GameJam.Processes
             private set;
         }
 
-        public float ElapsedUpdateTime
+        public float FixedDeltaTime
         {
-            get;
-            private set;
+            get
+            {
+                return 1 / CVars.Get<float>("tick_frequency");
+            }
         }
-        public float ElapsedRenderTime
-        {
-            get;
-            private set;
-        }
-
-        public readonly float FixedDeltaTime = 1 / CVars.Get<float>("tick_frequency");
 
         public void Render(float dt)
         {
-            ElapsedRenderTime += dt;
-
-            float betweenFrameAlpha;
-            if(IsPaused)
-            {
-                betweenFrameAlpha = 0;
-            } else
-            {
-                betweenFrameAlpha = MathUtils.InverseLerp(ElapsedUpdateTime, ElapsedUpdateTime + FixedDeltaTime,
-                    ElapsedRenderTime);
-            }
+            float betweenFrameAlpha = Acculmulator / FixedDeltaTime;
             OnRender(dt, betweenFrameAlpha);
         }
 
@@ -47,8 +32,6 @@ namespace GameJam.Processes
             {
                 Acculmulator -= FixedDeltaTime;
                 OnFixedUpdate(FixedDeltaTime);
-
-                ElapsedUpdateTime += FixedDeltaTime;
             }
         }
 
@@ -58,13 +41,6 @@ namespace GameJam.Processes
 
         protected override void OnTogglePause()
         {
-            if(!IsPaused)
-            {
-                // Reset ElapsedUpdateTime and ElapsedRenderTime, otherwise they'll be
-                // out of sync and will cause some weird extrapolation issues.
-                ElapsedUpdateTime = 0;
-                ElapsedRenderTime = 0;
-            }
         }
     }
 }
