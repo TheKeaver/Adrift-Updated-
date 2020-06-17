@@ -134,6 +134,7 @@ namespace GameJam.States
                 new ChasingSpeedIncreaseSystem(Engine),
                 new LaserEnemySystem(Engine),
                 new GravitySystem(Engine),
+                new EnemySeparationSystem(Engine), // Depends on the Quad Tree, however this system needs to go before movement system. It will use the previous frame's quad tree.
                 new MovementSystem(Engine),
                 new PlayerShieldSystem(Engine),
                 new QuadTreeSystem(Engine),
