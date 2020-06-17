@@ -24,7 +24,7 @@ namespace GameJam.Systems
             foreach (Entity rotationEntity in _rotationEntities)
             {
                 TransformComponent rotationTransform = rotationEntity.GetComponent<TransformComponent>();
-                float closestDistance = 100000;
+                float closestDistance = float.PositiveInfinity;
                 Entity closestPlayer = null;
 
                 foreach (Entity playerEntity in _playerEntities)
@@ -32,7 +32,7 @@ namespace GameJam.Systems
                     TransformComponent playerTransform = playerEntity.GetComponent<TransformComponent>();
                     float distance = (rotationTransform.Position - playerTransform.Position).Length();
 
-                    if (closestDistance > distance)
+                    if (distance < closestDistance)
                     {
                         closestDistance = distance;
                         closestPlayer = playerEntity;
@@ -41,17 +41,17 @@ namespace GameJam.Systems
 
                 if (closestPlayer != null)
                 {
-                    float current = rotationEntity.GetComponent<TransformComponent>().Rotation;
+                    float currentRotation = rotationEntity.GetComponent<TransformComponent>().Rotation;
 
                     Vector2 target = closestPlayer.GetComponent<TransformComponent>().Position - rotationTransform.Position;
 
                     float targetAngle = (float)Math.Atan2(target.Y, target.X);
 
-                    current = MathHelper.WrapAngle(current);
+                    currentRotation = MathHelper.WrapAngle(currentRotation);
                     targetAngle = MathHelper.WrapAngle(targetAngle);
 
-                    float diff = targetAngle - current;
-                    float newAngle = current;
+                    float diff = targetAngle - currentRotation;
+                    float newAngle = currentRotation;
 
                     if (diff > 0)
                     {
@@ -78,7 +78,7 @@ namespace GameJam.Systems
 
                     Vector2 newDirection = new Vector2( (float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
                     rotationEntity.GetComponent<MovementComponent>().MovementVector = newDirection * rotationEntity.GetComponent<MovementComponent>().MovementVector.Length();
-                    rotationEntity.GetComponent<TransformComponent>().Rotate(newAngle - current);
+                    rotationEntity.GetComponent<TransformComponent>().Rotate(newAngle - currentRotation);
                 }
             }
         }
