@@ -33,8 +33,7 @@ namespace GameJam.Entities
                 new Vector2(-6, 1),
                 new Vector2(-6, -1)
             })));
-            entity.GetComponent<CollisionComponent>().CollisionGroup = 
-                (isActive) ? Constants.Collision.COLLISION_GROUP_PLAYER : Constants.Collision.GROUP_MASK_NONE;
+            entity.GetComponent<CollisionComponent>().CollisionGroup =  Constants.Collision.COLLISION_GROUP_PLAYER;
             entity.GetComponent<CollisionComponent>().CollisionMask = 
                 (isActive) ? (byte)(Constants.Collision.GROUP_MASK_ALL & ~Constants.Collision.COLLISION_GROUP_PLAYER) :
                              (byte)(Constants.Collision.GROUP_MASK_NONE);

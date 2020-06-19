@@ -52,7 +52,7 @@ namespace GameJam.Systems
                 {
                     //shield.GetComponent<PlayerShieldComponent>().LaserReflectionActive = true;
                     shield.GetComponent<VectorSpriteComponent>().Hidden = false;
-                    shield.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.COLLISION_GROUP_PLAYER | Constants.Collision.COLLISION_GROUP_RAYCAST);
+                    shield.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.COLLISION_GROUP_ENEMIES | Constants.Collision.COLLISION_GROUP_RAYCAST);
                 }
                 ship.SuperShieldMeter = Math.Max(ship.SuperShieldMeter - CVars.Get<float>("player_super_shield_spend_rate")*dt, 0);
                 //Console.WriteLine("Super shield meter at " + ship.SuperShieldMeter);
