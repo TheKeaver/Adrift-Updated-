@@ -17,6 +17,7 @@ using GameJam.Processes.Entities;
 using GameJam.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace GameJam.States
@@ -119,21 +120,22 @@ namespace GameJam.States
 
         void CreateEntities()
         {
-            SpawnPlayer(Players[0], new Vector2((-25 * (Players.Length / 2)) + (25 * (Players.Length / 4)), 25 * (Players.Length / 3)), Color.White);
-
-            if (Players.Length >= 2)
+            // TODO: This should be passed in from the lobby, most likely just have the Player object contain the color
+            // These would _normally_ be CVars, but this will be okay for now because it will give us an excuse to move
+            // these to the lobby menu.
+            Color[] colors = new Color[]
             {
-                SpawnPlayer(Players[1], new Vector2(25, 25 * (Players.Length / 3)), Color.Blue);
-            }
+                Color.White,
+                Color.Blue,
+                Color.Orange,
+                Color.Magenta
+            };
 
-            if( Players.Length >= 3)
+            for(int p = 0; p < Players.Length; p++)
             {
-                SpawnPlayer(Players[2], new Vector2(-25, -25), Color.Orange);
-            }
-
-            if( Players.Length == 4)
-            {
-                SpawnPlayer(Players[2], new Vector2(25, -25), Color.Magenta);
+                SpawnPlayer(Players[p],
+                    ComputePlayerShipSpawnPosition(p, Players.Length),
+                    colors[p]);
             }
 
             EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("play_field_height") / 2), new Vector2(CVars.Get<float>("play_field_width"), 5), new Vector2(0, -1));
@@ -142,9 +144,21 @@ namespace GameJam.States
             EdgeEntity.Create(SharedState.Engine, new Vector2(CVars.Get<float>("play_field_width") / 2, 0), new Vector2(5, CVars.Get<float>("play_field_height")), new Vector2(-1, 0));
         }
 
+        private Vector2 ComputePlayerShipSpawnPosition(int playerIndex, int playerCount)
+        {
+            if(playerCount <= 1)
+            {
+                return Vector2.Zero;
+            }
+
+            float perPlayerAngle = MathHelper.TwoPi / playerCount;
+            float playerAngle = playerIndex * perPlayerAngle;
+            return CVars.Get<float>("player_ship_multiplayer_spawn_radius") * new Vector2((float)Math.Cos(playerAngle), (float)Math.Sin(playerAngle));
+        }
+
         private void SpawnPlayer(Player player, Vector2 position, Color color)
         {
-            Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25), color);
+            Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine, position, color);
             SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
 
             PlayerShipComponent playerShipComp = playerShipEntity.GetComponent<PlayerShipComponent>();
