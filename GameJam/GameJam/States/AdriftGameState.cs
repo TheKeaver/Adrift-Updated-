@@ -71,6 +71,8 @@ namespace GameJam.States
             playerScoreDirector = new PlayerScoreDirector(Players, _root, SharedState.Engine, Content, ProcessManager);
             ProcessManager.Attach(playerScoreDirector);
 
+            ResetPlayerInputMethods();
+
             CreateEntities();
 
             base.OnInitialize();
@@ -118,7 +120,15 @@ namespace GameJam.States
             EventManager.Instance.UnregisterListener(this);
         }
 
-        void CreateEntities()
+        private void ResetPlayerInputMethods()
+        {
+            foreach(Player player in Players)
+            {
+                player.InputMethod.Reset();
+            }
+        }
+
+        private void CreateEntities()
         {
             // TODO: This should be passed in from the lobby, most likely just have the Player object contain the color
             // These would _normally_ be CVars, but this will be okay for now because it will give us an excuse to move
@@ -170,9 +180,6 @@ namespace GameJam.States
             playerShipComp.AddShield(PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(270.0f), false));
 
             playerShipEntity.AddComponent(new PlayerComponent(player));
-
-            // TODO: Replace this
-            player.InputMethod.GetSnapshot().Angle = 0;
 
             // Queue an event
             EventManager.Instance.QueueEvent(new PlayerShipSpawnEvent(playerShipEntity, position));
