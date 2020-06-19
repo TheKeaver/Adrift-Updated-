@@ -23,7 +23,7 @@ namespace GameJam
             Create<float>("play_field_height", 1080, CVarFlags.DEV_PRESERVE, "Height of the playfield");
 
             Create<float>("camera_padding", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Additional padding between the edge of the camera and the players during camera following behavior.");
-            Create<float>("camera_tracking_speed", 0.02f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "A multiplier that affects how much the camera can move every update. Larger number means more movement per update");
+            Create<float>("camera_tracking_speed", 0.05f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "A multiplier that affects how much the camera can move every update. Larger number means more movement per update");
 
             Create<int>("quad_tree_max_references", 4, CVarFlags.DEV_PRESERVE, "Maximum references in a quad-tree node before quad-tree node splits.");
 
@@ -55,31 +55,31 @@ namespace GameJam
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Deadzone of the controllers");
             Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Thumbstick of the controller to use.");
             // P1
-            Create<int>("controller_0_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate left button.");
-            Create<int>("controller_0_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate right button.");
+            Create<int>("controller_0_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate left button.");
+            Create<int>("controller_0_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate right button.");
             Create<int>("controller_0_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 activate super shield 'X' button");
-            // P2
-            Create<int>("controller_1_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 rotate left button.");
-            Create<int>("controller_1_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 rotate right button.");
-            Create<int>("controller_1_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 activate super shield 'X' button");
-            // P3
-            Create<int>("controller_2_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 2 rotate left button.");
-            Create<int>("controller_2_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 2 rotate right button.");
-            Create<int>("controller_2_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 2 activate super shield 'X' button");
-            // P4
-            Create<int>("controller_3_rotate_left", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 3 rotate left button.");
-            Create<int>("controller_3_rotate_right", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 3 rotate right button.");
+            // P2        
+            Create<int>("input_controller_1_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 rotate left button.");
+            Create<int>("input_controller_1_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 rotate right button.");
+            Create<int>("input_controller_1_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 activate super shield 'X' button");
+            // P3        
+            Create<int>("input_controller_2_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 2 rotate left button.");
+            Create<int>("input_controller_2_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 2 rotate right button.");
+            Create<int>("input_controller_2_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 2 activate super shield 'X' button");
+            // P4        
+            Create<int>("input_controller_3_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 3 rotate left button.");
+            Create<int>("input_controller_3_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 3 rotate right button.");
+            Create<int>("input_controller_3_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 3 activate super shield 'X' button");
             Create<int>("input_controller_pause", 16, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Pause button of the controller.");
-            Create<int>("controller_3_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 3 activate super shield 'X' button");
 
             Create<float>("input_shield_angular_speed", 5.026f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Angular speed of the speed rotation.");
 
-            Create<int>("input_keyboard_primary_counter_clockwise", 65, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Primary keyboard rotate left key. 'A' key");
-            Create<int>("input_keyboard_primary_clockwise", 68, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Primary keyboard rotate right key. 'D' key");
+            Create<int>("input_keyboard_primary_rotate_counter_clockwise", 65, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Primary keyboard rotate left key. 'A' key");
+            Create<int>("input_keyboard_primary_rotate_clockwise", 68, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Primary keyboard rotate right key. 'D' key");
             Create<int>("input_keyboard_primary_super_shield", 83, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Primary keyboard super shield. 'S' key");
 
-            Create<int>("input_keyboard_secondary_counter_clockwise", 37, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Secondary keyboard rotate left arrow key.");
-            Create<int>("input_keyboard_secondary_clockwise", 39, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Secondary keyboard rotate right arrow key.");
+            Create<int>("input_keyboard_secondary_rotate_counter_clockwise", 37, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Secondary keyboard rotate left arrow key.");
+            Create<int>("input_keyboard_secondary_rotate_clockwise", 39, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Secondary keyboard rotate right arrow key.");
             Create<int>("input_keyboard_secondary_super_shield", 40, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Secondary keyboard super shield down arrow key");
 
             Create<int>("input_keyboard_pause", 27, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Pause key of the keyboard.");

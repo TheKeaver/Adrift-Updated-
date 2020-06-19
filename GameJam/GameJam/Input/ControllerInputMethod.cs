@@ -63,11 +63,11 @@ namespace GameJam.Input
                 return;
             }
 
-            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_left"))
+            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_counter_clockwise"))
             {
                 isRotatingCCW = true;
             }
-            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_right"))
+            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_clockwise"))
             {
                 isRotatingCW = true;
             }
@@ -93,11 +93,11 @@ namespace GameJam.Input
                 return;
             }
 
-            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_left"))
+            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_counter_clockwise"))
             {
                 isRotatingCCW = false;
             }
-            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_right"))
+            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_clockwise"))
             {
                 isRotatingCW = false;
             }

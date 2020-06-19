@@ -195,14 +195,14 @@ namespace GameJam.States
             string playerString = "keyboard_";
 
             InputMethod inputMethod = null;
-            if(keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")
-                || keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_primary_clockwise"))
+            if(keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_primary_rotate_counter_clockwise")
+                || keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_primary_rotate_clockwise"))
             {
                 inputMethod = new PrimaryKeyboardInputMethod();
                 playerString += "primary";
             }
-            if (keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")
-                || keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_secondary_clockwise"))
+            if (keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_secondary_rotate_counter_clockwise")
+                || keyboardKeyDownEvent._key == (Keys)CVars.Get<int>("input_keyboard_secondary_rotate_clockwise"))
             {
                 inputMethod = new SecondaryKeyboardInputMethod();
                 playerString += "secondary";
@@ -358,9 +358,9 @@ namespace GameJam.States
                     {
                         PlayerIndex controllerIndex = ((ControllerInputMethod)_playersSeated[i].InputMethod).PlayerIndex;
 
-                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_counter_clockwise_texture", i))).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_left", (int)controllerIndex))]);
+                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_counter_clockwise_texture", i))).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_counter_clockwise", (int)controllerIndex))]);
                         ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_counter_clockwise_texture", i))).Hidden = false;
-                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_clockwise_texture", i))).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_right", (int)controllerIndex))]);
+                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_clockwise_texture", i))).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_clockwise", (int)controllerIndex))]);
                         ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_clockwise_texture", i))).Hidden = false;
                     }
                     else if (_playersSeated[i].InputMethod is PrimaryKeyboardInputMethod)
@@ -402,7 +402,7 @@ namespace GameJam.States
                 if(image != null)
                 {
                     image.Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
-                    .GetRegion((_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_counter_clockwise")]));
+                    .GetRegion((_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_rotate_counter_clockwise")]));
                 }
             });
             _root.FindWidgetsByClass("primary_keyboard_clockwise_texture").ForEach((Widget widget) =>
@@ -411,7 +411,7 @@ namespace GameJam.States
                 if (image != null)
                 {
                     image.Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
-                    .GetRegion((_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_clockwise")]));
+                    .GetRegion((_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_primary_rotate_clockwise")]));
                 }
             });
 
@@ -421,7 +421,7 @@ namespace GameJam.States
                 if (image != null)
                 {
                     image.Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
-                        .GetRegion((_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_counter_clockwise")]));
+                        .GetRegion((_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_rotate_counter_clockwise")]));
                 }
             });
             _root.FindWidgetsByClass("secondary_keyboard_clockwise_texture").ForEach((Widget widget) =>
@@ -430,7 +430,7 @@ namespace GameJam.States
                 if (image != null)
                 {
                     image.Texture = Content.Load<TextureAtlas>("complete_texture_atlas")
-                        .GetRegion((_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_clockwise")]));
+                        .GetRegion((_keyTextureMap[(Keys)CVars.Get<int>("input_keyboard_secondary_rotate_clockwise")]));
                 }
             });
         }

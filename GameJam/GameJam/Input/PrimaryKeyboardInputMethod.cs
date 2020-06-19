@@ -33,12 +33,12 @@ namespace GameJam.Input
 
         private void HandleKeyboardRotationOff(KeyboardKeyUpEvent keyboardKeyUpEvent)
         {
-            if( (int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_counter_clockwise"))
+            if( (int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_counter_clockwise"))
             {
                 isRotatingCCW = false;
 
             }
-            if((int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_clockwise"))
+            if((int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_clockwise"))
             {
                 isRotatingCW = false;
             }
@@ -51,11 +51,11 @@ namespace GameJam.Input
 
         private void HandleKeyboardRotationOn(KeyboardKeyDownEvent keyboardKeyDownEvent)
         {
-            if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_counter_clockwise"))
+            if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_counter_clockwise"))
             {
                 isRotatingCCW = true;
             }
-            if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_clockwise"))
+            if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_clockwise"))
             {
                 isRotatingCW = true;
             }

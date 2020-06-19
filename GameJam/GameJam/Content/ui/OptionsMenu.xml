@@ -443,9 +443,9 @@
           height="100%">
           <!-- Primary/Controller Rotate Left Button -->
           <Button
-            id="Rotate_Left"
-            aboveID="Super_Shield"
-            belowID="Rotate_Right"
+            id="primary_rotate_counter_clockwise"
+            aboveID="primary_super_shield"
+            belowID="primary_rotate_clockwise"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -485,9 +485,9 @@
           </Button>
           <!-- Primary/Controller Rotate Right Button -->
           <Button
-            id="Rotate_Right"
-            aboveID="Rotate_Left"
-            belowID="Super_Shield"
+            id="primary_rotate_clockwise"
+            aboveID="primary_rotate_counter_clockwise"
+            belowID="primary_super_shield"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -527,9 +527,9 @@
                 />
           </Button>
           <Button
-            id="Super_Shield"
-            aboveID="Rotate_Right"
-            belowID="Rotate_Left"
+            id="primary_super_shield"
+            aboveID="primary_rotate_clockwise"
+            belowID="primary_rotate_counter_clockwise"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -580,9 +580,9 @@
           height="100%">
           <!-- Secondary/Controller Rotate Left Button -->
           <Button
-            id="Secondary_Rotate_Left"
-            aboveID="Secondary_Super_Shield"
-            belowID="Secondary_Rotate_Right"
+            id="secondary_rotate_counter_clockwise"
+            aboveID="secondary_super_shield"
+            belowID="secondary_rotate_clockwise"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -622,9 +622,9 @@
           </Button>
           <!-- Secondary/Controller Rotate Right Button -->
           <Button
-            id="Secondary_Rotate_Right"
-            aboveID="Secondary_Rotate_Left"
-            belowID="Secondary_Super_Shield"
+            id="secondary_rotate_clockwise"
+            aboveID="secondary_rotate_counter_clockwise"
+            belowID="secondary_super_shield"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -666,9 +666,9 @@
           <!-- Future Buttons can add other controls as necessary starting here -->
           <!-- Super Shield Button Binding -->
           <Button
-            id="Secondary_Super_Shield"
-            aboveID="Secondary_Super_Right"
-            belowID="Secondary_Rotate_Left"
+            id="secondary_super_shield"
+            aboveID="secondary_Super_Right"
+            belowID="secondary_rotate_counter_clockwise"
             defaultSelected="false"
             halign="center"
             valign="top"
