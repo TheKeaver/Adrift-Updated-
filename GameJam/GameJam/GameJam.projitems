@@ -112,12 +112,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnChasingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemySeparationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionDetectionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\ProjectileColorSyncSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderCullingDebugRenderSystem.cs" />

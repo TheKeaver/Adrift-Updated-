@@ -99,6 +99,7 @@ namespace GameJam
             Create<bool>("god", false, CVarFlags.DEV_PRESERVE, "Enable god mode.");
 
             Create<float>("enemy_pushback_force", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Pushback force when an enemy is destroyed by a player shield.");
+            Create<float>("enemy_minimum_separation_distance", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Minimum distance enemies must be separated from each other");
 
             Create<float>("chasing_enemy_speed", 100.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Speed of chasing enemies.");
             Create<float>("chasing_enemy_rotational_speed", 1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Rotational speed of chasing enemies.");
@@ -202,6 +203,7 @@ namespace GameJam
             Create<Color>("color_gravity_hole_enemy", new Color(164, 4, 255), CVarFlags.DEV_PRESERVE, "Color of gravity hole enemies.");
 
             Create<Color>("color_projectile", Color.Red, CVarFlags.DEV_PRESERVE, "Color of enemy projectiles.");
+            Create<Color>("color_projectile_friendly", new Color(10, 252, 87, 255), CVarFlags.DEV_PRESERVE, "Color of friendly projectiles.");
             Create<Color>("color_laser_beam", Color.Red, CVarFlags.DEV_PRESERVE, "Color of laser beams.");
 
             Create<Color>("color_playfield", Color.Green, CVarFlags.DEV_PRESERVE, "Color of playfield border.");

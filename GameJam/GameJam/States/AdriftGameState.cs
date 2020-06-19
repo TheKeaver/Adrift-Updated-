@@ -250,10 +250,6 @@ namespace GameJam.States
             Entity responsibleEntity = gameOverEvent.ResponsibleEntity;
             responsibleEntity.AddComponent(new DontDestroyForGameOverComponent());
             ImmutableList<IComponent> components = responsibleEntity.GetComponents();
-            if (responsibleEntity.HasComponent<ProjectileComponent>())
-            {
-                responsibleEntity.AddComponent(new ColoredExplosionComponent(responsibleEntity.GetComponent<ProjectileComponent>().Color));
-            }
             for (int i = components.Count - 1; i >= 0; i--)
             {
                 if (!(components[i] is TransformComponent)
@@ -318,6 +314,7 @@ namespace GameJam.States
 
         private void HandlePause()
         {
+            // TODO Why are these here instead of the PauseGameState? Something to note when moving them, TogglePauseAll will affect the PauseGameState so it needs to be unpausable (otherwise it will pause itself)
             GameManager.ProcessManager.TogglePauseAll();
             EventManager.Instance.QueueEvent(new PauseAllSoundsEvent());
             GameManager.ProcessManager.Attach(new PauseGameState(GameManager, SharedState, this));

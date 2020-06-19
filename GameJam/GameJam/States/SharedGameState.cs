@@ -128,11 +128,13 @@ namespace GameJam.States
                 new PulseSystem(Engine),
                 new PassiveRotationSystem(Engine),
                 new MenuBackgroundDestructionSystem(Engine, Camera),
+                new ProjectileColorSyncSystem(Engine),
 
                 // Section below is ordered based on dependency from Top (least dependent) to Bottom (most dependent)
                 new ChasingSpeedIncreaseSystem(Engine),
                 new LaserEnemySystem(Engine),
                 new GravitySystem(Engine),
+                new EnemySeparationSystem(Engine), // Depends on the Quad Tree, however this system needs to go before movement system. It will use the previous frame's quad tree.
                 new MovementSystem(Engine),
                 new PlayerShieldSystem(Engine),
                 new QuadTreeSystem(Engine),
