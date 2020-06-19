@@ -119,88 +119,49 @@ namespace GameJam.States
 
         void CreateEntities()
         {
-            Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine,
-                new Vector2((-25 * (Players.Length / 2)) + (25 * (Players.Length / 4)), 25 * (Players.Length / 3)), Color.White);
-            Entity playerOneShieldMeterEntity = SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
-
-            Entity playerShieldEntityDefault = PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(0.0f), true);
-            Entity playerShieldEntity90 = PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(90.0f), false);
-            Entity playerShieldEntity180 = PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(180.0f), false);
-            Entity playerShieldEntity270 = PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(270.0f), false);
-
-            playerShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerShieldEntityDefault);
-            playerShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerShieldEntity90);
-            playerShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerShieldEntity180);
-            playerShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerShieldEntity270);
-
-            playerShipEntity.AddComponent(new PlayerComponent(Players[0]));
-
-            Players[0].InputMethod.GetSnapshot().Angle = 0;
+            SpawnPlayer(Players[0], new Vector2((-25 * (Players.Length / 2)) + (25 * (Players.Length / 4)), 25 * (Players.Length / 3)), Color.White);
 
             if (Players.Length >= 2)
             {
-                Entity playerTwoShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, 25 * (Players.Length / 3)), Color.Blue);
-                Entity playerTwoShieldMeterEntity = SuperShieldDisplayEntity.Create(SharedState.Engine, playerTwoShipEntity);
-
-                Entity playerTwoShieldEntityDefault = PlayerShieldEntity.Create(SharedState.Engine, playerTwoShipEntity, MathHelper.ToRadians(0.0f), true);
-                Entity playerTwoShieldEntity90 = PlayerShieldEntity.Create(SharedState.Engine, playerTwoShipEntity, MathHelper.ToRadians(90.0f), false);
-                Entity playerTwoShieldEntity180 = PlayerShieldEntity.Create(SharedState.Engine, playerTwoShipEntity, MathHelper.ToRadians(180.0f), false);
-                Entity playerTwoShieldEntity270 = PlayerShieldEntity.Create(SharedState.Engine, playerTwoShipEntity, MathHelper.ToRadians(270.0f), false);
-
-                playerTwoShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerTwoShieldEntityDefault);
-                playerTwoShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerTwoShieldEntity90);
-                playerTwoShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerTwoShieldEntity180);
-                playerTwoShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerTwoShieldEntity270);
-
-                playerTwoShipEntity.AddComponent(new PlayerComponent(Players[1]));
-
-                Players[1].InputMethod.GetSnapshot().Angle = 0;
+                SpawnPlayer(Players[1], new Vector2(25, 25 * (Players.Length / 3)), Color.Blue);
             }
 
             if( Players.Length >= 3)
             {
-                Entity playerThreeShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(-25, -25), Color.Orange);
-                Entity playerThreeShieldMeterEntity = SuperShieldDisplayEntity.Create(SharedState.Engine, playerThreeShipEntity);
-
-                Entity playerThreeShieldEntityDefault = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity, MathHelper.ToRadians(0.0f), true);
-                Entity playerThreeShieldEntity90 = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity, MathHelper.ToRadians(90.0f), false);
-                Entity playerThreeShieldEntity180 = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity, MathHelper.ToRadians(180.0f), false);
-                Entity playerThreeShieldEntity270 = PlayerShieldEntity.Create(SharedState.Engine, playerThreeShipEntity, MathHelper.ToRadians(270.0f), false);
-
-                playerThreeShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerThreeShieldEntityDefault);
-                playerThreeShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerThreeShieldEntity90);
-                playerThreeShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerThreeShieldEntity180);
-                playerThreeShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerThreeShieldEntity270);
-
-                playerThreeShipEntity.AddComponent(new PlayerComponent(Players[2]));
-
-                Players[2].InputMethod.GetSnapshot().Angle = 0;
+                SpawnPlayer(Players[2], new Vector2(-25, -25), Color.Orange);
             }
 
             if( Players.Length == 4)
             {
-                Entity playerFourShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25), Color.Magenta);
-                Entity playerFourShieldMeterEntity = SuperShieldDisplayEntity.Create(SharedState.Engine, playerFourShipEntity);
-
-                Entity playerFourShieldEntityDefault = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity, MathHelper.ToRadians(0.0f), true);
-                Entity playerFourShieldEntity90 = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity, MathHelper.ToRadians(90.0f), false);
-                Entity playerFourShieldEntity180 = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity, MathHelper.ToRadians(180.0f), false);
-                Entity playerFourShieldEntity270 = PlayerShieldEntity.Create(SharedState.Engine, playerFourShipEntity, MathHelper.ToRadians(270.0f), false);
-
-                playerFourShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerFourShieldEntityDefault);
-                playerFourShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerFourShieldEntity90);
-                playerFourShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerFourShieldEntity180);
-                playerFourShipEntity.GetComponent<PlayerShipComponent>().AddShield(playerFourShieldEntity270);
-
-                playerFourShipEntity.AddComponent(new PlayerComponent(Players[3]));
-
-                Players[3].InputMethod.GetSnapshot().Angle = 0;
+                SpawnPlayer(Players[2], new Vector2(25, -25), Color.Magenta);
             }
 
             EdgeEntity.Create(SharedState.Engine, new Vector2(0, CVars.Get<float>("play_field_height") / 2), new Vector2(CVars.Get<float>("play_field_width"), 5), new Vector2(0, -1));
             EdgeEntity.Create(SharedState.Engine, new Vector2(-CVars.Get<float>("play_field_width") / 2, 0), new Vector2(5, CVars.Get<float>("play_field_height")), new Vector2(1, 0));
             EdgeEntity.Create(SharedState.Engine, new Vector2(0, -CVars.Get<float>("play_field_height") / 2), new Vector2(CVars.Get<float>("play_field_width"), 5), new Vector2(0, 1));
             EdgeEntity.Create(SharedState.Engine, new Vector2(CVars.Get<float>("play_field_width") / 2, 0), new Vector2(5, CVars.Get<float>("play_field_height")), new Vector2(-1, 0));
+        }
+
+        private void SpawnPlayer(Player player, Vector2 position, Color color)
+        {
+            Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine, new Vector2(25, -25), color);
+            SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
+
+            PlayerShipComponent playerShipComp = playerShipEntity.GetComponent<PlayerShipComponent>();
+            // Defailt
+            playerShipComp.AddShield(PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(0.0f), true));
+            // Super shields
+            playerShipComp.AddShield(PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(90.0f), false));
+            playerShipComp.AddShield(PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(180.0f), false));
+            playerShipComp.AddShield(PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(270.0f), false));
+
+            playerShipEntity.AddComponent(new PlayerComponent(player));
+
+            // TODO: Replace this
+            player.InputMethod.GetSnapshot().Angle = 0;
+
+            // Queue an event
+            EventManager.Instance.QueueEvent(new PlayerShipSpawnEvent(playerShipEntity, position));
         }
 
         public bool Handle(IEvent evt)

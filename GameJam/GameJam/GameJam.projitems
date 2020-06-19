@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\StopAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\ResumeAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PauseAllSoundsEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\PlayerShipSpawnEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAFXAASettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAOffButtonPressedEvent.cs" />
