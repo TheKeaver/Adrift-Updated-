@@ -22,6 +22,8 @@ namespace GameJam.Entities
             entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health"), CVars.Get<float>("player_super_shield_max")));
             entity.AddComponent(new BounceComponent());
 
+            entity.AddComponent(new CameraTrackingComponent());
+
             entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = false;
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {

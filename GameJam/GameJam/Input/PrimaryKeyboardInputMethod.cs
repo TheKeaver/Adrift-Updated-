@@ -9,7 +9,6 @@ namespace GameJam.Input
     {
         public bool isRotatingCW;
         public bool isRotatingCCW;
-        public int rotatingValue; // -1 : CCW, 0 : None, 1 : CW
 
         public PrimaryKeyboardInputMethod()
         {
@@ -17,7 +16,6 @@ namespace GameJam.Input
             EventManager.Instance.RegisterListener<KeyboardKeyUpEvent>(this);
             isRotatingCCW = false;
             isRotatingCW = false;
-            rotatingValue = 0;
         }
 
         public bool Handle(IEvent evt)
@@ -45,7 +43,6 @@ namespace GameJam.Input
             if((int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_super_shield"))
             {
                 _snapshot.SuperShield = false;
-                Console.WriteLine("Super Shield False");
             }
         }
 
@@ -62,7 +59,6 @@ namespace GameJam.Input
             if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_super_shield"))
             {
                 _snapshot.SuperShield = true;
-                Console.WriteLine("Super Shield True");
             }
         }
 

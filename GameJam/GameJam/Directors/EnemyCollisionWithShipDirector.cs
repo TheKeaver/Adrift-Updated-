@@ -78,7 +78,7 @@ namespace GameJam.Directors
                 {
                     responsibleEntity = FindLaserBeamOwner(responsibleEntity);
                 }
-                EventManager.Instance.QueueEvent(new GameOverEvent(playerShipEntity.GetComponent<PlayerComponent>().Player, responsibleEntity));
+                EventManager.Instance.QueueEvent(new PlayerLostEvent(playerShipEntity.GetComponent<PlayerComponent>().Player, responsibleEntity));
                 //Engine.DestroyEntity(entityA);
                 return;
             } else

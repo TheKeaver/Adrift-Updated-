@@ -179,6 +179,14 @@ namespace GameJam.States
             ProcessManager.Attach(new LaserBeamCleanupDirector(Engine, Content, ProcessManager));
 
             ProcessManager.Attach(new PlayerShipCollidingWithEdgeDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new GameOverDeciderDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new SuperShieldDisplayCleanupDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new CleanupEntitiesOnEndOfSceneDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new PlayerLostAnimationAttachDirector(Engine, Content, ProcessManager));
         }
 
         private void LoadContent()
