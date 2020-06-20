@@ -5,6 +5,7 @@ using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Entities;
 using GameJam.Events;
+using GameJam.Events.Animation;
 using GameJam.Events.Audio;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
@@ -40,7 +41,7 @@ namespace GameJam.States
 
         private PlayerScoreDirector playerScoreDirector;
 
-        private bool ArmedForSceneChange = false; // TODO This doesn't have logic to switch scenes yet
+        private bool ArmedForSceneChangeOnPlayerLostAnimationComplete = false; // TODO This doesn't have logic to switch scenes yet
 
         public AdriftGameState(GameManager gameManager,
             SharedGameState sharedState,
@@ -111,6 +112,7 @@ namespace GameJam.States
 
             EventManager.Instance.RegisterListener<GameOverEvent>(this);
             EventManager.Instance.RegisterListener<TogglePauseGameEvent>(this);
+            EventManager.Instance.RegisterListener<PlayerLostAnimationCompletedEvent>(this);
         }
 
         protected override void UnregisterListeners()
@@ -196,6 +198,10 @@ namespace GameJam.States
                 HandlePause();
                 return true;
             }
+            if(evt is PlayerLostAnimationCompletedEvent)
+            {
+                HandlePlayerLostAnimationCompletedEvent(evt as PlayerLostAnimationCompletedEvent);
+            }
 
             return false;
         }
@@ -216,9 +222,6 @@ namespace GameJam.States
             //        responsibleEntity.RemoveComponent(components[i].GetType());
             //    }
             //}
-
-            //CleanDestroyAllEntities(false);
-            //_entitiesCleanedUp = true;
 
             //{
             //    // Zoom out if the enemy is outside the camera (laser enemies)
@@ -267,7 +270,7 @@ namespace GameJam.States
             //    ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
             //}));
             //ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
-            ArmedForSceneChange = true;
+            ArmedForSceneChangeOnPlayerLostAnimationComplete = true;
         }
 
         private void HandlePause()
@@ -276,6 +279,14 @@ namespace GameJam.States
             GameManager.ProcessManager.TogglePauseAll();
             EventManager.Instance.QueueEvent(new PauseAllSoundsEvent());
             GameManager.ProcessManager.Attach(new PauseGameState(GameManager, SharedState, this));
+        }
+
+        private void HandlePlayerLostAnimationCompletedEvent(PlayerLostAnimationCompletedEvent playerLostAnimationCompletedEvent)
+        {
+            if(ArmedForSceneChangeOnPlayerLostAnimationComplete)
+            {
+                ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
+            }
         }
     }
 }
