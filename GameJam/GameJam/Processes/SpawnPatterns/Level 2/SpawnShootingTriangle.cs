@@ -27,9 +27,9 @@ namespace GameJam.Processes.SpawnPatterns
             //Console.WriteLine("Triggered SpawnShootingTriangle");
             Center = SPM.GenerateValidCenter(radius);
 
-            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y + 25)));
-            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 29, Center.Y - 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 29, Center.Y - 25)));
-            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 29, Center.Y - 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 29, Center.Y - 25)));
+            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 50), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y + 50)));
+            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 50, Center.Y - 50), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 50, Center.Y - 50)));
+            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 50, Center.Y - 50), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 50, Center.Y - 50)));
         }
     }
 }

@@ -96,9 +96,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomChasingEnemies.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomGravityHoles.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomShootingEnemies.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomLaserEnemies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomGravityHoles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomShootingEnemies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\SpawnRandomLaserEnemies.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnShootingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\SpawnGravityConstellation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\SpawnLaserTriangle.cs" />

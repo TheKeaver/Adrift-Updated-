@@ -23,15 +23,15 @@ namespace GameJam.Input
         public bool Handle(IEvent evt)
         {
             if (evt is KeyboardKeyDownEvent)
-                HandleKeyboardRotationOn(evt as KeyboardKeyDownEvent);
+                HandleKeyboardControlsPressed(evt as KeyboardKeyDownEvent);
 
             if (evt is KeyboardKeyUpEvent)
-                HandleKeyboardRotationOff(evt as KeyboardKeyUpEvent);
+                HandleKeyboardControlsReleased(evt as KeyboardKeyUpEvent);
 
             return false;
         }
 
-        private void HandleKeyboardRotationOff(KeyboardKeyUpEvent keyboardKeyUpEvent)
+        private void HandleKeyboardControlsReleased(KeyboardKeyUpEvent keyboardKeyUpEvent)
         {
             if( (int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_counter_clockwise"))
             {
@@ -49,7 +49,7 @@ namespace GameJam.Input
             }
         }
 
-        private void HandleKeyboardRotationOn(KeyboardKeyDownEvent keyboardKeyDownEvent)
+        private void HandleKeyboardControlsPressed(KeyboardKeyDownEvent keyboardKeyDownEvent)
         {
             if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_counter_clockwise"))
             {

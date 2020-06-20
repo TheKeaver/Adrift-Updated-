@@ -53,6 +53,7 @@ namespace GameJam.Systems
                     //shield.GetComponent<PlayerShieldComponent>().LaserReflectionActive = true;
                     shield.GetComponent<VectorSpriteComponent>().Hidden = false;
                     shield.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.COLLISION_GROUP_ENEMIES | Constants.Collision.COLLISION_GROUP_RAYCAST);
+                    shield.GetComponent<CollisionComponent>().CollisionGroup = (byte)(Constants.Collision.COLLISION_GROUP_PLAYER);
                 }
                 ship.SuperShieldMeter = Math.Max(ship.SuperShieldMeter - CVars.Get<float>("player_super_shield_spend_rate")*dt, 0);
                 //Console.WriteLine("Super shield meter at " + ship.SuperShieldMeter);
@@ -66,6 +67,8 @@ namespace GameJam.Systems
                         //ship.ShipShields[i].GetComponent<PlayerShieldComponent>().LaserReflectionActive = false;
                         ship.ShipShields[i].GetComponent<VectorSpriteComponent>().Hidden = true;
                         ship.ShipShields[i].GetComponent<CollisionComponent>().CollisionMask = Constants.Collision.GROUP_MASK_NONE;
+                        ship.ShipShields[i].GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.GROUP_MASK_NONE;
+                        //Console.WriteLine("Super Shield collision mask set to NONE");
                     }
                 }
                 ship.SuperShieldMeter = MathHelper.Min(ship.SuperShieldMeter + CVars.Get<float>("player_super_shield_regen_rate") * dt, CVars.Get<float>("player_super_shield_max"));

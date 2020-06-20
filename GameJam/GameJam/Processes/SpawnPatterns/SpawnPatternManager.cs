@@ -81,10 +81,10 @@ namespace GameJam.Processes.Enemies
            returnDict[1].Add(typeof(SpawnRandomChasingEnemies));
            //// All level 2 spawn patterns
            returnDict[2].Add(typeof(SpawnShootingTriangle));
-           returnDict[1].Add(typeof(SpawnRandomGravityHoles));
+           //returnDict[1].Add(typeof(SpawnRandomGravityHoles));
            returnDict[2].Add(typeof(SpawnRandomShootingEnemies));
            //// All level 3 spawn patterns
-           returnDict[3].Add(typeof(SpawnLaserTriangle));
+           //returnDict[3].Add(typeof(SpawnLaserTriangle));
            returnDict[3].Add(typeof(SpawnGravityConstellation));
            returnDict[2].Add(typeof(SpawnRandomLaserEnemies));
            //// All level 4 spawn patterns

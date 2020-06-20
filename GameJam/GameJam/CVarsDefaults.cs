@@ -23,7 +23,7 @@ namespace GameJam
             Create<float>("play_field_height", 1080, CVarFlags.DEV_PRESERVE, "Height of the playfield");
 
             Create<float>("camera_padding", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Additional padding between the edge of the camera and the players during camera following behavior.");
-            Create<float>("camera_tracking_speed", 0.05f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "A multiplier that affects how much the camera can move every update. Larger number means more movement per update");
+            Create<float>("camera_tracking_speed", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "A multiplier that affects how much the camera can move every update. Larger number means more movement per update");
 
             Create<int>("quad_tree_max_references", 4, CVarFlags.DEV_PRESERVE, "Maximum references in a quad-tree node before quad-tree node splits.");
 
@@ -101,17 +101,17 @@ namespace GameJam
             Create<float>("enemy_pushback_force", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Pushback force when an enemy is destroyed by a player shield.");
             Create<float>("enemy_minimum_separation_distance", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Minimum distance enemies must be separated from each other");
 
-            Create<float>("chasing_enemy_speed", 100.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Speed of chasing enemies.");
+            Create<float>("chasing_enemy_speed", 110.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Speed of chasing enemies.");
             Create<float>("chasing_enemy_rotational_speed", 1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Rotational speed of chasing enemies.");
             Create<float>("chasing_enemy_size", 3, CVarFlags.DEV_PRESERVE, "Size of chasing enemies.");
-            Create<float>("chasing_enemy_acceleration", 13f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Acceleration of chasing enemies.");
+            Create<float>("chasing_enemy_acceleration", 15f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Acceleration of chasing enemies.");
 
             Create<float>("shooting_enemy_size", 4, CVarFlags.DEV_PRESERVE, "Size of shooting enemies.");
             Create<float>("shooting_enemy_speed", 0, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Speed of shooting enemies.");
-            Create<float>("shooting_enemy_rotational_speed", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Rotational speed of shooting enemies.");
-            Create<float>("shooting_enemy_projectile_speed", 160.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Speed of projectiles launched by shooting enemies.");
+            Create<float>("shooting_enemy_rotational_speed", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Rotational speed of shooting enemies.");
+            Create<float>("shooting_enemy_projectile_speed", 175.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Speed of projectiles launched by shooting enemies.");
             Create<int>("shooting_enemy_projectile_bounces", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Max bounces shooting enemy projectiles have before destruction.");
-            Create<int>("shooting_enemy_projectile_ammo", 4, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Amount of ammo shooting enemies have before transforming into chasing enemies.");
+            Create<int>("shooting_enemy_projectile_ammo", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Amount of ammo shooting enemies have before transforming into chasing enemies.");
 
             Create<float>("gravity_enemy_size", 2, CVarFlags.DEV_PRESERVE, "Size of gravity holes.");
             Create<float>("gravity_hole_enemy_radius", 150.0f, CVarFlags.DEV_PRESERVE, "Radius of gravity holes.");
@@ -148,19 +148,19 @@ namespace GameJam
             Create<float>("spawner_min_distance_away_from_player", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Minimum distance enemies must spawn away from the player.");
             Create<int>("spawner_max_enemy_count", 50, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Maximum enemies that may be spawned.");
 
-            Create<float>("laser_enemy_rotational_speed", 3f, CVarFlags.DEV_PRESERVE, "Rotational speed of laser enemies.");
+            Create<float>("laser_enemy_rotational_speed", 7f, CVarFlags.DEV_PRESERVE, "Rotational speed of laser enemies.");
             Create<float>("laser_enemy_size", 4f, CVarFlags.DEV_PRESERVE, "Size of laser enemies.");
             Create<float>("laser_enemy_warm_up_anim_duration", 0.1f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Duration of laser warm up animation for laser enemies.");
-            Create<float>("laser_enemy_warm_up_duration", 2, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Duration of laser warm up before shooting for laser enemies.");
+            Create<float>("laser_enemy_warm_up_duration", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Duration of laser warm up before shooting for laser enemies.");
             Create<float>("laser_enemy_warm_up_thickness", 1.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Thickness of laser warm up beam for laser enemies.");
-            Create<float>("laser_enemy_fire_duration", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Laser enemy fire duration.");
+            Create<float>("laser_enemy_fire_duration", 0.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Laser enemy fire duration.");
             Create<float>("laser_enemy_fire_frequency", 80, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Frequency of pulsing laser during laser fire from laser enemy.");
             Create<float>("laser_enemy_fire_thickness", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Thickness of laser during laser fire from laser enemy.");
             Create<float>("laser_enemy_fire_thickness_variability", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Plus or minus veriability from maximum thickness during laser fire from laser enemy.");
             Create<float>("laser_enemy_fire_initial_thickness_decay_factor", 25, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Ramp up inverse exponential decay factor from warm up beam to full beam for laser enemies.");
             Create<float>("laser_enemy_fire_closing_envelope_decay_factor", 20, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Ramp down exponential decay factor from full beam to zero beam for laser enemies.");
-            Create<float>("laser_enemy_spawn_wait_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Period to wait between laser enemy spawning and the first laser beam warming up.");
-            Create<float>("laser_enemy_successive_wait_period", 7, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Period to wait after laser beam fire to the next laser beam warming up.");
+            Create<float>("laser_enemy_spawn_wait_period", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Period to wait between laser enemy spawning and the first laser beam warming up.");
+            Create<float>("laser_enemy_successive_wait_period", 3, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Period to wait after laser beam fire to the next laser beam warming up.");
 
             Create<int>("game_over_responsible_enemy_flash_count", 10, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Number of flashes of enemy responsible for game over.");
             Create<float>("game_over_responsible_enemy_flash_period", 0.16f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Period between enemy flashes for enemy responsible for game over.");
@@ -170,9 +170,9 @@ namespace GameJam
 
             Create<float>("background_stars_scale", 1.2f, CVarFlags.DEV_PRESERVE, "Scale of background stars.");
 
-            Create<int>("score_base_destroy_enemy", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroying an enemy with a shield.");
-            Create<int>("score_base_destroy_enemy_with_projectile", 10, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroying an enemy with a projectile.");
-            Create<int>("score_base_destroy_enemy_with_laser", 5, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroyting an enemy with a laser.");
+            Create<int>("score_base_destroy_enemy", 100, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroying an enemy with a shield.");
+            Create<int>("score_base_destroy_enemy_with_projectile", 500, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroying an enemy with a projectile.");
+            Create<int>("score_base_destroy_enemy_with_laser", 250, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroyting an enemy with a laser.");
 
             /** ANIMATION **/
             Create<float>("animation_spawn_warp_time_scale", 0.85f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Enemy warp-in animation time scale.");
