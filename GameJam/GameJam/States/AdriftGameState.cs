@@ -172,7 +172,7 @@ namespace GameJam.States
             SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
 
             PlayerShipComponent playerShipComp = playerShipEntity.GetComponent<PlayerShipComponent>();
-            // Defailt
+            // Default
             playerShipComp.AddShield(PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(0.0f), true));
             // Super shields
             playerShipComp.AddShield(PlayerShieldEntity.Create(SharedState.Engine, playerShipEntity, MathHelper.ToRadians(90.0f), false));
@@ -229,69 +229,70 @@ namespace GameJam.States
         private void HandleGameOverEvent(GameOverEvent gameOverEvent)
         {
             ProcessManager.KillAll();
-            Entity responsibleEntity = gameOverEvent.ResponsibleEntity;
-            responsibleEntity.AddComponent(new DontDestroyForGameOverComponent());
-            ImmutableList<IComponent> components = responsibleEntity.GetComponents();
-            for (int i = components.Count - 1; i >= 0; i--)
-            {
-                if (!(components[i] is TransformComponent)
-                    && !(components[i] is VectorSpriteComponent)
-                    && !(components[i] is ColoredExplosionComponent)
-                    && !(components[i] is DontDestroyForGameOverComponent))
-                {
-                    responsibleEntity.RemoveComponent(components[i].GetType());
-                }
-            }
+            //Entity responsibleEntity = gameOverEvent.ResponsibleEntity;
+            //responsibleEntity.AddComponent(new DontDestroyForGameOverComponent());
+            //ImmutableList<IComponent> components = responsibleEntity.GetComponents();
+            //for (int i = components.Count - 1; i >= 0; i--)
+            //{
+            //    if (!(components[i] is TransformComponent)
+            //        && !(components[i] is VectorSpriteComponent)
+            //        && !(components[i] is ColoredExplosionComponent)
+            //        && !(components[i] is DontDestroyForGameOverComponent))
+            //    {
+            //        responsibleEntity.RemoveComponent(components[i].GetType());
+            //    }
+            //}
 
-            CleanDestroyAllEntities(false);
-            _entitiesCleanedUp = true;
+            //CleanDestroyAllEntities(false);
+            //_entitiesCleanedUp = true;
 
-            {
-                // Zoom out if the enemy is outside the camera (laser enemies)
-                TransformComponent transformComp = responsibleEntity.GetComponent<TransformComponent>();
-                BoundingRect boundRect = new BoundingRect();
-                bool assumeOutside = false;
-                if (responsibleEntity.HasComponent<VectorSpriteComponent>())
-                {
-                    boundRect = responsibleEntity.GetComponent<VectorSpriteComponent>().GetAABB(transformComp.Scale);
-                } else if (responsibleEntity.HasComponent<SpriteComponent>())
-                {
-                    boundRect = responsibleEntity.GetComponent<SpriteComponent>().GetAABB(transformComp.Scale);
-                } else
-                {
-                    assumeOutside = true;
-                }
-                boundRect.Min += transformComp.Position;
-                boundRect.Max += transformComp.Position;
+            //{
+            //    // Zoom out if the enemy is outside the camera (laser enemies)
+            //    TransformComponent transformComp = responsibleEntity.GetComponent<TransformComponent>();
+            //    BoundingRect boundRect = new BoundingRect();
+            //    bool assumeOutside = false;
+            //    if (responsibleEntity.HasComponent<VectorSpriteComponent>())
+            //    {
+            //        boundRect = responsibleEntity.GetComponent<VectorSpriteComponent>().GetAABB(transformComp.Scale);
+            //    } else if (responsibleEntity.HasComponent<SpriteComponent>())
+            //    {
+            //        boundRect = responsibleEntity.GetComponent<SpriteComponent>().GetAABB(transformComp.Scale);
+            //    } else
+            //    {
+            //        assumeOutside = true;
+            //    }
+            //    boundRect.Min += transformComp.Position;
+            //    boundRect.Max += transformComp.Position;
 
-                if (!boundRect.Intersects(SharedState.Camera.BoundingRect) || assumeOutside)
-                {
-                    ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 0.6f, Easings.Functions.CubicEaseOut));
-                }
-            }
-            ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") / 2))
-                .SetNext(new DelegateProcess(() =>
-            {
-                // Explosion
-                TransformComponent transformComp = responsibleEntity.GetComponent<TransformComponent>();
-                ColoredExplosionComponent coloredExplosionComp = responsibleEntity.GetComponent<ColoredExplosionComponent>();
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(transformComp.Position,
-                    coloredExplosionComp.Color,
-                    false));
+            //    if (!boundRect.Intersects(SharedState.Camera.BoundingRect) || assumeOutside)
+            //    {
+            //        ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 0.6f, Easings.Functions.CubicEaseOut));
+            //    }
+            //}
+            //ProcessManager.Attach(new SpriteEntityFlashProcess(SharedState.Engine, responsibleEntity, CVars.Get<int>("game_over_responsible_enemy_flash_count"), CVars.Get<float>("game_over_responsible_enemy_flash_period") / 2))
+            //    .SetNext(new DelegateProcess(() =>
+            //{
+            //    // Explosion
+            //    TransformComponent transformComp = responsibleEntity.GetComponent<TransformComponent>();
+            //    ColoredExplosionComponent coloredExplosionComp = responsibleEntity.GetComponent<ColoredExplosionComponent>();
+            //    EventManager.Instance.QueueEvent(new CreateExplosionEvent(transformComp.Position,
+            //        coloredExplosionComp.Color,
+            //        false));
 
-                // Fade out edges (owned by shared state)
-                foreach (Entity edgeEntity in SharedState.Engine.GetEntitiesFor(Family.All(typeof(EdgeComponent), typeof(VectorSpriteComponent)).Get()))
-                {
-                    SharedState.ProcessManager.Attach(new SpriteEntityFadeOutProcess(SharedState.Engine, edgeEntity, CVars.Get<float>("game_over_edge_fade_out_duration"), Easings.Functions.QuadraticEaseOut))
-                        .SetNext(new EntityDestructionProcess(SharedState.Engine, edgeEntity));
-                }
+            //    // Fade out edges (owned by shared state)
+            //    foreach (Entity edgeEntity in SharedState.Engine.GetEntitiesFor(Family.All(typeof(EdgeComponent), typeof(VectorSpriteComponent)).Get()))
+            //    {
+            //        SharedState.ProcessManager.Attach(new SpriteEntityFadeOutProcess(SharedState.Engine, edgeEntity, CVars.Get<float>("game_over_edge_fade_out_duration"), Easings.Functions.QuadraticEaseOut))
+            //            .SetNext(new EntityDestructionProcess(SharedState.Engine, edgeEntity));
+            //    }
 
-                // Move camera towards center of screen (owned by shared state)
-                SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 1, Easings.Functions.CubicEaseOut));
-            })).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity)).SetNext(new DelegateProcess(() =>
-            {
-                ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
-            }));
+            //    // Move camera towards center of screen (owned by shared state)
+            //    SharedState.ProcessManager.Attach(new CameraPositionZoomResetProcess(SharedState.Camera, CVars.Get<float>("game_over_camera_reset_duration"), Vector2.Zero, 1, Easings.Functions.CubicEaseOut));
+            //})).SetNext(new EntityDestructionProcess(SharedState.Engine, responsibleEntity)).SetNext(new DelegateProcess(() =>
+            //{
+            //    ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
+            //}));
+            ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
         }
 
         private void HandlePause()
