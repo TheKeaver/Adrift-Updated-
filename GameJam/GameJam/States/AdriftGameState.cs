@@ -1,7 +1,6 @@
 using Adrift.Content.Common.UI;
 using Audrey;
 using Events;
-using GameJam.Common;
 using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Entities;
@@ -11,9 +10,7 @@ using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using GameJam.Graphics.Text;
 using GameJam.Processes;
-using GameJam.Processes.Animations;
 using GameJam.Processes.Enemies;
-using GameJam.Processes.Entities;
 using GameJam.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,6 +39,8 @@ namespace GameJam.States
         }
 
         private PlayerScoreDirector playerScoreDirector;
+
+        private bool ArmedForSceneChange = false; // TODO This doesn't have logic to switch scenes yet
 
         public AdriftGameState(GameManager gameManager,
             SharedGameState sharedState,
@@ -99,7 +98,8 @@ namespace GameJam.States
         {
             if (!_entitiesCleanedUp)
             {
-                CleanDestroyAllEntities();
+                // This is a command, it can be triggered instead of queued
+                EventManager.Instance.TriggerEvent(new CleanupAllEntitiesEvent());
             }
 
             base.OnKill();
@@ -200,32 +200,6 @@ namespace GameJam.States
             return false;
         }
 
-        private void CleanDestroyAllEntities(bool includeEdges = true)
-        {
-            // Explode all entities
-            ImmutableList<Entity> explosionEntities = SharedState.Engine.GetEntitiesFor(Family
-                .All(typeof(TransformComponent), typeof(ColoredExplosionComponent))
-                .Exclude(typeof(DontDestroyForGameOverComponent))
-                .Get());
-            foreach (Entity entity in explosionEntities)
-            {
-                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
-                ColoredExplosionComponent coloredExplosionComp = entity.GetComponent<ColoredExplosionComponent>();
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(transformComp.Position,
-                    coloredExplosionComp.Color,
-                    false));
-            }
-
-            // Destroy all entities
-            FamilyBuilder familyBuilder = Family.Exclude(typeof(DontDestroyForGameOverComponent),
-                typeof(ParallaxBackgroundComponent));
-            if (!includeEdges)
-            {
-                familyBuilder.Exclude(typeof(EdgeComponent));
-            }
-            SharedState.Engine.DestroyEntitiesFor(familyBuilder.Get());
-        }
-
         private void HandleGameOverEvent(GameOverEvent gameOverEvent)
         {
             ProcessManager.KillAll();
@@ -292,7 +266,8 @@ namespace GameJam.States
             //{
             //    ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
             //}));
-            ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
+            //ChangeState(new GameOverGameState(GameManager, SharedState, Players, playerScoreDirector.GetScores()));
+            ArmedForSceneChange = true;
         }
 
         private void HandlePause()

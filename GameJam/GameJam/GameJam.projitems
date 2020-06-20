@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\AreaTextureSMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\SearchTextureSMAA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\CleanupEntitiesOnEndOfSceneDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\GameOverDeciderDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SuperShieldDisplayCleanupDirector.cs" />
@@ -28,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\StopAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\ResumeAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PauseAllSoundsEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CleanupAllEntitiesEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\PlayerLostEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\PlayerShipSpawnEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
