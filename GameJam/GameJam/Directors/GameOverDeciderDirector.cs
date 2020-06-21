@@ -29,7 +29,6 @@ namespace GameJam.Directors
 
         protected override void RegisterEvents()
         {
-            // TODO: Player destroyed
             EventManager.Instance.RegisterListener<PlayerLostEvent>(this);
         }
 
@@ -40,11 +39,6 @@ namespace GameJam.Directors
 
         private void HandlePlayerLostEvent(PlayerLostEvent playerLostEvent)
         {
-            // TODO: Add animation
-
-            // Have a director handle player lost animation? Listen for this same event
-            // Then this director dispatches a GameOverEvent
-
             if(_playerShipEntities.Count == 0)
             {
                 EventManager.Instance.QueueEvent(new GameOverEvent());

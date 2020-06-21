@@ -3,9 +3,6 @@ using Events;
 using GameJam.Events.Animation;
 using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework.Content;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Directors
 {
