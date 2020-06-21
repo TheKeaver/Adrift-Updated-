@@ -69,11 +69,14 @@ namespace GameJam.Processes.Enemies
             {
                 // Destroy laser beam
                 LaserEnemyComponent laserEnemyComp = LaserEnemyEntity.GetComponent<LaserEnemyComponent>();
-                if (laserEnemyComp.LaserBeamEntity != null)
+                if (laserEnemyComp != null)
                 {
-                    Engine.DestroyEntity(laserEnemyComp.LaserBeamEntity);
-                    laserEnemyComp.LaserBeamEntity = null;
-                    EventManager.Instance.QueueEvent(new LaserBeamFireEnd(laserEnemyComp.LaserBeamEntity));
+                    if (laserEnemyComp.LaserBeamEntity != null)
+                    {
+                        Engine.DestroyEntity(laserEnemyComp.LaserBeamEntity);
+                        laserEnemyComp.LaserBeamEntity = null;
+                        EventManager.Instance.QueueEvent(new LaserBeamFireEnd(laserEnemyComp.LaserBeamEntity));
+                    }
                 }
             }
         }
