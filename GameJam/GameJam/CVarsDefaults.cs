@@ -17,10 +17,11 @@ namespace GameJam
             Create<int>("initial_window_height", 720, CVarFlags.PRESERVE, "Initial height of the window when the game is launched.");
 
             // "Screen" is the internal units of the game.
-            // Always use `screen_width` and `screen_height`.
+            // Always use `screen_width` and `screen_height`. 16:9
             Create<float>("screen_width", 1280, CVarFlags.DEV_PRESERVE, "Virtual width of the screen.");
             Create<float>("screen_height", 720, CVarFlags.DEV_PRESERVE, "Virtual height of the screen.");
 
+            // 16:9
             Create<float>("play_field_width", 1920, CVarFlags.DEV_PRESERVE, "Width of the playfield.");
             Create<float>("play_field_height", 1080, CVarFlags.DEV_PRESERVE, "Height of the playfield");
 
