@@ -8,6 +8,8 @@ namespace GameJam
         {
             /** CVar template Create<>("", , CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD); **/
             /** GENERAL **/
+            Create<string>("game_version", "v0.1-SNAPSHOT", 0, "Version of the game.");
+
             Create<float>("tick_frequency", 120, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Frequency of game ticks (updates).");
             Create<bool>("update_xna_fixed", false, CVarFlags.PRESERVE, "Update with XNA fixed updates (60Hz update calls).");
 
