@@ -23,7 +23,8 @@ namespace GameJam
             Create<float>("play_field_height", 1080, CVarFlags.DEV_PRESERVE, "Height of the playfield");
 
             Create<float>("camera_padding", 200.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Additional padding between the edge of the camera and the players during camera following behavior.");
-            Create<float>("camera_tracking_speed", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "A multiplier that affects how much the camera can move every update. Larger number means more movement per update");
+            Create<float>("camera_tracking_speed", 0.05f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "A multiplier that affects how much the camera can move every update. Larger number means more movement per update");
+            Create<float>("camera_zoom_speed", 0.05f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "A multiplier that affects how quickly the camera zooms to meet the desired zoom calculations after every update.");
 
             Create<int>("quad_tree_max_references", 4, CVarFlags.DEV_PRESERVE, "Maximum references in a quad-tree node before quad-tree node splits.");
 

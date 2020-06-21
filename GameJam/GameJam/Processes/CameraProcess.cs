@@ -50,11 +50,11 @@ namespace GameJam.Processes
                     averageY += tempShipY;
                 }
 
-                averageX /= _trackingEntities.Count + 1;
-                averageY /= _trackingEntities.Count + 1;
+                averageX /= (_trackingEntities.Count + 1);
+                averageY /= (_trackingEntities.Count + 1);
 
                 Vector2 targetPosition = new Vector2(averageX, averageY);
-                _camera.Position = Vector2.Lerp(_camera.Position, targetPosition, dt * 144 * CVars.Get<float>("camera_tracking_speed"));
+                _camera.Position = Vector2.Lerp(_camera.Position, targetPosition, (float)Math.Pow(CVars.Get<float>("camera_tracking_speed"), dt * 144));
 
 
                 for (int i = 0; i < _trackingEntities.Count; i++)
@@ -79,9 +79,9 @@ namespace GameJam.Processes
                             Z = tempZY_2;
                         }
                     }
-                    float targetZoom = 1 / Z;
-                    _camera.Zoom = MathHelper.Lerp(_camera.Zoom, targetZoom, 0.01f);
                 }
+                float targetZoom = 1 / Z;
+                _camera.Zoom = MathHelper.Lerp(_camera.Zoom, targetZoom, (float)Math.Pow(CVars.Get<float>("camera_zoom_speed"), dt * 144));
             }
         }
     }
