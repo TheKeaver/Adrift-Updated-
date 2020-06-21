@@ -4,6 +4,7 @@ using GameJam.Components;
 using GameJam.Events;
 using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
+using GameJam.Processes.Entities;
 using Microsoft.Xna.Framework.Content;
 
 namespace GameJam.Directors
@@ -56,13 +57,20 @@ namespace GameJam.Directors
             }
 
             // Destroy all entities
-            FamilyBuilder familyBuilder = Family.Exclude(typeof(DontDestroyForGameOverComponent),
-                typeof(ParallaxBackgroundComponent));
-            if (!includeEdges)
+            Engine.DestroyEntitiesFor(Family.Exclude(typeof(DontDestroyForGameOverComponent),
+                typeof(ParallaxBackgroundComponent),
+                typeof(EdgeComponent)).Get());
+
+            // Destroy edges (if needed)
+            if(includeEdges)
             {
-                familyBuilder.Exclude(typeof(EdgeComponent));
+                // Fade out edges
+                foreach (Entity edgeEntity in Engine.GetEntitiesFor(Family.All(typeof(EdgeComponent), typeof(VectorSpriteComponent)).Get()))
+                {
+                    ProcessManager.Attach(new SpriteEntityFadeOutProcess(Engine, edgeEntity, CVars.Get<float>("game_over_edge_fade_out_duration"), Easings.Functions.QuadraticEaseOut))
+                        .SetNext(new EntityDestructionProcess(Engine, edgeEntity));
+                }
             }
-            Engine.DestroyEntitiesFor(familyBuilder.Get());
         }
     }
 }
