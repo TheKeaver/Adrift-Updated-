@@ -39,7 +39,8 @@ namespace GameJam.Directors
 
         private void HandlePlayerLostEvent(PlayerLostEvent playerLostEvent)
         {
-            if(_playerShipEntities.Count == 0)
+            if(_playerShipEntities.Count == 0
+                || !CVars.Get<bool>("player_individual_deaths"))
             {
                 EventManager.Instance.QueueEvent(new GameOverEvent());
             }

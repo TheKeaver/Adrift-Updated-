@@ -96,6 +96,8 @@ namespace GameJam
             Create<float>("player_super_shield_spend_rate", 2, CVarFlags.LIVE_RELOAD, "CHANGEME");
             Create<float>("player_super_shield_regen_rate", 1, CVarFlags.LIVE_RELOAD, "CHANGEME");
 
+            Create<bool>("player_individual_deaths", true, CVarFlags.LIVE_RELOAD | CVarFlags.DEV_PRESERVE, "Whether players will have shared or individual deaths.");
+
             Create<bool>("god", false, CVarFlags.DEV_PRESERVE, "Enable god mode.");
 
             Create<float>("enemy_pushback_force", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Pushback force when an enemy is destroyed by a player shield.");
