@@ -1,15 +1,13 @@
 ﻿using Audrey;
 using GameJam.Components;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Systems
 {
     public class MovementSystem : BaseSystem
     {
-        Family _movementFamily = Family.All(typeof(MovementComponent), typeof(TransformComponent)).Get();
-        ImmutableList<Entity> _movementEntities;
+        readonly Family _movementFamily = Family.All(typeof(MovementComponent), typeof(TransformComponent)).Get();
+        readonly ImmutableList<Entity> _movementEntities;
 
         public MovementSystem(Engine engine) : base(engine)
         {
@@ -20,19 +18,19 @@ namespace GameJam.Systems
         {
             foreach (Entity movementEntity in _movementEntities)
             {
-                processMovement(movementEntity, dt);
+                ProcessMovement(movementEntity, dt);
             }
         }
 
-        void processMovement(Entity movementEntity, float dt)
+        void ProcessMovement(Entity movementEntity, float dt)
         {
             TransformComponent transformComp = movementEntity.GetComponent<TransformComponent>();
             MovementComponent movementComp = movementEntity.GetComponent<MovementComponent>();
 
-            transformComp.Move(movementComp.speed * movementComp.direction * dt);
-            if (movementComp.updateRotationWithDirection)
+            transformComp.Move(movementComp.MovementVector * dt);
+            if (movementComp.UpdateRotationWithDirection && movementComp.MovementVector.Length() != 0)
             {
-                float targetAngle = (float)Math.Atan2(movementComp.direction.Y, movementComp.direction.X);
+                float targetAngle = (float)Math.Atan2(movementComp.MovementVector.Y, movementComp.MovementVector.X);
                 transformComp.Rotate(targetAngle - transformComp.Rotation);
             }
         }

@@ -8,8 +8,8 @@ namespace GameJam.Systems
     /// </summary>
     public class InputSystem : BaseSystem
     {
-        Family _family = Family.All(typeof(PlayerComponent)).Get();
-        ImmutableList<Entity> _entities;
+        readonly Family _family = Family.All(typeof(PlayerComponent)).Get();
+        readonly ImmutableList<Entity> _entities;
 
         public InputSystem(Engine engine) : base(engine)
         {

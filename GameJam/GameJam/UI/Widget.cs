@@ -1,242 +1,449 @@
-﻿using Events;
+﻿using System;
+using System.Collections.Generic;
+using Events;
+using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.UI
 {
-    /// <summary>
-    /// Base class for all widgets.
-    /// </summary>
+    public enum HorizontalAlignment
+    {
+        Left,
+        Center,
+        Right
+    }
+    public enum VerticalAlignment
+    {
+        Top,
+        Center,
+        Bottom
+    }
+
+    public interface AbstractValue
+    {
+        float Value
+        {
+            get;
+        }
+    }
+    public class FixedValue : AbstractValue
+    {
+        public float Value
+        {
+            get;
+            private set;
+        }
+
+        public FixedValue(float value)
+        {
+            Value = value;
+        }
+    }
+    public class RelativeValue : AbstractValue
+    {
+        public float Percentage
+        {
+            get;
+            set;
+        }
+
+        public float Value
+        {
+            get
+            {
+                return Percentage * GetBaseValueFn();
+            }
+        }
+
+        public Func<float> GetBaseValueFn = null;
+
+        public RelativeValue(float percentage, Func<float> getBaseValueFn)
+        {
+            Percentage = percentage;
+            GetBaseValueFn = getBaseValueFn;
+        }
+    }
+
     public abstract class Widget : IEventListener
     {
-        Widget _parent = null;
+        public Root Root
+        {
+            get
+            {
+                if (Parent == null)
+                    return (Root)this;
+                else
+                    return Parent.Root;
+            }
+        }
+
+        WeakReference<Widget> _parent = new WeakReference<Widget>(null);
         public Widget Parent
         {
             get
             {
-                return _parent;
+                Widget parent;
+                if (_parent.TryGetTarget(out parent))
+                {
+                    return parent;
+                }
+                return null;
             }
             internal set
             {
-                _parent = value;
+                _parent = new WeakReference<Widget>(value);
                 ComputeProperties();
             }
         }
 
-        public Origin Origin
-        {
-            get;
-            protected set;
-        }
-
         public bool Hidden = false;
 
-        public Vector2 TopLeft
+        private HorizontalAlignment _hAlign = HorizontalAlignment.Center;
+        public HorizontalAlignment HorizontalAlignment
         {
-            get;
-            private set;
-        } = Vector2.Zero;
-        public Vector2 BottomRight
+            get
+            {
+                return _hAlign;
+            }
+            set
+            {
+                _hAlign = value;
+                ComputeProperties();
+            }
+        }
+        private AbstractValue _horizontal;
+        public float Horizontal
         {
-            get;
-            private set;
-        } = Vector2.Zero;
+            get
+            {
+                return _horizontal.Value;
+            }
+        }
+        public AbstractValue HorizontalValue
+        {
+            set
+            {
+                _horizontal = value;
+                if(_horizontal is RelativeValue)
+                {
+                    ((RelativeValue)_horizontal).GetBaseValueFn = () =>
+                    {
+                        if(Parent == null)
+                        {
+                            return 0;
+                        }
+                        return Parent.Width;
+                    };
+                }
+                ComputeProperties();
+            }
+        }
+        private VerticalAlignment _vAlign = VerticalAlignment.Center;
+        public VerticalAlignment VerticalAlignment
+        {
+            get
+            {
+                return _vAlign;
+            }
+            set
+            {
+                _vAlign = value;
+                ComputeProperties();
+            }
+        }
+        private AbstractValue _vertical;
+        public float Vertical
+        {
+            get
+            {
+                return _vertical.Value;
+            }
+        }
+        public AbstractValue VerticalValue
+        {
+            set
+            {
+                _vertical = value;
+                if (_vertical is RelativeValue)
+                {
+                    ((RelativeValue)_vertical).GetBaseValueFn = () =>
+                    {
+                        if (Parent == null)
+                        {
+                            return 0;
+                        }
+                        return Parent.Height;
+                    };
+                }
+                ComputeProperties();
+            }
+        }
 
+        private bool _maintainAspectRatio = false;
+        public virtual bool MaintainAspectRatio
+        {
+            get
+            {
+                return _maintainAspectRatio;
+            }
+            set
+            {
+                _maintainAspectRatio = value;
+                ComputeProperties();
+            }
+        }
+        private float _aspectRatio;
+        public virtual float AspectRatio
+        {
+            get
+            {
+                return _aspectRatio;
+            }
+            set
+            {
+                _aspectRatio = value;
+                if (MaintainAspectRatio)
+                {
+                    ComputeProperties();
+                }
+            }
+        }
+
+        private AbstractValue _width;
         public float Width
         {
             get
             {
-                return BottomRight.X - TopLeft.X;
+                float width = _width.Value;
+                if (MaintainAspectRatio)
+                {
+                    float freeAspectRatio = _width.Value / _height.Value;
+
+                    if (freeAspectRatio > AspectRatio) // Height is dominant
+                    {
+                        width = _height.Value * AspectRatio;
+                    }
+                }
+
+                return width;
             }
         }
+        public AbstractValue WidthValue
+        {
+            set
+            {
+                _width = value;
+                if (_horizontal is RelativeValue)
+                {
+                    ((RelativeValue)_width).GetBaseValueFn = () =>
+                    {
+                        if (Parent == null)
+                        {
+                            return 0;
+                        }
+                        return Parent.Width;
+                    };
+                }
+                ComputeProperties();
+            }
+        }
+        private AbstractValue _height;
         public float Height
         {
             get
             {
-                return BottomRight.Y - TopLeft.Y;
+                float height = _height.Value;
+                if (MaintainAspectRatio)
+                {
+                    float freeAspectRatio = _width.Value / _height.Value;
+
+                    if (freeAspectRatio < AspectRatio) // Width is dominant
+                    {
+                        height = _width.Value / AspectRatio;
+                    }
+                }
+
+                return height;
+            }
+        }
+        public AbstractValue HeightValue
+        {
+            set
+            {
+                _height = value;
+                if (_height is RelativeValue)
+                {
+                    ((RelativeValue)_height).GetBaseValueFn = () =>
+                    {
+                        if (Parent == null)
+                        {
+                            return 0;
+                        }
+                        return Parent.Height;
+                    };
+                }
+                ComputeProperties();
             }
         }
 
-        public float AspectRatio
+        private RelativeValue _alpha;
+        public float Alpha
         {
-            get;
-            protected set;
+            get
+            {
+                return _alpha.Percentage;
+            }
+            set
+            {
+                _alpha.Percentage = value;
+                ComputeProperties();
+            }
         }
-        public AspectRatioType AspectRatioType
+        public float AbsoluteAlpha
+        {
+            get
+            {
+                return _alpha.Value;
+            }
+        }
+        public Color TintColor
         {
             get;
             private set;
         }
 
-        public float PercentX
+        public Vector2 TopLeft
         {
             get;
-            set;
+            internal set;
         }
-        public float PercentY
+        public Vector2 BottomRight
         {
             get;
-            set;
+            internal set;
         }
-        public float POffsetX
+
+        public List<string> Classes
         {
             get;
-            set;
-        }
-        public float POffsetY
+            private set;
+        } = new List<string>();
+
+        public Widget(
+            HorizontalAlignment hAlign,
+            AbstractValue horizontal,
+
+            VerticalAlignment vAlign,
+            AbstractValue vertical,
+
+            AbstractValue width,
+            AbstractValue height)
         {
-            get;
-            set;
+            _hAlign = hAlign;
+            _horizontal = horizontal;
+            _vAlign = vAlign;
+            _vertical = vertical;
+            _width = width;
+            _height = height;
+
+            if (_horizontal is RelativeValue)
+            {
+                ((RelativeValue)_horizontal).GetBaseValueFn = () =>
+                {
+                    if (Parent == null)
+                    {
+                        return 0;
+                    }
+                    return Parent.Width;
+                };
+            }
+            if (_vertical is RelativeValue)
+            {
+                ((RelativeValue)_vertical).GetBaseValueFn = () =>
+                {
+                    if (Parent == null)
+                    {
+                        return 0;
+                    }
+                    return Parent.Height;
+                };
+            }
+            if (_width is RelativeValue)
+            {
+                ((RelativeValue)_width).GetBaseValueFn = () =>
+                {
+                    if (Parent == null)
+                    {
+                        return 0;
+                    }
+                    return Parent.Width;
+                };
+            }
+            if (_height is RelativeValue)
+            {
+                ((RelativeValue)_height).GetBaseValueFn = () =>
+                {
+                    if (Parent == null)
+                    {
+                        return 0;
+                    }
+                    return Parent.Height;
+                };
+            }
+            _alpha = new RelativeValue(1, () =>
+            {
+                if(Parent == null)
+                {
+                    return 1;
+                }
+                return Parent.AbsoluteAlpha;
+            });
         }
 
-        public float PercentWidth
-        {
-            get;
-            set;
-        }
-        public float POffsetWidth
-        {
-            get;
-            set;
-        }
-        public float PercentHeight
-        {
-            get;
-            set;
-        }
-        public float POffsetHeight
-        {
-            get;
-            set;
-        }
-
-        public Widget(Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentWidth,
-                      float pOffsetWidth,
-                      float percentHeight,
-                      float pOffsetHeight)
-        {
-            Origin = origin;
-            PercentX = percentX;
-            PercentY = percentY;
-            POffsetX = pOffsetX;
-            POffsetY = pOffsetY;
-            PercentWidth = percentWidth;
-            POffsetWidth = pOffsetWidth;
-            PercentHeight = percentHeight;
-            POffsetHeight = pOffsetHeight;
-
-            AspectRatioType = AspectRatioType.None;
-        }
-
-        public Widget(Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentAspect,
-                      float pOffsetAspect,
-                      float aspectRatio,
-                      AspectRatioType aspectRatioType)
-        {
-            Origin = origin;
-            PercentX = percentX;
-            PercentY = percentY;
-            POffsetX = pOffsetX;
-            POffsetY = pOffsetY;
-
-            PercentWidth = percentAspect;
-            POffsetWidth = pOffsetAspect;
-            PercentHeight = percentAspect;
-            POffsetHeight = pOffsetAspect;
-
-            AspectRatio = aspectRatio;
-
-            AspectRatioType = aspectRatioType;
-        }
-
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer);
 
         public void ComputeProperties()
         {
-            if (Parent == null)
+            if(Parent == null)
             {
                 // Root; only sets based on offset width and height
                 TopLeft = Vector2.Zero;
-                BottomRight = new Vector2(POffsetWidth, POffsetHeight);
-            }
-            else
+                BottomRight = new Vector2(Width, Height);
+                TintColor = Color.White;
+            } else
             {
                 float x = Parent.TopLeft.X;
-                x += PercentX * Parent.Width;
-                x += POffsetX;
-
-                float y = Parent.TopLeft.Y;
-                y += PercentY * Parent.Height;
-                y += POffsetY;
-
-                float w, h;
-                switch (AspectRatioType)
+                switch(HorizontalAlignment)
                 {
-                    case AspectRatioType.WidthMaster:
-                        w = Parent.Width;
-                        w *= PercentWidth;
-                        w += POffsetWidth;
-
-                        h = w / AspectRatio;
+                    case HorizontalAlignment.Left:
+                        x += Horizontal;
                         break;
-                    case AspectRatioType.HeightMaster:
-                        h = Parent.Height;
-                        h *= PercentHeight;
-                        h += POffsetHeight;
-
-                        w = h * AspectRatio;
+                    case HorizontalAlignment.Right:
+                        x += Parent.Width - Horizontal - Width;
                         break;
-                    case AspectRatioType.None:
-                    default:
-                        w = Parent.Width;
-                        w *= PercentWidth;
-                        w += POffsetWidth;
-                        h = Parent.Height;
-                        h *= PercentHeight;
-                        h += POffsetHeight;
-
-                        AspectRatio = w / h;
+                    case HorizontalAlignment.Center:
+                        x += Parent.Width / 2 - Width / 2 + Horizontal;
                         break;
                 }
 
-                switch (Origin)
+                float y = Parent.TopLeft.Y;
+                switch (VerticalAlignment)
                 {
-                    case Origin.BottomRight:
-                    case Origin.BottomLeft:
-                        y = Parent.BottomRight.Y - (y - Parent.TopLeft.Y);
-                        y -= h;
-
-                        if (Origin == Origin.BottomRight)
-                        {
-                            goto case Origin.TopRight;
-                        }
+                    case VerticalAlignment.Top:
+                        y += Vertical;
                         break;
-                    case Origin.TopRight:
-                        x = Parent.BottomRight.X - (x - Parent.TopLeft.X);
-                        x -= w;
+                    case VerticalAlignment.Bottom:
+                        y += Parent.Height - Vertical - Height;
                         break;
-                    case Origin.Center:
-                        x = x + Parent.Width * 0.5f;
-                        x -= (w * 0.5f);
-
-                        y = y + Parent.Height * 0.5f;
-                        y -= (h * 0.5f);
+                    case VerticalAlignment.Center:
+                        y += Parent.Height / 2 - Height / 2 + Vertical;
                         break;
                 }
 
                 TopLeft = new Vector2(x, y);
-                BottomRight = new Vector2(x + w,
-                                          y + h);
+                BottomRight = new Vector2(x + Width, y + Height);
+                TintColor = Color.White * AbsoluteAlpha;
             }
 
             OnComputeProperties();
@@ -247,21 +454,5 @@ namespace GameJam.UI
         }
 
         public abstract bool Handle(IEvent evt);
-    }
-
-    public enum Origin
-    {
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight,
-        Center
-    }
-
-    public enum AspectRatioType
-    {
-        None,
-        WidthMaster,
-        HeightMaster
     }
 }

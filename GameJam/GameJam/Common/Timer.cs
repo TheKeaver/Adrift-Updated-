@@ -1,44 +1,44 @@
-﻿namespace GameJam
+﻿namespace GameJam.Common
 {
     /// <summary>
     /// Implementation of a countdown timer.
     /// </summary>
     public class Timer
     {
-        float _duration;
-        float _elapsedTime;
+        public float Duration { get; private set; }
 
-        public float Elapsed
-        {
+        public float Elapsed { get; private set; }
+
+        public float Alpha {
             get
             {
-                return _elapsedTime;
+                return Elapsed / Duration;
             }
         }
 
         public Timer(float duration)
         {
-            _duration = duration;
+            Duration = duration;
         }
 
         public void Update(float dt)
         {
-            _elapsedTime += dt;
+            Elapsed += dt;
         }
 
         public bool HasElapsed()
         {
-            return _elapsedTime >= _duration;
+            return Elapsed >= Duration;
         }
 
         public void Reset()
         {
-            _elapsedTime = 0;
+            Elapsed = 0;
         }
 
         public void Reset(float newDuration)
         {
-            _duration = newDuration;
+            Duration = newDuration;
             Reset();
         }
     }

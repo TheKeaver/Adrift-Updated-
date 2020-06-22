@@ -1,6 +1,7 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Components
 {
@@ -17,13 +18,20 @@ namespace GameJam.Components
         {
         }
 
-        public TransformComponent(Vector2 position, float rotation)
+        public TransformComponent(Vector2 position, float rotation) : this(position, rotation, 1)
+        {
+
+        }
+
+        public TransformComponent(Vector2 position, float rotation, float scale)
         {
             Position = position;
             Rotation = rotation;
+            Scale = scale;
 
             LastPosition = position;
             LastRotation = rotation;
+            LastScale = scale;
         }
 
         Vector2 _position;
@@ -38,18 +46,8 @@ namespace GameJam.Components
                 _position = value;
             }
         }
-        float _rotation;
-        public float Rotation
-        {
-            get
-            {
-                return _rotation;
-            }
-            private set
-            {
-                _rotation = value;
-            }
-        }
+        public float Rotation { get; private set; }
+        public float Scale { get; private set; }
 
         Vector2 _lastPosition;
         public Vector2 LastPosition
@@ -63,18 +61,8 @@ namespace GameJam.Components
                 _lastPosition = value;
             }
         }
-        float _lastRotation;
-        public float LastRotation
-        {
-            get
-            {
-                return _lastRotation;
-            }
-            private set
-            {
-                _lastRotation = value;
-            }
-        }
+        public float LastRotation { get; private set; }
+        public float LastScale { get; private set; }
 
         public void Move(Vector2 delta)
         {
@@ -82,34 +70,60 @@ namespace GameJam.Components
         }
         public void Move(float x, float y)
         {
-            _lastPosition.X = _position.X;
-            _lastPosition.Y = _position.Y;
-
             _position.X += x;
             _position.Y += y;
         }
-        public void SetPosition(Vector2 position)
+        public void SetPosition(Vector2 position, bool reset = false)
         {
-            SetPosition(position.X, position.Y);
+            SetPosition(position.X, position.Y, reset);
         }
 
-        public void SetPosition(float x, float y)
+        public void SetPosition(float x, float y, bool reset = false)
         {
             _position.X = x;
             _position.Y = y;
-            _lastPosition.X = x;
-            _lastPosition.Y = y;
+
+            if(reset)
+            {
+                _lastPosition.X = Position.X;
+                _lastPosition.Y = Position.Y;
+            }
         }
 
         public void Rotate(float delta)
         {
-            _lastRotation = _rotation;
-            _rotation += delta;
+            Rotation += delta;
         }
-        public void SetRotation(float rotation)
+        public void SetRotation(float rotation, bool reset = false)
         {
-            _rotation = rotation;
-            _lastRotation = rotation;
+            Rotation = rotation;
+            if (reset)
+            {
+                LastRotation = Rotation;
+            }
+        }
+
+        public void SetScale(float scale, bool reset = false)
+        {
+            Scale = scale;
+            if(reset)
+            {
+                LastScale = Scale;
+            }
+        }
+
+        public void Interpolate(float alpha, out Vector2 position, out float rotation, out float scale)
+        {
+            position = Vector2.Lerp(LastPosition, Position, alpha);
+            rotation = MathUtils.LerpAngle(LastRotation, Rotation, alpha);
+            scale = MathHelper.Lerp(LastScale, Scale, alpha);
+        }
+
+        public void ResetAll()
+        {
+            LastPosition = Position;
+            LastRotation = Rotation;
+            LastScale = Scale;
         }
     }
 }

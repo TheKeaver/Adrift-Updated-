@@ -72,3 +72,6 @@ monodroid*.msi
 !/GameJam/GameJam.Desktop/x86/libSDL2-2.0.so.0
 !/GameJam/GameJam.Desktop/x86/libopenal.so.1
 !/GameJam/GameJam.Desktop/x86/soft_oal.dll
+
+# NPM
+node_modules

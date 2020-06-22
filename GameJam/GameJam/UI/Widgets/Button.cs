@@ -1,23 +1,73 @@
 ﻿using System;
 using Events;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
-using GameJam.Events;
+using GameJam.Events.InputHandling;
+using System.Collections;
+using Microsoft.Xna.Framework.Content;
+using System.Collections.Generic;
+using Adrift.Content.Common.UI;
+using GameJam.Graphics.Text;
 
 namespace GameJam.UI.Widgets
 {
-    /// <summary>
-    /// UI widget for a button.
-    /// </summary>
-    public class Button : Widget
+    public enum ButtonState
+    {
+        Released,
+        Hover,
+        Pressed
+    }
+
+    public class Button : Widget, IParentWidget, ISelectableWidget
     {
         public Action Action;
 
-        readonly NinePatchRegion2D _releasedTexture;
-        readonly NinePatchRegion2D _hoverTexture;
-        readonly NinePatchRegion2D _pressedTexture;
-        readonly Vector2 _bounds;
+        private NinePatchRegion2D _releasedNinePatch;
+        private NinePatchRegion2D _hoverNinePatch;
+        private NinePatchRegion2D _pressedNinePatch;
+        public NinePatchRegion2D ReleasedNinePatch
+        {
+            get
+            {
+                return _releasedNinePatch;
+            }
+            set
+            {
+                _releasedNinePatch = value;
+
+                ComputeProperties();
+            }
+        }
+        public NinePatchRegion2D HoverNinePatch
+        {
+            get
+            {
+                return _hoverNinePatch;
+            }
+            set
+            {
+                _hoverNinePatch = value;
+
+                ComputeProperties();
+            }
+        }
+        public NinePatchRegion2D PressedNinePatch
+        {
+            get
+            {
+                return _pressedNinePatch;
+            }
+            set
+            {
+                _pressedNinePatch = value;
+
+                ComputeProperties();
+            }
+        }
+
+        public bool ForceShowAsPressed = false;
 
         public Panel SubPanel
         {
@@ -31,103 +81,76 @@ namespace GameJam.UI.Widgets
             private set;
         } = ButtonState.Released;
 
-        public Button(NinePatchRegion2D releasedTexture,
-                      NinePatchRegion2D hoverTexture,
-                      NinePatchRegion2D pressedTexture,
-                      Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentAspect,
-                      float pOffsetAspect,
-                      float aspectRatio,
-                      AspectRatioType aspectRatioType)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                   percentAspect, pOffsetAspect, aspectRatio, aspectRatioType)
-        {
-            _releasedTexture = releasedTexture;
-            _hoverTexture = hoverTexture;
-            _pressedTexture = pressedTexture;
-            _bounds = new Vector2(releasedTexture.Width, releasedTexture.Height);
+        public string aboveID { get; set; } = "";
+        public string leftID { get; set; } = "";
+        public string rightID { get; set; } = "";
+        public string belowID { get; set; } = "";
+        public bool isSelected { get; set; } = false;
 
-            SubPanel = new Panel(Origin.TopLeft,
-                                0,
-                                0,
-                                0,
-                                0,
-                                1,
-                                0,
-                                1,
-                                 (float)0)
-            {
-                Parent = this
-            };
+        public Button(NinePatchRegion2D releasedNinePatch,
+            NinePatchRegion2D hoverNinePatch,
+            NinePatchRegion2D pressedNinePatch,
+
+            HorizontalAlignment hAlign,
+            AbstractValue horizontal,
+
+            VerticalAlignment vAlign,
+            AbstractValue vertical,
+
+            AbstractValue width,
+            AbstractValue height) : base(hAlign, horizontal, vAlign, vertical, width, height)
+        {
+            _releasedNinePatch = releasedNinePatch;
+            _hoverNinePatch = hoverNinePatch;
+            _pressedNinePatch = pressedNinePatch;
+
+            SubPanel = new Panel(HorizontalAlignment.Center, new FixedValue(0),
+                VerticalAlignment.Center, new FixedValue(0),
+                new RelativeValue(1, () => { return Width; }),
+                new RelativeValue(1, () => { return Height; }));
+
+            SubPanel.Parent = this;
         }
 
-        public Button(NinePatchRegion2D releasedTexture,
-                      NinePatchRegion2D hoverTexture,
-                      NinePatchRegion2D pressedTexture,
-                      Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentWidth,
-                      float pOffsetWidth,
-                      float percentHeight,
-                      float pOffsetHeight)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                 percentWidth, pOffsetWidth, percentHeight, pOffsetHeight)
-        {
-            _releasedTexture = releasedTexture;
-            _hoverTexture = hoverTexture;
-            _pressedTexture = pressedTexture;
-            _bounds = new Vector2(releasedTexture.Width, releasedTexture.Height);
-
-            SubPanel = new Panel(Origin.TopLeft,
-                                0,
-                                0,
-                                0,
-                                0,
-                                1,
-                                0,
-                                1,
-                                 (float)0)
-            {
-                Parent = this
-            };
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {
-                NinePatchRegion2D ninePatch = _releasedTexture;
-                if (ButtonState == ButtonState.Hover)
+                NinePatchRegion2D ninePatch = _releasedNinePatch;
+                if (ButtonState == ButtonState.Hover && Root.MouseMode == true)
                 {
-                    ninePatch = _hoverTexture;
+                    ninePatch = _hoverNinePatch;
                 }
-                if (ButtonState == ButtonState.Pressed)
+                if (this.isSelected == true && Root.MouseMode == false)
                 {
-                    ninePatch = _pressedTexture;
+                    ninePatch = _hoverNinePatch;
+                }
+                if (ButtonState == ButtonState.Pressed || ForceShowAsPressed)
+                {
+                    ninePatch = _pressedNinePatch;
                 }
 
                 spriteBatch.Draw(ninePatch,
-                                 new Rectangle((int)TopLeft.X,
-                                               (int)TopLeft.Y,
-                                               (int)Width,
-                                               (int)Height),
-                                 Color.White);
-                SubPanel.Draw(spriteBatch);
+                    new Rectangle((int)TopLeft.X,
+                        (int)TopLeft.Y,
+                        (int)Width,
+                        (int)Height),
+                        TintColor);
+                SubPanel.Render(spriteBatch, fieldFontRenderer);
             }
         }
 
         public override bool Handle(IEvent evt)
         {
+            if(Hidden)
+            {
+                return false;
+            }
+
             MouseMoveEvent mouseMoveEvent = evt as MouseMoveEvent;
             if (mouseMoveEvent != null)
             {
+                //this.isSelected = false;
                 if (mouseMoveEvent.CurrentPosition.X > TopLeft.X
                     && mouseMoveEvent.CurrentPosition.X < BottomRight.X
                     && mouseMoveEvent.CurrentPosition.Y > TopLeft.Y
@@ -165,6 +188,57 @@ namespace GameJam.UI.Widgets
                         }
 
                         ButtonState = ButtonState.Released;
+
+                    }
+                    return true;
+                }
+            }
+
+            GamePadButtonDownEvent gamePadButtonDownEvent = evt as GamePadButtonDownEvent;
+            if (gamePadButtonDownEvent != null && this.isSelected)
+            {
+                if (gamePadButtonDownEvent._pressedButton == Buttons.A)
+                {
+                    Action.Invoke();
+                }
+                if (gamePadButtonDownEvent._pressedButton == Buttons.DPadLeft ||
+                   gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickLeft)
+                {
+                    if (leftID.Length > 0)
+                    {
+                        this.isSelected = false;
+                        ((ISelectableWidget)Root.FindWidgetByID(leftID)).isSelected = true;
+                        return true;
+                    }
+                }
+                if (gamePadButtonDownEvent._pressedButton == Buttons.DPadRight ||
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickRight)
+                {
+                    if (rightID.Length > 0)
+                    {
+                        this.isSelected = false;
+                        ((ISelectableWidget)Root.FindWidgetByID(rightID)).isSelected = true;
+                        return true;
+                    }
+                }
+                if (gamePadButtonDownEvent._pressedButton == Buttons.DPadUp ||
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickUp)
+                {
+                    if (aboveID.Length > 0)
+                    {
+                        this.isSelected = false;
+                        ((ISelectableWidget)Root.FindWidgetByID(aboveID)).isSelected = true;
+                        return true;
+                    }
+                }
+                if (gamePadButtonDownEvent._pressedButton == Buttons.DPadDown ||
+                    gamePadButtonDownEvent._pressedButton == Buttons.LeftThumbstickDown)
+                {
+                    if (belowID.Length > 0)
+                    {
+                        this.isSelected = false;
+                        ((ISelectableWidget)Root.FindWidgetByID(belowID)).isSelected = true;
+                        return true;
                     }
                 }
             }
@@ -176,12 +250,41 @@ namespace GameJam.UI.Widgets
         {
             SubPanel.ComputeProperties();
         }
-    }
 
-    public enum ButtonState
-    {
-        Released,
-        Hover,
-        Pressed
+        public void Add(Widget widget)
+        {
+            SubPanel.Add(widget);
+            ComputeProperties();
+        }
+
+        public void Remove(Widget widget)
+        {
+            SubPanel.Remove(widget);
+            ComputeProperties();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IParentWidget)SubPanel).GetEnumerator();
+        }
+
+        public ISelectableWidget FindSelectedWidget()
+        {
+            if (isSelected)
+            {
+                return this;
+            }
+            return null;
+        }
+
+        public void BuildFromPrototypes(ContentManager content, List<WidgetPrototype> prototypes)
+        {
+            ((IParentWidget)SubPanel).BuildFromPrototypes(content, prototypes);
+        }
+
+        public List<Widget> FindWidgetsByClass(string className)
+        {
+            return ((IParentWidget)SubPanel).FindWidgetsByClass(className);
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace GameJam.Input
+﻿namespace GameJam.Input
 {
     /// <summary>
     /// Abstract interface for input devices (keyboards, controllers, etc.).
@@ -14,6 +12,11 @@ namespace GameJam.Input
         public InputSnapshot GetSnapshot()
         {
             return _snapshot;
+        }
+
+        public void Reset()
+        {
+            _snapshot = new InputSnapshot();
         }
     }
 }

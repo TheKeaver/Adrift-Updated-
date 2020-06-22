@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 
 namespace GameJam
@@ -8,7 +7,7 @@ namespace GameJam
     /// </summary>
     public class ProcessManager
     {
-        List<Process> _processList = new List<Process>();
+        private List<Process> _processList = new List<Process>();
 
         public  Process[] Processes
         {
@@ -47,11 +46,6 @@ namespace GameJam
             _processList.Remove(process);
         }
 
-        internal void Attach()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool HasProcesses()
         {
             return _processList.Count > 0;
@@ -78,6 +72,22 @@ namespace GameJam
                 {
                     curr.Update(dt);
                 }
+            }
+        }
+
+        public void KillAll()
+        {
+            for(int i = 0; i < _processList.Count; i++)
+            {
+                _processList[i].Kill();
+            }
+        }
+
+        public void TogglePauseAll()
+        {
+            for (int i = 0; i < _processList.Count; i++)
+            {
+                _processList[i].TogglePause();
             }
         }
     }

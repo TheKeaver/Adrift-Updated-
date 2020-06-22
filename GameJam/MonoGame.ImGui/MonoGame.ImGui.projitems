@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{D1868489-3964-4F53-8FAD-DE7297F4C5F0}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MonoGame.ImGui</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ImGUIRenderer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DrawVertDecleration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DrawText.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\GenerateRasterizerState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataConvertExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\MissingLoadedTextureKeyException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\TextureData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\InputData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\VertexData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\IndexData.cs" />
+  </ItemGroup>
+</Project>

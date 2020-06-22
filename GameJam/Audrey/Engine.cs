@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Audrey.Events;
+using Events;
 
 namespace Audrey
 {
@@ -32,6 +35,8 @@ namespace Audrey
 
             // Don't need to update bags, entitiy does not have any components
 
+            EventManager.Instance.QueueEvent(new EntityCreatedEvent(entity));
+
             return entity;
         }
 
@@ -41,8 +46,33 @@ namespace Audrey
         /// <param name="entity">Entity.</param>
         public void DestroyEntity(Entity entity)
         {
+            if(entity == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             _entities.Remove(entity);
             UpdateFamilyBags(entity);
+            foreach(IComponent component in entity._components)
+            {
+                Type componentType = component.GetType();
+                Type componentAddedEventType = typeof(ComponentRemovedEvent<>).MakeGenericType(componentType);
+                EventManager.Instance.QueueEvent((IEvent)Activator.CreateInstance(componentAddedEventType, entity, component));
+            }
+            EventManager.Instance.QueueEvent(new EntityCreatedEvent(entity));
+        }
+
+        /// <summary>
+        /// Removes Entities from the Engine that match a Family.
+        /// </summary>
+        /// <param name="family">Family of entities to destroy</param>
+        public void DestroyEntitiesFor(Family family)
+        {
+            ImmutableList<Entity> entities = GetEntitiesFor(family);
+            while(entities.Count > 0)
+            {
+                DestroyEntity(entities[0]);
+            }
         }
 
         /// <summary>

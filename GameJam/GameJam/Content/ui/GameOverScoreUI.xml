@@ -1,0 +1,212 @@
+<UI>
+    <Widgets>
+        <Panel
+            halign="center"
+            valign="center"
+            horizontal="0"
+            vertical="0"
+            width="100%"
+            height="100%"
+
+            class="main_fade_in"
+            >
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="0"
+                vertical="-30%"
+                width="70%"
+                height="25%"
+
+                content="Game Over"
+                font="font_msdf_hyperspace"
+                />
+
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="-12.5%"
+                vertical="-5%"
+                width="100%"
+                height="7.5%"
+
+                content="Player 1"
+                font="font_msdf_hyperspace"
+
+                id="player_0_name"
+
+                hidden="true"
+                />
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="12.5%"
+                vertical="-5%"
+                width="100%"
+                height="7.5%"
+
+                content="150"
+                font="font_msdf_hyperspace"
+
+                id="player_0_score"
+
+                hidden="true"
+                />
+
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="-12.5%"
+                vertical="2.5%"
+                width="100%"
+                height="7.5%"
+
+                content="Player 2"
+                font="font_msdf_hyperspace"
+
+                id="player_1_name"
+
+                hidden="true"
+                />
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="12.5%"
+                vertical="2.5%"
+                width="100%"
+                height="7.5%"
+
+                content="150"
+                font="font_msdf_hyperspace"
+
+                id="player_1_score"
+
+                hidden="true"
+                />
+
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="-12.5%"
+                vertical="10%"
+                width="100%"
+                height="7.5%"
+
+                content="Player 3"
+                font="font_msdf_hyperspace"
+
+                id="player_2_name"
+
+                hidden="true"
+                />
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="12.5%"
+                vertical="10%"
+                width="100%"
+                height="7.5%"
+
+                content="150"
+                font="font_msdf_hyperspace"
+
+                id="player_2_score"
+
+                hidden="true"
+                />
+
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="-12.5%"
+                vertical="17.5%"
+                width="100%"
+                height="7.5%"
+
+                content="Player 4"
+                font="font_msdf_hyperspace"
+
+                id="player_3_name"
+
+                hidden="true"
+                />
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="12.5%"
+                vertical="17.5%"
+                width="100%"
+                height="7.5%"
+
+                content="150"
+                font="font_msdf_hyperspace"
+
+                id="player_3_score"
+
+                hidden="true"
+                />
+        </Panel>
+        <Button
+            id="PlayAgain"
+            aboveID=""
+            leftID="ExitToLobby"
+            rightID="ExitToLobby"
+            belowID=""
+            defaultSelected="true"
+            halign="center"
+            valign="bottom"
+            horizontal="-20%"
+            vertical="10"
+            width="25%"
+            height="10%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:UI.GameOver.PlayAgainButtonPressedEvent">
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="90%"
+                height="50%"
+                content="Play Again"
+                font="font_msdf_hyperspace"
+                />
+        </Button>
+        <Button
+            id="ExitToLobby"
+            aboveID=""
+            leftID="PlayAgain"
+            rightID="PlayAgain"
+            belowID=""
+            defaultSelected="false"
+            halign="center"
+            valign="bottom"
+            horizontal="20%"
+            vertical="10"
+            width="25%"
+            height="10%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:UI.GameOver.ExitToLobbyButtonPressedEvent">
+            <Label
+                halign="center"
+                valign="center"
+                horizontal="0"
+                vertical="0"
+                width="90%"
+                height="50%"
+                content="Exit to Lobby"
+                font="font_msdf_hyperspace"
+                />
+        </Button>
+    </Widgets>
+</UI>

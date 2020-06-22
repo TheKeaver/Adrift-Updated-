@@ -29,10 +29,10 @@ namespace GameJam.Systems
         private void UpdateAngleFromInput(Entity playerShield)
         {
             PlayerShieldComponent shieldComp = playerShield.GetComponent<PlayerShieldComponent>();
-            PlayerComponent playerComp = playerShield.GetComponent<PlayerComponent>();
+            PlayerComponent playerComp = playerShield.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<PlayerComponent>();
             if(playerComp != null)
             {
-                shieldComp.Angle = playerComp.Player.InputMethod.GetSnapshot().Angle;
+                shieldComp.Angle = playerComp.Player.InputMethod.GetSnapshot().Angle - shieldComp.Offset;
             }
         }
         private void UpdateTransform(Entity playerShield)

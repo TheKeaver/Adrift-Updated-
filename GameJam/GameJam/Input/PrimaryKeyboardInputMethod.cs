@@ -1,23 +1,85 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Events;
+using GameJam.Events.InputHandling;
+using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace GameJam.Input
 {
-    public class PrimaryKeyboardInputMethod : InputMethod
+    public class PrimaryKeyboardInputMethod : InputMethod, IEventListener
     {
+        public bool isRotatingCW;
+        public bool isRotatingCCW;
+
+        public PrimaryKeyboardInputMethod()
+        {
+            EventManager.Instance.RegisterListener<KeyboardKeyDownEvent>(this);
+            EventManager.Instance.RegisterListener<KeyboardKeyUpEvent>(this);
+            isRotatingCCW = false;
+            isRotatingCW = false;
+        }
+
+        public bool Handle(IEvent evt)
+        {
+            if (evt is KeyboardKeyDownEvent)
+                HandleKeyboardControlsPressed(evt as KeyboardKeyDownEvent);
+
+            if (evt is KeyboardKeyUpEvent)
+                HandleKeyboardControlsReleased(evt as KeyboardKeyUpEvent);
+
+            return false;
+        }
+
+        private void HandleKeyboardControlsReleased(KeyboardKeyUpEvent keyboardKeyUpEvent)
+        {
+            if( (int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_counter_clockwise"))
+            {
+                isRotatingCCW = false;
+
+            }
+            if((int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_clockwise"))
+            {
+                isRotatingCW = false;
+            }
+            if((int)keyboardKeyUpEvent._key == CVars.Get<int>("input_keyboard_primary_super_shield"))
+            {
+                _snapshot.SuperShield = false;
+            }
+        }
+
+        private void HandleKeyboardControlsPressed(KeyboardKeyDownEvent keyboardKeyDownEvent)
+        {
+            if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_counter_clockwise"))
+            {
+                isRotatingCCW = true;
+            }
+            if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_rotate_clockwise"))
+            {
+                isRotatingCW = true;
+            }
+            if ((int)keyboardKeyDownEvent._key == CVars.Get<int>("input_keyboard_primary_super_shield"))
+            {
+                _snapshot.SuperShield = true;
+            }
+        }
+
         public override void Update(float dt)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if(keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
+            if(isRotatingCW)
             {
                 // Clockwise
-                _snapshot.Angle -= Constants.Input.KEYBOARD_SHIELD_ANGULAR_SPEED * dt;
+                _snapshot.Angle -= CVars.Get<float>("input_shield_angular_speed") * dt;
             }
-            if(keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+            if(isRotatingCCW)
             {
                 // Counter-clockwise
-                _snapshot.Angle += Constants.Input.KEYBOARD_SHIELD_ANGULAR_SPEED * dt;
+                _snapshot.Angle += CVars.Get<float>("input_shield_angular_speed") * dt;
             }
+        }
+        ~PrimaryKeyboardInputMethod()
+        {
+            EventManager.Instance.UnregisterListener(this);
         }
     }
 }

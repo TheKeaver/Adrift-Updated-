@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Audrey;
+﻿using Audrey;
 using Events;
-using GameJam.Events;
+using GameJam.Events.Audio;
+using GameJam.Events.EnemyActions;
+using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
@@ -11,25 +10,33 @@ namespace GameJam.Directors
 {
     public class SoundDirector : BaseDirector
     {
-        SoundEffect explosionFx;
+        /*SoundEffect explosionFx;
         SoundEffect projectileFiredFx;
-        SoundEffect projectileBouncedFx;
+        SoundEffect projectileBouncedFx;*/
+
+        string explosionString;
+        string projectileFiredString;
+        string projectileBouncedString;
 
         public SoundDirector(Engine engine, ContentManager content, ProcessManager processManager) : base(engine, content, processManager)
         {
-            explosionFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_EXPLOSION);
-            projectileFiredFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_FIRED);
-            projectileBouncedFx = Content.Load<SoundEffect>(Constants.Resources.SOUND_PROJECTILE_BOUNCE);
+            /*explosionFx = Content.Load<SoundEffect>("sound_explosion");
+            projectileFiredFx = Content.Load<SoundEffect>("sound_projectile_fired");
+            projectileBouncedFx = Content.Load<SoundEffect>("sound_projectile_bounce");*/
+
+            explosionString = "sound_explosion";
+            projectileFiredString = "sound_projectile_fired";
+            projectileBouncedString = "sound_projectile_bounce";
         }
 
-        public override void RegisterEvents()
+        protected override void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<ProjectileFiredEvent>(this);
             EventManager.Instance.RegisterListener<CreateExplosionEvent>(this);
             EventManager.Instance.RegisterListener<ProjectileBouncedEvent>(this);
         }
 
-        public override void UnregisterEvents()
+        protected override void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener(this);
         }
@@ -38,7 +45,7 @@ namespace GameJam.Directors
         {
             if (evt is ProjectileFiredEvent)
             {
-                HandleLaserFireEvent(evt as ProjectileFiredEvent);
+                HandleProjectileFiredEvent(evt as ProjectileFiredEvent);
             }
             if (evt is CreateExplosionEvent)
             {
@@ -53,19 +60,19 @@ namespace GameJam.Directors
 
         private void HandleProjectileBouncedEvent(ProjectileBouncedEvent projectileBouncedEvent)
         {
-            projectileBouncedFx.Play();
+            EventManager.Instance.QueueEvent(new PlaySoundEvent(projectileBouncedString, 1.0f, 0.0f, 0.0f, Audio.SoundType.SoundEffect));
         }
 
-        void HandleLaserFireEvent(ProjectileFiredEvent evt)
+        void HandleProjectileFiredEvent(ProjectileFiredEvent evt)
         {
-            projectileFiredFx.Play();
+            EventManager.Instance.QueueEvent(new PlaySoundEvent(projectileFiredString, 1.0f, 0.0f, 0.0f, Audio.SoundType.SoundEffect));
         }
 
         void HandleCreateExplosionEvent(CreateExplosionEvent evt)
         {
-            if (evt.playSound)
+            if (evt.PlaySound)
             {
-                explosionFx.Play();
+                EventManager.Instance.QueueEvent(new PlaySoundEvent(explosionString, 1.0f, 0.0f, 0.0f, Audio.SoundType.SoundEffect));
             }
         }
     }

@@ -7,7 +7,7 @@ namespace GameJam.Directors
     /// <summary>
     /// Base class for directors.
     /// </summary>
-    public abstract class BaseDirector : IEventListener
+    public abstract class BaseDirector : Process, IEventListener
     {
         protected Engine Engine
         {
@@ -32,9 +32,34 @@ namespace GameJam.Directors
             ProcessManager = processManager;
         }
 
-        public abstract void RegisterEvents();
+        protected abstract void RegisterEvents();
 
-        public abstract void UnregisterEvents();
+        protected abstract void UnregisterEvents();
         public abstract bool Handle(IEvent evt);
+
+        protected override void OnInitialize()
+        {
+            RegisterEvents();
+        }
+
+        protected override void OnKill()
+        {
+            UnregisterEvents();
+        }
+
+        protected sealed override void OnUpdate(float dt)
+        {
+        }
+
+        protected sealed override void OnTogglePause()
+        {
+            if(IsPaused)
+            {
+                UnregisterEvents();
+            } else
+            {
+                RegisterEvents();
+            }
+        }
     }
 }

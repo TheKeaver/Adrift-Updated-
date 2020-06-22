@@ -9,38 +9,100 @@ namespace GameJam.Common
     /// </summary>
     public class Camera : IEventListener
     {
-        public float Zoom = 1;
-        public Vector2 Position;
+        public float LastZoom
+        {
+            get;
+            private set;
+        } = 1;
+        private float _zoom = 1;
+        public float Zoom
+        {
+            get
+            {
+                return _zoom;
+            }
+            set
+            {
+                _zoom = value;
+                // Enter code that changes boundingRect
+                CalculateBoundingRect();
+            }
+        }
+
+        public float TotalZoom
+        {
+            get
+            {
+                return Zoom * _compensationZoom;
+            }
+        }
+
+        public Vector2 LastPosition
+        {
+            get;
+            private set;
+        }
+        private Vector2 _position = Vector2.Zero;
+        public Vector2 Position
+        {
+            get
+            {
+                return _position;
+            }
+            set 
+            {
+                _position = value;
+                // Enter code that changes boundingRect
+                CalculateBoundingRect();
+            }
+        }
+        public float LastRotation
+        {
+            get;
+            private set;
+        }
         public float Rotation;
 
         float _compensationZoom = 1;
         Rectangle _bounds;
+        public BoundingRect BoundingRect
+        {
+            get;
+            private set;
+        }
 
-        public Matrix TransformMatrix
+        public Matrix GetInterpolatedTransformMatrix(float alpha)
+        {
+            Vector2 position = Vector2.Lerp(LastPosition, Position, alpha);
+
+            return Matrix.CreateTranslation(new Vector3(position.X * -1,
+                        position.Y,
+                        0))
+                    * Matrix.CreateRotationZ(MathUtils.LerpAngle(LastRotation, Rotation, alpha))
+                    * Matrix.CreateScale(MathHelper.Lerp(LastZoom, Zoom, alpha) * _compensationZoom * CVars.Get<float>("debug_gameplay_camera_zoom"))
+                    * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
+                        _bounds.Height * 0.5f,
+                        0));
+        }
+        private Matrix TransformMatrix
         {
             get
             {
-                return Matrix.CreateScale(Zoom * _compensationZoom)
-                             * Matrix.CreateRotationZ(Rotation)
-                             * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
-                                                                    _bounds.Height * 0.5f,
-                                                                   0))
-                             * Matrix.CreateTranslation(new Vector3(Position.X,
-                                                            Position.Y * -1,
-                                                            0));
+                return GetInterpolatedTransformMatrix(0);
             }
         }
 
         public Camera(float width, float height)
         {
+            BoundingRect = new BoundingRect(_position.X, _position.Y, width, height);
             HandleResize((int)width, (int)height);
         }
 
-        public void RegisterEvents()
+        public virtual void RegisterEvents()
         {
             EventManager.Instance.RegisterListener<ResizeEvent>(this);
         }
-        public void UnregisterEvents()
+        public virtual void UnregisterEvents()
         {
             EventManager.Instance.UnregisterListener<ResizeEvent>(this);
         }
@@ -55,7 +117,7 @@ namespace GameJam.Common
             return Vector2.Transform(position, TransformMatrix);
         }
 
-        public bool Handle(IEvent evt)
+        public virtual bool Handle(IEvent evt)
         {
             ResizeEvent resizeEvt = evt as ResizeEvent;
 
@@ -73,14 +135,31 @@ namespace GameJam.Common
             _bounds.Height = h;
 
             float newAspectRatio = (float)_bounds.Width / _bounds.Height;
-            if (newAspectRatio <= Constants.Global.WINDOW_ASPECT_RATIO) // Width is dominant
+            float desiredAspectRatio = CVars.Get<float>("screen_width") / CVars.Get<float>("screen_height");
+            if (newAspectRatio <= desiredAspectRatio) // Width is dominant
             {
-                _compensationZoom = (float)_bounds.Width / Constants.Global.WINDOW_WIDTH;
+                _compensationZoom = (float)_bounds.Width / CVars.Get<float>("screen_width");
             }
-            if (newAspectRatio > Constants.Global.WINDOW_ASPECT_RATIO) // Height is dominant
+            if (newAspectRatio > desiredAspectRatio) // Height is dominant
             {
-                _compensationZoom = (float)_bounds.Height / Constants.Global.WINDOW_HEIGHT;
+                _compensationZoom = (float)_bounds.Height / CVars.Get<float>("screen_height");
             }
+            CalculateBoundingRect();
+        }
+
+        void CalculateBoundingRect()
+        {
+            BoundingRect = new BoundingRect(_position.X - (_bounds.Width / _zoom / _compensationZoom) / 2,
+                    _position.Y - (_bounds.Height / _zoom / _compensationZoom) / 2,
+                    _bounds.Width / _zoom / _compensationZoom,
+                    _bounds.Height / _zoom / _compensationZoom);
+        }
+
+        public void ResetAll()
+        {
+            LastZoom = Zoom;
+            LastPosition = Position;
+            LastRotation = Rotation;
         }
     }
 }

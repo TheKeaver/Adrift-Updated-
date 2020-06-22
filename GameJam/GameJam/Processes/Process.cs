@@ -30,6 +30,12 @@
             private set;
         } = false;
 
+        public bool IsPausable
+        {
+            get;
+            protected set;
+        } = true;
+
         public Process Next
         {
             get;
@@ -64,8 +70,11 @@
 
         public void TogglePause()
         {
-            IsPaused = !IsPaused;
-            OnTogglePause();
+            if (IsPausable)
+            {
+                IsPaused = !IsPaused;
+                OnTogglePause();
+            }
         }
         protected abstract void OnTogglePause();
     }

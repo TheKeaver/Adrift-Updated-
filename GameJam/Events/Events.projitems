@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9ebee4ba-ce43-46c2-a8c7-240345f599d8</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Events</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)EventManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ListenerAlreadyExistsException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Exceptions\TypeNotEventException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEventListener.cs" />
+  </ItemGroup>
+</Project>

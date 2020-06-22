@@ -1,11 +1,19 @@
-﻿using System;
+using System;
+using Adrift.Content.Common.UI;
 using Events;
+using FontExtension;
+using GameJam.Audio;
+using GameJam.Content;
+using GameJam.DevTools;
+using GameJam.Directors;
 using GameJam.Events;
+using GameJam.Events.DevTools;
+using GameJam.Input;
+using GameJam.Processes;
 using GameJam.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Input.InputListeners;
 
 namespace GameJam
 {
@@ -13,15 +21,28 @@ namespace GameJam
     /// Main manager for the game. Contains implementation of the
     /// MonoGame game loop.
     /// </summary>
-    public class GameManager : Game
+    public partial class GameManager : Game, IEventListener
     {
-        InputListenerComponent _inputListenerManager;
-        MouseListener _mouseListener;
-        GamePadListener _gamePadListener;
+        public ProcessManager ProcessManager
+        {
+            get;
+            private set;
+        }
 
-        GameState _currentState;
+#if DEBUG
+        public static StatisticsProfiler StatisticsProfiler {
+            get;
+            private set;
+        }
+#endif
 
         public GraphicsDeviceManager Graphics
+        {
+            get;
+            private set;
+        }
+
+        public LockingContentManager GlobalContent
         {
             get;
             private set;
@@ -29,90 +50,206 @@ namespace GameJam
         
         public GameManager()
         {
+            CVars.Initialize();
+
+            ProcessManager = new ProcessManager();
+
             Graphics = new GraphicsDeviceManager(this);
+            Graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            Graphics.PreferMultiSampling = false;
             Content.RootDirectory = "Content";
 
-            Graphics.PreferredBackBufferWidth = Constants.Global.WINDOW_WIDTH;
-            Graphics.PreferredBackBufferHeight = Constants.Global.WINDOW_HEIGHT;
+            Graphics.PreferredBackBufferWidth = CVars.Get<int>("initial_window_width");
+            Graphics.PreferredBackBufferHeight = CVars.Get<int>("initial_window_height");
 
-            Window.AllowUserResizing = false;
+            Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
+
+            IsFixedTimeStep = CVars.Get<bool>("update_xna_fixed");
+
+#if DEBUG
+            StatisticsProfiler = new StatisticsProfiler();
+#endif
+
+            Console.WriteLine(typeof(UIWidgetsReader).AssemblyQualifiedName);
         }
         
         protected override void Initialize()
         {
+            RegisterEvents();
+
+            Window.Title = "Adrift";
+
             Mouse.WindowHandle = Window.Handle;
             IsMouseVisible = true;
 
-            _inputListenerManager = new InputListenerComponent(this);
-            Components.Add(_inputListenerManager);
+            ProcessManager.Attach(new UIControlModeDirector());
 
-            _mouseListener = new MouseListener();
-            _inputListenerManager.Listeners.Add(_mouseListener);
+            Components.Add(new MonoGameInputEventTranslator(this));
+#if DEBUG
+            Components.Add(new ImGuiGameComponent(this, StatisticsProfiler));
+#endif
 
-            _mouseListener.MouseMoved += Mouse_MouseMoved;
-            _mouseListener.MouseDown += Mouse_MouseDownOrUp;
-            _mouseListener.MouseUp += Mouse_MouseDownOrUp;
-
-            _gamePadListener = new GamePadListener();
-            _inputListenerManager.Listeners.Add(_gamePadListener);
-
-            GamePadListener.CheckControllerConnections = true;
-            GamePadListener.ControllerConnectionChanged += GamePad_ControllerConnectionChanged;
+            ReloadDisplayOptions();
 
             base.Initialize();
+        }
+
+        private void ReloadDisplayOptions()
+        {
+            bool applyChanges = false;
+
+            DisplayModeCollection displayModes = Graphics.GraphicsDevice.Adapter.SupportedDisplayModes;
+
+            // Windowed/Borderless/Fullscreen
+            if (CVars.Get<bool>("display_fullscreen"))
+            {
+                if(!Graphics.IsFullScreen)
+                {
+                    if(CVars.Get<int>("display_fullscreen_width") < 0 || CVars.Get<int>("display_fullscreen_height") < 0)
+                    {
+                        CVars.Get<int>("display_fullscreen_width") = Graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+                        CVars.Get<int>("display_fullscreen_height") = Graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+                        CVars.Save();
+                    }
+
+                    Graphics.PreferredBackBufferWidth = CVars.Get<int>("display_fullscreen_width");
+                    Graphics.PreferredBackBufferHeight = CVars.Get<int>("display_fullscreen_height");
+
+                    Graphics.IsFullScreen = true;
+                    Graphics.HardwareModeSwitch = true;
+                    applyChanges = true;
+                }
+
+                CVars.Get<bool>("display_borderless") = false;
+                CVars.Get<bool>("display_windowed") = false;
+                CVars.Save();
+            } else if (CVars.Get<bool>("display_borderless"))
+            {
+                if (!Graphics.IsFullScreen)
+                {
+                    Graphics.IsFullScreen = true;
+                    Graphics.HardwareModeSwitch = false;
+                    applyChanges = true;
+                }
+
+                CVars.Get<bool>("display_windowed") = false;
+                CVars.Save();
+            } else
+            {
+                if (Graphics.IsFullScreen)
+                {
+                    Graphics.IsFullScreen = false;
+                }
+                Graphics.HardwareModeSwitch = false;
+                applyChanges = true;
+
+                CVars.Get<bool>("display_windowed") = true;
+                CVars.Save();
+            }
+
+            // V-sync
+            if(Graphics.SynchronizeWithVerticalRetrace
+                != CVars.Get<bool>("display_vsync"))
+            {
+                Graphics.SynchronizeWithVerticalRetrace = CVars.Get<bool>("display_vsync");
+                applyChanges = true;
+            }
+
+            if(applyChanges)
+            {
+                Graphics.ApplyChanges();
+            }
+        }
+
+        private void RegisterEvents()
+        {
+            EventManager.Instance.RegisterListener<StepGameUpdateEvent>(this);
+            EventManager.Instance.RegisterListener<GameShutdownEvent>(this);
+            EventManager.Instance.RegisterListener<ReloadDisplayOptionsEvent>(this);
+        }
+        private void UnregisterEvents()
+        {
+            EventManager.Instance.UnregisterListener(this);
         }
         
         protected override void LoadContent()
         {
             // Global Content
+            GlobalContent = new LockingContentManager(Services);
+            GlobalContent.Locked = false;
+            GlobalContent.RootDirectory = "Content";
 
-            // Load first game state
-            //ChangeState(new MainGameState(this));
-            ChangeState(new MenuGameState(this));
+            ProcessManager.Attach(new AudioManager(GlobalContent));
+
+            LoadGameContent(GlobalContent);
+            GlobalContent.Locked = true;
+
+            FieldFont font = GlobalContent.Load<FieldFont>("font_msdf_hyperspace");
+
+            // Attach first game state last
+            SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
+            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
         }
         
         protected override void Update(GameTime gameTime)
         {
-            EventManager.Instance.Dispatch();
+#if DEBUG
+            StatisticsProfiler.BeginUpdate(gameTime);
+#endif
 
-            if(_currentState != null)
+            if(!CVars.Get<bool>("debug_pause_game_updates"))
             {
-                _currentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+                Update((float)gameTime.ElapsedGameTime.TotalSeconds * CVars.Get<float>("debug_update_time_scale"));
             }
+
+#if DEBUG
+            StatisticsProfiler.EndUpdate();
+#endif
 
             base.Update(gameTime);
         }
 
+        private void Update(float dt)
+        {
+            EventManager.Instance.Dispatch();
+
+            ProcessManager.Update(dt);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
+#if DEBUG
+            StatisticsProfiler.BeginDraw(gameTime);
+#endif
+
             Graphics.GraphicsDevice.Clear(Color.Black);
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
-            if (_currentState != null)
+            foreach (Process process in ProcessManager.Processes)
             {
-                _currentState.Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
+                RenderProcess renderProcess = process as RenderProcess;
+                if(renderProcess != null)
+                {
+                    renderProcess.Render((float)gameTime.ElapsedGameTime.TotalSeconds
+                        * CVars.Get<float>("debug_update_time_scale")
+                        * (CVars.Get<bool>("debug_pause_game_updates") ? 0 : 1));
+                }
             }
+
+#if DEBUG
+            StatisticsProfiler.EndDraw();
+#endif
 
             base.Draw(gameTime);
         }
 
-        public void ChangeState(GameState nextState)
+        protected override void UnloadContent()
         {
-            if (_currentState != null)
-            {
-                _currentState.Hide();
-                _currentState.UnloadContent();
-                _currentState.Dispose();
-            }
+            UnregisterEvents();
 
-            _currentState = nextState;
-            _currentState.Initialize();
-
-            _currentState.LoadContent();
-            _currentState.Content.Locked = true;
-            _currentState.Show();
+            base.UnloadContent();
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)
@@ -121,41 +258,24 @@ namespace GameJam
                                                                Window.ClientBounds.Height));
         }
 
-        void Mouse_MouseMoved(object sender, MouseEventArgs e)
+        public bool Handle(IEvent evt)
         {
-            EventManager.Instance.QueueEvent(new MouseMoveEvent(new Vector2(e.PreviousState.Position.X,
-                                                                           e.PreviousState.Position.Y),
-                                                                new Vector2(e.Position.X,
-                                                                           e.Position.Y)));
-        }
-        void Mouse_MouseDownOrUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButton.Left)
+            if(evt is StepGameUpdateEvent)
             {
-                EventManager.Instance.QueueEvent(new MouseButtonEvent(e.CurrentState.LeftButton,
-                                                                      new Vector2(e.Position.X,
-                                                                                  e.Position.Y)));
+                Update(CVars.Get<float>("debug_game_step_period"));
             }
-        }
 
-        void GamePad_ControllerConnectionChanged(object sender, GamePadEventArgs e)
-        {
-            // More than 4 controllers not supported
-            if ((int)e.PlayerIndex < 4)
+            if(evt is GameShutdownEvent)
             {
-                if (!e.PreviousState.IsConnected
-                   && e.CurrentState.IsConnected)
-                {
-                    // Controller connected
-                    EventManager.Instance.QueueEvent(new GamePadConnectedEvent(e.PlayerIndex));
-                }
-                if (e.PreviousState.IsConnected
-                   && !e.CurrentState.IsConnected)
-                {
-                    // Controller disconnected
-                    EventManager.Instance.QueueEvent(new GamePadDisconnectedEvent(e.PlayerIndex));
-                }
+                Exit();
             }
+
+            if (evt is ReloadDisplayOptionsEvent)
+            {
+                ReloadDisplayOptions();
+            }
+
+            return false;
         }
     }
 }

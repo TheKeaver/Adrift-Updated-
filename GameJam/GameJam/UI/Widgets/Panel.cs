@@ -1,41 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Adrift.Content.Common.UI;
 using Events;
+using GameJam.Graphics.Text;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.UI.Widgets
 {
-    /// <summary>
-    /// A UI widget that is a parent for other widgets.
-    /// </summary>
-    public class Panel : Widget
+    public class Panel : Widget, IParentWidget
     {
         List<Widget> _widgets = new List<Widget>();
 
-        public Panel(Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentWidth,
-                      float pOffsetWidth,
-                      float percentHeight,
-                      float pOffsetHeight)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                 percentWidth, pOffsetWidth, percentHeight, pOffsetHeight)
-        {
-        }
-
-        public Panel(Origin origin,
-                      float percentX,
-                      float pOffsetX,
-                      float percentY,
-                      float pOffsetY,
-                      float percentAspect,
-                      float pOffsetAspect,
-                      float aspectRatio,
-                      AspectRatioType aspectRatioType)
-            : base(origin, percentX, pOffsetX, percentY, pOffsetY,
-                   percentAspect, pOffsetAspect, aspectRatio, aspectRatioType)
+        public Panel(HorizontalAlignment hAlign, AbstractValue horizontal,
+            VerticalAlignment vAlign, AbstractValue vertical,
+            AbstractValue width, AbstractValue height)
+                :base(hAlign, horizontal, vAlign, vertical, width, height)
         {
         }
 
@@ -50,19 +30,32 @@ namespace GameJam.UI.Widgets
             _widgets.Remove(widget);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public void BuildFromPrototypes(ContentManager content, List<WidgetPrototype> prototypes)
+        {
+            foreach (WidgetPrototype prototype in prototypes)
+            {
+                Add(WidgetFactory.CreateFromPrototype(content, prototype, Root));
+            }
+        }
+
+        public override void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if (!Hidden)
             {
                 for (int i = 0; i < _widgets.Count; i++)
                 {
-                    _widgets[i].Draw(spriteBatch);
+                    _widgets[i].Render(spriteBatch, fieldFontRenderer);
                 }
             }
         }
 
         public override bool Handle(IEvent evt)
         {
+            if(Hidden)
+            {
+                return false;
+            }
+
             for (int i = 0; i < _widgets.Count; i++)
             {
                 if (_widgets[i].Handle(evt))
@@ -70,7 +63,6 @@ namespace GameJam.UI.Widgets
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -80,6 +72,56 @@ namespace GameJam.UI.Widgets
             {
                 _widgets[i].ComputeProperties();
             }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _widgets.GetEnumerator();
+        }
+
+        public ISelectableWidget FindSelectedWidget()
+        {
+            foreach (Widget widget in _widgets)
+            {
+                ISelectableWidget selectableWidget = widget as ISelectableWidget;
+                if (selectableWidget != null && selectableWidget.isSelected)
+                {
+                    return selectableWidget;
+                }
+
+                IParentWidget parentWidget = widget as IParentWidget;
+                if (parentWidget != null)
+                {
+                    ISelectableWidget resultWidget = parentWidget.FindSelectedWidget();
+                    if (resultWidget != null)
+                    {
+                        return resultWidget;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public List<Widget> FindWidgetsByClass(string className)
+        {
+            List<Widget> widgets = new List<Widget>();
+
+            foreach (Widget widget in _widgets)
+            {
+                if (widget.Classes.Contains(className))
+                {
+                    widgets.Add(widget);
+                }
+
+                IParentWidget parent = widget as IParentWidget;
+                if (parent != null)
+                {
+                    widgets.AddRange(parent.FindWidgetsByClass(className));
+                }
+            }
+
+            return widgets;
         }
     }
 }

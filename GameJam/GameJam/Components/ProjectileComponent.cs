@@ -1,18 +1,18 @@
 ﻿using Audrey;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace GameJam.Components
 {
     public class ProjectileComponent : IComponent
     {
-        public int bouncesLeft;
+        public int BouncesLeft;
+        public Color Color;
+        public Player LastBouncedBy = null;
         
-        public ProjectileComponent(int totalBounces)
+        public ProjectileComponent(int totalBounces, Color color)
         {
-            bouncesLeft = totalBounces;
+            BouncesLeft = totalBounces;
+            Color = color;
         }
-        public bool hasLeftShootingEnemy = false;
     }
 }

@@ -1,17 +1,14 @@
 ﻿using Audrey;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Components
 {
     public class ProjectileSpawningProcessComponent : IComponent
     {
-        public  Process firingProcess;
+        public  Process FiringProcess;
 
-        public ProjectileSpawningProcessComponent(Process theProcess)
+        public ProjectileSpawningProcessComponent(Process firingProcess)
         {
-            firingProcess = theProcess;
+            this.FiringProcess = firingProcess;
         }
     }
 }
