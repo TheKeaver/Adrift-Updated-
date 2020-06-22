@@ -4,7 +4,7 @@ Official development repo of Adrift.
 This game is based on the 2019 GMTK game jam entry by Keith Petitt and Philip Rader.
 
 ## Version
-The current version of the game is: `v0.1-SNAPSHOT`.
+The current version of the game is: `v0.1`.
 
 Items to change when increasing the version number:
  - README.md
