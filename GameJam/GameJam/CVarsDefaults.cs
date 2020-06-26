@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -100,6 +100,7 @@ namespace GameJam
             Create<float>("player_super_shield_max", 5, CVarFlags.LIVE_RELOAD, "CHANGEME");
             Create<float>("player_super_shield_spend_rate", 2, CVarFlags.LIVE_RELOAD, "CHANGEME");
             Create<float>("player_super_shield_regen_rate", 1, CVarFlags.LIVE_RELOAD, "CHANGEME");
+            Create<bool>("player_rotate_in_direction_of_movement", true, CVarFlags.DEV_PRESERVE, "Flag for if ship faces the direction they are traveling.");
 
             Create<bool>("player_individual_deaths", true, CVarFlags.LIVE_RELOAD | CVarFlags.DEV_PRESERVE, "Whether players will have shared or individual deaths.");
 

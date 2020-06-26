@@ -1,4 +1,4 @@
-﻿using Audrey;
+using Audrey;
 using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
@@ -24,7 +24,7 @@ namespace GameJam.Entities
 
             entity.AddComponent(new CameraTrackingComponent());
 
-            entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = false;
+            entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = CVars.Get<bool>("player_rotate_in_direction_of_movement");
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(3, 0),
