@@ -1,4 +1,4 @@
-using Audrey;
+﻿using Audrey;
 using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
@@ -31,14 +31,15 @@ namespace GameJam.Entities
                     new Vector2(0, 3),
                     new Vector2(-3, 0),
                     new Vector2(0, -3)
-                    }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled, true),
+                    }, 0.2f, Color.White, PolyRenderShape.PolyCapStyle.Filled, true),
                 new PolyRenderShape(new Vector2[]{ new Vector2(0, 3),
                     new Vector2(-3, -2),
                     new Vector2(-3, 2),
                     new Vector2(0, -3)
-                    }, 0.13f, color, PolyRenderShape.PolyCapStyle.Filled)
+                    }, 0.13f, Color.White, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().ChangeColor(color);
             entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("player_ship_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(color));
             entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));

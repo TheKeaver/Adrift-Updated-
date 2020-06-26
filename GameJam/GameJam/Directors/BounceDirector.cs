@@ -126,7 +126,10 @@ namespace GameJam.Directors
                 if(bouncer.HasComponent<ProjectileComponent>()
                     && reflector.HasComponent<PlayerShieldComponent>())
                 {
-                    ProjectileEntity.ConvertToFriendlyProjectile(bouncer);
+                    // TODO Make this a more permanent fix
+                    Color playerShipColor = reflector.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0].TintColor;
+
+                    ProjectileEntity.ConvertToFriendlyProjectile(bouncer, playerShipColor);
                     bouncer.GetComponent<ProjectileComponent>().LastBouncedBy
                         = reflector.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<PlayerComponent>().Player;
                 }
