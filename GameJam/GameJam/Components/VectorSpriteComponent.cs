@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Audrey;
 using GameJam.Common;
 using Microsoft.Xna.Framework;
@@ -59,6 +60,7 @@ namespace GameJam.Components
     public abstract class RenderShape
     {
         public abstract VertexPositionColor[] ComputeVertices();
+        public abstract void ComputeIndexedVertices(out VertexPositionColor[] verts, out int[] indices);
         public abstract BoundingRect GetAABB(float scale);
         public Color TintColor
         {
@@ -147,6 +149,31 @@ namespace GameJam.Components
             _color = color;
 
             RebuildVerts();
+        }
+
+        public override void ComputeIndexedVertices(out VertexPositionColor[] verts, out int[] indices)
+        {
+            List<VertexPositionColor> vertsList = new List<VertexPositionColor>();
+            List<int> listIndices = new List<int>();
+            int indexCounter = 0;
+            int foundIndex = -1;
+
+            foreach (VertexPositionColor v in _verts)
+            {
+                foundIndex = vertsList.IndexOf(v);
+                if (foundIndex == -1)
+                {
+                    vertsList.Add(v);
+                    listIndices.Add(indexCounter);
+                }
+                else
+                {
+                    listIndices.Add(foundIndex);
+                }
+            }
+
+            verts = vertsList.ToArray();
+            indices = listIndices.ToArray();
         }
 
         public override VertexPositionColor[] ComputeVertices()
@@ -287,6 +314,7 @@ namespace GameJam.Components
 
     public class PolyRenderShape : RenderShape
     {
+        // Finish implementing abstract methods
         public enum PolyCapStyle
         {
             None,

@@ -24,7 +24,7 @@ namespace GameJam.Entities
 
             entity.AddComponent(new CameraTrackingComponent());
 
-            entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = false;
+            entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = true;
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(3, 0),

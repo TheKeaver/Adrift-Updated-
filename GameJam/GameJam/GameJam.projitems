@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Audio\AudioManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\QuadTreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\CameraTrackingComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\EntityMirroringComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
@@ -25,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\SuperShieldDisplayCleanupDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerTrailEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SuperShieldDisplayEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Animation\PlayerLostAnimationCompletedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PlaySoundEvent.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemySeparationSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\EntityMirroringSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionDetectionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />

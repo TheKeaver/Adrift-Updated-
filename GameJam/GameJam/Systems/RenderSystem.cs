@@ -278,8 +278,14 @@ namespace GameJam.Systems
                 float cos = (float)Math.Cos(rotation);
                 float sin = (float)Math.Sin(rotation);
 
+                // Split into two lists
+                // 1. Stores each unique vertex that will need to be drawn
+                // 2. Stores the index into list '1' that will be drawn
                 foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
                 {
+                    // New
+                    renderShape.ComputeIndexedVertices();
+                    // Old
                     VertexPositionColor[] verts = renderShape.ComputeVertices();
                     for (int i = verts.Length - 1; i >= 0; i--)
                     {
@@ -301,6 +307,10 @@ namespace GameJam.Systems
 
                     GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,
                         _verts.ToArray(), 0, _verts.Count / 3);
+
+                    GraphicsDevice.DrawUserIndexedPrimitives()
+
+                    GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, _verts[0], 0, _verts.Count);
                 }
             }
         }

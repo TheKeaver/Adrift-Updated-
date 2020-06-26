@@ -5,21 +5,26 @@ using Microsoft.Xna.Framework;
 
 namespace GameJam.Entities
 {
-    public class SuperShieldDisplayEntity 
+    public class PlayerTrailEntity
     {
         public static Entity Create(Engine engine, Entity shipEntity)
         {
             Entity entity = engine.CreateEntity();
+            Vector2 offset = new Vector2(-3, 0);
 
-            entity.AddComponent(new TransformComponent(shipEntity.GetComponent<TransformComponent>().Position));
-            entity.AddComponent(new SuperShieldComponent(shipEntity));
+            entity.AddComponent(new TransformComponent(shipEntity.GetComponent<TransformComponent>().Position + offset));
+            offset = entity.GetComponent<TransformComponent>().Position;
             entity.AddComponent(new VectorSpriteComponent(
                 new RenderShape[]
                 {
-                    new QuadRenderShape(new Vector2(3,0),
-                        new Vector2(0,3),
-                        new Vector2(-1.6f,0),
-                        new Vector2(0,-3),
+                    // Offset already accounts for the distance to the back of the ship
+                    // To make the trail connect directly to the ship simply set the
+                    // 1st and 2nd rows to x = 0
+                    // EX: ' offset + new Vector2(0,-1)
+                    new QuadRenderShape(offset + new Vector2(0,1),
+                        offset + new Vector2(0,-1),
+                        offset + new Vector2(-5,-1),
+                        offset + new Vector2(-5,1),
                         shipEntity.GetComponent<ColoredExplosionComponent>().Color)
                 }));
             entity.AddComponent(new EntityMirroringComponent(shipEntity, true, true));

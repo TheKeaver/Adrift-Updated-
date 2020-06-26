@@ -142,6 +142,7 @@ namespace GameJam.States
                 
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
                 new EnemyRotationSystem(Engine),
+                new EntityMirroringSystem(Engine),
 
                 // Collision Detection must go last to have accurate collision detection
                 new CollisionDetectionSystem(Engine)
