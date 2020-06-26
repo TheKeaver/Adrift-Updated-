@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 
 namespace GameJam
 {
@@ -59,9 +59,9 @@ namespace GameJam
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Deadzone of the controllers");
             Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Thumbstick of the controller to use.");
             // P1
-            Create<int>("controller_0_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate left button.");
-            Create<int>("controller_0_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate right button.");
-            Create<int>("controller_0_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 activate super shield 'X' button");
+            Create<int>("input_controller_0_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate left button.");
+            Create<int>("input_controller_0_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate right button.");
+            Create<int>("input_controller_0_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 activate super shield 'X' button");
             // P2        
             Create<int>("input_controller_1_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 rotate left button.");
             Create<int>("input_controller_1_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 rotate right button.");

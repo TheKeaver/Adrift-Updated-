@@ -63,11 +63,11 @@ namespace GameJam.Input
                 return;
             }
 
-            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_counter_clockwise"))
+            if ((int)gpbde._pressedButton == CVars.Get<int>("input_controller_" + ((int)gpbde._playerIndex) + "_rotate_counter_clockwise"))
             {
                 isRotatingCCW = true;
             }
-            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_clockwise"))
+            if ((int)gpbde._pressedButton == CVars.Get<int>("input_controller_" + ((int)gpbde._playerIndex) + "_rotate_clockwise"))
             {
                 isRotatingCW = true;
             }
@@ -80,7 +80,7 @@ namespace GameJam.Input
                 return;
             }
 
-            if((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_super_shield"))
+            if((int)gpbde._pressedButton == CVars.Get<int>("input_controller_" + ((int)gpbde._playerIndex) + "_super_shield"))
             {
                 _snapshot.SuperShield = true;
             }
@@ -93,11 +93,11 @@ namespace GameJam.Input
                 return;
             }
 
-            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_counter_clockwise"))
+            if ((int)gpbue._releasedButton == CVars.Get<int>("input_controller_" + ((int)gpbue._playerIndex) + "_rotate_counter_clockwise"))
             {
                 isRotatingCCW = false;
             }
-            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_clockwise"))
+            if ((int)gpbue._releasedButton == CVars.Get<int>("input_controller_" + ((int)gpbue._playerIndex) + "_rotate_clockwise"))
             {
                 isRotatingCW = false;
             }
@@ -110,7 +110,7 @@ namespace GameJam.Input
                 return;
             }
 
-            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_super_shield"))
+            if ((int)gpbue._releasedButton == CVars.Get<int>("input_controller_" + ((int)gpbue._playerIndex) + "_super_shield"))
             {
                 _snapshot.SuperShield = false;
             }
