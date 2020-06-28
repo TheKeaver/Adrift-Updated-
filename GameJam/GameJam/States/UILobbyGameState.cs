@@ -358,9 +358,9 @@ namespace GameJam.States
                     {
                         PlayerIndex controllerIndex = ((ControllerInputMethod)_playersSeated[i].InputMethod).PlayerIndex;
 
-                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_counter_clockwise_texture", i))).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_counter_clockwise", (int)controllerIndex))]);
+                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_counter_clockwise_texture", i))).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("input_controller_{0}_rotate_counter_clockwise", (int)controllerIndex))]);
                         ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_counter_clockwise_texture", i))).Hidden = false;
-                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_clockwise_texture", i))).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("controller_{0}_rotate_clockwise", (int)controllerIndex))]);
+                        ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_clockwise_texture", i))).Texture = Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion(_gamePadTextureMap[(Buttons)CVars.Get<int>(string.Format("input_controller_{0}_rotate_clockwise", (int)controllerIndex))]);
                         ((Image)_root.FindWidgetByID(string.Format("player_{0}_controller_clockwise_texture", i))).Hidden = false;
                     }
                     else if (_playersSeated[i].InputMethod is PrimaryKeyboardInputMethod)

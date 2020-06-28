@@ -104,6 +104,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyStateMachineProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomChasingEnemies.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomGravityHoles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomShootingEnemies.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 4\SpawnRandomPairs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 5\SpawnChasingBorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 5\SpawnCornerAssault.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\StateMachineProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\WaitForFamilyCountProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\SpawnPatternManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />

@@ -42,6 +42,10 @@ namespace GameJam.Directors
                 if(laserEnemyComp.LaserBeamEntity != null)
                 {
                     Engine.DestroyEntity(laserEnemyComp.LaserBeamEntity);
+                    if (laserEnemyComp.LaserEnemyStateMachineProcess != null)
+                    {
+                        laserEnemyComp.LaserEnemyStateMachineProcess.Kill();
+                    }
                 }
             }
 
