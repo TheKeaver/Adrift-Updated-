@@ -45,7 +45,7 @@ namespace GameJam.UI.Widgets
             Content = content;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
+        public override void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if(!Hidden)
             {

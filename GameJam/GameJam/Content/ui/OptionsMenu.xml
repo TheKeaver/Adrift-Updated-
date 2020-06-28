@@ -126,7 +126,7 @@
         pressed-thickness="5,5,5,5"
         close-on="Settings.FullScreenSettingsButtonPressedEvent,Settings.WindowedSettingsButtonPressed,Settings.BorderlessWindowButtonPressedEvent"
         aboveID="VSync_Button"
-        belowID="FXAA_Settings_Dropdown"
+        belowID="SMAA_Settings_Dropdown"
         class="DropDown"
         >
         <Label
@@ -167,8 +167,8 @@
               valign="center"
               horizontal="0"
               vertical="0"
-              width="100%"
-              height="100%"
+              width="75%"
+              height="75%"
               content="Full Screen"
               font="font_msdf_hyperspace"
               />
@@ -197,8 +197,8 @@
               valign="center"
               horizontal="0"
               vertical="0"
-              width="100%"
-              height="100%"
+              width="75%"
+              height="75%"
               content="Windowed"
               font="font_msdf_hyperspace"
                 />
@@ -227,8 +227,8 @@
               valign="center"
               horizontal="0"
               vertical="0"
-              width="100%"
-              height="100%"
+              width="75%"
+              height="75%"
               content="Borderless Window"
               font="font_msdf_hyperspace"
                 />
@@ -236,9 +236,9 @@
        </Contents>
      </DropDownPanel>
      <!-- End of Full/Windowed/Borderless options sub menu -->
-     <!-- Beginning of Anti-Aliasing options sub menu (Off, FXAA, Feathering) -->
+     <!-- Beginning of Anti-Aliasing options sub menu (Off, SMAA, Feathering) -->
       <DropDownPanel
-        id="FXAA_Settings_Dropdown"
+        id="AA_Settings_Dropdown"
         halign="center"
         valign="top"
         vertical="25%"
@@ -251,27 +251,27 @@
         hover-thickness="5,5,5,5"
         pressed-image="texture_ui_button_pressed"
         pressed-thickness="5,5,5,5"
-        close-on="Settings.AAFXAASettingsButtonPressedEvent,Settings.AAFeatheringButtonPressedEvent,Settings.AAOffButtonPressedEvent"
+        close-on="Settings.AASMAASettingsButtonPressedEvent,Settings.AAFeatheringButtonPressedEvent,Settings.AAOffButtonPressedEvent"
         aboveID="Screen_Size_Settings_Dropdown"
         belowID="Resolution_Button"
         class="DropDown"
         >
         <Label
-          id="FXAA_Settings_Dropdown_Label"
+          id="AA_Settings_Dropdown_Label"
           halign="center"
           valign="center"
           horizontal="0"
           vertical="0"
           width="75%"
           height="75%"
-          content="Anti-Alias: FXAA"
+          content="Anti-Alias: SMAA"
           font="font_msdf_hyperspace"
         />
         <Contents
           width="100%"
           height="300%">
           <Button
-            id="FXAA"
+            id="SMAA"
             aboveID="Off"
             belowID="Feathering"
             defaultSelected="false"
@@ -287,21 +287,21 @@
             hover-thickness="5,5,5,5"
             pressed-image="texture_ui_button_pressed"
             pressed-thickness="5,5,5,5"
-            onclick="queue:Settings.AAFXAASettingsButtonPressedEvent">
+            onclick="queue:Settings.AASMAASettingsButtonPressedEvent">
             <Label
                 halign="center"
                 valign="center"
                 horizontal="0"
                 vertical="0"
-                width="100%"
-                height="100%"
-                content="FXAA"
+                width="75%"
+                height="75%"
+                content="SMAA"
                 font="font_msdf_hyperspace"
                 />
           </Button>
           <Button
             id="Feathering"
-            aboveID="FXAA"
+            aboveID="SMAA"
             belowID="Off"
             defaultSelected="false"
             halign="center"
@@ -323,8 +323,8 @@
                 valign="center"
                 horizontal="0"
                 vertical="0"
-                width="100%"
-                height="100%"
+                width="75%"
+                height="75%"
                 content="Feathering"
                 font="font_msdf_hyperspace"
                   />
@@ -332,7 +332,7 @@
           <Button
             id="Off"
             aboveID="Feathering"
-            belowID="FXAA"
+            belowID="SMAA"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -353,18 +353,18 @@
                 valign="center"
                 horizontal="0"
                 vertical="0"
-                width="100%"
-                height="100%"
+                width="75%"
+                height="75%"
                 content="Off"
                 font="font_msdf_hyperspace"
                   />
           </Button>
         </Contents>
       </DropDownPanel>
-        <!-- End of Anti-Aliasing options sub menu (Off, FXAA, Feathering) -->
+        <!-- End of Anti-Aliasing options sub menu (Off, SMAA, Feathering) -->
       <Button
         id="Resolution_Button"
-        aboveID="FXAA_Settings_Dropdown"
+        aboveID="SMAA_Settings_Dropdown"
         belowID="VSync_Button"
         defaultSelected="false"
         halign="center"
@@ -433,6 +433,7 @@
         height="75%"
         id="controls_options_menu_right_panel"
         hidden="true">
+        <!-- Beginning of Left half of Button Binding Panel (Primary Settings) -->
         <Panel
           halign="left"
           valign="center"
@@ -442,9 +443,9 @@
           height="100%">
           <!-- Primary/Controller Rotate Left Button -->
           <Button
-            id="Rotate_Left"
-            aboveID="Rotate_Right"
-            belowID="Rotate_Right"
+            id="primary_rotate_counter_clockwise"
+            aboveID="primary_super_shield"
+            belowID="primary_rotate_clockwise"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -484,9 +485,9 @@
           </Button>
           <!-- Primary/Controller Rotate Right Button -->
           <Button
-            id="Rotate_Right"
-            aboveID="Rotate_Left"
-            belowID="Rotate_Left"
+            id="primary_rotate_clockwise"
+            aboveID="primary_rotate_counter_clockwise"
+            belowID="primary_super_shield"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -525,7 +526,51 @@
                 id="primary_clockwise_button_texture"
                 />
           </Button>
+          <Button
+            id="primary_super_shield"
+            aboveID="primary_rotate_clockwise"
+            belowID="primary_rotate_counter_clockwise"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="65%"
+            width="80%"
+            height="15%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:Settings.SuperShieldSettingsButtonPressedEvent">
+            <!--hidden="true"-->
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="3%"
+                vertical="0"
+                width="75%"
+                height="75%"
+                content="Super Shield:"
+                font="font_msdf_hyperspace"
+                  />
+            <!-- Image In button to allow for display of currently bound button -->
+            <Image
+                halign="right"
+                valign="center"
+                horizontal="3%"
+                vertical="0"
+                width="100%"
+                height="50%"
+                aspect-ratio="1:1"
+                image="texture_input_gamepad_bumper_left"
+                id="primary_super_shield_button_texture"
+                />
+          </Button>
         </Panel>
+        <!-- End of Left half of Button Binding Panel (Primary Settings) -->
+        <!-- Beginning of Right half of Button Binding Panel (Secondary Settings) -->
         <Panel
           halign="right"
           valign="center"
@@ -535,7 +580,9 @@
           height="100%">
           <!-- Secondary/Controller Rotate Left Button -->
           <Button
-            id="Secondary_Rotate_Left"
+            id="secondary_rotate_counter_clockwise"
+            aboveID="secondary_super_shield"
+            belowID="secondary_rotate_clockwise"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -557,7 +604,7 @@
                 vertical="0"
                 width="75%"
                 height="75%"
-                content="Secondary\nRotate Left:"
+                content="2nd Rotate Left:"
                 font="font_msdf_hyperspace"
                 />
             <!-- Image In button to allow for display of currently bound button -->
@@ -575,7 +622,9 @@
           </Button>
           <!-- Secondary/Controller Rotate Right Button -->
           <Button
-            id="Secondary_Rotate_Right"
+            id="secondary_rotate_clockwise"
+            aboveID="secondary_rotate_counter_clockwise"
+            belowID="secondary_super_shield"
             defaultSelected="false"
             halign="center"
             valign="top"
@@ -598,7 +647,7 @@
                 vertical="0"
                 width="75%"
                 height="75%"
-                content="Secondary\nRotate Right:"
+                content="2nd Rotate Right:"
                 font="font_msdf_hyperspace"
                   />
             <!-- Image In button to allow for display of currently bound button -->
@@ -615,7 +664,51 @@
                 />
           </Button>
           <!-- Future Buttons can add other controls as necessary starting here -->
+          <!-- Super Shield Button Binding -->
+          <Button
+            id="secondary_super_shield"
+            aboveID="secondary_Super_Right"
+            belowID="secondary_rotate_counter_clockwise"
+            defaultSelected="false"
+            halign="center"
+            valign="top"
+            horizontal="0"
+            vertical="65%"
+            width="80%"
+            height="15%"
+            released-image="texture_ui_button_released"
+            released-thickness="5,5,5,5"
+            hover-image="texture_ui_button_hover"
+            hover-thickness="5,5,5,5"
+            pressed-image="texture_ui_button_pressed"
+            pressed-thickness="5,5,5,5"
+            onclick="queue:Settings.SecondarySuperShieldSettingsButtonPressedEvent">
+            <!--hidden="true"-->
+            <Label
+                halign="left"
+                valign="center"
+                horizontal="3%"
+                vertical="0"
+                width="75%"
+                height="75%"
+                content="2nd Super Shield:"
+                font="font_msdf_hyperspace"
+                  />
+            <!-- Image In button to allow for display of currently bound button -->
+            <Image
+                halign="right"
+                valign="center"
+                horizontal="3%"
+                vertical="0"
+                width="100%"
+                height="50%"
+                aspect-ratio="1:1"
+                image="texture_input_gamepad_bumper_left"
+                id="secondary_super_shield_button_texture"
+                />
+          </Button>
         </Panel>
+        <!-- End of Right half of Button Binding Panel (Secondary Settings) -->
     </Panel>
     <!-- End of Controls Right Side Panel -->
     

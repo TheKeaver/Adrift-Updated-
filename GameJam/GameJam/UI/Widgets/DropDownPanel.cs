@@ -158,7 +158,7 @@ namespace GameJam.UI.Widgets
             EventManager.Instance.UnregisterListener(this);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
+        public override void Render(SpriteBatch spriteBatch, FieldFontRenderer fieldFontRenderer)
         {
             if(Hidden)
             {
@@ -167,7 +167,7 @@ namespace GameJam.UI.Widgets
             if(!Hidden)
             {
                 SubPanel.ForceShowAsPressed = ShowDropDown;
-                SubPanel.Draw(spriteBatch, fieldFontRenderer);
+                SubPanel.Render(spriteBatch, fieldFontRenderer);
                 if (ShowDropDown)
                 {
                     Root.RequestDeferredDraw(ContentsPanel);

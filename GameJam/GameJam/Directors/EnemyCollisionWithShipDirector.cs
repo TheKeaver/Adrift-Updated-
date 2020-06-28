@@ -6,6 +6,7 @@ using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using System;
 
 namespace GameJam.Directors
 {
@@ -13,6 +14,7 @@ namespace GameJam.Directors
     {
         readonly Family playerShipFamily = Family.All(typeof(PlayerShipComponent), typeof(TransformComponent)).Get();
         readonly Family enemyFamily = Family.All(typeof(EnemyComponent), typeof(TransformComponent)).Exclude(typeof(LaserBeamReflectionComponent)).Get();
+        readonly Family projectileFamily = Family.All(typeof(ProjectileComponent)).Get();
 
         public EnemyCollisionWithShipDirector(Engine engine, ContentManager content, ProcessManager processManager):base(engine, content, processManager)
         {
@@ -53,53 +55,77 @@ namespace GameJam.Directors
                 HandleCollisionStart(entityA, entityB);
         }
 
-        private void HandleCollisionStart(Entity entityA, Entity entityB)
+        private void HandleCollisionStart(Entity playerShipEntity, Entity enemyEntity)
         {
-            if (!CVars.Get<bool>("god"))
+            bool friendlyEnemy = false;
+            if (projectileFamily.Matches(enemyEntity))
             {
-                entityA.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
-                ChangeShieldColor(entityA);
-            }
-            if(entityA.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
-            {
-                Color color = Color.White;
-                if (entityA.HasComponent<ColoredExplosionComponent>())
+                ProjectileComponent projectileComp = enemyEntity.GetComponent<ProjectileComponent>();
+                Player player = null;
+                if (playerShipEntity != null)
                 {
-                    color = entityA.GetComponent<ColoredExplosionComponent>().Color;
+                    PlayerComponent playerComp = playerShipEntity.GetComponent<PlayerComponent>();
+                    if (playerComp != null)
+                    {
+                        player = playerComp.Player;
+                    }
                 }
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color));
-
-                Engine.DestroyEntity(entityA);
-
-                Entity responsibleEntity = entityB;
-                if(entityB.HasComponent<LaserBeamComponent>())
+                if (player != null && projectileComp.LastBouncedBy == player)
                 {
-                    responsibleEntity = FindLaserBeamOwner(responsibleEntity);
+                    friendlyEnemy = true;
                 }
-                EventManager.Instance.QueueEvent(new GameOverEvent(entityA.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<PlayerComponent>().Player,
-                    responsibleEntity));
-                return;
-            } else
-            {
-                Color color = Color.White;
-                if (entityA.HasComponent<ColoredExplosionComponent>())
-                {
-                    color = entityA.GetComponent<ColoredExplosionComponent>().Color;
-                }
-                EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityA.GetComponent<TransformComponent>().Position, color));
             }
 
-            if (!entityB.HasComponent<LaserBeamComponent>())
+            if (!friendlyEnemy)
             {
+                if (!CVars.Get<bool>("god"))
+                {
+                    playerShipEntity.GetComponent<PlayerShipComponent>().LifeRemaining -= 1;
+                    ChangeShieldColor(playerShipEntity);
+                }
+                if (playerShipEntity.GetComponent<PlayerShipComponent>().LifeRemaining <= 0)
                 {
                     Color color = Color.White;
-                    if (entityB.HasComponent<ColoredExplosionComponent>())
+                    if (playerShipEntity.HasComponent<ColoredExplosionComponent>())
                     {
-                        color = entityB.GetComponent<ColoredExplosionComponent>().Color;
+                        color = playerShipEntity.GetComponent<ColoredExplosionComponent>().Color;
                     }
-                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(entityB.GetComponent<TransformComponent>().Position, color, false));
+                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(playerShipEntity.GetComponent<TransformComponent>().Position, color));
+
+                    Engine.DestroyEntity(playerShipEntity);
+
+                    Entity responsibleEntity = enemyEntity;
+                    if (enemyEntity.HasComponent<LaserBeamComponent>())
+                    {
+                        responsibleEntity = FindLaserBeamOwner(responsibleEntity);
+                    }
+                    EventManager.Instance.QueueEvent(new PlayerLostEvent(playerShipEntity.GetComponent<PlayerComponent>().Player, responsibleEntity));
+                    //Engine.DestroyEntity(entityA);
+                    return;
                 }
-                Engine.DestroyEntity(entityB);
+                else
+                {
+                    Color color = Color.White;
+                    if (playerShipEntity.HasComponent<ColoredExplosionComponent>())
+                    {
+                        color = playerShipEntity.GetComponent<ColoredExplosionComponent>().Color;
+                    }
+                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(playerShipEntity.GetComponent<TransformComponent>().Position, color));
+                }
+            }
+
+            if (!enemyEntity.HasComponent<LaserBeamComponent>())
+            {
+                if (!friendlyEnemy)
+                {
+                    Color color = Color.White;
+                    if (enemyEntity.HasComponent<ColoredExplosionComponent>())
+                    {
+                        color = enemyEntity.GetComponent<ColoredExplosionComponent>().Color;
+                    }
+                    EventManager.Instance.QueueEvent(new CreateExplosionEvent(enemyEntity.GetComponent<TransformComponent>().Position, color, false));
+                    Engine.DestroyEntity(enemyEntity);
+                }
             }
         }
 
@@ -108,17 +134,26 @@ namespace GameJam.Directors
             switch(ship.GetComponent<PlayerShipComponent>().LifeRemaining)
             {
                 case 2:
-                    ship.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_middle"));
+                    foreach(Entity shield in ship.GetComponent<PlayerShipComponent>().ShipShields)
+                    {
+                        shield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_middle"));
+                    }
                     break;
                 case 1:
-                    ship.GetComponent<PlayerShipComponent>().ShipShield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_low"));
+                    foreach (Entity shield in ship.GetComponent<PlayerShipComponent>().ShipShields)
+                    {
+                        shield.GetComponent<VectorSpriteComponent>().ChangeColor(CVars.Get<Color>("color_player_shield_low"));
+                    }
                     break;
             }
         }
 
         private void HandleShipComponentRemovedEvent(ComponentRemovedEvent<PlayerShipComponent> shipComponentRemovedEvent)
         {
-            Engine.DestroyEntity(shipComponentRemovedEvent.Component.ShipShield);
+            foreach (Entity shield in shipComponentRemovedEvent.Component.ShipShields)
+            {
+                Engine.DestroyEntity(shield);
+            }
         }
 
         private Entity FindLaserBeamOwner(Entity laserBeamEntity)

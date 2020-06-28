@@ -63,6 +63,11 @@ namespace GameJam.Particles
 
 		protected override void OnUpdate(float dt)
 		{
+            if(!CVars.Get<bool>("particle_enable"))
+            {
+				return;
+            }
+
 			int removalCount = 0;
 			for (int i = 0; i < _particles.Count; i++)
 			{
@@ -80,11 +85,21 @@ namespace GameJam.Particles
 				}
 			}
 			_particles.Count -= removalCount;
+
+			if (!CVars.Get<bool>("particle_gpu_accelerated"))
+			{
+				GameManager.StatisticsProfiler.PushParticleCount(_particles.Count);
+			}
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-            Vector2 origin = Vector2.Zero;
+			if (!CVars.Get<bool>("particle_enable"))
+			{
+				return;
+			}
+
+			Vector2 origin = Vector2.Zero;
             TextureRegion2D texture = null;
 			for (int i = 0; i < _particles.Count; i++)
 			{

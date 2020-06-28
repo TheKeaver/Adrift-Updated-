@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -44,11 +45,23 @@ namespace GameJam.Components
                 shape.TintColor = color;
             }
         }
+        public BoundingRect GetAABB(float scale)
+        {
+            BoundingRect returnRect = RenderShapes[0].GetAABB(scale);
+
+            for(int i=1; i<RenderShapes.Count; i++)
+            {
+                BoundingRect temp = RenderShapes[i].GetAABB(scale);
+                returnRect = BoundingRect.Union(returnRect, temp);
+            }
+            return returnRect;
+        }
     }
 
     public abstract class RenderShape
     {
         public abstract VertexPositionColor[] ComputeVertices();
+        public abstract BoundingRect GetAABB(float scale);
         public Color TintColor
         {
             get;
@@ -241,6 +254,37 @@ namespace GameJam.Components
                 };
             }
         }
+
+        public override BoundingRect GetAABB(float scale)
+        {
+            Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity),
+                max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+
+            for (int i = 0; i < _verts.Length; i++)
+            {
+                Vector2 transformedVertex = (new Vector2(_verts[i].Position.X - _verts[i].Position.Y,
+                    _verts[i].Position.X + _verts[i].Position.Y) * scale);
+
+                if (transformedVertex.X < min.X)
+                {
+                    min.X = transformedVertex.X;
+                }
+                if (transformedVertex.X > max.X)
+                {
+                    max.X = transformedVertex.X;
+                }
+                if (transformedVertex.Y < min.Y)
+                {
+                    min.Y = transformedVertex.Y;
+                }
+                if (transformedVertex.Y > max.Y)
+                {
+                    max.Y = transformedVertex.Y;
+                }
+            }
+
+            return new BoundingRect(min, max);
+        }
     }
 
     public class PolyRenderShape : RenderShape
@@ -256,6 +300,7 @@ namespace GameJam.Components
 
         public static PolyRenderShape GenerateCircleRenderShape(float thickness, float radius, Color color, int resolution)
         {
+            thickness = (CVars.Get<bool>("graphics_feathering")) ? thickness : 1.5f * thickness;
             Vector2[] points = new Vector2[resolution];
 
             for(int i = 0; i < points.Length; i++)
@@ -269,6 +314,7 @@ namespace GameJam.Components
 
         public PolyRenderShape(Vector2[] points, float thickness, Color color, PolyCapStyle polyCapStyle = PolyCapStyle.None, bool closed = false)
         {
+            thickness = (CVars.Get<bool>("graphics_feathering")) ? thickness : 1.5f * thickness;
             Color[] colors = new Color[points.Length];
             for(int i = 0; i < colors.Length; i++)
             {
@@ -280,9 +326,12 @@ namespace GameJam.Components
         {
             Init(points, thickness, colors, polyCapStyle, closed);
         }
-        private void Init(Vector2[] points, float thickness, Color[] colors, PolyCapStyle polyCapStyle = PolyCapStyle.None, bool closed = false) {
+        private void Init(Vector2[] points, float thickness, Color[] colors, PolyCapStyle polyCapStyle = PolyCapStyle.None, bool closed = false)
+        {
             bool feathering = CVars.Get<bool>("graphics_feathering");
             float feather = CVars.Get<float>("graphics_feathering_width");
+
+            thickness = feathering ? thickness : 1.5f * thickness;
 
             int count = points.Length;
             if(closed)
@@ -497,6 +546,37 @@ namespace GameJam.Components
         public override VertexPositionColor[] ComputeVertices()
         {
             return _verts;
+        }
+
+        public override BoundingRect GetAABB(float scale)
+        {
+            Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity),
+                max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+
+            for (int i=0; i < _verts.Length; i++)
+            {
+                Vector2 transformedVertex = (new Vector2(_verts[i].Position.X - _verts[i].Position.Y,
+                    _verts[i].Position.X + _verts[i].Position.Y) * scale);
+
+                if (transformedVertex.X < min.X)
+                {
+                    min.X = transformedVertex.X;
+                }
+                if (transformedVertex.X > max.X)
+                {
+                    max.X = transformedVertex.X;
+                }
+                if (transformedVertex.Y < min.Y)
+                {
+                    min.Y = transformedVertex.Y;
+                }
+                if (transformedVertex.Y > max.Y)
+                {
+                    max.Y = transformedVertex.Y;
+                }
+            }
+
+            return new BoundingRect(min, max);
         }
     }
 }

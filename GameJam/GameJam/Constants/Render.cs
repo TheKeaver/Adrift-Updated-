@@ -20,7 +20,8 @@
         ///////////////
         public static readonly byte RENDER_GROUP_STARS = GROUP_ONE;
         public static readonly byte RENDER_GROUP_GAME_ENTITIES = GROUP_TWO;
-        public static readonly byte RENDER_GROUP_UI = GROUP_THREE;
+        public static readonly byte RENDER_GROUP_NO_GLOW = GROUP_THREE;
+        public static readonly byte RENDER_GROUP_UI = GROUP_FOUR;
 
         //////////////
         public static readonly float RENDER_DEPTH_LAYER_SPRITES = 1;

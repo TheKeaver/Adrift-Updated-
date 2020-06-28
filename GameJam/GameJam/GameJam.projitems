@@ -10,20 +10,38 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Audio\AudioManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\QuadTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\CameraTrackingComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\SuperShieldComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\AreaTextureSMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\SearchTextureSMAA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\CleanupEntitiesOnEndOfSceneDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\GameOverDeciderDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerLostAnimationAttachDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerShipCollidingWithEdgeDirector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\SuperShieldDisplayCleanupDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SuperShieldDisplayEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Animation\PlayerLostAnimationCompletedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PlaySoundEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\StopAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\ResumeAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PauseAllSoundsEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\CleanupAllEntitiesEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\PlayerLostEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\PlayerShipSpawnEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAOffButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAFXAASettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAOffButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AAFeatheringButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\AASMAASettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\BorderlessWindowButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SecondarySuperShieldSettingsButtonPressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\SuperShieldSettingsButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\VSyncButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\ResolutionButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Settings\FullScreenSettingsButtonPressedEvent.cs" />
@@ -77,16 +95,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Easing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Bloom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Negative.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Quad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\SMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\MonoGameInputEventTranslator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyStateMachineProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomChasingEnemies.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomGravityHoles.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomShootingEnemies.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomLaserEnemies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomGravityHoles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomShootingEnemies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\SpawnRandomLaserEnemies.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnShootingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\SpawnGravityConstellation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 3\SpawnLaserTriangle.cs" />
@@ -94,18 +116,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 4\SpawnRandomPairs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 5\SpawnChasingBorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 5\SpawnCornerAssault.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\StateMachineProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\WaitForFamilyCountProcess.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\SpawnPatternManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\SpawnPatternManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnChasingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemySeparationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionDetectionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\ProjectileColorSyncSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeDebugRenderSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderCullingDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\DelegateProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\InstantProcess.cs" />
@@ -147,6 +175,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ChasingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\SuperShieldSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformResetSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />
@@ -245,11 +275,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHolePingComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase2Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpEntityPhase2Process.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\Quad.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Text\FieldFontRenderer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\MSDFFontTestGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\FieldFontComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\TextureAtlases\TextureAtlasReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\DebugCamera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\InputHandling\MouseScrollEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\ParticleTestGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\HSLColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Particles\GPUParticleManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NUI\Widget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NUI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\NUITestGameState.cs" />
@@ -270,5 +304,10 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\TextureAtlases\" />
     <Folder Include="$(MSBuildThisFileDirectory)NUI\" />
     <Folder Include="$(MSBuildThisFileDirectory)NUI\Widgets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\Font License %28Hyperspace, Pixel Sagas%29.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

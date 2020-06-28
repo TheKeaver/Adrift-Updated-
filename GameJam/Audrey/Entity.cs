@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Audrey.Events;
 using Audrey.Exceptions;
 using Events;
@@ -88,6 +89,7 @@ namespace Audrey
         {
             if (HasComponent(component.GetType()))
             {
+                
                 throw new ComponentAlreadyExistsException();
             }
 
@@ -133,6 +135,31 @@ namespace Audrey
 
             Type componentRemovedEventType = typeof(ComponentAddedEvent<>).MakeGenericType(componentType);
             EventManager.Instance.QueueEvent((IEvent)Activator.CreateInstance(componentRemovedEventType, this, componentToRemove));
+        }
+
+        public void StripAllComponentsExcept(params Type[] componentTypes)
+        {
+            foreach(Type componentType in componentTypes)
+            {
+                if(!componentType.IsComponent())
+                {
+                    throw new TypeNotComponentException();
+                }
+            }
+
+            for(int i = 0; i < _components.Count; i++)
+            {
+                Type componentType = _components[i].GetType();
+
+                if(componentTypes.Contains(componentType))
+                {
+                    // We are not to remove this component
+                    continue;
+                }
+
+                RemoveComponent(componentType);
+                i--;
+            }
         }
     }
 }

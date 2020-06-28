@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 
@@ -19,11 +20,12 @@ namespace GameJam.Entities
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new QuadRenderShape(new Vector2(3, -1), new Vector2(3, 1),
                     new Vector2(-3, 1), new Vector2(-3, -1),
-                    CVars.Get<Color>("color_projectile"))
+                    Color.White)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("projectile_size"), false);
+            entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
             entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
-            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("projectile_size"), false);
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(3, -1),
@@ -31,7 +33,33 @@ namespace GameJam.Entities
                 new Vector2(-3, 1),
                 new Vector2(-3, -1)
             })));
+            ConvertToEnemyProjectile(entity);
+
+            entity.AddComponent(new ColoredExplosionComponent(entity.GetComponent<ProjectileComponent>().Color));
+
+            return entity;
+        }
+
+        public static Entity ConvertToEnemyProjectile(Entity entity)
+        {
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
+            // Only collide with things that are not enemies
+            entity.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.GROUP_MASK_ALL & (~Constants.Collision.COLLISION_GROUP_ENEMIES));
+            entity.GetComponent<ProjectileComponent>().Color = CVars.Get<Color>("color_projectile");
+
+            return entity;
+        }
+        public static Entity ConvertToFriendlyProjectile(Entity entity)
+        {
+            return ConvertToFriendlyProjectile(entity, CVars.Get<Color>("color_projectile_friendly"));
+        }
+        public static Entity ConvertToFriendlyProjectile(Entity entity, Color color)
+        {
+            entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
+            // Collide with everything except enemies
+            // TODO Temporary
+            entity.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.GROUP_MASK_ALL);
+            entity.GetComponent<ProjectileComponent>().Color = color;
 
             return entity;
         }

@@ -9,6 +9,7 @@ namespace GameJam.Input
     {
         public bool isRotatingCW;
         public bool isRotatingCCW;
+        public bool isSuperShieldOn;
         public readonly PlayerIndex PlayerIndex;
 
         public ControllerInputMethod(PlayerIndex playerIndex)
@@ -39,9 +40,15 @@ namespace GameJam.Input
         public bool Handle(IEvent evt)
         {
             if (evt is GamePadButtonDownEvent)
+            {
                 HandleGamePadRotationOn(evt as GamePadButtonDownEvent);
+                HandleGamePadSuperShieldOn(evt as GamePadButtonDownEvent);
+            }
             if (evt is GamePadButtonUpEvent)
+            {
                 HandleGamePadRotationOff(evt as GamePadButtonUpEvent);
+                HandleGamePadSuperShieldOff(evt as GamePadButtonUpEvent);
+            }
 
             if (evt is GamePadDisconnectedEvent)
                 HandleGamePadDisconnected(evt as GamePadDisconnectedEvent);
@@ -56,13 +63,26 @@ namespace GameJam.Input
                 return;
             }
 
-            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_left"))
+            if ((int)gpbde._pressedButton == CVars.Get<int>("input_controller_" + ((int)gpbde._playerIndex) + "_rotate_counter_clockwise"))
             {
                 isRotatingCCW = true;
             }
-            if ((int)gpbde._pressedButton == CVars.Get<int>("controller_" + ((int)gpbde._playerIndex) + "_rotate_right"))
+            if ((int)gpbde._pressedButton == CVars.Get<int>("input_controller_" + ((int)gpbde._playerIndex) + "_rotate_clockwise"))
             {
                 isRotatingCW = true;
+            }
+        }
+
+        private void HandleGamePadSuperShieldOn(GamePadButtonDownEvent gpbde)
+        {
+            if (gpbde._playerIndex != PlayerIndex)
+            {
+                return;
+            }
+
+            if((int)gpbde._pressedButton == CVars.Get<int>("input_controller_" + ((int)gpbde._playerIndex) + "_super_shield"))
+            {
+                _snapshot.SuperShield = true;
             }
         }
 
@@ -73,13 +93,26 @@ namespace GameJam.Input
                 return;
             }
 
-            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_left"))
+            if ((int)gpbue._releasedButton == CVars.Get<int>("input_controller_" + ((int)gpbue._playerIndex) + "_rotate_counter_clockwise"))
             {
                 isRotatingCCW = false;
             }
-            if ((int)gpbue._releasedButton == CVars.Get<int>("controller_" + ((int)gpbue._playerIndex) + "_rotate_right"))
+            if ((int)gpbue._releasedButton == CVars.Get<int>("input_controller_" + ((int)gpbue._playerIndex) + "_rotate_clockwise"))
             {
                 isRotatingCW = false;
+            }
+        }
+
+        private void HandleGamePadSuperShieldOff(GamePadButtonUpEvent gpbue)
+        {
+            if (gpbue._playerIndex != PlayerIndex)
+            {
+                return;
+            }
+
+            if ((int)gpbue._releasedButton == CVars.Get<int>("input_controller_" + ((int)gpbue._playerIndex) + "_super_shield"))
+            {
+                _snapshot.SuperShield = false;
             }
         }
 

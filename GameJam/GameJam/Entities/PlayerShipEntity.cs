@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 
@@ -18,28 +19,31 @@ namespace GameJam.Entities
             entity.AddComponent(new TransformComponent(position));
 
             entity.AddComponent(new MovementComponent());
-            entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health")));
+            entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health"), CVars.Get<float>("player_super_shield_max")));
             entity.AddComponent(new BounceComponent());
 
-            entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = false;
+            entity.AddComponent(new CameraTrackingComponent());
+
+            entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = CVars.Get<bool>("player_rotate_in_direction_of_movement");
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(3, 0),
                     new Vector2(0, 3),
                     new Vector2(-3, 0),
                     new Vector2(0, -3)
-                    }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled, true),
+                    }, 0.2f, Color.White, PolyRenderShape.PolyCapStyle.Filled, true),
                 new PolyRenderShape(new Vector2[]{ new Vector2(0, 3),
                     new Vector2(-3, -2),
                     new Vector2(-3, 2),
                     new Vector2(0, -3)
-                    }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled)
+                    }, 0.13f, Color.White, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().ChangeColor(color);
+            entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("player_ship_size"), true);
             entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
-            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("player_ship_size"), true);
             entity.AddComponent(new ColoredExplosionComponent(color));
-
+            entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(3, 0),

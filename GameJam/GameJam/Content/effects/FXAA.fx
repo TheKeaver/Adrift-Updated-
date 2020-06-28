@@ -3,8 +3,8 @@
 #define VS_SHADERMODEL vs_3_0
 #define PS_SHADERMODEL ps_3_0
 #else
-#define VS_SHADERMODEL vs_4_0_level_9_1
-#define PS_SHADERMODEL ps_4_0_level_9_1
+#define VS_SHADERMODEL vs_4_0
+#define PS_SHADERMODEL ps_4_0
 #endif
 
 Texture2D SpriteTexture;
@@ -78,7 +78,7 @@ technique Standard
 {
     pass Pass1
     {
-        PixelShader = compile ps_3_0 PixelShaderFunction_Standard();
+        PixelShader = compile PS_SHADERMODEL PixelShaderFunction_Standard();
     }
 }
 
@@ -86,6 +86,6 @@ technique FXAA
 {
     pass Pass1
     {
-        PixelShader = compile ps_3_0 PixelShaderFunction_FXAA();
+        PixelShader = compile PS_SHADERMODEL PixelShaderFunction_FXAA();
     }
 }

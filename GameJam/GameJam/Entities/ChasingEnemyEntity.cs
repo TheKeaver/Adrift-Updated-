@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using GameJam.Processes.Entities;
 using Microsoft.Xna.Framework;
@@ -28,15 +29,15 @@ namespace GameJam.Entities
             Entity entity = engine.CreateEntity();
             entity.AddComponent(new TransformComponent());
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
-                new PolyRenderShape(GetPoints(), 0.4f, CVars.Get<Color>("color_chasing_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
+                new PolyRenderShape(GetPoints(), 0.2f, CVars.Get<Color>("color_chasing_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
             entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_chasing_enemy")));
 
-            entity.GetComponent<TransformComponent>().SetPosition(position);
-            entity.GetComponent<TransformComponent>().SetRotation(angle);
-            entity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("chasing_enemy_size"), true);
+            entity.GetComponent<TransformComponent>().SetPosition(position, true);
+            entity.GetComponent<TransformComponent>().SetRotation(angle, true);
+            entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("chasing_enemy_size"), true);
 
             return entity;
         }
@@ -56,6 +57,7 @@ namespace GameJam.Entities
             entity.AddComponent(new EnemyComponent());
             entity.AddComponent(new ChasingEnemyComponent());
             entity.AddComponent(new BounceComponent());
+            entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(3, 0),

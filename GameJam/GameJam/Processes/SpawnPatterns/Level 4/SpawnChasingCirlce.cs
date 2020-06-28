@@ -27,15 +27,15 @@ namespace GameJam.Processes.SpawnPatterns
             //Console.WriteLine("Triggered SpawnChasingTrianlge");
             Center = SPM.GenerateValidCenter(radius);
 
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 90), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y + 90)));
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y - 90), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y - 90)));
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 90, Center.Y), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 90, Center.Y)));
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 90, Center.Y), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 90, Center.Y)));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 180), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y + 180)));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y - 180), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y - 180)));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 180, Center.Y), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 180, Center.Y)));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 180, Center.Y), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 180, Center.Y)));
 
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 64, Center.Y + 64), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 64, Center.Y + 64)));
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 64, Center.Y - 64), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 64, Center.Y - 64)));
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 64, Center.Y + 64), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 64, Center.Y + 64)));
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 64, Center.Y - 64), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 64, Center.Y - 64)));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 128, Center.Y + 128), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 128, Center.Y + 128)));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 128, Center.Y - 128), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 128, Center.Y - 128)));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 128, Center.Y + 128), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 128, Center.Y + 128)));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 128, Center.Y - 128), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 128, Center.Y - 128)));
         }
     }
 }

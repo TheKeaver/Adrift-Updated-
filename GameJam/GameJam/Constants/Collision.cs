@@ -1,4 +1,6 @@
-﻿namespace GameJam.Constants
+﻿using System.Text.RegularExpressions;
+
+namespace GameJam.Constants
 {
     /// <summary>
     /// Constants for collision groups.
@@ -21,5 +23,6 @@
         public static readonly byte COLLISION_GROUP_PLAYER = GROUP_ONE;
         public static readonly byte COLLISION_GROUP_ENEMIES = GROUP_TWO;
         public static readonly byte COLLISION_GROUP_EDGES = GROUP_THREE;
+        public static readonly byte COLLISION_GROUP_RAYCAST = GROUP_EIGHT;
     }
 }

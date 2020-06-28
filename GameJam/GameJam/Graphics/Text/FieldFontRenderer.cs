@@ -16,7 +16,6 @@ namespace GameJam.Graphics.Text
         private readonly Effect Effect;
         private readonly GraphicsDevice Device;
         private readonly ContentManager Content;
-        private readonly Quad Quad;
 
         private FieldFont _currentFont;
         private Texture2D _currentTexture;
@@ -30,8 +29,6 @@ namespace GameJam.Graphics.Text
             Effect = content.Load<Effect>("effect_field_font");
             Device = device;
             Content = content;
-
-            Quad = new Quad();
         }
 
         public void Begin(bool optimizeForSmallText = false)
@@ -110,17 +107,17 @@ namespace GameJam.Graphics.Text
         public void Draw(FieldFont font, string content, Vector2 position, float rotation,
             Color color, float scale = 1, bool enableKerning = true, float depth = 0)
         {
-            if(!_currentlyDrawing)
+            if (!_currentlyDrawing)
             {
                 throw new Exception("Not currently drawing. Call `Begin` first.");
             }
 
-            if(string.IsNullOrEmpty(content))
+            if (string.IsNullOrEmpty(content))
             {
                 return;
             }
 
-            if(_currentFont != null)
+            if (_currentFont != null)
             {
                 if (_currentFont.PxRange != font.PxRange || _currentFont.TxSize != font.TxSize)
                 {
@@ -142,14 +139,14 @@ namespace GameJam.Graphics.Text
             for (int i = 0; i < sequence.Length; i++)
             {
                 GlyphRenderInfo current = sequence[i];
-                if(current == null)
+                if (current == null)
                 {
                     continue;
                 }
 
-                if(_currentTexture != null)
+                if (_currentTexture != null)
                 {
-                    if(_currentTexture != current.TextureRegion.Texture)
+                    if (_currentTexture != current.TextureRegion.Texture)
                     {
                         Flush();
                     }

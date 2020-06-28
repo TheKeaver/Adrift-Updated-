@@ -13,5 +13,10 @@
         {
             return _snapshot;
         }
+
+        public void Reset()
+        {
+            _snapshot = new InputSnapshot();
+        }
     }
 }

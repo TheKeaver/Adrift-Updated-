@@ -30,7 +30,10 @@ namespace GameJam
         }
 
 #if DEBUG
-        StatisticsProfiler _statisticsProfiler;
+        public static StatisticsProfiler StatisticsProfiler {
+            get;
+            private set;
+        }
 #endif
 
         public GraphicsDeviceManager Graphics
@@ -62,8 +65,10 @@ namespace GameJam
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
 
+            IsFixedTimeStep = CVars.Get<bool>("update_xna_fixed");
+
 #if DEBUG
-            _statisticsProfiler = new StatisticsProfiler();
+            StatisticsProfiler = new StatisticsProfiler();
 #endif
 
             Console.WriteLine(typeof(UIWidgetsReader).AssemblyQualifiedName);
@@ -82,7 +87,7 @@ namespace GameJam
 
             Components.Add(new MonoGameInputEventTranslator(this));
 #if DEBUG
-            Components.Add(new ImGuiGameComponent(this, _statisticsProfiler));
+            Components.Add(new ImGuiGameComponent(this, StatisticsProfiler));
 #endif
 
             ReloadDisplayOptions();
@@ -191,7 +196,7 @@ namespace GameJam
         protected override void Update(GameTime gameTime)
         {
 #if DEBUG
-            _statisticsProfiler.BeginUpdate(gameTime);
+            StatisticsProfiler.BeginUpdate(gameTime);
 #endif
 
             if(!CVars.Get<bool>("debug_pause_game_updates"))
@@ -200,7 +205,7 @@ namespace GameJam
             }
 
 #if DEBUG
-            _statisticsProfiler.EndUpdate();
+            StatisticsProfiler.EndUpdate();
 #endif
 
             base.Update(gameTime);
@@ -216,14 +221,14 @@ namespace GameJam
         protected override void Draw(GameTime gameTime)
         {
 #if DEBUG
-            _statisticsProfiler.BeginDraw(gameTime);
+            StatisticsProfiler.BeginDraw(gameTime);
 #endif
 
             Graphics.GraphicsDevice.Clear(Color.Black);
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
-            foreach(Process process in ProcessManager.Processes)
+            foreach (Process process in ProcessManager.Processes)
             {
                 RenderProcess renderProcess = process as RenderProcess;
                 if(renderProcess != null)
@@ -235,7 +240,7 @@ namespace GameJam
             }
 
 #if DEBUG
-            _statisticsProfiler.EndDraw();
+            StatisticsProfiler.EndDraw();
 #endif
 
             base.Draw(gameTime);

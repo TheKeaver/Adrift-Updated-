@@ -31,16 +31,16 @@ namespace GameJam.Processes.SpawnPatterns
             GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 50, Center.Y));*/
 
             Center = SPM.GenerateValidCenter(radius);
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 50), SPM.AngleFacingNearestPlayerShip(Center));
-            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y - 50), SPM.AngleFacingNearestPlayerShip(Center));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 50, Center.Y + 50), SPM.AngleFacingNearestPlayerShip(Center));
+            ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 50, Center.Y - 50), SPM.AngleFacingNearestPlayerShip(Center));
 
             Center = SPM.GenerateValidCenter(radius);
-            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 25, Center.Y + 25), SPM.AngleFacingNearestPlayerShip(Center));
-            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 25, Center.Y - 25), SPM.AngleFacingNearestPlayerShip(Center));
+            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 50, Center.Y + 50), SPM.AngleFacingNearestPlayerShip(Center));
+            ShootingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 50, Center.Y - 50), SPM.AngleFacingNearestPlayerShip(Center));
 
             Center = SPM.GenerateValidCenter(radius);
-            LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 25, Center.Y - 25), SPM.AngleFacingNearestPlayerShip(Center));
-            LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 25, Center.Y + 25), SPM.AngleFacingNearestPlayerShip(Center));
+            LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 50, Center.Y - 50), SPM.AngleFacingNearestPlayerShip(Center));
+            LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 50, Center.Y + 50), SPM.AngleFacingNearestPlayerShip(Center));
         }
     }
 }

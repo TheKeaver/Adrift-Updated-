@@ -1,5 +1,7 @@
 ﻿using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Components
 {
@@ -68,44 +70,60 @@ namespace GameJam.Components
         }
         public void Move(float x, float y)
         {
-            _lastPosition.X = _position.X;
-            _lastPosition.Y = _position.Y;
-
             _position.X += x;
             _position.Y += y;
         }
-        public void SetPosition(Vector2 position)
+        public void SetPosition(Vector2 position, bool reset = false)
         {
-            SetPosition(position.X, position.Y);
+            SetPosition(position.X, position.Y, reset);
         }
 
-        public void SetPosition(float x, float y)
+        public void SetPosition(float x, float y, bool reset = false)
         {
             _position.X = x;
             _position.Y = y;
-            _lastPosition.X = x;
-            _lastPosition.Y = y;
+
+            if(reset)
+            {
+                _lastPosition.X = Position.X;
+                _lastPosition.Y = Position.Y;
+            }
         }
 
         public void Rotate(float delta)
         {
-            LastRotation = Rotation;
             Rotation += delta;
         }
-        public void SetRotation(float rotation)
+        public void SetRotation(float rotation, bool reset = false)
         {
             Rotation = rotation;
-            LastRotation = rotation;
+            if (reset)
+            {
+                LastRotation = Rotation;
+            }
         }
 
-        public void ChangeScale(float scale, bool reset = false)
+        public void SetScale(float scale, bool reset = false)
         {
-            LastScale = Scale;
             Scale = scale;
             if(reset)
             {
                 LastScale = Scale;
             }
+        }
+
+        public void Interpolate(float alpha, out Vector2 position, out float rotation, out float scale)
+        {
+            position = Vector2.Lerp(LastPosition, Position, alpha);
+            rotation = MathUtils.LerpAngle(LastRotation, Rotation, alpha);
+            scale = MathHelper.Lerp(LastScale, Scale, alpha);
+        }
+
+        public void ResetAll()
+        {
+            LastPosition = Position;
+            LastRotation = Rotation;
+            LastScale = Scale;
         }
     }
 }

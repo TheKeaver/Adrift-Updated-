@@ -7,6 +7,8 @@ using System;
 using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended.TextureAtlases;
+using GameJam.Common;
+using GameJam.Graphics;
 
 namespace GameJam.Systems
 {
@@ -77,24 +79,22 @@ namespace GameJam.Systems
             _vectorSpriteEffect.VertexColorEnabled = true;
         }
 
-        public void DrawEntities(float dt, float betweenFrameAlpha)
+        public void DrawEntities(Camera camera, float dt, float betweenFrameAlpha, Camera debugCamera = null)
         {
-            DrawEntities(Constants.Render.GROUP_MASK_ALL, dt, betweenFrameAlpha);
+            DrawEntities(camera, Constants.Render.GROUP_MASK_ALL, dt, betweenFrameAlpha, debugCamera);
         }
 
-        public void DrawEntities(byte groupMask, float dt, float betweenFrameAlpha)
+        public void DrawEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera = null)
         {
-            DrawEntities(Matrix.Identity, groupMask, dt, betweenFrameAlpha);
+            int enableFrameSmoothing = CVars.Get<bool>("graphics_frame_smoothing") ? 1 : 0;
+            betweenFrameAlpha = betweenFrameAlpha * enableFrameSmoothing + (1 - enableFrameSmoothing);
+
+            DrawSpriteBatchEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
+            DrawVectorEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
+            DrawFieldFontEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
         }
 
-        public void DrawEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
-        {
-            DrawSpriteBatchEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
-            DrawVectorEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
-            DrawFieldFontEntities(transformMatrix, groupMask, dt, betweenFrameAlpha);
-        }
-
-        private void DrawSpriteBatchEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+        private void DrawSpriteBatchEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
             if (_spriteEntities.Count == 0 && _fontEntities.Count == 0 && _ninePatchEntities.Count == 0)
             {
@@ -114,6 +114,15 @@ namespace GameJam.Systems
 
             Texture2D currentTexture = null;
 
+            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
+            SpriteBatch.Begin(SpriteSortMode.Deferred,
+                               BlendState.AlphaBlend,
+                               SamplerState.AnisotropicClamp,
+                               null,
+                               null,
+                               null,
+                               transformMatrix);
+
             foreach (Entity entity in _spriteEntities)
             {
                 SpriteComponent spriteComp = entity.GetComponent<SpriteComponent>();
@@ -122,22 +131,26 @@ namespace GameJam.Systems
                 {
                     continue;
                 }
-
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                BoundingRect boundRect = spriteComp.GetAABB(transformComp.Scale);
+                boundRect.Min += transformComp.Position;
+                boundRect.Max += transformComp.Position;
 
-                Vector2 position = transformComp.Position
-                    + (transformComp.LastPosition - transformComp.Position)
-                        * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                if (!boundRect.Intersects(camera.BoundingRect) && CVars.Get<bool>("debug_show_render_culling"))
+                {
+                    continue;
+                }
 
-                float rotation = transformComp.Rotation
-                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                Vector2 position;
+                float rotation;
+                float transformScale;
+                transformComp.Interpolate(betweenFrameAlpha, out position, out rotation, out transformScale);
 
-                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                Vector2 scale = new Vector2(spriteComp.Bounds.X / spriteComp.Texture.Width,
+                                            spriteComp.Bounds.Y / spriteComp.Texture.Height);
 
-                float cos = (float)Math.Cos(rotation),
-                    sin = (float)Math.Sin(rotation);
-
-                TextureRegion2D textureRegion = spriteComp.Texture;
+                Vector2 origin = new Vector2(spriteComp.Texture.Bounds.Width,
+                                                spriteComp.Texture.Bounds.Height) * HalfHalf;
 
                 AnimationComponent animationComp = entity.GetComponent<AnimationComponent>();
                 if (animationComp != null && animationComp.ActiveAnimationIndex > -1)
@@ -289,17 +302,20 @@ namespace GameJam.Systems
                 }
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                BoundingRect boundRect = new BoundingRect(transformComp.Position.X - (fontComp.Font.MeasureString(fontComp.Content).Width * transformComp.Scale /2),
+                                                            transformComp.Position.Y - (fontComp.Font.MeasureString(fontComp.Content).Height * transformComp.Scale /2),
+                                                            fontComp.Font.MeasureString(fontComp.Content).Width * transformComp.Scale,
+                                                            fontComp.Font.MeasureString(fontComp.Content).Height * transformComp.Scale);
 
-                Vector2 position = transformComp.Position
-                    + (transformComp.LastPosition - transformComp.Position)
-                        * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                if (!boundRect.Intersects(camera.BoundingRect) && CVars.Get<bool>("debug_show_render_culling"))
+                {
+                    continue;
+                }
 
-                float rotation = transformComp.Rotation
-                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
-                float cos = (float)Math.Cos(rotation),
-                    sin = (float)Math.Sin(rotation);
-
-                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                Vector2 position;
+                float rotation;
+                float transformScale;
+                transformComp.Interpolate(betweenFrameAlpha, out position, out rotation, out transformScale);
 
                 Vector2 bounds = fontComp.Font.MeasureString(fontComp.Content);
 
@@ -373,6 +389,17 @@ namespace GameJam.Systems
             if(_spriteBuffer.Count == 0)
             {
                 return;
+                Vector2 origin = fontComp.Font.MeasureString(fontComp.Content) / 2;
+
+                SpriteBatch.DrawString(fontComp.Font,
+                                       fontComp.Content,
+                                       position * FlipY,
+                                       fontComp.Color,
+                                       -rotation,
+                                       origin,
+                                       transformScale,
+                                       SpriteEffects.None,
+                                       0);
             }
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             _spriteEffect.Texture = currentTexture;
@@ -388,11 +415,12 @@ namespace GameJam.Systems
             _spriteBuffer.Clear();
         }
 
-        private void DrawFieldFontEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+        private void DrawFieldFontEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
+            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
-            if (_fieldFontEntities.Count > 0) {
+            if (_fieldFontEntities.Count > 0)
+            {
                 CheckUpdateProjections();
                 Matrix wvp = transformMatrix * _fieldFontRendererProjection;
                 FieldFontRenderer.Begin(wvp);
@@ -406,15 +434,20 @@ namespace GameJam.Systems
                     }
 
                     TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                    BoundingRect boundRect = new BoundingRect(transformComp.Position.X - (fieldFontComp.Font.MeasureString(fieldFontComp.Content).X * transformComp.Scale/2),
+                                                                transformComp.Position.Y - (fieldFontComp.Font.MeasureString(fieldFontComp.Content).Y * transformComp.Scale/2),
+                                                                fieldFontComp.Font.MeasureString(fieldFontComp.Content).X * transformComp.Scale,
+                                                                fieldFontComp.Font.MeasureString(fieldFontComp.Content).Y * transformComp.Scale);
 
-                    Vector2 position = transformComp.Position
-                        + (transformComp.LastPosition - transformComp.Position)
-                            * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                    if (!boundRect.Intersects(camera.BoundingRect) && CVars.Get<bool>("debug_show_render_culling"))
+                    {
+                        continue;
+                    }
 
-                    float rotation = transformComp.Rotation
-                        + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
-
-                    float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                    Vector2 position;
+                    float rotation;
+                    float transformScale;
+                    transformComp.Interpolate(betweenFrameAlpha, out position, out rotation, out transformScale);
 
                     FieldFontRenderer.Draw(fieldFontComp.Font,
                         fieldFontComp.Content,
@@ -429,10 +462,10 @@ namespace GameJam.Systems
             }
         }
 
-        
-        private void DrawVectorEntities(Matrix transformMatrix, byte groupMask, float dt, float betweenFrameAlpha)
+
+        private void DrawVectorEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
+            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
             List<VertexPositionColor> _verts = new List<VertexPositionColor>();
 
@@ -440,25 +473,31 @@ namespace GameJam.Systems
             foreach (Entity entity in _vectorSpriteEntities)
             {
                 VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
-                if(vectorSpriteComp.Hidden
+                if (vectorSpriteComp.Hidden
                     || (vectorSpriteComp.RenderGroup & groupMask) == 0)
                 {
                     continue;
                 }
 
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+                BoundingRect boundRect = vectorSpriteComp.GetAABB(transformComp.Scale);
+                boundRect.Min += transformComp.Position;
+                boundRect.Max += transformComp.Position;
 
-                Vector2 position = transformComp.Position
-                    + (transformComp.LastPosition - transformComp.Position)
-                        * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+                if (!boundRect.Intersects(camera.BoundingRect) && CVars.Get<bool>("debug_show_render_culling"))
+                {
+                    continue;
+                }
+
+                Vector2 position;
+                float rotation;
+                float transformScale;
+                transformComp.Interpolate(betweenFrameAlpha, out position, out rotation, out transformScale);
+
                 position *= FlipY;
-
-                float rotation = transformComp.Rotation
-                    + MathHelper.WrapAngle(transformComp.LastRotation - transformComp.Rotation) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
                 rotation *= -1;
 
-                float transformScale = transformComp.Scale + (transformComp.LastScale - transformComp.Scale) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
-
+                int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
                 Vector2 stretch = vectorSpriteComp.Stretch + (vectorSpriteComp.LastStretch - vectorSpriteComp.Stretch) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
                 float cos = (float)Math.Cos(rotation);
@@ -467,7 +506,7 @@ namespace GameJam.Systems
                 foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
                 {
                     VertexPositionColor[] verts = renderShape.ComputeVertices();
-                    for(int i = verts.Length - 1; i >= 0; i--)
+                    for (int i = verts.Length - 1; i >= 0; i--)
                     {
                         VertexPositionColor vert = verts[i];
                         _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,

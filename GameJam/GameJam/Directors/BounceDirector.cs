@@ -1,6 +1,8 @@
 ﻿using Audrey;
 using Events;
 using GameJam.Components;
+using GameJam.Entities;
+using GameJam.Events.EnemyActions;
 using GameJam.Events.GameLogic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -64,7 +66,15 @@ namespace GameJam.Directors
                     bouncer.GetComponent<ProjectileComponent>().BouncesLeft -= 1;
 
                     if (bouncer.GetComponent<ProjectileComponent>().BouncesLeft <= 0)
+                    {
+                        Color color = Color.White;
+                        if (bouncer.HasComponent<ColoredExplosionComponent>())
+                        {
+                            color = bouncer.GetComponent<ColoredExplosionComponent>().Color;
+                        }
+                        EventManager.Instance.QueueEvent(new CreateExplosionEvent(bouncer.GetComponent<TransformComponent>().Position, color, false));
                         Engine.DestroyEntity(bouncer);
+                    }
                 }
 
                 if (bouncer != null && bouncer.HasComponent<MovementComponent>())
@@ -114,10 +124,14 @@ namespace GameJam.Directors
                 bouncer.GetComponent<MovementComponent>().MovementVector = bouncerDirection * (bouncer.GetComponent<MovementComponent>().MovementVector.Length() + playerShip.GetComponent<MovementComponent>().MovementVector.Length());
 
                 if(bouncer.HasComponent<ProjectileComponent>()
-                    && reflector.HasComponent<PlayerComponent>())
+                    && reflector.HasComponent<PlayerShieldComponent>())
                 {
+                    // TODO Make this a more permanent fix
+                    Color playerShipColor = reflector.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0].TintColor;
+
+                    ProjectileEntity.ConvertToFriendlyProjectile(bouncer, playerShipColor);
                     bouncer.GetComponent<ProjectileComponent>().LastBouncedBy
-                        = reflector.GetComponent<PlayerComponent>().Player;
+                        = reflector.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<PlayerComponent>().Player;
                 }
             }
             if (reflector.HasComponent<PlayerShipComponent>() && bouncer.HasComponent<PlayerShipComponent>() )
