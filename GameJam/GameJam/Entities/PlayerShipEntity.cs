@@ -23,6 +23,7 @@ namespace GameJam.Entities
             entity.AddComponent(new BounceComponent());
 
             entity.AddComponent(new CameraTrackingComponent());
+            entity.AddComponent(new TransformHistoryComponent(position));
 
             entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = CVars.Get<bool>("player_rotate_in_direction_of_movement");
 
