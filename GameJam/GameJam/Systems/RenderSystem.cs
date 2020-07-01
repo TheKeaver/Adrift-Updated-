@@ -4,6 +4,8 @@ using GameJam.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
+using MonoGame.Extended.TextureAtlases;
 using System;
 using System.Collections.Generic;
 
@@ -69,6 +71,7 @@ namespace GameJam.Systems
 
             _componentRenderFunctionDict = new Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float>>();
             _componentRenderFunctionDict.Add(typeof(SpriteComponent), SpriteRenderFunction);
+            _componentRenderFunctionDict.Add(typeof(BitmapFontComponent), BitmapFontRenderFunction);
             _componentRenderFunctionDict.Add(typeof(VectorSpriteComponent), VectorSpriteRenderFunction);
 
             _currentSpriteTexture = null;
@@ -232,6 +235,89 @@ namespace GameJam.Systems
             _spriteIndices.Add(0 + preVertCount);
             _spriteIndices.Add(2 + preVertCount);
             _spriteIndices.Add(3 + preVertCount);
+        }
+        private void BitmapFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
+        {
+            BitmapFontComponent bitmapFontComp = entity.GetComponent<BitmapFontComponent>();
+
+            float cos = (float)Math.Cos(rotation),
+                sin = (float)Math.Sin(rotation);
+
+            Vector2 bounds = bitmapFontComp.Font.MeasureString(bitmapFontComp.Content);
+
+            BitmapFont.StringGlyphEnumerable glyphs = bitmapFontComp.Font.GetGlyphs(bitmapFontComp.Content);
+            foreach(BitmapFontGlyph glyph in glyphs)
+            {
+                if(glyph.FontRegion == null)
+                {
+                    continue;
+                }
+
+                TextureRegion2D texture = glyph.FontRegion.TextureRegion;
+
+                if(_currentSpriteTexture == null)
+                {
+                    _currentSpriteTexture = texture.Texture;
+                }
+                if(_currentSpriteTexture != texture.Texture)
+                {
+                    SpriteFlush();
+                    _currentSpriteTexture = texture.Texture;
+                }
+
+                Rectangle texRegionSourceBounds = texture.Bounds;
+                float umin = texRegionSourceBounds.X / (float)texture.Texture.Width,
+                    vmin = texRegionSourceBounds.Y / (float)texture.Texture.Height,
+                    umax = (texRegionSourceBounds.X + texRegionSourceBounds.Width) / (float)texture.Texture.Width,
+                    vmax = (texRegionSourceBounds.Y + texRegionSourceBounds.Height) / (float)texture.Texture.Height;
+
+                Vector2 characterOrigin = position - bounds * scale / 2 - glyph.Position * scale;
+
+                int preVertCount = _spriteVerts.Count;
+
+
+                // Bottom Left
+                _spriteVerts.Add(new VertexPositionColorTexture
+                {
+                    Position = new Vector3(RotateVector(new Vector2(characterOrigin.X - texture.Bounds.X * scale / 2,
+                        characterOrigin.Y - texture.Bounds.Y * scale / 2), cos, sin), 0),
+                    Color = bitmapFontComp.Color,
+                    TextureCoordinate = new Vector2(umin, vmax)
+                });
+                // Bottom Right
+                _spriteVerts.Add(new VertexPositionColorTexture
+                {
+                    Position = new Vector3(RotateVector(new Vector2(characterOrigin.X + texture.Bounds.X * scale / 2,
+                        characterOrigin.Y - texture.Bounds.Y * scale / 2), cos, sin), 0),
+                    Color = bitmapFontComp.Color,
+                    TextureCoordinate = new Vector2(umax, vmax)
+                });
+                // Top Right
+                _spriteVerts.Add(new VertexPositionColorTexture
+                {
+                    Position = new Vector3(RotateVector(new Vector2(characterOrigin.X + texture.Bounds.X * scale / 2,
+                        characterOrigin.Y + texture.Bounds.Y * scale / 2), cos, sin), 0),
+                    Color = bitmapFontComp.Color,
+                    TextureCoordinate = new Vector2(umax, vmin)
+                });
+                // Top Left
+                _spriteVerts.Add(new VertexPositionColorTexture
+                {
+                    Position = new Vector3(RotateVector(new Vector2(characterOrigin.X - texture.Bounds.X * scale / 2,
+                        characterOrigin.Y + texture.Bounds.Y * scale / 2), cos, sin), 0),
+                    Color = bitmapFontComp.Color,
+                    TextureCoordinate = new Vector2(umin, vmin)
+                });
+
+                // Clockwise faces
+                _spriteIndices.Add(0 + preVertCount);
+                _spriteIndices.Add(1 + preVertCount);
+                _spriteIndices.Add(2 + preVertCount);
+
+                _spriteIndices.Add(0 + preVertCount);
+                _spriteIndices.Add(2 + preVertCount);
+                _spriteIndices.Add(3 + preVertCount);
+            }
         }
         private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
