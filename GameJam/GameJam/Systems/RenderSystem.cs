@@ -244,6 +244,7 @@ namespace GameJam.Systems
             Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
             List<VertexPositionColor> _verts = new List<VertexPositionColor>();
+            List<int> _indices = new List<int>();
 
             foreach (Entity entity in _vectorSpriteEntities)
             {
@@ -283,16 +284,35 @@ namespace GameJam.Systems
                 // 2. Stores the index into list '1' that will be drawn
                 foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
                 {
-                    // New
-                    renderShape.ComputeIndexedVertices();
-                    // Old
-                    VertexPositionColor[] verts = renderShape.ComputeVertices();
-                    for (int i = verts.Length - 1; i >= 0; i--)
+                    /*
+                     * 1) Create local arrays to set equal to the return of the ComputedVertices() in the RenderShape()
+                     * 2) Run through the for loop of indices.Count, using the corresponding "computedVerticesReturn[index]" to calculate
+                     * 3) Add the local arrays to their respective overall lists that were created at the beginning of the function
+                     */
+                    VertexPositionColor[] computedVerticesReturn;
+                    int[] computedIndicesReturn;
+
+                    renderShape.ComputeVertices(out computedVerticesReturn, out computedIndicesReturn);
+
+                    int vertsCountBeforeAdd = _verts.Count;
+
+                    /* 
+                    * Loop
+                    */
+                    for (int i = 0; i < computedVerticesReturn.Length; i++)
                     {
-                        VertexPositionColor vert = verts[i];
+                        VertexPositionColor vert = computedVerticesReturn[i];
                         _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,
                             (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * -1.0f * cos) * transformScale + position.Y, 0), new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
                     }
+
+                    // Change indices values to change based on length of array currently
+                    for(int j = 0; j < computedIndicesReturn.Length; j++)
+                    {
+                        // Vertices are added linearly to the "_verts" array, we need to increment
+                        _indices.Add(computedIndicesReturn[j] + vertsCountBeforeAdd);
+                    }
+                    //_indices.AddRange(computedIndicesReturn);
                 }
             }
 
@@ -305,12 +325,11 @@ namespace GameJam.Systems
                 {
                     pass.Apply();
 
-                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,
-                        _verts.ToArray(), 0, _verts.Count / 3);
+                    // GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,_verts.ToArray(), 0, _verts.Count / 3)
 
-                    GraphicsDevice.DrawUserIndexedPrimitives()
+                    GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _verts.ToArray(), 0, _verts.Count, _indices.ToArray(), 0, _indices.Count/3);
 
-                    GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, _verts[0], 0, _verts.Count);
+                    // GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, _verts[0], 0, _verts.Count);
                 }
             }
         }
