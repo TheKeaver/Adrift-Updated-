@@ -51,6 +51,7 @@ namespace GameJam.Systems
 
         #region VECTOR SPRITE RENDER MEMBERS
         private List<VertexPositionColorTexture> _vectorSpriteVerts;
+        private List<int> _vectorSpriteIndices;
         #endregion
 
         public RenderSystem(GraphicsDevice graphics, ContentManager content, Engine engine)
@@ -71,6 +72,9 @@ namespace GameJam.Systems
             _currentSpriteTexture = null;
             _spriteVerts = new List<VertexPositionColorTexture>();
             _spriteIndices = new List<int>();
+
+            _vectorSpriteVerts = new List<VertexPositionColorTexture>();
+            _vectorSpriteIndices = new List<int>();
         }
 
         #region INITIALIZATION
@@ -227,6 +231,45 @@ namespace GameJam.Systems
         }
         private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale)
         {
+            VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
+
+            float cos = (float)Math.Cos(rotation),
+                sin = (float)Math.Sin(rotation);
+
+            // Split into two lists
+            // 1. Stores each unique vertex that will be drawn
+            // 2. Stores the index into list '1' that will be drawn
+            foreach(RenderShape renderShape in vectorSpriteComp.RenderShapes)
+            {
+                /*
+                 * 1) Create local arrays to set equal to the return of the ComputedVertices() in the RenderShape()
+                 * 2) Run through the for loop of indices.Count, using the corresponding "computedVerticesReturn[index]" to calculate
+                 * 3) Add the local arrays to their respective overall lists that were created at the beginning of the function
+                 */
+                VertexPositionColor[] computedVerticesReturn;
+                int[] computedIndicesReturn;
+
+                renderShape.ComputeVertices(out computedVerticesReturn, out computedIndicesReturn);
+
+                int vertsCountBeforeAdd = _vectorSpriteVerts.Count;
+
+                /* 
+                * Loop
+                */
+                for (int i = 0; i < computedVerticesReturn.Length; i++)
+                {
+                    VertexPositionColor vert = computedVerticesReturn[i];
+                    _vectorSpriteVerts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,
+                        (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * -1.0f * cos) * transformScale + position.Y, 0), new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
+                }
+
+                // Change indices values to change based on length of array currently
+                for (int j = 0; j < computedIndicesReturn.Length; j++)
+                {
+                    // Vertices are added linearly to the "_verts" array, we need to increment
+                    _vectorSpriteIndices.Add(computedIndicesReturn[j] + vertsCountBeforeAdd);
+                }
+            }
         }
         #endregion
 
@@ -234,6 +277,7 @@ namespace GameJam.Systems
         private void FlushAll()
         {
             SpriteFlush();
+            VectorSpriteFlush();
         }
 
         private void SpriteFlush()
@@ -255,6 +299,24 @@ namespace GameJam.Systems
             _currentSpriteTexture = null;
             _spriteVerts.Clear();
             _spriteIndices.Clear();
+        }
+        private void VectorSpriteFlush()
+        {
+            if (_vectorSpriteVerts.Count > 0 && _vectorSpriteIndices.Count > 0)
+            {
+                // Projection matrix is already handled at beginning of render call
+                foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList,
+                        _vectorSpriteVerts.ToArray(), 0, _vectorSpriteVerts.Count,
+                        _vectorSpriteIndices.ToArray(), 0,
+                        _vectorSpriteIndices.Count / 3);
+                }
+            }
+
+            _vectorSpriteVerts.Clear();
+            _vectorSpriteIndices.Clear();
         }
         #endregion
 

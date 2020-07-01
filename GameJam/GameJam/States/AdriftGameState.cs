@@ -172,6 +172,7 @@ namespace GameJam.States
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine, position, color);
             SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
+            PlayerTrailEntity.Create(SharedState.Engine, playerShipEntity);
 
             PlayerShipComponent playerShipComp = playerShipEntity.GetComponent<PlayerShipComponent>();
             // Default

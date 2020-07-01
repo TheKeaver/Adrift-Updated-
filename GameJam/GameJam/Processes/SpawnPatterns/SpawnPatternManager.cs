@@ -166,6 +166,7 @@ namespace GameJam.Processes.Enemies
                 allPatternsList[num].AddRange(patternStaleList[num]);
                 patternStaleList[num].Clear();
             }
+            // If the spawn pattern list swap fails, return
             if (allPatternsList[num].Count == 0)
             {
                 return;
