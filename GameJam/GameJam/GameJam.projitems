@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\SuperShieldComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\TransformHistoryComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\AreaTextureSMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\SearchTextureSMAA.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\MovementSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\BaseSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\InputSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\PlayerTrailSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\ProjectileColorSyncSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeSystem.cs" />
@@ -179,6 +181,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\ChasingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\SuperShieldSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformHistorySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformResetSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />

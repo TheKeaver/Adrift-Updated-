@@ -6,23 +6,26 @@ namespace GameJam.Components
 {
     public class TransformHistoryComponent : IComponent
     {
-        public Vector2[] transformHistory;
+        public Vector2[] positionHistory;
+        public float[] rotationHistory;
         public int historyIndex;
         public int maxHistorySize;
 
-        public TransformHistoryComponent(Vector2 startPosition)
+        public TransformHistoryComponent(Vector2 startPosition, float startRotation)
         {
-            // Tisse should be a constant somewhere, ideally CVar
-            maxHistorySize = 6;
+            // This "maxHistorySize" be a constant somewhere, ideally CVar
+            maxHistorySize = 5;
             historyIndex = 0;
 
-            transformHistory = new Vector2[maxHistorySize];
-            AddToTransformHistory(startPosition);
+            positionHistory = new Vector2[maxHistorySize];
+            rotationHistory = new float[maxHistorySize];
+            AddToTransformHistory(startPosition, startRotation);
         }
 
-        public void AddToTransformHistory(Vector2 position)
+        public void AddToTransformHistory(Vector2 position, float rotation)
         {
-            transformHistory[historyIndex % maxHistorySize] = position;
+            positionHistory[historyIndex % maxHistorySize] = position;
+            rotationHistory[historyIndex % maxHistorySize] = rotation;
             historyIndex++;
         }
     }
