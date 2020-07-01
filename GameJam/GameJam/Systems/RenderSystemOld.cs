@@ -450,70 +450,70 @@ namespace GameJam.Systems
 
         private void DrawVectorEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
-            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
+            //Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
-            List<VertexPositionColor> _verts = new List<VertexPositionColor>();
+            //List<VertexPositionColor> _verts = new List<VertexPositionColor>();
 
-            GraphicsDevice.DepthStencilState = _spriteDepthStencilState;
-            foreach (Entity entity in _vectorSpriteEntities)
-            {
-                VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
-                if (vectorSpriteComp.Hidden
-                    || (vectorSpriteComp.RenderGroup & groupMask) == 0)
-                {
-                    continue;
-                }
+            //GraphicsDevice.DepthStencilState = _spriteDepthStencilState;
+            //foreach (Entity entity in _vectorSpriteEntities)
+            //{
+            //    VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
+            //    if (vectorSpriteComp.Hidden
+            //        || (vectorSpriteComp.RenderGroup & groupMask) == 0)
+            //    {
+            //        continue;
+            //    }
 
-                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
-                BoundingRect boundRect = vectorSpriteComp.GetAABB(transformComp.Scale);
-                boundRect.Min += transformComp.Position;
-                boundRect.Max += transformComp.Position;
+            //    TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+            //    BoundingRect boundRect = vectorSpriteComp.GetAABB(transformComp.Scale);
+            //    boundRect.Min += transformComp.Position;
+            //    boundRect.Max += transformComp.Position;
 
-                if (!boundRect.Intersects(camera.BoundingRect) && CVars.Get<bool>("debug_show_render_culling"))
-                {
-                    continue;
-                }
+            //    if (!boundRect.Intersects(camera.BoundingRect) && CVars.Get<bool>("debug_show_render_culling"))
+            //    {
+            //        continue;
+            //    }
 
-                Vector2 position;
-                float rotation;
-                float transformScale;
-                transformComp.Interpolate(betweenFrameAlpha, out position, out rotation, out transformScale);
+            //    Vector2 position;
+            //    float rotation;
+            //    float transformScale;
+            //    transformComp.Interpolate(betweenFrameAlpha, out position, out rotation, out transformScale);
 
-                position *= FlipY;
-                rotation *= -1;
+            //    position *= FlipY;
+            //    rotation *= -1;
 
-                int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
-                Vector2 stretch = vectorSpriteComp.Stretch + (vectorSpriteComp.LastStretch - vectorSpriteComp.Stretch) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
+            //    int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1;
+            //    Vector2 stretch = vectorSpriteComp.Stretch + (vectorSpriteComp.LastStretch - vectorSpriteComp.Stretch) * (1 - betweenFrameAlpha) * enableFrameSmoothingFlag;
 
-                float cos = (float)Math.Cos(rotation);
-                float sin = (float)Math.Sin(rotation);
+            //    float cos = (float)Math.Cos(rotation);
+            //    float sin = (float)Math.Sin(rotation);
 
-                foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
-                {
-                    VertexPositionColor[] verts = renderShape.ComputeVertices();
-                    for (int i = verts.Length - 1; i >= 0; i--)
-                    {
-                        VertexPositionColor vert = verts[i];
-                        _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,
-                            (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * -1.0f * cos) * transformScale + position.Y, vectorSpriteComp.Depth),
-                            new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
-                    }
-                }
-            }
+            //    foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
+            //    {
+            //        VertexPositionColor[] verts = renderShape.ComputeVertices();
+            //        for (int i = verts.Length - 1; i >= 0; i--)
+            //        {
+            //            VertexPositionColor vert = verts[i];
+            //            _verts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,
+            //                (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * -1.0f * cos) * transformScale + position.Y, vectorSpriteComp.Depth),
+            //                new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
+            //        }
+            //    }
+            //}
 
-            if (_verts.Count > 0)
-            {
-                CheckUpdateProjections();
-                _vectorSpriteEffect.View = transformMatrix;
-                GraphicsDevice.BlendState = BlendState.NonPremultiplied;
-                foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
+            //if (_verts.Count > 0)
+            //{
+            //    CheckUpdateProjections();
+            //    _vectorSpriteEffect.View = transformMatrix;
+            //    GraphicsDevice.BlendState = BlendState.NonPremultiplied;
+            //    foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
+            //    {
+            //        pass.Apply();
 
-                    GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,
-                        _verts.ToArray(), 0, _verts.Count / 3);
-                }
-            }
+            //        GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,
+            //            _verts.ToArray(), 0, _verts.Count / 3);
+            //    }
+            //}
         }
 
         #region PROJECTION_UPDATES

@@ -24,6 +24,7 @@ namespace GameJam.Systems
         }
 
         public static readonly Vector2 HalfHalf = new Vector2(0.5f, 0.5f);
+        public static readonly Vector2 FlipY = new Vector2(1, -1);
 
         readonly Family _renderEntityFamily = Family.All(typeof(TransformComponent))
             .One(typeof(SpriteComponent),
@@ -41,7 +42,7 @@ namespace GameJam.Systems
         private Matrix _transformMatrix;
         private Viewport _lastViewport;
 
-        private Dictionary<Type, Action<Matrix, Entity, Vector2, float, float>> _componentRenderFunctionDict;
+        private Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float>> _componentRenderFunctionDict;
 
         #region SPRITE RENDER MEMBERS
         private Texture2D _currentSpriteTexture;
@@ -50,7 +51,7 @@ namespace GameJam.Systems
         #endregion
 
         #region VECTOR SPRITE RENDER MEMBERS
-        private List<VertexPositionColorTexture> _vectorSpriteVerts;
+        private List<VertexPositionColor> _vectorSpriteVerts;
         private List<int> _vectorSpriteIndices;
         #endregion
 
@@ -66,14 +67,15 @@ namespace GameJam.Systems
             _projectionMatrix = Matrix.Identity;
             _lastViewport = new Viewport();
 
-            _componentRenderFunctionDict = new Dictionary<Type, Action<Matrix, Entity, Vector2, float, float>>();
+            _componentRenderFunctionDict = new Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float>>();
             _componentRenderFunctionDict.Add(typeof(SpriteComponent), SpriteRenderFunction);
+            _componentRenderFunctionDict.Add(typeof(VectorSpriteComponent), VectorSpriteRenderFunction);
 
             _currentSpriteTexture = null;
             _spriteVerts = new List<VertexPositionColorTexture>();
             _spriteIndices = new List<int>();
 
-            _vectorSpriteVerts = new List<VertexPositionColorTexture>();
+            _vectorSpriteVerts = new List<VertexPositionColor>();
             _vectorSpriteIndices = new List<int>();
         }
 
@@ -129,7 +131,8 @@ namespace GameJam.Systems
             foreach(Entity entity in _renderEntities)
             {
                 IRenderComponent iRenderComp = GetRenderComponent(entity);
-                if(iRenderComp.IsHidden())
+                if(iRenderComp.IsHidden()
+                    || (iRenderComp.GetRenderGroup() & groupMask) == 0)
                 {
                     continue;
                 }
@@ -161,7 +164,8 @@ namespace GameJam.Systems
                         entity,
                         transformPosition,
                         transformRotation,
-                        transformScale);
+                        transformScale,
+                        betweenFrameAlpha);
                 } else
                 {
                     Console.WriteLine($"No render function for {iRenderComp.GetType().Name}");
@@ -173,7 +177,7 @@ namespace GameJam.Systems
         #endregion
 
         #region RENDER METHODS
-        private void SpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale)
+        private void SpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
             SpriteComponent spriteComp = entity.GetComponent<SpriteComponent>();
             if(_currentSpriteTexture == null)
@@ -229,17 +233,22 @@ namespace GameJam.Systems
             _spriteIndices.Add(2 + preVertCount);
             _spriteIndices.Add(3 + preVertCount);
         }
-        private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale)
+        private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
             VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
+
+            position *= FlipY;
+            rotation *= -1;
 
             float cos = (float)Math.Cos(rotation),
                 sin = (float)Math.Sin(rotation);
 
+            Vector2 stretch = vectorSpriteComp.Stretch + (vectorSpriteComp.LastStretch - vectorSpriteComp.Stretch) * (1 - betweenFrameAlpha);
+
             // Split into two lists
             // 1. Stores each unique vertex that will be drawn
             // 2. Stores the index into list '1' that will be drawn
-            foreach(RenderShape renderShape in vectorSpriteComp.RenderShapes)
+            foreach (RenderShape renderShape in vectorSpriteComp.RenderShapes)
             {
                 /*
                  * 1) Create local arrays to set equal to the return of the ComputedVertices() in the RenderShape()
@@ -259,8 +268,8 @@ namespace GameJam.Systems
                 for (int i = 0; i < computedVerticesReturn.Length; i++)
                 {
                     VertexPositionColor vert = computedVerticesReturn[i];
-                    _vectorSpriteVerts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -1.0f * -sin) * transformScale + position.X,
-                        (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * -1.0f * cos) * transformScale + position.Y, 0), new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
+                    _vectorSpriteVerts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -sin) * scale + position.X,
+                        (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * cos) * scale + position.Y, 0), new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
                 }
 
                 // Change indices values to change based on length of array currently

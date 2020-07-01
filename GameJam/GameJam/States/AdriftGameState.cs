@@ -15,6 +15,7 @@ using GameJam.Processes.Enemies;
 using GameJam.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 using System;
 using System.Collections.Generic;
 

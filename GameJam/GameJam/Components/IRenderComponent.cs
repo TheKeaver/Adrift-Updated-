@@ -6,5 +6,6 @@ namespace GameJam.Components
     {
         bool IsHidden();
         BoundingRect GetAABB(float scale);
+        byte GetRenderGroup();
     }
 }

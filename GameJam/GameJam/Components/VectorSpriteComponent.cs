@@ -62,6 +62,11 @@ namespace GameJam.Components
         {
             return Hidden;
         }
+
+        public byte GetRenderGroup()
+        {
+            return RenderGroup;
+        }
     }
 
     public abstract class RenderShape
