@@ -59,9 +59,9 @@ namespace GameJam
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Deadzone of the controllers");
             Create<int>("controller_thumbstick", 1, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Thumbstick of the controller to use.");
             // P1
-            Create<int>("controller_0_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate left button.");
-            Create<int>("controller_0_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate right button.");
-            Create<int>("controller_0_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 activate super shield 'X' button");
+            Create<int>("input_controller_0_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate left button.");
+            Create<int>("input_controller_0_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 rotate right button.");
+            Create<int>("input_controller_0_super_shield", 16384, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 0 activate super shield 'X' button");
             // P2        
             Create<int>("input_controller_1_rotate_counter_clockwise", 256, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 rotate left button.");
             Create<int>("input_controller_1_rotate_clockwise", 512, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Controller 1 rotate right button.");
@@ -100,6 +100,7 @@ namespace GameJam
             Create<float>("player_super_shield_max", 5, CVarFlags.LIVE_RELOAD, "CHANGEME");
             Create<float>("player_super_shield_spend_rate", 2, CVarFlags.LIVE_RELOAD, "CHANGEME");
             Create<float>("player_super_shield_regen_rate", 1, CVarFlags.LIVE_RELOAD, "CHANGEME");
+            Create<bool>("player_rotate_in_direction_of_movement", true, CVarFlags.DEV_PRESERVE, "Flag for if ship faces the direction they are traveling.");
 
             Create<bool>("player_individual_deaths", true, CVarFlags.LIVE_RELOAD | CVarFlags.DEV_PRESERVE, "Whether players will have shared or individual deaths.");
 

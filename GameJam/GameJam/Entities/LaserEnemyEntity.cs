@@ -71,7 +71,10 @@ namespace GameJam.Entities
             })));
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
 
-            processManager.Attach(CreateLaserEnemyProcessChain(processManager, engine, entity, CVars.Get<float>("laser_enemy_spawn_wait_period"), true));
+            LaserEnemyStateMachineProcess stateMachineProcess = new LaserEnemyStateMachineProcess(engine, entity);
+            entity.GetComponent<LaserEnemyComponent>().LaserEnemyStateMachineProcess = stateMachineProcess;
+            processManager.Attach(new WaitProcess(CVars.Get<float>("laser_enemy_spawn_wait_period")))
+                .SetNext(stateMachineProcess);
 
             return entity;
         }
