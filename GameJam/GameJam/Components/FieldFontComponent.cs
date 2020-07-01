@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using Audrey;
+﻿using Audrey;
 using FontExtension;
-using GameJam.Graphics.Text;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
 
 namespace GameJam.Components
 {
-    public class FieldFontComponent : IComponent
+    public class FieldFontComponent : IComponent, IRenderComponent
     {
         public FieldFontComponent()
         {
@@ -31,5 +30,17 @@ namespace GameJam.Components
         public bool EnableKerning = true;
 
         public float Depth = 0;
+
+        public BoundingRect GetAABB(float scale)
+        {
+            Vector2 size = Font.MeasureString(Content, EnableKerning);
+            return new BoundingRect(-size.X / 2 * scale, -size.Y / 2 * scale,
+                size.X * scale, size.Y * scale);
+        }
+
+        public bool IsHidden()
+        {
+            return Hidden;
+        }
     }
 }

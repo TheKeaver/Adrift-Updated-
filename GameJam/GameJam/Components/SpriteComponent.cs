@@ -8,7 +8,7 @@ namespace GameJam.Components
     /// <summary>
     /// A component for holding a renderable sprite.
     /// </summary>
-    public class SpriteComponent : IComponent
+    public class SpriteComponent : IComponent, IRenderComponent
     {
         public SpriteComponent()
         {
@@ -23,6 +23,11 @@ namespace GameJam.Components
         public BoundingRect GetAABB(float scale)
         {
             return new BoundingRect(-Bounds.X/2, -Bounds.Y/2, Bounds.X, Bounds.Y) * 2;
+        }
+
+        public bool IsHidden()
+        {
+            return Hidden;
         }
 
         public TextureRegion2D Texture;

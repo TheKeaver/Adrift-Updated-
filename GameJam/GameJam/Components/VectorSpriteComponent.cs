@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Components
 {
-    public class VectorSpriteComponent : IComponent
+    public class VectorSpriteComponent : IComponent, IRenderComponent
     {
         public VectorSpriteComponent()
         {
@@ -55,6 +55,11 @@ namespace GameJam.Components
                 returnRect = BoundingRect.Union(returnRect, temp);
             }
             return returnRect;
+        }
+
+        public bool IsHidden()
+        {
+            return Hidden;
         }
     }
 

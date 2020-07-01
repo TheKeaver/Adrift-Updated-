@@ -73,7 +73,7 @@ namespace GameJam.NUI.Widgets
                 OnHeightSet();
             }
 
-            Entity.GetComponent<TransformComponent>().ChangeScale(1);
+            Entity.GetComponent<TransformComponent>().SetScale(1);
         }
 
         private void OnWidthSet()

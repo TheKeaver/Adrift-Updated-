@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\CameraTrackingComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\IRenderComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\SuperShieldComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\AreaTextureSMAA.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnChasingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\SpriteBatchPlaygroundState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemySeparationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\QuadTreeSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderCullingDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\RenderSystemOld.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\DelegateProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\InstantProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\IntervalProcess.cs" />

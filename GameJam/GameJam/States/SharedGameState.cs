@@ -288,23 +288,20 @@ namespace GameJam.States
                 RenderSystem.DrawEntities(Camera,
                                             Constants.Render.RENDER_GROUP_GAME_ENTITIES,
                                             dt,
-
                                             betweenFrameAlpha,
                                             camera);
-                                            betweenFrameAlpha,
-                                            camera);
-                RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    camera.GetInterpolatedTransformMatrix(betweenFrameAlpha));
-                if (!CVars.Get<bool>("particle_gpu_accelerated"))
-                {
-                    VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
-                }
-                RenderSystem.SpriteBatch.End();
+                //RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
+                //    null,
+                //    null,
+                //    null,
+                //    null,
+                //    null,
+                //    camera.GetInterpolatedTransformMatrix(betweenFrameAlpha));
+                //if (!CVars.Get<bool>("particle_gpu_accelerated"))
+                //{
+                //    VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
+                //}
+                //RenderSystem.SpriteBatch.End();
                 if (CVars.Get<bool>("particle_gpu_accelerated"))
                 {
                     GPUParticleManager.UpdateAndDraw(Camera, dt, betweenFrameAlpha, camera);
@@ -325,7 +322,7 @@ namespace GameJam.States
                 Color.White); // Post-processing results
             SpriteBatch.End();
 
-            RenderSystem.DrawEntities(UICamera.TransformMatrix, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
+            RenderSystem.DrawEntities(UICamera, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
 
             // Shield Resource
             RenderSystem.DrawEntities(Camera,

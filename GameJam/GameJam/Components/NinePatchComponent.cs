@@ -1,11 +1,12 @@
 ﻿using System;
 using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.Components
 {
-    public class NinePatchComponent : IComponent
+    public class NinePatchComponent : IComponent, IRenderComponent
     {
         public NinePatchComponent()
         {
@@ -27,5 +28,16 @@ namespace GameJam.Components
         public bool Hidden;
 
         public float Depth = 0;
+
+        public BoundingRect GetAABB(float scale)
+        {
+            return new BoundingRect(-Bounds.X / 2 * scale, -Bounds.Y / 2 * scale,
+                Bounds.X * scale, Bounds.Y * scale);
+        }
+
+        public bool IsHidden()
+        {
+            return Hidden;
+        }
     }
 }

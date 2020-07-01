@@ -64,6 +64,9 @@ namespace GameJam
 
             content.Load<List<WidgetPrototype>>("ui_test");
             content.Load<List<WidgetPrototype>>("ui_test2");
+
+            // TODO: Remove vvvvvvvvvvvv
+            content.Load<Texture2D>("texture_shooter_enemy");
         }
     }
 }
