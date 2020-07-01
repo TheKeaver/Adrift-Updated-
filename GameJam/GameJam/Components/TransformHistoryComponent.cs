@@ -10,6 +10,12 @@ namespace GameJam.Components
         public float[] rotationHistory;
         public int historyIndex;
         public int maxHistorySize;
+        /* 
+         * "currentTrailCounter" keeps track of how many trails are active for this entity,
+         * This will be increased every update that the speed of the entity meets the minimum
+         * requirement to have a trail drawn after it
+         */
+        public int currentTrailCounter;
 
         public TransformHistoryComponent(Vector2 startPosition, float startRotation)
         {
