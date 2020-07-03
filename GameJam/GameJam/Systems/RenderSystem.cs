@@ -77,6 +77,7 @@ namespace GameJam.Systems
             _componentRenderFunctionDict = new Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float>>();
             _componentRenderFunctionDict.Add(typeof(SpriteComponent), SpriteRenderFunction);
             _componentRenderFunctionDict.Add(typeof(BitmapFontComponent), BitmapFontRenderFunction);
+            _componentRenderFunctionDict.Add(typeof(NinePatchComponent), NinePatchRenderFunction);
             _componentRenderFunctionDict.Add(typeof(VectorSpriteComponent), VectorSpriteRenderFunction);
             _componentRenderFunctionDict.Add(typeof(FieldFontComponent), FieldFontRenderFunction);
 
@@ -295,7 +296,6 @@ namespace GameJam.Systems
 
                 int preVertCount = _spriteVerts.Count;
 
-
                 // Bottom Left
                 _spriteVerts.Add(new VertexPositionColorTexture
                 {
@@ -338,6 +338,103 @@ namespace GameJam.Systems
                 _spriteIndices.Add(2 + preVertCount);
                 _spriteIndices.Add(3 + preVertCount);
             }
+        }
+        private void NinePatchRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
+        {
+            NinePatchComponent ninePatchComp = entity.GetComponent<NinePatchComponent>();
+            if (_currentSpriteTexture == null)
+            {
+                _currentSpriteTexture = ninePatchComp.NinePatch.Texture;
+            }
+            if (_currentSpriteTexture != ninePatchComp.NinePatch.Texture)
+            {
+                SpriteFlush();
+                _currentSpriteTexture = ninePatchComp.NinePatch.Texture;
+            }
+
+            position *= FlipY;
+
+            float cos = (float)Math.Cos(rotation),
+                sin = (float)Math.Sin(rotation);
+            // TODO: Rotation
+
+            // Based on: https://github.com/craftworkgames/MonoGame.Extended/blob/0482f3ef20af3aa6f5af14e84ab72525916e178b/Source/MonoGame.Extended/TextureAtlases/TextureAtlasExtensions.cs#L47
+            void DrawPatch(float patchX, float patchY, float patchWidth, float patchHeight, Rectangle sourcePatch)
+            {
+                int preVertCount = _spriteVerts.Count;
+
+                float umin = sourcePatch.X / (float)ninePatchComp.NinePatch.Texture.Width,
+                    vmin = sourcePatch.Y / (float)ninePatchComp.NinePatch.Texture.Height,
+                    umax = (sourcePatch.X + sourcePatch.Width) / (float)ninePatchComp.NinePatch.Texture.Width,
+                    vmax = (sourcePatch.Y + sourcePatch.Height) / (float)ninePatchComp.NinePatch.Texture.Height;
+
+                // Bottom Left
+                _spriteVerts.Add(new VertexPositionColorTexture
+                {
+                    Position = new Vector3(RotateVector(new Vector2(patchX,
+                        patchY), cos, sin) + position,
+                        0),
+                    Color = ninePatchComp.Color,
+                    TextureCoordinate = new Vector2(umin, vmin)
+                });
+                // Bottom Right
+                _spriteVerts.Add(new VertexPositionColorTexture
+                {
+                    Position = new Vector3(RotateVector(new Vector2(patchX + patchWidth,
+                        patchY), cos, sin) + position,
+                        0),
+                    Color = ninePatchComp.Color,
+                    TextureCoordinate = new Vector2(umax, vmin)
+                });
+                // Top Right
+                _spriteVerts.Add(new VertexPositionColorTexture
+                {
+                    Position = new Vector3(RotateVector(new Vector2(patchX + patchWidth,
+                        patchY + patchHeight), cos, sin) + position,
+                        0),
+                    Color = ninePatchComp.Color,
+                    TextureCoordinate = new Vector2(umax, vmax)
+                });
+                // Top Left
+                _spriteVerts.Add(new VertexPositionColorTexture
+                {
+                    Position = new Vector3(RotateVector(new Vector2(patchX,
+                        patchY + patchHeight), cos, sin) + position,
+                        0),
+                    Color = ninePatchComp.Color,
+                    TextureCoordinate = new Vector2(umin, vmax)
+                });
+
+                // Clockwise faces
+                _spriteIndices.Add(0 + preVertCount);
+                _spriteIndices.Add(1 + preVertCount);
+                _spriteIndices.Add(2 + preVertCount);
+
+                _spriteIndices.Add(0 + preVertCount);
+                _spriteIndices.Add(2 + preVertCount);
+                _spriteIndices.Add(3 + preVertCount);
+            }
+
+            float sx = -ninePatchComp.Bounds.X / 2;
+            float sy = -ninePatchComp.Bounds.Y / 2;
+            float sw = ninePatchComp.Bounds.X;
+            float sh = ninePatchComp.Bounds.Y;
+            float middleWidth = sw - ninePatchComp.NinePatch.LeftPadding - ninePatchComp.NinePatch.RightPadding;
+            float middleHeight = sh - ninePatchComp.NinePatch.TopPadding - ninePatchComp.NinePatch.BottomPadding;
+            float bottomY = sy + sh - ninePatchComp.NinePatch.BottomPadding;
+            float rightX = sx + sw - ninePatchComp.NinePatch.RightPadding;
+            float leftX = sx + ninePatchComp.NinePatch.LeftPadding;
+            float topY = sy + ninePatchComp.NinePatch.TopPadding;
+
+            DrawPatch(sx, sy, ninePatchComp.NinePatch.LeftPadding, ninePatchComp.NinePatch.TopPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.TopLeft]); // Top Left
+            DrawPatch(leftX, sy, middleWidth, ninePatchComp.NinePatch.TopPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.TopMiddle]); // Top Middle
+            DrawPatch(rightX, sy, ninePatchComp.NinePatch.RightPadding, ninePatchComp.NinePatch.TopPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.TopRight]); // Top Right
+            DrawPatch(sx, topY, ninePatchComp.NinePatch.LeftPadding, middleHeight, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.MiddleLeft]); // Middle Left
+            DrawPatch(leftX, topY, middleWidth, middleHeight, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.Middle]); // Middle
+            DrawPatch(rightX, topY, ninePatchComp.NinePatch.RightPadding, middleHeight, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.MiddleRight]); // Middle Right
+            DrawPatch(sx, bottomY, ninePatchComp.NinePatch.LeftPadding, ninePatchComp.NinePatch.BottomPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.BottomLeft]); // Bottom Left
+            DrawPatch(leftX, bottomY, middleWidth, ninePatchComp.NinePatch.BottomPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.BottomMiddle]); // Bottom Middle
+            DrawPatch(rightX, bottomY, ninePatchComp.NinePatch.RightPadding, ninePatchComp.NinePatch.BottomPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.BottomRight]); // Bottom Right
         }
         private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
