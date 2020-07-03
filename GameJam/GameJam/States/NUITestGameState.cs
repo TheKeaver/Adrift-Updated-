@@ -44,7 +44,8 @@ namespace GameJam.States
                 text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
                 text.Content = new FixedValue<string>("Hello World!");
                 text.Height = new FixedValue<float>(100);
-                //text.VAlign = new FixedValue<VerticalAlignment>(VerticalAlignment.Top);
+                //text.VAlign = new FixedValue<VerticalAlignment>(VerticalAlignment.Center);
+                //text.HAlign = new FixedValue<HorizontalAlignment>(HorizontalAlignment.Center);
 
                 Root.Add(text);
             }

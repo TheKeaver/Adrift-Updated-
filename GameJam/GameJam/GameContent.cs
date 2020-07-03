@@ -4,7 +4,6 @@ using FontExtension;
 using GameJam.Content;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam

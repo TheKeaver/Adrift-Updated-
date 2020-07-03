@@ -1,6 +1,7 @@
 ﻿using Audrey;
 using GameJam.Common;
 using GameJam.Components;
+using GameJam.Graphics.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -57,6 +58,10 @@ namespace GameJam.Systems
         private List<int> _vectorSpriteIndices;
         #endregion
 
+        #region FIELD FONT RENDER MEMBERS
+        private FieldFontRenderer _fieldFontRenderer;
+        #endregion
+
         public RenderSystem(GraphicsDevice graphics, ContentManager content, Engine engine)
         {
             GraphicsDevice = graphics;
@@ -73,6 +78,7 @@ namespace GameJam.Systems
             _componentRenderFunctionDict.Add(typeof(SpriteComponent), SpriteRenderFunction);
             _componentRenderFunctionDict.Add(typeof(BitmapFontComponent), BitmapFontRenderFunction);
             _componentRenderFunctionDict.Add(typeof(VectorSpriteComponent), VectorSpriteRenderFunction);
+            _componentRenderFunctionDict.Add(typeof(FieldFontComponent), FieldFontRenderFunction);
 
             _currentSpriteTexture = null;
             _spriteVerts = new List<VertexPositionColorTexture>();
@@ -80,6 +86,8 @@ namespace GameJam.Systems
 
             _vectorSpriteVerts = new List<VertexPositionColor>();
             _vectorSpriteIndices = new List<int>();
+
+            _fieldFontRenderer = new FieldFontRenderer(content, GraphicsDevice);
         }
 
         #region INITIALIZATION
@@ -129,7 +137,9 @@ namespace GameJam.Systems
             }
             UpdateProjectionMatrix();
             _transformMatrix = cameraTransformMatrix;
-            UpdateEffectsProjection();
+            Matrix combinedMatrix = UpdateEffectsProjection();
+
+            BeginRender(combinedMatrix);
 
             foreach(Entity entity in _renderEntities)
             {
@@ -176,6 +186,8 @@ namespace GameJam.Systems
             }
 
             FlushAll();
+
+            EndRender();
         }
         #endregion
 
@@ -193,38 +205,46 @@ namespace GameJam.Systems
                 _currentSpriteTexture = spriteComp.Texture.Texture;
             }
 
+            position *= FlipY;
+
             float cos = (float)Math.Cos(rotation),
                 sin = (float)Math.Sin(rotation);
 
             int preVertCount = _spriteVerts.Count;
+
+            Rectangle texRegionSourceBounds = spriteComp.Texture.Bounds;
+            float umin = texRegionSourceBounds.X / (float)spriteComp.Texture.Texture.Width,
+                vmin = texRegionSourceBounds.Y / (float)spriteComp.Texture.Texture.Height,
+                umax = (texRegionSourceBounds.X + texRegionSourceBounds.Width) / (float)spriteComp.Texture.Texture.Width,
+                vmax = (texRegionSourceBounds.Y + texRegionSourceBounds.Height) / (float)spriteComp.Texture.Texture.Height;
 
             // Bottom Left
             _spriteVerts.Add(new VertexPositionColorTexture
             {
                 Position = new Vector3(RotateVector(new Vector2(-spriteComp.Bounds.X / 2, -spriteComp.Bounds.Y / 2), cos, sin) * scale + position, 0),
                 Color = spriteComp.Color,
-                TextureCoordinate = new Vector2(0, 1)
+                TextureCoordinate = new Vector2(umin, vmax)
             });
             // Bottom Right
             _spriteVerts.Add(new VertexPositionColorTexture
             {
                 Position = new Vector3(RotateVector(new Vector2(spriteComp.Bounds.X / 2, -spriteComp.Bounds.Y / 2), cos, sin) * scale + position, 0),
                 Color = spriteComp.Color,
-                TextureCoordinate = new Vector2(1, 1)
+                TextureCoordinate = new Vector2(umax, vmax)
             });
             // Top Right
             _spriteVerts.Add(new VertexPositionColorTexture
             {
                 Position = new Vector3(RotateVector(new Vector2(spriteComp.Bounds.X / 2, spriteComp.Bounds.Y / 2), cos, sin) * scale + position, 0),
                 Color = spriteComp.Color,
-                TextureCoordinate = new Vector2(1, 0)
+                TextureCoordinate = new Vector2(umax, vmin)
             });
             // Top Left
             _spriteVerts.Add(new VertexPositionColorTexture
             {
                 Position = new Vector3(RotateVector(new Vector2(-spriteComp.Bounds.X / 2, spriteComp.Bounds.Y / 2), cos, sin) * scale + position, 0),
                 Color = spriteComp.Color,
-                TextureCoordinate = new Vector2(0, 0)
+                TextureCoordinate = new Vector2(umin, vmin)
             });
 
             // Clockwise faces
@@ -366,6 +386,19 @@ namespace GameJam.Systems
                 }
             }
         }
+        private void FieldFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
+        {
+            FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();
+
+            _fieldFontRenderer.Draw(fieldFontComp.Font,
+                fieldFontComp.Content,
+                position,
+                rotation,
+                fieldFontComp.Color,
+                scale,
+                fieldFontComp.EnableKerning,
+                0);
+        }
         #endregion
 
         #region FLUSH METHODS
@@ -373,6 +406,7 @@ namespace GameJam.Systems
         {
             SpriteFlush();
             VectorSpriteFlush();
+            FieldFontFlush();
         }
 
         private void SpriteFlush()
@@ -413,7 +447,20 @@ namespace GameJam.Systems
             _vectorSpriteVerts.Clear();
             _vectorSpriteIndices.Clear();
         }
+        private void FieldFontFlush()
+        {
+            _fieldFontRenderer.Flush();
+        }
         #endregion
+
+        private void BeginRender(Matrix cameraMatrix)
+        {
+            _fieldFontRenderer.Begin(cameraMatrix);
+        }
+        private void EndRender()
+        {
+            _fieldFontRenderer.End();
+        }
 
         #region HELPER METHODS
         private IRenderComponent GetRenderComponent(Entity entity)
@@ -471,10 +518,14 @@ namespace GameJam.Systems
                     out _projectionMatrix);
             }
         }
-        private void UpdateEffectsProjection()
+        private Matrix UpdateEffectsProjection()
         {
-            _spriteEffect.Projection = Matrix.Multiply(_transformMatrix, _projectionMatrix);
-            _vectorSpriteEffect.Projection = Matrix.Multiply(_transformMatrix, _projectionMatrix);
+            Matrix combinedMatrix = Matrix.Multiply(_transformMatrix, _projectionMatrix);
+
+            _spriteEffect.Projection = combinedMatrix;
+            _vectorSpriteEffect.Projection = combinedMatrix;
+
+            return combinedMatrix;
         }
         #endregion
     }
