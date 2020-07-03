@@ -67,6 +67,11 @@ namespace GameJam.Components
         {
             return RenderGroup;
         }
+
+        public float GetDepth()
+        {
+            return Depth;
+        }
     }
 
     public abstract class RenderShape
