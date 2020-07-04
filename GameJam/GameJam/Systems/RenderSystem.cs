@@ -45,7 +45,7 @@ namespace GameJam.Systems
         private Matrix _transformMatrix;
         private Viewport _lastViewport;
 
-        private Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float>> _componentRenderFunctionDict;
+        private Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float, float>> _componentRenderFunctionDict;
 
         #region SPRITE RENDER MEMBERS
         private Texture2D _currentSpriteTexture;
@@ -74,7 +74,7 @@ namespace GameJam.Systems
             _projectionMatrix = Matrix.Identity;
             _lastViewport = new Viewport();
 
-            _componentRenderFunctionDict = new Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float>>();
+            _componentRenderFunctionDict = new Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float, float>>();
             _componentRenderFunctionDict.Add(typeof(SpriteComponent), SpriteRenderFunction);
             _componentRenderFunctionDict.Add(typeof(BitmapFontComponent), BitmapFontRenderFunction);
             _componentRenderFunctionDict.Add(typeof(NinePatchComponent), NinePatchRenderFunction);
@@ -179,7 +179,8 @@ namespace GameJam.Systems
                         transformPosition,
                         transformRotation,
                         transformScale,
-                        betweenFrameAlpha);
+                        betweenFrameAlpha,
+                        iRenderComp.GetDepth());
                 } else
                 {
                     Console.WriteLine($"No render function for {iRenderComp.GetType().Name}");
@@ -193,7 +194,7 @@ namespace GameJam.Systems
         #endregion
 
         #region RENDER METHODS
-        private void SpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
+        private void SpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
         {
             SpriteComponent spriteComp = entity.GetComponent<SpriteComponent>();
             if(_currentSpriteTexture == null)
@@ -222,28 +223,28 @@ namespace GameJam.Systems
             // Bottom Left
             _spriteVerts.Add(new VertexPositionColorTexture
             {
-                Position = new Vector3(RotateVector(new Vector2(-spriteComp.Bounds.X / 2, -spriteComp.Bounds.Y / 2), cos, sin) * scale + position, 0),
+                Position = new Vector3(RotateVector(new Vector2(-spriteComp.Bounds.X / 2, -spriteComp.Bounds.Y / 2), cos, sin) * scale + position, depth),
                 Color = spriteComp.Color,
                 TextureCoordinate = new Vector2(umin, vmax)
             });
             // Bottom Right
             _spriteVerts.Add(new VertexPositionColorTexture
             {
-                Position = new Vector3(RotateVector(new Vector2(spriteComp.Bounds.X / 2, -spriteComp.Bounds.Y / 2), cos, sin) * scale + position, 0),
+                Position = new Vector3(RotateVector(new Vector2(spriteComp.Bounds.X / 2, -spriteComp.Bounds.Y / 2), cos, sin) * scale + position, depth),
                 Color = spriteComp.Color,
                 TextureCoordinate = new Vector2(umax, vmax)
             });
             // Top Right
             _spriteVerts.Add(new VertexPositionColorTexture
             {
-                Position = new Vector3(RotateVector(new Vector2(spriteComp.Bounds.X / 2, spriteComp.Bounds.Y / 2), cos, sin) * scale + position, 0),
+                Position = new Vector3(RotateVector(new Vector2(spriteComp.Bounds.X / 2, spriteComp.Bounds.Y / 2), cos, sin) * scale + position, depth),
                 Color = spriteComp.Color,
                 TextureCoordinate = new Vector2(umax, vmin)
             });
             // Top Left
             _spriteVerts.Add(new VertexPositionColorTexture
             {
-                Position = new Vector3(RotateVector(new Vector2(-spriteComp.Bounds.X / 2, spriteComp.Bounds.Y / 2), cos, sin) * scale + position, 0),
+                Position = new Vector3(RotateVector(new Vector2(-spriteComp.Bounds.X / 2, spriteComp.Bounds.Y / 2), cos, sin) * scale + position, depth),
                 Color = spriteComp.Color,
                 TextureCoordinate = new Vector2(umin, vmin)
             });
@@ -257,7 +258,7 @@ namespace GameJam.Systems
             _spriteIndices.Add(2 + preVertCount);
             _spriteIndices.Add(3 + preVertCount);
         }
-        private void BitmapFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
+        private void BitmapFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
         {
             BitmapFontComponent bitmapFontComp = entity.GetComponent<BitmapFontComponent>();
 
@@ -300,7 +301,7 @@ namespace GameJam.Systems
                 _spriteVerts.Add(new VertexPositionColorTexture
                 {
                     Position = new Vector3(RotateVector(new Vector2(characterOrigin.X - texture.Bounds.X * scale / 2,
-                        characterOrigin.Y - texture.Bounds.Y * scale / 2), cos, sin), 0),
+                        characterOrigin.Y - texture.Bounds.Y * scale / 2), cos, sin), depth),
                     Color = bitmapFontComp.Color,
                     TextureCoordinate = new Vector2(umin, vmax)
                 });
@@ -308,7 +309,7 @@ namespace GameJam.Systems
                 _spriteVerts.Add(new VertexPositionColorTexture
                 {
                     Position = new Vector3(RotateVector(new Vector2(characterOrigin.X + texture.Bounds.X * scale / 2,
-                        characterOrigin.Y - texture.Bounds.Y * scale / 2), cos, sin), 0),
+                        characterOrigin.Y - texture.Bounds.Y * scale / 2), cos, sin), depth),
                     Color = bitmapFontComp.Color,
                     TextureCoordinate = new Vector2(umax, vmax)
                 });
@@ -316,7 +317,7 @@ namespace GameJam.Systems
                 _spriteVerts.Add(new VertexPositionColorTexture
                 {
                     Position = new Vector3(RotateVector(new Vector2(characterOrigin.X + texture.Bounds.X * scale / 2,
-                        characterOrigin.Y + texture.Bounds.Y * scale / 2), cos, sin), 0),
+                        characterOrigin.Y + texture.Bounds.Y * scale / 2), cos, sin), depth),
                     Color = bitmapFontComp.Color,
                     TextureCoordinate = new Vector2(umax, vmin)
                 });
@@ -324,7 +325,7 @@ namespace GameJam.Systems
                 _spriteVerts.Add(new VertexPositionColorTexture
                 {
                     Position = new Vector3(RotateVector(new Vector2(characterOrigin.X - texture.Bounds.X * scale / 2,
-                        characterOrigin.Y + texture.Bounds.Y * scale / 2), cos, sin), 0),
+                        characterOrigin.Y + texture.Bounds.Y * scale / 2), cos, sin), depth),
                     Color = bitmapFontComp.Color,
                     TextureCoordinate = new Vector2(umin, vmin)
                 });
@@ -339,7 +340,7 @@ namespace GameJam.Systems
                 _spriteIndices.Add(3 + preVertCount);
             }
         }
-        private void NinePatchRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
+        private void NinePatchRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
         {
             NinePatchComponent ninePatchComp = entity.GetComponent<NinePatchComponent>();
             if (_currentSpriteTexture == null)
@@ -373,7 +374,7 @@ namespace GameJam.Systems
                 {
                     Position = new Vector3(RotateVector(new Vector2(patchX,
                         patchY), cos, sin) + position,
-                        0),
+                        depth),
                     Color = ninePatchComp.Color,
                     TextureCoordinate = new Vector2(umin, vmin)
                 });
@@ -382,7 +383,7 @@ namespace GameJam.Systems
                 {
                     Position = new Vector3(RotateVector(new Vector2(patchX + patchWidth,
                         patchY), cos, sin) + position,
-                        0),
+                        depth),
                     Color = ninePatchComp.Color,
                     TextureCoordinate = new Vector2(umax, vmin)
                 });
@@ -391,7 +392,7 @@ namespace GameJam.Systems
                 {
                     Position = new Vector3(RotateVector(new Vector2(patchX + patchWidth,
                         patchY + patchHeight), cos, sin) + position,
-                        0),
+                        depth),
                     Color = ninePatchComp.Color,
                     TextureCoordinate = new Vector2(umax, vmax)
                 });
@@ -400,7 +401,7 @@ namespace GameJam.Systems
                 {
                     Position = new Vector3(RotateVector(new Vector2(patchX,
                         patchY + patchHeight), cos, sin) + position,
-                        0),
+                        depth),
                     Color = ninePatchComp.Color,
                     TextureCoordinate = new Vector2(umin, vmax)
                 });
@@ -436,7 +437,7 @@ namespace GameJam.Systems
             DrawPatch(leftX, bottomY, middleWidth, ninePatchComp.NinePatch.BottomPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.BottomMiddle]); // Bottom Middle
             DrawPatch(rightX, bottomY, ninePatchComp.NinePatch.RightPadding, ninePatchComp.NinePatch.BottomPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.BottomRight]); // Bottom Right
         }
-        private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
+        private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
         {
             VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
 
@@ -472,7 +473,7 @@ namespace GameJam.Systems
                 {
                     VertexPositionColor vert = computedVerticesReturn[i];
                     _vectorSpriteVerts.Add(new VertexPositionColor(new Vector3((vert.Position.X * stretch.X * cos + vert.Position.Y * stretch.Y * -sin) * scale + position.X,
-                        (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * cos) * scale + position.Y, 0), new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
+                        (vert.Position.X * stretch.X * sin + vert.Position.Y * stretch.Y * cos) * scale + position.Y, depth), new Color(vert.Color.ToVector4() * renderShape.TintColor.ToVector4() * vectorSpriteComp.Alpha)));
                 }
 
                 // Change indices values to change based on length of array currently
@@ -483,7 +484,7 @@ namespace GameJam.Systems
                 }
             }
         }
-        private void FieldFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
+        private void FieldFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
         {
             FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();
 
@@ -494,7 +495,7 @@ namespace GameJam.Systems
                 fieldFontComp.Color,
                 scale,
                 fieldFontComp.EnableKerning,
-                0);
+                depth);
         }
         #endregion
 
