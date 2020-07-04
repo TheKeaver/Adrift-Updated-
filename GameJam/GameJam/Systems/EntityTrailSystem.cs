@@ -1,12 +1,17 @@
 ﻿using Audrey;
 using GameJam.Components;
+using Microsoft.Xna.Framework;
+using System;
 using System.Reflection;
 
 namespace GameJam.Systems
 {
+    /*
+     * 
+     */
     public class EntityTrailSystem : BaseSystem
     {
-        readonly Family _entityTrailFamily = Family.All(typeof(MovementComponent), typeof(EntityTrailComponent)).Get();
+        readonly Family _entityTrailFamily = Family.All(typeof(MovementComponent), typeof(FadingEntityComponent)).Get();
         readonly ImmutableList<Entity> _entityTrailEntities;
 
         public EntityTrailSystem(Engine engine) : base(engine)
@@ -18,30 +23,40 @@ namespace GameJam.Systems
         {
             foreach (Entity trailEntity in _entityTrailEntities)
             {
-                DrawPlayerTrail(trailEntity);
+                TransformHistoryComponent transformHistory = trailEntity.GetComponent<TransformHistoryComponent>();
+
+                transformHistory.updateInterval.Update(dt);
+                if(transformHistory.updateInterval.HasElapsed())
+                {
+                    transformHistory.updateInterval.Reset();
+                    DrawEntityTrail(trailEntity);
+                }
             }
         }
 
-        private void DrawPlayerTrail(Entity entity)
+        private void DrawEntityTrail(Entity entity)
         {
             MovementComponent moveComp = entity.GetComponent<MovementComponent>();
             TransformHistoryComponent transformHistory = entity.GetComponent<TransformHistoryComponent>();
+            FadingEntityComponent fec = entity.GetComponent<FadingEntityComponent>();
+            Entity spriteOnly;
 
-            if(moveComp.MovementVector.Length() >= 20)
+            if(moveComp.MovementVector.Length() >= 1)
             {
-               int i = ++transformHistory.currentTrailCounter;
-               while (i > 0)
-               {
-                    // NEED "CreateSpriteOnly" FOR THE PLAYER SHIP ENTITY
-                    MethodInfo me = entity.GetType().GetMethod("CreateSpriteOnly");
+                // TODO: EntityTrailSystem does not draw trails that match Player Color, instead each is just drawn as White
+                // Entity Create Sprite only for player should accept a color into the argument
+                // This, however, would make its syntax differ from other CreateSpriteOnly methods and would need to be made to match
+                MethodInfo me = fec.thisType.GetMethod("CreateSpriteOnly", new Type[] { typeof(Engine), typeof(Vector2), typeof(float) });
+                int lastHistory = transformHistory.GetLastHistoryIndex();
 
-                    me.Invoke(this, new object[]
-                        {
-                            Engine,
-                            transformHistory.positionHistory[i],
-                            transformHistory.rotationHistory[i]
-                        });
-               }
+                spriteOnly = (Entity)me.Invoke(null, new object[]
+                {
+                    Engine,
+                    transformHistory.positionHistory[lastHistory],
+                    transformHistory.rotationHistory[lastHistory]
+                });
+
+                spriteOnly.AddComponent(new FadingEntityTimerComponent(CVars.Get<float>("animation_trail_fading_timer")));
             }
         }
     }

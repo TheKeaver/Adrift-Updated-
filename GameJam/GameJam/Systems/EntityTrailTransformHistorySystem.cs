@@ -1,17 +1,18 @@
 ﻿using Audrey;
 using GameJam.Components;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Systems
 {
-    public class TransformHistorySystem : BaseSystem
+    /*
+     * EntityTrailComponent = Flag component, no data stored
+     * This system just updates the entity's TrasnformHistory every update
+     */
+    public class EntityTrailTransformHistorySystem : BaseSystem
     {
-        readonly Family _historyFamily = Family.All(typeof(MovementComponent), typeof(TransformComponent), typeof(TransformHistoryComponent)).Get();
+        readonly Family _historyFamily = Family.All(typeof(FadingEntityComponent), typeof(TransformComponent), typeof(TransformHistoryComponent)).Get();
         readonly ImmutableList<Entity> _historyEntities;
 
-        public TransformHistorySystem(Engine engine) : base(engine)
+        public EntityTrailTransformHistorySystem(Engine engine) : base(engine)
         {
             _historyEntities = engine.GetEntitiesFor(_historyFamily);
         }

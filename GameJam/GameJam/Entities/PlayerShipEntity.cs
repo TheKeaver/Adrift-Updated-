@@ -12,6 +12,36 @@ namespace GameJam.Entities
             return Create(engine, position, CVars.Get<Color>("color_player_ship"));
         }
 
+        public static Entity CreateSpriteOnly(Engine engine)
+        {
+            return CreateSpriteOnly(engine, Vector2.Zero, 0);
+        }
+
+        public static Entity CreateSpriteOnly(Engine engine, Vector2 position, float angle)
+        {
+            Entity entity = engine.CreateEntity();
+
+            entity.AddComponent(new TransformComponent());
+            entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
+                new PolyRenderShape(new Vector2[]{ new Vector2(3, 0),
+                    new Vector2(0, 3),
+                    new Vector2(-3, 0),
+                    new Vector2(0, -3)
+                    }, 0.2f, Color.White, PolyRenderShape.PolyCapStyle.Filled, true),
+                new PolyRenderShape(new Vector2[]{ new Vector2(0, 3),
+                    new Vector2(-3, -2),
+                    new Vector2(-3, 2),
+                    new Vector2(0, -3)
+                    }, 0.13f, Color.White, PolyRenderShape.PolyCapStyle.Filled)
+            }));
+
+            entity.GetComponent<TransformComponent>().SetPosition(position, true);
+            entity.GetComponent<TransformComponent>().SetRotation(angle, true);
+            entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("chasing_enemy_size"), true);
+
+            return entity;
+        }
+
         public static Entity Create(Engine engine, Vector2 position, Color color)
         {
             Entity entity = engine.CreateEntity();
@@ -21,9 +51,11 @@ namespace GameJam.Entities
             entity.AddComponent(new MovementComponent());
             entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health"), CVars.Get<float>("player_super_shield_max")));
             entity.AddComponent(new BounceComponent());
+            // FadingEntityComponent is used to correspond with the EntityTrailSystem
+            entity.AddComponent(new FadingEntityComponent(typeof(PlayerShipEntity)));
 
             entity.AddComponent(new CameraTrackingComponent());
-            entity.AddComponent(new TransformHistoryComponent(position, 0));
+            entity.AddComponent(new TransformHistoryComponent(position, 0, 5));
 
             entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = CVars.Get<bool>("player_rotate_in_direction_of_movement");
 

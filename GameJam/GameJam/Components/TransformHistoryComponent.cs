@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using GameJam.Common;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
@@ -10,17 +11,12 @@ namespace GameJam.Components
         public float[] rotationHistory;
         public int historyIndex;
         public int maxHistorySize;
-        /* 
-         * "currentTrailCounter" keeps track of how many trails are active for this entity,
-         * This will be increased every update that the speed of the entity meets the minimum
-         * requirement to have a trail drawn after it
-         */
-        public int currentTrailCounter;
+        public Timer updateInterval;
 
-        public TransformHistoryComponent(Vector2 startPosition, float startRotation)
+        public TransformHistoryComponent(Vector2 startPosition, float startRotation, int maxHistorySize)
         {
+            updateInterval = new Timer(CVars.Get<float>("animation_trail_frequency_timer"));
             // This "maxHistorySize" be a constant somewhere, ideally CVar
-            maxHistorySize = 5;
             historyIndex = 0;
 
             positionHistory = new Vector2[maxHistorySize];
@@ -32,7 +28,14 @@ namespace GameJam.Components
         {
             positionHistory[historyIndex % maxHistorySize] = position;
             rotationHistory[historyIndex % maxHistorySize] = rotation;
-            historyIndex++;
+
+            historyIndex = (historyIndex + 1 >= maxHistorySize) ? 0 : historyIndex + 1;
+        }
+
+        public int GetLastHistoryIndex()
+        {
+            int ret = (historyIndex == 0) ? (maxHistorySize - 1) : (historyIndex - 1);
+            return ret;
         }
     }
 }
