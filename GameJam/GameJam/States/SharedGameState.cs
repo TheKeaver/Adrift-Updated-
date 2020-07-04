@@ -66,6 +66,11 @@ namespace GameJam.States
             get;
             private set;
         }
+        public TransformResetSemiSystem TransformResetSemiSystem
+        {
+            get;
+            private set;
+        }
 #if DEBUG
         public CollisionDebugRenderSystem CollisionDebugRenderSystem
         {
@@ -135,8 +140,6 @@ namespace GameJam.States
             {
                 // Input System must go first to have accurate snapshots
                 new InputSystem(Engine),
-                // TransformResetSystem must go before any system that changes the transform of entities
-                new TransformResetSystem(Engine),
 
                 // Section below is not dependent on other systems
                 new GravityHolePassiveAnimationSystem(Engine, ProcessManager, Content),
@@ -166,6 +169,7 @@ namespace GameJam.States
             };
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Content, Engine);
+            TransformResetSemiSystem = new TransformResetSemiSystem(Engine);
 #if DEBUG
             CollisionDebugRenderSystem = new CollisionDebugRenderSystem(GameManager.GraphicsDevice, Engine);
 #endif
@@ -255,6 +259,11 @@ namespace GameJam.States
 
         protected override void OnFixedUpdate(float dt)
         {
+            // This is not a normal system; this system
+            // depends on when update and render are
+            // called so it must be notified of both.
+            TransformResetSemiSystem.OnUpdate();
+
             Camera.ResetAll();
             DebugCamera.ResetAll();
 
@@ -268,6 +277,11 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+            // This is not a normal system; this system
+            // depends on when update and render are
+            // called so it must be notified of both.
+            TransformResetSemiSystem.OnRender();
+
             int enableFrameSmoothing = CVars.Get<bool>("graphics_frame_smoothing") ? 1 : 0;
             betweenFrameAlpha = betweenFrameAlpha * enableFrameSmoothing + (1 - enableFrameSmoothing);
 
