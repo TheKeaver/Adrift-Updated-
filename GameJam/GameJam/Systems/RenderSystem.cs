@@ -12,6 +12,13 @@ using System.Collections.Generic;
 
 namespace GameJam.Systems
 {
+    public enum RenderSystemMode
+    {
+        Sprite,
+        Vector,
+        Msdf
+    }
+
     public class RenderSystem
     {
         public GraphicsDevice GraphicsDevice
@@ -62,6 +69,12 @@ namespace GameJam.Systems
         private FieldFontRenderer _fieldFontRenderer;
         #endregion
 
+        public RenderSystemMode RenderMode
+        {
+            get;
+            private set;
+        }
+
         public RenderSystem(GraphicsDevice graphics, ContentManager content, Engine engine)
         {
             GraphicsDevice = graphics;
@@ -89,6 +102,8 @@ namespace GameJam.Systems
             _vectorSpriteIndices = new List<int>();
 
             _fieldFontRenderer = new FieldFontRenderer(content, GraphicsDevice);
+
+            RenderMode = RenderSystemMode.Sprite;
         }
 
         #region INITIALIZATION
@@ -123,7 +138,7 @@ namespace GameJam.Systems
         #region DRAW RENDER ENTITIES
         private void DrawRenderEntities(Matrix cameraTransformMatrix, BoundingRect cameraBoundingRect, byte groupMask, float dt, float betweenFrameAlpha)
         {
-            if(_renderEntities.Count == 0)
+            if (_renderEntities.Count == 0)
             {
                 return;
             }
@@ -133,7 +148,24 @@ namespace GameJam.Systems
 
             BeginRender(combinedMatrix);
 
-            foreach(Entity entity in _renderEntities)
+            List<Entity> sortedRenderEntities = new List<Entity>(_renderEntities);
+            int CompareRenderEntitiesDepth(Entity e1, Entity e2)
+            {
+                float depth1 = GetRenderComponent(e1).GetDepth();
+                float depth2 = GetRenderComponent(e2).GetDepth();
+
+                if(depth1 < depth2)
+                {
+                    return -1;
+                }
+                if(depth1 > depth2)
+                {
+                    return 1;
+                }
+                return 0;
+            }
+            sortedRenderEntities.Sort(CompareRenderEntitiesDepth);
+            foreach(Entity entity in sortedRenderEntities)
             {
                 IRenderComponent iRenderComp = GetRenderComponent(entity);
                 if(iRenderComp.IsHidden()
@@ -186,6 +218,11 @@ namespace GameJam.Systems
         #region RENDER METHODS
         private void SpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            if(RenderMode != RenderSystemMode.Sprite)
+            {
+                FlushAll();
+            }
+
             float depth = 0;
 
             SpriteComponent spriteComp = entity.GetComponent<SpriteComponent>();
@@ -252,6 +289,11 @@ namespace GameJam.Systems
         }
         private void BitmapFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            if (RenderMode != RenderSystemMode.Sprite)
+            {
+                FlushAll();
+            }
+
             float depth = 0;
 
             BitmapFontComponent bitmapFontComp = entity.GetComponent<BitmapFontComponent>();
@@ -336,6 +378,11 @@ namespace GameJam.Systems
         }
         private void NinePatchRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            if (RenderMode != RenderSystemMode.Sprite)
+            {
+                FlushAll();
+            }
+
             float depth = 0;
 
             NinePatchComponent ninePatchComp = entity.GetComponent<NinePatchComponent>();
@@ -435,6 +482,11 @@ namespace GameJam.Systems
         }
         private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            if (RenderMode != RenderSystemMode.Vector)
+            {
+                FlushAll();
+            }
+
             float depth = 0;
 
             VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
@@ -484,6 +536,11 @@ namespace GameJam.Systems
         }
         private void FieldFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            if (RenderMode != RenderSystemMode.Msdf)
+            {
+                FlushAll();
+            }
+
             float depth = 0;
 
             FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();
