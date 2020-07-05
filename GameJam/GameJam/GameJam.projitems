@@ -125,6 +125,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnChasingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\RenderSystemPlaygroundState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\SpriteBatchPlaygroundState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemySeparationSystem.cs" />

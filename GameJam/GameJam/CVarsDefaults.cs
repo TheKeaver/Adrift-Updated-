@@ -389,6 +389,9 @@ namespace GameJam
             Create<string>("effect_smaa", "effects/SMAA_ULTRA", CVarFlags.PRESERVE, "Path of SMAA post-processing shader.");
             Create<string>("effect_negative", "effects/Negative", CVarFlags.PRESERVE, "Path of negative post-processing shader.");
 
+            Create<string>("effect_sprite", "effects/Sprite", CVarFlags.PRESERVE, "Path of sprite shader.");
+            Create<string>("effect_vector", "effects/Vector", CVarFlags.PRESERVE, "Path of shader for colored vertices.");
+
             Create<string>("effect_field_font", "effects/FieldFontEffect", CVarFlags.PRESERVE, "Effect of field font shader.");
             Create<string>("font_msdf_hyperspace", "fonts/Hyperspace/Hyperspace", CVarFlags.PRESERVE, "Path of hyperspace MSDF font descriptor file.");
             Create<string>("font_msdf_hyperspace_texture_character_32", "fonts/Hyperspace/Hyperspace_MSDF/Hyperspace-32", CVarFlags.PRESERVE, "Path of hyperspace MSDF character texture 32.");

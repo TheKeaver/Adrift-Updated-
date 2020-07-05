@@ -1,4 +1,4 @@
-﻿using Audrey;
+using Audrey;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Graphics.Text;
@@ -38,14 +38,14 @@ namespace GameJam.Systems
             .Get();
         readonly ImmutableList<Entity> _renderEntities;
 
-        private BasicEffect _spriteEffect;
-        private BasicEffect _vectorSpriteEffect;
+        private Effect _spriteEffect;
+        private Effect _vectorSpriteEffect;
 
         private Matrix _projectionMatrix;
         private Matrix _transformMatrix;
         private Viewport _lastViewport;
 
-        private Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float, float>> _componentRenderFunctionDict;
+        private Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float>> _componentRenderFunctionDict;
 
         #region SPRITE RENDER MEMBERS
         private Texture2D _currentSpriteTexture;
@@ -69,12 +69,12 @@ namespace GameJam.Systems
 
             _renderEntities = Engine.GetEntitiesFor(_renderEntityFamily);
 
-            InitEffects();
+            InitEffects(content);
 
             _projectionMatrix = Matrix.Identity;
             _lastViewport = new Viewport();
 
-            _componentRenderFunctionDict = new Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float, float>>();
+            _componentRenderFunctionDict = new Dictionary<Type, Action<Matrix, Entity, Vector2, float, float, float>>();
             _componentRenderFunctionDict.Add(typeof(SpriteComponent), SpriteRenderFunction);
             _componentRenderFunctionDict.Add(typeof(BitmapFontComponent), BitmapFontRenderFunction);
             _componentRenderFunctionDict.Add(typeof(NinePatchComponent), NinePatchRenderFunction);
@@ -92,19 +92,10 @@ namespace GameJam.Systems
         }
 
         #region INITIALIZATION
-        private void InitEffects()
+        private void InitEffects(ContentManager content)
         {
-            _spriteEffect = new BasicEffect(GraphicsDevice);
-            _spriteEffect.AmbientLightColor = new Vector3(1, 1, 1);
-            _spriteEffect.World = Matrix.Identity;
-            _spriteEffect.TextureEnabled = true;
-            _spriteEffect.VertexColorEnabled = true;
-
-            _vectorSpriteEffect = new BasicEffect(GraphicsDevice);
-            _vectorSpriteEffect.AmbientLightColor = new Vector3(1, 1, 1);
-            _vectorSpriteEffect.World = Matrix.Identity;
-            _vectorSpriteEffect.TextureEnabled = false;
-            _vectorSpriteEffect.VertexColorEnabled = true;
+            _spriteEffect = content.Load<Effect>("effect_sprite");
+            _vectorSpriteEffect = content.Load<Effect>("effect_vector");
         }
         #endregion
 
@@ -179,8 +170,7 @@ namespace GameJam.Systems
                         transformPosition,
                         transformRotation,
                         transformScale,
-                        betweenFrameAlpha,
-                        iRenderComp.GetDepth());
+                        betweenFrameAlpha);
                 } else
                 {
                     Console.WriteLine($"No render function for {iRenderComp.GetType().Name}");
@@ -194,8 +184,10 @@ namespace GameJam.Systems
         #endregion
 
         #region RENDER METHODS
-        private void SpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
+        private void SpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            float depth = 0;
+
             SpriteComponent spriteComp = entity.GetComponent<SpriteComponent>();
             if(_currentSpriteTexture == null)
             {
@@ -258,8 +250,10 @@ namespace GameJam.Systems
             _spriteIndices.Add(2 + preVertCount);
             _spriteIndices.Add(3 + preVertCount);
         }
-        private void BitmapFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
+        private void BitmapFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            float depth = 0;
+
             BitmapFontComponent bitmapFontComp = entity.GetComponent<BitmapFontComponent>();
 
             float cos = (float)Math.Cos(rotation),
@@ -340,8 +334,10 @@ namespace GameJam.Systems
                 _spriteIndices.Add(3 + preVertCount);
             }
         }
-        private void NinePatchRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
+        private void NinePatchRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            float depth = 0;
+
             NinePatchComponent ninePatchComp = entity.GetComponent<NinePatchComponent>();
             if (_currentSpriteTexture == null)
             {
@@ -437,8 +433,10 @@ namespace GameJam.Systems
             DrawPatch(leftX, bottomY, middleWidth, ninePatchComp.NinePatch.BottomPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.BottomMiddle]); // Bottom Middle
             DrawPatch(rightX, bottomY, ninePatchComp.NinePatch.RightPadding, ninePatchComp.NinePatch.BottomPadding, ninePatchComp.NinePatch.SourcePatches[NinePatchRegion2D.BottomRight]); // Bottom Right
         }
-        private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
+        private void VectorSpriteRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            float depth = 0;
+
             VectorSpriteComponent vectorSpriteComp = entity.GetComponent<VectorSpriteComponent>();
 
             position *= FlipY;
@@ -484,8 +482,10 @@ namespace GameJam.Systems
                 }
             }
         }
-        private void FieldFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha, float depth)
+        private void FieldFontRenderFunction(Matrix cameraMatrix, Entity entity, Vector2 position, float rotation, float scale, float betweenFrameAlpha)
         {
+            float depth = 0;
+
             FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();
 
             _fieldFontRenderer.Draw(fieldFontComp.Font,
@@ -511,7 +511,7 @@ namespace GameJam.Systems
         {
             if(_spriteVerts.Count > 0 && _spriteIndices.Count > 0)
             {
-                _spriteEffect.Texture = _currentSpriteTexture;
+                _spriteEffect.Parameters["SpriteTexture"].SetValue(_currentSpriteTexture);
                 // Projection matrix is already handled at beginning of render call
                 foreach(EffectPass pass in _spriteEffect.CurrentTechnique.Passes)
                 {
@@ -612,7 +612,7 @@ namespace GameJam.Systems
             {
                 Matrix.CreateOrthographicOffCenter(0, viewport.Width,
                     viewport.Height, 0,
-                    -float.MaxValue, float.MaxValue,
+                    -1, 1,
                     out _projectionMatrix);
             }
         }
@@ -620,8 +620,8 @@ namespace GameJam.Systems
         {
             Matrix combinedMatrix = Matrix.Multiply(_transformMatrix, _projectionMatrix);
 
-            _spriteEffect.Projection = combinedMatrix;
-            _vectorSpriteEffect.Projection = combinedMatrix;
+            _spriteEffect.Parameters["WorldViewProjection"].SetValue(combinedMatrix);
+            _vectorSpriteEffect.Parameters["WorldViewProjection"].SetValue(combinedMatrix);
 
             return combinedMatrix;
         }

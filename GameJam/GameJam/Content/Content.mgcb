@@ -62,6 +62,18 @@
 /processorParam:DebugMode=Auto
 /build:effects/SMAA_ULTRA.fx
 
+#begin effects/Sprite.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/Sprite.fx
+
+#begin effects/Vector.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/Vector.fx
+
 #begin effects/VelocityGPUParticleEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
