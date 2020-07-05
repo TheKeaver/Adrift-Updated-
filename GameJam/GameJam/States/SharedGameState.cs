@@ -229,7 +229,7 @@ namespace GameJam.States
 
         private void CreateEntities()
         {
-            //CreateParallaxBackground();
+            CreateParallaxBackground();
         }
 
         void CreateParallaxBackground()
@@ -331,15 +331,15 @@ namespace GameJam.States
                                         Constants.Render.RENDER_GROUP_STARS,
                                         dt,
                                         betweenFrameAlpha, camera); // Stars
-            //SpriteBatch.Begin();
-            //SpriteBatch.Draw(postProcessingResult,
-            //    postProcessingResult.Bounds,
-            //    Color.White); // Post-processing results
-            //SpriteBatch.End();
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(postProcessingResult,
+                postProcessingResult.Bounds,
+                Color.White); // Post-processing results
+            SpriteBatch.End();
 
             // TODO: Revert vvv
-            //RenderSystem.DrawEntities(UICamera, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
-            RenderSystem.DrawEntities(camera, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
+            RenderSystem.DrawEntities(UICamera, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
+            //RenderSystem.DrawEntities(camera, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
 
             // Shield Resource
             RenderSystem.DrawEntities(Camera,

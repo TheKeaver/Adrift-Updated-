@@ -190,8 +190,8 @@ namespace GameJam
             // TODO: Uncomment
             SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
             //ProcessManager.Attach(new UIMenuGameState(this, sharedState));
-            //ProcessManager.Attach(new NUITestGameState(this, sharedState));
-            ProcessManager.Attach(new RenderSystemPlaygroundState(this, sharedState));
+            ProcessManager.Attach(new NUITestGameState(this, sharedState));
+            //ProcessManager.Attach(new RenderSystemPlaygroundState(this, sharedState));
         }
         
         protected override void Update(GameTime gameTime)
