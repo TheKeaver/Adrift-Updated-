@@ -186,8 +186,6 @@ namespace GameJam
             LoadGameContent(GlobalContent);
             GlobalContent.Locked = true;
 
-            FieldFont font = GlobalContent.Load<FieldFont>("font_msdf_hyperspace");
-
             // Attach first game state last
             // TODO: Uncomment
             SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
