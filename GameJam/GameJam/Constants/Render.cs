@@ -24,9 +24,9 @@
         public static readonly byte RENDER_GROUP_UI = GROUP_FOUR;
 
         //////////////
-        public static readonly float RENDER_DEPTH_LAYER_SPRITES = 1;
+        public static readonly float RENDER_DEPTH_LAYER_SPRITES = 0;
         public static readonly float RENDER_DEPTH_LAYER_SPRITES_BACKGROUND = RENDER_DEPTH_LAYER_SPRITES;
-        public static readonly float RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY = RENDER_DEPTH_LAYER_SPRITES_BACKGROUND + 1;
+        public static readonly float RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY = RENDER_DEPTH_LAYER_SPRITES_BACKGROUND + 0.1f;
 
         public static readonly float RENDER_DEPTH_LAYER_UI = RENDER_DEPTH_LAYER_SPRITES * 10000000000;
         public static readonly float RENDER_DEPTH_LAYER_UI_LAYER_DIVIDER = 100;
