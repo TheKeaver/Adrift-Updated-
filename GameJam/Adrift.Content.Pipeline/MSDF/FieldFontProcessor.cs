@@ -50,6 +50,11 @@ namespace FontExtension
         [DefaultValue("")]
         public virtual string CVarPrefix { get; set; } = "";
 
+        [DisplayName("base")]
+        [Description("Height of each line when rendering the font.")]
+        [DefaultValue(0)]
+        public virtual float Base { get; set; } = 0;
+
         public override FieldFont Process(FontDescription input, ContentProcessorContext context)
         {
             System.Diagnostics.Debugger.Break();
@@ -95,8 +100,11 @@ namespace FontExtension
                     glyphs[i] = CreateFieldGlyphForCharacter(c, input, msdfgen, objPath, simplePath);
                 }
                 
-                var kerning = ReadKerningInformation(input.Path, input.Characters);                               
-                return new FieldFont(input.Path, glyphs, kerning, Range, Resolution);
+                var kerning = ReadKerningInformation(input.Path, input.Characters);
+
+                float baseSize = Base;
+
+                return new FieldFont(input.Path, glyphs, kerning, Range, Resolution, baseSize);
             }
 
             throw new FileNotFoundException(

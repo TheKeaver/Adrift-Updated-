@@ -552,7 +552,8 @@ namespace GameJam.Systems
                 fieldFontComp.Color,
                 scale,
                 fieldFontComp.EnableKerning,
-                depth);
+                depth,
+                fieldFontComp.Justify);
         }
         #endregion
 

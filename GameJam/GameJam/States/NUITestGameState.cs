@@ -42,7 +42,7 @@ namespace GameJam.States
 
                 TextWidget text = new TextWidget(SharedState.Engine);
                 text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
-                text.Content = new FixedValue<string>("Hello World!");
+                text.Content = new FixedValue<string>("Hello World!\nThis is another line!");
                 text.Height = new FixedValue<float>(100);
                 //text.VAlign = new FixedValue<VerticalAlignment>(VerticalAlignment.Center);
                 //text.HAlign = new FixedValue<HorizontalAlignment>(HorizontalAlignment.Center);

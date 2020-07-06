@@ -33,7 +33,7 @@ namespace GameJam.Common
         {
             get
             {
-                return Zoom * _compensationZoom;
+                return Zoom * CompensationZoom;
             }
         }
 
@@ -64,6 +64,21 @@ namespace GameJam.Common
         public float Rotation;
 
         float _compensationZoom = 1;
+        public float CompensationZoom
+        {
+            get
+            {
+                if(!EnableCompensationZoom)
+                {
+                    return 1;
+                }
+                return _compensationZoom;
+            }
+            private set
+            {
+                _compensationZoom = value;
+            }
+        }
         public bool EnableCompensationZoom = true;
         Rectangle _bounds;
         public BoundingRect BoundingRect
@@ -80,7 +95,7 @@ namespace GameJam.Common
                         position.Y,
                         0))
                     * Matrix.CreateRotationZ(MathUtils.LerpAngle(LastRotation, Rotation, alpha))
-                    * Matrix.CreateScale(MathHelper.Lerp(LastZoom, Zoom, alpha) * _compensationZoom * CVars.Get<float>("debug_gameplay_camera_zoom"))
+                    * Matrix.CreateScale(MathHelper.Lerp(LastZoom, Zoom, alpha) * CompensationZoom * CVars.Get<float>("debug_gameplay_camera_zoom"))
                     * Matrix.CreateTranslation(new Vector3(_bounds.Width * 0.5f,
                         _bounds.Height * 0.5f,
                         0));
@@ -139,21 +154,21 @@ namespace GameJam.Common
             float desiredAspectRatio = CVars.Get<float>("screen_width") / CVars.Get<float>("screen_height");
             if (newAspectRatio <= desiredAspectRatio) // Width is dominant
             {
-                _compensationZoom = (float)_bounds.Width / CVars.Get<float>("screen_width");
+                CompensationZoom = (float)_bounds.Width / CVars.Get<float>("screen_width");
             }
             if (newAspectRatio > desiredAspectRatio) // Height is dominant
             {
-                _compensationZoom = (float)_bounds.Height / CVars.Get<float>("screen_height");
+                CompensationZoom = (float)_bounds.Height / CVars.Get<float>("screen_height");
             }
             CalculateBoundingRect();
         }
 
         void CalculateBoundingRect()
         {
-            BoundingRect = new BoundingRect(_position.X - (_bounds.Width / _zoom / _compensationZoom) / 2,
-                    _position.Y - (_bounds.Height / _zoom / _compensationZoom) / 2,
-                    _bounds.Width / _zoom / _compensationZoom,
-                    _bounds.Height / _zoom / _compensationZoom);
+            BoundingRect = new BoundingRect(_position.X - (_bounds.Width / _zoom / CompensationZoom) / 2,
+                    _position.Y - (_bounds.Height / _zoom / CompensationZoom) / 2,
+                    _bounds.Width / _zoom / CompensationZoom,
+                    _bounds.Height / _zoom / CompensationZoom);
         }
 
         public void ResetAll()

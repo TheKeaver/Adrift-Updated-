@@ -337,9 +337,7 @@ namespace GameJam.States
                 Color.White); // Post-processing results
             SpriteBatch.End();
 
-            // TODO: Revert vvv
             RenderSystem.DrawEntities(UICamera, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
-            //RenderSystem.DrawEntities(camera, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
 
             // Shield Resource
             RenderSystem.DrawEntities(Camera,

@@ -31,6 +31,8 @@ namespace GameJam.Components
 
         public float Depth = 0;
 
+        public FieldFontJustify Justify = FieldFontJustify.Right;
+
         public BoundingRect GetAABB(float scale)
         {
             Vector2 size = Font.MeasureString(Content, EnableKerning);

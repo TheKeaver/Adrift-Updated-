@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FontExtension;
+using GameJam.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -105,7 +106,7 @@ namespace GameJam.Graphics.Text
             Draw(font, content, position, rotation, Color.White);
         }
         public void Draw(FieldFont font, string content, Vector2 position, float rotation,
-            Color color, float scale = 1, bool enableKerning = true, float depth = 0)
+            Color color, float scale = 1, bool enableKerning = true, float depth = 0, FieldFontJustify justify = FieldFontJustify.Center)
         {
             if (!_currentlyDrawing)
             {
@@ -135,12 +136,52 @@ namespace GameJam.Graphics.Text
             float cos = (float)Math.Cos(rotation);
             float sin = (float)Math.Sin(rotation);
 
-            Vector2 pen = -font.MeasureString(content, enableKerning) / 2;
+            string[] lines = content.Split('\n');
+            int currentLineI = 0;
+
+            Vector2 pen = new Vector2();
+            switch (justify)
+            {
+                case FieldFontJustify.Left:
+                    pen.X = 0;
+                    break;
+                case FieldFontJustify.Right:
+                    pen.X = -font.MeasureString(lines[currentLineI], enableKerning).X;
+                    break;
+                case FieldFontJustify.Center:
+                default:
+                    pen.X = -font.MeasureString(lines[currentLineI], enableKerning).X / 2;
+                    break;
+            }
+
+            pen.Y = -font.MeasureString(content).Y / 2;
+
             for (int i = 0; i < sequence.Length; i++)
             {
                 GlyphRenderInfo current = sequence[i];
-                if (current == null)
+                if (current.Metrics == null || current.TextureRegion == null)
                 {
+                    // Whitespace
+                    if (current.Character == '\n')
+                    {
+                        // Newline
+                        pen.Y += font.Base * scale;
+                        currentLineI++;
+                        switch (justify)
+                        {
+                            case FieldFontJustify.Left:
+                                pen.X = 0;
+                                break;
+                            case FieldFontJustify.Right:
+                                pen.X = -font.MeasureString(lines[currentLineI], enableKerning).X;
+                                break;
+                            case FieldFontJustify.Center:
+                            default:
+                                pen.X = -font.MeasureString(lines[currentLineI], enableKerning).X / 2;
+                                break;
+                        }
+                    }
+
                     continue;
                 }
 
