@@ -31,7 +31,8 @@ namespace GameJam.Components
 
         public float Depth = 0;
 
-        public FieldFontJustify Justify = FieldFontJustify.Right;
+        public FieldFontJustify Justify = FieldFontJustify.Center;
+        public FieldFontTopJustify TopJustify = FieldFontTopJustify.Center;
 
         public BoundingRect GetAABB(float scale)
         {

@@ -15,6 +15,12 @@ namespace FontExtension
         Center,
         Right
     }
+    public enum FieldFontTopJustify
+    {
+        Top,
+        Center,
+        Bottom
+    }
 
     public class FieldFont
     {

@@ -106,7 +106,8 @@ namespace GameJam.Graphics.Text
             Draw(font, content, position, rotation, Color.White);
         }
         public void Draw(FieldFont font, string content, Vector2 position, float rotation,
-            Color color, float scale = 1, bool enableKerning = true, float depth = 0, FieldFontJustify justify = FieldFontJustify.Center)
+            Color color, float scale = 1, bool enableKerning = true, float depth = 0, FieldFontJustify justify = FieldFontJustify.Center,
+            FieldFontTopJustify topJustify = FieldFontTopJustify.Center)
         {
             if (!_currentlyDrawing)
             {
@@ -154,7 +155,19 @@ namespace GameJam.Graphics.Text
                     break;
             }
 
-            pen.Y = -font.MeasureString(content).Y / 2;
+            switch(topJustify)
+            {
+                case FieldFontTopJustify.Top:
+                    pen.Y = 0;
+                    break;
+                case FieldFontTopJustify.Bottom:
+                    pen.Y = -font.MeasureString(content).Y;
+                    break;
+                case FieldFontTopJustify.Center:
+                default:
+                    pen.Y = -font.MeasureString(content).Y / 2;
+                    break;
+            }
 
             for (int i = 0; i < sequence.Length; i++)
             {
