@@ -1,5 +1,4 @@
-﻿using System;
-using Audrey;
+﻿using Audrey;
 using FontExtension;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
@@ -30,6 +29,18 @@ namespace GameJam.NUI.Widgets
                 Properties.SetProperty("content", value);
             }
         }
+        public WidgetProperty<FieldFontJustify> Justify
+        {
+            get
+            {
+                return Properties.GetProperty<FieldFontJustify>("justify");
+            }
+            set
+            {
+                Properties.SetProperty("justify", value);
+            }
+        }
+
         public float AspectRatio
         {
             get
@@ -47,6 +58,7 @@ namespace GameJam.NUI.Widgets
         {
             Properties.SetProperty("font", new FixedValue<FieldFont>(null));
             Properties.SetProperty("content", new FixedValue<string>(null));
+            Properties.SetProperty("justify", new FixedValue<FieldFontJustify>(FieldFontJustify.Center));
 
             Properties.SetPropertyReaction("width", OnWidthSet);
             Properties.SetPropertyReaction("height", OnHeightSet);
