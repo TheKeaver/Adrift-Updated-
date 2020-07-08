@@ -77,7 +77,7 @@ namespace GameJam.NUI.Widgets
             fontComp.Alpha = Alpha.Value;
             fontComp.Color = Tint.Value;
             fontComp.Depth = Depth;
-            fontComp.Justify = Justify;
+            fontComp.Justify = Justify.Value;
 
             if (!(Width is AspectRatioValue<float>) && !(Height is AspectRatioValue<float>))
             {

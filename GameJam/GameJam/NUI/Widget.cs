@@ -209,6 +209,21 @@ namespace GameJam.NUI
             }
         }
 
+        public WidgetProperty<float> InnerWidth
+        {
+            get
+            {
+                return Properties.GetProperty<float>("inner-width");
+            }
+        }
+        public WidgetProperty<float> InnerHeight
+        {
+            get
+            {
+                return Properties.GetProperty<float>("inner-height");
+            }
+        }
+
         public WidgetProperty<float> Alpha
         {
             get
@@ -355,6 +370,15 @@ namespace GameJam.NUI
 
             Properties.SetProperty("width", new FixedValue<float>(0));
             Properties.SetProperty("height", new FixedValue<float>(0));
+
+            Properties.SetProperty("inner-width", new ComputedValue<float>(() =>
+            {
+                return Width.Value - PaddingLeft.Value - PaddingRight.Value;
+            }), true);
+            Properties.SetProperty("inner-height", new ComputedValue<float>(() =>
+            {
+                return Height.Value - PaddingTop.Value - PaddingBottom.Value;
+            }), true);
 
             Properties.SetProperty("alpha", new FixedValue<float>(1));
             Properties.SetProperty("tint", new FixedValue<Color>(Color.White));

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpDX.Direct2D1;
+using System;
 using System.Collections.Generic;
 
 namespace GameJam.NUI
@@ -84,11 +85,29 @@ namespace GameJam.NUI
         }
     }
 
+    public class ComputedValue<T> : WidgetProperty<T> where T : IComparable<T>
+    {
+        Func<T> _computer;
+
+        public ComputedValue(Func<T> computer)
+        {
+            if(computer == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            _computer = computer;
+        }
+
+        public override T Value => _computer();
+    }
+
     public class WidgetProperties
     {
         private Dictionary<string, IWidgetProperty> _properties = new Dictionary<string, IWidgetProperty>();
         private Dictionary<string, string[]> _proxyProperties = new Dictionary<string, string[]>();
         private Dictionary<string, Action> _propertyReactions = new Dictionary<string, Action>();
+        private Dictionary<string, bool> _readOnlyProperties = new Dictionary<string, bool>();
         public bool Locked
         {
             get;
@@ -122,6 +141,10 @@ namespace GameJam.NUI
         }
         public void SetProperty<T>(string key, WidgetProperty<T> prop)
         {
+            SetProperty<T>(key, prop, false);
+        }
+        public void SetProperty<T>(string key, WidgetProperty<T> prop, bool setAsReadOnly)
+        {
             if(_proxyProperties.ContainsKey(key))
             {
                 SetPropertiesThroughProxy(key, prop);
@@ -136,7 +159,15 @@ namespace GameJam.NUI
             {
                 throw new Exception("Attempted to add new property of locked widget properties.");
             }
+            if(_readOnlyProperties.ContainsKey(key) && _readOnlyProperties[key])
+            {
+                throw new Exception("Attempted to set widget property marked as read-only.");
+            }
             _properties[key] = prop;
+            if(setAsReadOnly)
+            {
+                _readOnlyProperties.Add(key, true);
+            }
             if (ComputePropertiesOnSet)
             {
                 ComputePropertiesDelegate?.Invoke();

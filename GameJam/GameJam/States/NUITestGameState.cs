@@ -1,6 +1,7 @@
 using FontExtension;
 using GameJam.NUI;
 using GameJam.NUI.Widgets;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam.States
@@ -26,29 +27,29 @@ namespace GameJam.States
                 container.HAlign = new FixedValue<HorizontalAlignment>(HorizontalAlignment.Left);
                 container.Width = new RelativeValue<float>(Root, "width", 0.5f);
                 container.Height = new RelativeValue<float>(Root, "height", 1.0f);
+                container.Padding = new FixedValue<float>(100.0f);
                 Root.Add(container);
-
-                ImageWidget image = new ImageWidget(SharedState.Engine);
-                image.Image = new FixedValue<TextureRegion2D>(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_input_keyboard_key_0"));
-                image.Width = new FixedValue<float>(100);
-                image.Height = new FixedValue<float>(100);
-                container.Add(image);
 
                 NinePatchImageWidget ninePatch = new NinePatchImageWidget(SharedState.Engine);
                 ninePatch.Image = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
-                ninePatch.Width = new FixedValue<float>(400);
-                ninePatch.Height = new FixedValue<float>(400);
-                Root.Add(ninePatch);
+                ninePatch.Width = new RelativeValue<float>(container, "width", 1.0f);
+                ninePatch.Height = new RelativeValue<float>(container, "height", 1.0f);
+                container.Add(ninePatch);
 
-                TextWidget text = new TextWidget(SharedState.Engine);
-                text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
-                text.Content = new FixedValue<string>("Hello World!\nThis is another line!");
-                text.Height = new FixedValue<float>(100);
-                text.Justify = new FixedValue<FieldFontJustify>(FieldFontJustify.Left);
+                ImageWidget image = new ImageWidget(SharedState.Engine);
+                image.Image = new FixedValue<TextureRegion2D>(new TextureRegion2D(Content.Load<Texture2D>("texture_background_parallax_test")));
+                image.Width = new RelativeValue<float>(container, "inner-width", 1.0f);
+                image.Height = new RelativeValue<float>(container, "inner-height", 1.0f);
+                container.Add(image);
+
+                //TextWidget text = new TextWidget(SharedState.Engine);
+                //text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
+                //text.Content = new FixedValue<string>("Hello World!\nThis is another line!");
+                //text.Height = new FixedValue<float>(100);
+                //text.Justify = new FixedValue<FieldFontJustify>(FieldFontJustify.Left);
                 //text.VAlign = new FixedValue<VerticalAlignment>(VerticalAlignment.Center);
                 //text.HAlign = new FixedValue<HorizontalAlignment>(HorizontalAlignment.Center);
-
-                Root.Add(text);
+                //Root.Add(text);
             }
 
             base.OnInitialize();
