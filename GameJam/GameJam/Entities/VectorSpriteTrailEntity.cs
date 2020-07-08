@@ -18,7 +18,7 @@ namespace GameJam.Entities
 
             TransformComponent shipTransform = shipEntity.GetComponent<TransformComponent>();
             //offset += shipTransform.Position;
-            entity.AddComponent(new VectorSpriteTrailComponent(shipEntity));
+            entity.AddComponent(new VectorSpriteTrailComponent(shipEntity, CVars.Get<float>("animation_trail_width")));
             entity.AddComponent(new TransformComponent(shipTransform.Position + offset));
             entity.AddComponent(new TransformHistoryComponent(offset, shipTransform.Rotation, 50));
             entity.AddComponent(new EntityMirroringComponent(shipEntity, true, true, offset ));

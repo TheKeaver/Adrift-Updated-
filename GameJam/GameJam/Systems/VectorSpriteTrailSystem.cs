@@ -3,8 +3,6 @@ using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Systems
 {
@@ -40,31 +38,54 @@ namespace GameJam.Systems
 
             if(moveComp.MovementVector.Length() >= 1)
             {
-                Vector2 zero = thc.GetTransformHistoryAt(-1);
-                Vector2 two = thc.GetTransformHistoryAt(-3);
-                Vector2 three = thc.GetTransformHistoryAt(-4);
-                Vector2 one = thc.GetTransformHistoryAt(-2);
+                Vector2 lastTransform = thc.GetTransformHistoryAt(-2);
+                float lastRotation = thc.GetRotationHistoryAt(-2);
+
+                
+                Vector2 point2 = FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation - (float)Math.PI);
+                Vector2 point1 = FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation);
+                Vector2 point3 = FindCalculatedPoint(transform.Position, lastTransform, lastRotation);
+                Vector2 point4 = FindCalculatedPoint(transform.Position, lastTransform, lastRotation - (float)Math.PI);
+
+                Console.Write(point2);
+                Console.Write(point1);
+                Console.Write(point3);
+                Console.Write(point4);
+                
 
                 Entity quad = DrawQuadOnlyEntity.Create(Engine, transform.Position, new Vector2[] {
                     // No idea what the correct order is in practice, but should be
                     // clockwise
-                    // Current "Right/Bottom",
-                    // Last "Left/Top",
-                    // Last "Right/Bottom",
-                    // entity
-                    thc.GetTransformHistoryAt(-1),
-                    thc.GetTransformHistoryAt(-3),
-                    thc.GetTransformHistoryAt(-4),
-                    thc.GetTransformHistoryAt(-2)
+                    FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation - (float)Math.PI), // 2
+                    FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation), // 1
+                    FindCalculatedPoint(transform.Position, lastTransform, lastRotation), // 3
+                    FindCalculatedPoint(transform.Position, lastTransform, lastRotation - (float)Math.PI), // 4
                 }, entity.GetComponent<VectorSpriteTrailComponent>().playerShip);
 
-                Console.WriteLine("Zero: " + zero);
-                Console.WriteLine("Two: " + two);
-                Console.WriteLine("Three: " + three);
-                Console.WriteLine("One: " + one);
+                Console.WriteLine("-1: " + transform.Position);
+                Console.WriteLine("-2: " + lastTransform);
 
                 quad.AddComponent(new FadingEntityTimerComponent(CVars.Get<float>("animation_trail_fading_timer")));
             }
+        }
+
+        /* 
+         * Find the point needed based off of:
+         *  - Current Transform of VectorSpriteTrailEntity
+         *  - Center Transform of the two points being drawn
+         *  - Rotation of the ship at the time of drawing
+         */
+        private Vector2 FindCalculatedPoint(Vector2 currentTransform, Vector2 locationTransform, float rotation)
+        {
+            float opp = (CVars.Get<float>("animation_trail_width")/2) * (float)(Math.Sin(rotation) + (Math.PI/2));
+            float adj = (CVars.Get<float>("animation_trail_width")/2) * (float)(Math.Cos(rotation) + (Math.PI/2));
+
+            Vector2 ret = currentTransform - locationTransform;
+
+            ret.X += adj;
+            ret.Y += opp;
+
+            return ret;
         }
     }
 }
