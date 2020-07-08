@@ -78,6 +78,12 @@ namespace GameJam.Processes.Enemies
 
             public override void Update(float dt)
             {
+                if (LaserEnemyStateMachineProcess.Entity == null
+                    || !LaserEnemyStateMachineProcess.Entity.HasComponent<LaserEnemyComponent>())
+                {
+                    LaserEnemyStateMachineProcess.Kill();
+                    return;
+                }
             }
 
             #region TRACK STATE CONDITIONS
@@ -233,6 +239,13 @@ namespace GameJam.Processes.Enemies
 
             public override void Update(float dt)
             {
+                if (LaserEnemyStateMachineProcess.Entity == null
+                    || !LaserEnemyStateMachineProcess.Entity.HasComponent<LaserEnemyComponent>()
+                    || LaserEnemyStateMachineProcess.Entity.GetComponent<LaserEnemyComponent>().LaserBeamEntity == null)
+                {
+                    LaserEnemyStateMachineProcess.Kill();
+                    return;
+                }
             }
 
             #region WARM TO FIRE CONDITIONS
@@ -296,6 +309,7 @@ namespace GameJam.Processes.Enemies
                 if (laserEnemyComp.LaserBeamEntity == null)
                 {
                     laserEnemyComp.LaserBeamEntity = LaserBeamEntity.Create(LaserEnemyStateMachineProcess.Engine, transformComp.Position, true);
+                    return;
                 }
 
                 LaserBeamComponent laserBeamComp = laserEnemyComp.LaserBeamEntity.GetComponent<LaserBeamComponent>();
@@ -338,6 +352,13 @@ namespace GameJam.Processes.Enemies
 
             public override void Update(float dt)
             {
+                if(LaserEnemyStateMachineProcess.Entity == null
+                    || !LaserEnemyStateMachineProcess.Entity.HasComponent<LaserEnemyComponent>()
+                    || LaserEnemyStateMachineProcess.Entity.GetComponent<LaserEnemyComponent>().LaserBeamEntity == null)
+                {
+                    LaserEnemyStateMachineProcess.Kill();
+                }
+
                 _timer.Update(dt);
 
                 UpdateLaserBeamFire(MathHelper.Min(_timer.Alpha, 1));
