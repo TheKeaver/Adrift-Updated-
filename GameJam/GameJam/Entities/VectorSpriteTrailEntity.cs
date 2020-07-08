@@ -14,13 +14,14 @@ namespace GameJam.Entities
         {
             Entity entity = engine.CreateEntity();
             // "offset" stores the mid point of both ends of the player trail
-            Vector2 offset = new Vector2(-3, 0);
+            Vector2 offset = new Vector2(-1, 0);
 
             TransformComponent shipTransform = shipEntity.GetComponent<TransformComponent>();
-            offset += shipTransform.Position;
-            entity.AddComponent(new VectorSpriteTrailComponent());
+            //offset += shipTransform.Position;
+            entity.AddComponent(new VectorSpriteTrailComponent(shipEntity));
             entity.AddComponent(new TransformComponent(shipTransform.Position + offset));
             entity.AddComponent(new TransformHistoryComponent(offset, shipTransform.Rotation, 50));
+            entity.AddComponent(new EntityMirroringComponent(shipEntity, true, true, offset ));
 
             return entity;
         }

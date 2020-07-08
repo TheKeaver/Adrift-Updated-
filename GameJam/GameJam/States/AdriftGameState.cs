@@ -184,6 +184,9 @@ namespace GameJam.States
 
             playerShipEntity.AddComponent(new PlayerComponent(player));
 
+            // Create the VectorSpriteTrailEntity and pass in the shipEntity
+            VectorSpriteTrailEntity.Create(SharedState.Engine, playerShipEntity);
+
             // Queue an event
             EventManager.Instance.QueueEvent(new PlayerShipSpawnEvent(playerShipEntity, position));
         }

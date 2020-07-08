@@ -35,18 +35,35 @@ namespace GameJam.Systems
 
         private void DrawVectorSpriteTrail(Entity entity, TransformHistoryComponent thc)
         {
-            MovementComponent moveComp = entity.GetComponent<MovementComponent>();
+            MovementComponent moveComp = entity.GetComponent<VectorSpriteTrailComponent>().playerShip.GetComponent<MovementComponent>();
             TransformComponent transform = entity.GetComponent<TransformComponent>();
 
             if(moveComp.MovementVector.Length() >= 1)
             {
-                DrawQuadOnlyEntity.Create(Engine, transform.Position, new Vector2[] {
-                    // Current "Left/Top",
+                Vector2 zero = thc.GetTransformHistoryAt(-1);
+                Vector2 two = thc.GetTransformHistoryAt(-3);
+                Vector2 three = thc.GetTransformHistoryAt(-4);
+                Vector2 one = thc.GetTransformHistoryAt(-2);
+
+                Entity quad = DrawQuadOnlyEntity.Create(Engine, transform.Position, new Vector2[] {
+                    // No idea what the correct order is in practice, but should be
+                    // clockwise
                     // Current "Right/Bottom",
                     // Last "Left/Top",
                     // Last "Right/Bottom",
                     // entity
-                });
+                    thc.GetTransformHistoryAt(-1),
+                    thc.GetTransformHistoryAt(-3),
+                    thc.GetTransformHistoryAt(-4),
+                    thc.GetTransformHistoryAt(-2)
+                }, entity.GetComponent<VectorSpriteTrailComponent>().playerShip);
+
+                Console.WriteLine("Zero: " + zero);
+                Console.WriteLine("Two: " + two);
+                Console.WriteLine("Three: " + three);
+                Console.WriteLine("One: " + one);
+
+                quad.AddComponent(new FadingEntityTimerComponent(CVars.Get<float>("animation_trail_fading_timer")));
             }
         }
     }

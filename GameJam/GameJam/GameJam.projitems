@@ -134,7 +134,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemySeparationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EntityMirroringSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\EntityTrailFadingSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\EntityFadingSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\GravitySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\CollisionDetectionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemyRotationSystem.cs" />

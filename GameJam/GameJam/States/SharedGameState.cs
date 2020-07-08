@@ -136,7 +136,8 @@ namespace GameJam.States
                 new GravitySystem(Engine),
                 new EnemySeparationSystem(Engine), // Depends on the Quad Tree, however this system needs to go before movement system. It will use the previous frame's quad tree.
                 new MovementSystem(Engine),
-                new EntityTrailTransformHistorySystem(Engine), // Must go before EntityTrail(Fading)System
+                //new EntityTrailTransformHistorySystem(Engine), // Must go before EntityTrail(Fading)System
+                new VectorSpriteTrailTransformHistorySystem(Engine),
                 new PlayerShieldSystem(Engine),
                 new QuadTreeSystem(Engine),
                 new SuperShieldSystem(Engine),
@@ -145,8 +146,9 @@ namespace GameJam.States
                 new EnemyRotationSystem(Engine),
                 new EntityMirroringSystem(Engine),
                 
-                new EntityTrailSystem(Engine),
-                new EntityTrailFadingSystem(Engine),
+                //new EntityTrailSystem(Engine),
+                new VectorSpriteTrailSystem(Engine),
+                new EntityFadingSystem(Engine),
 
                 // Collision Detection must go last to have accurate collision detection
                 new CollisionDetectionSystem(Engine)

@@ -20,17 +20,17 @@ namespace GameJam.Systems
         {
             foreach (Entity mirroringEntity in _mirroringEntities)
             {
-                ProcessMirroring(mirroringEntity, dt);
+                ProcessMirroring(mirroringEntity);
             }
         }
 
-        private void ProcessMirroring(Entity mirroringEntity, float dt)
+        private void ProcessMirroring(Entity mirroringEntity)
         {
             EntityMirroringComponent emc = mirroringEntity.GetComponent<EntityMirroringComponent>();
 
             if (emc.mirrorPosition == true)
             {
-                mirroringEntity.GetComponent<TransformComponent>().SetPosition(emc.entityToMirror.GetComponent<TransformComponent>().Position);
+                mirroringEntity.GetComponent<TransformComponent>().SetPosition(emc.entityToMirror.GetComponent<TransformComponent>().Position + emc.positionOffsetVector);
             }
             if (emc.mirrorRotation == true)
             {

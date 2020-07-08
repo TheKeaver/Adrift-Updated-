@@ -13,8 +13,9 @@ namespace GameJam.Components
         public int maxHistorySize;
         public Timer updateInterval;
 
-        public TransformHistoryComponent(Vector2 startPosition, float startRotation, int maxHistorySize)
+        public TransformHistoryComponent(Vector2 startPosition, float startRotation, int maxHistory)
         {
+            maxHistorySize = maxHistory;
             updateInterval = new Timer(CVars.Get<float>("animation_trail_frequency_timer"));
             // This "maxHistorySize" be a constant somewhere, ideally CVar
             historyIndex = 0;
@@ -24,18 +25,46 @@ namespace GameJam.Components
             AddToTransformHistory(startPosition, startRotation);
         }
 
-        public void AddToTransformHistory(Vector2 position, float rotation)
+        public Vector2 AddToTransformHistory(Vector2 position, float rotation)
         {
             positionHistory[historyIndex % maxHistorySize] = position;
             rotationHistory[historyIndex % maxHistorySize] = rotation;
 
             historyIndex = (historyIndex + 1 >= maxHistorySize) ? 0 : historyIndex + 1;
+
+            return position;
         }
 
         public int GetLastHistoryIndex()
         {
             int ret = (historyIndex == 0) ? (maxHistorySize - 1) : (historyIndex - 1);
             return ret;
+        }
+
+        // Return the Position vector at "historyIndex +/- index"
+        public Vector2 GetTransformHistoryAt(int mod)
+        {
+            int correctIndex = GetWrappedIndex(mod);
+            return positionHistory[correctIndex];
+        }
+
+        public float GetRotationHistoryAt(int mod)
+        {
+            int correctIndex = GetWrappedIndex(mod);
+            return rotationHistory[correctIndex];
+        }
+
+        private int GetWrappedIndex(int mod)
+        {
+            // Mod should never be greater than 0
+            if (mod < 0 && historyIndex + mod >= 0)
+            {
+                return historyIndex + mod;
+            }
+            else
+            {
+                return maxHistorySize + (historyIndex + mod);
+            }
         }
     }
 }
