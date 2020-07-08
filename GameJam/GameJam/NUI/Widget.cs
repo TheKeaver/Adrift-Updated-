@@ -224,6 +224,21 @@ namespace GameJam.NUI
             }
         }
 
+        public WidgetProperty<float> OuterWidth
+        {
+            get
+            {
+                return Properties.GetProperty<float>("outer-width");
+            }
+        }
+        public WidgetProperty<float> OuterHeight
+        {
+            get
+            {
+                return Properties.GetProperty<float>("outer-height");
+            }
+        }
+
         public WidgetProperty<float> Alpha
         {
             get
@@ -378,6 +393,15 @@ namespace GameJam.NUI
             Properties.SetProperty("inner-height", new ComputedValue<float>(() =>
             {
                 return Height.Value - PaddingTop.Value - PaddingBottom.Value;
+            }), true);
+
+            Properties.SetProperty("outer-width", new ComputedValue<float>(() =>
+            {
+                return Width.Value + MarginLeft.Value - MarginRight.Value;
+            }), true);
+            Properties.SetProperty("outer-height", new ComputedValue<float>(() =>
+            {
+                return Height.Value - MarginTop.Value - MarginBottom.Value;
             }), true);
 
             Properties.SetProperty("alpha", new FixedValue<float>(1));
