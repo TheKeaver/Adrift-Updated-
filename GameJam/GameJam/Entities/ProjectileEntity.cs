@@ -18,8 +18,11 @@ namespace GameJam.Entities
             entity.AddComponent(new EnemyComponent());
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
-                new QuadRenderShape(new Vector2(3, -1), new Vector2(3, 1),
-                    new Vector2(-3, 1), new Vector2(-3, -1),
+                new QuadRenderShape(
+                    new Vector2(-3, -1),
+                    new Vector2(-3, 1),
+                    new Vector2(3, 1),
+                    new Vector2(3, -1), 
                     Color.White)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;

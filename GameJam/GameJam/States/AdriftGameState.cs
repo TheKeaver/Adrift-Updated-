@@ -171,7 +171,6 @@ namespace GameJam.States
         private void SpawnPlayer(Player player, Vector2 position, Color color)
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine, position, color);
-            SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
             //PlayerTrailEntity.Create(SharedState.Engine, playerShipEntity);
 
             PlayerShipComponent playerShipComp = playerShipEntity.GetComponent<PlayerShipComponent>();
@@ -184,8 +183,11 @@ namespace GameJam.States
 
             playerShipEntity.AddComponent(new PlayerComponent(player));
 
+            // Create the SuperShieldDisplayEntity and pass in the shipEntity
+            SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
+
             // Create the VectorSpriteTrailEntity and pass in the shipEntity
-            VectorSpriteTrailEntity.Create(SharedState.Engine, playerShipEntity);
+            //VectorSpriteTrailEntity.Create(SharedState.Engine, playerShipEntity);
 
             // Queue an event
             EventManager.Instance.QueueEvent(new PlayerShipSpawnEvent(playerShipEntity, position));

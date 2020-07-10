@@ -16,10 +16,11 @@ namespace GameJam.Entities
             entity.AddComponent(new VectorSpriteComponent(
                 new RenderShape[]
                 {
-                    new QuadRenderShape(new Vector2(3,0),
-                        new Vector2(0,3),
-                        new Vector2(-1.6f,0),
+                    new QuadRenderShape(
                         new Vector2(0,-3),
+                        new Vector2(-1.6f,0),
+                        new Vector2(0,3),
+                        new Vector2(3,0),
                         shipEntity.GetComponent<ColoredExplosionComponent>().Color)
                 }));
             entity.AddComponent(new EntityMirroringComponent(shipEntity, true, true));

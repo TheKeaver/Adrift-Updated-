@@ -26,7 +26,13 @@ namespace GameJam.Entities
             entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
 
             RenderShape[] temp = new RenderShape[1];
-            temp[0] = new QuadRenderShape(new Vector2(hw, hh), new Vector2(-hw, hh), new Vector2(-hw, -hh), new Vector2(hw, -hh), CVars.Get<Color>("color_playfield"));
+            temp[0] = new QuadRenderShape(
+                new Vector2(hw, -hh),
+                new Vector2(-hw, -hh),
+                new Vector2(-hw, hh),
+                new Vector2(hw, hh),
+                CVars.Get<Color>("color_playfield"));
+
             entity.AddComponent(new VectorSpriteComponent(temp));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
 

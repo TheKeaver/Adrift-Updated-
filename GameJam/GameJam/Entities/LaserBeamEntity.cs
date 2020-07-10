@@ -16,10 +16,12 @@ namespace GameJam.Entities
             entity.AddComponent(new LaserBeamComponent());
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
-                new QuadRenderShape(new Vector2(10, -10),
-                    new Vector2(10, 10),
+                new QuadRenderShape(
+                    new Vector2(-10, -10),
                     new Vector2(-10, 10),
-                    new Vector2(-10, -10), CVars.Get<Color>("color_laser_beam"))
+                    new Vector2(10, 10),
+                    new Vector2(10, -10),
+                    CVars.Get<Color>("color_laser_beam"))
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
 

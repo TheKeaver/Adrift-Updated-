@@ -15,10 +15,11 @@ namespace GameJam.Entities
             entity.AddComponent(new PlayerShieldComponent(shipEntity, angle, CVars.Get<float>("player_shield_radius"), isActive));
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
-                new QuadRenderShape(new Vector2(6, -1),
-                    new Vector2(6, 1),
-                    new Vector2(-6, 1),
+                new QuadRenderShape(
                     new Vector2(-6, -1),
+                    new Vector2(-6, 1),
+                    new Vector2(6, 1),
+                    new Vector2(6, -1),
                     Color.White)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;

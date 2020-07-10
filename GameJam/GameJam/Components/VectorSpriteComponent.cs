@@ -162,7 +162,7 @@ namespace GameJam.Components
             bool feathering = CVars.Get<bool>("graphics_feathering");
             if (feathering)
             {
-                float feather = CVars.Get<float>("graphics_feathering_width");
+                float featherWidth = CVars.Get<float>("graphics_feathering_width");
 
                 Vector2 v12 = V1 - V2;
                 v12 = new Vector2(-v12.Y, v12.X);
@@ -186,7 +186,7 @@ namespace GameJam.Components
                 Vector2 v4Norm = v34 + v41;
                 v4Norm.Normalize();
 
-                float diagonalFeather = (float)(feather * Math.Sqrt(2));
+                float diagonalFeather = (float)(featherWidth * Math.Sqrt(2));
 
                 Vector2 v1f = v1Norm * diagonalFeather + V1;
                 Vector2 v2f = v2Norm * diagonalFeather + V2;
@@ -221,8 +221,8 @@ namespace GameJam.Components
                 };
 
                 _indices = new int[] {
-                    2, 1, 0,
-                    3, 2, 0,
+                    0, 1, 2,
+                    0, 2, 3,
 
                     6, 5, 4,
                     7, 6, 4,

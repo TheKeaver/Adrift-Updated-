@@ -47,10 +47,10 @@ namespace GameJam.Systems
                 Vector2 point3 = FindCalculatedPoint(transform.Position, lastTransform, lastRotation);
                 Vector2 point4 = FindCalculatedPoint(transform.Position, lastTransform, lastRotation - (float)Math.PI);
 
-                Console.Write(point2);
-                Console.Write(point1);
-                Console.Write(point3);
-                Console.Write(point4);
+                Console.WriteLine("Point 2: " + point2);
+                Console.WriteLine("Point 1: " + point1);
+                Console.WriteLine("Point 3: " + point3);
+                Console.WriteLine("Point 4: " + point4);
                 
 
                 Entity quad = DrawQuadOnlyEntity.Create(Engine, transform.Position, new Vector2[] {
@@ -77,8 +77,10 @@ namespace GameJam.Systems
          */
         private Vector2 FindCalculatedPoint(Vector2 currentTransform, Vector2 locationTransform, float rotation)
         {
-            float opp = (CVars.Get<float>("animation_trail_width")/2) * (float)(Math.Sin(rotation) + (Math.PI/2));
-            float adj = (CVars.Get<float>("animation_trail_width")/2) * (float)(Math.Cos(rotation) + (Math.PI/2));
+            float translatedRotation = (float)(Math.PI / 2) + rotation;
+
+            float opp = (CVars.Get<float>("animation_trail_width") / 2) * (float)Math.Sin(translatedRotation);
+            float adj = (CVars.Get<float>("animation_trail_width") / 2) * (float)Math.Cos(translatedRotation);
 
             Vector2 ret = currentTransform - locationTransform;
 

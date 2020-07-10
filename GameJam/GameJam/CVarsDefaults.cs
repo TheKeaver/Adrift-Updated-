@@ -35,7 +35,7 @@ namespace GameJam
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Enable FXAA anti-aliasing.");
             Create<bool>("graphics_smaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Enable SMAA anti-aliasing.");
             Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Enable frame smoothing.");
-            Create<bool>("graphics_feathering", true, CVarFlags.PRESERVE, "Enable feathering anti-aliasing.");
+            Create<bool>("graphics_feathering", false, CVarFlags.PRESERVE, "Enable feathering anti-aliasing.");
             Create<float>("graphics_feathering_width", 0.2f, CVarFlags.PRESERVE, "Width of feathering.");
             /**
              * If more than one are true; priority in order of highest
@@ -185,7 +185,7 @@ namespace GameJam
             /** ANIMATION **/
             Create<float>("animation_trail_width", 5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Changing this value affects the width of the VectorSpriteTrail.");
             Create<float>("animation_trail_fading_timer", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "How long a trail entity lasts before it gets deleted. Increasing = Longer Trail, Decreasing = Shorter Trail.");
-            Create<float>("animation_trail_frequency_timer", 0.125f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "The frequency at which the next trail entity is drawn (in seconds).");
+            Create<float>("animation_trail_frequency_timer", 0.02f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "The frequency at which the next trail entity is drawn (in seconds).");
             Create<float>("animation_spawn_warp_time_scale", 0.85f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Enemy warp-in animation time scale.");
             Create<float>("animation_spawn_warp_distance", 450, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Enemy warp-in animation travel distance.");
             Create<float>("animation_spawn_warp_phase_1_base_duration", 0.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Enemy warp-in animation phase 1 animation duration.");
