@@ -104,8 +104,21 @@ namespace GameJam.NUI
 
     public class WidgetProperties
     {
+        private struct WidgetKeyPair
+        {
+            public readonly Widget Widget;
+            public readonly string Key;
+
+            public WidgetKeyPair(Widget widget, string key)
+            {
+                Widget = widget;
+                Key = key;
+            }
+        }
+
         private Dictionary<string, IWidgetProperty> _properties = new Dictionary<string, IWidgetProperty>();
         private Dictionary<string, string[]> _proxyProperties = new Dictionary<string, string[]>();
+        private Dictionary<string, WidgetKeyPair> _childPassThroughProperties = new Dictionary<string, WidgetKeyPair>();
         private Dictionary<string, Action> _propertyReactions = new Dictionary<string, Action>();
         private Dictionary<string, bool> _readOnlyProperties = new Dictionary<string, bool>();
         public bool Locked
@@ -133,7 +146,11 @@ namespace GameJam.NUI
 
         public WidgetProperty<T> GetProperty<T>(string key)
         {
-            if(!_properties[key].IsCorrectType(typeof(T)))
+            if(_childPassThroughProperties.ContainsKey(key))
+            {
+                return GetPropertyThroughChildPassThrough<T>(key);
+            }
+            if (!_properties[key].IsCorrectType(typeof(T)))
             {
                 throw new Exception("Attempted to access property with incorrect type.");
             }
@@ -145,9 +162,14 @@ namespace GameJam.NUI
         }
         public void SetProperty<T>(string key, WidgetProperty<T> prop, bool setAsReadOnly)
         {
-            if(_proxyProperties.ContainsKey(key))
+            if (_proxyProperties.ContainsKey(key))
             {
                 SetPropertiesThroughProxy(key, prop);
+                return;
+            }
+            if(_childPassThroughProperties.ContainsKey(key))
+            {
+                SetPropertyThroughChildPassThrough(key, prop);
                 return;
             }
 
@@ -155,16 +177,16 @@ namespace GameJam.NUI
             {
                 throw new Exception("Attempted to set property with incorrect type.");
             }
-            if(Locked && !_properties.ContainsKey(key))
+            if (Locked && !_properties.ContainsKey(key))
             {
                 throw new Exception("Attempted to add new property of locked widget properties.");
             }
-            if(_readOnlyProperties.ContainsKey(key) && _readOnlyProperties[key])
+            if (_readOnlyProperties.ContainsKey(key) && _readOnlyProperties[key])
             {
                 throw new Exception("Attempted to set widget property marked as read-only.");
             }
             _properties[key] = prop;
-            if(setAsReadOnly)
+            if (setAsReadOnly)
             {
                 _readOnlyProperties.Add(key, true);
             }
@@ -176,7 +198,7 @@ namespace GameJam.NUI
 
         public void SetPropertyAsProxy(string key, string[] props)
         {
-            if(Locked)
+            if (Locked)
             {
                 throw new Exception("Attempted to add new property of locked widget properties.");
             }
@@ -184,10 +206,31 @@ namespace GameJam.NUI
         }
         private void SetPropertiesThroughProxy<T>(string proxyKey, WidgetProperty<T> prop)
         {
-            foreach(string key in _proxyProperties[proxyKey])
+            foreach (string key in _proxyProperties[proxyKey])
             {
                 SetProperty(key, prop);
             }
+        }
+
+        public void SetPropertyAsChildPassThrough<T>(string key, Widget widget)
+        {
+            SetPropertyAsChildPassThrough<T>(key, widget, key);
+        }
+        public void SetPropertyAsChildPassThrough<T>(string key, Widget widget, string childKey)
+        {
+            if(Locked)
+            {
+                throw new Exception("Attempted to add new property of locked widget properties.");
+            }
+            _childPassThroughProperties.Add(key, new WidgetKeyPair(widget, childKey));
+        }
+        private WidgetProperty<T> GetPropertyThroughChildPassThrough<T>(string key)
+        {
+            return _childPassThroughProperties[key].Widget.Properties.GetProperty<T>(_childPassThroughProperties[key].Key);
+        }
+        private void SetPropertyThroughChildPassThrough<T>(string key, WidgetProperty<T> prop)
+        {
+            _childPassThroughProperties[key].Widget.Properties.SetProperty(_childPassThroughProperties[key].Key, prop);
         }
 
         public void SetPropertyReaction(string key, Action action)

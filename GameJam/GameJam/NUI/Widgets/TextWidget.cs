@@ -78,6 +78,7 @@ namespace GameJam.NUI.Widgets
             fontComp.Color = Tint.Value;
             fontComp.Depth = Depth;
             fontComp.Justify = Justify.Value;
+            fontComp.Hidden = Hidden;
 
             if (!(Width is AspectRatioValue<float>) && !(Height is AspectRatioValue<float>))
             {

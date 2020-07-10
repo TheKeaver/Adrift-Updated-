@@ -73,11 +73,13 @@ namespace GameJam.States
                     column.Padding = new FixedValue<float>(10);
                     column.Units = new FixedValue<int>(4);
 
-                    NinePatchImageWidget ninePatch = new NinePatchImageWidget(SharedState.Engine);
-                    ninePatch.Image = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
-                    ninePatch.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
-                    ninePatch.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
-                    column.Add(ninePatch);
+                    ButtonWidget button = new ButtonWidget(SharedState.Engine);
+                    button.ReleasedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_released"), 5));
+                    button.HoverImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_hover"), 5));
+                    button.PressedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
+                    button.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
+                    button.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
+                    column.Add(button);
                 }
                 {
                     ColumnWidget column = new ColumnWidget(SharedState.Engine);
@@ -86,11 +88,13 @@ namespace GameJam.States
                     column.Padding = new FixedValue<float>(10);
                     column.Units = new FixedValue<int>(4);
 
-                    NinePatchImageWidget ninePatch = new NinePatchImageWidget(SharedState.Engine);
-                    ninePatch.Image = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
-                    ninePatch.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
-                    ninePatch.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
-                    column.Add(ninePatch);
+                    ButtonWidget button = new ButtonWidget(SharedState.Engine);
+                    button.ReleasedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_released"), 5));
+                    button.HoverImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_hover"), 5));
+                    button.PressedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
+                    button.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
+                    button.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
+                    column.Add(button);
                 }
                 {
                     ColumnWidget column = new ColumnWidget(SharedState.Engine);
@@ -99,11 +103,13 @@ namespace GameJam.States
                     column.Padding = new FixedValue<float>(10);
                     column.Units = new FixedValue<int>(4);
 
-                    NinePatchImageWidget ninePatch = new NinePatchImageWidget(SharedState.Engine);
-                    ninePatch.Image = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
-                    ninePatch.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
-                    ninePatch.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
-                    column.Add(ninePatch);
+                    ButtonWidget button = new ButtonWidget(SharedState.Engine);
+                    button.ReleasedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_released"), 5));
+                    button.HoverImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_hover"), 5));
+                    button.PressedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
+                    button.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
+                    button.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
+                    column.Add(button);
                 }
             }
             //{

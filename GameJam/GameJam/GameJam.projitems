@@ -105,6 +105,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\PostProcessorEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NUI\Widgets\ButtonWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NUI\Widgets\TableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />

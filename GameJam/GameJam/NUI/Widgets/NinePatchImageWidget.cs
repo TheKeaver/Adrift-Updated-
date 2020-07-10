@@ -40,6 +40,7 @@ namespace GameJam.NUI.Widgets
             ninePatchComp.Bounds = new Vector2(Width.Value, Height.Value);
             ninePatchComp.Alpha = Alpha.Value;
             ninePatchComp.Color = Tint.Value;
+            ninePatchComp.Hidden = Hidden;
         }
     }
 }

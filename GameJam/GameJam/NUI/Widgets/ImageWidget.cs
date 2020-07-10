@@ -39,6 +39,7 @@ namespace GameJam.NUI.Widgets
             spriteComp.Bounds = new Vector2(Width.Value, Height.Value);
             spriteComp.Alpha = Alpha.Value;
             spriteComp.Color = Tint.Value;
+            spriteComp.Hidden = Hidden;
         }
     }
 }
