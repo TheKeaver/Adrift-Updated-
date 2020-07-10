@@ -54,6 +54,7 @@ namespace GameJam
             Create<bool>("ui_mouse_mode", true, CVarFlags.LIVE_RELOAD, "Indicates whether the UI is in mouse mode (gamepad mode if false).");
             Create<int>("ui_gamepad_mode_current_operator", 0, CVarFlags.LIVE_RELOAD, "Indicates which gamepad is currently operating the UI.");
             Create<bool>("ui_auto_control_mode_switching", true, CVarFlags.LIVE_RELOAD, "Enables automatically switching between mouse/gamepad mode.");
+            Create<int>("ui_table_units", 12, CVarFlags.DEV_PRESERVE, "Number of units for rows/columns in NUI.");
 
             /** INPUT **/
             Create<float>("controller_deadzone", 0.1f, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Deadzone of the controllers");
