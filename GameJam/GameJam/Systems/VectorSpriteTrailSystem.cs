@@ -42,10 +42,11 @@ namespace GameJam.Systems
 
             if(moveComp.MovementVector.Length() >= 200)
             {
+                Vector2 previousTransform = thc.GetTransformHistoryAt(-3);
+                float previousRotation = thc.GetRotationHistoryAt(-3);
                 Vector2 lastTransform = thc.GetTransformHistoryAt(-2);
                 float lastRotation = thc.GetRotationHistoryAt(-2);
 
-                
                 Vector2 point2 = FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation - (float)Math.PI);
                 Vector2 point1 = FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation);
                 Vector2 point3 = FindCalculatedPoint(transform.Position, lastTransform, lastRotation);
@@ -66,8 +67,8 @@ namespace GameJam.Systems
                     FindCalculatedPoint(transform.Position, lastTransform, lastRotation - (float)Math.PI), // 4
                 }, entity.GetComponent<VectorSpriteTrailComponent>().playerShip);
 
-                Console.WriteLine("-1: " + transform.Position);
-                Console.WriteLine("-2: " + lastTransform);
+                Console.WriteLine("Current: " + transform.Position);
+                Console.WriteLine("Previous: " + lastTransform);
 
                 quad.AddComponent(new FadingEntityTimerComponent(CVars.Get<float>("animation_trail_fading_timer")));
             }
