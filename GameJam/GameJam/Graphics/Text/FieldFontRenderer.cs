@@ -56,13 +56,19 @@ namespace GameJam.Graphics.Text
 
             Effect.Parameters["WorldViewProjection"].SetValue(worldViewProjection);
 
-            if (optimizeForSmallText)
+            if (!CVars.Get<bool>("debug_msdf_no_processing"))
             {
-                Effect.CurrentTechnique = Effect.Techniques[SmallTextTechnique];
-            }
-            else
+                if (optimizeForSmallText)
+                {
+                    Effect.CurrentTechnique = Effect.Techniques[SmallTextTechnique];
+                }
+                else
+                {
+                    Effect.CurrentTechnique = Effect.Techniques[LargeTextTechnique];
+                }
+            } else
             {
-                Effect.CurrentTechnique = Effect.Techniques[LargeTextTechnique];
+                Effect.CurrentTechnique = Effect.Techniques["NoProcessing"];
             }
         }
         public void End()
@@ -161,11 +167,11 @@ namespace GameJam.Graphics.Text
                     pen.Y = 0;
                     break;
                 case FieldFontTopJustify.Bottom:
-                    pen.Y = -font.MeasureString(content).Y;
+                    pen.Y = -font.MeasureString(content, enableKerning).Y;
                     break;
                 case FieldFontTopJustify.Center:
                 default:
-                    pen.Y = -font.MeasureString(content).Y / 2;
+                    pen.Y = -font.MeasureString(content, enableKerning).Y / 2;
                     break;
             }
 
@@ -213,7 +219,7 @@ namespace GameJam.Graphics.Text
                 float glyphWidth = font.TxSize * (1.0f / current.Metrics.Scale);
 
                 float left = pen.X - current.Metrics.Translation.X;
-                float bottom = pen.Y - current.Metrics.Translation.Y;
+                float bottom = pen.Y;// - current.Metrics.Translation.Y; I don't know what this is doing, removing it seems to have the intended behavior
 
                 float right = left + glyphWidth;
                 float top = bottom + glyphHeight;

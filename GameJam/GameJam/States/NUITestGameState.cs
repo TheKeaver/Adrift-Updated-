@@ -31,7 +31,7 @@ namespace GameJam.States
                 ColumnWidget column = new ColumnWidget(SharedState.Engine);
                 row.Add(column);
 
-                column.Padding = new FixedValue<float>(50.0f);
+                column.Padding = new FixedValue<float>(150.0f);
 
                 //ContainerWidget container = new ContainerWidget(SharedState.Engine);
                 //container.HAlign = new FixedValue<HorizontalAlignment>(HorizontalAlignment.Left);
@@ -40,11 +40,11 @@ namespace GameJam.States
                 //container.Padding = new FixedValue<float>(100.0f);
                 //Root.Add(container);
 
-                NinePatchImageWidget ninePatch = new NinePatchImageWidget(SharedState.Engine);
-                ninePatch.Image = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
-                ninePatch.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
-                ninePatch.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
-                column.Add(ninePatch);
+                //NinePatchImageWidget ninePatch = new NinePatchImageWidget(SharedState.Engine);
+                //ninePatch.Image = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
+                //ninePatch.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
+                //ninePatch.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
+                //column.Add(ninePatch);
 
                 //ImageWidget image = new ImageWidget(SharedState.Engine);
                 //image.Image = new FixedValue<TextureRegion2D>(new TextureRegion2D(Content.Load<Texture2D>("texture_background_parallax_test")));
@@ -52,14 +52,12 @@ namespace GameJam.States
                 //image.Height = new RelativeValue<float>(container, "inner-height", 1.0f);
                 //container.Add(image);
 
-                //TextWidget text = new TextWidget(SharedState.Engine);
-                //text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
-                //text.Content = new FixedValue<string>("Hello World!\nThis is another line!");
-                //text.Height = new FixedValue<float>(100);
-                //text.Justify = new FixedValue<FieldFontJustify>(FieldFontJustify.Left);
-                //text.VAlign = new FixedValue<VerticalAlignment>(VerticalAlignment.Center);
-                //text.HAlign = new FixedValue<HorizontalAlignment>(HorizontalAlignment.Center);
-                //Root.Add(text);
+                TextWidget text = new TextWidget(SharedState.Engine);
+                text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
+                text.Content = new FixedValue<string>("Adrift");
+                //text.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
+                text.Height = new FixedValue<float>(300.0f);
+                column.Add(text);
             }
             {
                 RowWidget row = new RowWidget(SharedState.Engine);
@@ -79,7 +77,14 @@ namespace GameJam.States
                     button.PressedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
                     button.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
                     button.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
+                    button.Padding = new FixedValue<float>(20.0f);
                     column.Add(button);
+
+                    TextWidget text = new TextWidget(SharedState.Engine);
+                    text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
+                    text.Content = new FixedValue<string>("Play");
+                    text.Height = new RelativeValue<float>(button, "inner-height", 1.0f);
+                    button.Add(text);
                 }
                 {
                     ColumnWidget column = new ColumnWidget(SharedState.Engine);
@@ -94,7 +99,14 @@ namespace GameJam.States
                     button.PressedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
                     button.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
                     button.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
+                    button.Padding = new FixedValue<float>(20.0f);
                     column.Add(button);
+
+                    TextWidget text = new TextWidget(SharedState.Engine);
+                    text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
+                    text.Content = new FixedValue<string>("Options");
+                    text.Height = new RelativeValue<float>(button, "inner-height", 1.0f);
+                    button.Add(text);
                 }
                 {
                     ColumnWidget column = new ColumnWidget(SharedState.Engine);
@@ -109,7 +121,14 @@ namespace GameJam.States
                     button.PressedImage = new FixedValue<NinePatchRegion2D>(new NinePatchRegion2D(Content.Load<TextureAtlas>("complete_texture_atlas").GetRegion("texture_ui_button_pressed"), 5));
                     button.Width = new RelativeValue<float>(column, "inner-width", 1.0f);
                     button.Height = new RelativeValue<float>(column, "inner-height", 1.0f);
+                    button.Padding = new FixedValue<float>(20.0f);
                     column.Add(button);
+
+                    TextWidget text = new TextWidget(SharedState.Engine);
+                    text.Font = new FixedValue<FieldFont>(Content.Load<FieldFont>("font_msdf_hyperspace"));
+                    text.Content = new FixedValue<string>("Exit");
+                    text.Height = new RelativeValue<float>(button, "inner-height", 1.0f);
+                    button.Add(text);
                 }
             }
             //{

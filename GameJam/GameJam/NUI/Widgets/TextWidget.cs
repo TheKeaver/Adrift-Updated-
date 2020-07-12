@@ -87,7 +87,10 @@ namespace GameJam.NUI.Widgets
                 OnHeightSet();
             }
 
-            Entity.GetComponent<TransformComponent>().SetScale(1);
+            // Labels maintain aspect-ratio, so it shouldn't matter which
+            // axis we get the scale from.
+            float scale = (TopRight.Y - BottomLeft.Y) / fontComp.Font.MeasureString(fontComp.Content).Y;
+            Entity.GetComponent<TransformComponent>().SetScale(scale);
         }
 
         private void OnWidthSet()

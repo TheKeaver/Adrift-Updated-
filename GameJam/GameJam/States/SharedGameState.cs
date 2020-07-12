@@ -92,6 +92,13 @@ namespace GameJam.States
             private set;
         }
 #endif
+#if DEBUG
+        public TransformDebugRenderSystem TransformDebugRenderSystem
+        {
+            get;
+            private set;
+        }
+#endif
 
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
@@ -178,6 +185,9 @@ namespace GameJam.States
 #endif
 #if DEBUG
             QuadTreeDebugRenderSystem = new QuadTreeDebugRenderSystem(GameManager.GraphicsDevice, Engine);
+#endif
+#if DEBUG
+            TransformDebugRenderSystem = new TransformDebugRenderSystem(GameManager.GraphicsDevice, Engine);
 #endif
         }
         private void InitDirectors()
@@ -363,6 +373,13 @@ namespace GameJam.States
             {
                 Camera debugCamera = CVars.Get<bool>("debug_force_debug_camera") ? DebugCamera : null;
                 QuadTreeDebugRenderSystem.Draw(Camera, dt, debugCamera);
+            }
+#endif
+#if DEBUG
+            if(CVars.Get<bool>("debug_show_transforms"))
+            {
+                Camera debugCamera = CVars.Get<bool>("debug_force_debug_camera") ? DebugCamera : null;
+                TransformDebugRenderSystem.Draw(Camera, dt, debugCamera);
             }
 #endif
 

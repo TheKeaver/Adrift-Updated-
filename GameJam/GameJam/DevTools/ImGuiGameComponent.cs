@@ -104,6 +104,9 @@ namespace GameJam.DevTools
                     case Keys.F7:
                         CVars.Get<bool>("debug_show_quad_trees") = !CVars.Get<bool>("debug_show_quad_trees");
                         return true;
+                    case Keys.F8:
+                        CVars.Get<bool>("debug_show_transforms") = !CVars.Get<bool>("debug_show_transforms");
+                        return true;
                     case Keys.OemTilde:
                         CVars.Get<bool>("debug_show_console") = !CVars.Get<bool>("debug_show_console");
                         return true;

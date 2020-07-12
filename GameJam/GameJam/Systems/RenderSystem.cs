@@ -541,6 +541,9 @@ namespace GameJam.Systems
                 FlushAll();
             }
 
+            position *= FlipY;
+            rotation *= -1;
+
             float depth = 0;
 
             FieldFontComponent fieldFontComp = entity.GetComponent<FieldFontComponent>();

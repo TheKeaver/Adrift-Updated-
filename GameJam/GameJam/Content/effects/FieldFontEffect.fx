@@ -108,6 +108,11 @@ float4 AltPS(VertexShaderOutput input) : COLOR
 	return opacity;
 }
 
+float4 PassThroughPS(VertexShaderOutput input) : COLOR
+{
+	return tex2D(glyphSampler, input.TexCoord).rgba;
+}
+
 technique SmallText
 {
 	pass P0
@@ -123,5 +128,14 @@ technique LargeText
 	{
 		VertexShader = compile VS_SHADERMODEL MainVS();		
 		PixelShader = compile PS_SHADERMODEL AltPS();
+	}
+};
+
+technique NoProcessing
+{
+	pass P0
+	{
+		VertexShader = compile VS_SHADERMODEL MainVS();
+		PixelShader = compile PS_SHADERMODEL PassThroughPS();
 	}
 };

@@ -184,6 +184,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\ChasingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\SuperShieldSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformDebugRenderSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformResetSemiSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />

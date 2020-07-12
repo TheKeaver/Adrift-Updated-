@@ -235,6 +235,7 @@ namespace GameJam
             Create<bool>("debug_show_collision_shapes", false, CVarFlags.LIVE_RELOAD, "Show collision hulls and bounding boxes.");
             Create<bool>("debug_show_render_culling", false, CVarFlags.LIVE_RELOAD, "Show render culling bounding boxes.");
             Create<bool>("debug_show_quad_trees", false, CVarFlags.LIVE_RELOAD, "Show quad trees.");
+            Create<bool>("debug_show_transforms", false, CVarFlags.LIVE_RELOAD, "Show transforms.");
             Create<bool>("debug_enable_camera_movement", true, CVarFlags.LIVE_RELOAD, "Enable camera movement behavior.");
             Create<float>("debug_gameplay_camera_zoom", 1, CVarFlags.LIVE_RELOAD, "Zoom in addition to gameplay camera zoom.");
             Create<bool>("debug_force_debug_camera", false, CVarFlags.LIVE_RELOAD, "Force using debug camera.");
@@ -242,6 +243,7 @@ namespace GameJam
             Create<float>("debug_debug_camera_zoom_speed", 0.0001f, CVarFlags.LIVE_RELOAD, "Debug camera zoom speed (scroll wheel).");
             Create<float>("debug_debug_camera_position_x", 0, CVarFlags.LIVE_RELOAD, "Debug camera x position.");
             Create<float>("debug_debug_camera_position_y", 0, CVarFlags.LIVE_RELOAD, "Debug camera y position.");
+            Create<bool>("debug_msdf_no_processing", false, CVarFlags.LIVE_RELOAD, "Turn off MSDF processing (shows raw MSDF textures).");
 
             /** PARTICLES **/
             Create<bool>("particle_enable", true, CVarFlags.DEV_PRESERVE, "Enable particles.");
