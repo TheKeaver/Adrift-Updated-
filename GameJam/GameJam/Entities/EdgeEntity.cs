@@ -29,6 +29,7 @@ namespace GameJam.Entities
             temp[0] = new QuadRenderShape(new Vector2(hw, hh), new Vector2(-hw, hh), new Vector2(-hw, -hh), new Vector2(hw, -hh), CVars.Get<Color>("color_playfield"));
             entity.AddComponent(new VectorSpriteComponent(temp));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
 
             return entity;
         }

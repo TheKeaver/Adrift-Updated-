@@ -22,6 +22,7 @@ namespace GameJam.Entities
                         new Vector2(0,-3),
                         shipEntity.GetComponent<ColoredExplosionComponent>().Color)
                 }));
+            entity.AddComponent(new EntityMirroringComponent(shipEntity, true, true));
 
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_NO_GLOW;
             entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("player_ship_size"), true);

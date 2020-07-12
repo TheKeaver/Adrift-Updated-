@@ -10,6 +10,12 @@ namespace GameJam.Components
             set;
         } = null;
 
+        public Process LaserEnemyStateMachineProcess
+        {
+            get;
+            set;
+        } = null;
+
         public LaserEnemyComponent(Entity laserBeamEntity = null)
         {
             LaserBeamEntity = laserBeamEntity;

@@ -23,7 +23,9 @@ namespace GameJam.Entities
                     CVars.Get<Color>("color_gravity_hole_enemy"),
                     45)
             }));
-            entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;*/
+            entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
+            */
 
             entity.AddComponent(new SpriteComponent(new TextureRegion2D(contentManager.Load<Texture2D>("texture_gravity_hole_circle")),
                                 new Vector2(2*CVars.Get<float>("gravity_hole_enemy_radius"), 2*CVars.Get<float>("gravity_hole_enemy_radius"))));

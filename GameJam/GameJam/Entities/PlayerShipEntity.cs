@@ -24,22 +24,24 @@ namespace GameJam.Entities
 
             entity.AddComponent(new CameraTrackingComponent());
 
-            entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = false;
+            entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = CVars.Get<bool>("player_rotate_in_direction_of_movement");
 
             entity.AddComponent(new VectorSpriteComponent(new RenderShape[] {
                 new PolyRenderShape(new Vector2[]{ new Vector2(3, 0),
                     new Vector2(0, 3),
                     new Vector2(-3, 0),
                     new Vector2(0, -3)
-                    }, 0.2f, color, PolyRenderShape.PolyCapStyle.Filled, true),
+                    }, 0.2f, Color.White, PolyRenderShape.PolyCapStyle.Filled, true),
                 new PolyRenderShape(new Vector2[]{ new Vector2(0, 3),
                     new Vector2(-3, -2),
                     new Vector2(-3, 2),
                     new Vector2(0, -3)
-                    }, 0.13f, color, PolyRenderShape.PolyCapStyle.Filled)
+                    }, 0.13f, Color.White, PolyRenderShape.PolyCapStyle.Filled)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().ChangeColor(color);
             entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("player_ship_size"), true);
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             entity.AddComponent(new ColoredExplosionComponent(color));
             entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
 

@@ -8,7 +8,7 @@ namespace GameJam.Components
     /// <summary>
     /// A component for holding a renderable sprite.
     /// </summary>
-    public class SpriteComponent : IComponent
+    public class SpriteComponent : IComponent, IRenderComponent
     {
         public SpriteComponent()
         {
@@ -25,6 +25,11 @@ namespace GameJam.Components
             return new BoundingRect(-Bounds.X/2, -Bounds.Y/2, Bounds.X, Bounds.Y) * 2;
         }
 
+        public bool IsHidden()
+        {
+            return Hidden;
+        }
+
         public TextureRegion2D Texture;
         public Vector2 Bounds;
         public Color Color = Color.White;
@@ -33,5 +38,17 @@ namespace GameJam.Components
         public byte RenderGroup = 0x1;
 
         public bool Hidden;
+
+        public float Depth = 0;
+
+        public byte GetRenderGroup()
+        {
+            return RenderGroup;
+        }
+
+        public float GetDepth()
+        {
+            return Depth;
+        }
     }
 }

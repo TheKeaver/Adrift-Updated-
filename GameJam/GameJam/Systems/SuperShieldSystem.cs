@@ -37,7 +37,8 @@ namespace GameJam.Systems
         {
             SuperShieldComponent ssc = shield.GetComponent<SuperShieldComponent>();
 
-            shield.GetComponent<TransformComponent>().SetPosition(ssc.ship.GetComponent<TransformComponent>().Position);
+            //shield.GetComponent<TransformComponent>().SetPosition(ssc.ship.GetComponent<TransformComponent>().Position);
+            //shield.GetComponent<TransformComponent>().SetRotation(ssc.ship.GetComponent<TransformComponent>().Rotation);
             shield.GetComponent<VectorSpriteComponent>().Alpha = ssc.ship.GetComponent<PlayerShipComponent>().SuperShieldMeter / CVars.Get<float>("player_super_shield_max");
         }
 

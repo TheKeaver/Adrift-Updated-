@@ -15,6 +15,7 @@ using GameJam.Processes.Enemies;
 using GameJam.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 using System;
 using System.Collections.Generic;
 
@@ -172,6 +173,7 @@ namespace GameJam.States
         {
             Entity playerShipEntity = PlayerShipEntity.Create(SharedState.Engine, position, color);
             SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
+            PlayerTrailEntity.Create(SharedState.Engine, playerShipEntity);
 
             PlayerShipComponent playerShipComp = playerShipEntity.GetComponent<PlayerShipComponent>();
             // Default

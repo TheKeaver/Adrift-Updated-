@@ -40,6 +40,7 @@ namespace GameJam.Entities
             entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("shooting_enemy_size"), true);
             entity.GetComponent<TransformComponent>().SetPosition(position, true);
             entity.GetComponent<TransformComponent>().SetRotation(angle, true);
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_shooting_enemy")));
 
             return entity;
@@ -111,6 +112,8 @@ namespace GameJam.Entities
                     false)
                 }));
                 warpEntity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("shooting_enemy_size"), true);
+                warpEntity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+                warpEntity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
                 Vector2 warpTo = position + transformedPoint;
                 processManager.Attach(new WarpPointPhase1Process(engine, warpEntity, warpTo, CVars.Get<float>("animation_spawn_warp_phase_1_base_duration") * timeScale))
                     .SetNext(new WarpPointPhase2Process(engine, warpEntity, warpTo, CVars.Get<float>("animation_spawn_warp_phase_2_base_duration") * timeScale))

@@ -9,23 +9,38 @@ using MonoGame.Extended.TextureAtlases;
 
 namespace FontExtension
 {
+    public enum FieldFontJustify
+    {
+        Left,
+        Center,
+        Right
+    }
+    public enum FieldFontTopJustify
+    {
+        Top,
+        Center,
+        Bottom
+    }
+
     public class FieldFont
     {
         [ContentSerializer] private readonly Dictionary<char, FieldGlyph> Glyphs;
         [ContentSerializer] private readonly string NameBackend;
         [ContentSerializer] private readonly float PxRangeBackend;
         [ContentSerializer] private readonly float TxSizeBackend;
+        [ContentSerializer] private readonly float BaseBackend;
         [ContentSerializer] private readonly List<KerningPair> KerningPairsBackend;
 
         public FieldFont()
         {            
         }
 
-        public FieldFont(string name, IReadOnlyCollection<FieldGlyph> glyphs, IReadOnlyCollection<KerningPair> kerningPairs, float pxRange, float txSize)
+        public FieldFont(string name, IReadOnlyCollection<FieldGlyph> glyphs, IReadOnlyCollection<KerningPair> kerningPairs, float pxRange, float txSize, float baseSize)
         {
             NameBackend = name;
             PxRangeBackend = pxRange;
             TxSizeBackend = txSize;
+            BaseBackend = baseSize;
             KerningPairsBackend = kerningPairs.ToList();
 
             Glyphs = new Dictionary<char, FieldGlyph>(glyphs.Count);
@@ -49,6 +64,11 @@ namespace FontExtension
         /// Texture size in pixels.
         /// </summary>
         public float TxSize => TxSizeBackend;
+
+        /// <summary>
+        /// Base of the font (vertical advance).
+        /// </summary>
+        public float Base => BaseBackend;
 
         /// <summary>
         /// Kerning pairs available in this font
@@ -91,12 +111,21 @@ namespace FontExtension
         }
         public Vector2 MeasureString(string str, bool enableKerning = true)
         {
+            float maxLineHeight = 0;
             Vector2 maxSize = Vector2.Zero;
-            Vector2 pen = Vector2.Zero;
+            float penX = 0;
 
             GlyphInfo[] sequence = str.Select(GetInfo).ToArray();
             for(int i = 0; i < sequence.Length; i++)
             {
+                if (str[i] == '\n')
+                {
+                    maxSize.X = Math.Max(maxSize.X, penX);
+                    penX = 0;
+                    maxSize.Y += Base;
+                    maxLineHeight = 0;
+                }
+
                 GlyphInfo info = sequence[i];
                 if(info == null)
                 {
@@ -106,15 +135,9 @@ namespace FontExtension
                 float glyphWidth = TxSize / info.Metrics.Scale;
                 float glyphHeight = TxSize / info.Metrics.Scale;
 
-                float bottom = pen.Y - info.Metrics.Translation.Y;
-                float top = bottom + glyphHeight;
+                maxLineHeight = Math.Max(maxLineHeight, glyphHeight);
 
-                if(top - bottom > maxSize.Y)
-                {
-                    maxSize.Y = top - bottom;
-                }
-
-                pen.X += info.Metrics.Advance;
+                penX += info.Metrics.Advance;
                 
                 if(enableKerning && i < sequence.Length - 1)
                 {
@@ -125,13 +148,14 @@ namespace FontExtension
 
                         if (pair != null)
                         {
-                            pen.X += pair.Advance;
+                            penX += pair.Advance;
                         }
                     }
                 }
             }
 
-            maxSize.X = pen.X;
+            maxSize.X = penX;
+            maxSize.Y += maxLineHeight;
 
             return maxSize;
         }
@@ -148,7 +172,7 @@ namespace FontExtension
         {
             if(c == '\t' || c == '\n' || c == '\r')
             {
-                return null;
+                return new GlyphRenderInfo(c, null, null);
             }
 
             if (Cache.TryGetValue(c, out var value))

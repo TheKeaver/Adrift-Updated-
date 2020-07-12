@@ -73,18 +73,22 @@ namespace GameJam.Input
         /** MONOGAME HANDLERS **/
         void Mouse_MouseMoved(object sender, MouseEventArgs e)
         {
-            EventManager.Instance.QueueEvent(new MouseMoveEvent(new Vector2(e.PreviousState.Position.X,
-                                                                           e.PreviousState.Position.Y),
-                                                                new Vector2(e.Position.X,
-                                                                           e.Position.Y)));
+            Vector2 transformedMousePosition = new Vector2(e.Position.X - Game.GraphicsDevice.Viewport.Width / 2,
+                Game.GraphicsDevice.Viewport.Height / 2 - e.Position.Y);
+            Vector2 transformedPreviousMousePosition = new Vector2(e.PreviousState.Position.X - Game.GraphicsDevice.Viewport.Width / 2,
+                Game.GraphicsDevice.Viewport.Height / 2 - e.PreviousState.Position.Y);
+
+            EventManager.Instance.QueueEvent(new MouseMoveEvent(transformedPreviousMousePosition,
+                                                                transformedMousePosition));
         }
         void Mouse_MouseDownOrUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButton.Left)
             {
+                Vector2 transformedMousePosition = new Vector2(e.Position.X - Game.GraphicsDevice.Viewport.Width / 2,
+                    Game.GraphicsDevice.Viewport.Height / 2 - e.Position.Y);
                 EventManager.Instance.QueueEvent(new MouseButtonEvent(e.CurrentState.LeftButton,
-                                                                      new Vector2(e.Position.X,
-                                                                                  e.Position.Y)));
+                                                                      transformedMousePosition));
             }
         }
         void Mouse_MouseScroll(object sender, MouseEventArgs e)

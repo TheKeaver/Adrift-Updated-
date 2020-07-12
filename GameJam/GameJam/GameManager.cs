@@ -11,6 +11,7 @@ using GameJam.Events.DevTools;
 using GameJam.Input;
 using GameJam.Processes;
 using GameJam.States;
+using GameJam.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -185,11 +186,12 @@ namespace GameJam
             LoadGameContent(GlobalContent);
             GlobalContent.Locked = true;
 
-            FieldFont font = GlobalContent.Load<FieldFont>("font_msdf_hyperspace");
-
             // Attach first game state last
+            // TODO: Uncomment
             SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
-            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            //ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            ProcessManager.Attach(new NUITestGameState(this, sharedState));
+            //ProcessManager.Attach(new RenderSystemPlaygroundState(this, sharedState));
         }
         
         protected override void Update(GameTime gameTime)

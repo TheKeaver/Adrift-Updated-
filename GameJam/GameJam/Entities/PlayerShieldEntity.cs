@@ -26,6 +26,7 @@ namespace GameJam.Entities
             entity.GetComponent<VectorSpriteComponent>().Hidden = !isActive;
             entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("player_shield_size"), true);
             entity.AddComponent(new QuadTreeReferenceComponent(new QuadTreeNode(new BoundingRect())));
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
 
             entity.AddComponent(new CollisionComponent(new PolygonCollisionShape(new Vector2[] {
                 new Vector2(6, -1),

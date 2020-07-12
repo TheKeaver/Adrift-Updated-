@@ -42,6 +42,7 @@ namespace GameJam.Entities
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES; entity.GetComponent<TransformComponent>().SetPosition(position);
             entity.GetComponent<TransformComponent>().SetRotation(angle, true);
             entity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("laser_enemy_size"), true);
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_laser_enemy")));
 
             return entity;
@@ -71,7 +72,10 @@ namespace GameJam.Entities
             })));
             entity.GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.COLLISION_GROUP_ENEMIES;
 
-            processManager.Attach(CreateLaserEnemyProcessChain(processManager, engine, entity, CVars.Get<float>("laser_enemy_spawn_wait_period"), true));
+            LaserEnemyStateMachineProcess stateMachineProcess = new LaserEnemyStateMachineProcess(engine, entity);
+            entity.GetComponent<LaserEnemyComponent>().LaserEnemyStateMachineProcess = stateMachineProcess;
+            processManager.Attach(new WaitProcess(CVars.Get<float>("laser_enemy_spawn_wait_period")))
+                .SetNext(stateMachineProcess);
 
             return entity;
         }
@@ -129,6 +133,8 @@ namespace GameJam.Entities
                     false)
                 }));
                 warpEntity.GetComponent<TransformComponent>().SetScale(CVars.Get<float>("laser_enemy_size"), true);
+                warpEntity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+                warpEntity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
                 Vector2 warpTo = position + transformedPoint;
                 processManager.Attach(new WarpPointPhase1Process(engine, warpEntity, warpTo, CVars.Get<float>("animation_spawn_warp_phase_1_base_duration") * timeScale))
                     .SetNext(new WarpPointPhase2Process(engine, warpEntity, warpTo, CVars.Get<float>("animation_spawn_warp_phase_2_base_duration") * timeScale))

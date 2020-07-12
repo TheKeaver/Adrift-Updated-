@@ -32,6 +32,7 @@ namespace GameJam.Entities
                 new PolyRenderShape(GetPoints(), 0.2f, CVars.Get<Color>("color_chasing_enemy"), PolyRenderShape.PolyCapStyle.Filled, true)
             }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            entity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             entity.AddComponent(new ColoredExplosionComponent(CVars.Get<Color>("color_chasing_enemy")));
 
             entity.GetComponent<TransformComponent>().SetPosition(position, true);
@@ -114,6 +115,8 @@ namespace GameJam.Entities
             //        PolyRenderShape.PolyCapStyle.None,
             //        false)
             //    }));
+            //    warpEntity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
+            //    warpEntity.GetComponent<VectorSpriteComponent>().Depth = Constants.Render.RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY;
             //    warpEntity.GetComponent<TransformComponent>().ChangeScale(CVars.Get<float>("chasing_enemy_size"), true);
             //    Vector2 warpTo = position + transformedPoint;
             //    processManager.Attach(new WarpPointPhase1Process(engine, warpEntity, warpTo, 0.5f * timeScale))

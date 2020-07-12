@@ -25,6 +25,12 @@ namespace GameJam.Processes.Enemies
 
         protected override void OnTick(float interval)
         {
+            if(!ShootingEnemy.HasComponent<ShootingEnemyComponent>())
+            {
+                Kill();
+                return;
+            }
+
             if (ShootingEnemy.GetComponent<ShootingEnemyComponent>().AmmoLeft <= 0)
             {
                 EventManager.Instance.QueueEvent(new OutOfAmmoEvent(ShootingEnemy));

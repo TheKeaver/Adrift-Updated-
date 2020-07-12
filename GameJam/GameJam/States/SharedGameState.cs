@@ -27,6 +27,11 @@ namespace GameJam.States
             get;
             private set;
         }
+        public Camera UICamera
+        {
+            get;
+            private set;
+        }
 #if DEBUG
         public Camera DebugCamera
         {
@@ -51,7 +56,17 @@ namespace GameJam.States
             private set;
         }
         BaseSystem[] _systems;
+        public SpriteBatch SpriteBatch
+        {
+            get;
+            private set;
+        }
         public RenderSystem RenderSystem
+        {
+            get;
+            private set;
+        }
+        public TransformResetSemiSystem TransformResetSemiSystem
         {
             get;
             private set;
@@ -84,6 +99,8 @@ namespace GameJam.States
 
         protected override void OnInitialize()
         {
+            SpriteBatch = new SpriteBatch(GameManager.GraphicsDevice);
+
             PostProcessor = new PostProcessor(GameManager.GraphicsDevice,
                 CVars.Get<float>("screen_width"),
                 CVars.Get<float>("screen_height"));
@@ -91,6 +108,11 @@ namespace GameJam.States
 
             Camera = new Camera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
             Camera.RegisterEvents();
+
+            UICamera = new Camera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
+            UICamera.EnableCompensationZoom = false;
+            UICamera.RegisterEvents();
+
             DebugCamera = new DebugCamera(CVars.Get<float>("screen_width"), CVars.Get<float>("screen_height"));
             DebugCamera.RegisterEvents();
 
@@ -118,8 +140,6 @@ namespace GameJam.States
             {
                 // Input System must go first to have accurate snapshots
                 new InputSystem(Engine),
-                // TransformResetSystem must go before any system that changes the transform of entities
-                new TransformResetSystem(Engine),
 
                 // Section below is not dependent on other systems
                 new GravityHolePassiveAnimationSystem(Engine, ProcessManager, Content),
@@ -142,12 +162,14 @@ namespace GameJam.States
                 
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
                 new EnemyRotationSystem(Engine),
+                new EntityMirroringSystem(Engine),
 
                 // Collision Detection must go last to have accurate collision detection
                 new CollisionDetectionSystem(Engine)
             };
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Content, Engine);
+            TransformResetSemiSystem = new TransformResetSemiSystem(Engine);
 #if DEBUG
             CollisionDebugRenderSystem = new CollisionDebugRenderSystem(GameManager.GraphicsDevice, Engine);
 #endif
@@ -224,6 +246,7 @@ namespace GameJam.States
             ParallaxBackgroundEntity.Create(Engine,
                 new TextureRegion2D(Content.Load<Texture2D>("texture_background_stars_3")),
                 Vector2.Zero, 0.55f);
+
             //ParallaxBackgroundEntity.Create(Engine,
             //    Content.Load<TextureRegion2D>("texture_background_parallax_test"),
             //    Vector2.Zero, 0.55f);
@@ -236,6 +259,11 @@ namespace GameJam.States
 
         protected override void OnFixedUpdate(float dt)
         {
+            // This is not a normal system; this system
+            // depends on when update and render are
+            // called so it must be notified of both.
+            TransformResetSemiSystem.OnUpdate();
+
             Camera.ResetAll();
             DebugCamera.ResetAll();
 
@@ -249,6 +277,11 @@ namespace GameJam.States
 
         protected override void OnRender(float dt, float betweenFrameAlpha)
         {
+            // This is not a normal system; this system
+            // depends on when update and render are
+            // called so it must be notified of both.
+            TransformResetSemiSystem.OnRender();
+
             int enableFrameSmoothing = CVars.Get<bool>("graphics_frame_smoothing") ? 1 : 0;
             betweenFrameAlpha = betweenFrameAlpha * enableFrameSmoothing + (1 - enableFrameSmoothing);
 
@@ -272,18 +305,18 @@ namespace GameJam.States
                                             dt,
                                             betweenFrameAlpha,
                                             camera);
-                RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    camera.GetInterpolatedTransformMatrix(betweenFrameAlpha));
-                if (!CVars.Get<bool>("particle_gpu_accelerated"))
-                {
-                    VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
-                }
-                RenderSystem.SpriteBatch.End();
+                //RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
+                //    null,
+                //    null,
+                //    null,
+                //    null,
+                //    null,
+                //    camera.GetInterpolatedTransformMatrix(betweenFrameAlpha));
+                //if (!CVars.Get<bool>("particle_gpu_accelerated"))
+                //{
+                //    VelocityParticleManager.Draw(RenderSystem.SpriteBatch);
+                //}
+                //RenderSystem.SpriteBatch.End();
                 if (CVars.Get<bool>("particle_gpu_accelerated"))
                 {
                     GPUParticleManager.UpdateAndDraw(Camera, dt, betweenFrameAlpha, camera);
@@ -298,11 +331,14 @@ namespace GameJam.States
                                         Constants.Render.RENDER_GROUP_STARS,
                                         dt,
                                         betweenFrameAlpha, camera); // Stars
-            RenderSystem.SpriteBatch.Begin();
-            RenderSystem.SpriteBatch.Draw(postProcessingResult,
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(postProcessingResult,
                 postProcessingResult.Bounds,
                 Color.White); // Post-processing results
-            RenderSystem.SpriteBatch.End();
+            SpriteBatch.End();
+
+            RenderSystem.DrawEntities(UICamera, Constants.Render.RENDER_GROUP_UI, dt, betweenFrameAlpha);
+
             // Shield Resource
             RenderSystem.DrawEntities(Camera,
                                       Constants.Render.RENDER_GROUP_NO_GLOW,
@@ -337,6 +373,7 @@ namespace GameJam.States
         {
             PostProcessor.UnregisterEvents();
             Camera.UnregisterEvents();
+            UICamera.UnregisterEvents();
             GPUParticleManager.UnregisterListeners();
 
             throw new Exception("This game state provides shared logic with all other game states and must not be killed.");

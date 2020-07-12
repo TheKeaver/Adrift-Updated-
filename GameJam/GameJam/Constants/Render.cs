@@ -21,5 +21,18 @@
         public static readonly byte RENDER_GROUP_STARS = GROUP_ONE;
         public static readonly byte RENDER_GROUP_GAME_ENTITIES = GROUP_TWO;
         public static readonly byte RENDER_GROUP_NO_GLOW = GROUP_THREE;
+        public static readonly byte RENDER_GROUP_UI = GROUP_FOUR;
+
+        //////////////
+        public static readonly float RENDER_DEPTH_LAYER_SPRITES = 0;
+        public static readonly float RENDER_DEPTH_LAYER_SPRITES_BACKGROUND = RENDER_DEPTH_LAYER_SPRITES;
+        public static readonly float RENDER_DEPTH_LAYER_SPRITES_GAMEPLAY = RENDER_DEPTH_LAYER_SPRITES_BACKGROUND + 0.1f;
+
+        public static readonly float RENDER_DEPTH_LAYER_UI = RENDER_DEPTH_LAYER_SPRITES * 10000000000;
+        public static readonly float RENDER_DEPTH_LAYER_UI_LAYER_DIVIDER = 100;
+        public static float GetUIRenderDepth(int uiLayer, int layerIndex)
+        {
+            return RENDER_DEPTH_LAYER_UI + uiLayer * RENDER_DEPTH_LAYER_UI_LAYER_DIVIDER + layerIndex;
+        }
     }
 }

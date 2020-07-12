@@ -4,7 +4,6 @@ using FontExtension;
 using GameJam.Content;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.TextureAtlases;
 
 namespace GameJam
@@ -47,6 +46,9 @@ namespace GameJam
             content.Load<Effect>("effect_smaa");
             content.Load<Effect>("effect_negative");
 
+            content.Load<Effect>("effect_sprite");
+            content.Load<Effect>("effect_vector");
+
             content.Load<Effect>("effect_field_font");
             content.Load<FieldFont>("font_msdf_hyperspace");
 
@@ -64,6 +66,9 @@ namespace GameJam
 
             content.Load<List<WidgetPrototype>>("ui_test");
             content.Load<List<WidgetPrototype>>("ui_test2");
+
+            // TODO: Remove vvvvvvvvvvvv
+            content.Load<Texture2D>("texture_shooter_enemy");
         }
     }
 }
