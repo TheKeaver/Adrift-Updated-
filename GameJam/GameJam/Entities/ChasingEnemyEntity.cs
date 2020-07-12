@@ -73,7 +73,7 @@ namespace GameJam.Entities
             Entity entity = CreateSpriteOnly(engine, position, angle);
             processManager.Attach(new EntityScaleProcess(engine,
                 entity,
-                1,
+                CVars.Get<float>("animation_chasing_enemy_spawn_duration"),
                 0,
                 CVars.Get<float>("chasing_enemy_size"),
                 Easings.Functions.SineEaseOut)).SetNext(new DelegateProcess(() =>

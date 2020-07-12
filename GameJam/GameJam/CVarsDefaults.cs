@@ -190,6 +190,7 @@ namespace GameJam
             Create<float>("animation_spawn_warp_distance", 450, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Enemy warp-in animation travel distance.");
             Create<float>("animation_spawn_warp_phase_1_base_duration", 0.5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Enemy warp-in animation phase 1 animation duration.");
             Create<float>("animation_spawn_warp_phase_2_base_duration", 0.15f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Enemy warp-in animation phase 2 animation duration.");
+            Create<float>("animation_chasing_enemy_spawn_duration", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "The time for the chasing enemy to scale to size before moving.");
 
             /** MENU **/
             Create<float>("entity_background_spawner_min", 1f, CVarFlags.DEV_PRESERVE, "Menu background enemy spawner minimum period.");
