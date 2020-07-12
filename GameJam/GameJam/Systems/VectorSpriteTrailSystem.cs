@@ -42,8 +42,6 @@ namespace GameJam.Systems
 
             if(moveComp.MovementVector.Length() >= 200)
             {
-                Vector2 previousTransform = thc.GetTransformHistoryAt(-3);
-                float previousRotation = thc.GetRotationHistoryAt(-3);
                 Vector2 lastTransform = thc.GetTransformHistoryAt(-2);
                 float lastRotation = thc.GetRotationHistoryAt(-2);
 
