@@ -3,6 +3,7 @@ using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics;
 
 namespace GameJam.Systems
 {
@@ -33,10 +34,13 @@ namespace GameJam.Systems
 
         private void DrawVectorSpriteTrail(Entity entity, TransformHistoryComponent thc)
         {
+            float distanceBetween = (entity.GetComponent<TransformComponent>().Position - entity.GetComponent<EntityMirroringComponent>().entityToMirror.GetComponent<TransformComponent>().Position).Length();
+            Console.WriteLine("Distance between Center of Ship and Center of VectorSpriteTrail: " + distanceBetween);
+
             MovementComponent moveComp = entity.GetComponent<VectorSpriteTrailComponent>().playerShip.GetComponent<MovementComponent>();
             TransformComponent transform = entity.GetComponent<TransformComponent>();
 
-            if(moveComp.MovementVector.Length() >= 1)
+            if(moveComp.MovementVector.Length() >= 200)
             {
                 Vector2 lastTransform = thc.GetTransformHistoryAt(-2);
                 float lastRotation = thc.GetRotationHistoryAt(-2);
