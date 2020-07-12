@@ -137,7 +137,6 @@ namespace GameJam.States
                 new EnemySeparationSystem(Engine), // Depends on the Quad Tree, however this system needs to go before movement system. It will use the previous frame's quad tree.
                 new MovementSystem(Engine),
                 //new EntityTrailTransformHistorySystem(Engine), // Must go before EntityTrail(Fading)System
-                new VectorSpriteTrailTransformHistorySystem(Engine),
                 new PlayerShieldSystem(Engine),
                 new QuadTreeSystem(Engine),
                 new SuperShieldSystem(Engine),
@@ -145,6 +144,7 @@ namespace GameJam.States
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
                 new EnemyRotationSystem(Engine),
                 new EntityMirroringSystem(Engine),
+                new VectorSpriteTrailTransformHistorySystem(Engine),
                 
                 //new EntityTrailSystem(Engine),
                 new VectorSpriteTrailSystem(Engine),

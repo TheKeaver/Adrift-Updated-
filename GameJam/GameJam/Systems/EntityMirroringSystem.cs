@@ -1,6 +1,8 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
+using MonoGame.Extended;
 using SharpDX.Direct2D1;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,7 @@ namespace GameJam.Systems
 {
     public class EntityMirroringSystem : BaseSystem
     {
-        readonly Family _mirroringFamily = Family.All(typeof(EntityMirroringComponent)).Get();
+        readonly Family _mirroringFamily = Family.All(typeof(EntityMirroringComponent), typeof(TransformComponent)).Get();
         readonly ImmutableList<Entity> _mirroringEntities;
 
         public EntityMirroringSystem(Engine engine) : base(engine)
@@ -30,7 +32,7 @@ namespace GameJam.Systems
         {
             EntityMirroringComponent emc = mirroringEntity.GetComponent<EntityMirroringComponent>();
 
-            if (emc.mirrorPosition == true && emc.mirrorRotation == true)
+            /*if (emc.mirrorPosition == true && emc.mirrorRotation == true)
             {
                float translatedRotation = (float)(Math.PI / 2) + emc.entityToMirror.GetComponent<TransformComponent>().Rotation;
 
@@ -48,12 +50,17 @@ namespace GameJam.Systems
                 Console.WriteLine("Current Entity Position: " + mirroringEntity.GetComponent<TransformComponent>().Position);
                 Console.WriteLine("Mirrored Entity Position: " + emc.entityToMirror.GetComponent<TransformComponent>().Position);
                 Console.WriteLine("Translated Offset: " + set);
-            }
-            else if (emc.mirrorPosition == true)
+            }*/
+            if (emc.mirrorPosition == true)
             {
-                mirroringEntity.GetComponent<TransformComponent>().SetPosition(emc.entityToMirror.GetComponent<TransformComponent>().Position + emc.positionOffsetVector);
+                Vector2 rotatedOffset = MathUtils.RotateVector(
+                    emc.positionOffsetVector,
+                    (float)Math.Cos(mirroringEntity.GetComponent<TransformComponent>().Rotation),
+                    (float)Math.Sin(mirroringEntity.GetComponent<TransformComponent>().Rotation));
+
+                mirroringEntity.GetComponent<TransformComponent>().SetPosition(emc.entityToMirror.GetComponent<TransformComponent>().Position + rotatedOffset);
             }
-            else if (emc.mirrorRotation == true)
+            if (emc.mirrorRotation == true)
             {
                 mirroringEntity.GetComponent<TransformComponent>().SetRotation(emc.entityToMirror.GetComponent<TransformComponent>().Rotation);
             }

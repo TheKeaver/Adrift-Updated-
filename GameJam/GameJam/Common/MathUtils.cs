@@ -26,5 +26,11 @@ namespace GameJam.Common
             float inverseTravel = travelSign * MathHelper.TwoPi - travel;
             return inverseTravel * alpha + a;
         }
+
+        public static Vector2 RotateVector(Vector2 vector, float cos, float sin)
+        {
+            return new Vector2(vector.X * cos - vector.Y * sin,
+                vector.X * sin + vector.Y * cos);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace GameJam.Entities
         {
             Entity entity = engine.CreateEntity();
             // "offset" stores the mid point of both ends of the player trail
-            Vector2 offset = new Vector2(-3, 0);
+            Vector2 offset = new Vector2(-26, 0);
 
             TransformComponent shipTransform = shipEntity.GetComponent<TransformComponent>();
             //offset += shipTransform.Position;
