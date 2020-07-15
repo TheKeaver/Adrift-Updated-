@@ -119,7 +119,7 @@ namespace FontExtension
                 if(enableKerning && i < sequence.Length - 1)
                 {
                     GlyphInfo next = sequence[i + 1];
-                    if (next != null)
+                    if (next != null && KerningPairs != null)
                     {
                         KerningPair pair = KerningPairs.FirstOrDefault(x => x.Left == info.Character && x.Right == next.Character);
 

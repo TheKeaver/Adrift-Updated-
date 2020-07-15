@@ -325,11 +325,9 @@ namespace GameJam.Systems
                 {
                     pass.Apply();
 
-                    // GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,_verts.ToArray(), 0, _verts.Count / 3)
-
-                    GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _verts.ToArray(), 0, _verts.Count, _indices.ToArray(), 0, _indices.Count/3);
-
-                    // GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, _verts[0], 0, _verts.Count);
+                    GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList,
+                        _verts.ToArray(), 0, _verts.Count,
+                        _indices.ToArray(), 0, _indices.Count / 3);
                 }
             }
         }

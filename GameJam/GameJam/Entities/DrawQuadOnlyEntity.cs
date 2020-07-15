@@ -25,7 +25,7 @@ namespace GameJam.Entities
                         referenceEntity.GetComponent<ColoredExplosionComponent>().Color)
                 }));
             entity.GetComponent<VectorSpriteComponent>().RenderGroup = Constants.Render.RENDER_GROUP_GAME_ENTITIES;
-            entity.GetComponent<TransformComponent>().SetScale(referenceEntity.GetComponent<TransformComponent>().Scale);
+            entity.GetComponent<TransformComponent>().SetScale(referenceEntity.GetComponent<TransformComponent>().Scale, true);
 
             return entity;
         }
