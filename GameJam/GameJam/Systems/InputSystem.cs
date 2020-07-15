@@ -16,15 +16,6 @@ namespace GameJam.Systems
             _entities = Engine.GetEntitiesFor(_family);
         }
 
-        public void Update(float dt)
-        {
-            foreach (Entity entity in _entities)
-            {
-                PlayerComponent playerComp = entity.GetComponent<PlayerComponent>();
-                playerComp.Player.InputMethod.Update(dt);
-            }
-        }
-
         protected override void OnInitialize()
         {
             return;
@@ -42,7 +33,11 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            foreach (Entity entity in _entities)
+            {
+                PlayerComponent playerComp = entity.GetComponent<PlayerComponent>();
+                playerComp.Player.InputMethod.Update(dt);
+            }
         }
     }
 }

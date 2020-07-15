@@ -20,14 +20,6 @@ namespace GameJam.Systems
             _mirroringEntities = engine.GetEntitiesFor(_mirroringFamily);
         }
 
-        public void Update(float dt)
-        {
-            foreach (Entity mirroringEntity in _mirroringEntities)
-            {
-                ProcessMirroring(mirroringEntity);
-            }
-        }
-
         protected override void OnInitialize()
         {
             return;
@@ -45,7 +37,10 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            foreach (Entity mirroringEntity in _mirroringEntities)
+            {
+                ProcessMirroring(mirroringEntity);
+            }
         }
 
         private void ProcessMirroring(Entity mirroringEntity)

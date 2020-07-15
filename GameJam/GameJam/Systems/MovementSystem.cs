@@ -14,14 +14,6 @@ namespace GameJam.Systems
             _movementEntities = engine.GetEntitiesFor(_movementFamily);
         }
 
-        public void Update(float dt)
-        {
-            foreach (Entity movementEntity in _movementEntities)
-            {
-                ProcessMovement(movementEntity, dt);
-            }
-        }
-
         protected override void OnInitialize()
         {
             return;
@@ -40,7 +32,10 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            foreach (Entity movementEntity in _movementEntities)
+            {
+                ProcessMovement(movementEntity, dt);
+            }
         }
 
         void ProcessMovement(Entity movementEntity, float dt)

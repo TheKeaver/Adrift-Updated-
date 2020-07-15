@@ -11,6 +11,18 @@ namespace GameJam.Processes.Enemies
 {
     public class SpawnPatternManager : IntervalProcess
     {
+        /*
+         * Spawn Simulation World will copy the current SharedGameState World
+         * whenever a spawn pattern is to be generated. It will copy over all
+         * current Components and Directors and the like, allowing the Shared
+         * Game State to be paused kept the same.
+         */
+        public World SpawnSimulationWorld
+        {
+            get;
+            private set;
+        }
+
         // This should always be false unless testing 1 specific Spawn Pattern
         private bool killAfterOneProcessFlag = false;
         // This should always be 1 unless testing specific Spawn Pattern

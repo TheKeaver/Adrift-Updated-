@@ -21,18 +21,6 @@ namespace GameJam.Systems
             superShields = engine.GetEntitiesFor(superShieldFamiliy);
         }
 
-        public void Update(float dt)
-        {
-            foreach (Entity player in playerEntities)
-            {
-                UpdateSuperShieldFromInput(player, dt);
-            }
-            foreach(Entity superShield in superShields)
-            {
-                UpdateLocationInfo(superShield);
-            }
-        }
-
         protected override void OnInitialize()
         {
             return;
@@ -50,7 +38,14 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            foreach (Entity player in playerEntities)
+            {
+                UpdateSuperShieldFromInput(player, dt);
+            }
+            foreach (Entity superShield in superShields)
+            {
+                UpdateLocationInfo(superShield);
+            }
         }
 
         private void UpdateLocationInfo(Entity shield)

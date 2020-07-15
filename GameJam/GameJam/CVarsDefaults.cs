@@ -34,7 +34,7 @@ namespace GameJam
             /** GRAPHICS **/
             Create<bool>("graphics_fxaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Enable FXAA anti-aliasing.");
             Create<bool>("graphics_smaa", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Enable SMAA anti-aliasing.");
-            Create<bool>("graphics_frame_smoothing", true, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Enable frame smoothing.");
+            Create<bool>("graphics_frame_smoothing", false, CVarFlags.PRESERVE | CVarFlags.LIVE_RELOAD, "Enable frame smoothing.");
             Create<bool>("graphics_feathering", false, CVarFlags.PRESERVE, "Enable feathering anti-aliasing.");
             Create<float>("graphics_feathering_width", 0.2f, CVarFlags.PRESERVE, "Width of feathering.");
             /**

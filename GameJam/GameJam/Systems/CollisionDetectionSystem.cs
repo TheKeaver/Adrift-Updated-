@@ -46,11 +46,6 @@ namespace GameJam.Systems
             _collisionEntities = engine.GetEntitiesFor(_collisionFamily);
         }
 
-        public void Update(float dt)
-        {
-            ProcessCollisions();
-        }
-
         private void ProcessCollisions()
         {
             Dictionary<Entity, List<Entity>> processedPairs = new Dictionary<Entity, List<Entity>>();
@@ -333,7 +328,7 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            ProcessCollisions();
         }
 
         protected override void OnInitialize()

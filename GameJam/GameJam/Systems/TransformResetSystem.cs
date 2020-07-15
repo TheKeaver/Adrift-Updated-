@@ -17,16 +17,6 @@ namespace GameJam.Systems
             _transformEntities = engine.GetEntitiesFor(_transformFamily);
         }
 
-        public void Update(float dt)
-        {
-            foreach (Entity entity in _transformEntities)
-            {
-                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
-
-                transformComp.ResetAll();
-            }
-        }
-
         protected override void OnInitialize()
         {
             return;
@@ -44,7 +34,12 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            foreach (Entity entity in _transformEntities)
+            {
+                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+
+                transformComp.ResetAll();
+            }
         }
     }
 }

@@ -16,21 +16,6 @@ namespace GameJam.Systems
             _fadingEntities = engine.GetEntitiesFor(_fadingFamily);
         }
 
-        public void Update(float dt)
-        {
-            List<Entity> toDestroy = new List<Entity>();
-
-            foreach (Entity fadingEntity in _fadingEntities)
-            {
-                FadeEntity(fadingEntity, toDestroy, dt);
-            }
-
-            foreach (Entity destroyed in toDestroy)
-            {
-                Engine.DestroyEntity(destroyed);
-            }
-        }
-
         protected override void OnInitialize()
         {
             return;
@@ -48,7 +33,17 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            List<Entity> toDestroy = new List<Entity>();
+
+            foreach (Entity fadingEntity in _fadingEntities)
+            {
+                FadeEntity(fadingEntity, toDestroy, dt);
+            }
+
+            foreach (Entity destroyed in toDestroy)
+            {
+                Engine.DestroyEntity(destroyed);
+            }
         }
 
         private void FadeEntity(Entity fader, List<Entity> destroyMe, float dt)

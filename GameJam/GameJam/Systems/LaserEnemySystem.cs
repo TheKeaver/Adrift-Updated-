@@ -23,78 +23,6 @@ namespace GameJam.Systems
             _raycastWithShieldEntities = Engine.GetEntitiesFor(_raycastWithShieldFamily);
         }
 
-        public void Update(float dt)
-        {
-            foreach (Entity laserEnemyEntity in _laserEnemyEntities)
-            {
-                LaserEnemyComponent laserEnemyComp = laserEnemyEntity.GetComponent<LaserEnemyComponent>();
-                Entity laserBeamEntity = laserEnemyComp.LaserBeamEntity;
-
-                if(laserBeamEntity != null)
-                {
-                    LaserBeamComponent laserBeamComp = laserBeamEntity.GetComponent<LaserBeamComponent>();
-                    if(laserBeamComp == null)
-                    {
-                        throw new Exception("Laser beam does not have a `LaserBeamComponent`.");
-                    }
-
-                    TransformComponent transformComp = laserEnemyEntity.GetComponent<TransformComponent>();
-                    float cos = (float)Math.Cos(transformComp.Rotation),
-                        sin = (float)Math.Sin(transformComp.Rotation);
-                    Vector2 laserEnemyTip = new Vector2(4 + 0.35f / 1.5f, 0); // Right-most extent of laser enemy
-                    laserEnemyTip = new Vector2(cos * laserEnemyTip.X - sin * laserEnemyTip.Y,
-                        sin * laserEnemyTip.X + cos * laserEnemyTip.Y);
-                    laserEnemyTip *= transformComp.Scale;
-                    laserEnemyTip += transformComp.Position;
-
-                    Vector2 laserEnemyDirection = new Vector2((float)Math.Cos(transformComp.Rotation), (float)Math.Sin(transformComp.Rotation)); // laserEnemyTip - transformComp.Position;
-                    laserEnemyDirection.Normalize();
-
-                    // Simple raycast to find edge/shield this laser touches
-                    RaycastHit laserHit = Raycast(laserBeamComp.InteractWithShield ? _raycastWithShieldEntities : _raycastEntities, laserEnemyTip, laserEnemyDirection);
-
-                    if (laserHit.Other.HasComponent<PlayerShieldComponent>() /*&& laserHit.Other.GetComponent<PlayerShieldComponent>().LaserReflectionActive == true*/ && laserBeamComp.ComputeReflection)
-                    {
-                        Vector2 shieldNormal = laserHit.Position - laserHit.Other.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<TransformComponent>().Position;
-                        if (Vector2.Dot(shieldNormal, laserHit.Normal) > 0)
-                        {
-                            if (laserBeamComp.ReflectionBeamEntity == null)
-                            {
-                                laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero, laserBeamEntity.HasComponent<CollisionComponent>());
-                                laserBeamComp.ReflectionBeamEntity.AddComponent(new LaserBeamReflectionComponent());
-                                if (laserHit.Other.HasComponent<PlayerComponent>()) {
-                                    laserBeamComp.ReflectionBeamEntity.GetComponent<LaserBeamReflectionComponent>().ReflectedBy
-                                        = laserHit.Other.GetComponent<PlayerComponent>().Player;
-                                }
-                            }
-
-                            Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
-                            reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness = laserBeamComp.Thickness;
-                            Vector2 laserDirection = laserHit.Position - laserEnemyTip;
-                            Vector2 beamOutDirection = GetReflectionVector(laserDirection, laserHit.Normal);
-                            // Simple raycast to find edge this laser touches
-                            RaycastHit reflectionHit = Raycast(_raycastEntities, laserHit.Position, beamOutDirection);
-                            SetLaserBeamProperties(reflectionBeamEntity,
-                                laserHit.Position,
-                                reflectionHit.Position,
-                                (float)Math.Atan2(beamOutDirection.Y, beamOutDirection.X),
-                                reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness);
-                        }
-                    }
-                    else
-                    {
-                        if (laserBeamComp.ReflectionBeamEntity != null)
-                        {
-                            Engine.DestroyEntity(laserBeamComp.ReflectionBeamEntity);
-                            laserBeamComp.ReflectionBeamEntity = null;
-                        }
-                    }
-
-                    SetLaserBeamProperties(laserBeamEntity, laserEnemyTip, laserHit.Position, transformComp.Rotation, laserBeamComp.Thickness);
-                }
-            }
-        }
-
         private void SetLaserBeamProperties(Entity laserBeamEntity, Vector2 laserBeamStart, Vector2 laserBeamEnd, float rotation, float thickness)
         {
             LaserBeamComponent laserBeamComp = laserBeamEntity.GetComponent<LaserBeamComponent>();
@@ -221,7 +149,75 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            foreach (Entity laserEnemyEntity in _laserEnemyEntities)
+            {
+                LaserEnemyComponent laserEnemyComp = laserEnemyEntity.GetComponent<LaserEnemyComponent>();
+                Entity laserBeamEntity = laserEnemyComp.LaserBeamEntity;
+
+                if (laserBeamEntity != null)
+                {
+                    LaserBeamComponent laserBeamComp = laserBeamEntity.GetComponent<LaserBeamComponent>();
+                    if (laserBeamComp == null)
+                    {
+                        throw new Exception("Laser beam does not have a `LaserBeamComponent`.");
+                    }
+
+                    TransformComponent transformComp = laserEnemyEntity.GetComponent<TransformComponent>();
+                    float cos = (float)Math.Cos(transformComp.Rotation),
+                        sin = (float)Math.Sin(transformComp.Rotation);
+                    Vector2 laserEnemyTip = new Vector2(4 + 0.35f / 1.5f, 0); // Right-most extent of laser enemy
+                    laserEnemyTip = new Vector2(cos * laserEnemyTip.X - sin * laserEnemyTip.Y,
+                        sin * laserEnemyTip.X + cos * laserEnemyTip.Y);
+                    laserEnemyTip *= transformComp.Scale;
+                    laserEnemyTip += transformComp.Position;
+
+                    Vector2 laserEnemyDirection = new Vector2((float)Math.Cos(transformComp.Rotation), (float)Math.Sin(transformComp.Rotation)); // laserEnemyTip - transformComp.Position;
+                    laserEnemyDirection.Normalize();
+
+                    // Simple raycast to find edge/shield this laser touches
+                    RaycastHit laserHit = Raycast(laserBeamComp.InteractWithShield ? _raycastWithShieldEntities : _raycastEntities, laserEnemyTip, laserEnemyDirection);
+
+                    if (laserHit.Other.HasComponent<PlayerShieldComponent>() /*&& laserHit.Other.GetComponent<PlayerShieldComponent>().LaserReflectionActive == true*/ && laserBeamComp.ComputeReflection)
+                    {
+                        Vector2 shieldNormal = laserHit.Position - laserHit.Other.GetComponent<PlayerShieldComponent>().ShipEntity.GetComponent<TransformComponent>().Position;
+                        if (Vector2.Dot(shieldNormal, laserHit.Normal) > 0)
+                        {
+                            if (laserBeamComp.ReflectionBeamEntity == null)
+                            {
+                                laserBeamComp.ReflectionBeamEntity = LaserBeamEntity.Create(Engine, Vector2.Zero, laserBeamEntity.HasComponent<CollisionComponent>());
+                                laserBeamComp.ReflectionBeamEntity.AddComponent(new LaserBeamReflectionComponent());
+                                if (laserHit.Other.HasComponent<PlayerComponent>())
+                                {
+                                    laserBeamComp.ReflectionBeamEntity.GetComponent<LaserBeamReflectionComponent>().ReflectedBy
+                                        = laserHit.Other.GetComponent<PlayerComponent>().Player;
+                                }
+                            }
+
+                            Entity reflectionBeamEntity = laserBeamComp.ReflectionBeamEntity;
+                            reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness = laserBeamComp.Thickness;
+                            Vector2 laserDirection = laserHit.Position - laserEnemyTip;
+                            Vector2 beamOutDirection = GetReflectionVector(laserDirection, laserHit.Normal);
+                            // Simple raycast to find edge this laser touches
+                            RaycastHit reflectionHit = Raycast(_raycastEntities, laserHit.Position, beamOutDirection);
+                            SetLaserBeamProperties(reflectionBeamEntity,
+                                laserHit.Position,
+                                reflectionHit.Position,
+                                (float)Math.Atan2(beamOutDirection.Y, beamOutDirection.X),
+                                reflectionBeamEntity.GetComponent<LaserBeamComponent>().Thickness);
+                        }
+                    }
+                    else
+                    {
+                        if (laserBeamComp.ReflectionBeamEntity != null)
+                        {
+                            Engine.DestroyEntity(laserBeamComp.ReflectionBeamEntity);
+                            laserBeamComp.ReflectionBeamEntity = null;
+                        }
+                    }
+
+                    SetLaserBeamProperties(laserBeamEntity, laserEnemyTip, laserHit.Position, transformComp.Rotation, laserBeamComp.Thickness);
+                }
+            }
         }
 
         protected override void OnInitialize()

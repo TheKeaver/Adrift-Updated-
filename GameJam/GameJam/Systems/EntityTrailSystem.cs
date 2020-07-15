@@ -16,21 +16,6 @@ namespace GameJam.Systems
             _entityTrailEntities = engine.GetEntitiesFor(_entityTrailFamily);
         }
 
-        public void Update(float dt)
-        {
-            foreach (Entity trailEntity in _entityTrailEntities)
-            {
-                TransformHistoryComponent transformHistory = trailEntity.GetComponent<TransformHistoryComponent>();
-
-                transformHistory.updateInterval.Update(dt);
-                if(transformHistory.updateInterval.HasElapsed())
-                {
-                    transformHistory.updateInterval.Reset();
-                    DrawEntityTrail(trailEntity);
-                }
-            }
-        }
-
         protected override void OnInitialize()
         {
             return;
@@ -48,7 +33,17 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            foreach (Entity trailEntity in _entityTrailEntities)
+            {
+                TransformHistoryComponent transformHistory = trailEntity.GetComponent<TransformHistoryComponent>();
+
+                transformHistory.updateInterval.Update(dt);
+                if (transformHistory.updateInterval.HasElapsed())
+                {
+                    transformHistory.updateInterval.Reset();
+                    DrawEntityTrail(trailEntity);
+                }
+            }
         }
 
         private void DrawEntityTrail(Entity entity)

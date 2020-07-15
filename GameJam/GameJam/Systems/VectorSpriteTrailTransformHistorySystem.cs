@@ -18,21 +18,6 @@ namespace GameJam.Systems
             _historyEntities = engine.GetEntitiesFor(_historyFamily);
         }
 
-        public void Update(float dt)
-        {
-            foreach (Entity historyEntity in _historyEntities)
-            {
-                TransformHistoryComponent transformHistory = historyEntity.GetComponent<TransformHistoryComponent>();
-                TransformComponent transform = historyEntity.GetComponent<TransformComponent>();
-
-                Vector2 ret1 = transformHistory.AddToTransformHistory(new Vector2(
-                    transform.Position.X, transform.Position.Y), transform.Rotation);
-
-                // According to my calculations "ret1" and "ret2" should match "Zero" and "One"
-                Console.WriteLine("ret1: " + ret1);
-            }
-        }
-
         protected override void OnInitialize()
         {
             return;
@@ -50,7 +35,17 @@ namespace GameJam.Systems
 
         protected override void OnUpdate(float dt)
         {
-            Update(dt);
+            foreach (Entity historyEntity in _historyEntities)
+            {
+                TransformHistoryComponent transformHistory = historyEntity.GetComponent<TransformHistoryComponent>();
+                TransformComponent transform = historyEntity.GetComponent<TransformComponent>();
+
+                Vector2 ret1 = transformHistory.AddToTransformHistory(new Vector2(
+                    transform.Position.X, transform.Position.Y), transform.Rotation);
+
+                // According to my calculations "ret1" and "ret2" should match "Zero" and "One"
+                Console.WriteLine("ret1: " + ret1);
+            }
         }
     }
 }
