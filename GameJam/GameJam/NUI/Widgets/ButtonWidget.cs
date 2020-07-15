@@ -103,21 +103,21 @@ namespace GameJam.NUI.Widgets
 
         private void UpdateBasedOnState()
         {
-            _releasedImage.Hidden = true;
-            _hoverImage.Hidden = true;
-            _pressedImage.Hidden = true;
+            _releasedImage.Hidden = new FixedValue<bool>(true);
+            _hoverImage.Hidden = new FixedValue<bool>(true);
+            _pressedImage.Hidden = new FixedValue<bool>(true);
 
             switch (State)
             {
                 case ButtonWidgetState.Pressed:
-                    _pressedImage.Hidden = false;
+                    _pressedImage.Hidden = new FixedValue<bool>(false);
                     break;
                 case ButtonWidgetState.Hover:
-                    _hoverImage.Hidden = false;
+                    _hoverImage.Hidden = new FixedValue<bool>(false);
                     break;
                 case ButtonWidgetState.Released:
                 default:
-                    _releasedImage.Hidden = false;
+                    _releasedImage.Hidden = new FixedValue<bool>(false);
                     break;
             }
         }

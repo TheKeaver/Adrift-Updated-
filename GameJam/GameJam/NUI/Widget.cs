@@ -281,17 +281,15 @@ namespace GameJam.NUI
             }
         }
 
-        private bool _hidden = false;
-        public bool Hidden
+        public WidgetProperty<bool> Hidden
         {
             get
             {
-                return _hidden;
+                return Properties.GetProperty<bool>("hidden");
             }
             set
             {
-                _hidden = value;
-                ComputeProperties();
+                Properties.SetProperty("hidden", value);
             }
         }
 
