@@ -23,7 +23,7 @@ namespace GameJam.Systems
             _menuBackgroundEntities = Engine.GetEntitiesFor(_menuBackgroundFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             float zoom = Camera.TotalZoom;
 
@@ -36,6 +36,26 @@ namespace GameJam.Systems
                     continue;
                 }
             }
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

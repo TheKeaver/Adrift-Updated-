@@ -17,7 +17,7 @@ namespace GameJam.Systems
             _vectorSpriteTrailEntities = engine.GetEntitiesFor(_vectorSpriteTrailFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach (Entity trailEntity in _vectorSpriteTrailEntities)
             {
@@ -30,6 +30,26 @@ namespace GameJam.Systems
                     DrawVectorSpriteTrail(trailEntity, thc);
                 }
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
 
         private void DrawVectorSpriteTrail(Entity entity, TransformHistoryComponent thc)

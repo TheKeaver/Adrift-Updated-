@@ -23,7 +23,7 @@ namespace GameJam.Systems
             _raycastWithShieldEntities = Engine.GetEntitiesFor(_raycastWithShieldFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach (Entity laserEnemyEntity in _laserEnemyEntities)
             {
@@ -217,6 +217,26 @@ namespace GameJam.Systems
         Vector2 GetReflectionVector(Vector2 colliding, Vector2 normal)
         {
             return colliding - 2 * Vector2.Dot(colliding, normal) * normal;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

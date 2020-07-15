@@ -16,7 +16,7 @@ namespace GameJam.Systems
             _pulseEntities = Engine.GetEntitiesFor(_pulseFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach(Entity pulseEntity in _pulseEntities)
             {
@@ -26,6 +26,26 @@ namespace GameJam.Systems
                 float beta = 0.5f * (float)Math.Cos(2 * MathHelper.Pi / pulseComp.Period * pulseComp.Elapsed) + 0.5f;
                 spriteComp.Alpha = MathHelper.Lerp(pulseComp.AlphaMin, pulseComp.AlphaMax, beta);
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
     }
 }

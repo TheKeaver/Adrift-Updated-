@@ -16,13 +16,33 @@ namespace GameJam.Systems
             _entities = Engine.GetEntitiesFor(_family);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach (Entity entity in _entities)
             {
                 PlayerComponent playerComp = entity.GetComponent<PlayerComponent>();
                 playerComp.Player.InputMethod.Update(dt);
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
     }
 }

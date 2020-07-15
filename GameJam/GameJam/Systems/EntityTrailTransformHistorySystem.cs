@@ -17,7 +17,7 @@ namespace GameJam.Systems
             _historyEntities = engine.GetEntitiesFor(_historyFamily);
         }
 
-        public override void Update(float dt)
+        public  void Update(float dt)
         {
             foreach (Entity historyEntity in _historyEntities)
             {
@@ -26,6 +26,26 @@ namespace GameJam.Systems
 
                 transformHistory.AddToTransformHistory(transform.Position, transform.Rotation);
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
     }
 }

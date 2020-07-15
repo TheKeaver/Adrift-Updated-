@@ -20,7 +20,7 @@ namespace GameJam.Systems
             _movingEnemyEntities = Engine.GetEntitiesFor(_movingEnemyFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             Dictionary<Entity, List<Entity>> correctedEntityPairs = new Dictionary<Entity, List<Entity>>();
 
@@ -186,6 +186,26 @@ namespace GameJam.Systems
             float lengthAlongAB = Vector2.Dot(ab, aCircle);
             Vector2 pointAlongAB = ab * lengthAlongAB + a;
             return (pointAlongAB - circlePos).LengthSquared() <= circleRadiusSquared;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

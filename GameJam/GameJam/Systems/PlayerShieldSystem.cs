@@ -17,13 +17,33 @@ namespace GameJam.Systems
             playerShieldEntities = engine.GetEntitiesFor(playerShieldFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach (Entity playerShield in playerShieldEntities)
             {
                 UpdateAngleFromInput(playerShield);
                 UpdateTransform(playerShield);
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
 
         private void UpdateAngleFromInput(Entity playerShield)

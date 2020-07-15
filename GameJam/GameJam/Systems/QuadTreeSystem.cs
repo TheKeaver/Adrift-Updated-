@@ -14,9 +14,29 @@ namespace GameJam.Systems
             _quadTreeEntities = engine.GetEntitiesFor(_quadTreeFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             ConstructQuadTree();
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
 
         private void ConstructQuadTree()

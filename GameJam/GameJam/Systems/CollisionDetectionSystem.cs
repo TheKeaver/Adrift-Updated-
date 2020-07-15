@@ -46,7 +46,7 @@ namespace GameJam.Systems
             _collisionEntities = engine.GetEntitiesFor(_collisionFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             ProcessCollisions();
         }
@@ -329,6 +329,26 @@ namespace GameJam.Systems
             }
 
             return maxB >= minA && maxA >= minB;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

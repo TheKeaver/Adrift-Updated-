@@ -24,7 +24,7 @@ namespace GameJam.Systems
             _parallaxEntities = Engine.GetEntitiesFor(_parallaxFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach(Entity parallaxEntity in _parallaxEntities)
             {
@@ -36,6 +36,26 @@ namespace GameJam.Systems
                     parallaxComp.Strength);
                 transformComp.Move(newPosition - transformComp.Position);
             }
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

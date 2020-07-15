@@ -14,7 +14,7 @@ namespace GameJam.Systems
             _chasingEnemyEntities = engine.GetEntitiesFor(_chasingEnemyFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach(Entity entity in _chasingEnemyEntities)
             {
@@ -26,6 +26,26 @@ namespace GameJam.Systems
                 movementComp.MovementVector.Normalize();
                 movementComp.MovementVector *= speed;
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
     }
 }

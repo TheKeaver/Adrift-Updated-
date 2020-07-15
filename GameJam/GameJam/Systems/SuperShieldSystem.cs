@@ -21,7 +21,7 @@ namespace GameJam.Systems
             superShields = engine.GetEntitiesFor(superShieldFamiliy);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach (Entity player in playerEntities)
             {
@@ -31,6 +31,26 @@ namespace GameJam.Systems
             {
                 UpdateLocationInfo(superShield);
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
 
         private void UpdateLocationInfo(Entity shield)

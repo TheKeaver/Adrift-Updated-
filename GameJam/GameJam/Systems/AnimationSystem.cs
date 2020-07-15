@@ -13,7 +13,7 @@ namespace GameJam.Systems
             _animatedEntities = engine.GetEntitiesFor(_animatedSprites);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach(Entity animatedEntity in _animatedEntities)
             {
@@ -23,6 +23,26 @@ namespace GameJam.Systems
                     animationComp.Animations[animationComp.ActiveAnimationIndex].Update(dt);
                 }
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
     }
 }

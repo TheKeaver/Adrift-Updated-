@@ -20,7 +20,7 @@ namespace GameJam.Systems
             _projectileSyncEntities = Engine.GetEntitiesFor(_projectileSyncFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach(Entity entity in _projectileSyncEntities)
             {
@@ -36,6 +36,26 @@ namespace GameJam.Systems
                     entity.GetComponent<ColoredExplosionComponent>().Color = projectileComp.Color;
                 }
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
         }
     }
 }

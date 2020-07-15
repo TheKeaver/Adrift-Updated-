@@ -32,7 +32,7 @@ namespace GameJam.Systems
             _gravityHoleEntities = Engine.GetEntitiesFor(_gravityHoleFamily);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             foreach(Entity entity in _gravityHoleEntities)
             {
@@ -63,6 +63,26 @@ namespace GameJam.Systems
                     }
                 }
             }
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Update(dt);
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }
