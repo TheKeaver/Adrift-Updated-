@@ -189,7 +189,8 @@ namespace GameJam
 
             // Attach first game state last
             SharedGameState sharedState = (SharedGameState)ProcessManager.Attach(new SharedGameState(this));
-            ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            //ProcessManager.Attach(new UIMenuGameState(this, sharedState));
+            ProcessManager.Attach(new TrailTestGameState(this, sharedState));
         }
         
         protected override void Update(GameTime gameTime)

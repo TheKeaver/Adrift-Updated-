@@ -1,10 +1,6 @@
 ﻿using Audrey;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
-using SharpDX.MediaFoundation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameJam.Entities
 {
@@ -14,7 +10,8 @@ namespace GameJam.Entities
         {
             Entity entity = engine.CreateEntity();
             // "offset" stores the mid point of both ends of the player trail
-            Vector2 offset = new Vector2(-26, 0);
+            //Vector2 offset = new Vector2(-26, 0);
+            Vector2 offset = Vector2.Zero;
 
             TransformComponent shipTransform = shipEntity.GetComponent<TransformComponent>();
             //offset += shipTransform.Position;
