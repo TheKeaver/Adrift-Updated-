@@ -4,6 +4,7 @@ using GameJam.Directors;
 using GameJam.Systems;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace GameJam
@@ -90,9 +91,44 @@ namespace GameJam
             this.ProcessManager.Update(dt);
         }
 
-        public Entity GetOrMakeCopy(Entity e)
+        public void CopyOtherWorldIntoThis(World other)
         {
+            ImmutableList<Entity> entityList = other.Engine.GetEntities();
 
+            // Key is the Old entity
+            // Value is the New entity
+            Dictionary<Entity, Entity> entityMap = new Dictionary<Entity, Entity>();
+
+            // This function goes through one entity and makes an exact copy of the
+            // entity itself
+            Entity GetOrMakeEntityCopy(Entity entity)
+            {
+                if (entityMap.ContainsKey(entity))
+                {
+                    return entityMap[entity];
+                }
+                else
+                {
+                    Entity copy = Engine.CreateEntity();
+                    entityMap.Add(entity, copy);
+                    ImmutableList<Audrey.IComponent> componentList = entity.GetComponents();
+
+                    foreach (Audrey.IComponent ic in componentList)
+                    {
+                        if (ic is ICopyComponent)
+                        {
+                            copy.AddComponent(((ICopyComponent)ic).Copy(GetOrMakeEntityCopy));
+                        }
+                    }
+                    return copy;
+                }
+            }
+
+            // The below loop goes through each entity and copies over its components
+            foreach (Entity e in entityList)
+            {
+                GetOrMakeEntityCopy(e);
+            }
         }
     }
 }
