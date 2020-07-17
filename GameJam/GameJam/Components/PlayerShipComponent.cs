@@ -1,9 +1,10 @@
 ﻿using Audrey;
+using System;
 using System.Collections.Generic;
 
 namespace GameJam.Components
 {
-    public class PlayerShipComponent : IComponent
+    public class PlayerShipComponent : IComponent, ICopyComponent
     {
         public int LifeRemaining;
         public List<Entity> ShipShields;
@@ -29,6 +30,11 @@ namespace GameJam.Components
             }
             else
                 return false;
+        }
+
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        {
+            return new PlayerShipComponent(LifeRemaining, SuperShieldMeter);
         }
     }
 }

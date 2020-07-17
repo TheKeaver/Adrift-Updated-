@@ -89,5 +89,10 @@ namespace GameJam
         {
             this.ProcessManager.Update(dt);
         }
+
+        public Entity GetOrMakeCopy(Entity e)
+        {
+
+        }
     }
 }

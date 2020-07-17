@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace GameJam.Components
 {
-    public class CollisionComponent : IComponent
+    public class CollisionComponent : IComponent, ICopyComponent
     {
         public List<CollisionShape> CollisionShapes;
         public List<Entity> CollidingWith = new List<Entity>();
@@ -22,6 +22,12 @@ namespace GameJam.Components
             CollisionShapes = new List<CollisionShape>();
             CollisionShapes.Add(collisionShape);
         }
+
+        public IComponent Copy()
+        {
+            //
+        }
+
         public BoundingRect GetAABB(float cos, float sin, float scale)
         {
             BoundingRect returnRect = CollisionShapes[0].GetAABB(cos, sin, scale);

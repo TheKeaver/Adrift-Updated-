@@ -15,7 +15,7 @@ namespace GameJam.Processes.Enemies
          * Spawn Simulation World will copy the current SharedGameState World
          * whenever a spawn pattern is to be generated. It will copy over all
          * current Components and Directors and the like, allowing the Shared
-         * Game State to be paused kept the same.
+         * Game State to be paused and kept the same.
          */
         public World SpawnSimulationWorld
         {
@@ -52,6 +52,8 @@ namespace GameJam.Processes.Enemies
         {
             Engine = engine;
             ProcessManager = processManager;
+
+            SpawnSimulationWorld = new World(Engine);
 
             _playerShipEntities = Engine.GetEntitiesFor(_playerShipFamily);
             _enemyEntities = Engine.GetEntitiesFor(_enemyFamily);
@@ -199,6 +201,18 @@ namespace GameJam.Processes.Enemies
 
             patternStaleList[num].Add(allPatternsList[num][ran]);
             allPatternsList[num].RemoveAt(ran);
+        }
+
+        private bool BeginSimulation()
+        {
+            LoadRealWorldIntoSimulationWorld();
+            ExecuteSimulation(/* amount of time to simulate */);
+            GenerateValidCenter(/* minimum radius */);
+        }
+
+        private bool LoadRealWorldIntoSimulationWorld()
+        {
+
         }
 
         public float AngleFacingNearestPlayerShip(Vector2 position)

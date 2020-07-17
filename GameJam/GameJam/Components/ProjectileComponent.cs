@@ -1,9 +1,10 @@
 ﻿using Audrey;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Components
 {
-    public class ProjectileComponent : IComponent
+    public class ProjectileComponent : IComponent, ICopyComponent
     {
         public int BouncesLeft;
         public Color Color;
@@ -13,6 +14,11 @@ namespace GameJam.Components
         {
             BouncesLeft = totalBounces;
             Color = color;
+        }
+
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        {
+            return new ProjectileComponent(BouncesLeft, new Color(Color.R, Color.G, Color.B));
         }
     }
 }

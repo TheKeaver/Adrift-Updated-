@@ -1,9 +1,10 @@
 ﻿using Audrey;
 using GameJam.Common;
+using System;
 
 namespace GameJam.Components
 {
-    public class GravityHoleEnemyComponent : IComponent
+    public class GravityHoleEnemyComponent : IComponent, ICopyComponent
     {
         public int lifespan;
         public float strength;
@@ -24,6 +25,11 @@ namespace GameJam.Components
 
             PingTimer = new Timer(CVars.Get<float>("gravity_hole_animation_ping_period"));
             PingTimer.Update(CVars.Get<float>("gravity_hole_animation_ping_period"));
+        }
+
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        {
+            return new GravityHoleEnemyComponent(radius, strength, lifespan);
         }
     }
 }

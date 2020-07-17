@@ -8,7 +8,7 @@ namespace GameJam.Components
     /// <summary>
     /// A component for holding a position vector and a rotation.
     /// </summary>
-    public class TransformComponent : IComponent
+    public class TransformComponent : IComponent, ICopyComponent
     {
         public TransformComponent() : this(Vector2.Zero)
         {
@@ -124,6 +124,11 @@ namespace GameJam.Components
             LastPosition = Position;
             LastRotation = Rotation;
             LastScale = Scale;
+        }
+
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        {
+            return new TransformComponent(new Vector2(Position.X, Position.Y), Rotation);
         }
     }
 }
