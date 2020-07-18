@@ -1,5 +1,6 @@
 ﻿using System;
 using Audrey;
+using Events;
 using GameJam.Common;
 using GameJam.Directors;
 using GameJam.Entities;
@@ -109,7 +110,7 @@ namespace GameJam.States
             GPUParticleManager.RegisterListeners();
 
             Engine = new Engine();
-            World = new World(Engine);
+            World = new World(Engine, EventManager.Instance);
             InitSystems();
             InitDirectors();
 

@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using Events;
 using GameJam.Components;
 using GameJam.Directors;
 using GameJam.Systems;
@@ -23,11 +24,22 @@ namespace GameJam
             private set;
         }
 
+        /// <summary>
+        /// This is saved to be loaded into the EventManager. Instance whenever
+        /// a simulation begins
+        /// </summary>
+        public EventManager WorldLocalEventManager
+        {
+            get;
+            private set;
+        }
+
         BaseSystem[] _systems;
 
-        public World(Engine engine)
+        public World(Engine engine, EventManager name)
         {
             ProcessManager = new ProcessManager();
+            WorldLocalEventManager = name;
             Engine = engine;
 
             InitSystems();
@@ -67,32 +79,40 @@ namespace GameJam
 
         private void InitDirectors()
         {
+            EventManager real = EventManager.Instance;
+            EventManager.Instance = WorldLocalEventManager;
+
             ProcessManager.Attach(new EnemyCollisionWithShipDirector(Engine, null, ProcessManager));
-
             ProcessManager.Attach(new EnemyCollisionOnShieldDirector(Engine, null, ProcessManager));
-
             ProcessManager.Attach(new ChangeToChasingEnemyDirector(Engine, null, ProcessManager));
-
             ProcessManager.Attach(new EnemyPushBackOnPlayerDirector(Engine, null, ProcessManager));
-
             ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, null, ProcessManager));
-
             ProcessManager.Attach(new BounceDirector(Engine, null, ProcessManager));
-
             ProcessManager.Attach(new LaserBeamCleanupDirector(Engine, null, ProcessManager));
-
             ProcessManager.Attach(new PlayerShipCollidingWithEdgeDirector(Engine, null, ProcessManager));
-
             ProcessManager.Attach(new SuperShieldDisplayCleanupDirector(Engine, null, ProcessManager));
+
+            EventManager.Instance = real;
         }
 
         public void OnFixedUpdate(float dt)
         {
+            EventManager real = EventManager.Instance;
+            EventManager.Instance = WorldLocalEventManager;
+
             this.ProcessManager.Update(dt);
+
+            EventManager.Instance = real;
         }
 
         public void CopyOtherWorldIntoThis(World other)
-        {
+        { 
+            // Destroy all currently stored entities while loop
+            while(Engine.GetEntities().Count > 0)
+            {
+                Engine.DestroyEntity(Engine.GetEntities()[0]);
+            }
+
             ImmutableList<Entity> entityList = other.Engine.GetEntities();
 
             // Key is the Old entity

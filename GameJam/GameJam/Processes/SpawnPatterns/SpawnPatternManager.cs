@@ -1,7 +1,9 @@
 ﻿using Audrey;
+using Events;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Processes.SpawnPatterns;
+using GameJam.States;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
@@ -18,6 +20,12 @@ namespace GameJam.Processes.Enemies
          * Game State to be paused and kept the same.
          */
         public World SpawnSimulationWorld
+        {
+            get;
+            private set;
+        }
+
+        public World OtherWorld
         {
             get;
             private set;
@@ -48,12 +56,13 @@ namespace GameJam.Processes.Enemies
         readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
         readonly ImmutableList<Entity> _enemyEntities;
 
-        public SpawnPatternManager(Engine engine, ProcessManager processManager) : base(2.0f)
+        public SpawnPatternManager(Engine engine, ProcessManager processManager, World otherWorld) : base(2.0f)
         {
             Engine = engine;
             ProcessManager = processManager;
 
-            SpawnSimulationWorld = new World(Engine);
+            SpawnSimulationWorld = new World(Engine, new EventManager());
+            OtherWorld = otherWorld;
 
             _playerShipEntities = Engine.GetEntitiesFor(_playerShipFamily);
             _enemyEntities = Engine.GetEntitiesFor(_enemyFamily);
@@ -203,16 +212,44 @@ namespace GameJam.Processes.Enemies
             allPatternsList[num].RemoveAt(ran);
         }
 
-        private bool BeginSimulation()
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="amountOfTime"></param>
+       /// <returns></returns>
+        private Vector2[] BeginSimulation(float amountOfTime, int numValidCenters)
         {
-            LoadRealWorldIntoSimulationWorld();
-            ExecuteSimulation(/* amount of time to simulate */);
-            GenerateValidCenter(/* minimum radius */);
+            // Load current game state into the Simulation world
+            SpawnSimulationWorld.CopyOtherWorldIntoThis(OtherWorld);
+
+            ExecuteSimulation(amountOfTime);
+            
+            return GenerateValidCenters(numValidCenters);
         }
 
-        private bool LoadRealWorldIntoSimulationWorld()
+        private Vector2[] GenerateValidCenters(int numValidCenters)
         {
+            return new Vector2[numValidCenters];
+        }
 
+        /// <summary>
+        /// Called after a call to spawn an entity is made.
+        /// Purprose is to simulate all of the spawning animation frames, setting
+        /// up for GenerateValideCenter() that will return a valid position for spawning
+        /// </summary>
+        /// <param name="amountOfTime">
+        /// Determined by the call to spawn a type of entity, can be derived from
+        /// the CVars that define the amount of time it takes for a spawn animation
+        /// </param>
+        /// <returns>
+        /// Returns the array of Vector2's that store all player positions after the
+        /// simulation is completed.
+        /// </returns>
+        private Vector2[] ExecuteSimulation(float amountOfTime)
+        {
+            Vector2[] simulatedPositions = new Vector2[1];
+            // Loop amount of time for each player ship in play
+            return simulatedPositions;
         }
 
         public float AngleFacingNearestPlayerShip(Vector2 position)
