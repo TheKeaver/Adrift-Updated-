@@ -1,7 +1,6 @@
 ﻿using Audrey;
 using GameJam.Common;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 
 namespace GameJam.Components
 {
@@ -56,15 +55,11 @@ namespace GameJam.Components
 
         private int GetWrappedIndex(int mod)
         {
-            // Mod should never be greater than 0
-            if (mod < 0 && historyIndex + mod >= 0)
-            {
-                return historyIndex + mod;
+            if(mod + historyIndex >= 0) {
+                return (historyIndex + mod) % maxHistorySize;
             }
-            else
-            {
-                return maxHistorySize + (historyIndex + mod);
-            }
+
+            return GetWrappedIndex(maxHistorySize + mod);
         }
     }
 }
