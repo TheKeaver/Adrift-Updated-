@@ -14,6 +14,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin effects/AlphaNegative.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:effects/AlphaNegative.fx
+
 #begin effects/Blur.fx
 /importer:EffectImporter
 /processor:EffectProcessor

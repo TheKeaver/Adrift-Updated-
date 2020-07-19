@@ -47,6 +47,8 @@ namespace GameJam.Systems
         private BasicEffect _vectorSpriteEffect;
         private Viewport _lastViewport;
 
+        private RenderTarget2D _ribbonRenderTarget;
+
         public RenderSystem(GraphicsDevice graphics, ContentManager content, Engine engine)
         {
             Engine = engine;
@@ -65,6 +67,18 @@ namespace GameJam.Systems
             _vectorSpriteEffect.World = Matrix.Identity;
             _vectorSpriteEffect.TextureEnabled = false;
             _vectorSpriteEffect.VertexColorEnabled = true;
+
+            CreateRibbonRenderTarget();
+        }
+
+        private void CreateRibbonRenderTarget()
+        {
+            _ribbonRenderTarget = new RenderTarget2D(GraphicsDevice,
+                GraphicsDevice.Viewport.Width,
+                GraphicsDevice.Viewport.Height,
+                false,
+                SurfaceFormat.Color,
+                DepthFormat.None);
         }
 
         public void DrawEntities(Camera camera, float dt, float betweenFrameAlpha, Camera debugCamera = null)
@@ -342,32 +356,45 @@ namespace GameJam.Systems
 
             Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
-            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-
-            foreach (Entity entity in _ribbonEntities)
+            if (_ribbonEntities.Count > 0)
             {
-                RibbonTrailComponent ribbonTrailComp = entity.GetComponent<RibbonTrailComponent>();
-                if (ribbonTrailComp.Hidden
-                    || (ribbonTrailComp.RenderGroup & groupMask) == 0)
+                GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+                GraphicsDevice.BlendState = new BlendState
                 {
-                    continue;
-                }
+                    AlphaBlendFunction = BlendFunction.Min,
+                    AlphaDestinationBlend = Blend.One,
+                    AlphaSourceBlend = Blend.One,
+                    
+                    ColorBlendFunction = BlendFunction.Max,
+                    ColorDestinationBlend = Blend.One,
+                    ColorSourceBlend = Blend.One
+                };
 
-                // We will assume that ribbons will be so large (and so few) that we can skip culling
-
-                int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1; // TODO
-
-                ribbonTrailComp.PrepareForRendering(GraphicsDevice);
-                GraphicsDevice.SetVertexBuffer(ribbonTrailComp.VertexBuffer);
-                GraphicsDevice.Indices = ribbonTrailComp.IndexBuffer;
-                foreach(EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
+                foreach (Entity entity in _ribbonEntities)
                 {
-                    pass.Apply();
+                    RibbonTrailComponent ribbonTrailComp = entity.GetComponent<RibbonTrailComponent>();
+                    if (ribbonTrailComp.Hidden
+                        || (ribbonTrailComp.RenderGroup & groupMask) == 0)
+                    {
+                        continue;
+                    }
 
-                    GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList,
-                        0,
-                        0,
-                        ribbonTrailComp.Indices.Length / 3);
+                    // We will assume that ribbons will be so large (and so few) that we can skip culling
+
+                    int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1; // TODO
+
+                    ribbonTrailComp.PrepareForRendering(GraphicsDevice);
+                    GraphicsDevice.SetVertexBuffer(ribbonTrailComp.VertexBuffer);
+                    GraphicsDevice.Indices = ribbonTrailComp.IndexBuffer;
+                    foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+
+                        GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList,
+                            0,
+                            0,
+                            ribbonTrailComp.Indices.Length / 3);
+                    }
                 }
             }
         }
@@ -382,6 +409,8 @@ namespace GameJam.Systems
                 SetupVectorDrawing(viewport);
 
                 _lastViewport = viewport;
+
+                CreateRibbonRenderTarget();
             }
         }
         private void SetupFieldFontDrawing(Viewport viewport)

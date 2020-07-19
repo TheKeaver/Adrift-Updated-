@@ -56,10 +56,16 @@ namespace GameJam.Systems
                     ribbonTrailComp.Verts[v1].Position.X = p1.X;
                     ribbonTrailComp.Verts[v1].Position.Y = p1.Y;
                     // TODO: Change to shader?
-                    ribbonTrailComp.Verts[v1].Color.R = ribbonTrailComp.Verts[v1].Color.G = ribbonTrailComp.Verts[v1].Color.B = ribbonTrailComp.Verts[v1].Color.A = (byte)(255.0f * alpha);
+                    ribbonTrailComp.Verts[v1].Color.R = ribbonTrailComp.Color.R;
+                    ribbonTrailComp.Verts[v1].Color.G = ribbonTrailComp.Color.G;
+                    ribbonTrailComp.Verts[v1].Color.B = ribbonTrailComp.Color.B;
+                    ribbonTrailComp.Verts[v1].Color.A = (byte)(MathHelper.Lerp(255, 0, alpha));
                     ribbonTrailComp.Verts[v2].Position.X = p2.X;
                     ribbonTrailComp.Verts[v2].Position.Y = p2.Y;
-                    ribbonTrailComp.Verts[v2].Color.R = ribbonTrailComp.Verts[v2].Color.G = ribbonTrailComp.Verts[v2].Color.B = ribbonTrailComp.Verts[v1].Color.A = (byte)(255.0f * alpha);
+                    ribbonTrailComp.Verts[v2].Color.R = ribbonTrailComp.Color.R;
+                    ribbonTrailComp.Verts[v2].Color.G = ribbonTrailComp.Color.G;
+                    ribbonTrailComp.Verts[v2].Color.B = ribbonTrailComp.Color.B;
+                    ribbonTrailComp.Verts[v2].Color.A = (byte)(MathHelper.Lerp(255, 0, alpha));
 
                     if (i < len - 1)
                     {

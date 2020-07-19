@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam.Components
@@ -10,6 +11,8 @@ namespace GameJam.Components
 
         public VertexBuffer VertexBuffer = null;
         public IndexBuffer IndexBuffer = null;
+
+        public Color Color = Color.White;
 
         public byte RenderGroup = 0x1;
 
