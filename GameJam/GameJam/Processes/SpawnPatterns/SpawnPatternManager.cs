@@ -2,6 +2,7 @@
 using Events;
 using GameJam.Common;
 using GameJam.Components;
+using GameJam.Entities;
 using GameJam.Processes.SpawnPatterns;
 using GameJam.States;
 using Microsoft.Xna.Framework;
@@ -52,6 +53,7 @@ namespace GameJam.Processes.Enemies
 
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> _playerShipEntities;
+        readonly ImmutableList<Entity> _simulationShipEntities;
 
         readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
         readonly ImmutableList<Entity> _enemyEntities;
@@ -66,6 +68,8 @@ namespace GameJam.Processes.Enemies
 
             _playerShipEntities = Engine.GetEntitiesFor(_playerShipFamily);
             _enemyEntities = Engine.GetEntitiesFor(_enemyFamily);
+
+            _simulationShipEntities = SpawnSimulationWorld.Engine.GetEntitiesFor(_playerShipFamily);
 
             patternStaleList = new Dictionary<int, List<Type>>();
             allPatternsList = GenerateAllPatternsList();
@@ -129,6 +133,7 @@ namespace GameJam.Processes.Enemies
 
         private void SpawnFirstStaticPattern()
         {
+            // TODO: Make SpawnRandomChasingEnemies based on number of players (?)
             process = new SpawnRandomChasingEnemies(Engine, ProcessManager, this, 1);
             process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
 
@@ -217,19 +222,28 @@ namespace GameJam.Processes.Enemies
        /// </summary>
        /// <param name="amountOfTime"></param>
        /// <returns></returns>
-        private Vector2[] BeginSimulation(float amountOfTime, int numValidCenters)
+        public Vector2[] BeginSimulation(float amountOfTime, int numValidCenters, float minRadius)
         {
             // Load current game state into the Simulation world
             SpawnSimulationWorld.CopyOtherWorldIntoThis(OtherWorld);
 
             ExecuteSimulation(amountOfTime);
             
-            return GenerateValidCenters(numValidCenters);
+            return GenerateValidCenters(numValidCenters, minRadius, true);
         }
 
-        private Vector2[] GenerateValidCenters(int numValidCenters)
+        private Vector2[] GenerateValidCenters(int numValidCenters, float minRadius, bool simulation = false)
         {
-            return new Vector2[numValidCenters];
+            Vector2[] toReturn = new Vector2[numValidCenters];
+            int index = 0;
+
+            while (index < numValidCenters)
+            {
+                toReturn[index] = GenerateValidCenter(minRadius, simulation);
+                index++;
+            }
+
+            return toReturn;
         }
 
         /// <summary>
@@ -241,15 +255,17 @@ namespace GameJam.Processes.Enemies
         /// Determined by the call to spawn a type of entity, can be derived from
         /// the CVars that define the amount of time it takes for a spawn animation
         /// </param>
-        /// <returns>
-        /// Returns the array of Vector2's that store all player positions after the
-        /// simulation is completed.
-        /// </returns>
-        private Vector2[] ExecuteSimulation(float amountOfTime)
+        private void ExecuteSimulation(float amountOfTime)
         {
-            Vector2[] simulatedPositions = new Vector2[1];
-            // Loop amount of time for each player ship in play
-            return simulatedPositions;
+            float elapsedTime = 0;
+
+            while (elapsedTime < amountOfTime)
+            {
+                SpawnSimulationWorld.OnFixedUpdate(1 / CVars.Get<float>("tick_frequency"));
+                elapsedTime += (1 / CVars.Get<float>("tick_frequency"));
+            }
+
+            return;
         }
 
         public float AngleFacingNearestPlayerShip(Vector2 position)
@@ -271,7 +287,7 @@ namespace GameJam.Processes.Enemies
             return (float)Math.Atan2(closestPlayerShip.Y, closestPlayerShip.X);
         }
 
-        public Vector2 GenerateValidCenter(int radius)
+        public Vector2 GenerateValidCenter(float radius, bool simulation = false)
         {
             Vector2 spawnPosition = new Vector2(0, 0);
 
@@ -279,16 +295,18 @@ namespace GameJam.Processes.Enemies
             {
                 spawnPosition.X = random.NextSingle(-CVars.Get<float>("screen_width") / 2 + radius, CVars.Get<float>("screen_width") / 2 - radius);
                 spawnPosition.Y = random.NextSingle(-CVars.Get<float>("screen_height") / 2 + radius, CVars.Get<float>("screen_height") / 2 - radius);
-            } while (IsTooCloseToPlayer(spawnPosition, radius));
+            } while (IsTooCloseToPlayer(spawnPosition, radius, simulation));
 
             return spawnPosition;
         }
 
-        // This funciton used to be private, changed to public to be used in SpawnChasingBorder so that
+        // This function used to be private, changed to public to be used in SpawnChasingBorder so that
         // SpawnPatterns can check if a pre-determined location is too close to a player at the time of spawning
         // The spawn will be skipped in these scenarios
-        public bool IsTooCloseToPlayer(Vector2 position, int radius)
+        public bool IsTooCloseToPlayer(Vector2 position, float radius, bool simulation = false)
         {
+            ImmutableList<Entity> playerShips = (simulation) ? _simulationShipEntities : _playerShipEntities;
+
             float minDistanceToPlayer = float.MaxValue;
 
             foreach (Entity playerShip in _playerShipEntities)

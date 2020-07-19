@@ -33,9 +33,10 @@ namespace GameJam.Systems
             Vector2 lb2 = new Vector2((float)laserBeamLength, thickness / 2);
             Vector2 lb3 = new Vector2(0, thickness / 2);
             Vector2 lb4 = new Vector2(0, -thickness / 2);
-            laserBeamEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0] = new QuadRenderShape(
-                lb4, lb3, lb2, lb1,
-                laserBeamComp.Color);
+            if(laserBeamEntity.HasComponent<VectorSpriteComponent>())
+                laserBeamEntity.GetComponent<VectorSpriteComponent>().RenderShapes[0] = new QuadRenderShape(
+                    lb4, lb3, lb2, lb1,
+                    laserBeamComp.Color);
 
             CollisionComponent collisionComp = laserBeamEntity.GetComponent<CollisionComponent>();
             if(collisionComp != null)

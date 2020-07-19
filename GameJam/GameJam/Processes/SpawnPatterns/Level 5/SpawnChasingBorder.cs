@@ -6,7 +6,7 @@ using System;
 
 namespace GameJam.Processes.SpawnPatterns
 {
-    public class SpawnChasingBorder : IntervalProcess
+    public class SpawnChasingBorder : IntervalProcess, ISpawnPattern
     {
         readonly Engine Engine;
         readonly ProcessManager ProcessManager;
@@ -40,9 +40,24 @@ namespace GameJam.Processes.SpawnPatterns
             nextSpawnLocation = new Vector2(-maxWidth / 2 + horizontalSpacing, maxHeight / 2 - verticalSpacing);
         }
 
+        public float GetMaxSpawnTimer()
+        {
+            return 0;
+        }
+
+        public float GetMinimumValidRadius()
+        {
+            return 100;
+        }
+
+        public int GetNumberOfValidCenters()
+        {
+            return 0;
+        }
+
         protected override void OnTick(float interval)
         {
-            if (!SPM.IsTooCloseToPlayer(nextSpawnLocation, 150))
+            if (!SPM.IsTooCloseToPlayer(nextSpawnLocation, GetMinimumValidRadius()))
             {
                 ChasingEnemyEntity.Spawn(Engine, ProcessManager, nextSpawnLocation, SPM.AngleFacingNearestPlayerShip(nextSpawnLocation));
                 spawnNumber += 1;

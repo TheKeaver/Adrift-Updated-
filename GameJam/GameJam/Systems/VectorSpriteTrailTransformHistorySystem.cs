@@ -44,7 +44,7 @@ namespace GameJam.Systems
                     transform.Position.X, transform.Position.Y), transform.Rotation);
 
                 // According to my calculations "ret1" and "ret2" should match "Zero" and "One"
-                Console.WriteLine("ret1: " + ret1);
+                //Console.WriteLine("ret1: " + ret1);
             }
         }
     }

@@ -5,7 +5,7 @@ namespace GameJam.Components
 {
     public class ChasingEnemyComponent : IComponent, ICopyComponent
     {
-        IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
         {
             return new ChasingEnemyComponent();
         }

@@ -6,7 +6,7 @@ using System;
 
 namespace GameJam.Processes.SpawnPatterns
 {
-    public class SpawnLaserTriangle : InstantProcess
+    public class SpawnLaserTriangle : InstantProcess, ISpawnPattern
     {
         private int radius = 100;
         private Vector2 Center;
@@ -24,12 +24,29 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTrigger()
         {
-            //Console.WriteLine("Triggered SpawnChasingTrianlge");
-            Center = SPM.GenerateValidCenter(radius);
+            Vector2[] simulatedCenters = SPM.BeginSimulation(GetMaxSpawnTimer(), GetNumberOfValidCenters(), GetMinimumValidRadius());
+
+            Center = simulatedCenters[0];
 
             LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y + 25)));
             LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 29, Center.Y - 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 29, Center.Y - 25)));
             LaserEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 29, Center.Y - 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 29, Center.Y - 25)));
+        }
+
+        public float GetMaxSpawnTimer()
+        {
+            return (CVars.Get<float>("animation_spawn_warp_phase_1_base_duration") + CVars.Get<float>("animation_spawn_warp_phase_2_base_duration"))
+                   * CVars.Get<float>("animation_spawn_warp_time_scale");
+        }
+
+        public int GetNumberOfValidCenters()
+        {
+            return 1;
+        }
+
+        public float GetMinimumValidRadius()
+        {
+            return 150;
         }
     }
 }

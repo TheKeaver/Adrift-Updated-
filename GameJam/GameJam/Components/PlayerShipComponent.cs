@@ -34,7 +34,15 @@ namespace GameJam.Components
 
         public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
         {
-            return new PlayerShipComponent(LifeRemaining, SuperShieldMeter);
+            PlayerShipComponent psc = new PlayerShipComponent(LifeRemaining, SuperShieldMeter);
+            foreach(Entity e in ShipShields)
+            {
+                psc.ShipShields.Add(GetOrMakeCopy(e));
+            }
+            psc.IsCollidingWithWall = IsCollidingWithWall;
+            psc.SuperShieldMeter = SuperShieldMeter;
+
+            return psc;
         }
     }
 }
