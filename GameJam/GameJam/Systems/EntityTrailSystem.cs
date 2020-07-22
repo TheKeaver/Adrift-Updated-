@@ -64,8 +64,8 @@ namespace GameJam.Systems
                 spriteOnly = (Entity)me.Invoke(null, new object[]
                 {
                     Engine,
-                    transformHistory.positionHistory[lastHistory],
-                    transformHistory.rotationHistory[lastHistory]
+                    transformHistory.Positions[lastHistory],
+                    transformHistory.Rotations[lastHistory]
                 });
 
                 spriteOnly.AddComponent(new FadingEntityTimerComponent(CVars.Get<float>("animation_trail_fading_timer")));

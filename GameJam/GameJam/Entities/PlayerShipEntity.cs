@@ -51,13 +51,16 @@ namespace GameJam.Entities
             entity.AddComponent(new MovementComponent(new Vector2(1,0), 100));
             entity.AddComponent(new PlayerShipComponent(CVars.Get<int>("player_ship_max_health"), CVars.Get<float>("player_super_shield_max")));
             entity.AddComponent(new BounceComponent());
-            // FadingEntityComponent is used to correspond with the EntityTrailSystem
-            //entity.AddComponent(new FadingEntityComponent(typeof(PlayerShipEntity)));
-            // VectorSpriteTrailComponent is used to correspond with the VectorSpriteTrail
-
 
             entity.AddComponent(new CameraTrackingComponent());
-            entity.AddComponent(new TransformHistoryComponent(position, 0, 50));
+
+            entity.AddComponent(new TransformHistoryComponent(position, 0, 51)); // TODO: Move to CVar
+            entity.AddComponent(new RibbonTrailComponent(50));
+            entity.GetComponent<RibbonTrailComponent>().RenderGroup = Constants.Render.RENDER_RIBBON;
+            entity.GetComponent<RibbonTrailComponent>().Color = color;
+
+            entity.AddComponent(new RibbonTrailMovementThresholdComponent());
+            entity.GetComponent<RibbonTrailMovementThresholdComponent>().MinimumSpeedForTrail = CVars.Get<float>("player_trail_minimum_movement");
 
             entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = CVars.Get<bool>("player_rotate_in_direction_of_movement");
 

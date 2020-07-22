@@ -218,7 +218,7 @@ namespace GameJam.Graphics.Text
                 if (enableKerning && i < sequence.Length - 1)
                 {
                     var next = sequence[i + 1];
-                    if (next != null)
+                    if (next != null && font.KerningPairs != null)
                     {
 
                         var pair = font.KerningPairs.FirstOrDefault(

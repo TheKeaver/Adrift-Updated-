@@ -20,6 +20,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ICopyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\RibbonTrailComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\RibbonTrailMovementThresholdComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\SuperShieldComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\TransformHistoryComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\VectorSpriteTrailComponent.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Bloom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Negative.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Quad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics\ReactiveRenderTarget2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\SMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\MonoGameInputEventTranslator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\SecondaryKeyboardInputMethod.cs" />
@@ -133,6 +136,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\GravityEnemySpawner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnChasingTriangle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameOverGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\TrailTestGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\UIOptionsGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EnemySeparationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\EntityMirroringSystem.cs" />
@@ -189,11 +193,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ChasingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\RibbonTrailMovementThresholdSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\RibbonTrailSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\SuperShieldSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\EntityTrailTransformHistorySystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformHistorySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformResetSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\VectorSpriteTrailSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Systems\VectorSpriteTrailTransformHistorySystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ISelectableWidget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Root.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Widget.cs" />

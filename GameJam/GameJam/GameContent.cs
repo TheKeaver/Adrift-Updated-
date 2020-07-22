@@ -46,6 +46,7 @@ namespace GameJam
             content.Load<Effect>("effect_fxaa");
             content.Load<Effect>("effect_smaa");
             content.Load<Effect>("effect_negative");
+            content.Load<Effect>("effect_alpha_negative");
 
             content.Load<Effect>("effect_field_font");
             content.Load<FieldFont>("font_msdf_hyperspace");

@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
 using GameJam.Common;
-using GameJam.Graphics;
 
 namespace GameJam.Systems
 {
@@ -29,10 +28,12 @@ namespace GameJam.Systems
         readonly Family _fontFamily = Family.All(typeof(BitmapFontComponent), typeof(TransformComponent)).Get();
         readonly Family _fieldFontFamily = Family.All(typeof(FieldFontComponent), typeof(TransformComponent)).Get();
         readonly Family _vectorSpriteFamily = Family.All(typeof(VectorSpriteComponent), typeof(TransformComponent)).Get();
+        readonly Family _ribbonFamily = Family.All(typeof(RibbonTrailComponent)).Get();
         readonly ImmutableList<Entity> _spriteEntities;
         readonly ImmutableList<Entity> _fontEntities;
         readonly ImmutableList<Entity> _fieldFontEntities;
         readonly ImmutableList<Entity> _vectorSpriteEntities;
+        readonly ImmutableList<Entity> _ribbonEntities;
 
         public SpriteBatch SpriteBatch { get; }
         public FieldFontRenderer FieldFontRenderer { get; }
@@ -46,6 +47,8 @@ namespace GameJam.Systems
         private BasicEffect _vectorSpriteEffect;
         private Viewport _lastViewport;
 
+        private RenderTarget2D _ribbonRenderTarget;
+
         public RenderSystem(GraphicsDevice graphics, ContentManager content, Engine engine)
         {
             Engine = engine;
@@ -53,6 +56,7 @@ namespace GameJam.Systems
             _fontEntities = Engine.GetEntitiesFor(_fontFamily);
             _fieldFontEntities = Engine.GetEntitiesFor(_fieldFontFamily);
             _vectorSpriteEntities = Engine.GetEntitiesFor(_vectorSpriteFamily);
+            _ribbonEntities = Engine.GetEntitiesFor(_ribbonFamily);
 
             SpriteBatch = new SpriteBatch(graphics);
             FieldFontRenderer = new FieldFontRenderer(content, graphics);
@@ -63,6 +67,18 @@ namespace GameJam.Systems
             _vectorSpriteEffect.World = Matrix.Identity;
             _vectorSpriteEffect.TextureEnabled = false;
             _vectorSpriteEffect.VertexColorEnabled = true;
+
+            CreateRibbonRenderTarget();
+        }
+
+        private void CreateRibbonRenderTarget()
+        {
+            _ribbonRenderTarget = new RenderTarget2D(GraphicsDevice,
+                GraphicsDevice.Viewport.Width,
+                GraphicsDevice.Viewport.Height,
+                false,
+                SurfaceFormat.Color,
+                DepthFormat.None);
         }
 
         public void DrawEntities(Camera camera, float dt, float betweenFrameAlpha, Camera debugCamera = null)
@@ -78,6 +94,7 @@ namespace GameJam.Systems
             DrawSpriteBatchEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
             DrawVectorEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
             DrawFieldFontEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
+            DrawRibbonEntities(camera, groupMask, dt, betweenFrameAlpha, debugCamera);
         }
 
         private void DrawSpriteBatchEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
@@ -238,13 +255,14 @@ namespace GameJam.Systems
             }
         }
 
-
         private void DrawVectorEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
         {
             Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
 
             List<VertexPositionColor> _verts = new List<VertexPositionColor>();
             List<int> _indices = new List<int>();
+
+            GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
 
             foreach (Entity entity in _vectorSpriteEntities)
             {
@@ -325,11 +343,58 @@ namespace GameJam.Systems
                 {
                     pass.Apply();
 
-                    // GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,_verts.ToArray(), 0, _verts.Count / 3)
+                    GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList,
+                        _verts.ToArray(), 0, _verts.Count,
+                        _indices.ToArray(), 0, _indices.Count / 3);
+                }
+            }
+        }
 
-                    GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _verts.ToArray(), 0, _verts.Count, _indices.ToArray(), 0, _indices.Count/3);
+        private void DrawRibbonEntities(Camera camera, byte groupMask, float dt, float betweenFrameAlpha, Camera debugCamera)
+        {
+            // TODO: Ribbon entities don't have frame smoothing
 
-                    // GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, _verts[0], 0, _verts.Count);
+            Matrix transformMatrix = debugCamera == null ? camera.GetInterpolatedTransformMatrix(betweenFrameAlpha) : debugCamera.GetInterpolatedTransformMatrix(betweenFrameAlpha);
+
+            if (_ribbonEntities.Count > 0)
+            {
+                GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+                GraphicsDevice.BlendState = new BlendState
+                {
+                    AlphaBlendFunction = BlendFunction.Min,
+                    AlphaDestinationBlend = Blend.One,
+                    AlphaSourceBlend = Blend.One,
+                    
+                    ColorBlendFunction = BlendFunction.Max,
+                    ColorDestinationBlend = Blend.One,
+                    ColorSourceBlend = Blend.One
+                };
+
+                foreach (Entity entity in _ribbonEntities)
+                {
+                    RibbonTrailComponent ribbonTrailComp = entity.GetComponent<RibbonTrailComponent>();
+                    if (ribbonTrailComp.Hidden
+                        || (ribbonTrailComp.RenderGroup & groupMask) == 0)
+                    {
+                        continue;
+                    }
+
+                    // We will assume that ribbons will be so large (and so few) that we can skip culling
+
+                    int enableFrameSmoothingFlag = CVars.Get<bool>("graphics_frame_smoothing") ? 0 : 1; // TODO
+
+                    ribbonTrailComp.PrepareForRendering(GraphicsDevice);
+                    GraphicsDevice.SetVertexBuffer(ribbonTrailComp.VertexBuffer);
+                    GraphicsDevice.Indices = ribbonTrailComp.IndexBuffer;
+                    foreach (EffectPass pass in _vectorSpriteEffect.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+
+                        GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList,
+                            0,
+                            0,
+                            ribbonTrailComp.Indices.Length / 3);
+                    }
                 }
             }
         }
@@ -344,6 +409,8 @@ namespace GameJam.Systems
                 SetupVectorDrawing(viewport);
 
                 _lastViewport = viewport;
+
+                CreateRibbonRenderTarget();
             }
         }
         private void SetupFieldFontDrawing(Viewport viewport)

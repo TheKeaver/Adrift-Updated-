@@ -85,6 +85,19 @@ namespace GameJam.States
         }
 #endif
 
+        public ReactiveRenderTarget2D RibbonRenderTarget
+        {
+            get;
+            private set;
+        }
+        public Effect RibbonRenderEffect
+        {
+            get;
+            private set;
+        }
+
+        private readonly Color BlackAlphaWhite = new Color(0, 0, 0, 255);
+
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
             Engine = new Engine();
@@ -140,8 +153,11 @@ namespace GameJam.States
                 // Section below is ordered based on dependency from Top (least dependent) to Bottom (most dependent)
                 
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
-                new VectorSpriteTrailTransformHistorySystem(Engine),
-               
+                new TransformHistorySystem(Engine),
+                new VectorSpriteTrailSystem(Engine),
+                new EntityFadingSystem(Engine),
+                new RibbonTrailMovementThresholdSystem(Engine),
+                new RibbonTrailSystem(Engine),
                 // Collision Detection must go last to have accurate collision detection
             };
 
@@ -188,6 +204,13 @@ namespace GameJam.States
 
             _smaaPPE = new SMAA(PostProcessor, Content);
             PostProcessor.Effects.Add(_smaaPPE);
+
+            RibbonRenderTarget = new ReactiveRenderTarget2D(GameManager.GraphicsDevice,
+                false,
+                SurfaceFormat.Color,
+                DepthFormat.None);
+            RibbonRenderTarget.RegisterEvents();
+            RibbonRenderEffect = Content.Load<Effect>("effect_alpha_negative");
         }
 
         private void CreateEntities()
@@ -247,13 +270,34 @@ namespace GameJam.States
             }
 #endif
 
+            GameManager.GraphicsDevice.SetRenderTarget(RibbonRenderTarget.RenderTarget);
+            GameManager.GraphicsDevice.Clear(BlackAlphaWhite);
+            RenderSystem.DrawEntities(Camera,
+                Constants.Render.RENDER_RIBBON,
+                dt,
+                betweenFrameAlpha,
+                camera);
+            GameManager.GraphicsDevice.SetRenderTarget(null);
+
             PostProcessor.Begin();
             {
+                RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
+                    BlendState.Additive,
+                    null,
+                    null,
+                    null,
+                    RibbonRenderEffect);
+                RenderSystem.SpriteBatch.Draw(RibbonRenderTarget.RenderTarget,
+                    RibbonRenderTarget.RenderTarget.Bounds,
+                    Color.White);
+                RenderSystem.SpriteBatch.End();
+
                 RenderSystem.DrawEntities(Camera,
                                             Constants.Render.RENDER_GROUP_GAME_ENTITIES,
                                             dt,
                                             betweenFrameAlpha,
                                             camera);
+
                 RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
                     null,
                     null,
@@ -320,6 +364,7 @@ namespace GameJam.States
             PostProcessor.UnregisterEvents();
             Camera.UnregisterEvents();
             GPUParticleManager.UnregisterListeners();
+            RibbonRenderTarget.UnregisterEvents();
 
             throw new Exception("This game state provides shared logic with all other game states and must not be killed.");
         }

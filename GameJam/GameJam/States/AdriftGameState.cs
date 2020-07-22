@@ -186,9 +186,6 @@ namespace GameJam.States
             // Create the SuperShieldDisplayEntity and pass in the shipEntity
             //SuperShieldDisplayEntity.Create(SharedState.Engine, playerShipEntity);
 
-            // Create the VectorSpriteTrailEntity and pass in the shipEntity
-            VectorSpriteTrailEntity.Create(SharedState.Engine, playerShipEntity);
-
             // Queue an event
             EventManager.Instance.QueueEvent(new PlayerShipSpawnEvent(playerShipEntity, position));
         }
