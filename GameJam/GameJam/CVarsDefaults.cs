@@ -182,8 +182,10 @@ namespace GameJam
             Create<int>("score_base_destroy_enemy_with_projectile", 500, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroying an enemy with a projectile.");
             Create<int>("score_base_destroy_enemy_with_laser", 250, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroyting an enemy with a laser.");
 
+            Create<float>("player_trail_minimum_movement", 200, CVarFlags.DEV_PRESERVE, "Minimum movement speed the player needs to be traveling for the trail to appear.");
+
             /** ANIMATION **/
-            Create<float>("animation_trail_width", 5f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Changing this value affects the width of the VectorSpriteTrail.");
+            Create<float>("animation_trail_width", 25f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Changing this value affects the width of the VectorSpriteTrail.");
             Create<float>("animation_trail_fading_timer", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "How long a trail entity lasts before it gets deleted. Increasing = Longer Trail, Decreasing = Shorter Trail.");
             Create<float>("animation_trail_frequency_timer", 0.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "The frequency at which the next trail entity is drawn (in seconds).");
             Create<float>("animation_spawn_warp_time_scale", 0.85f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Enemy warp-in animation time scale.");
@@ -392,6 +394,7 @@ namespace GameJam
             Create<string>("effect_fxaa", "effects/FXAA", CVarFlags.PRESERVE, "Path of FXAA post-processing shader.");
             Create<string>("effect_smaa", "effects/SMAA_ULTRA", CVarFlags.PRESERVE, "Path of SMAA post-processing shader.");
             Create<string>("effect_negative", "effects/Negative", CVarFlags.PRESERVE, "Path of negative post-processing shader.");
+            Create<string>("effect_alpha_negative", "effects/AlphaNegative", CVarFlags.PRESERVE, "Path of alpha negative post-processing shader.");
 
             Create<string>("effect_field_font", "effects/FieldFontEffect", CVarFlags.PRESERVE, "Effect of field font shader.");
             Create<string>("font_msdf_hyperspace", "fonts/Hyperspace/Hyperspace", CVarFlags.PRESERVE, "Path of hyperspace MSDF font descriptor file.");

@@ -7,64 +7,42 @@ namespace GameJam.Components
 {
     public class TransformHistoryComponent : IComponent
     {
-        public Vector2[] positionHistory;
-        public float[] rotationHistory;
-        public int historyIndex;
-        public int maxHistorySize;
+        public List<Vector2> Positions;
+        public List<float> Rotations;
+        public int MaxHistoryCount;
         public Timer updateInterval;
 
         public TransformHistoryComponent(Vector2 startPosition, float startRotation, int maxHistory)
         {
-            maxHistorySize = maxHistory;
+            MaxHistoryCount = maxHistory;
             updateInterval = new Timer(CVars.Get<float>("animation_trail_frequency_timer"));
-            // This "maxHistorySize" be a constant somewhere, ideally CVar
-            historyIndex = 0;
 
-            positionHistory = new Vector2[maxHistorySize];
-            rotationHistory = new float[maxHistorySize];
+            Positions = new List<Vector2>();
+            Rotations = new List<float>(MaxHistoryCount);
             AddToTransformHistory(startPosition, startRotation);
         }
 
         public Vector2 AddToTransformHistory(Vector2 position, float rotation)
         {
-            positionHistory[historyIndex % maxHistorySize] = position;
-            rotationHistory[historyIndex % maxHistorySize] = rotation;
+            Positions.Insert(0, position);
+            Rotations.Insert(0, rotation);
 
-            historyIndex = (historyIndex + 1 >= maxHistorySize) ? 0 : historyIndex + 1;
+            if (Positions.Count > MaxHistoryCount)
+            {
+                Positions.RemoveRange(MaxHistoryCount, Positions.Count - MaxHistoryCount);
+            }
+            if (Rotations.Count > MaxHistoryCount)
+            {
+                Rotations.RemoveRange(MaxHistoryCount, Rotations.Count - MaxHistoryCount);
+            }
 
             return position;
         }
 
         public int GetLastHistoryIndex()
         {
-            int ret = (historyIndex == 0) ? (maxHistorySize - 1) : (historyIndex - 1);
-            return ret;
-        }
-
-        // Return the Position vector at "historyIndex +/- index"
-        public Vector2 GetTransformHistoryAt(int mod)
-        {
-            int correctIndex = GetWrappedIndex(mod);
-            return positionHistory[correctIndex];
-        }
-
-        public float GetRotationHistoryAt(int mod)
-        {
-            int correctIndex = GetWrappedIndex(mod);
-            return rotationHistory[correctIndex];
-        }
-
-        private int GetWrappedIndex(int mod)
-        {
-            // Mod should never be greater than 0
-            if (mod < 0 && historyIndex + mod >= 0)
-            {
-                return historyIndex + mod;
-            }
-            else
-            {
-                return maxHistorySize + (historyIndex + mod);
-            }
+            // Positions.Count == Rotations.Count so this is safe
+            return Positions.Count - 1;
         }
     }
 }

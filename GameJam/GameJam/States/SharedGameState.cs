@@ -78,6 +78,19 @@ namespace GameJam.States
         }
 #endif
 
+        public ReactiveRenderTarget2D RibbonRenderTarget
+        {
+            get;
+            private set;
+        }
+        public Effect RibbonRenderEffect
+        {
+            get;
+            private set;
+        }
+
+        private readonly Color BlackAlphaWhite = new Color(0, 0, 0, 255);
+
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
         }
@@ -136,7 +149,6 @@ namespace GameJam.States
                 new GravitySystem(Engine),
                 new EnemySeparationSystem(Engine), // Depends on the Quad Tree, however this system needs to go before movement system. It will use the previous frame's quad tree.
                 new MovementSystem(Engine),
-                //new EntityTrailTransformHistorySystem(Engine), // Must go before EntityTrail(Fading)System
                 new PlayerShieldSystem(Engine),
                 new QuadTreeSystem(Engine),
                 new SuperShieldSystem(Engine),
@@ -144,11 +156,13 @@ namespace GameJam.States
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
                 new EnemyRotationSystem(Engine),
                 new EntityMirroringSystem(Engine),
-                new VectorSpriteTrailTransformHistorySystem(Engine),
+                new TransformHistorySystem(Engine),
                 
                 //new EntityTrailSystem(Engine),
                 new VectorSpriteTrailSystem(Engine),
                 new EntityFadingSystem(Engine),
+                new RibbonTrailMovementThresholdSystem(Engine),
+                new RibbonTrailSystem(Engine),
 
                 // Collision Detection must go last to have accurate collision detection
                 new CollisionDetectionSystem(Engine)
@@ -210,6 +224,13 @@ namespace GameJam.States
 
             _smaaPPE = new SMAA(PostProcessor, Content);
             PostProcessor.Effects.Add(_smaaPPE);
+
+            RibbonRenderTarget = new ReactiveRenderTarget2D(GameManager.GraphicsDevice,
+                false,
+                SurfaceFormat.Color,
+                DepthFormat.None);
+            RibbonRenderTarget.RegisterEvents();
+            RibbonRenderEffect = Content.Load<Effect>("effect_alpha_negative");
         }
 
         private void CreateEntities()
@@ -272,13 +293,34 @@ namespace GameJam.States
             }
 #endif
 
+            GameManager.GraphicsDevice.SetRenderTarget(RibbonRenderTarget.RenderTarget);
+            GameManager.GraphicsDevice.Clear(BlackAlphaWhite);
+            RenderSystem.DrawEntities(Camera,
+                Constants.Render.RENDER_RIBBON,
+                dt,
+                betweenFrameAlpha,
+                camera);
+            GameManager.GraphicsDevice.SetRenderTarget(null);
+
             PostProcessor.Begin();
             {
+                RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
+                    BlendState.Additive,
+                    null,
+                    null,
+                    null,
+                    RibbonRenderEffect);
+                RenderSystem.SpriteBatch.Draw(RibbonRenderTarget.RenderTarget,
+                    RibbonRenderTarget.RenderTarget.Bounds,
+                    Color.White);
+                RenderSystem.SpriteBatch.End();
+
                 RenderSystem.DrawEntities(Camera,
                                             Constants.Render.RENDER_GROUP_GAME_ENTITIES,
                                             dt,
                                             betweenFrameAlpha,
                                             camera);
+
                 RenderSystem.SpriteBatch.Begin(SpriteSortMode.Deferred,
                     null,
                     null,
@@ -345,6 +387,7 @@ namespace GameJam.States
             PostProcessor.UnregisterEvents();
             Camera.UnregisterEvents();
             GPUParticleManager.UnregisterListeners();
+            RibbonRenderTarget.UnregisterEvents();
 
             throw new Exception("This game state provides shared logic with all other game states and must not be killed.");
         }

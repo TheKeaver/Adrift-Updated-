@@ -10,21 +10,14 @@ namespace GameJam.Common
     {
         public static float InverseLerp(float a, float b, float v)
         {
-            return ((v - a) / (b - a));
+            return (v - a) / (b - a);
         }
 
         public static float LerpAngle(float a, float b, float alpha)
         {
-            a = MathHelper.WrapAngle(a);
-            b = MathHelper.WrapAngle(b);
-            if (MathHelper.Distance(a, b) <= MathHelper.Pi)
-            {
-                return MathHelper.Lerp(a, b, alpha);
-            }
-            float travel = b - a;
-            float travelSign = travel / (float)Math.Abs(travel);
-            float inverseTravel = travelSign * MathHelper.TwoPi - travel;
-            return inverseTravel * alpha + a;
+            // Reference: https://stackoverflow.com/a/14498790
+            float shortestAngle = ((b - a) + MathHelper.Pi) % MathHelper.TwoPi - MathHelper.Pi;
+            return a + (shortestAngle * alpha) % MathHelper.TwoPi;
         }
 
         public static Vector2 RotateVector(Vector2 vector, float cos, float sin)

@@ -3,13 +3,12 @@ using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 
 namespace GameJam.Systems
 {
     public class VectorSpriteTrailSystem : BaseSystem
     {
-        readonly Family _vectorSpriteTrailFamily = Family.All(typeof(VectorSpriteTrailComponent), typeof(TransformHistoryComponent)).Get();
+        readonly Family _vectorSpriteTrailFamily = Family.All(typeof(VectorSpriteTrailComponent), typeof(TransformHistoryComponent), typeof(MovementComponent)).Get();
         readonly ImmutableList<Entity> _vectorSpriteTrailEntities;
 
         public VectorSpriteTrailSystem(Engine engine) : base(engine)
@@ -39,30 +38,43 @@ namespace GameJam.Systems
 
             MovementComponent moveComp = entity.GetComponent<VectorSpriteTrailComponent>().playerShip.GetComponent<MovementComponent>();
             TransformComponent transform = entity.GetComponent<TransformComponent>();
+            Vector2 direction = new Vector2((float)Math.Cos(transform.Rotation), (float)Math.Sin(transform.Rotation));
 
-            if(moveComp.MovementVector.Length() >= 200)
+            if(moveComp.MovementVector.Length() >= CVars.Get<float>("player_trail_minimum_movement"))
             {
-                Vector2 lastTransform = thc.GetTransformHistoryAt(-2);
-                float lastRotation = thc.GetRotationHistoryAt(-2);
+                Vector2 lastTransform = thc.Positions[1];// thc.GetTransformHistoryAt(-2);
+                float lastRotation = thc.Rotations[1]; // thc.GetRotationHistoryAt(-2);
+                Vector2 lastDirection = new Vector2((float)Math.Cos(lastRotation), (float)Math.Sin(lastRotation));
 
-                Vector2 point2 = FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation - (float)Math.PI);
-                Vector2 point1 = FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation);
-                Vector2 point3 = FindCalculatedPoint(transform.Position, lastTransform, lastRotation);
-                Vector2 point4 = FindCalculatedPoint(transform.Position, lastTransform, lastRotation - (float)Math.PI);
+                Vector2 point1, point2;
+                CalculateEndsAtLocation(transform.Position, transform.Position, direction,
+                    out point1, out point2);
+                Vector2 point3, point4;
+                CalculateEndsAtLocation(transform.Position, lastTransform, lastDirection,
+                    out point3, out point4);
 
-                Console.WriteLine("Point 2: " + point2);
-                Console.WriteLine("Point 1: " + point1);
-                Console.WriteLine("Point 3: " + point3);
-                Console.WriteLine("Point 4: " + point4);
-                
+                Vector2[] points = new Vector2[4];
+                if(Vector2.Dot(direction, lastDirection) > 1)
+                {
+                    points[0] = point1;
+                    points[1] = point2;
+                    points[2] = point4;
+                    points[3] = point3;
+                } else
+                {
+                    points[0] = point2;
+                    points[1] = point1;
+                    points[2] = point3;
+                    points[3] = point4;
+                }
 
                 Entity quad = DrawQuadOnlyEntity.Create(Engine, transform.Position, new Vector2[] {
                     // No idea what the correct order is in practice, but should be
                     // clockwise
-                    FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation - (float)Math.PI), // 2
-                    FindCalculatedPoint(transform.Position, transform.Position, transform.Rotation), // 1
-                    FindCalculatedPoint(transform.Position, lastTransform, lastRotation), // 3
-                    FindCalculatedPoint(transform.Position, lastTransform, lastRotation - (float)Math.PI), // 4
+                    point1,
+                    point2,
+                    point4,
+                    point3
                 }, entity.GetComponent<VectorSpriteTrailComponent>().playerShip);
 
                 Console.WriteLine("Current: " + transform.Position);
@@ -91,6 +103,17 @@ namespace GameJam.Systems
             ret.Y += opp;
 
             return ret;
+        }
+        private void CalculateEndsAtLocation(Vector2 origin, Vector2 location, Vector2 direction,
+            out Vector2 p1, out Vector2 p2)
+        {
+            Vector2 normal = new Vector2(-direction.Y, direction.X);
+
+            Vector2 lp1 = normal * CVars.Get<float>("animation_trail_width") / 2 + location;
+            Vector2 lp2 = -normal * CVars.Get<float>("animation_trail_width") / 2 + location;
+
+            p1 = lp1 - origin;
+            p2 = lp2 - origin;
         }
     }
 }

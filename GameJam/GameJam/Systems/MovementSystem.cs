@@ -31,7 +31,7 @@ namespace GameJam.Systems
             if (movementComp.UpdateRotationWithDirection && movementComp.MovementVector.Length() != 0)
             {
                 float targetAngle = (float)Math.Atan2(movementComp.MovementVector.Y, movementComp.MovementVector.X);
-                transformComp.Rotate(targetAngle - transformComp.Rotation);
+                transformComp.SetRotation(targetAngle);
             }
         }
     }
