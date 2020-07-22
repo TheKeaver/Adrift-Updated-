@@ -14,11 +14,26 @@ namespace GameJam.Systems
         public PulseSystem(Engine engine) : base(engine)
         {
             _pulseEntities = Engine.GetEntitiesFor(_pulseFamily);
+        } 
+
+        protected override void OnInitialize()
+        {
+            return;
         }
 
-        public override void Update(float dt)
+        protected override void OnKill()
         {
-            foreach(Entity pulseEntity in _pulseEntities)
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            foreach (Entity pulseEntity in _pulseEntities)
             {
                 PulseComponent pulseComp = pulseEntity.GetComponent<PulseComponent>();
                 SpriteComponent spriteComp = pulseEntity.GetComponent<SpriteComponent>();

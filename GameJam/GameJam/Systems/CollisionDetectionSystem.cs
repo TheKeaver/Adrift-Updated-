@@ -46,11 +46,6 @@ namespace GameJam.Systems
             _collisionEntities = engine.GetEntitiesFor(_collisionFamily);
         }
 
-        public override void Update(float dt)
-        {
-            ProcessCollisions();
-        }
-
         private void ProcessCollisions()
         {
             Dictionary<Entity, List<Entity>> processedPairs = new Dictionary<Entity, List<Entity>>();
@@ -329,6 +324,26 @@ namespace GameJam.Systems
             }
 
             return maxB >= minA && maxA >= minB;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            ProcessCollisions();
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

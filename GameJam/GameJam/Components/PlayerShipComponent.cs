@@ -1,9 +1,10 @@
 ﻿using Audrey;
+using System;
 using System.Collections.Generic;
 
 namespace GameJam.Components
 {
-    public class PlayerShipComponent : IComponent
+    public class PlayerShipComponent : IComponent, ICopyComponent
     {
         public int LifeRemaining;
         public List<Entity> ShipShields;
@@ -29,6 +30,19 @@ namespace GameJam.Components
             }
             else
                 return false;
+        }
+
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        {
+            PlayerShipComponent psc = new PlayerShipComponent(LifeRemaining, SuperShieldMeter);
+            foreach(Entity e in ShipShields)
+            {
+                psc.ShipShields.Add(GetOrMakeCopy(e));
+            }
+            psc.IsCollidingWithWall = IsCollidingWithWall;
+            psc.SuperShieldMeter = SuperShieldMeter;
+
+            return psc;
         }
     }
 }

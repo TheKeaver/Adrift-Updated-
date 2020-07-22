@@ -12,7 +12,7 @@ namespace GameJam.Systems
         readonly Family playerFamily = Family.All(typeof(PlayerComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> playerEntities;
 
-        readonly Family superShieldFamiliy = Family.All(typeof(SuperShieldComponent), typeof(VectorSpriteComponent), typeof(TransformComponent)).Get();
+        readonly Family superShieldFamiliy = Family.All(typeof(SuperShieldComponent), typeof(TransformComponent)).Get();
         readonly ImmutableList<Entity> superShields;
 
         public SuperShieldSystem(Engine engine) : base(engine)
@@ -21,13 +21,28 @@ namespace GameJam.Systems
             superShields = engine.GetEntitiesFor(superShieldFamiliy);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity player in playerEntities)
             {
                 UpdateSuperShieldFromInput(player, dt);
             }
-            foreach(Entity superShield in superShields)
+            foreach (Entity superShield in superShields)
             {
                 UpdateLocationInfo(superShield);
             }
@@ -39,7 +54,8 @@ namespace GameJam.Systems
 
             //shield.GetComponent<TransformComponent>().SetPosition(ssc.ship.GetComponent<TransformComponent>().Position);
             //shield.GetComponent<TransformComponent>().SetRotation(ssc.ship.GetComponent<TransformComponent>().Rotation);
-            shield.GetComponent<VectorSpriteComponent>().Alpha = ssc.ship.GetComponent<PlayerShipComponent>().SuperShieldMeter / CVars.Get<float>("player_super_shield_max");
+            if(shield.HasComponent<VectorSpriteComponent>())
+                shield.GetComponent<VectorSpriteComponent>().Alpha = ssc.ship.GetComponent<PlayerShipComponent>().SuperShieldMeter / CVars.Get<float>("player_super_shield_max");
         }
 
         private void UpdateSuperShieldFromInput(Entity player, float dt)
@@ -52,7 +68,8 @@ namespace GameJam.Systems
                 foreach (Entity shield in ship.ShipShields)
                 {
                     //shield.GetComponent<PlayerShieldComponent>().LaserReflectionActive = true;
-                    shield.GetComponent<VectorSpriteComponent>().Hidden = false;
+                    if (shield.HasComponent<VectorSpriteComponent>())
+                        shield.GetComponent<VectorSpriteComponent>().Hidden = false;
                     shield.GetComponent<CollisionComponent>().CollisionMask = (byte)(Constants.Collision.COLLISION_GROUP_ENEMIES | Constants.Collision.COLLISION_GROUP_RAYCAST);
                     shield.GetComponent<CollisionComponent>().CollisionGroup = (byte)(Constants.Collision.COLLISION_GROUP_PLAYER);
                 }
@@ -66,7 +83,8 @@ namespace GameJam.Systems
                     for (int i = 1; i < 4; i++)
                     {
                         //ship.ShipShields[i].GetComponent<PlayerShieldComponent>().LaserReflectionActive = false;
-                        ship.ShipShields[i].GetComponent<VectorSpriteComponent>().Hidden = true;
+                        if (ship.ShipShields[i].HasComponent<VectorSpriteComponent>())
+                            ship.ShipShields[i].GetComponent<VectorSpriteComponent>().Hidden = true;
                         ship.ShipShields[i].GetComponent<CollisionComponent>().CollisionMask = Constants.Collision.GROUP_MASK_NONE;
                         ship.ShipShields[i].GetComponent<CollisionComponent>().CollisionGroup = Constants.Collision.GROUP_MASK_NONE;
                         //Console.WriteLine("Super Shield collision mask set to NONE");

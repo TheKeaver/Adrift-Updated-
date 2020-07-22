@@ -13,12 +13,27 @@ namespace GameJam.Systems
             _animatedEntities = engine.GetEntitiesFor(_animatedSprites);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
         {
-            foreach(Entity animatedEntity in _animatedEntities)
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            foreach (Entity animatedEntity in _animatedEntities)
             {
                 AnimationComponent animationComp = animatedEntity.GetComponent<AnimationComponent>();
-                if(animationComp.ActiveAnimationIndex > -1)
+                if (animationComp.ActiveAnimationIndex > -1)
                 {
                     animationComp.Animations[animationComp.ActiveAnimationIndex].Update(dt);
                 }

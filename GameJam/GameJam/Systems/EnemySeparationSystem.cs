@@ -20,81 +20,6 @@ namespace GameJam.Systems
             _movingEnemyEntities = Engine.GetEntitiesFor(_movingEnemyFamily);
         }
 
-        public override void Update(float dt)
-        {
-            Dictionary<Entity, List<Entity>> correctedEntityPairs = new Dictionary<Entity, List<Entity>>();
-
-            foreach(Entity entity in _movingEnemyEntities)
-            {
-                QuadTreeReferenceComponent quadTreeReferenceComp = entity.GetComponent<QuadTreeReferenceComponent>();
-                if(quadTreeReferenceComp.node == null)
-                {
-                    // Quad tree hasn't been generated yet (or this entity isn't a part of it yet),
-                    // skip.
-                    continue;
-                }
-                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
-
-                QuadTreeNode root = quadTreeReferenceComp.node;
-                while(root.parent != null)
-                {
-                    root = root.parent;
-                }
-
-                // Find all quad tree nodes that intersect the radius we are searching for
-                float radius = CVars.Get<float>("enemy_minimum_separation_distance");
-                float radiusSquared = radius * radius;
-                List<QuadTreeNode> intersectingNodes = new List<QuadTreeNode>();
-                InsertIntersectingChildNodes(transformComp.Position, radius, quadTreeReferenceComp.node, root, ref intersectingNodes);
-
-                List<Entity> neighborEntities = new List<Entity>();
-                foreach(QuadTreeNode node in intersectingNodes)
-                {
-                    foreach(Entity otherEntity in node.leaves)
-                    {
-                        if(otherEntity == entity)
-                        {
-                            continue;
-                        }
-
-                        if(_movingEnemyFamily.Matches(otherEntity))
-                        {
-                            TransformComponent otherTransformComp = otherEntity.GetComponent<TransformComponent>();
-                            if((transformComp.Position - otherTransformComp.Position).LengthSquared() <= radiusSquared)
-                            {
-                                neighborEntities.Add(otherEntity);
-                            }
-                        }
-                    }
-                }
-
-                if (neighborEntities.Count > 0)
-                {
-                    foreach(Entity otherEntity in neighborEntities)
-                    {
-                        if(!correctedEntityPairs.ContainsKey(entity))
-                        {
-                            correctedEntityPairs.Add(entity, new List<Entity>());
-                        }
-                        if(correctedEntityPairs[entity].Contains(otherEntity))
-                        {
-                            // This entity pair has already been separated, skip
-                            continue;
-                        }
-
-                        SeparateEntities(entity, otherEntity, radius);
-
-                        // Add to other's list, since this Entity is this current loop (can't loop this entity again this frame)
-                        if (!correctedEntityPairs.ContainsKey(otherEntity))
-                        {
-                            correctedEntityPairs.Add(otherEntity, new List<Entity>());
-                        }
-                        correctedEntityPairs[otherEntity].Add(entity);
-                    }
-                }
-            }
-        }
-
         private void SeparateEntities(Entity entityA, Entity entityB, float separationDistance)
         {
             TransformComponent transformA = entityA.GetComponent<TransformComponent>();
@@ -186,6 +111,96 @@ namespace GameJam.Systems
             float lengthAlongAB = Vector2.Dot(ab, aCircle);
             Vector2 pointAlongAB = ab * lengthAlongAB + a;
             return (pointAlongAB - circlePos).LengthSquared() <= circleRadiusSquared;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            Dictionary<Entity, List<Entity>> correctedEntityPairs = new Dictionary<Entity, List<Entity>>();
+
+            foreach (Entity entity in _movingEnemyEntities)
+            {
+                QuadTreeReferenceComponent quadTreeReferenceComp = entity.GetComponent<QuadTreeReferenceComponent>();
+                if (quadTreeReferenceComp.node == null)
+                {
+                    // Quad tree hasn't been generated yet (or this entity isn't a part of it yet),
+                    // skip.
+                    continue;
+                }
+                TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+
+                QuadTreeNode root = quadTreeReferenceComp.node;
+                while (root.parent != null)
+                {
+                    root = root.parent;
+                }
+
+                // Find all quad tree nodes that intersect the radius we are searching for
+                float radius = CVars.Get<float>("enemy_minimum_separation_distance");
+                float radiusSquared = radius * radius;
+                List<QuadTreeNode> intersectingNodes = new List<QuadTreeNode>();
+                InsertIntersectingChildNodes(transformComp.Position, radius, quadTreeReferenceComp.node, root, ref intersectingNodes);
+
+                List<Entity> neighborEntities = new List<Entity>();
+                foreach (QuadTreeNode node in intersectingNodes)
+                {
+                    foreach (Entity otherEntity in node.leaves)
+                    {
+                        if (otherEntity == entity)
+                        {
+                            continue;
+                        }
+
+                        if (_movingEnemyFamily.Matches(otherEntity))
+                        {
+                            TransformComponent otherTransformComp = otherEntity.GetComponent<TransformComponent>();
+                            if ((transformComp.Position - otherTransformComp.Position).LengthSquared() <= radiusSquared)
+                            {
+                                neighborEntities.Add(otherEntity);
+                            }
+                        }
+                    }
+                }
+
+                if (neighborEntities.Count > 0)
+                {
+                    foreach (Entity otherEntity in neighborEntities)
+                    {
+                        if (!correctedEntityPairs.ContainsKey(entity))
+                        {
+                            correctedEntityPairs.Add(entity, new List<Entity>());
+                        }
+                        if (correctedEntityPairs[entity].Contains(otherEntity))
+                        {
+                            // This entity pair has already been separated, skip
+                            continue;
+                        }
+
+                        SeparateEntities(entity, otherEntity, radius);
+
+                        // Add to other's list, since this Entity is this current loop (can't loop this entity again this frame)
+                        if (!correctedEntityPairs.ContainsKey(otherEntity))
+                        {
+                            correctedEntityPairs.Add(otherEntity, new List<Entity>());
+                        }
+                        correctedEntityPairs[otherEntity].Add(entity);
+                    }
+                }
+            }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

@@ -17,7 +17,22 @@ namespace GameJam.Systems
             _transformEntities = engine.GetEntitiesFor(_transformFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity entity in _transformEntities)
             {

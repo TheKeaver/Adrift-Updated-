@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\FadingEntityComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleSpawningProcessComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\ICopyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\RibbonTrailComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\RibbonTrailMovementThresholdComponent.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Animations\Warp\WarpPointPhase1Process.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\CameraProcess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\Enemies\LaserEnemyStateMachineProcess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\ISpawnPattern.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 1\SpawnRandomChasingEnemies.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomGravityHoles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Processes\SpawnPatterns\Level 2\SpawnRandomShootingEnemies.cs" />
@@ -307,6 +309,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)States\ParticleTestGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\HSLColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Particles\GPUParticleManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)World.cs" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

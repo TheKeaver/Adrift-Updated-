@@ -1,8 +1,9 @@
 ﻿using Audrey;
+using System;
 
 namespace GameJam.Components
 {
-    public class PlayerShieldComponent : IComponent
+    public class PlayerShieldComponent : IComponent, ICopyComponent
     {
         public PlayerShieldComponent(Entity shipEntity, float angle = 0)
             : this(shipEntity, angle, CVars.Get<float>("player_shield_radius"), true)
@@ -22,5 +23,11 @@ namespace GameJam.Components
         public float Angle;
         public float Offset;
         public bool LaserReflectionActive;
+
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        {
+            Entity e = GetOrMakeCopy(ShipEntity);
+            return new PlayerShieldComponent(e, Angle);
+        }
     }
 }

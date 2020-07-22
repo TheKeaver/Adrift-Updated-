@@ -6,9 +6,6 @@ using System.Reflection;
 
 namespace GameJam.Systems
 {
-    /*
-     * 
-     */
     public class EntityTrailSystem : BaseSystem
     {
         readonly Family _entityTrailFamily = Family.All(typeof(MovementComponent), typeof(FadingEntityComponent)).Get();
@@ -19,14 +16,29 @@ namespace GameJam.Systems
             _entityTrailEntities = engine.GetEntitiesFor(_entityTrailFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity trailEntity in _entityTrailEntities)
             {
                 TransformHistoryComponent transformHistory = trailEntity.GetComponent<TransformHistoryComponent>();
 
                 transformHistory.updateInterval.Update(dt);
-                if(transformHistory.updateInterval.HasElapsed())
+                if (transformHistory.updateInterval.HasElapsed())
                 {
                     transformHistory.updateInterval.Reset();
                     DrawEntityTrail(trailEntity);

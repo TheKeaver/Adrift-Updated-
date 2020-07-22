@@ -20,18 +20,33 @@ namespace GameJam.Systems
             _projectileSyncEntities = Engine.GetEntitiesFor(_projectileSyncFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
         {
-            foreach(Entity entity in _projectileSyncEntities)
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            foreach (Entity entity in _projectileSyncEntities)
             {
                 ProjectileComponent projectileComp = entity.GetComponent<ProjectileComponent>();
                 Console.WriteLine(projectileComp.Color.ToString());
 
-                if(entity.HasComponent<VectorSpriteComponent>())
+                if (entity.HasComponent<VectorSpriteComponent>())
                 {
                     entity.GetComponent<VectorSpriteComponent>().ChangeColor(projectileComp.Color);
                 }
-                if(entity.HasComponent<ColoredExplosionComponent>())
+                if (entity.HasComponent<ColoredExplosionComponent>())
                 {
                     entity.GetComponent<ColoredExplosionComponent>().Color = projectileComp.Color;
                 }

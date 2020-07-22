@@ -77,6 +77,16 @@ namespace GameJam.Input
                 _snapshot.Angle += CVars.Get<float>("input_shield_angular_speed") * dt;
             }
         }
+
+        public override InputMethod Copy()
+        {
+            InputMethod copy = new PrimaryKeyboardInputMethod();
+            copy.GetSnapshot().Angle = _snapshot.Angle;
+            copy.GetSnapshot().SuperShield = _snapshot.SuperShield;
+
+            return copy;
+        }
+
         ~PrimaryKeyboardInputMethod()
         {
             EventManager.Instance.UnregisterListener(this);

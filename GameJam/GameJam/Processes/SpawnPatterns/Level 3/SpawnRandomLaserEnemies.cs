@@ -6,10 +6,8 @@ using System;
 
 namespace GameJam.Processes.SpawnPatterns
 {
-    public class SpawnRandomLaserEnemies : InstantProcess
+    public class SpawnRandomLaserEnemies : InstantProcess, ISpawnPattern
     {
-        private int radius = 50;
-
         readonly Engine Engine;
         readonly ProcessManager ProcessManager;
         readonly SpawnPatternManager SPM;
@@ -23,12 +21,29 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTrigger()
         {
-            for (int i = 0; i < 3; i++)
+            Vector2[] simulatedCenters = SPM.BeginSimulation(GetMaxSpawnTimer(), GetNumberOfValidCenters(), GetMinimumValidRadius());
+
+            for (int i = 0; i < simulatedCenters.Length; i++)
             {
-                Vector2 spawnPosition = SPM.GenerateValidCenter(radius);
-                float angle = SPM.AngleFacingNearestPlayerShip(spawnPosition);
-                LaserEnemyEntity.Spawn(Engine, ProcessManager, spawnPosition, angle);
+                float angle = SPM.AngleFacingNearestPlayerShip(simulatedCenters[i]);
+                LaserEnemyEntity.Spawn(Engine, ProcessManager, simulatedCenters[i], angle);
             }
+        }
+
+        public float GetMaxSpawnTimer()
+        {
+            return (CVars.Get<float>("animation_spawn_warp_phase_1_base_duration") + CVars.Get<float>("animation_spawn_warp_phase_2_base_duration"))
+                    * CVars.Get<float>("animation_spawn_warp_time_scale");
+        }
+
+        public int GetNumberOfValidCenters()
+        {
+            return 3;
+        }
+
+        public float GetMinimumValidRadius()
+        {
+            return 50;
         }
     }
 }

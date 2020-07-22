@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GameJam.Processes.SpawnPatterns
 {
-    public class SpawnGravityConstellation : InstantProcess
+    public class SpawnGravityConstellation : InstantProcess, ISpawnPattern
     {
         readonly Engine Engine;
         readonly ProcessManager ProcessManager;
@@ -26,6 +26,22 @@ namespace GameJam.Processes.SpawnPatterns
 
             maxWidth = CVars.Get<float>("play_field_width");
             maxHeight = CVars.Get<float>("play_field_height");
+        }
+
+        public float GetMaxSpawnTimer()
+        {
+            return 0;
+        }
+
+        public float GetMinimumValidRadius()
+        {
+            return 0;
+        }
+
+        public int GetNumberOfValidCenters()
+        {
+            // Returning zero should just make the spawn check pass immediately
+            return 0;
         }
 
         protected override void OnTrigger()

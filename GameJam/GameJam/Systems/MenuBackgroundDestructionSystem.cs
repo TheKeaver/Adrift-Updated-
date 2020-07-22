@@ -23,19 +23,34 @@ namespace GameJam.Systems
             _menuBackgroundEntities = Engine.GetEntitiesFor(_menuBackgroundFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             float zoom = Camera.TotalZoom;
 
-            for(int i = 0; i < _menuBackgroundEntities.Count; i++)
+            for (int i = 0; i < _menuBackgroundEntities.Count; i++)
             {
                 TransformComponent transformComp = _menuBackgroundEntities[i].GetComponent<TransformComponent>();
-                if(transformComp.Position.X < CVars.Get<float>("entity_background_spawner_destruction_x") / zoom)
+                if (transformComp.Position.X < CVars.Get<float>("entity_background_spawner_destruction_x") / zoom)
                 {
                     Engine.DestroyEntity(_menuBackgroundEntities[i--]);
                     continue;
                 }
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Audrey;
+using Events;
 using GameJam.Common;
 using GameJam.Components;
+using GameJam.Entities;
 using GameJam.Processes.SpawnPatterns;
+using GameJam.States;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections;
@@ -11,6 +14,24 @@ namespace GameJam.Processes.Enemies
 {
     public class SpawnPatternManager : IntervalProcess
     {
+        /*
+         * Spawn Simulation World will copy the current SharedGameState World
+         * whenever a spawn pattern is to be generated. It will copy over all
+         * current Components and Directors and the like, allowing the Shared
+         * Game State to be paused and kept the same.
+         */
+        public World SpawnSimulationWorld
+        {
+            get;
+            private set;
+        }
+
+        public World OtherWorld
+        {
+            get;
+            private set;
+        }
+
         // This should always be false unless testing 1 specific Spawn Pattern
         private bool killAfterOneProcessFlag = false;
         // This should always be 1 unless testing specific Spawn Pattern
@@ -32,17 +53,23 @@ namespace GameJam.Processes.Enemies
 
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> _playerShipEntities;
+        readonly ImmutableList<Entity> _simulationShipEntities;
 
         readonly Family _enemyFamily = Family.All(typeof(EnemyComponent)).Exclude(typeof(ProjectileComponent)).Get();
         readonly ImmutableList<Entity> _enemyEntities;
 
-        public SpawnPatternManager(Engine engine, ProcessManager processManager) : base(2.0f)
+        public SpawnPatternManager(Engine engine, ProcessManager processManager, World otherWorld) : base(2.0f)
         {
             Engine = engine;
             ProcessManager = processManager;
 
+            SpawnSimulationWorld = new World(new Engine(), new EventManager());
+            OtherWorld = otherWorld;
+
             _playerShipEntities = Engine.GetEntitiesFor(_playerShipFamily);
             _enemyEntities = Engine.GetEntitiesFor(_enemyFamily);
+
+            _simulationShipEntities = SpawnSimulationWorld.Engine.GetEntitiesFor(_playerShipFamily);
 
             patternStaleList = new Dictionary<int, List<Type>>();
             allPatternsList = GenerateAllPatternsList();
@@ -106,6 +133,7 @@ namespace GameJam.Processes.Enemies
 
         private void SpawnFirstStaticPattern()
         {
+            // TODO: Make SpawnRandomChasingEnemies based on number of players (?)
             process = new SpawnRandomChasingEnemies(Engine, ProcessManager, this, 1);
             process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
 
@@ -121,6 +149,8 @@ namespace GameJam.Processes.Enemies
 
         private void GenerateSpawnPattern(int difVal)
         {
+            //Console.WriteLine("Is in simulation mode = " + EventManager.Instance.simulationMode);
+           
             int tempDif = difVal;
             while (tempDif > 0)
             {
@@ -161,8 +191,8 @@ namespace GameJam.Processes.Enemies
             // If all patterns of 'val' level are stale, swap allPatternsList and patternStaleList
             if (allPatternsList[num].Count == 0)
             {
-                Console.WriteLine("allPatterns Count: " + allPatternsList[num].Count);
-                Console.WriteLine("patternStale Count: " + patternStaleList[num].Count);
+                //Console.WriteLine("allPatterns Count: " + allPatternsList[num].Count);
+                //Console.WriteLine("patternStale Count: " + patternStaleList[num].Count);
                 allPatternsList[num].AddRange(patternStaleList[num]);
                 patternStaleList[num].Clear();
             }
@@ -189,6 +219,64 @@ namespace GameJam.Processes.Enemies
             allPatternsList[num].RemoveAt(ran);
         }
 
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="amountOfTime"></param>
+       /// <returns></returns>
+        public Vector2[] BeginSimulation(float amountOfTime, int numValidCenters, float minRadius)
+        {
+            //Console.WriteLine("Begin Simulation -> Copy Other World into this");
+            
+            // Load current game state into the Simulation world
+            SpawnSimulationWorld.CopyOtherWorldIntoThis(OtherWorld);
+
+            ExecuteSimulation(amountOfTime);
+            
+            return GenerateValidCenters(numValidCenters, minRadius, true);
+        }
+
+        private Vector2[] GenerateValidCenters(int numValidCenters, float minRadius, bool simulation = false)
+        {
+            //Console.WriteLine("Generating " + numValidCenters + " valid centers");
+            
+            Vector2[] toReturn = new Vector2[numValidCenters];
+            int index = 0;
+
+            while (index < numValidCenters)
+            {
+                toReturn[index] = GenerateValidCenter(minRadius, simulation);
+                index++;
+            }
+
+            //Console.WriteLine("Returning " + toReturn.Length + " valid centers");
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Called after a call to spawn an entity is made.
+        /// Purprose is to simulate all of the spawning animation frames, setting
+        /// up for GenerateValideCenter() that will return a valid position for spawning
+        /// </summary>
+        /// <param name="amountOfTime">
+        /// Determined by the call to spawn a type of entity, can be derived from
+        /// the CVars that define the amount of time it takes for a spawn animation
+        /// </param>
+        private void ExecuteSimulation(float amountOfTime)
+        {
+            //Console.WriteLine("Simulating for " + amountOfTime + " seconds");
+            
+            float elapsedTime = 0;
+
+            while (elapsedTime < amountOfTime)
+            {
+                SpawnSimulationWorld.OnFixedUpdate(1 / CVars.Get<float>("tick_frequency"));
+                elapsedTime += (1 / CVars.Get<float>("tick_frequency"));
+            }
+
+            return;
+        }
+
         public float AngleFacingNearestPlayerShip(Vector2 position)
         {
             float minDistanceToPlayer = float.MaxValue;
@@ -208,7 +296,7 @@ namespace GameJam.Processes.Enemies
             return (float)Math.Atan2(closestPlayerShip.Y, closestPlayerShip.X);
         }
 
-        public Vector2 GenerateValidCenter(int radius)
+        public Vector2 GenerateValidCenter(float radius, bool simulation = false)
         {
             Vector2 spawnPosition = new Vector2(0, 0);
 
@@ -216,19 +304,26 @@ namespace GameJam.Processes.Enemies
             {
                 spawnPosition.X = random.NextSingle(-CVars.Get<float>("screen_width") / 2 + radius, CVars.Get<float>("screen_width") / 2 - radius);
                 spawnPosition.Y = random.NextSingle(-CVars.Get<float>("screen_height") / 2 + radius, CVars.Get<float>("screen_height") / 2 - radius);
-            } while (IsTooCloseToPlayer(spawnPosition, radius));
+            } while (IsTooCloseToPlayer(spawnPosition, radius, simulation));
 
             return spawnPosition;
         }
 
-        // This funciton used to be private, changed to public to be used in SpawnChasingBorder so that
+        // This function used to be private, changed to public to be used in SpawnChasingBorder so that
         // SpawnPatterns can check if a pre-determined location is too close to a player at the time of spawning
         // The spawn will be skipped in these scenarios
-        public bool IsTooCloseToPlayer(Vector2 position, int radius)
+        public bool IsTooCloseToPlayer(Vector2 position, float radius, bool simulation = false)
         {
+            ImmutableList<Entity> playerShips = (simulation) ? _simulationShipEntities : _playerShipEntities;
+
+            if(playerShips.Count <= 0)
+            {
+                return false;
+            }
+
             float minDistanceToPlayer = float.MaxValue;
 
-            foreach (Entity playerShip in _playerShipEntities)
+            foreach (Entity playerShip in playerShips)
             {
                 TransformComponent transformComponent = playerShip.GetComponent<TransformComponent>();
                 Vector2 toPlayer = transformComponent.Position - position;

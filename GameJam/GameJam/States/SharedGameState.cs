@@ -1,5 +1,6 @@
 ﻿using System;
 using Audrey;
+using Events;
 using GameJam.Common;
 using GameJam.Directors;
 using GameJam.Entities;
@@ -14,6 +15,12 @@ namespace GameJam.States
 {
     public class SharedGameState : GameState
     {
+        public World World
+        {
+            get;
+            private set;
+        }
+
         public PostProcessor PostProcessor
         {
             get;
@@ -93,6 +100,7 @@ namespace GameJam.States
 
         public SharedGameState(GameManager gameManager) : base(gameManager)
         {
+            Engine = new Engine();
         }
 
         protected override void OnInitialize()
@@ -115,6 +123,7 @@ namespace GameJam.States
             GPUParticleManager.RegisterListeners();
 
             Engine = new Engine();
+            World = new World(Engine, EventManager.Instance);
             InitSystems();
             InitDirectors();
 
@@ -130,43 +139,32 @@ namespace GameJam.States
             _systems = new BaseSystem[]
             {
                 // Input System must go first to have accurate snapshots
-                new InputSystem(Engine),
+
                 // TransformResetSystem must go before any system that changes the transform of entities
-                new TransformResetSystem(Engine),
 
                 // Section below is not dependent on other systems
                 new GravityHolePassiveAnimationSystem(Engine, ProcessManager, Content),
                 new AnimationSystem(Engine),
                 new ParallaxBackgroundSystem(Engine, Camera),
                 new PulseSystem(Engine),
-                new PassiveRotationSystem(Engine),
                 new MenuBackgroundDestructionSystem(Engine, Camera),
                 new ProjectileColorSyncSystem(Engine),
 
                 // Section below is ordered based on dependency from Top (least dependent) to Bottom (most dependent)
-                new ChasingSpeedIncreaseSystem(Engine),
-                new LaserEnemySystem(Engine),
-                new GravitySystem(Engine),
-                new EnemySeparationSystem(Engine), // Depends on the Quad Tree, however this system needs to go before movement system. It will use the previous frame's quad tree.
-                new MovementSystem(Engine),
-                new PlayerShieldSystem(Engine),
-                new QuadTreeSystem(Engine),
-                new SuperShieldSystem(Engine),
                 
                 // Until Changed, EnemyRotationSystem must go after MovementSystem or enemy ships will not bounce off of walls
-                new EnemyRotationSystem(Engine),
-                new EntityMirroringSystem(Engine),
                 new TransformHistorySystem(Engine),
-                
-                //new EntityTrailSystem(Engine),
                 new VectorSpriteTrailSystem(Engine),
                 new EntityFadingSystem(Engine),
                 new RibbonTrailMovementThresholdSystem(Engine),
                 new RibbonTrailSystem(Engine),
-
                 // Collision Detection must go last to have accurate collision detection
-                new CollisionDetectionSystem(Engine)
             };
+
+            foreach (BaseSystem sys in _systems)
+            {
+                ProcessManager.Attach(sys);
+            }
 
             RenderSystem = new RenderSystem(GameManager.GraphicsDevice, Content, Engine);
 #if DEBUG
@@ -181,29 +179,11 @@ namespace GameJam.States
         }
         private void InitDirectors()
         {
-            ProcessManager.Attach(new EnemyCollisionWithShipDirector(Engine, Content, ProcessManager));
-
-            ProcessManager.Attach(new EnemyCollisionOnShieldDirector(Engine, Content, ProcessManager));
-
             ProcessManager.Attach(new SoundDirector(Engine, Content, ProcessManager));
 
             ProcessManager.Attach(new ExplosionDirector(Engine, Content, ProcessManager, VelocityParticleManager, GPUParticleManager));
 
-            ProcessManager.Attach(new ChangeToChasingEnemyDirector(Engine, Content, ProcessManager));
-
-            ProcessManager.Attach(new EnemyPushBackOnPlayerDirector(Engine, Content, ProcessManager));
-
-            ProcessManager.Attach(new HazardCollisionOnEnemyDirector(Engine, Content, ProcessManager));
-
-            ProcessManager.Attach(new BounceDirector(Engine, Content, ProcessManager));
-
-            ProcessManager.Attach(new LaserBeamCleanupDirector(Engine, Content, ProcessManager));
-
-            ProcessManager.Attach(new PlayerShipCollidingWithEdgeDirector(Engine, Content, ProcessManager));
-
-            ProcessManager.Attach(new GameOverDeciderDirector(Engine, Content, ProcessManager));
-
-            ProcessManager.Attach(new SuperShieldDisplayCleanupDirector(Engine, Content, ProcessManager));
+            ProcessManager.Attach(new PlayerLostAnimationAttachDirector(Engine, Content, ProcessManager));
 
             ProcessManager.Attach(new CleanupEntitiesOnEndOfSceneDirector(Engine, Content, ProcessManager));
 
@@ -269,10 +249,7 @@ namespace GameJam.States
             Camera.ResetAll();
             DebugCamera.ResetAll();
 
-            for (int i = 0; i < _systems.Length; i++)
-            {
-                _systems[i].Update(dt);
-            }
+            World.OnFixedUpdate(dt);
 
             base.OnFixedUpdate(dt);
         }

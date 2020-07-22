@@ -8,6 +8,7 @@
         protected InputSnapshot _snapshot = new InputSnapshot();
 
         public abstract void Update(float dt);
+        public abstract InputMethod Copy();
 
         public InputSnapshot GetSnapshot()
         {
@@ -18,5 +19,6 @@
         {
             _snapshot = new InputSnapshot();
         }
+
     }
 }

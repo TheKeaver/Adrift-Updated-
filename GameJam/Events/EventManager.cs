@@ -23,11 +23,14 @@ namespace Events
 {
     public class EventManager
     {
-        public static EventManager Instance { get; } = new EventManager();
+        public static EventManager Instance { get; set; } = new EventManager();
+
+        //public bool simulationMode = false;
 
         Dictionary<Type, List<WeakReference<IEventListener>>> _listeners = new Dictionary<Type, List<WeakReference<IEventListener>>>();
         List<WeakReference<IEventListener>> _wildcardListeners = new List<WeakReference<IEventListener>>();
         List<IEvent> _queue = new List<IEvent>();
+
 
         public void RegisterListener<T>(IEventListener listener) where T : IEvent
         {

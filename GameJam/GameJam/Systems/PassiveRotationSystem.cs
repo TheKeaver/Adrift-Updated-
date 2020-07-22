@@ -14,9 +14,24 @@ namespace GameJam.Systems
             _rotationEntities = engine.GetEntitiesFor(_rotationFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
         {
-            foreach(Entity rotationEntity in _rotationEntities)
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
+        {
+            foreach (Entity rotationEntity in _rotationEntities)
             {
                 RotationComponent rotationComp = rotationEntity.GetComponent<RotationComponent>();
                 rotationEntity.GetComponent<TransformComponent>().Rotate(rotationComp.RotationSpeed * dt);

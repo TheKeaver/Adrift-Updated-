@@ -19,7 +19,22 @@ namespace GameJam.Systems
             _playerEntities = engine.GetEntitiesFor(_playerFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity rotationEntity in _rotationEntities)
             {
@@ -66,7 +81,7 @@ namespace GameJam.Systems
                     }
                     else
                     {
-                        if(Math.Abs(diff) < Math.PI)
+                        if (Math.Abs(diff) < Math.PI)
                         {
                             newAngle -= rotationEntity.GetComponent<RotationComponent>().RotationSpeed * dt;
                         }
@@ -76,7 +91,7 @@ namespace GameJam.Systems
                         }
                     }
 
-                    Vector2 newDirection = new Vector2( (float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+                    Vector2 newDirection = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
                     rotationEntity.GetComponent<MovementComponent>().MovementVector = newDirection * rotationEntity.GetComponent<MovementComponent>().MovementVector.Length();
                     rotationEntity.GetComponent<TransformComponent>().Rotate(newAngle - currentRotation);
                 }

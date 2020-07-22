@@ -6,9 +6,8 @@ using System;
 
 namespace GameJam.Processes.SpawnPatterns
 {
-    public class SpawnChasingTriangle : InstantProcess
+    public class SpawnChasingTriangle : InstantProcess, ISpawnPattern
     {
-        private int radius = 100;
         private Vector2 Center;
 
         readonly Engine Engine;
@@ -24,12 +23,27 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTrigger()
         {
-            //Console.WriteLine("Triggered SpawnChasingTrianlge");
-            Center = SPM.GenerateValidCenter(radius);
+            Vector2[] simulatedCenters = SPM.BeginSimulation(GetMaxSpawnTimer(), GetNumberOfValidCenters(), GetMinimumValidRadius());
 
+            Center = simulatedCenters[0];
+            
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y + 25)));
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 29, Center.Y - 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 29, Center.Y - 25)));
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 29, Center.Y - 25), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 29, Center.Y - 25)));
+        }
+        public float GetMaxSpawnTimer()
+        {
+            return CVars.Get<float>("animation_chasing_enemy_spawn_duration");
+        }
+
+        public int GetNumberOfValidCenters()
+        {
+            return 1;
+        }
+
+        public float GetMinimumValidRadius()
+        {
+            return 100;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Audrey;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam.Components
 {
-    public class LaserBeamComponent : IComponent
+    public class LaserBeamComponent : IComponent, ICopyComponent
     {
         public Entity ReflectionBeamEntity = null;
         public bool ComputeReflection;
@@ -17,6 +18,11 @@ namespace GameJam.Components
             ComputeReflection = true;
             InteractWithShield = interactWithShield;
             Color = Color.Red;
+        }
+
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        {
+            return new LaserBeamComponent(ComputeReflection, InteractWithShield);
         }
     }
 }

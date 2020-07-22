@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using Events;
 using GameJam.Entities;
 using GameJam.Processes.Enemies;
 using Microsoft.Xna.Framework;
@@ -6,10 +7,8 @@ using System;
 
 namespace GameJam.Processes.SpawnPatterns
 {
-    public class SpawnRandomChasingEnemies : InstantProcess
+    public class SpawnRandomChasingEnemies : InstantProcess, ISpawnPattern
     {
-        private int radius = 50;
-
         readonly Engine Engine;
         readonly ProcessManager ProcessManager;
         readonly SpawnPatternManager SPM;
@@ -35,12 +34,29 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTrigger()
         {
-            for (int i = 0; i < Count; i++)
+            Vector2[] simulatedCenters = SPM.BeginSimulation(GetMaxSpawnTimer(), GetNumberOfValidCenters(), GetMinimumValidRadius());
+
+            //Console.WriteLine("Is in simulation mode = " + EventManager.Instance.simulationMode);
+            for (int i = 0; i < simulatedCenters.Length; i++)
             {
-                Vector2 spawnPosition = SPM.GenerateValidCenter(radius);
-                float angle = SPM.AngleFacingNearestPlayerShip(spawnPosition);
-                ChasingEnemyEntity.Spawn(Engine, ProcessManager, spawnPosition, angle);
+                float angle = SPM.AngleFacingNearestPlayerShip(simulatedCenters[i]);
+                ChasingEnemyEntity.Spawn(Engine, ProcessManager, simulatedCenters[i], angle);
             }
+        }
+
+        public float GetMaxSpawnTimer()
+        {
+            return CVars.Get<float>("animation_chasing_enemy_spawn_duration");
+        }
+
+        public int GetNumberOfValidCenters()
+        {
+            return Count;
+        }
+
+        public float GetMinimumValidRadius()
+        {
+            return 50;
         }
     }
 }

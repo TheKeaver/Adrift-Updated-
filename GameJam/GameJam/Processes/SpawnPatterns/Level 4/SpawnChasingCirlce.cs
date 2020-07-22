@@ -6,7 +6,7 @@ using System;
 
 namespace GameJam.Processes.SpawnPatterns
 {
-    public class SpawnChasingCircle : InstantProcess
+    public class SpawnChasingCircle : InstantProcess, ISpawnPattern
     {
         private int radius = 200;
         private Vector2 Center;
@@ -24,8 +24,9 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTrigger()
         {
-            //Console.WriteLine("Triggered SpawnChasingTrianlge");
-            Center = SPM.GenerateValidCenter(radius);
+            Vector2[] simulatedCenters = SPM.BeginSimulation(GetMaxSpawnTimer(), GetNumberOfValidCenters(), GetMinimumValidRadius());
+
+            Center = simulatedCenters[0];
 
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y + 180), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y + 180)));
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X, Center.Y - 180), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X, Center.Y - 180)));
@@ -36,6 +37,21 @@ namespace GameJam.Processes.SpawnPatterns
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X + 128, Center.Y - 128), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X + 128, Center.Y - 128)));
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 128, Center.Y + 128), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 128, Center.Y + 128)));
             ChasingEnemyEntity.Spawn(Engine, ProcessManager, new Vector2(Center.X - 128, Center.Y - 128), SPM.AngleFacingNearestPlayerShip(new Vector2(Center.X - 128, Center.Y - 128)));
+        }
+
+        public float GetMaxSpawnTimer()
+        {
+            return CVars.Get<float>("animation_chasing_enemy_spawn_duration");
+        }
+
+        public int GetNumberOfValidCenters()
+        {
+            return 1;
+        }
+
+        public float GetMinimumValidRadius()
+        {
+            return 200;
         }
     }
 }

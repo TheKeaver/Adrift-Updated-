@@ -16,7 +16,22 @@ namespace GameJam.Systems
             _fadingEntities = engine.GetEntitiesFor(_fadingFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
         {
             List<Entity> toDestroy = new List<Entity>();
 

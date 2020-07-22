@@ -1,12 +1,13 @@
 ﻿using Audrey;
 using GameJam.Common;
+using GameJam.Constants;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
 namespace GameJam.Components
 {
-    public class CollisionComponent : IComponent
+    public class CollisionComponent : IComponent, ICopyComponent
     {
         public List<CollisionShape> CollisionShapes;
         public List<Entity> CollidingWith = new List<Entity>();
@@ -22,6 +23,22 @@ namespace GameJam.Components
             CollisionShapes = new List<CollisionShape>();
             CollisionShapes.Add(collisionShape);
         }
+
+        public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
+        {
+            CollisionComponent returnMe = new CollisionComponent(CollisionShapes);
+            returnMe.CollisionMask = CollisionMask;
+            returnMe.CollisionGroup = CollisionGroup;
+
+            returnMe.CollidingWith = new List<Entity>();
+            foreach (Entity e in CollidingWith)
+            {
+                returnMe.CollidingWith.Add(GetOrMakeCopy(e));
+            }
+
+            return returnMe;
+        }
+
         public BoundingRect GetAABB(float cos, float sin, float scale)
         {
             BoundingRect returnRect = CollisionShapes[0].GetAABB(cos, sin, scale);

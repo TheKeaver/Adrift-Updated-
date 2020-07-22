@@ -32,9 +32,9 @@ namespace GameJam.Systems
             _gravityHoleEntities = Engine.GetEntitiesFor(_gravityHoleFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
-            foreach(Entity entity in _gravityHoleEntities)
+            foreach (Entity entity in _gravityHoleEntities)
             {
                 GravityHoleEnemyComponent gravityHoleEnemyComp = entity.GetComponent<GravityHoleEnemyComponent>();
                 TransformComponent transformComp = entity.GetComponent<TransformComponent>();
@@ -51,10 +51,10 @@ namespace GameJam.Systems
                     transformComp.SetScale(scale);
                 }
 
-                if(gravityHoleEnemyComp.PingAnimation)
+                if (gravityHoleEnemyComp.PingAnimation)
                 {
                     gravityHoleEnemyComp.PingTimer.Update(dt);
-                    if(gravityHoleEnemyComp.PingTimer.HasElapsed())
+                    if (gravityHoleEnemyComp.PingTimer.HasElapsed())
                     {
                         gravityHoleEnemyComp.PingTimer.Reset();
 
@@ -63,6 +63,21 @@ namespace GameJam.Systems
                     }
                 }
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
         }
     }
 }

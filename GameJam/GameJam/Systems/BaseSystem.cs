@@ -5,7 +5,7 @@ namespace GameJam.Systems
     /// <summary>
     /// Base class for systems.
     /// </summary>
-    public abstract class BaseSystem
+    public abstract class BaseSystem : Process
     {
         protected Engine Engine {
             get;
@@ -16,7 +16,5 @@ namespace GameJam.Systems
         {
             Engine = engine;
         }
-
-        public abstract void Update(float dt);
     }
 }

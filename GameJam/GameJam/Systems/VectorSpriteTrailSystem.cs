@@ -16,14 +16,29 @@ namespace GameJam.Systems
             _vectorSpriteTrailEntities = engine.GetEntitiesFor(_vectorSpriteTrailFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnInitialize()
+        {
+            return;
+        }
+
+        protected override void OnKill()
+        {
+            return;
+        }
+
+        protected override void OnTogglePause()
+        {
+            return;
+        }
+
+        protected override void OnUpdate(float dt)
         {
             foreach (Entity trailEntity in _vectorSpriteTrailEntities)
             {
                 TransformHistoryComponent thc = trailEntity.GetComponent<TransformHistoryComponent>();
 
                 thc.updateInterval.Update(dt);
-                if(thc.updateInterval.HasElapsed())
+                if (thc.updateInterval.HasElapsed())
                 {
                     thc.updateInterval.Reset();
                     DrawVectorSpriteTrail(trailEntity, thc);
