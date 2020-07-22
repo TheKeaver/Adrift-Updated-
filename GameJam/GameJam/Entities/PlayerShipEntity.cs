@@ -54,10 +54,13 @@ namespace GameJam.Entities
 
             entity.AddComponent(new CameraTrackingComponent());
 
-            entity.AddComponent(new TransformHistoryComponent(position, 0, 50)); // TODO: Move to CVar
+            entity.AddComponent(new TransformHistoryComponent(position, 0, 51)); // TODO: Move to CVar
             entity.AddComponent(new RibbonTrailComponent(50));
             entity.GetComponent<RibbonTrailComponent>().RenderGroup = Constants.Render.RENDER_RIBBON;
             entity.GetComponent<RibbonTrailComponent>().Color = color;
+
+            entity.AddComponent(new RibbonTrailMovementThresholdComponent());
+            entity.GetComponent<RibbonTrailMovementThresholdComponent>().MinimumSpeedForTrail = CVars.Get<float>("player_trail_minimum_movement");
 
             entity.GetComponent<MovementComponent>().UpdateRotationWithDirection = CVars.Get<bool>("player_rotate_in_direction_of_movement");
 

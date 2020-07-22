@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Components\GravityHoleEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\QuadTreeReferenceComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\RibbonTrailComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Components\RibbonTrailMovementThresholdComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\SuperShieldComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\TransformHistoryComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\VectorSpriteTrailComponent.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Systems\AnimationSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Components\ChasingEnemyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ProjectileBouncedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Systems\RibbonTrailMovementThresholdSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\RibbonTrailSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\SuperShieldSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Systems\TransformHistorySystem.cs" />

@@ -182,6 +182,8 @@ namespace GameJam
             Create<int>("score_base_destroy_enemy_with_projectile", 500, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroying an enemy with a projectile.");
             Create<int>("score_base_destroy_enemy_with_laser", 250, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Base score of destroyting an enemy with a laser.");
 
+            Create<float>("player_trail_minimum_movement", 200, CVarFlags.DEV_PRESERVE, "Minimum movement speed the player needs to be traveling for the trail to appear.");
+
             /** ANIMATION **/
             Create<float>("animation_trail_width", 25f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Changing this value affects the width of the VectorSpriteTrail.");
             Create<float>("animation_trail_fading_timer", 1, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "How long a trail entity lasts before it gets deleted. Increasing = Longer Trail, Decreasing = Shorter Trail.");

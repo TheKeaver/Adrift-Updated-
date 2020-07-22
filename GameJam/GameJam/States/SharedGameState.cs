@@ -161,6 +161,7 @@ namespace GameJam.States
                 //new EntityTrailSystem(Engine),
                 new VectorSpriteTrailSystem(Engine),
                 new EntityFadingSystem(Engine),
+                new RibbonTrailMovementThresholdSystem(Engine),
                 new RibbonTrailSystem(Engine),
 
                 // Collision Detection must go last to have accurate collision detection

@@ -3,13 +3,12 @@ using GameJam.Components;
 using GameJam.Entities;
 using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 
 namespace GameJam.Systems
 {
     public class VectorSpriteTrailSystem : BaseSystem
     {
-        readonly Family _vectorSpriteTrailFamily = Family.All(typeof(VectorSpriteTrailComponent), typeof(TransformHistoryComponent)).Get();
+        readonly Family _vectorSpriteTrailFamily = Family.All(typeof(VectorSpriteTrailComponent), typeof(TransformHistoryComponent), typeof(MovementComponent)).Get();
         readonly ImmutableList<Entity> _vectorSpriteTrailEntities;
 
         public VectorSpriteTrailSystem(Engine engine) : base(engine)
@@ -41,10 +40,10 @@ namespace GameJam.Systems
             TransformComponent transform = entity.GetComponent<TransformComponent>();
             Vector2 direction = new Vector2((float)Math.Cos(transform.Rotation), (float)Math.Sin(transform.Rotation));
 
-            if(moveComp.MovementVector.Length() >= 200)
+            if(moveComp.MovementVector.Length() >= CVars.Get<float>("player_trail_minimum_movement"))
             {
-                Vector2 lastTransform = thc.GetTransformHistoryAt(-2);
-                float lastRotation = thc.GetRotationHistoryAt(-2);
+                Vector2 lastTransform = thc.Positions[1];// thc.GetTransformHistoryAt(-2);
+                float lastRotation = thc.Rotations[1]; // thc.GetRotationHistoryAt(-2);
                 Vector2 lastDirection = new Vector2((float)Math.Cos(lastRotation), (float)Math.Sin(lastRotation));
 
                 Vector2 point1, point2;

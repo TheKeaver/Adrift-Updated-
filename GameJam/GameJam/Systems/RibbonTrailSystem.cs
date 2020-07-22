@@ -1,7 +1,9 @@
 ﻿using Audrey;
+using GameJam.Common;
 using GameJam.Components;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace GameJam.Systems
 {
@@ -20,21 +22,54 @@ namespace GameJam.Systems
 
         public override void Update(float dt)
         {
-            foreach(Entity entity in _ribbonEntities)
+            UpdateRibbonTrails(dt);
+        }
+
+        private void UpdateRibbonTrails(float dt)
+        {
+            foreach (Entity entity in _ribbonEntities)
             {
                 TransformHistoryComponent transformHistoryComp = entity.GetComponent<TransformHistoryComponent>();
                 RibbonTrailComponent ribbonTrailComp = entity.GetComponent<RibbonTrailComponent>();
 
-                if(transformHistoryComp.positionHistory.Length != transformHistoryComp.rotationHistory.Length)
+                if (transformHistoryComp.Positions.Count != transformHistoryComp.Rotations.Count)
                 {
                     throw new Exception("Position and rotation history lengths do not match.");
                 }
 
-                int len = transformHistoryComp.positionHistory.Length;
+                ribbonTrailComp.Starts.Sort();
+                ribbonTrailComp.Ends.Sort();
+
+                int currentStart = ribbonTrailComp.Starts.Count > 0 ? ribbonTrailComp.Starts[0] : ribbonTrailComp.TrailLength;
+                int currentEnd = ribbonTrailComp.Ends.Count > 0 ? ribbonTrailComp.Ends[0] : ribbonTrailComp.TrailLength;
+
+                int len = ribbonTrailComp.TrailLength;
                 for (int i = 0; i < len; i++)
                 {
+                    if (i + 1 >= transformHistoryComp.Positions.Count
+                        || i + 1 >= transformHistoryComp.Rotations.Count)
+                    {
+                        continue;
+                    }
+
                     int v1 = i * 2;
                     int v2 = i * 2 + 1;
+
+                    if(i < currentStart
+                        || i > currentEnd)
+                    {
+                        ribbonTrailComp.Verts[v1].Color.R = ribbonTrailComp.Color.R;
+                        ribbonTrailComp.Verts[v1].Color.G = ribbonTrailComp.Color.G;
+                        ribbonTrailComp.Verts[v1].Color.B = ribbonTrailComp.Color.B;
+                        ribbonTrailComp.Verts[v1].Color.A = 255;
+                        ribbonTrailComp.Verts[v2].Color.R = ribbonTrailComp.Color.R;
+                        ribbonTrailComp.Verts[v2].Color.G = ribbonTrailComp.Color.G;
+                        ribbonTrailComp.Verts[v2].Color.B = ribbonTrailComp.Color.B;
+                        ribbonTrailComp.Verts[v2].Color.A = 255;
+
+                        continue;
+                    }
+
                     int nv1 = (i * 2 + 2) % (2 * len);
                     int nv2 = (i * 2 + 3) % (2 * len);
 
@@ -45,11 +80,13 @@ namespace GameJam.Systems
                     int i5 = i * 6 + 4;
                     int i6 = i * 6 + 5;
 
-                    float alpha = MathHelper.Lerp(1, 0, (float)i / len);
+                    Vector2 pos = transformHistoryComp.Positions[i] * FlipY;
+                    Vector2 direction;
+                    direction = pos - transformHistoryComp.Positions[i + 1] * FlipY;
 
-                    Vector2 pos = transformHistoryComp.GetTransformHistoryAt(-(i + 1)) * FlipY;
+                    float alpha = MathHelper.Lerp(1, 0, MathUtils.InverseLerp(currentStart, currentEnd, i));
+
                     Vector2 p1, p2;
-                    Vector2 direction = pos - transformHistoryComp.GetTransformHistoryAt(-(i + 1) - 1) * FlipY;
                     direction.Normalize();
                     CalculateEndsAtLocation(Vector2.Zero, pos, direction,
                         out p1, out p2);
@@ -77,6 +114,56 @@ namespace GameJam.Systems
                         ribbonTrailComp.Indices[i5] = nv1;
                         ribbonTrailComp.Indices[i6] = nv2;
                     }
+
+                    // Check for next segment before next loop
+                    if(i == currentEnd)
+                    {
+                        FindNextStartAndEnd(ribbonTrailComp.Starts, ribbonTrailComp.Ends,
+                            ribbonTrailComp.TrailLength, ref currentStart, ref currentEnd);
+                    }
+                }
+
+                // Increase starts and ends
+                for(int i = 0; i < ribbonTrailComp.Starts.Count; i++)
+                {
+                    ribbonTrailComp.Starts[i]++;
+                    if(ribbonTrailComp.Starts[i] >= ribbonTrailComp.TrailLength)
+                    {
+                        ribbonTrailComp.Starts.RemoveAt(i--);
+                    }
+                }
+                for (int i = 0; i < ribbonTrailComp.Ends.Count; i++)
+                {
+                    ribbonTrailComp.Ends[i]++;
+                    if (ribbonTrailComp.Ends[i] >= ribbonTrailComp.TrailLength)
+                    {
+                        ribbonTrailComp.Ends.RemoveAt(i--);
+                    }
+                }
+            }
+        }
+
+        private void FindNextStartAndEnd(List<int> starts, List<int> ends, int trailLen, ref int currentStart, ref int currentEnd)
+        {
+            int indexOfStart = starts.IndexOf(currentStart);
+            int indexOfEnd = ends.IndexOf(currentEnd);
+
+            bool movedStart = false;
+            if(indexOfStart + 1 < starts.Count)
+            {
+                currentStart = starts[indexOfStart + 1];
+                movedStart = true;
+            }
+
+            if(indexOfEnd + 1 < ends.Count)
+            {
+                currentEnd = ends[indexOfEnd + 1];
+            } else
+            {
+                if(movedStart)
+                {
+                    // Must be at end (w/ a start)
+                    currentEnd = trailLen - 1;
                 }
             }
         }
