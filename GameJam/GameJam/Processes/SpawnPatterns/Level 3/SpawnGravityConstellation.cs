@@ -28,6 +28,12 @@ namespace GameJam.Processes.SpawnPatterns
             maxHeight = CVars.Get<float>("play_field_height");
         }
 
+        public static bool CanSpawn(Engine engine)
+        {
+            // This will be called by the spawn pattern manager, the return will need to change based on whether the pattern is active or not
+            return false;
+        }
+
         public float GetMaxSpawnTimer()
         {
             return 0;
