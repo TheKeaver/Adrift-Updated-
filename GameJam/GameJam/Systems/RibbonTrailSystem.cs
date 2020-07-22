@@ -20,7 +20,7 @@ namespace GameJam.Systems
             _ribbonEntities = Engine.GetEntitiesFor(_ribbonFamily);
         }
 
-        public override void Update(float dt)
+        protected override void OnUpdate(float dt)
         {
             UpdateRibbonTrails(dt);
         }
@@ -178,6 +178,18 @@ namespace GameJam.Systems
 
             p1 = lp1 - origin;
             p2 = lp2 - origin;
+        }
+
+        protected override void OnInitialize()
+        {
+        }
+
+        protected override void OnKill()
+        {
+        }
+
+        protected override void OnTogglePause()
+        {
         }
     }
 }
