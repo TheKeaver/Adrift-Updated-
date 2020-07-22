@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\AreaTextureSMAA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\BitmapFonts\BitmapFontReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\SearchTextureSMAA.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Directors\ApplyInitialPushForceDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\CleanupEntitiesOnEndOfSceneDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\GameOverDeciderDirector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Directors\PlayerLostAnimationAttachDirector.cs" />
@@ -35,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Entities\DrawQuadOnlyEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\GravityHoleEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\PlayerTrailEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\PushForceEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SuperShieldDisplayEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\VectorSpriteTrailEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Animation\PlayerLostAnimationCompletedEvent.cs" />
@@ -43,6 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\ResumeAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Audio\PauseAllSoundsEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\CleanupAllEntitiesEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\ApplyInitialPushForceEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\PlayerLostEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\GameLogic\PlayerShipSpawnEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\SettingsEventTemplate.cs" />
