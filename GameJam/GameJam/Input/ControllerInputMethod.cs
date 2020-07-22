@@ -12,7 +12,7 @@ namespace GameJam.Input
         public bool isSuperShieldOn;
         public readonly PlayerIndex PlayerIndex;
 
-        public ControllerInputMethod(PlayerIndex playerIndex)
+        public ControllerInputMethod(PlayerIndex playerIndex, bool isSuperShieldOn = false)
         {
             PlayerIndex = playerIndex;
             isRotatingCCW = false;
@@ -21,6 +21,7 @@ namespace GameJam.Input
             EventManager.Instance.RegisterListener<GamePadButtonDownEvent>(this);
             EventManager.Instance.RegisterListener<GamePadButtonUpEvent>(this);
             EventManager.Instance.RegisterListener<GamePadDisconnectedEvent>(this);
+            this.isSuperShieldOn = isSuperShieldOn;
         }
 
         public override void Update(float dt)
@@ -119,6 +120,15 @@ namespace GameJam.Input
         private void HandleGamePadDisconnected(GamePadDisconnectedEvent gpde)
         {
             isRotatingCCW = isRotatingCW = false;
+        }
+
+        public override InputMethod Copy()
+        {
+            InputMethod copy = new ControllerInputMethod(PlayerIndex, isSuperShieldOn);
+            copy.GetSnapshot().Angle = _snapshot.Angle;
+            copy.GetSnapshot().SuperShield = _snapshot.SuperShield;
+
+            return copy;
         }
 
         ~ControllerInputMethod()

@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using Events;
 using GameJam.Entities;
 using GameJam.Processes.Enemies;
 using Microsoft.Xna.Framework;
@@ -35,6 +36,7 @@ namespace GameJam.Processes.SpawnPatterns
         {
             Vector2[] simulatedCenters = SPM.BeginSimulation(GetMaxSpawnTimer(), GetNumberOfValidCenters(), GetMinimumValidRadius());
 
+            //Console.WriteLine("Is in simulation mode = " + EventManager.Instance.simulationMode);
             for (int i = 0; i < simulatedCenters.Length; i++)
             {
                 float angle = SPM.AngleFacingNearestPlayerShip(simulatedCenters[i]);

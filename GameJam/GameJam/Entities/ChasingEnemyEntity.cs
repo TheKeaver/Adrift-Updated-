@@ -1,4 +1,5 @@
 ﻿using Audrey;
+using Events;
 using GameJam.Common;
 using GameJam.Components;
 using GameJam.Processes.Entities;
@@ -11,7 +12,8 @@ namespace GameJam.Entities
     {
         public static Vector2[] GetPoints()
         {
-            return new Vector2[]{ new Vector2(3, 0),
+            return new Vector2[] { 
+                new Vector2(3, 0),
                 new Vector2(-5, 3),
                 new Vector2(-4, 1),
                 new Vector2(-5, 0),

@@ -99,10 +99,12 @@ namespace GameJam
         {
             EventManager real = EventManager.Instance;
             EventManager.Instance = WorldLocalEventManager;
+            //EventManager.Instance.simulationMode = true;
 
             this.ProcessManager.Update(dt);
 
             EventManager.Instance = real;
+            //EventManager.Instance.simulationMode = false;
         }
 
         public void CopyOtherWorldIntoThis(World other)
@@ -123,6 +125,11 @@ namespace GameJam
             // entity itself
             Entity GetOrMakeEntityCopy(Entity entity)
             {
+                if (entity == null)
+                {
+                    return null;
+                }
+
                 if (entityMap.ContainsKey(entity))
                 {
                     return entityMap[entity];

@@ -63,7 +63,7 @@ namespace GameJam.Processes.Enemies
             Engine = engine;
             ProcessManager = processManager;
 
-            SpawnSimulationWorld = new World(Engine, new EventManager());
+            SpawnSimulationWorld = new World(new Engine(), new EventManager());
             OtherWorld = otherWorld;
 
             _playerShipEntities = Engine.GetEntitiesFor(_playerShipFamily);
@@ -149,6 +149,8 @@ namespace GameJam.Processes.Enemies
 
         private void GenerateSpawnPattern(int difVal)
         {
+            //Console.WriteLine("Is in simulation mode = " + EventManager.Instance.simulationMode);
+           
             int tempDif = difVal;
             while (tempDif > 0)
             {
@@ -189,8 +191,8 @@ namespace GameJam.Processes.Enemies
             // If all patterns of 'val' level are stale, swap allPatternsList and patternStaleList
             if (allPatternsList[num].Count == 0)
             {
-                Console.WriteLine("allPatterns Count: " + allPatternsList[num].Count);
-                Console.WriteLine("patternStale Count: " + patternStaleList[num].Count);
+                //Console.WriteLine("allPatterns Count: " + allPatternsList[num].Count);
+                //Console.WriteLine("patternStale Count: " + patternStaleList[num].Count);
                 allPatternsList[num].AddRange(patternStaleList[num]);
                 patternStaleList[num].Clear();
             }
@@ -224,6 +226,8 @@ namespace GameJam.Processes.Enemies
        /// <returns></returns>
         public Vector2[] BeginSimulation(float amountOfTime, int numValidCenters, float minRadius)
         {
+            //Console.WriteLine("Begin Simulation -> Copy Other World into this");
+            
             // Load current game state into the Simulation world
             SpawnSimulationWorld.CopyOtherWorldIntoThis(OtherWorld);
 
@@ -234,6 +238,8 @@ namespace GameJam.Processes.Enemies
 
         private Vector2[] GenerateValidCenters(int numValidCenters, float minRadius, bool simulation = false)
         {
+            //Console.WriteLine("Generating " + numValidCenters + " valid centers");
+            
             Vector2[] toReturn = new Vector2[numValidCenters];
             int index = 0;
 
@@ -243,6 +249,7 @@ namespace GameJam.Processes.Enemies
                 index++;
             }
 
+            //Console.WriteLine("Returning " + toReturn.Length + " valid centers");
             return toReturn;
         }
 
@@ -257,6 +264,8 @@ namespace GameJam.Processes.Enemies
         /// </param>
         private void ExecuteSimulation(float amountOfTime)
         {
+            //Console.WriteLine("Simulating for " + amountOfTime + " seconds");
+            
             float elapsedTime = 0;
 
             while (elapsedTime < amountOfTime)
@@ -307,9 +316,14 @@ namespace GameJam.Processes.Enemies
         {
             ImmutableList<Entity> playerShips = (simulation) ? _simulationShipEntities : _playerShipEntities;
 
+            if(playerShips.Count <= 0)
+            {
+                return false;
+            }
+
             float minDistanceToPlayer = float.MaxValue;
 
-            foreach (Entity playerShip in _playerShipEntities)
+            foreach (Entity playerShip in playerShips)
             {
                 TransformComponent transformComponent = playerShip.GetComponent<TransformComponent>();
                 Vector2 toPlayer = transformComponent.Position - position;

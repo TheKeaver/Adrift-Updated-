@@ -27,7 +27,8 @@ namespace GameJam.Components
         public IComponent Copy(Func<Entity, Entity> GetOrMakeCopy)
         {
             // TODO: This must be copied, cannot be shared
-            return new PlayerComponent(Player);
+            Player playerCopy = new Player(Player.Name, Player.InputMethod.Copy());
+            return new PlayerComponent(playerCopy);
         }
     }
 }
