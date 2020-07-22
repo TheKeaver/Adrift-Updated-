@@ -104,6 +104,8 @@ namespace GameJam
 
             Create<bool>("player_individual_deaths", true, CVarFlags.LIVE_RELOAD | CVarFlags.DEV_PRESERVE, "Whether players will have shared or individual deaths.");
 
+            Create<float>("player_multiplayer_initial_push_force", 300.0f, CVarFlags.LIVE_RELOAD | CVarFlags.DEV_PRESERVE, "When player count > 1, what should the initial push force be.");
+
             Create<bool>("god", false, CVarFlags.DEV_PRESERVE, "Enable god mode.");
 
             Create<float>("enemy_pushback_force", 120.0f, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Pushback force when an enemy is destroyed by a player shield.");

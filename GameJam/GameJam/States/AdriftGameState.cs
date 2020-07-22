@@ -75,7 +75,21 @@ namespace GameJam.States
 
             CreateEntities();
 
+            if (Players.Length > 1)
+            {
+                AttachPushbackForceSequence();
+            }
+
             base.OnInitialize();
+        }
+
+        private void AttachPushbackForceSequence()
+        {
+            ProcessManager.Attach(new WaitProcess(1.0f))
+                .SetNext(new DelegateProcess(() =>
+                {
+                    EventManager.Instance.QueueEvent(new ApplyInitialPushForceEvent());
+                }));
         }
 
         private void LoadContent()

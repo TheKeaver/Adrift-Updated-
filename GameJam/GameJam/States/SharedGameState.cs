@@ -208,6 +208,8 @@ namespace GameJam.States
             ProcessManager.Attach(new CleanupEntitiesOnEndOfSceneDirector(Engine, Content, ProcessManager));
 
             ProcessManager.Attach(new PlayerLostAnimationAttachDirector(Engine, Content, ProcessManager));
+
+            ProcessManager.Attach(new ApplyInitialPushForceDirector(Engine, Content, ProcessManager));
         }
 
         private void LoadContent()
