@@ -11,6 +11,7 @@ namespace GameJam
             Create<string>("build_version", $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}", 0, "Version of the game.");
 
             Create<float>("tick_frequency", 120, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Frequency of game ticks (updates).");
+            Create<float>("spawn_simulation_tick_frequency", 60, CVarFlags.DEV_PRESERVE | CVarFlags.LIVE_RELOAD, "Frequency of spawn simulation ticks (updates).");
             Create<bool>("update_xna_fixed", false, CVarFlags.PRESERVE, "Update with XNA fixed updates (60Hz update calls).");
 
             Create<int>("initial_window_width", 1280, CVarFlags.PRESERVE, "Initial width of the window when the game is launched.");

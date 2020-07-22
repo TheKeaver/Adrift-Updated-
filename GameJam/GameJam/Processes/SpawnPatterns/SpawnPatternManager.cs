@@ -270,8 +270,8 @@ namespace GameJam.Processes.Enemies
 
             while (elapsedTime < amountOfTime)
             {
-                SpawnSimulationWorld.OnFixedUpdate(1 / CVars.Get<float>("tick_frequency"));
-                elapsedTime += (1 / CVars.Get<float>("tick_frequency"));
+                SpawnSimulationWorld.OnFixedUpdate(1 / CVars.Get<float>("spawn_simulation_tick_frequency"));
+                elapsedTime += (1 / CVars.Get<float>("spawn_simulation_tick_frequency"));
             }
 
             return;
