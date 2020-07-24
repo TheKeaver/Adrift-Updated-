@@ -18,6 +18,8 @@ namespace GameJam.Processes.SpawnPatterns
         public float maxWidth;
         public float maxHeight;
 
+        public static bool canSpawn = true;
+
         public SpawnGravityConstellation(Engine engine, ProcessManager processManager, SpawnPatternManager spm)
         {
             Engine = engine;
@@ -31,7 +33,7 @@ namespace GameJam.Processes.SpawnPatterns
         public static bool CanSpawn(Engine engine)
         {
             // This will be called by the spawn pattern manager, the return will need to change based on whether the pattern is active or not
-            return false;
+            return canSpawn;
         }
 
         public float GetMaxSpawnTimer()
@@ -52,10 +54,10 @@ namespace GameJam.Processes.SpawnPatterns
 
         protected override void OnTrigger()
         {
-            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + radius, maxHeight/2 - radius));
-            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - radius, maxHeight/2 - radius));
-            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + radius, -maxHeight/2 + radius));
-            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - radius, -maxHeight/2 + radius));
+            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + radius, maxHeight/2 - radius), true);
+            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - radius, maxHeight/2 - radius), true);
+            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(-maxWidth / 2 + radius, -maxHeight/2 + radius), true);
+            GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(maxWidth / 2 - radius, -maxHeight/2 + radius), true);
             //GravityHoleEntity.Spawn(Engine, ProcessManager, new Vector2(0, 0));
 ;        }
     }

@@ -40,7 +40,7 @@ namespace GameJam.Systems
             foreach (Entity entity in _projectileSyncEntities)
             {
                 ProjectileComponent projectileComp = entity.GetComponent<ProjectileComponent>();
-                Console.WriteLine(projectileComp.Color.ToString());
+                //Console.WriteLine(projectileComp.Color.ToString());
 
                 if (entity.HasComponent<VectorSpriteComponent>())
                 {

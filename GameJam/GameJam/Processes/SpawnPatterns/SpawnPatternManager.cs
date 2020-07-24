@@ -106,20 +106,29 @@ namespace GameJam.Processes.Enemies
            //// All level 1 spawn patterns
            returnDict[1].Add(typeof(SpawnChasingTriangle));
            returnDict[1].Add(typeof(SpawnRandomChasingEnemies));
+           returnDict[1].Add(typeof(SpawnGravityConstellation));
+
            //// All level 2 spawn patterns
            returnDict[2].Add(typeof(SpawnShootingTriangle));
            //returnDict[1].Add(typeof(SpawnRandomGravityHoles));
            returnDict[2].Add(typeof(SpawnRandomShootingEnemies));
+           returnDict[2].Add(typeof(SpawnGravityConstellation));
+
            //// All level 3 spawn patterns
            //returnDict[3].Add(typeof(SpawnLaserTriangle));
            returnDict[3].Add(typeof(SpawnGravityConstellation));
-           returnDict[2].Add(typeof(SpawnRandomLaserEnemies));
+           returnDict[3].Add(typeof(SpawnRandomLaserEnemies));
+           returnDict[3].Add(typeof(SpawnShootingTriangle));
+
            //// All level 4 spawn patterns
            returnDict[4].Add(typeof(SpawnChasingCircle));
            returnDict[4].Add(typeof(SpawnRandomPairs));
+           returnDict[4].Add(typeof(SpawnGravityConstellation));
+
            //// All level 5 spawn patterns
            returnDict[5].Add(typeof(SpawnChasingBorder));
            returnDict[5].Add(typeof(SpawnCornerAssault));
+           returnDict[5].Add(typeof(SpawnGravityConstellation));
 
             // Initialize the patternStaleList dictionary TODO: Move this somewhere else (optional)
             patternStaleList.Add(1, new List<Type>());
@@ -203,17 +212,27 @@ namespace GameJam.Processes.Enemies
             }
 
             int ran = random.Next(0, allPatternsList[num].Count-1);
+            
+            /* 
+             * Continue resetting the generated process if
+             *  1) The process is null
+             *  2) The process is a "SpawnGravityConstellation" and its ".canSpawn value is true
+             *  
+             *  Just make sure that the SpawnGravityConstellation difficulty level has a 2nd spawn pattern in it. Otherwise its infinite.
+             */  
+            while (process == null || (process is SpawnGravityConstellation && SpawnGravityConstellation.canSpawn == false))
+            {
+                if ()
+                {
 
-            if (process == null)
-            {
-                process = (Process)Activator.CreateInstance(allPatternsList[num][ran], new object[] {Engine, ProcessManager, this });
-                process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
+                }
+                else
+                {
+                    ran = random.Next(0, allPatternsList[num].Count - 1);
+                    process = (Process)Activator.CreateInstance(allPatternsList[num][ran], new object[] { Engine, ProcessManager, this });
+                }
             }
-            else
-            {
-                process.SetNext((Process)Activator.CreateInstance(allPatternsList[num][ran], new object[] {Engine, ProcessManager, this }));
-                process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
-            }
+            process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
 
             patternStaleList[num].Add(allPatternsList[num][ran]);
             allPatternsList[num].RemoveAt(ran);
