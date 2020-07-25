@@ -50,6 +50,8 @@ namespace GameJam.Processes.Enemies
         int maxPatternDif = 5;
 
         private bool _spawnedFirstStaticPattern = false;
+        // Use in the generate spawn pattern for when the constellation is the only remaining pattern at its difficulty and must be skipped.
+        private bool _allPatternListDifficultyStale = false;
 
         readonly Family _playerShipFamily = Family.All(typeof(TransformComponent), typeof(PlayerShipComponent)).Get();
         readonly ImmutableList<Entity> _playerShipEntities;
@@ -180,7 +182,6 @@ namespace GameJam.Processes.Enemies
                     this.Kill();
             }
             process = null;
-
         }
 
         private int[] GenerateRandomArray(int val)
@@ -197,6 +198,8 @@ namespace GameJam.Processes.Enemies
 
         private void GeneratePattern(int num)
         {
+            _allPatternListDifficultyStale = false;
+            // TODO: Make the allPattern and patternStale list swap a method
             // If all patterns of 'val' level are stale, swap allPatternsList and patternStaleList
             if (allPatternsList[num].Count == 0)
             {
@@ -211,31 +214,52 @@ namespace GameJam.Processes.Enemies
                 return;
             }
 
-            int ran = random.Next(0, allPatternsList[num].Count-1);
-            
-            /* 
-             * Continue resetting the generated process if
-             *  1) The process is null
-             *  2) The process is a "SpawnGravityConstellation" and its ".canSpawn value is true
-             *  
-             *  Just make sure that the SpawnGravityConstellation difficulty level has a 2nd spawn pattern in it. Otherwise its infinite.
-             */  
-            while (process == null || (process is SpawnGravityConstellation && SpawnGravityConstellation.canSpawn == false))
-            {
-                if ()
-                {
+            int ran;
+            Process tempNext = null;
+            bool spawnIllegal = true;
 
+            while ((tempNext == null || spawnIllegal) && allPatternsList[num].Count > 0)
+            {
+                spawnIllegal = false;
+                ran = random.Next(0, allPatternsList[num].Count - 1);
+
+                tempNext = (Process)Activator.CreateInstance(allPatternsList[num][ran], new object[] { Engine, ProcessManager, this });
+
+                // This check could potentially replaced with an Interface defined "canSpawn" variable
+                if(tempNext is SpawnGravityConstellation && SpawnGravityConstellation.canSpawn == false)
+                {
+                    Console.WriteLine("Constellation skipped due to it being active currently");
+                    spawnIllegal = true;
+                }
+
+                patternStaleList[num].Add(allPatternsList[num][ran]);
+                allPatternsList[num].RemoveAt(ran);
+            }
+
+            if(spawnIllegal == false)
+            {
+
+                if (process == null)
+                {
+                    process = tempNext;
+                    process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
                 }
                 else
                 {
-                    ran = random.Next(0, allPatternsList[num].Count - 1);
-                    process = (Process)Activator.CreateInstance(allPatternsList[num][ran], new object[] { Engine, ProcessManager, this });
+                    // Process will always have a .Next set because WaitForFamily is always added after the spawn pattern is added
+                    Process whileProcess = process.Next;
+                    while (whileProcess.Next != null)
+                    {
+                        whileProcess = whileProcess.Next;
+                    }
+                    whileProcess.SetNext(tempNext).SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
                 }
             }
-            process.SetNext(new WaitForFamilyCountProcess(Engine, _enemyFamily, CVars.Get<int>("spawner_max_enemy_count")));
-
-            patternStaleList[num].Add(allPatternsList[num][ran]);
-            allPatternsList[num].RemoveAt(ran);
+            else
+            {
+                // This will only be printed when the game cannot find a fresh/not-stale replacement for the Constellation
+                Console.WriteLine("No valid spawn pattern found, skipped instead");
+            }
         }
 
        /// <summary>
