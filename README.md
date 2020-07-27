@@ -13,3 +13,6 @@ Items to change when increasing the version number:
 
 ## Required Tools
  - Visual Studio 2019
+ 
+ ## Notes
+ For a look at in progress development change to the "Develop" Branch
